@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+        <ul class="am-list admin-sidebar-list">
+            <li><a href="@Url.Action("Index", "Admin")"><span class="am-icon-home"></span> 首页</a></li>
+            <!--个人模块-->
+            <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#user_nav'}"><span class="am-icon-file"></span> 我的账号 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                <ul class="am-list am-collapse admin-sidebar-sub am-in" id="user_nav">
+                    <li><a href="@Url.Action("User", "Admin")" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                    @* <li><a href="@Url.Action("Help", "Admin")"><span class="am-icon-puzzle-piece"></span> 帮助页</a></li> *@
+                    @* <li><a href="@Url.Action("Gallery", "Admin")"><span class="am-icon-th"></span> 相册页面<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li> *@
+                    @* <li><a href="@Url.Action("Log", "Admin")"><span class="am-icon-calendar"></span> 系统日志</a></li> *@
+                    @* <li><a href="@Url.Action("Nofound", "Admin")"><span class="am-icon-bug"></span> 404</a></li> *@
+                </ul>
+            </li>
+            <!--基系统模块-->
+            <li class="admin-parent">
+                <a class="am-cf am-collapsed" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 系统基础 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                @* <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav"> *@
+                <ul class="am-list admin-sidebar-sub am-collapse" id="collapse-nav" style="height: 0px;">
+                    @* <li><a href="@Url.Action("User", "Admin")" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li> *@
+                    <li><a href="@Url.Action("Recharge", "Admin")"><span class="am-icon-puzzle-piece"></span> 充值</a></li>
+                    <li><a href="@Url.Action("Help", "Admin")"><span class="am-icon-puzzle-piece"></span> 帮助页</a></li>
+                    <li><a href="@Url.Action("Gallery", "Admin")"><span class="am-icon-th"></span> 系统相册<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
+                    <li><a href="@Url.Action("Log", "Admin")"><span class="am-icon-calendar"></span> 系统日志</a></li>
+                    <li><a href="@Url.Action("Nofound", "Admin")"><span class="am-icon-bug"></span> 404</a></li>
+                </ul>
+            </li>
+          
+            <!--漫画模块-->
+            <li class="admin-parent">
+                <a class="am-cf am-collapsed" data-am-collapse="{target: '#Pic_nav'}"><span class="am-icon-file"></span> 网站文章 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                <ul class="am-list admin-sidebar-sub am-collapsen am-collapse" id="Pic_nav" style="height: 0px;">
+                    <li><a href="@Url.Action("Index", "Admin")" class="am-cf"><span class="am-icon-check"></span> 常规设置<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                    <li><a href="@Url.Action("ArticleStatistics", "Admin")"><span class="am-icon-puzzle-piece"></span> 文章统计</a></li>
+                    <li><a href="@Url.Action("ClassType", "Admin")"><span class="am-icon-th"></span> 类别设定<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
+                    <li><a href="@Url.Action("Author", "Admin")"><span class="am-icon-calendar"></span> 作者设定</a></li>
+                    <li><a href="@Url.Action("ShenHe", "Admin")"><span class="am-icon-bug"></span> 审核设定</a></li>
+                </ul>
+            </li>
+            @*<li><a href="@Url.Action("Table", "Admin")"><span class="am-icon-table"></span> 表格</a></li>
+            <li><a href="@Url.Action("Form", "Admin")"><span class="am-icon-pencil-square-o"></span> 表单</a></li>*@
+            <li onclick="logout()"><a href="#" ><span class="am-icon-sign-out"></span> 注销</a></li>
+        </ul>
+        <div class="am-panel am-panel-default admin-sidebar-panel">
+            <div class="am-panel-bd">
+                <p><span class="am-icon-bookmark"></span> 公告</p>
+                <p>时光静好，与君语；细水流年，与君同。—— Amaze UI</p>
+            </div>
+        </div>
+        <div class="am-panel am-panel-default admin-sidebar-panel">
+            <div class="am-panel-bd">
+                <p><span class="am-icon-tag"></span> wiki</p>
+                <p>Welcome to the Amaze UI wiki!</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function delCookie(name)
+    {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval=getCookie(name);
+        if(cval!=null)
+            document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+    }
+    function getCookie(name)
+    {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+    function logout() {
+        delCookie("email");
+        delCookie("passoword");
+        window.location.reload();
+    }
+</script>

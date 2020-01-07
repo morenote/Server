@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@await Html.PartialAsync("Header")
+<body ondragstart="return false;" class="dark-theme">
+    @await Html.PartialAsync("BodyTempLate")
+    <div class="main-content" data-aos="fade-left" data-aos-duration="400">
+       
+        <div class="toolbar header bg-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}} color-white">
+            <button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="fa fa-bars"></i></button>
+            <label class="toolbar-label">{{.single.Title}}</label>
+            <span class="float-right" id="switch-container">
+                <div class="switch">
+                    <input type="checkbox" id="dark-theme-switch" onchange="Theme.setTheme(this.checked ? 'dark' : 'light')" />
+                    <label for="dark-theme-switch"></label>
+                    <label class="form-control-label">Dark</label>
+                </div>
+            </span>
+        </div>
+        <div id="postsContainer">
+            <div id="posts">
+                <div class="each-post">
+                    <div class="created-time">
+                        <i class="fa fa-clock-o"></i> {{$.single.UpdatedTime | datetime}}
+                    </div>
+                    <!-- 仅为移动端 -->
+                    <div class="mobile-created-time">
+                        {{ if $.blogInfo.UserLogo}}
+                        <img src="{{$.blogInfo.UserLogo}}" id="userLogo">
+                        {{else}}
+                        <img src="{{$.siteUrl}}/images/blog/default_avatar.png" id="userLogo">
+                        {{end}}
+                        {{$.blogInfo.Username}}
+                    </div>
+                    <div class="desc" id="content">
+                        {{$.single.Content | raw}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("Highlight")
+    <!-- 一些公用的js -->
+    <script src="{{$.leanoteUrl}}/public/blog/js/common.js"></script>
+    <script>
+        $(function () {
+            initNav();
+        });
+    </script>
+</body>
+</html>

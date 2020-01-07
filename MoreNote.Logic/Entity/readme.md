@@ -1,0 +1,3 @@
+﻿此文件夹用于存放leanote的数据库的数据结构
+
+本程序将构造leanote的.net core版本
