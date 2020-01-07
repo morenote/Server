@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@await Html.PartialAsync("Header")
+<body ondragstart="return false;" class="dark-theme">
+    @await Html.PartialAsync("BodyTempLate")
+    <div class="main-content" data-aos="fade-left" data-aos-duration="400">
+     
+        <div class="toolbar header bg-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}} color-white">
+            <button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="fa fa-bars"></i></button>
+            <label class="toolbar-label">标签 - {{.curTag}}</label>
+            <span class="float-right" id="switch-container">
+                <div class="switch">
+                    <input type="checkbox" id="dark-theme-switch" onchange="Theme.setTheme(this.checked ? 'dark' : 'light')" />
+                    <label for="dark-theme-switch"></label>
+                    <label class="form-control-label">Dark</label>
+                </div>
+            </span>
+        </div>
+        <div id="postsContainer">
+            <div id="posts">
+                @*{{template "post_abstract.html" $}}
+                    {{template "paging.html" $}}*@
+                @await Html.PartialAsync("Post_abstract")
+                @await Html.PartialAsync("Paging")
+            </div>
+        </div>
+        @*{{template "footer_js.html" $}}
+            {{template "highlight.html" $}}*@
+        @await Html.PartialAsync("Footer_js")
+        @await Html.PartialAsync("Highlight")
+</body>
+</html>
