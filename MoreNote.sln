@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "单元测试", "单元测试", "{F14E778A-CE90-470A-8431-DD202E3E0D1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "文档", "文档", "{5A94B1C6-B100-4059-93DF-1CDD32E81B8B}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote", "MoreNote\MoreNote.csproj", "{BC18CB99-E625-49F2-9CEF-F01150DF9412}"
 EndProject
