@@ -3,7 +3,7 @@ using leanote.Common.Type;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Data.Entity.Core.Metadata.Edm;
+
 
 namespace leanote.Common.Type.Tests
 {

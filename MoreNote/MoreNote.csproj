@@ -10,6 +10,10 @@
     <RootNamespace>MoreNote</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Views\Admin\admin-form.html" />
     <None Remove="Views\Admin\admin-gallery.html" />
