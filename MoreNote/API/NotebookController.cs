@@ -11,6 +11,7 @@ namespace MoreNote.LeaNoteAPI
    // [ApiController]
     public class NotebookController : Controller
     {
+        //获取同步的笔记本
         [HttpPost]
         public JsonResult GetSyncNotebooks(string userId, string token,int afterUsn,int maxEntry)
         {
@@ -40,5 +41,26 @@ namespace MoreNote.LeaNoteAPI
             }
         }
 
+        //todo:得到用户的所有笔记本
+        public IActionResult GetNotebooks()
+        {
+            return null;
+        }
+
+        //todo:添加notebook
+        public IActionResult AddNotebook()
+        {
+            return null;
+        }
+        //todo:修改笔记
+        public IActionResult UpdateNotebook()
+        {
+            return null;
+        }
+        //todo:删除笔记本
+        public IActionResult DeleteNotebook()
+        {
+            return null;
+        }
     }
 }

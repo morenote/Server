@@ -49,12 +49,12 @@ namespace MoreNote.LeaNoteAPI
             }
            
         }
-
+        //todo:注销函数
         public IActionResult Logout()
         {
             return null;
         }
-
+        //todo:注册
         public IActionResult Register()
         {
             return null;
