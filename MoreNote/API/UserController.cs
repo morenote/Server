@@ -12,6 +12,7 @@ namespace MoreNote.LeaNoteAPI
     [Route("api/[controller]/[action]")]
     public class UserController : Controller
     {
+        //获取用户信息
         [HttpPost]
         public JsonResult Info(string token, string userId)
         {
@@ -62,6 +63,17 @@ namespace MoreNote.LeaNoteAPI
             }
 
         }
+        //todo:修改用户名
+        public IActionResult UpdateUsername()
+        {
+            return null;
+        }
+        //todo:修改密码
+        public IActionResult UpdatePwd()
+        {
+            return null;
+        }
+        //获得同步状态
         [HttpPost]
         public JsonResult GetSyncState(string token, string userId)
         {
@@ -104,6 +116,17 @@ namespace MoreNote.LeaNoteAPI
         }
           
         }
+
+        //todo:头像设置
+        public IActionResult UpdateLogo()
+        {
+            return null;
+        }
+        //todo:上传图片
+        public IActionResult uploadImage()
+        {
+            return null;
+        }     
 
     }
 }
