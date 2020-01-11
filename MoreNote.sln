@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNoteTests", "单元测�
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "通用类库测试", "通用类库测试\通用类库测试.csproj", "{540DB5C0-07CC-4460-8A93-83192B86F914}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestProject1", "单元测试\UnitTestProject1\UnitTestProject1.csproj", "{1FDFCCD7-7C63-4F3A-8CD5-C5E337A206C0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.LogicTests", "单元测试\NickelProject.LogicTests\MoreNote.LogicTests.csproj", "{F56CF558-94F8-4193-986D-FA31A728A7AB}"
 EndProject
 Global
@@ -47,10 +45,6 @@ Global
 		{540DB5C0-07CC-4460-8A93-83192B86F914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{540DB5C0-07CC-4460-8A93-83192B86F914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{540DB5C0-07CC-4460-8A93-83192B86F914}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1FDFCCD7-7C63-4F3A-8CD5-C5E337A206C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FDFCCD7-7C63-4F3A-8CD5-C5E337A206C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FDFCCD7-7C63-4F3A-8CD5-C5E337A206C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1FDFCCD7-7C63-4F3A-8CD5-C5E337A206C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F56CF558-94F8-4193-986D-FA31A728A7AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F56CF558-94F8-4193-986D-FA31A728A7AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F56CF558-94F8-4193-986D-FA31A728A7AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,7 +56,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{786964BD-725E-4DDA-B48C-CE18034DF7E2} = {F14E778A-CE90-470A-8431-DD202E3E0D1F}
 		{540DB5C0-07CC-4460-8A93-83192B86F914} = {F14E778A-CE90-470A-8431-DD202E3E0D1F}
-		{1FDFCCD7-7C63-4F3A-8CD5-C5E337A206C0} = {F14E778A-CE90-470A-8431-DD202E3E0D1F}
 		{F56CF558-94F8-4193-986D-FA31A728A7AB} = {F14E778A-CE90-470A-8431-DD202E3E0D1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

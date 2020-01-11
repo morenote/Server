@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+
 
 namespace MoreNote.Logic.Entity
 {
