@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace leanote.Common.Type
+namespace MoreNote.Common.Utils
 {
     public class Rfc3339DateTime
     {

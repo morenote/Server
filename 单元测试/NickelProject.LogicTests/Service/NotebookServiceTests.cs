@@ -23,9 +23,9 @@ namespace MoreNote.Logic.Service.Tests
             notebook2.ParentNotebookId = notebook1.NotebookId;
             notebook3.ParentNotebookId = notebook1.NotebookId;
 
-            NotebookService.Add(notebook1);
-            NotebookService.Add(notebook2);
-            NotebookService.Add(notebook3);
+            NotebookService.AddNotebook(notebook1);
+            NotebookService.AddNotebook(notebook2);
+            NotebookService.AddNotebook(notebook3);
 
             // Assert.Fail();
         }
@@ -33,7 +33,7 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void GetNoteBookTreeTest()
         {
-            List<Notebook> notebooks= NotebookService.GetNoteBookTree(1208692382644703232);
+            Notebook[] notebooks = NotebookService.GetNoteBookTree(1208692382644703232);
             string json = JsonSerializer.Serialize(notebooks, MyJsonConvert.GetOptions());
             Console.WriteLine(json);
            // Assert.Fail();
@@ -52,11 +52,12 @@ namespace MoreNote.Logic.Service.Tests
         }
         private void InsertALL(Notebook notebook)
         {
-            NotebookService.Add(notebook);
+            NotebookService.AddNotebook(notebook);
             foreach (Notebook n in notebook.Subs)
             {
                InsertALL(n);
             }
         }
+     
     }
 }

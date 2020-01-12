@@ -7,6 +7,7 @@ using MoreNote.Logic.Entity;
 
 namespace MoreNote.Logic.Service
 {
+
     public class NoteContentService
     {
         public static List<NoteContent> ListNoteContent()

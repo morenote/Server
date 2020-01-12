@@ -16,7 +16,7 @@ namespace MoreNote.Common.Utils.Tests
             long a = 1213656203658399745;
             string hex = a.ToString("x");
             Console.WriteLine(hex);
-            long b = UserIdConvert.ConvertStrToLong(hex);
+            long b = MyConvert.ConvertStrToLong(hex);
             Console.WriteLine(b);//1213656226102120449
         }
     }

@@ -16,7 +16,7 @@ namespace MoreNote.LeaNoteAPI
         [HttpPost]
         public JsonResult Info(string token, string userId)
         {
-            long myUserId =UserIdConvert.ConvertStrToLong(userId);
+            long myUserId =MyConvert.ConvertStrToLong(userId);
             if (myUserId!=0)
             {
                 if (!AuthService.IsLogin(myUserId,token))
@@ -74,24 +74,12 @@ namespace MoreNote.LeaNoteAPI
             return null;
         }
         //获得同步状态
-        [HttpPost]
-        public JsonResult GetSyncState(string token, string userId)
+      //  [HttpPost]
+        public JsonResult GetSyncState(string token)
         {
-            long myUserId = UserIdConvert.ConvertStrToLong(userId);
-            if (myUserId==0)
-            {
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "Invalid user id",
-                };
-               
-                return Json(apiRe, MyJsonConvert.GetOptions());
-
-            }
-            else
-            {
-                if (!AuthService.IsLogin(myUserId, token))
+            
+                User user = TokenSerivce.GetUserByToken(token);
+                if (user==null)
                 {
                     ApiRe apiRe = new ApiRe()
                     {
@@ -99,22 +87,16 @@ namespace MoreNote.LeaNoteAPI
                         Msg = "Not logged in",
                     };
                     string json = JsonSerializer.Serialize(apiRe, MyJsonConvert.GetSimpleOptions());
-                 
-                    return Json(apiRe, MyJsonConvert.GetOptions());
 
+                    return Json(apiRe, MyJsonConvert.GetOptions());
                 }
-                User user = UserService.GetUserByUserId(myUserId);
                 ApiGetSyncState apiGetSyncState = new ApiGetSyncState()
                 {
                     LastSyncUsn = user.Usn,
-                    LastSyncTime = user.FullSyncBefore
+                    LastSyncTime = UnixTimeHelper.GetTimeStampInLong(DateTime.Now)
                 };
             
-                return  Json(apiGetSyncState,MyJsonConvert.GetOptions());
-             
-
-        }
-          
+                return  Json(apiGetSyncState,MyJsonConvert.GetSimpleOptions());
         }
 
         //todo:头像设置
