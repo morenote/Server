@@ -16,5 +16,13 @@ namespace MoreNote.Common.Util.Tests
             Console.WriteLine(str);
 
         }
+
+        [TestMethod()]
+        public void CreatSafeNumTest()
+        {
+            string safe = RndNum.CreatSafeNum();
+            Console.WriteLine(safe);
+
+        }
     }
 }

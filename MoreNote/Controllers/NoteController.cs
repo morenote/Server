@@ -15,7 +15,7 @@ namespace MoreNote.Controllers
             ViewBag.msg = LanguageResource.GetMsg();
             Dictionary<string,string> js = new Dictionary<string, string>();
             long userid = 1208692382644703232;
-            List<Notebook> noteBoooks = NotebookService.GetNoteBookTree(userid);
+            Notebook[] noteBoooks = NotebookService.GetNoteBookTree(userid);
             string json = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
             //json  = System.IO.File.ReadAllText(@"E:\Project\JSON\notebook\GetNotebooks.json");
             js.Add("notebooks", json);

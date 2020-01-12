@@ -18,6 +18,7 @@ namespace MoreNote.Logic.Entity
         //当使用API登录时，总是假定你的登录方式时token登录
         //token的规格是16位随机字符串 yk1I-W8o8-FwC0-O2vO
         //登录第三方应用时，密码使用token
+        //leanoteAPI允许用户只使用Token进行登录，那么应该保证token的唯一性
         public string TokenStr { get; set; }
         public string tokenTag { get; set; }//token标签
         public int Type { get; set; }

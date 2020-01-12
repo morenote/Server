@@ -3,7 +3,7 @@ using leanote.Common.Type;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using MoreNote.Common.Utils;
 
 namespace leanote.Common.Type.Tests
 {

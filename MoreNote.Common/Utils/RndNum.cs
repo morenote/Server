@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace MoreNote.Common.Util
@@ -42,8 +43,17 @@ namespace MoreNote.Common.Util
             }
             return code;
         }
-
-     
-     
+        public static string CreatSafeNum()
+        {
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] tokenData = new byte[32];
+                rng.GetBytes(tokenData);
+                string token = Convert.ToBase64String(tokenData);
+               
+                return token;
+            }
+        }
+    
     }
 }

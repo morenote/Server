@@ -5,25 +5,38 @@ namespace MoreNote.Logic.Entity
 {
     public class NoteFile
     {
-        public long FileId;//服务器端id
-        public long LocalFileId;//LocalFileId
-        public string Type;// images/png, doc, xls, 根据fileName确定
-        public string Title;
-        public bool HasBody;// 传过来的值是否要更新内容
-        public bool IsAttach;// 是否是附件, 不是附件就是图片
+        public long FileId { get; set; }//服务器端id
+        public long LocalFileId { get; set; }//LocalFileId
+        public string Type { get; set; }// images/png, doc, xls, 根据fileName确定
+        public string Title { get; set; }
+        public bool HasBody { get; set; }// 传过来的值是否要更新内容
+        public bool IsAttach { get; set; }// 是否是附件, 不是附件就是图片
     }
     public class ApiNote
     {
-        public long NoteId;
-        public long NotebookId;
-        public long UserId;
-        public string Title;
-        public string Desc;
+        public long NoteId { get; set; }
+        public long NotebookId { get; set; }
+        public long UserId { get; set; }
+        public string Title { get; set; }
+        public string Desc { get; set; }
         //	ImgSrc     string
-        public string[] Tags;
-        public string Abstract;
-        public string Content;
-        public bool IsMarkdown;
+        public string[] Tags { get; set; }
+        public string Abstract { get; set; }
+        public string Content { get; set; }
+        public bool IsMarkdown { get; set; }
+        //	FromUserId string // 为共享而新建
+        public bool IsBlog { get; set; }
+        public bool IsTrash { get; set; }
+        public bool IsDeleted { get; set; }
+        public int Usn { get; set; }
+        public NoteFile[] Files { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
+        public DateTime PublicTime { get; set; }
+        
+
+
+
     }
     // 内容
     public class ApiNoteContent
@@ -46,23 +59,24 @@ namespace MoreNote.Logic.Entity
     }
     public class ApiGetSyncState 
     {
-       public  int LastSyncUsn { get; set; }
-        public DateTime LastSyncTime { get; set; }//"上次同步时间"(暂时无用)}
+        public  long LastSyncTime { get; set; }//"上次同步时间"(暂时无用)} unix时间戳
+        public  int LastSyncUsn { get; set; }
+    
     }
 
     public class ApiNotebook
     {
-        public long NotebookId;
-        public long UserId;
-        public string ParentNotebookId;
-        public string Seq;//顺序
-        public string Title;
-        public string UrlTitle;
-        public string IsBlog;
-        public string CreatedTime;
-        public string UpdatedTime;
-        public string Usn;
-        public string IsDeleted;
+        public long NotebookId { get; set; }
+        public long UserId{ get; set; }
+        public long ParentNotebookId{ get; set; }
+        public int Seq{ get; set; }//顺序
+        public string Title{ get; set; }
+        public string UrlTitle{ get; set; }
+        public bool IsBlog{ get; set; }
+        public DateTime CreatedTime{ get; set; }
+        public DateTime UpdatedTime{ get; set; }
+        public int Usn{ get; set; }
+        public bool IsDeleted{ get; set; }
     }
     //---------
     // api 返回

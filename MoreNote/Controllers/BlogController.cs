@@ -43,7 +43,7 @@ namespace MoreNote.Controllers
         }
         public IActionResult Post(string id)
         {
-            long noteId = UserIdConvert.ConvertStrToLong(id);
+            long noteId = MyConvert.ConvertStrToLong(id);
             if (noteId==0)
             {
                 return Content("未找到");

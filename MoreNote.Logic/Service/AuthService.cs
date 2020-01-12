@@ -16,12 +16,14 @@ namespace MoreNote.Logic.Service
                 string temp = Encrypt_Helper.Hash256Encrypt(pwd + user.Salt);
                 if (temp.Equals(user.Pwd))
                 {
+                    long tokenid = SnowFlake_Net.GenerateSnowFlakeID();
+
                     Token myToken = new Token
                     {
                         TokenId = SnowFlake_Net.GenerateSnowFlakeID(),
                         UserId = user.UserId,
                         Email = user.Email,
-                        TokenStr = RndNum.CreatRndNum(32),
+                        TokenStr = tokenid.ToString("x")+"@"+RndNum.CreatRndNum(16),
                         Type = 0,
                         CreatedTime = DateTime.Now
                     };
@@ -43,7 +45,7 @@ namespace MoreNote.Logic.Service
             }
 
         }
-        public static bool LoginByTokem(string email, string token)
+        public static bool LoginByToken(string email, string token)
         {
             return true;
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MoreNote.Common.Utils
 {
-    public class UserIdConvert
+    public class MyConvert
     {
         public static long ConvertStrToLong(string numberstr)
         {

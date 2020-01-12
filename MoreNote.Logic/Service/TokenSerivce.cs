@@ -30,5 +30,24 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
+        public static User GetUserByToken(string token)
+        {
+
+            using (var db = new DataContext())
+            {
+                var result = db.Token
+                    .Where(b => b.TokenStr.Equals(token)).FirstOrDefault();
+                if (result!=null)
+                {
+                    var user = db.User
+                    .Where(b => b.UserId==result.UserId).FirstOrDefault();
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
