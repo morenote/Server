@@ -41,11 +41,11 @@
         </li>
         <li class="divider"></li>
         @*{{range $.singles}}
-        <li class="{{if eq $.curSingleId .SingleId}}active{{end}}">
-            <a href="{{$.singleUrl}}/{{.UrlTitle}}" style="overflow:auto;"><i class="fa fa-star-o"></i>{{.Title}}</a>
-      
-        </li>
-        {{end}}*@
+            <li class="{{if eq $.curSingleId .SingleId}}active{{end}}">
+                <a href="{{$.singleUrl}}/{{.UrlTitle}}" style="overflow:auto;"><i class="fa fa-star-o"></i>{{.Title}}</a>
+
+            </li>
+            {{end}}*@
         @if (blogSingles != null && blogSingles.Length > 0)
             @foreach (BlogSingle blogSingles1 in blogSingles)
             {
@@ -86,10 +86,12 @@
     </script>
     <!--加载完成-->
 <p id="bottomp" style="text-align:center;">
-    <a href="http://www.beian.miit.gov.cn/" style="cursor:pointer;color:#bdbdbd" target="_blank">鲁ICP备19063639号</a><br/>
-    Theme by &copy; <a href="http://mrbird.leanote.com" style="cursor:pointer;color:#bdbdbd" target="_blank">mrbird</a><br />
+
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="color:#bdbdbd"> <img src="~/icp.png" />鲁ICP备19063639号-1</a><br />
+    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=37010202001926" style="color:#bdbdbd"><img src="~/beian.png" />鲁公网安备 37010202001926号</a><br />
+    Theme by &copy; <a href="http://mrbird.leanote.com" style="cursor:pointer;color:#bdbdbd" target="_blank">mrbird</a><br>
     自信的使用asp.net core构建<br>
-    Proudly powered by <a href="https://github.com/leanote/leanote" style="cursor:pointer;color:#bdbdbd" target="_blank">Leanote</a>
+    Proudly powered by <a href="https://github.com/leanote/leanote" style="cursor:pointer;color:#bdbdbd" target="_blank">Leanote</a><br>
 </p>
 </div>
 <script>
