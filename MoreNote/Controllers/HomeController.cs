@@ -12,6 +12,7 @@ namespace MoreNote.Controllers
 {
     public class HomeController : Controller
     {
+
         public IActionResult Index()
         {
             //return Content("An API listing authors of docs.asp.net.");

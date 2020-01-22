@@ -1,0 +1,92 @@
+﻿@model IEnumerable<MoreNote.Logic.Entity.AppInfo>
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+       @* <a asp-action="Create">Create New</a>*@
+        <a  target="_blank" href="/app">Create New</a>
+    </p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.appautor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.appdetail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.appname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.apppackage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.appdownurl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.applogourl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.appversion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.imglist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.appsize)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.appautor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.appdetail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.appname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.apppackage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.appdownurl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.applogourl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.appversion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.imglist)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.appsize)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.appid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.appid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.appid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
