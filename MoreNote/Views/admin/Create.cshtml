@@ -1,0 +1,79 @@
+﻿@model MoreNote.Logic.Entity.AppInfo
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+
+    <h4>AppInfo</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="appautor" class="control-label"></label>
+                    <input asp-for="appautor" class="form-control" />
+                    <span asp-validation-for="appautor" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="appdetail" class="control-label"></label>
+                    <input asp-for="appdetail" class="form-control" />
+                    <span asp-validation-for="appdetail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="appname" class="control-label"></label>
+                    <input asp-for="appname" class="form-control" />
+                    <span asp-validation-for="appname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="apppackage" class="control-label"></label>
+                    <input asp-for="apppackage" class="form-control" />
+                    <span asp-validation-for="apppackage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="appdownurl" class="control-label"></label>
+                    <input asp-for="appdownurl" class="form-control" />
+                    <span asp-validation-for="appdownurl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="applogourl" class="control-label"></label>
+                    <input asp-for="applogourl" class="form-control" />
+                    <span asp-validation-for="applogourl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="appversion" class="control-label"></label>
+                    <input asp-for="appversion" class="form-control" />
+                    <span asp-validation-for="appversion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="imglist" class="control-label"></label>
+                    <input asp-for="imglist" class="form-control" />
+                    <span asp-validation-for="imglist" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="appsize" class="control-label"></label>
+                    <input asp-for="appsize" class="form-control" />
+                    <span asp-validation-for="appsize" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+</body>
+</html>

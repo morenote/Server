@@ -85,6 +85,8 @@ namespace MoreNote.Logic.DB
         public DbSet<UserAccount> UserAccount { get; set; }
         public DbSet<UserAndBlogUrl> UserAndBlogUrl { get; set; }
         public DbSet<UserAndBlog> UserAndBlog { get; set; }
+        //应用更新服务
+        public DbSet<AppInfo> AppInfo { get; set; }
 
     }
 }
