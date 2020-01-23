@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MoreNote.Models;
 using System;
 
@@ -45,26 +46,22 @@ namespace MoreNote
                 options.Cookie.HttpOnly = true;
             });
 
-#pragma warning disable CS0618 // '“CompatibilityVersion.Version_2_1”已过时:“This CompatibilityVersion value is obsolete. The recommended alternatives are Version_3_0 or later.”
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-#pragma warning restore CS0618 // '“CompatibilityVersion.Version_2_1”已过时:“This CompatibilityVersion value is obsolete. The recommended alternatives are Version_3_0 or later.”
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#pragma warning disable CS0618 // '“IHostingEnvironment”已过时:“This type is obsolete and will be removed in a future version. The recommended alternative is Microsoft.AspNetCore.Hosting.IWebHostEnvironment.”
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-#pragma warning restore CS0618 // '“IHostingEnvironment”已过时:“This type is obsolete and will be removed in a future version. The recommended alternative is Microsoft.AspNetCore.Hosting.IWebHostEnvironment.”
+            services.AddMvc();
+
+        }
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //    app.UseHsts();
-            //}
+            //app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
