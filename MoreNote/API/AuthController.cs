@@ -1,14 +1,15 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.API;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.LeaNoteAPI
+namespace MoreNote.API
 {
     [Route("api/[controller]/[action]")]
 
-    public class AuthController : Controller
+    public class AuthController : ApiBaseController
     {
         /// <summary>
         /// 登陆

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MoreNote.LeaNoteAPI
+namespace MoreNote.API
 {
     [Route("api/[controller]")]
     //[ApiController]

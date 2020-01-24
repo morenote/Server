@@ -5,7 +5,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using System.Collections.Generic;
 
-namespace MoreNote.LeaNoteAPI
+namespace MoreNote.API
 {
     [Route("api/[controller]/[action]")]
    // [ApiController]

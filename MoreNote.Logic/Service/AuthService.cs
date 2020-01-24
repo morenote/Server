@@ -69,6 +69,29 @@ namespace MoreNote.Logic.Service
             }
         }
 
+        // 使用bcrypt认证或者Md5认证
+        // Use bcrypt (Md5 depreciated)
+        public static User Login(string emailOrUserName ,string pwd)
+        {
+            throw new Exception();
+        }
+        public static bool Register(string email,string pwd,long fromUserId)
+        {
+            throw new Exception();
+        }
+        public static bool register(User
+             user)
+        {
+            throw new Exception();
+        }
+        public static string getUsername(string thirdType,string thirdUserName)
+        {
+            throw new Exception();
+        }
+        public User ThirdRegister(string thirdType,string thirdUserId,string thirdUserName)
+        {
+            throw new Exception();
+        }
 
     }
 }
