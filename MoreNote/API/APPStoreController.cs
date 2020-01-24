@@ -9,11 +9,12 @@ using MoreNote.Logic.Service;
 
 namespace MoreNote.API
 {
-    public class APPStoreController : Controller
+    public class APPStoreController : ApiBaseController
     {
         [Route("api/1.0/app/[action]")]
         public IActionResult getlist()
         {
+           
             AppInfo[] appInfos = APPStoreInfoService.GetAPPList();
             APPStoreInfo aPPStoreInfoList = new APPStoreInfo()
             {

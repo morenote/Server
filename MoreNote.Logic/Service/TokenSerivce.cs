@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 
@@ -19,6 +21,19 @@ namespace MoreNote.Logic.Service
                 return db.SaveChanges() > 0;
             }
 
+        }
+        public static string GenerateToken()
+        {
+            StringBuilder tokenBuilder=new StringBuilder();
+
+            long tokenid = SnowFlake_Net.GenerateSnowFlakeID();
+            tokenBuilder.Append(tokenid.ToString("x"));
+            tokenBuilder.Append("@");
+            tokenBuilder.Append(RndNum.CreatRndNum(16));
+            tokenBuilder.Append("@");
+            tokenBuilder.Append(DateTime.Now);
+            var token = Base64Util.ToBase64String(tokenBuilder.ToString());
+            return token;
         }
         public static Token GetTokenByTokenStr(long userid,string str)
         {
@@ -47,6 +62,14 @@ namespace MoreNote.Logic.Service
                 {
                     return null;
                 }
+            }
+        }
+        public static bool DeleteTokenByToken(string token)
+        {
+            using (var db = new DataContext())
+            {
+                db.Token.Where(a => a.TokenStr.Equals(token));
+                return db.SaveChanges() > 0;
             }
         }
     }
