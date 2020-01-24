@@ -72,7 +72,7 @@ dotnet run
 ```
 
 #### 使用说明
- MoreNote的主要设计目标是轻量型的笔记托管服务，Nickel使用高性能的dotnet core设计。
+ MoreNote的主要设计目标是轻量型的笔记托管服务，MoreNote使用高性能的dotnet core设计(然并卵😂)。
 
 
 #### 参与贡献
