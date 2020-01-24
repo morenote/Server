@@ -17,13 +17,13 @@ namespace MoreNote.Logic.Service
                 if (temp.Equals(user.Pwd))
                 {
                     long tokenid = SnowFlake_Net.GenerateSnowFlakeID();
-
+                    var token=Base64Util.ToBase64String(tokenid.ToString("x") + "@" + RndNum.CreatRndNum(16));
                     Token myToken = new Token
                     {
                         TokenId = SnowFlake_Net.GenerateSnowFlakeID(),
                         UserId = user.UserId,
                         Email = user.Email,
-                        TokenStr = tokenid.ToString("x")+"@"+RndNum.CreatRndNum(16),
+                        TokenStr = token,
                         Type = 0,
                         CreatedTime = DateTime.Now
                     };

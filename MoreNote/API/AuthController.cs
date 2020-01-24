@@ -52,7 +52,14 @@ namespace MoreNote.LeaNoteAPI
         //todo:注销函数
         public IActionResult Logout()
         {
-            return null;
+            //ex:API当前不使用cookie和session判断用户身份，
+            //API调用必须显式的提供token字段，以证明身份
+            ApiRe apiRe=new ApiRe()
+            {
+                Ok=true,
+                Msg=""
+            };
+            return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
         //todo:注册
         public IActionResult Register()
