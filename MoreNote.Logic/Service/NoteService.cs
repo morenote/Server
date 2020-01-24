@@ -39,7 +39,7 @@ namespace MoreNote.Logic.Service
             }
         }
 
-        public static Note SelectNote(long NoteId)
+        public static Note GetNoteById(long NoteId)
         {
             using (var db = new DataContext())
             {

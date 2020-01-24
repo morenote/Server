@@ -4,7 +4,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.LeaNoteAPI
+namespace MoreNote.API
 {
     [Route("api/[controller]")]
    // [ApiController]
@@ -31,8 +31,9 @@ namespace MoreNote.LeaNoteAPI
             return null;
         }
         //todo:得到笔记本下的笔记
-        public IActionResult GetNotes()
+        public IActionResult GetNotes(string token,string notebookId)
         {
+            
             return null;
         }
         //todo:得到trash

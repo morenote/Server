@@ -7,7 +7,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.LeaNoteAPI
+namespace MoreNote.API
 {
     [Route("api/[controller]/[action]")]
     public class UserController : Controller

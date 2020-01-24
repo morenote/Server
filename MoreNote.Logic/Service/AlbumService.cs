@@ -4,22 +4,25 @@ using System.Text;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.DB;
 using System.Linq;
+using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
 {
      public class AlbumService
     {
+        const int  IMAGE_TYPE=0;
+        //add album
         public static bool AddAlbum(Album album)
         {
-            int a = 0;
+           album.CreatedTime=DateTime.Now;
+            album.Type=IMAGE_TYPE;
             using (var db = new DataContext())
             {
                var result= db.Album.Add(album);
-                a = db.SaveChanges();
                 return  db.SaveChanges()>0;
             }
-            
         }
+        //get albums
         public static Album[] GetAlbums(long userId)
         {
            
@@ -30,12 +33,17 @@ namespace MoreNote.Logic.Service
                 return result.ToArray();
             }
         }
-        public static bool DeleteAlbum(long userId)
+        // delete album
+        // presupposition: has no images under this ablum
+        public static bool DeleteAlbum(long userId,long albumId)
         {
             using (var db = new DataContext())
             {
-                db.Album.Where(a => a.UserId.Equals(userId));
-                return db.SaveChanges()>0;
+                if (db.File.Where(b=>b.AlbumId==albumId&&b.UserId==userId).Count()==0)
+                {
+                  return  db.Album.Where(a=>a.AlbumId==albumId).Delete()>0;
+                }
+                return false;
             }
         }
     }
