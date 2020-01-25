@@ -46,7 +46,7 @@ namespace MoreNote.Logic.Service
                 //不和请求一块发送。
                 client.UseDefaultCredentials = false;
                 //验证发件人身份(发件人的邮箱，邮箱里的生成授权码);
-                client.Credentials = new NetworkCredential("huanyinglike@qq.com", "ypolfyvtmebkegff");
+                client.Credentials = new NetworkCredential("huanyinglike@qq.com", "ygJIJnve4fnu9gom");
                 //发送
                 client.Send(this);
             }
