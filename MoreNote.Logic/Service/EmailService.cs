@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoreNote.Logic.Entity;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
@@ -55,6 +56,96 @@ namespace MoreNote.Logic.Service
         {
             this.To.Add(new MailAddress(emailAddress));
         }
+
+        public static EmailService NewEmailService()
+        {
+            throw 
+                new Exception();
+        }
+        // 发送邮件
+        string host = "";
+        string emailPort = "";
+        string username = "";
+        string password = "";
+        bool ssl = false;
+        public void InitEmailFromDb()
+        {
+            throw  new Exception();
+        }
+
+        //return a smtp client
+        public static object dial(string addr)
+        {
+            throw new Exception();
+        }
+        public  bool SendEmailWithSSL()
+        {
+            throw  new Exception();
+        }
+        public bool  SendEmail(string to,string subject,string body)
+        {
+            throw new Exception();
+        }
+        public static bool RegisterSendActiveEmail(User userInfo,string email)
+        {
+            throw 
+                new Exception();
+        }
+        public static bool UpdateEmailSendActiveEmail(User
+             userInfo,string email)
+        {
+            throw 
+                new Exception();
+        }
+        public bool FindPwdSendEmail(string token,string email)
+        {
+            throw new Exception();
+        }
+        public  bool SendInviteEmail(User
+             userInfo,string email,string content)
+        {
+            throw 
+                new Exception();
+        }
+        public bool SendCommentEmail(Note note,BlogComment comment ,long userId,string content)
+        {
+            throw new Exception();
+        }
+        public static  bool ValidTpl(string str)
+        {
+            throw 
+                new Exception();
+        }
+        public bool getTpl(string str)
+        {
+            throw new Exception();
+        }
+        public static bool  renderEmail (string subject ,string body)
+        {
+            throw new Exception();
+        }
+        public static bool SendEmailToUsers(User user,string subject,string body)
+        {
+            throw new Exception();
+        }
+        public static bool SendEmailToEmails(string[] email,string subject,string body)
+        {
+            throw new Exception();
+        }
+        public static bool AddEmailLog(string email,string subject,string body,bool ok,string msg)
+        {
+            throw new Exception();
+        }
+        public static bool DeleteEmails(long[] ids)
+        {
+            throw new Exception();
+        }
+        public List<object> ListEmailLogs(int pageNUmber,int pageSize,string sortField,bool
+             isAsc,string email)
+        {
+            throw new Exception();
+        }
+
 
 
     }
