@@ -124,14 +124,120 @@ namespace MoreNote.Logic.Service
                 return result.ToArray();
             }
         }
-        public static bool DeleteNotebookForce(long userId,long notebookId,int usn)
+       
+        public static SubNotebooks sortSubNotebooks(SubNotebooks eachNotebooks )
+        {
+            throw new Exception();
+        }
+        // 整理(成有关系)并排序
+        // GetNotebooks()调用
+        // ShareService调用
+        public SubNotebooks ParseAndSortNotebooks(Notebook[] userNotebooks,bool noParentDelete,bool needSort)
+        {
+            throw new Exception();
+        }
+        public static Notebook GetNotebook(long noteBookId,long userId)
+        {
+            throw new Exception();
+        }
+        
+        public static Notebook GetNotebookByUserIdAndUrlTitle(long userId,string notebookIdOrUrl)
+        {
+            throw new Exception();
+        }
+        public static SubNotebooks GetNotebooks(long userId)
+        {
+            throw new Exception();
+        }
+        public static SubNotebooks GetNotebooksByNotebookIds(long[] notebookIds)
+        {
+            throw new Exception();
+        }
+        // 判断是否是blog
+        public static bool IsBlog(long notebookId)
+        {
+            throw new Exception();
+        }
+        // 判断是否是我的notebook
+        public static bool IsMyNotebook(long notebookId)
+        {
+            throw new Exception();
+        }
+        // 更新笔记本信息
+        // 太广, 不用
+        /*
+        func (this *NotebookService) UpdateNotebook(notebook info.Notebook) bool {
+            return db.UpdateByIdAndUserId2(db.Notebooks, notebook.NotebookId, notebook.UserId, notebook)
+        }
+        */
+        // 更新笔记本标题
+        // [ok]
+        public static bool UpdateNotebookTitle(long notebookId,long userId,string title)
+        {
+            //在未优化的前提下，全部修改和局部修改的性能是一样的
+            //可以直接执行原生SQL提高性能
+            throw new Exception();
+        }
+        public static bool UpdateNotebook(long userId,long notebookId,object needUpdate)
+        {
+            throw new Exception();
+        }
+        // ToBlog or Not
+        public static bool ToBlog (long userId,bool isBlog)
+        {
+            throw new Exception();
+        }
+        // 查看是否有子notebook
+        // 先查看该notebookId下是否有notes, 没有则删除
+        public static bool  DeleteNotebook(long userId,long notebookId)
+        {
+            throw new Exception();
+        }
+
+        // API调用, 删除笔记本, 不作笔记控制
+        public static bool DeleteNotebookForce(long userId, long notebookId, int usn)
         {
             using (var db = new DataContext())
             {
-               //var result = db.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
-               var result = db.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Update(x=>new Notebook { IsDeleted=true});
+                //var result = db.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
+                var result = db.Notebook.Where(note => note.NotebookId == notebookId && note.UserId == userId && note.Usn == usn).Update(x => new Notebook { IsDeleted = true });
                 return result > 0;
             }
         }
+
+        // 排序
+        // 传入 notebookId => Seq
+        // 为什么要传入userId, 防止修改其它用户的信息 (恶意)
+        // [ok]
+        public static bool SortNotebooks(long userId,Dictionary<string,int> notebookId2Seqs)
+        {
+            throw new Exception();
+        }
+        // 排序和设置父
+        public static bool DragNotebooks(long userId,long curNotebookId,long parentNotebookId,string[] siblings)
+        {
+            throw new Exception();
+        }
+        // 重新统计笔记本下的笔记数目
+        // noteSevice: AddNote, CopyNote, CopySharedNote, MoveNote
+        // trashService: DeleteNote (recove不用, 都统一在MoveNote里了)
+        public static bool ReCountNotebookNumberNotes(long notebookId)
+        {
+            throw new Exception();
+        }
+        public static void ReCountAll()
+        {
+            /*
+                // 得到所有笔记本
+                notebooks := []info.Notebook{}
+                db.ListByQWithFields(db.Notebooks, bson.M{}, []string{"NotebookId"}, &notebooks)
+
+                for _, each := range notebooks {
+                    this.ReCountNotebookNumberNotes(each.NotebookId.Hex())
+                }
+            */
+            throw new Exception();
+        }
+
     }
 }
