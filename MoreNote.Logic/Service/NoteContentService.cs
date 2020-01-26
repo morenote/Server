@@ -38,5 +38,26 @@ namespace MoreNote.Logic.Service
                 return db.SaveChanges() > 0;
             }
         }
+        public static NoteContent GetNoteContent(long noteContent,long userId)
+        {
+            throw new Exception();
+        }
+        // 添加笔记本内容
+        // [ok]
+        public static NoteContent AddNoteContent(NoteContent noteContent)
+        {
+            throw new Exception();
+        }
+
+        // 修改笔记本内容
+        // [ok] TODO perm未测
+        // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
+        // TODO abstract这里生成
+        public static bool UpdateNoteContent(long updateUserId,long noteId,string content,string abstractStr,bool hasBeforeUpdateNote,int usn,DateTime updateTime)
+        {
+            throw new Exception();
+        }
+   
+
     }
 }

@@ -122,7 +122,6 @@ namespace MoreNote.Logic.Entity
     public class NoteAndContentSep
     {
         public long NoteAndContentSepId{ get; set; }
-        
         public Note NoteInfo{ get; set; }
         public NoteContent NoteContentInfo{ get; set; }
     }
