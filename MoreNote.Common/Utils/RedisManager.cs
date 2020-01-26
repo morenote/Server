@@ -25,6 +25,7 @@ namespace MoreNote.Common.Utils
 
             }
             db.StringSet(K, V);
+           
         }
 
         public static string GetString(string K)
