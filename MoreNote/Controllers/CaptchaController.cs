@@ -24,9 +24,11 @@ namespace MoreNote.Controllers
                 //存session
 
                 HttpContext.Session.SetString("VerifyCode", code);
+              
 
                 //string sessionID = Request.Cookies["SessionID"];
                 //RedisManager.SetString(sessionID, code);
+               
                 Response.Cookies.Append("code",code);
 
                 // 将验证码的token放入cookie
