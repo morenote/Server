@@ -1,10 +1,31 @@
-﻿using System;
+﻿using MoreNote.Logic.Entity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MoreNote.Logic.Service
 {
-    class NoteContentHistoryService
+   public  class NoteContentHistoryService
     {
+        // 每个历史记录最大值
+        int maxSize =10;
+        // 新建一个note, 不需要添加历史记录
+        // 添加历史
+        public static void AddHistory(long noteId,long userId,EachHistory eachHistory)
+        {
+            throw new Exception();
+        }
+        // 新建历史
+        public static void newHistory(long noteId,long userId,EachHistory eachHistory)
+        {
+            throw new Exception();
+        }
+        // 列表展示
+        public static EachHistory[] ListHistories(long noteId,long userId)
+        {
+            throw  new Exception();
+              
+        }
+
     }
 }
