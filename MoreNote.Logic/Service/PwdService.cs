@@ -25,16 +25,11 @@ namespace MoreNote.Logic.Service
                     .Where(b => b.Email.Equals(email)).First();
                 if (userid == null)
                 {
-
                     return false;
                 }
                 return true;
-
-
             }
-
         }
-
         // 重置密码时
         // 修改密码
         // 先验证
