@@ -8,7 +8,7 @@ namespace MoreNote.API
 {
     [Route("api/[controller]")]
    // [ApiController]
-    public class NoteController : Controller
+    public class NoteController : ApiBaseController
     {
         //todo:获取同步的笔记
         public JsonResult GetSyncNotes(int afterUsn,int maxEntry,string token)
@@ -31,8 +31,10 @@ namespace MoreNote.API
             return null;
         }
         //todo:得到笔记本下的笔记
-        public IActionResult GetNotes(string token,string notebookId)
+        public IActionResult GetNotes(string notebookId)
         {
+            
+            long myNotebookId=MyConvert.HexToLong(notebookId);
             
             return null;
         }

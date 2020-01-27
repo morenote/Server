@@ -108,7 +108,7 @@ namespace MoreNote.API
                     Title = title,
                     Seq = seq,
                     UserId = user.UserId,
-                    ParentNotebookId = MyConvert.ConvertStrToLong(parentNotebookId)
+                    ParentNotebookId = MyConvert.HexToLong(parentNotebookId)
                     
                 };
                 if (NotebookService.AddNotebook( ref notebook))
@@ -150,7 +150,7 @@ namespace MoreNote.API
             else
             {
                 Notebook notebook;
-                if (NotebookService.UpdateNotebookApi(user.UserId,MyConvert.ConvertStrToLong(notebookId),title, MyConvert.ConvertStrToLong(parentNotebookId), seq,usn,out notebook))
+                if (NotebookService.UpdateNotebookApi(user.UserId,MyConvert.HexToLong(notebookId),title, MyConvert.HexToLong(parentNotebookId), seq,usn,out notebook))
                 {
 
                     ApiNotebook apiNotebook = fixNotebook(notebook);
@@ -185,7 +185,7 @@ namespace MoreNote.API
 
                 return Json(apiRe, MyJsonConvert.GetOptions());
             }
-            if (NotebookService.DeleteNotebookForce(user.UserId, MyConvert.ConvertStrToLong(notebookId), usn))
+            if (NotebookService.DeleteNotebookForce(user.UserId, MyConvert.HexToLong(notebookId), usn))
             {
                 ApiRe apiRe = new ApiRe()
                 {

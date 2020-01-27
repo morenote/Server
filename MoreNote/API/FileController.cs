@@ -4,7 +4,7 @@ namespace MoreNote.API
 {
     [Route("api/[controller]")]
     //[ApiController]
-    public class FileController : ControllerBase
+    public class FileController : ApiBaseController
     {
         //todo: 输出image
         public IActionResult GetImage()

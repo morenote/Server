@@ -7,14 +7,19 @@ namespace MoreNote.Common.Utils
 {
     public class MyConvert
     {
-        public static long ConvertStrToLong(string numberstr)
+        /// <summary>
+        /// hex字符串转long类型
+        /// </summary>
+        /// <param name="hex">16进制字符串</param>
+        /// <returns> 转换后的数字 失败返回 0 </returns>
+        public static long HexToLong(string hex)
         {
            
             long number = 0;
             try
             {
                 //return Convert.ToInt64(numberstr, 16);
-                return long.Parse(numberstr, NumberStyles.HexNumber);
+                return long.Parse(hex, NumberStyles.HexNumber);
             }
             catch(Exception e)
             {

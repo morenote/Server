@@ -1,9 +1,9 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MoreNote.API;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using System.Text.Json;
 
 namespace MoreNote.API
 {
@@ -24,8 +24,9 @@ namespace MoreNote.API
         {
             string tokenStr = "";
             User user;
-            if (AuthService.LoginByPWD(email, pwd, out tokenStr,out user))
+            if (AuthService.LoginByPWD(email, pwd, out tokenStr, out user))
             {
+               
                 AuthOk authOk = new AuthOk()
                 {
                     Ok = true,
@@ -34,8 +35,7 @@ namespace MoreNote.API
                     Email = user.Email,
                     Username = user.UsernameRaw
                 };
-                return Json(authOk,MyJsonConvert.GetSimpleOptions());
-
+                return Json(authOk, MyJsonConvert.GetSimpleOptions());
             }
             else
             {
@@ -43,29 +43,48 @@ namespace MoreNote.API
                 {
                     Ok = false,
                     Msg = "用户名或密码有误"
-
                 };
-                string json = JsonSerializer.Serialize(apiRe,MyJsonConvert.GetSimpleOptions());
+                string json = JsonSerializer.Serialize(apiRe, MyJsonConvert.GetSimpleOptions());
                 return Json(apiRe, MyJsonConvert.GetSimpleOptions());
             }
-           
         }
         //todo:注销函数
-        public IActionResult Logout()
+        public JsonResult Logout()
         {
             //ex:API当前不使用cookie和session判断用户身份，
             //API调用必须显式的提供token字段，以证明身份
-            ApiRe apiRe=new ApiRe()
+
+
+            ApiRe apiRe = new ApiRe()
             {
-                Ok=true,
-                Msg=""
+                Ok = false,
+                Msg = "未提供注销功能"
             };
             return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
         //todo:注册
-        public IActionResult Register()
+        public JsonResult Register(string email,string pwd)
         {
-            return null;
+            //ex:API当前不使用cookie和session判断用户身份，
+            //API调用必须显式的提供token字段，以证明身份
+            ApiRe apiRe;
+            if (AuthService.Register(email,pwd,0))
+            {
+                apiRe = new ApiRe()
+                {
+                    Ok = true,
+                    Msg = "注册成功"
+                };
+            }
+            else
+            {
+                apiRe = new ApiRe()
+                {
+                    Ok = false,
+                    Msg = "注册失败"
+                };
+            }
+            return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
     }
 }
