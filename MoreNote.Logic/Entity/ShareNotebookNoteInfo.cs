@@ -24,8 +24,20 @@ namespace MoreNote.Logic.Entity
     public class EachSharedNotebookAndNotes
     {
         public int Seq { get; set; }// // 共享给谁的所在序号
-        public HashSet<string> DefaultNotebook;// noteId => 共享的note
-        public HashSet<string> Notebooks;// notebookId => 共享的notebook
+        public Dictionary<long,EachSharedNote> DefaultNotebook;// noteId => 共享的note
+        public Dictionary<long,EachSharedNotebook> Notebooks;// notebookId => 共享的notebook
+    }
+    public class SharedNotebookAndNotes
+    {
+        public long userId { get;set;}
+      public Dictionary<long,EachSharedNotebookAndNotes> Shared { get;set;}
+    }
+    public class SharingNotebookAndNotes
+    {
+        public long UserId { get;set;}
+        public Dictionary<long,long[]> Notes { get;set;}
+        public Dictionary<long,long[]> NOtebooks { get;set;}
+
     }
     public class ShareNotebook
     {
@@ -42,5 +54,9 @@ namespace MoreNote.Logic.Entity
         public bool IsDefault { get; set; } //是否是默认共享notebook, perm seq=-9999999, NotebookId=null
 
     }
-    //未完成待续
+    public class ShareNotebooks
+    {
+
+    }
+
 }
