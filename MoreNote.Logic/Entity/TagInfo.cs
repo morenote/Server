@@ -5,8 +5,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoreNote.Logic.Entity
 {
-   public class Tag
+    public enum TokenEnum
     {
+        TokenPwd, TokenActiveEmail, TokenUpdateEmail
+
+    }
+    public class Tag
+    {
+
         [Key]
         public long UserId { get; set; }
         public NoteTag[] Tags { get; set; }

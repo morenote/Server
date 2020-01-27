@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
@@ -72,5 +73,21 @@ namespace MoreNote.Logic.Service
                 return db.SaveChanges() > 0;
             }
         }
+        // 生成token
+        public static  string NewToken(long userId,string email,int tokenType)
+        {
+            throw new Exception();
+        }
+        // 删除token
+        public static bool DeleteToken(long userId,int tokenType)
+        {
+            throw new Exception();
+        }
+        // 验证token, 是否存在, 过时?
+        public static bool VerifyToken(string token,int tokenType)
+        {
+            throw new Exception();
+        }
+
     }
 }
