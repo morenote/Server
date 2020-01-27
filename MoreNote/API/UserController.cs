@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.ModelBinder;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -10,13 +11,14 @@ using MoreNote.Logic.Service;
 namespace MoreNote.API
 {
     [Route("api/[controller]/[action]")]
-    public class UserController : Controller
+    public class UserController : ApiBaseController
     {
         //获取用户信息
         [HttpPost]
-        public JsonResult Info(string token, string userId)
+        public JsonResult Info(string token, [ModelBinder(BinderType = typeof(Hex2LongModelBinder))]long userId)
         {
-            long myUserId =MyConvert.ConvertStrToLong(userId);
+           // long myUserId =MyConvert.HexToLong(userId);
+            long myUserId = userId;
             if (myUserId!=0)
             {
                 if (!AuthService.IsLogin(myUserId,token))

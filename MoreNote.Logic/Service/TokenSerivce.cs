@@ -21,7 +21,6 @@ namespace MoreNote.Logic.Service
                 a = db.SaveChanges();
                 return db.SaveChanges() > 0;
             }
-
         }
         public static string GenerateToken()
         {

@@ -29,7 +29,7 @@ namespace MoreNote.Controllers
                 //string sessionID = Request.Cookies["SessionID"];
                 //RedisManager.SetString(sessionID, code);
                
-                Response.Cookies.Append("code",code);
+               // Response.Cookies.Append("code",code);
 
                 // 将验证码的token放入cookie
                 // Response.Cookies.Append(VERFIY_CODE_TOKEN_COOKIE_NAME, await SecurityServices.GetVerifyCodeToken(code));

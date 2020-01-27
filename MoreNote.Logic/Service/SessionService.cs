@@ -1,4 +1,5 @@
-﻿using MoreNote.Common.Utils;
+﻿using Microsoft.AspNetCore.Http;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
@@ -60,10 +61,11 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 登录成功后设置userId
-
         public static bool SetUserId(long sessionId,long userId)
         {
             throw new Exception();
         }
+     
+
     }
 }
