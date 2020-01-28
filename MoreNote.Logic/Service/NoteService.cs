@@ -109,7 +109,7 @@ namespace MoreNote.Logic.Service
         }
         // 获取同步的笔记
         // > afterUsn的笔记
-        public static ApiNote[] GeSyncNotes(long userid, int afterUsn, int maxEntry)
+        public static ApiNote[] GetSyncNotes(long userid, int afterUsn, int maxEntry)
         {
             using (var db = new DataContext())
             {
@@ -121,9 +121,13 @@ namespace MoreNote.Logic.Service
         // note与apiNote的转换
         public static ApiNote[] ToApiNotes(Note[] notes)
         {
+            // 2, 得到所有图片, 附件信息
+            // 查images表, attachs表
+
             if (notes != null && notes.Length > 0)
             {
                 ApiNote[] apiNotes = new ApiNote[notes.Length];
+                
                 for (int i = 0; i < notes.Length; i++)
                 {
                     apiNotes[i] = ToApiNote(ref notes[i], null);
@@ -137,8 +141,10 @@ namespace MoreNote.Logic.Service
             }
 
         }
+        // note与apiNote的转换
         public static ApiNote ToApiNote(ref Note note, NoteFile[] files)
         {
+      
             ApiNote apiNote = new ApiNote()
             {
                 NoteId = note.NoteId,
