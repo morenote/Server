@@ -4,11 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
 namespace MoreNote.API
 {
+    /**
+     * 源代码基本是从GO代码直接复制过来的
+     * 
+     * 只是简单的实现了API的功能
+     * 
+     * 2020年01月27日
+     * */
     public class ApiBaseController : Controller
     {
         public IActionResult action()
@@ -71,6 +79,20 @@ namespace MoreNote.API
                 return user;
             }
 
+        }
+
+        public long ConvertUserIdToLong()
+        {
+            string hex = Request.Form["userId"];
+            if (string.IsNullOrEmpty(hex))
+            {
+                hex = Request.Query["userId"];
+            }
+            if (string.IsNullOrEmpty(hex))
+            {
+                return 0;
+            }
+            return MyConvert.HexToLong(hex);
         }
         // todo :上传附件
         public IActionResult uploadAttach()

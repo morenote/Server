@@ -1,34 +1,22 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.ModelBinder;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
 namespace MoreNote.API
 {
-    [Route("api/[controller]")]
-   // [ApiController]
+    [Route("api/[controller]/[action]")]
+    // [ApiController]
     public class NoteController : ApiBaseController
     {
         //todo:获取同步的笔记
-        public JsonResult GetSyncNotes(int afterUsn,int maxEntry,string token)
+        public JsonResult GetSyncNotes([ModelBinder(BinderType = typeof(Hex2LongModelBinder))]long userId,int afterUsn,int maxEntry,string token)
         {
-            User user = TokenSerivce.GetUserByToken(token);
-            if (user == null)
-            {
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "Not logged in",
-                };
-
-                return Json(apiRe, MyJsonConvert.GetOptions());
-            }
-            else
-            {
-
-            }
-            return null;
+            if (maxEntry==0) maxEntry=100;
+            ApiNote[] apiNotes=NoteService.GetSyncNotes(userId,afterUsn,maxEntry);
+            return Json(apiNotes,MyJsonConvert.GetOptions());
         }
         //todo:得到笔记本下的笔记
         public IActionResult GetNotes(string notebookId)
