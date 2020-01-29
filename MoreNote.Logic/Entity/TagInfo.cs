@@ -16,7 +16,6 @@ namespace MoreNote.Logic.Entity
         [Key]
         public long UserId { get; set; }
         public NoteTag[] Tags { get; set; }
-     
 
     }
     public class NoteTag

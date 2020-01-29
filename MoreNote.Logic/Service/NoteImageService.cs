@@ -22,7 +22,8 @@ namespace MoreNote.Logic.Service
         // imgSrc 防止博客修改了, 但内容删除了
         public static bool UpdateNoteImages(long userId,long noteId,string imgSrc,string content)
         {
-            throw new Exception();
+            
+            return true;
         }
         // 复制图片, 把note的图片都copy给我, 且修改noteContent图片路径
         public static string CopyNoteImages(long fromNoteId,long fromUserId,long newNoteId,string content,long toUserID)
