@@ -51,10 +51,19 @@ namespace MoreNote.Logic.Entity
 
 
     }
+    /// <summary>
+    /// <para>笔记内容和可以被允许修改的属性</para>
+    /// <para>
+    ///  一个note可以拥有多个NoteContent,但是只允许有一个处于活动状态
+    ///  剩余的NoteContent被识别为历史记录
+    /// </para>
+    /// </summary>
     public class NoteContent
     {
+       
         [Key]
         //[JsonConverter(typeof(string))] //解决序列化时被转成数值的问题
+        public long NoteContentId { get;set;}//主键
         public long NoteId { get; set; }
         public long UserId { get; set; }
         public bool IsBlog { get; set; } // 为了搜索博客 
@@ -63,7 +72,6 @@ namespace MoreNote.Logic.Entity
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
         public long UpdatedUserId { get; set; } // 如果共享了,  并可写, 那么可能是其它他修改了
-
         public int IsHistory { get; set; }//是否是历史纪录
     }
     // 基本信息和内容在一起

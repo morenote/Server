@@ -42,9 +42,9 @@ namespace MoreNote.Logic.Entity
     // 内容
     public class ApiNoteContent
     {
-        long NoteId;
-        long UserId;
-        string Content;
+       public long NoteId{get;set; }
+        public long UserId { get; set; }
+        public string Content { get; set; }
     }
     //----------
     // 用户信息

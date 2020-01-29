@@ -38,9 +38,14 @@ namespace MoreNote.Logic.Service
                 return db.SaveChanges() > 0;
             }
         }
-        public static NoteContent GetNoteContent(long noteContent,long userId)
+        public static NoteContent GetNoteContent(long noteId,long userId)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                var result = db.NoteContent
+                    .Where(b => b.UserId==userId&&b.NoteId==noteId);
+                return result==null?null:result.FirstOrDefault();
+            }
         }
         // 添加笔记本内容
         // [ok]
