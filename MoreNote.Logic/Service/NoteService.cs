@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using MoreNote.Logic.DB;
@@ -127,30 +128,36 @@ namespace MoreNote.Logic.Service
             if (notes != null && notes.Length > 0)
             {
                 ApiNote[] apiNotes = new ApiNote[notes.Length];
-                
+                //得到所有文件
+                long[] noteIds=new long[notes.Length];
+                for (int i = 0; i < notes.Length; i++)
+                {
+                    noteIds[i]=notes[i].NoteId;
+                }
+              // Dictionary<long,NoteFile[]> noteFilesMap=getFiles(noteIds);
                 for (int i = 0; i < notes.Length; i++)
                 {
                     apiNotes[i] = ToApiNote(ref notes[i], null);
-
                 }
+
                 return apiNotes;
             }
             else
             {
-                return null;
+                return new ApiNote[0];
             }
 
         }
         // note与apiNote的转换
-        public static ApiNote ToApiNote(ref Note note, NoteFile[] files)
+        public static ApiNote ToApiNote(ref Note note, APINoteFile[] files)
         {
       
             ApiNote apiNote = new ApiNote()
             {
-                NoteId = note.NoteId,
+                NoteId = note.NoteId.ToString("x"),
 
-                NotebookId = note.NotebookId,
-                UserId = note.UserId,
+                NotebookId = note.NotebookId.ToString("x"),
+                UserId = note.UserId.ToString("x"),
                 Title = note.Title,
                 Tags = note.Tags,
                 IsMarkdown = note.IsMarkdown,
@@ -169,16 +176,23 @@ namespace MoreNote.Logic.Service
         // getDirtyNotes, 把note的图片, 附件信息都发送给客户端
         // 客户端保存到本地, 再获取图片, 附件
 
-        // 得到所有图片, 附件信息
-        // 查images表, attachs表
-        // [待测]
-        public static Dictionary<string,NoteFile> getFiles(long[] noteIds)
+        /// <summary>
+        /// 得到所有图片, 附件信息
+        /// 查images表, attachs表
+        /// [待测]
+        /// </summary>
+        /// <param name="noteIds"></param>
+        /// <returns></returns>
+        public static Dictionary<long,NoteFile[]> getFiles(long[] noteIds)
         {
+            var noteImages = NoteImageService.getImagesByNoteIds(noteIds);
+            var noteAttachs= AttachService.getAttachsByNoteIds(noteIds);
+
             throw new Exception();
         }
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public static List<Note> ListNotes(long userId,
+        public static Note[] ListNotes(long userId,
           long notebookId,
           bool isTrash,
           int pageNumber,
@@ -191,7 +205,7 @@ namespace MoreNote.Logic.Service
             {
                 var result = db.Note
                     .Where(b => b.NotebookId == notebookId && b.UserId == userId);
-                return result.ToList<Note>();
+                return result.ToArray();
             }
         }
 
@@ -202,6 +216,7 @@ namespace MoreNote.Logic.Service
         // shareService调用
         public static Note[] ListNotesByNoteIds(long[] noteIds)
         {
+            
             throw new Exception();
         }
         // blog需要
@@ -357,7 +372,14 @@ namespace MoreNote.Logic.Service
         // 通过标签来查询
         public static int CountNoteByTag(long userId,string tag)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                var result = db.NoteTag
+                    .Where(b => b.UserId == userId && b.Tag.Equals(tag)).Count();
+                
+                return result;
+            }
+           
         }
 
         // 删除tag

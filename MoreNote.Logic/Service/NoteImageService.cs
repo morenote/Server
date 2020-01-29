@@ -1,6 +1,9 @@
-﻿using System;
+﻿using MoreNote.Logic.DB;
+using MoreNote.Logic.Entity;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MoreNote.Logic.Service
@@ -26,8 +29,14 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static Dictionary<string,FileInfo> getImagesByNoteIds(long[] noteId)
+        public static Dictionary<long,NoteFile[]> getImagesByNoteIds(long[] noteIds)
         {
+            using (var db = new DataContext())
+            {
+                var result = db.NoteImage.Where(b=>noteIds.Contains(b.NoteId));
+                NoteImage[] noteImages = result.ToArray();
+
+            }
             throw new Exception();
         }
 

@@ -40,7 +40,7 @@ namespace MoreNote.Controllers
         }
         public IActionResult ListNotes(string notebookId)
         {
-            List<Note> notes=    NoteService.ListNotes(1208692382644703232, 1208692382640508928, false, 1, 1, "defaultSortField", false, false);
+            Note[] notes =    NoteService.ListNotes(1208692382644703232, 1208692382640508928, false, 1, 1, "defaultSortField", false, false);
             string json= JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
             return Content(json);
 

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -9,8 +10,12 @@ namespace MoreNote.API
 {
     [Route("api/[controller]/[action]")]
    // [ApiController]
-    public class NotebookController : Controller
+    public class NotebookController : ApiBaseController
     {
+        public NotebookController(IHttpContextAccessor accessor) : base(accessor)
+        {
+        }
+
         //获取同步的笔记本
         //[HttpPost]
         public JsonResult GetSyncNotebooks( string token,int afterUsn,int maxEntry)

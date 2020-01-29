@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.DB;
+﻿using MoreNote.Common.Utils;
+using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,55 @@ namespace MoreNote.Logic.Service
         // 万能
         public static NoteTag AddOrUpdateTag(long userId,string tag)
         {
-            throw new Exception();
+            NoteTag noteTag=GetTag(userId,tag);
+            // 存在, 则更新之
+            if (noteTag!=null&&noteTag.TagId!=0)
+            {
+                // 统计note数
+                int count=NoteService.CountNoteByTag(userId,tag);
+                noteTag.Count=count;
+                noteTag.UpdatedTime=DateTime.Now;
+                // 之前删除过的, 现在要添加回来了
+                if (noteTag.IsDeleted)
+                {
+                    noteTag.Usn = UserService.IncrUsn(userId);
+                    noteTag.IsDeleted=false;
+                    UpdateByIdAndUserId(noteTag.TagId,userId,noteTag);
+                }
+                return noteTag;
+            }
+            // 不存在, 则创建之
+            var timeNow =DateTime.Now;
+            noteTag = new NoteTag()
+            {
+                TagId = SnowFlake_Net.GenerateSnowFlakeID(),
+                Count = 1,
+                Tag = tag,
+                UserId = userId,
+                CreatedTime = timeNow,
+                UpdatedTime = timeNow,
+                Usn = UserService.IncrUsn(userId),
+                IsDeleted = false
+            };
+            AddNoteTag(noteTag);
+            return noteTag;
+
+        }
+        public static bool UpdateByIdAndUserId(long tagId,long userId,NoteTag noteTag)
+        {
+            using (var db = new DataContext())
+            {
+                var noteT = db.NoteTag
+                    .Where(b => b.TagId==tagId
+                    &&b.UserId==userId).FirstOrDefault();
+                noteT.Tag = noteTag.Tag;
+                noteT.Usn = noteTag.Usn;
+                noteT.Count = noteTag.Count;
+                noteT.UpdatedTime = noteTag.UpdatedTime;
+                noteT.IsDeleted = noteTag.IsDeleted;
+                return db.SaveChanges()>0;
+            }
+
         }
 
         // 得到标签, 按更新时间来排序
@@ -41,9 +90,34 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 删除标签, 供API调用
-        public static bool DeleteTagApi(long userId,string tag,int usn,out int toUsn)
+        public static bool DeleteTagApi(long userId,string tag,int usn,out int toUsn,out string msg)
         {
-            throw new Exception();
+            NoteTag noteTag=GetTag(userId,tag);
+            if (noteTag==null)
+            {
+                toUsn=0;
+                msg= "notExists";
+                return false;
+            }
+            if (noteTag.Usn>usn)
+            {
+                toUsn = noteTag.Usn;
+                msg = "conflict";
+                return false;
+            }
+           
+            using (var db = new DataContext())
+            {
+                var result = db.NoteTag
+                    .Where(b => b.UserId==userId&&b.Tag.Equals(tag
+                    )).FirstOrDefault();
+                result.IsDeleted=true;
+                toUsn = UserService.IncrUsn(userId);
+                //todo:这里应该进行事务控制，失败的话应该回滚事务
+                msg="success";
+                return db.SaveChanges()>0;
+            }
+           
         }
         // 重新统计标签的count
         public static void reCountTagCount(long userId,string tags)
@@ -59,6 +133,45 @@ namespace MoreNote.Logic.Service
                     Where(b => b.UserId == userId && b.Usn > afterUsn).Take(maxEntry);
                 return result.ToArray();
             }
+        }
+        public static NoteTag GetTag(long tagId)
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.NoteTag
+                    .Where(b => b.TagId==tagId);
+                if (result==null)
+                {
+                    return null;
+                }
+                return result.FirstOrDefault();
+            }
+        }
+        public static NoteTag GetTag(long userId,string tag)
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.NoteTag
+                    .Where(b =>b.UserId==userId&& b.Tag.Equals(tag));
+                if (result == null)
+                {
+                    return null;
+                }
+                return result.FirstOrDefault();
+            }
+        }
+        public static bool AddNoteTag(NoteTag noteTag)
+        {
+            if (noteTag.TagId==0)
+            {
+                noteTag.TagId=SnowFlake_Net.GenerateSnowFlakeID();
+            }
+            using (var db = new DataContext())
+            {
+                var result = db.NoteTag.Add(noteTag);
+                return db.SaveChanges()>0;
+            }
+
         }
     }
 }

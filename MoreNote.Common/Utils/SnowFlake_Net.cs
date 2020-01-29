@@ -40,11 +40,19 @@ namespace MoreNote.Common.Utils
             }
             return worker;
         }
+        /// <summary>
+        /// 产生全局唯一的long类型ID
+        /// </summary>
+        /// <returns></returns>
         public static  long GenerateSnowFlakeID()
         {
          
             return   GetInstance().NextId();
         }
+        /// <summary>
+        /// 生成全局唯一的hex字符串
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateSnowFlakeIDHex()
         {
             return GenerateSnowFlakeID().ToString("x");

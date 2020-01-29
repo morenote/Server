@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MoreNote.API
 {
@@ -6,6 +7,10 @@ namespace MoreNote.API
     //[ApiController]
     public class FileController : ApiBaseController
     {
+        public FileController(IHttpContextAccessor accessor) : base(accessor)
+        {
+        }
+
         //todo: 输出image
         public IActionResult GetImage()
         {
