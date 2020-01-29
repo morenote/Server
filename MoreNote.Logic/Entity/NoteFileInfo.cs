@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoreNote.Logic.Entity
 {
-   public class File
+   public class NoteFile
     {
         [Key]
         public long FileId { get; set; }
@@ -24,11 +24,8 @@ namespace MoreNote.Logic.Entity
         public long FromFileId { get; set; }//copy from fileId, for collaboration
         
         //自定义
-        public int NumberOfFileReferences { get; set; }
+        public int NumberOfFileReferences { get; set; }//文件引用数 当文件引用数=0 说明没有笔记引用该文件
         public string sha1 { get; set; }
         public string md5 { get; set; }
-
-
-
     }
 }

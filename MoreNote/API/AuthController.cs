@@ -11,6 +11,10 @@ namespace MoreNote.API
 
     public class AuthController : ApiBaseController
     {
+        public AuthController(IHttpContextAccessor accessor) : base(accessor)
+        {
+        }
+
         /// <summary>
         /// 登陆
         ///  成功返回 {Ok: true, Item: token }
@@ -26,8 +30,8 @@ namespace MoreNote.API
             User user;
             if (AuthService.LoginByPWD(email, pwd, out tokenStr, out user))
             {
-               
-                AuthOk authOk = new AuthOk()
+                SetUserIdToSession(user.UserId);
+                 AuthOk authOk = new AuthOk()
                 {
                     Ok = true,
                     Token = tokenStr,

@@ -35,8 +35,9 @@ namespace MoreNote
 
             //添加session服务
             services.AddDistributedMemoryCache();
-          //  var connection = "Server=localhost;Port=3306;Database=nickeldb; User=root;Password=123456;";
-           // services.AddDbContextPool<DataContext>(options => options.UseMySql(connection));
+           
+            //  var connection = "Server=localhost;Port=3306;Database=nickeldb; User=root;Password=123456;";
+            // services.AddDbContextPool<DataContext>(options => options.UseMySql(connection));
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
@@ -46,7 +47,7 @@ namespace MoreNote
                 options.Cookie.HttpOnly = true;
             });
 
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc();
 
         }

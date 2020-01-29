@@ -15,7 +15,6 @@ namespace MoreNote.Logic.Entity
         /**
          * 图片引用计数器
          * 当图片引用计数器=0时，图片会被删除
-         * 
          */
         public int userCount { get; set; }//图片引用计数器
 

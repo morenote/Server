@@ -37,7 +37,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public Dictionary<string,AttachInfo[] > getAttachsByNoteIds(long[] noteId)
+        public static Dictionary<string,AttachInfo[] > getAttachsByNoteIds(long[] noteId)
         {
             return null;
         }

@@ -3,20 +3,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoreNote.Logic.Entity
 {
-    public class NoteFile
+    public class APINoteFile
     {
-        public long FileId { get; set; }//服务器端id
-        public long LocalFileId { get; set; }//LocalFileId
+        public string FileId { get; set; }//服务器端id
+        public string LocalFileId { get; set; }//LocalFileId
         public string Type { get; set; }// images/png, doc, xls, 根据fileName确定
         public string Title { get; set; }
         public bool HasBody { get; set; }// 传过来的值是否要更新内容
         public bool IsAttach { get; set; }// 是否是附件, 不是附件就是图片
     }
+    /// <summary>
+    /// 供API参数绑定使用的类
+    /// </summary>
     public class ApiNote
     {
-        public long NoteId { get; set; }
-        public long NotebookId { get; set; }
-        public long UserId { get; set; }
+        public string NoteId { get; set; }
+        public string NotebookId { get; set; }
+        public string UserId { get; set; }
         public string Title { get; set; }
         public string Desc { get; set; }
         //	ImgSrc     string
@@ -29,13 +32,11 @@ namespace MoreNote.Logic.Entity
         public bool IsTrash { get; set; }
         public bool IsDeleted { get; set; }
         public int Usn { get; set; }
-        public NoteFile[] Files { get; set; }
+        public APINoteFile[] Files { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
         public DateTime PublicTime { get; set; }
-        
-
-
+      
 
     }
     // 内容

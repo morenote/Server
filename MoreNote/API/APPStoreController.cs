@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -11,6 +12,12 @@ namespace MoreNote.API
 {
     public class APPStoreController : ApiBaseController
     {
+        public APPStoreController(IHttpContextAccessor accessor) : base(accessor)
+        {
+          
+
+        }
+
         [Route("api/1.0/app/[action]")]
         public IActionResult getlist()
         {
