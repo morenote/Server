@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 
@@ -29,11 +30,12 @@ namespace MoreNote.Logic.Service
             }
 
         }
-        public static bool InsertNoteContent(NoteContent noetContent)
+        public static bool InsertNoteContent(NoteContent noteContent)
         {
+          
             using (var db = new DataContext())
             {
-                var result = db.NoteContent.Add(noetContent);
+                var result = db.NoteContent.Add(noteContent);
 
                 return db.SaveChanges() > 0;
             }
@@ -51,7 +53,13 @@ namespace MoreNote.Logic.Service
         // [ok]
         public static NoteContent AddNoteContent(NoteContent noteContent)
         {
-            throw new Exception();
+            noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
+            noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
+            noteContent.UpdatedUserId = noteContent.UserId;
+            InsertNoteContent(noteContent);
+            // 更新笔记图片
+            NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
+            return noteContent;
         }
 
         // 修改笔记本内容

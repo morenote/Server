@@ -13,7 +13,12 @@ namespace MoreNote.Logic.Service
       
         public static bool AddTags(long userId,string[] tags)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+             
+            }
+                //todo 
+                return true;
         }
         //---------------------------
         // v2

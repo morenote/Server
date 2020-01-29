@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 
@@ -49,7 +50,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = (from _note in db.Note
-                              join _content in db.NoteContent on _note.ContentId equals _content.NoteId
+                              join _content in db.NoteContent on _note.NoteId equals _content.NoteId
                               where _note.IsBlog == isBlog
                               select new NoteAndContent
                               {
@@ -64,7 +65,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = (from _note in db.Note
-                              join _content in db.NoteContent on _note.ContentId equals _content.NoteId
+                              join _content in db.NoteContent on _note.NoteId equals _content.NoteId
                               where _note.NoteId==noteId
                               select new NoteAndContent
                               {
@@ -261,7 +262,30 @@ namespace MoreNote.Logic.Service
         // [ok]
         public static Note AddNote(Note note,bool fromAPI)
         {
-            throw new Exception();
+            if (note.NoteId==0)
+            {
+                note.NoteId=SnowFlake_Net.GenerateSnowFlakeID();
+            }
+            // 关于创建时间, 可能是客户端发来, 此时判断时间是否有
+            note.CreatedTime = Tools.FixUrlTime(note.CreatedTime);
+            note.UpdatedTime = Tools.FixUrlTime(note.UpdatedTime);
+         
+            note.UrlTitle=InitServices.GetUrTitle(note.UserId,note.Title,"note",note.NoteId);
+            note.Usn = UserService.IncrUsn(note.UserId);
+            long notebookId=note.NotebookId;
+          // api会传IsBlog, web不会传
+            if (!fromAPI)
+            {
+                note.IsBlog=NotebookService.IsBlog(notebookId);
+            }
+            //	if note.IsBlog {
+            note.PublicTime = note.UpdatedTime;
+            AddNote(note);
+            // tag1
+            TagService.AddTags(note.UserId,note.Tags);
+            // recount notebooks' notes number
+            NotebookService.ReCountNotebookNumberNotes(notebookId);
+          return note;
         }
         // 添加共享d笔记
         public static Note AddSharedNote(Note note,long muUserId)
@@ -276,7 +300,26 @@ namespace MoreNote.Logic.Service
         }
         public static Note AddNoteAndContent(Note note,NoteContent noteContent,long myUserId)
         {
-            throw new Exception();
+            if (note.NoteId==0)
+            {
+               note.NoteId=SnowFlake_Net.GenerateSnowFlakeID();
+            }
+            noteContent.NoteContentId= SnowFlake_Net.GenerateSnowFlakeID();
+            noteContent.NoteId=note.NoteId;
+            if (note.UserId!=0&&note.UserId!=myUserId)
+            {
+                note=AddSharedNote(note,myUserId);
+            }
+            else
+            {
+                note=AddNote(note,false);
+            }
+            if (note.NoteId!=0)
+            {
+                NoteContentService.AddNoteContent(noteContent);
+
+            }
+            return note;
         }
         public static Note AddNoteAndContentApi(Note note,NoteContent noteContent,long myUserId)
         {
@@ -399,10 +442,8 @@ namespace MoreNote.Logic.Service
             {
                 var result = db.NoteTag
                     .Where(b => b.UserId == userId && b.Tag.Equals(tag)).Count();
-                
                 return result;
             }
-           
         }
 
         // 删除tag
@@ -422,21 +463,23 @@ namespace MoreNote.Logic.Service
         // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
         // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
         // 性能更好, 5倍的差距
-
         public static string FixContent(string content,bool isMarkdown)
         {
-           string baseUrl=ConfigService.GetSiteUrl();
+            //开发是不可能开发的，只能靠复制粘贴这个样子
+            //todo:需要实现个方法FixContent
+            string baseUrl =ConfigService.GetSiteUrl();
            string baseUrlPattern=baseUrl;
             // 避免https的url
             if (baseUrl.Substring(0,8).Equals("https://"))
             {
                 baseUrlPattern=baseUrl.Replace(@"https://", @"https*://");
-
             }
             else
             {
                 baseUrlPattern=baseUrl.Replace("http://", "https*://");
             }
+            baseUrlPattern = "(?:" + baseUrlPattern + ")*";
+
             Dictionary<string,string>[] patterns=new Dictionary<string, string>[]
             {
                 new Dictionary<string, string>()
@@ -490,15 +533,7 @@ namespace MoreNote.Logic.Service
 
 
             }
-
-
-
-            throw new Exception();
+            return content;
         }
-
-
-
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace MoreNote.Common.Util
 {
@@ -16,6 +17,7 @@ namespace MoreNote.Common.Util
             string tmp = Filter(html);
             return tmp.Substring(0, 100);
         }
+     
 
     }
 }

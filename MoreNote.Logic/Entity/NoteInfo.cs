@@ -72,7 +72,7 @@ namespace MoreNote.Logic.Entity
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
         public long UpdatedUserId { get; set; } // 如果共享了,  并可写, 那么可能是其它他修改了
-        public int IsHistory { get; set; }//是否是历史纪录
+        public bool IsHistory { get; set; }//是否是历史纪录
     }
     // 基本信息和内容在一起
     public class NoteAndContent

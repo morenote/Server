@@ -156,7 +156,7 @@ namespace MoreNote.Logic.Service
         // 判断是否是blog
         public static bool IsBlog(long notebookId)
         {
-            throw new Exception();
+            return false;
         }
         // 判断是否是我的notebook
         public static bool IsMyNotebook(long notebookId)
@@ -223,7 +223,16 @@ namespace MoreNote.Logic.Service
         // trashService: DeleteNote (recove不用, 都统一在MoveNote里了)
         public static bool ReCountNotebookNumberNotes(long notebookId)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                var count = db.Note.Where(b=>b.NotebookId==notebookId&&b.IsTrash==false&&b.IsDeleted==false).Count();
+                var notebook=db.Notebook.Where(b=>b.NotebookId==notebookId).FirstOrDefault();
+                notebook.NumberNotes=count;
+                return db .SaveChanges()>0;
+
+            }
+
+                throw new Exception();
         }
         public static void ReCountAll()
         {

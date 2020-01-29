@@ -40,7 +40,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var user = db.User
-                    .Where(b => b.UserId.Equals(userid
+                    .Where(b => b.UserId==(userid
                     )).FirstOrDefault();
                 user.Usn += 1;
                 db.SaveChanges();
