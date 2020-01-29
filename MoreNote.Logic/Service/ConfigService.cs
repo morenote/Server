@@ -33,7 +33,8 @@ namespace MoreNote.Logic.Service
         }
         public static string GetSiteUrl()
         {
-            throw new Exception();
+            return @"http://localhost:5914";
+            
         }
         public static bool updateGlobalConfig(long userid,string key,string value)
         {

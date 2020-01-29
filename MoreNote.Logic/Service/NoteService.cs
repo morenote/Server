@@ -88,7 +88,13 @@ namespace MoreNote.Logic.Service
         }
         public static Note GetNote(long noteId,long userId)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            { 
+              var result=  db.Note.Where(b=>b.UserId==userId&&b.NoteId==noteId);
+                return result==null?null:result.FirstOrDefault();
+             }
+
+                throw new Exception();
         }
         // 得到blog, blogService用
         // 不要传userId, 因为是公开的
@@ -98,7 +104,11 @@ namespace MoreNote.Logic.Service
         }
         public static  NoteAndContent GetNoteAndContent(long noteId,long userId)
         {
-            throw new Exception();
+            Note note=GetNote(noteId,userId);
+            NoteContent noteContent=NoteContentService.GetNoteContent(noteId,userId);
+            return new NoteAndContent() { note=note
+                ,noteContent=noteContent};
+            
         }
         public static Note GetNoteBySrc(string src,string userId)
         {
@@ -192,6 +202,19 @@ namespace MoreNote.Logic.Service
         }
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
+        public static Note[] ListNotes(long userId,
+        long notebookId,
+        bool isTrash
+        )
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.Note
+                    .Where(b => b.NotebookId == notebookId && b.UserId == userId);
+                return result.ToArray();
+            }
+
+        }
         public static Note[] ListNotes(long userId,
           long notebookId,
           bool isTrash,
@@ -399,9 +422,78 @@ namespace MoreNote.Logic.Service
         // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
         // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
         // 性能更好, 5倍的差距
+
         public static string FixContent(string content,bool isMarkdown)
         {
-           throw new Exception();
+           string baseUrl=ConfigService.GetSiteUrl();
+           string baseUrlPattern=baseUrl;
+            // 避免https的url
+            if (baseUrl.Substring(0,8).Equals("https://"))
+            {
+                baseUrlPattern=baseUrl.Replace(@"https://", @"https*://");
+
+            }
+            else
+            {
+                baseUrlPattern=baseUrl.Replace("http://", "https*://");
+            }
+            Dictionary<string,string>[] patterns=new Dictionary<string, string>[]
+            {
+                new Dictionary<string, string>()
+                {
+                    { "src","src"},{"middle","/api/file/getImage"},{"param","fileId"},{ "to","getImage?fileId="}
+                },
+                  new Dictionary<string, string>()
+                {
+                    { "src","src"},{"middle","/file/outputImage"},{"param","fileId"},{ "to","getImage?fileId="}
+                },
+                new Dictionary<string, string>()
+                {
+                    { "src","href"},{ "middle","/attach/download"},{ "param","attachId"},{"to","getAttach?fileId=" }
+                },
+                new Dictionary<string, string>()
+                {
+                    { "src","href"},{ "middle","/api/file/getAtach"},{ "param","fileId"},{"to","getAttach?fileId=" }
+                }
+
+
+            };
+            foreach (var eachPattern in patterns)
+            {
+                if (!isMarkdown)
+                {
+                    // 富文本处理
+
+                    // <img src="http://leanote.com/file/outputImage?fileId=5503537b38f4111dcb0000d1">
+                    // <a href="http://leanote.com/attach/download?attachId=5504243a38f4111dcb00017d"></a>
+                    if (eachPattern["src"].Equals("src"))
+                    {
+                        //todo yo
+
+
+                    }
+
+
+                }
+                else
+                {
+                    // markdown处理
+                    // ![](http://leanote.com/file/outputImage?fileId=5503537b38f4111dcb0000d1)
+                    // [selection 2.html](http://leanote.com/attach/download?attachId=5504262638f4111dcb00017f)
+                    // [all.tar.gz](http://leanote.com/attach/downloadAll?noteId=5503b57d59f81b4eb4000000)
+
+
+                }
+
+
+
+
+
+            }
+
+
+
+            throw new Exception();
         }
 
 
