@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Value;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace MoreNote.Controllers
 {
@@ -13,7 +13,7 @@ namespace MoreNote.Controllers
         public IActionResult Note()
         {
             ViewBag.msg = LanguageResource.GetMsg();
-            Dictionary<string,string> js = new Dictionary<string, string>();
+            Dictionary<string, string> js = new Dictionary<string, string>();
             long userid = 1208692382644703232;
             Notebook[] noteBoooks = NotebookService.GetNoteBookTree(userid);
             string json = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
@@ -25,7 +25,7 @@ namespace MoreNote.Controllers
         public IActionResult getNoteContent(string noteId)
         {
             string a = System.IO.File.ReadAllText("TextFile.txt");
-            var options= new System.Text.Json.JsonSerializerOptions
+            var options = new System.Text.Json.JsonSerializerOptions
             {
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
@@ -40,14 +40,11 @@ namespace MoreNote.Controllers
         }
         public IActionResult ListNotes(string notebookId)
         {
-            Note[] notes =    NoteService.ListNotes(1208692382644703232, 1208692382640508928, false, 1, 1, "defaultSortField", false, false);
-            string json= JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
+            Note[] notes = NoteService.ListNotes(1208692382644703232, 1208692382640508928, false, 1, 1, "defaultSortField", false, false);
+            string json = JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
             return Content(json);
 
         }
 
-
-
-
-        }
+    }
 }

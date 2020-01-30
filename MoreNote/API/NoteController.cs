@@ -58,9 +58,9 @@ namespace MoreNote.API
             {
                 return Json(new ApiRe()
                 {
-                    Ok=false,
-                    Msg= "GetNoteAndContent_is_error"
-                });;
+                    Ok = false,
+                    Msg = "GetNoteAndContent_is_error"
+                }); ;
             }
 
         }
@@ -70,102 +70,102 @@ namespace MoreNote.API
             return null;
         }
         //todo:得到内容
-        public IActionResult GetNoteContent(string token,string noteId)
+        public IActionResult GetNoteContent(string token, string noteId)
         {
-            Note note=NoteService.GetNote(MyConvert.HexToLong(noteId),getUserIdByToken(token));
-            NoteContent noteContent=NoteContentService.GetNoteContent(MyConvert.HexToLong(noteId), getUserIdByToken(token));
-            if (noteContent!=null&&!string.IsNullOrEmpty(noteContent.Content))
+            Note note = NoteService.GetNote(MyConvert.HexToLong(noteId), getUserIdByToken(token));
+            NoteContent noteContent = NoteContentService.GetNoteContent(MyConvert.HexToLong(noteId), getUserIdByToken(token));
+            if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
             {
 
-                noteContent.Content=NoteService.FixContent(noteContent.Content,note.IsMarkdown);
+                noteContent.Content = NoteService.FixContent(noteContent.Content, note.IsMarkdown);
             }
-            ApiNoteContent apiNote=new ApiNoteContent()
+            ApiNoteContent apiNote = new ApiNoteContent()
             {
                 NoteId = note.NoteId,
-                UserId=note.UserId,
-                Content=noteContent.Content
+                UserId = note.UserId,
+                Content = noteContent.Content
             };
-            ApiRe falseRe=new ApiRe()
+            ApiRe falseRe = new ApiRe()
             {
-                Ok=false,
-                Msg= "GetNoteContent_is_error"
+                Ok = false,
+                Msg = "GetNoteContent_is_error"
             };
-            return Json(apiNote,MyJsonConvert.GetOptions());
+            return Json(apiNote, MyJsonConvert.GetOptions());
 
         }
         //todo:添加笔记
-        public JsonResult AddNote(ApiNote noteOrContent,string token)
+        public JsonResult AddNote(ApiNote noteOrContent, string token)
         {
-            long userId= getUserIdByToken(token);
+            long userId = getUserIdByToken(token);
             ApiRe apiRe = new ApiRe();
-            long myUserId=userId;
+            long myUserId = userId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))
             {
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
-            long noteId=MyConvert.HexToLong(noteOrContent.NoteId);
-            if (noteId==0)
+            long noteId = MyConvert.HexToLong(noteOrContent.NoteId);
+            if (noteId == 0)
             {
-                noteId=SnowFlake_Net.GenerateSnowFlakeID();
+                noteId = SnowFlake_Net.GenerateSnowFlakeID();
 
             }
-          
+
 
             // TODO 先上传图片/附件, 如果不成功, 则返回false
             //
-            int attachNum=0;
+            int attachNum = 0;
             if (noteOrContent.Files != null && noteOrContent.Files.Length > 0)
             {
 
             }
             fixPostNotecontent(ref noteOrContent);
-            Note note=new Note()
+            Note note = new Note()
             {
-                UserId=userId,
-                NoteId=noteId,
-                NotebookId=MyConvert.HexToLong(noteOrContent.NotebookId),
-                Title=noteOrContent.Title,
-                Tags=noteOrContent.Tags,
-                Desc=noteOrContent.Desc,
+                UserId = userId,
+                NoteId = noteId,
+                NotebookId = MyConvert.HexToLong(noteOrContent.NotebookId),
+                Title = noteOrContent.Title,
+                Tags = noteOrContent.Tags,
+                Desc = noteOrContent.Desc,
 
-                IsBlog=noteOrContent.IsBlog,
-                IsMarkdown= noteOrContent.IsMarkdown,
-		        AttachNum= attachNum,
-		        CreatedTime=noteOrContent.CreatedTime,
-		        UpdatedTime=noteOrContent.UpdatedTime,
+                IsBlog = noteOrContent.IsBlog,
+                IsMarkdown = noteOrContent.IsMarkdown,
+                AttachNum = attachNum,
+                CreatedTime = noteOrContent.CreatedTime,
+                UpdatedTime = noteOrContent.UpdatedTime,
             };
-            NoteContent noteContent=new NoteContent()
+            NoteContent noteContent = new NoteContent()
             {
-                NoteContentId=SnowFlake_Net.GenerateSnowFlakeID(),
-                NoteId=noteId,
-                UserId=    userId,
-		        IsBlog= note.IsBlog,
-		        Content= noteOrContent.Content,
-		        Abstract= noteOrContent.Abstract,
-		        CreatedTime= noteOrContent.CreatedTime,
-		        UpdatedTime=noteOrContent.UpdatedTime,
+                NoteContentId = SnowFlake_Net.GenerateSnowFlakeID(),
+                NoteId = noteId,
+                UserId = userId,
+                IsBlog = note.IsBlog,
+                Content = noteOrContent.Content,
+                Abstract = noteOrContent.Abstract,
+                CreatedTime = noteOrContent.CreatedTime,
+                UpdatedTime = noteOrContent.UpdatedTime,
             };
             // 通过内容得到Desc, abstract
             if (string.IsNullOrEmpty(noteOrContent.Abstract))
             {
-                note.Desc= MyHtmlHelper.SubStringHTMLToRaw(noteContent.Content,200);
-                noteContent.Abstract=MyHtmlHelper.SubStringHTML(noteContent.Content,200,"");
+                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Content, 200);
+                noteContent.Abstract = MyHtmlHelper.SubStringHTML(noteContent.Content, 200, "");
             }
             else
             {
-                note.Desc =MyHtmlHelper.SubStringHTMLToRaw(noteContent.Abstract, 200);
+                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Abstract, 200);
             }
-            note=NoteService.AddNoteAndContent(note,noteContent,myUserId);
-            if (note==null||note.NoteId==0)
+            note = NoteService.AddNoteAndContent(note, noteContent, myUserId);
+            if (note == null || note.NoteId == 0)
             {
                 return Json(new ApiRe()
                 {
-                    Ok=false,
-                    Msg= "AddNoteAndContent_is_error"
+                    Ok = false,
+                    Msg = "AddNoteAndContent_is_error"
                 });
             }
             //添加需要返回的
-            noteOrContent.NoteId=note.NoteId.ToString("x");
+            noteOrContent.NoteId = note.NoteId.ToString("x");
             noteOrContent.Usn = note.Usn;
             noteOrContent.CreatedTime = note.CreatedTime;
             noteOrContent.UpdatedTime = note.UpdatedTime;
@@ -176,17 +176,17 @@ namespace MoreNote.API
             noteOrContent.Abstract = "";
             //	apiNote := info.NoteToApiNote(note, noteOrContent.Files)
 
-            return Json(noteOrContent,MyJsonConvert.GetOptions());
+            return Json(noteOrContent, MyJsonConvert.GetOptions());
         }
         //todo:更新笔记
-        public IActionResult UpdateNote()
+        public IActionResult UpdateNote(ApiNote noteOrContent, string token)
         {
-
             return null;
         }
         //todo:删除trash
-        public IActionResult DeleteTrash()
+        public IActionResult DeleteTrash(string noteId,int usn,string token)
         {
+           bool result= TrashService.DeleteTrashApi(MyConvert.HexToLong(noteId),getUserIdByToken(token),usn,out string msg,out int afterUsn);
             return null;
         }
         //todo:导出成PDF

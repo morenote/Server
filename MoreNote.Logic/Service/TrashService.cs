@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.Entity;
+﻿using Microsoft.VisualBasic;
+using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,8 +42,32 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static bool DeleteTrashApi(long noteId,long userId,int usn)
+        public static bool DeleteTrashApi(long noteId,long userId,int usn, out string msg, out int afterUsn)
         {
+            Note note=NoteService.GetNote(noteId,userId);
+            if (note.NoteId==0||note.IsDeleted)
+            {
+                msg= "notExists";
+                afterUsn=usn;
+                //todo: 存疑
+                return false;
+            }
+            if (note.Usn!=usn)
+            {
+                msg = "conflict";
+                afterUsn = usn;
+                return false;
+            }
+            // 设置删除位
+            afterUsn= UserService.IncrUsn(userId);
+            // delete note's attachs
+            AttachService.DeleteAllAttachs(noteId,userId);
+
+            // delete content
+           NoteContentService.DeleteByIdAndUserId(noteId,userId,true);
+              
+            // 删除content history
+            NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
             throw new Exception();
         }
         // 列出note, 排序规则, 还有分页

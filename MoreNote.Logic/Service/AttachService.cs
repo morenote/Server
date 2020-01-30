@@ -47,7 +47,8 @@ namespace MoreNote.Logic.Service
         }
         public static bool DeleteAllAttachs(long noteId,long userId)
         {
-            throw new Exception();
+            //todo :需要实现此功能
+            return true;
         }
         public static bool DeleteAttach(long attachId ,long userId)
         {

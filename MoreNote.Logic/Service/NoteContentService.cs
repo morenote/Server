@@ -70,7 +70,17 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-   
+        public static bool DeleteByIdAndUserId(long noteId,long userId,bool Including_the_history)
+        {
+          return true;
+        }
+        public static bool Delete_HistoryByNoteIdAndUserId(long noteId,long userId)
+        {
+            throw new Exception("此方法需要实现");
+        }
+
+
+
 
     }
 }
