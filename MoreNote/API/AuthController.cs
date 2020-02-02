@@ -13,6 +13,7 @@ namespace MoreNote.API
     {
         public AuthController(IHttpContextAccessor accessor) : base(accessor)
         {
+
         }
 
         /// <summary>

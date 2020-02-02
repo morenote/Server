@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -52,7 +53,6 @@ namespace MoreNote.API
             if (noteAndContent == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
-
             }
             else
             {
@@ -96,8 +96,12 @@ namespace MoreNote.API
         //todo:添加笔记
         public JsonResult AddNote(ApiNote noteOrContent, string token)
         {
-            long userId = getUserIdByToken(token);
-            ApiRe apiRe = new ApiRe();
+
+             var x= _accessor.HttpContext.Request.Form.Files;
+             var z=x["FileDatas[5e36bafc26f2af1a79000000]"];
+            //json 返回状态好乱呀
+            Re re = Re.NewRe();
+            long userId= getUserIdByToken(token);;
             long myUserId = userId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))
             {
@@ -107,16 +111,54 @@ namespace MoreNote.API
             if (noteId == 0)
             {
                 noteId = SnowFlake_Net.GenerateSnowFlakeID();
-
             }
-
-
             // TODO 先上传图片/附件, 如果不成功, 则返回false
             //
             int attachNum = 0;
             if (noteOrContent.Files != null && noteOrContent.Files.Length > 0)
             {
+                for (int i = 0; i < noteOrContent.Files.Length; i++)
+                {
+                    var  file = noteOrContent.Files[i];
+                    if (file.HasBody)
+                    {
+                        if (!string.IsNullOrEmpty(file.LocalFileId))
+                        {
+                            var result = upload("FileDatas[" + file.LocalFileId + "]", noteId, file.IsAttach, out long serverFileId, out string msg);
+                            if (!result)
+                            {
+                                if (string.IsNullOrEmpty(msg))
+                                {
+                                    re.Msg = "fileUploadError";
+                                }
+                                if (!string.Equals(msg, "notImage", System.StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return Json(re, MyJsonConvert.GetOptions());
+                                }
+                            }
+                            else
+                            {
+                                // 建立映射
+                                file.FileId = serverFileId.ToString("x");
+                                noteOrContent.Files[i] = file;
+                                if (file.IsAttach)
+                                {
+                                    attachNum++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return Json(new ReUpdate()
+                            {
+                                Ok = false,
+                                Msg = "LocalFileId_Is_NullOrEmpty",
+                                Usn = 0
+                            }, MyJsonConvert.GetSimpleOptions());
 
+                        }
+                    }
+                }
             }
             fixPostNotecontent(ref noteOrContent);
             Note note = new Note()
@@ -184,9 +226,9 @@ namespace MoreNote.API
             return null;
         }
         //todo:删除trash
-        public IActionResult DeleteTrash(string noteId,int usn,string token)
+        public IActionResult DeleteTrash(string noteId, int usn, string token)
         {
-           bool result= TrashService.DeleteTrashApi(MyConvert.HexToLong(noteId),getUserIdByToken(token),usn,out string msg,out int afterUsn);
+            bool result = TrashService.DeleteTrashApi(MyConvert.HexToLong(noteId), getUserIdByToken(token), usn, out string msg, out int afterUsn);
             return null;
         }
         //todo:导出成PDF

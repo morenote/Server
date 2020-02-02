@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
@@ -22,7 +23,9 @@ namespace MoreNote.Logic.Service
                 return db.SaveChanges() > 0;
             }
         }
-        public static string GenerateToken()
+        [Obsolete]
+
+        private static string GenerateToken()
         {
             StringBuilder tokenBuilder=new StringBuilder();
 
@@ -34,6 +37,36 @@ namespace MoreNote.Logic.Service
             tokenBuilder.Append(DateTime.Now);
             var token = Base64Util.ToBase64String(tokenBuilder.ToString());
             return token;
+        }
+        /// <summary>
+        /// 产生不可预测的Token
+        /// </summary>
+        /// <param name="tokenId">tokenId</param>
+        /// <param name="tokenByteSize">不可预测部分的byte长度</param>
+        /// <returns></returns>
+        public static string GenerateToken(long tokenId,int tokenByteSize=16)
+        {
+            if (tokenByteSize<1)
+            {
+                tokenByteSize=1;
+            }
+            //byte数组A 8字节 long tokenId
+            //byte数组B tokenByteSize字节 随机生成 默认长度16
+            //AB拼接 输出hex字符串
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] numData = BitConverter.GetBytes(tokenId);
+                byte[] randomData = new byte[tokenByteSize];
+                rng.GetBytes(randomData);
+                
+                byte[] tokenData = new byte[numData.Length + randomData.Length];
+                Array.Copy(numData, 0, tokenData, 0, numData.Length);
+                Array.Copy(randomData, 0, tokenData, numData.Length, randomData.Length);
+               // string token = Convert.ToBase64String(tokenData);
+                string token = HexUtil.ByteArrayToString(tokenData);
+                Console.WriteLine();
+                return token;
+            }
         }
         public static Token GetTokenByTokenStr(long userid,string str)
         {

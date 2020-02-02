@@ -9,10 +9,17 @@ namespace MoreNote.Logic.Entity
     public class Re
     {
         public bool Ok { get; set; }
-        public int Code;
-        public string Msg;
-        public string Id;
+        public int Code { get; set; }
+        public string Msg { get; set; }
+        public string Id { get; set; }
         public string[] List;
         public string[] Item;
+        public static Re NewRe()
+        {
+            return new Re()
+            {
+                Ok=false
+            };
+        }
     }
 }
