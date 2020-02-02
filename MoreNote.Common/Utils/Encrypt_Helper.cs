@@ -127,7 +127,6 @@ namespace MoreNote.Common.Util
             }
             return tmp.ToString();
         }
-
     }
 }
 

@@ -16,7 +16,7 @@ namespace MoreNote.Common.Utils
         /// <returns>返回一个随机字符串图片</returns>
         public static MemoryStream Create(out string code, int strLength = 4)
         {
-            code = RndNum.CreatRndNum(strLength);
+            code = RandomTool.CreatRandomString(strLength);
             //Bitmap img = null;
             //Graphics g = null;
             MemoryStream ms;

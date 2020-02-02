@@ -1,6 +1,6 @@
 ﻿@{
         Layout = "";
-	 Dictionary<string ,string> msg=ViewBag.msg;
+	    Dictionary<string ,string> msg=ViewBag.msg;
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -20,7 +20,7 @@
 				<div id="boxHeader">注册</div>
 				<form>
 					<div class="alert alert-danger" id="loginMsg"></div>
-					<input id="from" type="hidden" value="{{.from}}" />
+					<input id="from" type="hidden" value="@ViewBag.from" />
 					<div class="form-group">
 						<label class="control-label" for="email">Email</label>
 						<input type="text" class="form-control" id="email" name="email">
@@ -109,9 +109,9 @@ $(function() {
 		$("#registerBtn").html("ing").addClass("disabled");
 		// hideMsg();
 
-		var iu = "{{.iu}}";
+		var iu = "@ViewBag.iu";
 
-		$.post("/doRegister", {email: email, pwd: pwd, iu: iu}, function(e) {
+        $.post("@Url.Action("doRegister")", {email: email, pwd: pwd, iu: iu}, function(e) {
 			$("#registerBtn").html("register").removeClass("disabled");
 			if(e.Ok) {
 				$("#registerBtn").html("registerSuccessAndRdirectToNote");

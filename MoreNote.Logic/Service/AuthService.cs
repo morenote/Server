@@ -17,7 +17,7 @@ namespace MoreNote.Logic.Service
                 if (temp.Equals(user.Pwd))
                 {
                     long tokenid = SnowFlake_Net.GenerateSnowFlakeID();
-                    var token=Base64Util.ToBase64String(tokenid.ToString("x") + "@" + RndNum.CreatRndNum(16));
+                    var token=Base64Util.ToBase64String(tokenid.ToString("x") + "@" + RandomTool.CreatRandomString(16));
                     Token myToken = new Token
                     {
                         TokenId = SnowFlake_Net.GenerateSnowFlakeID(),
@@ -77,12 +77,74 @@ namespace MoreNote.Logic.Service
         }
         public static bool Register(string email,string pwd,long fromUserId)
         {
-            throw new Exception();
+           return Register( email,  pwd,  fromUserId, out string Msg);
         }
-        public static bool register(User
+        // 注册
+        /*
+        注册 leanote@leanote.com userId = "5368c1aa99c37b029d000001"
+        添加 在博客上添加一篇欢迎note, note1 5368c1b919807a6f95000000
+
+        将nk1(只读), nk2(可写) 分享给该用户
+        将note1 复制到用户的生活nk上
+        */
+        // 1. 添加用户
+        // 2. 将leanote共享给我
+        // [ok]
+        public static bool Register(string email, string pwd, long fromUserId,out string Msg)
+        {
+            if (string.IsNullOrEmpty(email)||string.IsNullOrEmpty(pwd)||pwd.Length<6)
+            {
+                Msg="参数错误";
+                return false;
+            }
+            if (UserService.IsExistsUser(email))
+            {
+               Msg= "userHasBeenRegistered-"+ email;
+                return false;
+            }
+            //产生一个盐用于保存密码
+            string salt= RandomTool.CreatSafeSalt();
+            //对用户密码做哈希运算
+            string genPass= Encrypt_Helper.Hash256Encrypt(pwd+salt);
+            if (string.IsNullOrEmpty(genPass))
+            {
+                Msg="密码处理过程出现错误";
+                return false;
+            }
+            User user=new User()
+            {
+                UserId=SnowFlake_Net.GenerateSnowFlakeID(),
+                Email=email,
+                Username=email,
+                Pwd=genPass,
+                Salt=salt,
+                FromUserId= fromUserId
+            };
+            if (Register(user))
+            {
+                Msg = "注册成功";
+                return true;
+            }
+            else
+            {
+                Msg = "注册失败";
+                return false;
+            }
+
+        }
+        public static bool Register(User
              user)
         {
-            throw new Exception();
+            if (UserService.AddUser(user))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+           
         }
         public static string getUsername(string thirdType,string thirdUserName)
         {

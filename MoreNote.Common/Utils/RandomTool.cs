@@ -6,16 +6,16 @@ using System.Text;
 namespace MoreNote.Common.Util
 {
     /// <summary>
-    /// 生产随机字符串的类
+    /// 随机数据发生工具类
     /// </summary>
-   public class RndNum
+   public class RandomTool
     {
         /// <summary>
         /// 生产随机字符串
         /// </summary>
         /// <param name="VcodeNum">随机字符串的长度</param>
         /// <returns>返回一个随机字符串</returns>
-        public static string CreatRndNum(int VcodeNum)
+        public static string CreatRandomString(int VcodeNum)
         {
             //验证码可以显示的字符集合  
             var Vchar = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,p" +
@@ -36,7 +36,7 @@ namespace MoreNote.Common.Util
                 int t = random.Next(61);//获取随机数  
                 if (temp != -1 && temp == t)
                 {
-                    return CreatRndNum(VcodeNum);//如果获取的随机数重复，则递归调用  
+                    return CreatRandomString(VcodeNum);//如果获取的随机数重复，则递归调用  
                 }
                 temp = t;//把本次产生的随机数记录起来  
                 code += vcArray[t];//随机数的位数加一  
@@ -47,13 +47,28 @@ namespace MoreNote.Common.Util
         {
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
             {
+                
                 byte[] tokenData = new byte[32];
                 rng.GetBytes(tokenData);
                 string token = Convert.ToBase64String(tokenData);
-               
                 return token;
             }
         }
-    
+        /// <summary>
+        /// 生成一个不可预测的盐,默认256位
+        /// </summary>
+        /// <param name="saltLength">盐的长度x byte</param>
+        /// <returns></returns>
+        public static string CreatSafeSalt(int saltLength=32)
+        {
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] tokenData = new byte[saltLength];
+                rng.GetBytes(tokenData);
+                string token = Convert.ToBase64String(tokenData);
+                return token;
+            }
+        }
+
     }
 }

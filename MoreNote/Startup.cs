@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MoreNote.Models;
 using System;
 
 namespace MoreNote
@@ -28,26 +25,27 @@ namespace MoreNote
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;//关闭GDPR规范    
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-              
+
             });
 
 
 
             //添加session服务
             services.AddDistributedMemoryCache();
-           
-            //  var connection = "Server=localhost;Port=3306;Database=nickeldb; User=root;Password=123456;";
-            // services.AddDbContextPool<DataContext>(options => options.UseMySql(connection));
+
+            //var connection = "Server=localhost;Port=3306;Database=nickeldb; User=root;Password=123456;";
+            //var connection = Environment.GetEnvironmentVariable("postgres");
+            //services.AddDbContextPool<DataContext>(options => options.UseNpgsql(connection));
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-
                 options.Cookie.Name = "SessionID";
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
                 options.Cookie.HttpOnly = true;
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        
             services.AddMvc();
 
         }

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<MoreNote.Logic.Entity.SecretReport>
+
+@{
+    ViewData["Title"] = "主机数据库";
+     Layout = "_HostLayout";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               主机服务Id
+            </th>
+            <th>
+                主机服务商Id
+            </th>
+            <th>
+                报告者Id
+            </th>
+            <th>
+                是否风险报告
+            </th>
+            <th>
+                报告内容
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.hostServiceProviderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.serviceProviderCompanyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReporterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRisk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReportContent)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SecretReportId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SecretReportId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SecretReportId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

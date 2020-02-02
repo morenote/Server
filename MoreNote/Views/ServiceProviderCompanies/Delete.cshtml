@@ -1,0 +1,88 @@
+﻿@model MoreNote.Logic.Entity.ServiceProviderCompany
+
+@{
+   ViewData["Title"] = "主机数据库";
+    Layout = "_HostLayout";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ServiceProviderCompany</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SPName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SPName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LegalPersonId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LegalPersonId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RegionDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RegionDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WebSite)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WebSite)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OldWebSite)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OldWebSite)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationPlace)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationPlace)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FoundDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FoundDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsBlock)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsBlock)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RiskIndex)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RiskIndex)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MentionByName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MentionByName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AnomalyDetection)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AnomalyDetection)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ServiceProviderCompanyId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

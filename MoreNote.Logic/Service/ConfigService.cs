@@ -61,9 +61,9 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public bool IsOpenRegister()
+        public static bool IsOpenRegister()
         {
-            throw new Exception();
+            return true;
         }
         //-------
         // 修改共享笔记的配置

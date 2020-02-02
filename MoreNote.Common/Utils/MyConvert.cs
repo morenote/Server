@@ -14,7 +14,11 @@ namespace MoreNote.Common.Utils
         /// <returns> 转换后的数字 失败返回 0 </returns>
         public static long HexToLong(string hex)
         {
-           
+            if (string.IsNullOrEmpty(hex))
+            {
+                return 0;
+
+            }
             long number = 0;
             try
             {

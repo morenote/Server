@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.DB;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200131015637_MyFirstMigration")]
+    partial class MyFirstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -563,7 +565,7 @@ namespace MoreNote.Logic.Migrations
                     b.Property<int>("RiskIndex")
                         .HasColumnType("integer");
 
-                    b.Property<long>("ServiceProviderCompanyId")
+                    b.Property<long?>("ServiceProviderCompanyId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ServiceType")
@@ -573,6 +575,8 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("HostServiceProviderId");
+
+                    b.HasIndex("ServiceProviderCompanyId");
 
                     b.ToTable("HostServiceProvider");
                 });
@@ -995,9 +999,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsIdentify")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
                     b.Property<string>("WebSite")
                         .HasColumnType("text");
 
@@ -1013,22 +1014,28 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<long?>("HostServiceProviderId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("IsRisk")
                         .HasColumnType("boolean");
 
                     b.Property<string>("ReportContent")
                         .HasColumnType("text");
 
-                    b.Property<long>("ReporterId")
+                    b.Property<long?>("ReporterId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("hostServiceProviderId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("serviceProviderCompanyId")
+                    b.Property<long?>("ServiceProviderCompanyId")
                         .HasColumnType("bigint");
 
                     b.HasKey("SecretReportId");
+
+                    b.HasIndex("HostServiceProviderId");
+
+                    b.HasIndex("ReporterId");
+
+                    b.HasIndex("ServiceProviderCompanyId");
 
                     b.ToTable("SecretReport");
                 });
@@ -1049,7 +1056,7 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsBlock")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("LegalPersonId")
+                    b.Property<long?>("LegalPersonPersonId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("MentionByName")
@@ -1074,6 +1081,8 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("ServiceProviderCompanyId");
+
+                    b.HasIndex("LegalPersonPersonId");
 
                     b.ToTable("ServiceProviderCompany");
                 });
@@ -1289,8 +1298,8 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<long>("FromUserId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("FromUserId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("FullSyncBefore")
                         .HasColumnType("timestamp without time zone");
@@ -1597,6 +1606,13 @@ namespace MoreNote.Logic.Migrations
                         .HasForeignKey("CateId1");
                 });
 
+            modelBuilder.Entity("MoreNote.Logic.Entity.HostServiceProvider", b =>
+                {
+                    b.HasOne("MoreNote.Logic.Entity.ServiceProviderCompany", "ServiceProvider")
+                        .WithMany()
+                        .HasForeignKey("ServiceProviderCompanyId");
+                });
+
             modelBuilder.Entity("MoreNote.Logic.Entity.NoteTag", b =>
                 {
                     b.HasOne("MoreNote.Logic.Entity.Tag", null)
@@ -1613,6 +1629,28 @@ namespace MoreNote.Logic.Migrations
                     b.HasOne("MoreNote.Logic.Entity.ArchiveMonth", null)
                         .WithMany("Posts")
                         .HasForeignKey("ArchiveMonthId");
+                });
+
+            modelBuilder.Entity("MoreNote.Logic.Entity.SecretReport", b =>
+                {
+                    b.HasOne("MoreNote.Logic.Entity.HostServiceProvider", "hostServiceProvider")
+                        .WithMany()
+                        .HasForeignKey("HostServiceProviderId");
+
+                    b.HasOne("MoreNote.Logic.Entity.Reporter", "reporter")
+                        .WithMany()
+                        .HasForeignKey("ReporterId");
+
+                    b.HasOne("MoreNote.Logic.Entity.ServiceProviderCompany", "serviceProvider")
+                        .WithMany()
+                        .HasForeignKey("ServiceProviderCompanyId");
+                });
+
+            modelBuilder.Entity("MoreNote.Logic.Entity.ServiceProviderCompany", b =>
+                {
+                    b.HasOne("MoreNote.Logic.Entity.ServiceProviderLegalPerson", "LegalPerson")
+                        .WithMany()
+                        .HasForeignKey("LegalPersonPersonId");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.User", b =>

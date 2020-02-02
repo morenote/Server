@@ -37,7 +37,7 @@ namespace MoreNote.API
                     Token = tokenStr,
                     UserId = user.UserId.ToString("x"),
                     Email = user.Email,
-                    Username = user.UsernameRaw
+                    Username = user.Username
                 };
                 return Json(authOk, MyJsonConvert.GetSimpleOptions());
             }

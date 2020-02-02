@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MoreNote.Logic.Service
 {
@@ -28,7 +28,7 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
- 
+
         /// <summary>
         /// 自增Usn
         /// 每次notebook,note添加, 修改, 删除, 都要修改
@@ -40,7 +40,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var user = db.User
-                    .Where(b => b.UserId==(userid
+                    .Where(b => b.UserId == (userid
                     )).FirstOrDefault();
                 user.Usn += 1;
                 db.SaveChanges();
@@ -54,7 +54,15 @@ namespace MoreNote.Logic.Service
         public static bool AddUser(User
              user)
         {
-            throw new Exception();
+            if (user.UserId == 0) user.UserId = SnowFlake_Net.GenerateSnowFlakeID();
+            user.CreatedTime = DateTime.Now;
+            user.Email = user.Email.ToLower();
+            EmailService.RegisterSendActiveEmail(user, user.Email);
+            using (var db = new DataContext())
+            {
+                db.User.Add(user);
+                return db.SaveChanges()>0;
+            }
         }
         // 通过email得到userId
         public static string GetUserId(string email)
@@ -74,7 +82,17 @@ namespace MoreNote.Logic.Service
         // 是否存在该用户 email
         public static bool IsExistsUser(string email)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                if (db.User.Where(m => m.Email.Equals(email.ToLower())).Count() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
         // 是否存在该用户 username
         public static bool IsExistsUserByUsername(string userName)
@@ -84,8 +102,8 @@ namespace MoreNote.Logic.Service
         // 得到用户信息, userId, username, email
         public static User GetUserInfoByAny(string idEmailUsername)
         {
-           throw new Exception();
-                 
+            throw new Exception();
+
         }
         public static void setUserLogo(User
              user)
@@ -126,17 +144,17 @@ namespace MoreNote.Logic.Service
         }
 
         // 用户信息即可
-        public static Dictionary<long,User> MapUserInfoByUserIds(long[] userIds)
+        public static Dictionary<long, User> MapUserInfoByUserIds(long[] userIds)
         {
             throw new Exception();
         }
         // 用户信息和博客设置信息
-        public static Dictionary<long,User> MapUserInfoAndBlogInfosByUserIds(long[] userIds)
+        public static Dictionary<long, User> MapUserInfoAndBlogInfosByUserIds(long[] userIds)
         {
             throw new Exception();
         }
         // 返回info.UserAndBlog
-        public static Dictionary<string,UserAndBlog> MapUserAndBlogByUserIds(long[] userIds)
+        public static Dictionary<string, UserAndBlog> MapUserAndBlogByUserIds(long[] userIds)
         {
             throw new Exception();
         }
@@ -162,34 +180,34 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 更新username
-        public static bool UpdateUsername(long userId,string username)
+        public static bool UpdateUsername(long userId, string username)
         {
             throw new Exception();
         }
         // 修改头像
-        public static bool UpdateAvatar(long userId,string avatarPath)
+        public static bool UpdateAvatar(long userId, string avatarPath)
         {
             throw new Exception();
         }
 
         //----------------------
         // 已经登录了的用户修改密码
-        public static bool UpdatePwd(long userId,string oldPwd,string pwd)
+        public static bool UpdatePwd(long userId, string oldPwd, string pwd)
         {
             throw new Exception();
         }
         // 管理员重置密码
-        public static bool ResetPwd(long adminUserId,long userId,string pwd)
+        public static bool ResetPwd(long adminUserId, long userId, string pwd)
         {
             throw new Exception();
         }
         // 修改主题
-        public static bool UpdateTheme(long userId,string theme)
+        public static bool UpdateTheme(long userId, string theme)
         {
             throw new Exception();
         }
         // 帐户类型设置
-        public static bool UpdateAccount(long userId,string accountType,DateTime accountStartTime,DateTime accountEndTime,int maxImageNum,int maxImageSize,int maxAttachNum,int maxAttachSize,int maxPerAttachSize)
+        public static bool UpdateAccount(long userId, string accountType, DateTime accountStartTime, DateTime accountEndTime, int maxImageNum, int maxImageSize, int maxAttachNum, int maxAttachSize, int maxPerAttachSize)
         {
             throw new Exception();
         }
@@ -197,14 +215,14 @@ namespace MoreNote.Logic.Service
         // 修改email
 
         // 注册后验证邮箱
-        public static bool ActiveEmail(string token,out string email)
+        public static bool ActiveEmail(string token, out string email)
         {
             throw new Exception();
         }
         // 修改邮箱
         // 在此之前, 验证token是否过期
         // 验证email是否有人注册了
-        public static bool UpdateEmail(string token,out string email)
+        public static bool UpdateEmail(string token, out string email)
         {
             throw new Exception();
         }
@@ -212,23 +230,23 @@ namespace MoreNote.Logic.Service
         // 偏好设置
 
         // 宽度
-        public static bool UpdateColumnWidth(long userId,int notebookWidth,int noteListWidth,int mdEditorWidth)
+        public static bool UpdateColumnWidth(long userId, int notebookWidth, int noteListWidth, int mdEditorWidth)
         {
             throw new Exception();
         }
         // 左侧是否隐藏
-        public static bool UpdateLeftIsMin(long userId,bool leftIsMin)
+        public static bool UpdateLeftIsMin(long userId, bool leftIsMin)
         {
             throw new Exception();
         }
         //-------------
         // user admin
-        public static void ListUsers(int pageBunber,int pageSize,string sortField,bool isAsc,string email,out Page page,out User[] users)
+        public static void ListUsers(int pageBunber, int pageSize, string sortField, bool isAsc, string email, out Page page, out User[] users)
         {
             throw new Exception();
         }
 
-        public static User[] GetAllUserByFilter(string userFilterEmail,string userFilterWhiteList,string userFilterBlackList,bool verified)
+        public static User[] GetAllUserByFilter(string userFilterEmail, string userFilterWhiteList, string userFilterBlackList, bool verified)
         {
             throw new Exception();
         }
