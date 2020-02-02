@@ -12,7 +12,7 @@ namespace MoreNote.Common.Util.Tests
         [TestMethod()]
         public void CreatRndNumTest()
         {
-            String str = RndNum.CreatRndNum(32);
+            String str = RandomTool.CreatRandomString(32);
             Console.WriteLine(str);
 
         }
@@ -20,7 +20,7 @@ namespace MoreNote.Common.Util.Tests
         [TestMethod()]
         public void CreatSafeNumTest()
         {
-            string safe = RndNum.CreatSafeNum();
+            string safe = RandomTool.CreatSafeNum();
             Console.WriteLine(safe);
 
         }

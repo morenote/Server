@@ -41,7 +41,7 @@ namespace MoreNote.Logic.Entity
         public int ImageSize{ get; set; }//图片大小
         public int AttachNum{ get; set; }//附件数量
         public int AttachSize{ get; set; }//附件大小
-        public string FromUserId{ get; set; }//邀请的用户
+        public long FromUserId{ get; set; }//邀请的用户
 
         public int AccountType{ get; set; }// // normal(为空), premium
         public DateTime AccountStartTime{ get; set; }//开始日期

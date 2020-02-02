@@ -1,0 +1,57 @@
+﻿@model MoreNote.Logic.Entity.SecretReport
+
+@{
+    ViewData["Title"] = "主机数据库";
+     Layout = "_HostLayout";
+}
+
+<h2>Edit</h2>
+
+<h4>SecretReport</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SecretReportId" />
+            <div class="form-group">
+                <label asp-for="hostServiceProviderId" class="control-label"></label>
+                <input asp-for="hostServiceProviderId" class="form-control" />
+                <span asp-validation-for="hostServiceProviderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="serviceProviderCompanyId" class="control-label"></label>
+                <input asp-for="serviceProviderCompanyId" class="form-control" />
+                <span asp-validation-for="serviceProviderCompanyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReporterId" class="control-label"></label>
+                <input asp-for="ReporterId" class="form-control" />
+                <span asp-validation-for="ReporterId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsRisk" /> @Html.DisplayNameFor(model => model.IsRisk)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReportContent" class="control-label"></label>
+                <input asp-for="ReportContent" class="form-control" />
+                <span asp-validation-for="ReportContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

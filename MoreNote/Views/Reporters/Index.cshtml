@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MoreNote.Logic.Entity.Reporter>
+
+@{
+   ViewData["Title"] = "主机数据库";
+     Layout = "_HostLayout";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               报告者
+            </th>
+            <th>
+                报告者域名
+            </th>
+            <th>
+               是否认证
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WebSite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsIdentify)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ReporterId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ReporterId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReporterId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

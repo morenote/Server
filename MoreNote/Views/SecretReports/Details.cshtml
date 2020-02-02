@@ -1,0 +1,49 @@
+﻿@model MoreNote.Logic.Entity.SecretReport
+
+@{
+    ViewData["Title"] = "主机数据库";
+     Layout = "_HostLayout";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SecretReport</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.hostServiceProviderId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.hostServiceProviderId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.serviceProviderCompanyId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.serviceProviderCompanyId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReporterId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReporterId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsRisk)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsRisk)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReportContent)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SecretReportId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

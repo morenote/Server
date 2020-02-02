@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MoreNote.Logic.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class MyFirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,27 @@ namespace MoreNote.Logic.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Album", x => x.AlbumId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppInfo",
+                columns: table => new
+                {
+                    appid = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    appautor = table.Column<string>(nullable: true),
+                    appdetail = table.Column<string>(nullable: true),
+                    appname = table.Column<string>(nullable: true),
+                    apppackage = table.Column<string>(nullable: true),
+                    appdownurl = table.Column<string>(nullable: true),
+                    applogourl = table.Column<string>(nullable: true),
+                    appversion = table.Column<string>(nullable: true),
+                    imglist = table.Column<string[]>(nullable: true),
+                    appsize = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppInfo", x => x.appid);
                 });
 
             migrationBuilder.CreateTable(
@@ -376,8 +397,9 @@ namespace MoreNote.Logic.Migrations
                 name: "NoteContent",
                 columns: table => new
                 {
-                    NoteId = table.Column<long>(nullable: false)
+                    NoteContentId = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NoteId = table.Column<long>(nullable: false),
                     UserId = table.Column<long>(nullable: false),
                     IsBlog = table.Column<bool>(nullable: false),
                     Content = table.Column<string>(nullable: true),
@@ -385,11 +407,11 @@ namespace MoreNote.Logic.Migrations
                     CreatedTime = table.Column<DateTime>(nullable: false),
                     UpdatedTime = table.Column<DateTime>(nullable: false),
                     UpdatedUserId = table.Column<long>(nullable: false),
-                    IsHistory = table.Column<int>(nullable: false)
+                    IsHistory = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NoteContent", x => x.NoteId);
+                    table.PrimaryKey("PK_NoteContent", x => x.NoteContentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -424,6 +446,20 @@ namespace MoreNote.Logic.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reporter",
+                columns: table => new
+                {
+                    ReporterId = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WebSite = table.Column<string>(nullable: true),
+                    IsIdentify = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reporter", x => x.ReporterId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ReportInfo",
                 columns: table => new
                 {
@@ -437,6 +473,20 @@ namespace MoreNote.Logic.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ReportInfo", x => x.ReportId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiceProviderLegalPerson",
+                columns: table => new
+                {
+                    PersonId = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(nullable: true),
+                    About = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceProviderLegalPerson", x => x.PersonId);
                 });
 
             migrationBuilder.CreateTable(
@@ -737,6 +787,35 @@ namespace MoreNote.Logic.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ServiceProviderCompany",
+                columns: table => new
+                {
+                    ServiceProviderCompanyId = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SPName = table.Column<string>(nullable: true),
+                    LegalPersonPersonId = table.Column<long>(nullable: true),
+                    RegionDate = table.Column<DateTime>(nullable: false),
+                    WebSite = table.Column<string>(nullable: true),
+                    OldWebSite = table.Column<string[]>(nullable: true),
+                    RegistrationPlace = table.Column<string>(nullable: true),
+                    FoundDate = table.Column<DateTime>(nullable: false),
+                    IsBlock = table.Column<bool>(nullable: false),
+                    RiskIndex = table.Column<int>(nullable: false),
+                    MentionByName = table.Column<int>(nullable: false),
+                    AnomalyDetection = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceProviderCompany", x => x.ServiceProviderCompanyId);
+                    table.ForeignKey(
+                        name: "FK_ServiceProviderCompany_ServiceProviderLegalPerson_LegalPers~",
+                        column: x => x.LegalPersonPersonId,
+                        principalTable: "ServiceProviderLegalPerson",
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "NoteTag",
                 columns: table => new
                 {
@@ -824,6 +903,72 @@ namespace MoreNote.Logic.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "HostServiceProvider",
+                columns: table => new
+                {
+                    HostServiceProviderId = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    HostName = table.Column<string>(nullable: true),
+                    ServiceProviderCompanyId = table.Column<long>(nullable: true),
+                    ServiceType = table.Column<string>(nullable: true),
+                    ISP = table.Column<string>(nullable: true),
+                    BeiAnGov = table.Column<string>(nullable: true),
+                    WebSite = table.Column<string>(nullable: true),
+                    OldWebSite = table.Column<string[]>(nullable: true),
+                    RegistrationPlace = table.Column<string>(nullable: true),
+                    FoundDate = table.Column<DateTime>(nullable: false),
+                    IsBlock = table.Column<bool>(nullable: false),
+                    RiskIndex = table.Column<int>(nullable: false),
+                    MentionByName = table.Column<int>(nullable: false),
+                    AnomalyDetection = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HostServiceProvider", x => x.HostServiceProviderId);
+                    table.ForeignKey(
+                        name: "FK_HostServiceProvider_ServiceProviderCompany_ServiceProviderC~",
+                        column: x => x.ServiceProviderCompanyId,
+                        principalTable: "ServiceProviderCompany",
+                        principalColumn: "ServiceProviderCompanyId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SecretReport",
+                columns: table => new
+                {
+                    SecretReportId = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    HostServiceProviderId = table.Column<long>(nullable: true),
+                    ServiceProviderCompanyId = table.Column<long>(nullable: true),
+                    ReporterId = table.Column<long>(nullable: true),
+                    IsRisk = table.Column<bool>(nullable: false),
+                    ReportContent = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SecretReport", x => x.SecretReportId);
+                    table.ForeignKey(
+                        name: "FK_SecretReport_HostServiceProvider_HostServiceProviderId",
+                        column: x => x.HostServiceProviderId,
+                        principalTable: "HostServiceProvider",
+                        principalColumn: "HostServiceProviderId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SecretReport_Reporter_ReporterId",
+                        column: x => x.ReporterId,
+                        principalTable: "Reporter",
+                        principalColumn: "ReporterId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SecretReport_ServiceProviderCompany_ServiceProviderCompanyId",
+                        column: x => x.ServiceProviderCompanyId,
+                        principalTable: "ServiceProviderCompany",
+                        principalColumn: "ServiceProviderCompanyId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ArchiveMonth_ArchiveId",
                 table: "ArchiveMonth",
@@ -838,6 +983,11 @@ namespace MoreNote.Logic.Migrations
                 name: "IX_Cate_CateId1",
                 table: "Cate",
                 column: "CateId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HostServiceProvider_ServiceProviderCompanyId",
+                table: "HostServiceProvider",
+                column: "ServiceProviderCompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NoteTag_TagUserId",
@@ -855,6 +1005,26 @@ namespace MoreNote.Logic.Migrations
                 column: "ArchiveMonthId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SecretReport_HostServiceProviderId",
+                table: "SecretReport",
+                column: "HostServiceProviderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SecretReport_ReporterId",
+                table: "SecretReport",
+                column: "ReporterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SecretReport_ServiceProviderCompanyId",
+                table: "SecretReport",
+                column: "ServiceProviderCompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceProviderCompany_LegalPersonPersonId",
+                table: "ServiceProviderCompany",
+                column: "LegalPersonPersonId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_GroupId",
                 table: "User",
                 column: "GroupId");
@@ -864,6 +1034,9 @@ namespace MoreNote.Logic.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Album");
+
+            migrationBuilder.DropTable(
+                name: "AppInfo");
 
             migrationBuilder.DropTable(
                 name: "AttachInfo");
@@ -935,6 +1108,9 @@ namespace MoreNote.Logic.Migrations
                 name: "ReportInfo");
 
             migrationBuilder.DropTable(
+                name: "SecretReport");
+
+            migrationBuilder.DropTable(
                 name: "Session");
 
             migrationBuilder.DropTable(
@@ -980,10 +1156,22 @@ namespace MoreNote.Logic.Migrations
                 name: "ArchiveMonth");
 
             migrationBuilder.DropTable(
+                name: "HostServiceProvider");
+
+            migrationBuilder.DropTable(
+                name: "Reporter");
+
+            migrationBuilder.DropTable(
                 name: "Group");
 
             migrationBuilder.DropTable(
                 name: "Archive");
+
+            migrationBuilder.DropTable(
+                name: "ServiceProviderCompany");
+
+            migrationBuilder.DropTable(
+                name: "ServiceProviderLegalPerson");
         }
     }
 }

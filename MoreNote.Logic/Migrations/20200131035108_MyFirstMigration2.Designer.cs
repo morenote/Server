@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.DB;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200131035108_MyFirstMigration2")]
+    partial class MyFirstMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -563,7 +565,7 @@ namespace MoreNote.Logic.Migrations
                     b.Property<int>("RiskIndex")
                         .HasColumnType("integer");
 
-                    b.Property<long>("ServiceProviderCompanyId")
+                    b.Property<long>("ServiceProviderId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ServiceType")
@@ -1019,13 +1021,13 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("ReportContent")
                         .HasColumnType("text");
 
-                    b.Property<long>("ReporterId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("hostServiceProviderId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("serviceProviderCompanyId")
+                    b.Property<long>("reporterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("serviceProviderId")
                         .HasColumnType("bigint");
 
                     b.HasKey("SecretReportId");
@@ -1289,8 +1291,8 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<long>("FromUserId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("FromUserId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("FullSyncBefore")
                         .HasColumnType("timestamp without time zone");

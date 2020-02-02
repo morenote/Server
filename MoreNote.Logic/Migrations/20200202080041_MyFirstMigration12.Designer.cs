@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200129110859_MyFirstMigration202001291908")]
-    partial class MyFirstMigration202001291908
+    [Migration("20200202080041_MyFirstMigration12")]
+    partial class MyFirstMigration12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -528,6 +528,57 @@ namespace MoreNote.Logic.Migrations
                     b.ToTable("GroupUser");
                 });
 
+            modelBuilder.Entity("MoreNote.Logic.Entity.HostServiceProvider", b =>
+                {
+                    b.Property<long>("HostServiceProviderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("AnomalyDetection")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("BeiAnGov")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("FoundDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("HostName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ISP")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsBlock")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("MentionByName")
+                        .HasColumnType("integer");
+
+                    b.Property<string[]>("OldWebSite")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("RegistrationPlace")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RiskIndex")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("ServiceProviderCompanyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ServiceType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WebSite")
+                        .HasColumnType("text");
+
+                    b.HasKey("HostServiceProviderId");
+
+                    b.ToTable("HostServiceProvider");
+                });
+
             modelBuilder.Entity("MoreNote.Logic.Entity.Note", b =>
                 {
                     b.Property<long>("NoteId")
@@ -643,8 +694,8 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsBlog")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("IsHistory")
-                        .HasColumnType("integer");
+                    b.Property<bool>("IsHistory")
+                        .HasColumnType("boolean");
 
                     b.Property<long>("NoteId")
                         .HasColumnType("bigint");
@@ -936,6 +987,117 @@ namespace MoreNote.Logic.Migrations
                     b.ToTable("ReportInfo");
                 });
 
+            modelBuilder.Entity("MoreNote.Logic.Entity.Reporter", b =>
+                {
+                    b.Property<long>("ReporterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("IsIdentify")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WebSite")
+                        .HasColumnType("text");
+
+                    b.HasKey("ReporterId");
+
+                    b.ToTable("Reporter");
+                });
+
+            modelBuilder.Entity("MoreNote.Logic.Entity.SecretReport", b =>
+                {
+                    b.Property<long>("SecretReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("IsRisk")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ReportContent")
+                        .HasColumnType("text");
+
+                    b.Property<long>("ReporterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("hostServiceProviderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("serviceProviderCompanyId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("SecretReportId");
+
+                    b.ToTable("SecretReport");
+                });
+
+            modelBuilder.Entity("MoreNote.Logic.Entity.ServiceProviderCompany", b =>
+                {
+                    b.Property<long>("ServiceProviderCompanyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("AnomalyDetection")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("FoundDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsBlock")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("LegalPersonId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("MentionByName")
+                        .HasColumnType("integer");
+
+                    b.Property<string[]>("OldWebSite")
+                        .HasColumnType("text[]");
+
+                    b.Property<DateTime>("RegionDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("RegistrationPlace")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RiskIndex")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SPName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WebSite")
+                        .HasColumnType("text");
+
+                    b.HasKey("ServiceProviderCompanyId");
+
+                    b.ToTable("ServiceProviderCompany");
+                });
+
+            modelBuilder.Entity("MoreNote.Logic.Entity.ServiceProviderLegalPerson", b =>
+                {
+                    b.Property<long>("PersonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("About")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("PersonId");
+
+                    b.ToTable("ServiceProviderLegalPerson");
+                });
+
             modelBuilder.Entity("MoreNote.Logic.Entity.Session", b =>
                 {
                     b.Property<long>("Id")
@@ -1129,8 +1291,8 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<string>("FromUserId")
-                        .HasColumnType("text");
+                    b.Property<long>("FromUserId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("FullSyncBefore")
                         .HasColumnType("timestamp without time zone");

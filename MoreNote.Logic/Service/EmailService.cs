@@ -89,8 +89,8 @@ namespace MoreNote.Logic.Service
         }
         public static bool RegisterSendActiveEmail(User userInfo,string email)
         {
-            throw 
-                new Exception();
+          //todo:
+          return true;
         }
         public static bool UpdateEmailSendActiveEmail(User
              userInfo,string email)
