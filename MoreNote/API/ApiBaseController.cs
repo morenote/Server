@@ -138,15 +138,39 @@ namespace MoreNote.API
             return MyConvert.HexToLong(hex);
         }
         // todo :上传附件
-        public IActionResult uploadAttach()
+        public bool uploadAttach(string name,long noteId,out string msg,out long serverFileId)
         {
-            return null;
+            msg="";
+            serverFileId=0;
+            return false;
         }
-  
-        // todo :上传图片
-        public IActionResult upload()
+ 
+
+        public bool upload(string name,long noteId,bool isAttach, out long serverFileId,out string msg)
         {
-            return null;
+            if (isAttach)
+            {
+             return   uploadAttach(name,noteId,out msg, out serverFileId);
+            }
+            msg = "";
+            serverFileId = 0;
+            return false;
+
         }
+        //上传图片 png jpg 
+        public bool UploadImage()
+        {
+            return false;
+        }
+        public void UploadVideo()
+        {
+
+        }
+        public void UploadAudio()
+        {
+
+        }
+    
+
     }
 }
