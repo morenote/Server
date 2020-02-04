@@ -14,7 +14,7 @@ namespace MoreNote.Common.Util
     /// <returns>MD5 值16进制字符串</returns>
     public string MD5File ( string fileName )
     {
-        return HashFile ( fileName , "md5" );
+        return HashFile ( fileName , AlgNameEnum.MD5);
     }
   
     /// <summary>
@@ -24,7 +24,7 @@ namespace MoreNote.Common.Util
     /// <returns>sha1 值16进制字符串</returns>
     public string SHA1File ( string fileName )
     {
-        return HashFile ( fileName , "sha1" );
+        return HashFile ( fileName , AlgNameEnum.SHA1);
     }
     /// <summary>
     /// 计算文件的哈希值
@@ -32,13 +32,13 @@ namespace MoreNote.Common.Util
     /// <param name="fileName">要计算哈希值的文件名和路径</param>
     /// <param name="algName">算法:sha1,md5</param>
     /// <returns>哈希值16进制字符串</returns>
-    private string HashFile ( string fileName , string algName )
+    private string HashFile ( string fileName , AlgNameEnum algNameEnum)
     {
         if ( !System.IO.File.Exists ( fileName ) )
             return string.Empty;
   
         System.IO.FileStream fs = new System.IO.FileStream ( fileName , System.IO.FileMode.Open , System.IO.FileAccess.Read );
-        byte[] hashBytes = HashData ( fs , algName );
+        byte[] hashBytes = HashData ( fs , algNameEnum);
         fs.Close();
         return ByteArrayToHexString ( hashBytes );
     }
