@@ -5,7 +5,7 @@ using System.IO;
 
 namespace MoreNote.Common.Util
 {
-   public class Encrypt_Helper
+   public class SHAEncrypt_Helper
 {
     /// <summary>
     /// 计算文件的 MD5 值
@@ -43,32 +43,41 @@ namespace MoreNote.Common.Util
         return ByteArrayToHexString ( hashBytes );
     }
     /// <summary>
-    /// 计算哈希值
+    /// 计算哈希值(默认SHA1)
     /// </summary>
     /// <param name="stream">要计算哈希值的 Stream</param>
     /// <param name="algName">算法:sha1,md5</param>
     /// <returns>哈希值字节数组</returns>
-    private byte[] HashData ( System.IO.Stream stream , string algName )
+    private byte[] HashData ( System.IO.Stream stream , AlgNameEnum algNameEnum )
     {
         System.Security.Cryptography.HashAlgorithm algorithm;
-        if ( algName == null )
-        {
-            throw new ArgumentNullException ( "algName 不能为 null" );
-        }
-        if ( string.Compare ( algName , "sha1" , true ) == 0 )
-        {
-            algorithm = System.Security.Cryptography.SHA1.Create();
-        }
-        else
-        {
-            if ( string.Compare ( algName , "md5" , true ) != 0 )
+            switch (algNameEnum)
             {
-                throw new Exception ( "algName 只能使用 sha1 或 md5" );
+                case AlgNameEnum.MD5:
+                    algorithm = System.Security.Cryptography.MD5.Create();
+                    break;
+                case AlgNameEnum.SHA1:
+                    algorithm = System.Security.Cryptography.SHA1.Create();
+                    break;
+                case AlgNameEnum.SHA256:
+                    algorithm = System.Security.Cryptography.SHA256.Create();
+                    break;
+                case AlgNameEnum.SHA384:
+                    algorithm = System.Security.Cryptography.SHA384.Create();
+                    break;
+                case AlgNameEnum.SHA512:
+                    algorithm = System.Security.Cryptography.SHA512.Create();
+                    break;
+                default:
+                    algorithm = System.Security.Cryptography.SHA1.Create();
+                    break;
             }
-            algorithm = System.Security.Cryptography.MD5.Create();
-        }
         return algorithm.ComputeHash ( stream );
     }
+        enum AlgNameEnum
+        {
+            MD5,SHA1,SHA256,SHA384,SHA512
+        }
   
     /// <summary>
     /// 字节数组转换为16进制表示的字符串
@@ -127,6 +136,7 @@ namespace MoreNote.Common.Util
             }
             return tmp.ToString();
         }
+     
     }
 }
 
