@@ -99,7 +99,7 @@ namespace MoreNote.API
 
              var x= _accessor.HttpContext.Request.Form.Files;
              var z=x["FileDatas[5e36bafc26f2af1a79000000]"];
-            //json 返回状态好乱呀
+            //json 返回状态好乱呀 /(ㄒoㄒ)/~~
             Re re = Re.NewRe();
             long userId= getUserIdByToken(token);;
             long myUserId = userId;
@@ -115,51 +115,7 @@ namespace MoreNote.API
             // TODO 先上传图片/附件, 如果不成功, 则返回false
             //
             int attachNum = 0;
-            if (noteOrContent.Files != null && noteOrContent.Files.Length > 0)
-            {
-                for (int i = 0; i < noteOrContent.Files.Length; i++)
-                {
-                    var  file = noteOrContent.Files[i];
-                    if (file.HasBody)
-                    {
-                        if (!string.IsNullOrEmpty(file.LocalFileId))
-                        {
-                            var result = upload("FileDatas[" + file.LocalFileId + "]", noteId, file.IsAttach, out long serverFileId, out string msg);
-                            if (!result)
-                            {
-                                if (string.IsNullOrEmpty(msg))
-                                {
-                                    re.Msg = "fileUploadError";
-                                }
-                                if (!string.Equals(msg, "notImage", System.StringComparison.OrdinalIgnoreCase))
-                                {
-                                    return Json(re, MyJsonConvert.GetOptions());
-                                }
-                            }
-                            else
-                            {
-                                // 建立映射
-                                file.FileId = serverFileId.ToString("x");
-                                noteOrContent.Files[i] = file;
-                                if (file.IsAttach)
-                                {
-                                    attachNum++;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            return Json(new ReUpdate()
-                            {
-                                Ok = false,
-                                Msg = "LocalFileId_Is_NullOrEmpty",
-                                Usn = 0
-                            }, MyJsonConvert.GetSimpleOptions());
-
-                        }
-                    }
-                }
-            }
+        
             fixPostNotecontent(ref noteOrContent);
             Note note = new Note()
             {
@@ -198,6 +154,7 @@ namespace MoreNote.API
                 note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Abstract, 200);
             }
             note = NoteService.AddNoteAndContent(note, noteContent, myUserId);
+
             if (note == null || note.NoteId == 0)
             {
                 return Json(new ApiRe()
@@ -205,6 +162,58 @@ namespace MoreNote.API
                     Ok = false,
                     Msg = "AddNoteAndContent_is_error"
                 });
+            }
+            if (noteOrContent.Files != null && noteOrContent.Files.Length > 0)
+            {
+                for (int i = 0; i < noteOrContent.Files.Length; i++)
+                {
+                    var file = noteOrContent.Files[i];
+                    if (file.HasBody)
+                    {
+                        if (!string.IsNullOrEmpty(file.LocalFileId))
+                        {
+                            var result = upload("FileDatas[" + file.LocalFileId + "]", userId, noteId, file.IsAttach, out long serverFileId, out string msg);
+                            if (!result)
+                            {
+                                if (string.IsNullOrEmpty(msg))
+                                {
+                                    re.Msg = "fileUploadError";
+                                }else 
+                                {
+                                    re.Msg = msg;
+                                    return Json(re, MyJsonConvert.GetOptions());
+                                }
+                            }
+                            else
+                            {
+                                // 建立映射
+                                file.FileId = serverFileId.ToString("x");
+                                noteOrContent.Files[i] = file;
+                                if (file.IsAttach)
+                                {
+                                    attachNum++;
+                                }
+                            }
+                        }
+                        else
+                        {   //存在疑问
+                            return Json(new ReUpdate()
+                            {
+                                Ok = false,
+                                Msg = "LocalFileId_Is_NullOrEmpty",
+                                Usn = 0
+                            }, MyJsonConvert.GetSimpleOptions());
+                        }
+                    }
+                }
+            }
+            // 移到外面来, 删除最后一个file时也要处理, 不然总删不掉
+            // 附件问题, 根据Files, 有些要删除的, 只留下这些
+            AttachService.UpdateOrDeleteAttachApi(noteId,userId, noteOrContent.Files);
+            if (noteOrContent.Desc!=null)
+            {
+
+
             }
             //添加需要返回的
             noteOrContent.NoteId = note.NoteId.ToString("x");
@@ -221,8 +230,90 @@ namespace MoreNote.API
             return Json(noteOrContent, MyJsonConvert.GetOptions());
         }
         //todo:更新笔记
-        public IActionResult UpdateNote(ApiNote noteOrContent, string token)
-        {
+        public JsonResult UpdateNote(ApiNote noteOrContent, string token)
+        { 
+            var noteUpdate=new  Note();
+            var needUpdateNote=false;
+            var re = Re.NewRe();
+            long userId=getUserIdByToken(token);
+            var noteId = MyConvert.HexToLong(noteOrContent.NoteId);
+            if (userId==0)
+            {
+                re.Msg="NOlogin";
+                re.Ok = false;
+                return Json(re, MyJsonConvert.GetSimpleOptions());
+
+            }
+          
+            if (string.IsNullOrEmpty(noteOrContent.NoteId))
+            {
+                re.Msg= "noteIdNotExists";
+                re.Ok=false;
+                return Json(re,MyJsonConvert.GetSimpleOptions());
+            }
+         
+            if (noteOrContent.Usn<1)
+            {
+
+                re.Msg = "usnNotExists";
+                re.Ok = false;
+                return Json(re, MyJsonConvert.GetSimpleOptions());
+            }
+            // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
+            var note=NoteService.GetNote(noteId,userId);
+            if (note==null||note.NoteId==0)
+            {
+                re.Msg = "notExists";
+                re.Ok = false;
+                return Json(re, MyJsonConvert.GetSimpleOptions());
+            }
+            if (note.Usn!= noteOrContent.Usn)
+            {
+                re.Msg = "conflict";
+                re.Ok = false;
+                return Json(re, MyJsonConvert.GetSimpleOptions());
+            }
+            if (noteOrContent.Files != null && noteOrContent.Files.Length > 0)
+            {
+                for (int i = 0; i < noteOrContent.Files.Length; i++)
+                {
+                    var file = noteOrContent.Files[i];
+                    if (file.HasBody)
+                    {
+                        if (!string.IsNullOrEmpty(file.LocalFileId))
+                        {
+                            var result = upload("FileDatas[" + file.LocalFileId + "]", userId, noteId, file.IsAttach, out long serverFileId, out string msg);
+                            if (!result)
+                            {
+                                if (string.IsNullOrEmpty(msg))
+                                {
+                                    re.Msg = "fileUploadError";
+                                }
+                                if (!string.Equals(msg, "notImage", System.StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return Json(re, MyJsonConvert.GetOptions());
+                                }
+                            }
+                            else
+                            {
+                                // 建立映射
+                                file.FileId = serverFileId.ToString("x");
+                                noteOrContent.Files[i] = file;
+                            
+                            }
+                        }
+                        else
+                        {
+                            return Json(new ReUpdate()
+                            {
+                                Ok = false,
+                                Msg = "LocalFileId_Is_NullOrEmpty",
+                                Usn = 0
+                            }, MyJsonConvert.GetSimpleOptions());
+                        }
+                    }
+                }
+            }
             return null;
         }
         //todo:删除trash
@@ -236,13 +327,13 @@ namespace MoreNote.API
         {
             return null;
         }
-
         // content里的image, attach链接是
         // https://leanote.com/api/file/getImage?fileId=xx
         // https://leanote.com/api/file/getAttach?fileId=xx
         // 将fileId=映射成ServerFileId, 这里的fileId可能是本地的FileId
         public void fixPostNotecontent(ref ApiNote noteOrContent)
         {
+            //todo 这里需要完成fixPostNotecontent
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.Content))
             {
                 return;

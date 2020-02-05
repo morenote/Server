@@ -8,6 +8,7 @@ namespace MoreNote
     {
         public static void Main(string[] args)
         {
+            //启动服务器
             CreateHostBuilder(args).Build().Run();
             //var host = new WebHostBuilder()
             //     .UseUrls("http://*:5000")

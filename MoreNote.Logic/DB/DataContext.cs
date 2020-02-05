@@ -30,7 +30,7 @@ namespace MoreNote.Logic.DB
             //测试服务器
             //var connection = "Host=127.0.0.1.5;Port=5432;Database=dbname; User ID=userid;Password=password;";
             var connection = Environment.GetEnvironmentVariable("postgres");
-
+            connection=connection.Replace("\"","");
             optionsBuilder.UseNpgsql(connection);
         }
 
@@ -87,12 +87,7 @@ namespace MoreNote.Logic.DB
         public DbSet<UserAndBlog> UserAndBlog { get; set; }
         //应用更新服务
         public DbSet<AppInfo> AppInfo { get; set; }
-        /*************主机评价*******************/
-        public DbSet<HostServiceProvider> HostServiceProvider { get; set; }
-        public DbSet<ServiceProviderCompany> ServiceProviderCompany { get; set; }
-        public DbSet<ServiceProviderLegalPerson> ServiceProviderLegalPerson { get; set; }
-        public DbSet<Reporter> Reporter { get; set; }
-        public DbSet<SecretReport> SecretReport { get; set; }
+      
 
     }
 }

@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Entity
 
         public string Name { get; set; } // file name
         public string Title { get; set; } // file  name or user defind for search
-        public long Size { get; set; } // file  size (byte)
+        public Int64 Size { get; set; } // file  size (byte)
         public string Type { get; set; } // file  type ""=image "doc"=word
         public string Path { get; set; } // the file path
 
