@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Logic.DB;
+using MoreNote.Logic.Entity;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,30 @@ namespace MoreNote.Logic.Service
     {
         const string DEFAULT_ALBUM_ID = "52d3e8ac99c37b7f0d000001";
         // add Image
-        public static bool AddImage(FileInfo image,long albumId,long userId,bool needCheck)
+        public static bool AddImage(NoteFile image,long albumId,long userId,bool needCheck)
         {
+            image.CreatedTime=DateTime.Now;
+            if (albumId!=0)
+            {
+                image.AlbumId=albumId;
+            }
+            else
+            {
+                image.AlbumId=1;
+                image.IsDefaultAlbum=true;
+            }
+            image.UserId=userId;
+            return AddFile(image);
             throw new Exception();
+        }
+        private static bool AddFile(NoteFile noteFile)
+        {
+            using (var db = new DataContext())
+            {
+                db.File.Add(noteFile);
+                return db.SaveChanges()>0;
+
+            }
         }
         // list images
         // if albumId == "" get default album images

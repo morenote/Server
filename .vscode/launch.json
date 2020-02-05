@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/NickelProject/bin/Debug/netcoreapp2.1/NickelProject.dll",
+            "program": "${workspaceFolder}/MoreNote/bin/Debug/netcoreapp3.1/MoreNote.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/NickelProject",
+            "cwd": "${workspaceFolder}/MoreNote",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -26,11 +26,13 @@
                     "command": "open"
                 },
                 "linux": {
-                    "command": "xdg-open"
+                    "command": "xdg-open",
+                    
                 }
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
+
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
