@@ -28,8 +28,8 @@ namespace MoreNote.Logic.Entity
         public string Content { get; set; }
         public bool IsMarkdown { get; set; }
         //	FromUserId string // 为共享而新建
-        public bool IsBlog { get; set; }
-        public bool IsTrash { get; set; }
+        public bool? IsBlog { get; set; }
+        public bool? IsTrash { get; set; }
         public bool IsDeleted { get; set; }
         public int Usn { get; set; }
         public APINoteFile[] Files { get; set; }
@@ -101,7 +101,7 @@ namespace MoreNote.Logic.Entity
     // 供notebook, note, tag更新的返回数据用
     public class ReUpdate
     {
-        [Key]
+       
         public bool Ok;
         public string Msg;
         public int Usn;

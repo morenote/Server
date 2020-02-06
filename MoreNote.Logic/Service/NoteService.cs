@@ -327,8 +327,9 @@ namespace MoreNote.Logic.Service
         }
         // 修改笔记
         // 这里没有判断usn
-        public static bool UpdateNote(long updateUserId,long noteId,Note needUpdate,int usb)
+        public static bool UpdateNote(long updateUserId,long noteId,Note needUpdate,int usb,out int afterUsn,out string msg)
         {
+            //todo:需要完成函数NoteService.UpdateNote
             throw new Exception();
         }
         // 当设置/取消了笔记为博客

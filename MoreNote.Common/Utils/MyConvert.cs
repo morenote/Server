@@ -29,8 +29,24 @@ namespace MoreNote.Common.Utils
             {
                 return 0;
             }
-           
-          
+        }
+        public static long? HexToLongObject(string hex)
+        {
+            if (string.IsNullOrEmpty(hex))
+            {
+                return null;
+
+            }
+            long number = 0;
+            try
+            {
+                //return Convert.ToInt64(numberstr, 16);
+                return long.Parse(hex, NumberStyles.HexNumber);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Entity
         public long NoteId { get; set; }// // 必须要设置bson:"_id" 不然mgo不会认为是主键
         public long UserId { get; set; }//  // 谁的
         public long CreatedUserId { get; set; }// // 谁创建的(UserId != CreatedUserId, 是因为共享). 只是共享才有, 默认为空, 不存 必须要加omitempty
-        public long NotebookId { get; set; }
+        public long? NotebookId { get; set; }
         public string Title { get; set; }//标题
         public string Desc { get; set; }//描述, 非html
 
@@ -21,8 +21,8 @@ namespace MoreNote.Logic.Entity
         public string ImgSrc { get; set; }//图片, 第一张缩略图地址
         public string[] Tags { get; set; }
 
-        public bool IsTrash { get; set; }//是否是trash, 默认是false
-        public bool IsBlog { get; set; }/// 是否设置成了blog 2013/12/29 新加
+        public bool? IsTrash { get; set; }//是否是trash, 默认是false
+        public bool? IsBlog { get; set; }/// 是否设置成了blog 2013/12/29 新加
         public string UrlTitle { get; set; }// // 博客的url标题, 为了更友好的url, 在UserId, UrlName下唯一
         public bool IsRecommend { get; set; }// 是否为推荐博客 2014/9/24新加
         public bool IsTop { get; set; }//log是否置顶
@@ -66,7 +66,7 @@ namespace MoreNote.Logic.Entity
         public long NoteContentId { get;set;}//主键
         public long NoteId { get; set; }
         public long UserId { get; set; }
-        public bool IsBlog { get; set; } // 为了搜索博客 
+        public bool? IsBlog { get; set; } // 为了搜索博客 
         public string Content { get; set; }//内容
         public string Abstract { get; set; } // 摘要, 有html标签, 比content短, 在博客展示需要, 不放在notes表中
         public DateTime CreatedTime { get; set; }
