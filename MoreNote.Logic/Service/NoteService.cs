@@ -166,7 +166,6 @@ namespace MoreNote.Logic.Service
             ApiNote apiNote = new ApiNote()
             {
                 NoteId = note.NoteId.ToString("x"),
-
                 NotebookId = note.NotebookId.ToString("x"),
                 UserId = note.UserId.ToString("x"),
                 Title = note.Title,
@@ -272,7 +271,7 @@ namespace MoreNote.Logic.Service
          
             note.UrlTitle=InitServices.GetUrTitle(note.UserId,note.Title,"note",note.NoteId);
             note.Usn = UserService.IncrUsn(note.UserId);
-            long notebookId=note.NotebookId;
+            long? notebookId=note.NotebookId;
           // api会传IsBlog, web不会传
             if (!fromAPI)
             {
