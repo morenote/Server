@@ -341,11 +341,8 @@ namespace MoreNote.API
             if (noteOrContent.NotebookId != null)
             {
                 needUpdateNote = true;
-                long? id = MyConvert.HexToLong(noteOrContent.NotebookId);
-                if (id == 0)
-                {
-                    id = null;
-                }
+                long id = MyConvert.HexToLong(noteOrContent.NotebookId);
+              
                 noteUpdate.NotebookId = id;
             }
             if (noteOrContent.Content != null)

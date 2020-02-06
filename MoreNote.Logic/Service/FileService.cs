@@ -4,6 +4,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MoreNote.Logic.Service
@@ -75,6 +76,16 @@ namespace MoreNote.Logic.Service
         public static string GetFile(long userId,string fileId)
         {
             throw new Exception();
+        }
+        public static NoteFile GetFile(long fileId)
+        {
+            using (var db=new DataContext())
+            {
+               var result= db.File.Where(b=>b.FileId==fileId);
+               var file=(result==null?null:result.FirstOrDefault());
+               return file;
+
+            }
         }
         // 复制共享的笔记时, 复制其中的图片到我本地
         // 复制图片

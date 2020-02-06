@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Entity
         public long NoteId { get; set; }// // 必须要设置bson:"_id" 不然mgo不会认为是主键
         public long UserId { get; set; }//  // 谁的
         public long CreatedUserId { get; set; }// // 谁创建的(UserId != CreatedUserId, 是因为共享). 只是共享才有, 默认为空, 不存 必须要加omitempty
-        public long? NotebookId { get; set; }
+        public long NotebookId { get; set; }
         public string Title { get; set; }//标题
         public string Desc { get; set; }//描述, 非html
 

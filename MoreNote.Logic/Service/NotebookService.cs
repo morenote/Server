@@ -154,7 +154,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 判断是否是blog
-        public static bool IsBlog(long notebookId)
+        public static bool IsBlog(long? notebookId)
         {
             return false;
         }
@@ -221,7 +221,7 @@ namespace MoreNote.Logic.Service
         // 重新统计笔记本下的笔记数目
         // noteSevice: AddNote, CopyNote, CopySharedNote, MoveNote
         // trashService: DeleteNote (recove不用, 都统一在MoveNote里了)
-        public static bool ReCountNotebookNumberNotes(long notebookId)
+        public static bool ReCountNotebookNumberNotes(long? notebookId)
         {
             using (var db = new DataContext())
             {
