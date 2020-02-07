@@ -122,8 +122,7 @@ namespace MoreNote.API
                 Title = noteOrContent.Title,
                 Tags = noteOrContent.Tags,
                 Desc = noteOrContent.Desc,
-
-                IsBlog = noteOrContent.IsBlog,
+                IsBlog = noteOrContent.IsBlog.GetValueOrDefault(),
                 IsMarkdown = noteOrContent.IsMarkdown,
                 AttachNum = attachNum,
                 CreatedTime = noteOrContent.CreatedTime,
@@ -326,12 +325,12 @@ namespace MoreNote.API
             if (noteOrContent.IsTrash != null)
             {
                 needUpdateNote = true;
-                noteUpdate.IsTrash = noteOrContent.IsTrash;
+                noteUpdate.IsTrash = noteOrContent.IsTrash.GetValueOrDefault();
             }
             if (noteOrContent.IsBlog != null)
             {
                 needUpdateNote = true;
-                noteUpdate.IsBlog = noteOrContent.IsBlog;
+                noteUpdate.IsBlog = noteOrContent.IsBlog.GetValueOrDefault();
             }
             if (noteOrContent.Tags != null)
             {
