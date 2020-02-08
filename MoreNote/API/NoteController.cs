@@ -323,7 +323,8 @@ namespace MoreNote.API
                     }
                 }
             }
-
+            //更新用户元数据
+            int usn = UserService.IncrUsn(tokenUserId);
             //-------------更新笔记内容
             var afterContentUsn = 0;
             var contentOk = false;
@@ -373,12 +374,9 @@ namespace MoreNote.API
                 re.Msg = noteMsg;
                 return Json(re, MyJsonConvert.GetOptions());
             }
-            //更新用户元数据
-            UserService.IncrUsn(tokenUserId);
-
             //处理结果
             noteOrContent.Content = "";
-            noteOrContent.Usn = re.Usn;
+            noteOrContent.Usn = afterNoteUsn;
             noteOrContent.UpdatedTime = DateTime.Now;
             noteOrContent.UserId = tokenUserId.ToString("x");
             return Json(noteOrContent, MyJsonConvert.GetOptions());
