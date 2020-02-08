@@ -74,7 +74,25 @@ namespace MoreNote.Logic.Service
             }
         }
 
+        public static bool SetDeleteStatus(long noteID,long userId,out int afterUsn)
+        {
+            using (var db=new DataContext())
+            {
+                var result=db.Note.Where(b=>b.NoteId==noteID&&b.UserId==userId);
+                if (result==null)
+                {
+                    afterUsn=0;
+                    return false;
 
+                }
+                var note=result.FirstOrDefault();
+                note.IsTrash=true;
+                note.IsDeleted=true;
+                afterUsn=note.Usn=UserService.IncrUsn(userId);
+                return db.SaveChanges()>0;
+            }
+
+        }
 
         public static Note GetNote(long noteId, long userId)
         {
@@ -602,7 +620,6 @@ namespace MoreNote.Logic.Service
                 note.Usn = afterUsn;
                 db.SaveChanges();
                 msg = "success";
-                afterUsn = note.Usn;
                 return true;
             }
 
