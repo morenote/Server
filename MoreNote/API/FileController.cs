@@ -18,32 +18,52 @@ namespace MoreNote.API
         //todo: 输出image
         public IActionResult GetImage(string fileId)
         {
+           
             if (string.IsNullOrEmpty(fileId))
             {
                 return Content("error");
             }
-            var file=FileService.GetFile(MyConvert.HexToLong(fileId));
-            var stream = System.IO.File.OpenRead(file.Path);
-            string fileExt = Path.GetExtension(file.Name);
+            if ( fileId.Length == 24)
+            {
+                fileId = fileId.Substring(0, 16);
+            }
+            var myFileId= MyConvert.HexToLong(fileId);
+            var noteFile=FileService.GetFile(myFileId);
+            if (noteFile==null)
+            {
+              return  Content("NoFoundImage");
+            }
+            var stream = System.IO.File.OpenRead(noteFile.Path);
+            string fileExt = Path.GetExtension(noteFile.Name);
             //获取文件的ContentType
             var provider = new FileExtensionContentTypeProvider();
             var memi = provider.Mappings[fileExt];
-            return File(stream, memi, Path.GetFileName(file.Path));
+            
+            return File(stream, memi);
         }
         //todo:下载附件
         public IActionResult GetAttach(string fileId)
         {
+           
             if (string.IsNullOrEmpty(fileId))
             {
                 return Content("error");
             }
-            var file = AttachService.GetAttach(MyConvert.HexToLong(fileId));
-            var stream = System.IO.File.OpenRead(file.Path);
-            string fileExt = Path.GetExtension(file.Name);
+            if (fileId.Length == 24)
+            {
+                fileId = fileId.Substring(0, 16);
+            }
+            var attachFile = AttachService.GetAttach(MyConvert.HexToLong(fileId));
+            if (attachFile == null)
+            {
+                return Content("NoFoundAttach");
+            }
+            var stream = System.IO.File.OpenRead(attachFile.Path);
+            string fileExt = Path.GetExtension(attachFile.Name);
             //获取文件的ContentType
             var provider = new FileExtensionContentTypeProvider();
             var memi = provider.Mappings[fileExt];
-            return File(stream, memi, Path.GetFileName(file.Path));
+            return File(stream, memi, Path.GetFileName(attachFile.Path));
         }
         //todo:下载所有附件
         public IActionResult GetAllAttachs(string noteId,string token)
