@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using MoreNote.Common.Utils;
+﻿using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
-using Newtonsoft.Json.Schema;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
 {
-    public  class NoteService
+    public class NoteService
     {
-  
+
         public static bool AddNote(Note note)
         {
             using (var db = new DataContext())
@@ -23,7 +20,7 @@ namespace MoreNote.Logic.Service
             }
         }
 
-  
+
         // fileService调用
         // 不能是已经删除了的, life bug, 客户端删除后, 竟然还能在web上打开
         //我也是？？？？
@@ -42,7 +39,7 @@ namespace MoreNote.Logic.Service
             {
                 var result = db.Note
                     .Where(b => b.Tags.Contains(Tag)).FirstOrDefault();
-               
+
                 return result;
             }
         }
@@ -52,7 +49,7 @@ namespace MoreNote.Logic.Service
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
-                              where _note.IsBlog == isBlog
+                              where _note.IsBlog == isBlog && _content.IsBlog == true && _content.IsHistory == false
                               select new NoteAndContent
                               {
                                   note = _note,
@@ -67,7 +64,7 @@ namespace MoreNote.Logic.Service
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
-                              where _note.NoteId==noteId
+                              where _note.NoteId == noteId&&_content.IsHistory==false
                               select new NoteAndContent
                               {
                                   note = _note,
@@ -76,27 +73,18 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
-   
 
-        // getDirtyNotes, 把note的图片, 附件信息都发送给客户端
-        // 客户端保存到本地, 再获取图片, 附件
 
-        // 得到所有图片, 附件信息
-        // 查images表, attachs表
-        // [待测]
-        public NoteFile getFiles(long noteId)
-        {
-            return null;
-        }
-        public static Note GetNote(long noteId,long userId)
+
+        public static Note GetNote(long noteId, long userId)
         {
             using (var db = new DataContext())
-            { 
-              var result=  db.Note.Where(b=>b.UserId==userId&&b.NoteId==noteId);
-                return result==null?null:result.FirstOrDefault();
-             }
+            {
+                var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
+                return result == null ? null : result.FirstOrDefault();
+            }
 
-                throw new Exception();
+            throw new Exception();
         }
 
         // 得到blog, blogService用
@@ -105,19 +93,23 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static  NoteAndContent GetNoteAndContent(long noteId,long userId)
+        public static NoteAndContent GetNoteAndContent(long noteId, long userId)
         {
-            Note note=GetNote(noteId,userId);
-            NoteContent noteContent=NoteContentService.GetNoteContent(noteId,userId);
-            return new NoteAndContent() { note=note
-                ,noteContent=noteContent};
-            
+            Note note = GetNote(noteId, userId);
+            NoteContent noteContent = NoteContentService.GetNoteContent(noteId, userId);
+            return new NoteAndContent()
+            {
+                note = note
+                ,
+                noteContent = noteContent
+            };
+
         }
-        public static Note GetNoteBySrc(string src,string userId)
+        public static Note GetNoteBySrc(string src, string userId)
         {
             throw new Exception();
         }
-        public static void GetNoteAndContentBySrc(string url,long userId,out long noteId,out NoteAndContentSep noteAndContent)
+        public static void GetNoteAndContentBySrc(string url, long userId, out long noteId, out NoteAndContentSep noteAndContent)
         {
             throw new Exception();
         }
@@ -142,15 +134,20 @@ namespace MoreNote.Logic.Service
             {
                 ApiNote[] apiNotes = new ApiNote[notes.Length];
                 //得到所有文件
-                long[] noteIds=new long[notes.Length];
+              
+                long[] noteIds = new long[notes.Length];
                 for (int i = 0; i < notes.Length; i++)
                 {
-                    noteIds[i]=notes[i].NoteId;
+                    noteIds[i] = notes[i].NoteId;
                 }
-              // Dictionary<long,NoteFile[]> noteFilesMap=getFiles(noteIds);
+            
+
+                 Dictionary<long, List<APINoteFile>> noteFilesMap=getFiles(noteIds);
                 for (int i = 0; i < notes.Length; i++)
                 {
-                    apiNotes[i] = ToApiNote(ref notes[i], null);
+
+                    apiNotes[i] = ToApiNote(ref notes[i], noteFilesMap[notes[i].NoteId].ToArray());
+
                 }
 
                 return apiNotes;
@@ -164,7 +161,7 @@ namespace MoreNote.Logic.Service
         // note与apiNote的转换
         public static ApiNote ToApiNote(ref Note note, APINoteFile[] files)
         {
-      
+
             ApiNote apiNote = new ApiNote()
             {
                 NoteId = note.NoteId.ToString("x"),
@@ -195,10 +192,75 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="noteIds"></param>
         /// <returns></returns>
-        public static Dictionary<long,NoteFile[]> getFiles(long[] noteIds)
+        public static Dictionary<long, List<APINoteFile>> getFiles(long[] noteIds)
         {
             var noteImages = NoteImageService.getImagesByNoteIds(noteIds);
-            var noteAttachs= AttachService.getAttachsByNoteIds(noteIds);
+            var noteAttachs = AttachService.getAttachsByNoteIds(noteIds);
+            Dictionary<long, List<APINoteFile>> noteFilesMap = new Dictionary<long, List<APINoteFile>>(100);
+
+            //if (noteImages != null && noteImages.Length > 0)
+            //{
+            //    foreach (var item in noteImages)
+            //    {
+            //        NoteFile noteFile=new NoteFile()
+            //        {
+            //            FileId=item.FileId,
+            //            Type=item.Type
+            //        };
+            //        if (noteFilesMap.ContainsKey(item.note))
+            //        {
+            //            noteFilesMap[item.NoteId].Add(noteFile);
+            //        }
+            //        else
+            //        {
+            //            noteFilesMap.Add(item.NoteId,new List<NoteFile>());
+            //            noteFilesMap[item.NoteId].Add(noteFile);
+
+            //        }
+                  
+            //    }
+            //}
+            if (noteAttachs != null && noteAttachs.Length > 0)
+            {
+                foreach (var item in noteAttachs)
+                {
+                    APINoteFile noteFile = new APINoteFile()
+                    {
+                        FileId=item.AttachId.ToString("x"),
+                        Type=item.Type,
+                        Title=item.Title,
+                        IsAttach=true
+
+                    };
+                    if (noteFilesMap.ContainsKey(item.NoteId))
+                    {
+                        noteFilesMap[item.NoteId].Add(noteFile);
+                    }
+                    else
+                    {
+                        noteFilesMap.Add(item.NoteId, new List<APINoteFile>());
+                        noteFilesMap[item.NoteId].Add(noteFile);
+                    }
+
+                }
+            }
+            return noteFilesMap;
+        }
+        // getDirtyNotes, 把note的图片, 附件信息都发送给客户端
+        // 客户端保存到本地, 再获取图片, 附件
+
+        // 得到所有图片, 附件信息
+        // 查images表, attachs表
+        // [待测]
+
+        public static NoteFile[] getFiles(long noteId)
+        {
+
+            var noteImages = NoteImageService.getImagesByNoteId(noteId);
+            var noteAttachs = AttachService.getAttachsByNoteId(noteId);
+
+
+            Dictionary<long, NoteFile[]> noteFilesMap = new Dictionary<long, NoteFile[]>(100);
 
             throw new Exception();
         }
@@ -234,14 +296,14 @@ namespace MoreNote.Logic.Service
             }
         }
 
-        public static Note[] ListNotesByNoteIdsWithPageSort(long[] noteIds,long userId,int pageNumber,int pageSize,string sortField,bool isAsc,bool isBlog)
+        public static Note[] ListNotesByNoteIdsWithPageSort(long[] noteIds, long userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
         {
             throw new Exception();
         }
         // shareService调用
         public static Note[] ListNotesByNoteIds(long[] noteIds)
         {
-            
+
             throw new Exception();
         }
         // blog需要
@@ -261,123 +323,123 @@ namespace MoreNote.Logic.Service
         // 添加笔记
         // 首先要判断Notebook是否是Blog, 是的话设为blog
         // [ok]
-        public static Note AddNote(Note note,bool fromAPI)
+        public static Note AddNote(Note note, bool fromAPI)
         {
-            if (note.NoteId==0)
+            if (note.NoteId == 0)
             {
-                note.NoteId=SnowFlake_Net.GenerateSnowFlakeID();
+                note.NoteId = SnowFlake_Net.GenerateSnowFlakeID();
             }
             // 关于创建时间, 可能是客户端发来, 此时判断时间是否有
             note.CreatedTime = Tools.FixUrlTime(note.CreatedTime);
             note.UpdatedTime = Tools.FixUrlTime(note.UpdatedTime);
-         
-            note.UrlTitle=InitServices.GetUrTitle(note.UserId,note.Title,"note",note.NoteId);
+
+            note.UrlTitle = InitServices.GetUrTitle(note.UserId, note.Title, "note", note.NoteId);
             note.Usn = UserService.IncrUsn(note.UserId);
-            long? notebookId=note.NotebookId;
-          // api会传IsBlog, web不会传
+            long? notebookId = note.NotebookId;
+            // api会传IsBlog, web不会传
             if (!fromAPI)
             {
-                note.IsBlog=NotebookService.IsBlog(notebookId);
+                note.IsBlog = NotebookService.IsBlog(notebookId);
             }
             //	if note.IsBlog {
             note.PublicTime = note.UpdatedTime;
             AddNote(note);
             // tag1
-            TagService.AddTags(note.UserId,note.Tags);
+            TagService.AddTags(note.UserId, note.Tags);
             // recount notebooks' notes number
             NotebookService.ReCountNotebookNumberNotes(notebookId);
-          return note;
+            return note;
         }
         // 添加共享d笔记
-        public static Note AddSharedNote(Note note,long muUserId)
+        public static Note AddSharedNote(Note note, long muUserId)
         {
             throw new Exception();
         }
         // 添加笔记和内容
         // 这里使用 info.NoteAndContent 接收?
-        public static Note AddNoteAndContentForController(Note note,NoteContent noteContent ,long updatedUserId)
+        public static Note AddNoteAndContentForController(Note note, NoteContent noteContent, long updatedUserId)
         {
             throw new Exception();
         }
-        public static Note AddNoteAndContent(Note note,NoteContent noteContent,long myUserId)
+        public static Note AddNoteAndContent(Note note, NoteContent noteContent, long myUserId)
         {
-            if (note.NoteId==0)
+            if (note.NoteId == 0)
             {
-               note.NoteId=SnowFlake_Net.GenerateSnowFlakeID();
+                note.NoteId = SnowFlake_Net.GenerateSnowFlakeID();
             }
-            noteContent.NoteContentId= SnowFlake_Net.GenerateSnowFlakeID();
-            noteContent.NoteId=note.NoteId;
-            if (note.UserId!=0&&note.UserId!=myUserId)
+            noteContent.NoteContentId = SnowFlake_Net.GenerateSnowFlakeID();
+            noteContent.NoteId = note.NoteId;
+            if (note.UserId != 0 && note.UserId != myUserId)
             {
-                note=AddSharedNote(note,myUserId);
+                note = AddSharedNote(note, myUserId);
             }
             else
             {
-                note=AddNote(note,false);
+                note = AddNote(note, false);
             }
-            if (note.NoteId!=0)
+            if (note.NoteId != 0)
             {
                 NoteContentService.AddNoteContent(noteContent);
 
             }
             return note;
         }
-        public static Note AddNoteAndContentApi(Note note,NoteContent noteContent,long myUserId)
+        public static Note AddNoteAndContentApi(Note note, NoteContent noteContent, long myUserId)
         {
             throw new Exception();
         }
         // 修改笔记
         // 这里没有判断usn
-        public static bool UpdateNote(long updateUserId,long noteId,Note needUpdate,int usn,out int afterUsn,out string msg)
+        public static bool UpdateNote(long updateUserId, long noteId, Note needUpdate, int usn, out int afterUsn, out string msg)
         {
-         
-            var oldNote=NoteService.GetNoteById(needUpdate.NoteId);
+
+            var oldNote = NoteService.GetNoteById(needUpdate.NoteId);
 
             //updateUser 必须是笔记的原主人
-           
+
             //todo:需要完成函数NoteService.UpdateNote
-            var note=GetNoteById(noteId);
-            if (note==null)
+            var note = GetNoteById(noteId);
+            if (note == null)
             {
-                msg= "notExists";
+                msg = "notExists";
                 afterUsn = 0;
                 return false;
             }
-            if (note.UserId!=updateUserId)
+            if (note.UserId != updateUserId)
             {
                 //当前版本仅支持个人使用 不支持多租户共享编辑或分享笔记
-                msg= "noAuth";
+                msg = "noAuth";
                 afterUsn = 0;
                 return false;
             }
-            if (note.IsBlog&&note.HasSelfDefined)
+            if (note.IsBlog && note.HasSelfDefined)
             {
-                needUpdate.ImgSrc="";
-                needUpdate.Desc="";
+                needUpdate.ImgSrc = "";
+                needUpdate.Desc = "";
             }
-            needUpdate.UserId=updateUserId;
+            needUpdate.UserId = updateUserId;
 
             // 可以将时间传过来
-            if (needUpdate.UpdatedTime==null)
+            if (needUpdate.UpdatedTime == null)
             {
-                needUpdate.UpdatedTime=DateTime.Now;
+                needUpdate.UpdatedTime = DateTime.Now;
             }
-            afterUsn=UserService.IncrUsn(updateUserId);
-            needUpdate.Usn=afterUsn;
+            afterUsn = UserService.IncrUsn(updateUserId);
+            needUpdate.Usn = afterUsn;
 
-            var needRecountTags=false;
+            var needRecountTags = false;
 
             // 是否修改了isBlog
             // 也要修改noteContents的IsBlog
-            if (needUpdate.IsBlog!=oldNote.IsBlog)
+            if (needUpdate.IsBlog != oldNote.IsBlog)
             {
                 UpdateNoteContentIsBlog(noteId, needUpdate.IsBlog);
                 if (!oldNote.IsBlog)
                 {
-                    needUpdate.PublicTime=needUpdate.UpdatedTime;
+                    needUpdate.PublicTime = needUpdate.UpdatedTime;
 
                 }
-                needRecountTags=true;
+                needRecountTags = true;
             }
             // 添加tag2
             // TODO 这个tag去掉, 添加tag另外添加, 不要这个
@@ -390,7 +452,7 @@ namespace MoreNote.Logic.Service
         }
         private static bool UpdateNote(Note note)
         {
-            using (var db =new DataContext())
+            using (var db = new DataContext())
             {
                 //   var change= db.Note.Where(b=>b.NoteId==note.NoteId).Update(x=>note);
                 return false;
@@ -402,40 +464,40 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="apiNote"></param>
         /// <returns></returns>
-        public static bool UpdateNote(ref ApiNote apiNote,long updateUser, long contentId, bool verifyUsn,bool verifyOwner,
-            out string msg,out int afterUsn )
+        public static bool UpdateNote(ref ApiNote apiNote, long updateUser, long contentId, bool verifyUsn, bool verifyOwner,
+            out string msg, out int afterUsn)
         {
-            var noteId=MyConvert.HexToLong(apiNote.NoteId);
-           
-            afterUsn =0;
-            if (apiNote==null)
+            var noteId = MyConvert.HexToLong(apiNote.NoteId);
+
+            afterUsn = 0;
+            if (apiNote == null)
             {
-                msg ="apiNote_is_null";
+                msg = "apiNote_is_null";
                 return false;
             }
-           // var noteId = MyConvert.HexToLong(apiNote.NoteId);
+            // var noteId = MyConvert.HexToLong(apiNote.NoteId);
             if (noteId == 0)
             {
-               
-                msg ="noteId_is_note_long_Number";
+
+                msg = "noteId_is_note_long_Number";
                 return false;
 
             }
-            using (var db=new DataContext())
+            using (var db = new DataContext())
             {
-                var result=db.Note.Where(b=>b.NoteId==noteId&&b.UserId==updateUser);
-                if (result==null)
+                var result = db.Note.Where(b => b.NoteId == noteId && b.UserId == updateUser);
+                if (result == null)
                 {
-                    msg= "inexistence";
+                    msg = "inexistence";
                     return false;
                 }
-                var note=result.FirstOrDefault();
-               
+                var note = result.FirstOrDefault();
+
                 if (verifyUsn)
                 {
-                    if (note.Usn!=apiNote.Usn)
+                    if (note.Usn != apiNote.Usn)
                     {
-                        msg= "Verify_Usn_Failure";
+                        msg = "Verify_Usn_Failure";
                         return false;
                     }
 
@@ -449,14 +511,14 @@ namespace MoreNote.Logic.Service
                     }
 
                 }
-                if (apiNote.Desc!=null)
+                if (apiNote.Desc != null)
                 {
-                    note.Desc=apiNote.Desc;
+                    note.Desc = apiNote.Desc;
                 }
-              
-                if (apiNote.Title!=null)
+
+                if (apiNote.Title != null)
                 {
-                    note.Title=apiNote.Title;
+                    note.Title = apiNote.Title;
                 }
                 if (apiNote.IsTrash != null)
                 {
@@ -464,25 +526,25 @@ namespace MoreNote.Logic.Service
                 }
                 if (apiNote.IsBlog != null)
                 {
-                    if (note.IsBlog==false&&apiNote.IsBlog==true)
+                    if (note.IsBlog == false && apiNote.IsBlog == true)
                     {
-                        note.PublicTime=DateTime.Now;
+                        note.PublicTime = DateTime.Now;
                     }
                     note.IsBlog = apiNote.IsBlog.GetValueOrDefault(false);
                 }
                 if (apiNote.Tags != null)
                 {
                     note.Tags = apiNote.Tags;
-                    TagService.AddTags(note.UserId,note.Tags);
+                    TagService.AddTags(note.UserId, note.Tags);
                     BlogService.ReCountBlogTags(note.UserId);
                 }
                 if (apiNote.NotebookId != null)
                 {
-                   
+
                     var noteBookId = MyConvert.HexToLong(apiNote.NotebookId);
-                    if (note.NotebookId==0)
+                    if (note.NotebookId == 0)
                     {
-                        msg= "NotebookId_Is_Illegal";
+                        msg = "NotebookId_Is_Illegal";
                         return false;
                     }
                     if (note.NotebookId != noteBookId)
@@ -491,14 +553,14 @@ namespace MoreNote.Logic.Service
                         // 两方的notebook也要修改
                         NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
                         NotebookService.ReCountNotebookNumberNotes(noteBookId);
-                        note.NotebookId=noteBookId;
-                        
+                        note.NotebookId = noteBookId;
+
                     }
 
                 }
-                if (apiNote.Content!=null)
+                if (apiNote.Content != null)
                 {
-                    note.ContentId= contentId;
+                    note.ContentId = contentId;
                     if (apiNote.Abstract == null)
                     {
                         note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Content, 200);
@@ -510,54 +572,54 @@ namespace MoreNote.Logic.Service
                     }
 
                 }
-                if (apiNote.UpdatedTime!=null)
+                if (apiNote.UpdatedTime != null)
                 {
-                    note.UpdatedTime= Tools.FixUrlTime(apiNote.UpdatedTime);
+                    note.UpdatedTime = Tools.FixUrlTime(apiNote.UpdatedTime);
 
                 }
                 else
                 {
-                    note.UpdatedTime=DateTime.Now;
+                    note.UpdatedTime = DateTime.Now;
                 }
                 if (note.IsBlog && note.HasSelfDefined)
                 {
                     note.ImgSrc = null;
                     note.Desc = null;
                 }
-                if (apiNote.IsTrash!=null)
+                if (apiNote.IsTrash != null)
                 {
                     note.IsTrash = apiNote.IsTrash.GetValueOrDefault(false);
                     NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
                 }
-                if (apiNote.IsMarkdown!=null)
+                if (apiNote.IsMarkdown != null)
                 {
-                    note.IsMarkdown=apiNote.IsMarkdown.GetValueOrDefault();
+                    note.IsMarkdown = apiNote.IsMarkdown.GetValueOrDefault();
                 }
-                note.UpdatedUserId=MyConvert.HexToLong(apiNote.UserId);
+                note.UpdatedUserId = MyConvert.HexToLong(apiNote.UserId);
                 //更新用户元数据乐观锁
                 afterUsn = UserService.IncrUsn(note.UserId);
                 //更新笔记元数据乐观锁
                 note.Usn = afterUsn;
                 db.SaveChanges();
-                msg="success";
-                afterUsn=note.Usn;
+                msg = "success";
+                afterUsn = note.Usn;
                 return true;
             }
-            
+
         }
         // 当设置/取消了笔记为博客
-        public static bool UpdateNoteContentIsBlog(long noteId,bool isBlog)
+        public static bool UpdateNoteContentIsBlog(long noteId, bool isBlog)
         {
             throw new Exception();
         }
         // 附件修改, 增加noteIncr
-        public static int IncrNoteUsn(long noteId,long userId)
+        public static int IncrNoteUsn(long noteId, long userId)
         {
             throw new Exception();
         }
         // 这里要判断权限, 如果userId != updatedUserId, 那么需要判断权限
         // [ok] TODO perm还没测 [del]
-        public static bool UpdateNoteTitle(long userId,long updateUserId,long noteId,string title)
+        public static bool UpdateNoteTitle(long userId, long updateUserId, long noteId, string title)
         {
             throw new Exception();
         }
@@ -572,11 +634,11 @@ namespace MoreNote.Logic.Service
         }
         // 更新tags
         // [ok] [del]
-        public static bool UpdateTags(long noteId,long userId,string[] tags)
+        public static bool UpdateTags(long noteId, long userId, string[] tags)
         {
             throw new Exception();
         }
-        public static bool ToBlog(long userId,long noteId,bool isBlog,bool isTop)
+        public static bool ToBlog(long userId, long noteId, bool isBlog, bool isTop)
         {
             throw new Exception();
         }
@@ -584,7 +646,7 @@ namespace MoreNote.Logic.Service
         // trash, 正常的都可以用
         // 1. 要检查下notebookId是否是自己的
         // 2. 要判断之前是否是blog, 如果不是, 那么notebook是否是blog?
-        public static Note MoveNote(long noteId,long notebookId,long userId)
+        public static Note MoveNote(long noteId, long notebookId, long userId)
         {
             throw new Exception();
         }
@@ -592,7 +654,7 @@ namespace MoreNote.Logic.Service
         // 否则, 如果notebookId的blog是true, 则改为true之
         // 返回blog状态
         // move, copy时用
-        public static bool updateToNotebookBlog(long noteId,long notebookId,long userId)
+        public static bool updateToNotebookBlog(long noteId, long notebookId, long userId)
         {
             throw new Exception();
         }
@@ -605,13 +667,13 @@ namespace MoreNote.Logic.Service
         // 正常的可以用
         // 先查, 再新建
         // 要检查下notebookId是否是自己的
-        public static Note CopyNote(long noteId,long userId)
+        public static Note CopyNote(long noteId, long userId)
         {
             throw new Exception();
         }
         // 复制别人的共享笔记给我
         // 将别人可用的图片转为我的图片, 复制图片
-        public static Note CopySharedNote(long noteId,long fromUserId,long myUserId)
+        public static Note CopySharedNote(long noteId, long fromUserId, long myUserId)
         {
             throw new Exception();
         }
@@ -624,18 +686,18 @@ namespace MoreNote.Logic.Service
         }
         //------------------
         // 搜索Note, 博客使用了
-        public static Note[] SearchNote(string key,long userId,int pageNumber,int pageSize,string sortField,bool isAsc,bool isBlog)
+        public static Note[] SearchNote(string key, long userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
         {
             throw new Exception();
         }
         // 搜索noteContents, 补集pageSize个
-        public static Note[] searchNoteFromContent(Note[] notes,long userId,string key,int pagSize,string sortField,bool isBlog)
+        public static Note[] searchNoteFromContent(Note[] notes, long userId, string key, int pagSize, string sortField, bool isBlog)
         {
             throw new Exception();
         }
         //----------------
         // tag搜索
-        public static Note[] SearchNoteByTags(string[] tags,long userId,int pageNumber,int pageSize,string sortField,bool isAsc)
+        public static Note[] SearchNoteByTags(string[] tags, long userId, int pageNumber, int pageSize, string sortField, bool isAsc)
         {
             throw new Exception();
         }
@@ -650,7 +712,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 通过标签来查询
-        public static int CountNoteByTag(long userId,string tag)
+        public static int CountNoteByTag(long userId, string tag)
         {
             using (var db = new DataContext())
             {
@@ -662,7 +724,7 @@ namespace MoreNote.Logic.Service
 
         // 删除tag
         // 返回所有note的Usn
-        public static Dictionary<string,int> UpdateNoteToDeleteTag(long userId,string targetTag)
+        public static Dictionary<string, int> UpdateNoteToDeleteTag(long userId, string targetTag)
         {
             throw new Exception();
         }
@@ -670,31 +732,31 @@ namespace MoreNote.Logic.Service
 
         // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
         // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
-        public static  string FixContentBad(string content,bool isMarkdown)
+        public static string FixContentBad(string content, bool isMarkdown)
         {
             throw new Exception();
         }
         // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
         // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
         // 性能更好, 5倍的差距
-        public static string FixContent(string content,bool isMarkdown)
+        public static string FixContent(string content, bool isMarkdown)
         {
             //开发是不可能开发的，只能靠复制粘贴这个样子
             //todo:需要实现个方法FixContent
-            string baseUrl =ConfigService.GetSiteUrl();
-           string baseUrlPattern=baseUrl;
+            string baseUrl = ConfigService.GetSiteUrl();
+            string baseUrlPattern = baseUrl;
             // 避免https的url
-            if (baseUrl.Substring(0,8).Equals("https://"))
+            if (baseUrl.Substring(0, 8).Equals("https://"))
             {
-                baseUrlPattern=baseUrl.Replace(@"https://", @"https*://");
+                baseUrlPattern = baseUrl.Replace(@"https://", @"https*://");
             }
             else
             {
-                baseUrlPattern=baseUrl.Replace("http://", "https*://");
+                baseUrlPattern = baseUrl.Replace("http://", "https*://");
             }
             baseUrlPattern = "(?:" + baseUrlPattern + ")*";
 
-            Dictionary<string,string>[] patterns=new Dictionary<string, string>[]
+            Dictionary<string, string>[] patterns = new Dictionary<string, string>[]
             {
                 new Dictionary<string, string>()
                 {

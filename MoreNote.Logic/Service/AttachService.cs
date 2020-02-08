@@ -67,15 +67,30 @@ namespace MoreNote.Logic.Service
                 var attachs=db.AttachInfo.Where(b=>b.NoteId==noteId&&b.UserId==userId).ToArray();
                return attachs;
                 //todo:// 权限控制
-
             }
-                    
             throw new Exception();
         }
-        public static Dictionary<string,AttachInfo[] > getAttachsByNoteIds(long[] noteId)
+        public static AttachInfo[] getAttachsByNoteIds(long[] noteIds)
         {
-            return null;
+            using (var db = new DataContext())
+            {
+                AttachInfo[] attachs = db.AttachInfo.Where(b => noteIds.Contains(b.NoteId) ).ToArray();
+                return attachs;
+                //todo:// 权限控制
+            }
         }
+        public static AttachInfo[] getAttachsByNoteId(long noteId)
+        {
+            using (var db = new DataContext())
+            {
+                var attachs = db.AttachInfo.Where(b => b.NoteId == noteId).ToArray();
+                return attachs;
+                //todo:// 权限控制
+
+            }
+
+        }
+
         public static bool UpdateImageTitle(long userId,long fileId,string title)
         {
            throw new Exception();
@@ -118,6 +133,15 @@ namespace MoreNote.Logic.Service
         public static AttachInfo GetAttach(long attachId,long userId)
         {
             throw new Exception();
+        }
+        public static AttachInfo GetAttach(long attachId)
+        {
+            using (var db=new DataContext())
+            {
+                var result=db.AttachInfo.Where(b=>b.AttachId==attachId);
+                return result==null?null:result.FirstOrDefault();
+
+            }
         }
         public static bool CopyAttachs(long noteId,long toNoteId)
         {

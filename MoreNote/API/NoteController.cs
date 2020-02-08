@@ -217,18 +217,9 @@ namespace MoreNote.API
                     }
                 }
             }
-            // 移到外面来, 删除最后一个file时也要处理, 不然总删不掉
-            // 附件问题, 根据Files, 有些要删除的, 只留下这些
-            if (noteOrContent.Files!=null)
-            {
-                AttachService.UpdateOrDeleteAttachApi(noteId, tokenUserId, noteOrContent.Files);
-            }
+  
            
-            if (noteOrContent.Desc != null)
-            {
-
-
-            }
+      
             //添加需要返回的
             noteOrContent.NoteId = noteId.ToString("x");
             noteOrContent.UserId = tokenUserId.ToString("x");
@@ -343,6 +334,13 @@ namespace MoreNote.API
             }
             //更新用户元数据
             //int usn = UserService.IncrUsn(tokenUserId);
+
+            // 移到外面来, 删除最后一个file时也要处理, 不然总删不掉
+            // 附件问题, 根据Files, 有些要删除的, 只留下这些
+            if (noteOrContent.Files != null)
+            {
+                AttachService.UpdateOrDeleteAttachApi(noteId, tokenUserId, noteOrContent.Files);
+            }
             //-------------更新笔记内容
             var afterContentUsn = 0;
             var contentOk = false;
@@ -357,19 +355,20 @@ namespace MoreNote.API
                 {
                     noteOrContent.Abstract = MyHtmlHelper.SubStringHTML(noteOrContent.Content, 200, "");
                 }
-                contentOk = NoteContentService.UpdateNoteContent(
-                    noteOrContent,
-                    out contentMsg,
-                    out contentId
-                    );
-                //返回处理结果
-                if (!contentOk)
-                {
-                    re.Ok = false;
-                    re.Msg = contentMsg;
-                    re.Usn = afterContentUsn;
-                    return Json(re, MyJsonConvert.GetOptions());
-                }
+            }
+            //上传noteContent的变更
+            contentOk = NoteContentService.UpdateNoteContent(
+                 noteOrContent,
+                 out contentMsg,
+                 out contentId
+                 );
+            //返回处理结果
+            if (!contentOk)
+            {
+                re.Ok = false;
+                re.Msg = contentMsg;
+                re.Usn = afterContentUsn;
+                return Json(re, MyJsonConvert.GetOptions());
             }
 
             //-------------更新笔记元数据

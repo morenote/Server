@@ -88,13 +88,14 @@ namespace MoreNote.Logic.Service
             {
                 //更新 将其他笔记刷新
                 var noteId = MyConvert.HexToLong(apiNote.NoteId);
-                contentId=SnowFlake_Net.GenerateSnowFlakeID();
                 var note=db.Note.Where(b=>b.NoteId== noteId).First();
                 var noteContent=db.NoteContent.Where(b=>b.NoteId== noteId&&b.IsHistory==false).FirstOrDefault();
-                db.NoteContent.Where(b => b.NoteId == noteId).Update(x => new NoteContent() { IsHistory = true });
                 //如果笔记内容发生变化，生成新的笔记内容
                 if (apiNote.Content!=null)
                 {
+                    //新增笔记内容，需要将上一个笔记设置为历史笔记
+                    db.NoteContent.Where(b => b.NoteId == noteId&&b.IsHistory==false).Update(x => new NoteContent() { IsHistory = true });
+                    contentId = SnowFlake_Net.GenerateSnowFlakeID();
                     NoteContent contentNew = new NoteContent()
                     {
 
@@ -133,8 +134,8 @@ namespace MoreNote.Logic.Service
 
                 }
                 else
-                {
-
+                {   //没有新增笔记内容，那么仅仅修改原始笔记内容就可以了
+                    contentId = noteContent.NoteContentId;
                     if (apiNote.IsBlog != null)
                     {
                         noteContent.IsBlog = apiNote.IsBlog.GetValueOrDefault();
@@ -148,9 +149,10 @@ namespace MoreNote.Logic.Service
                     {
                         noteContent.UpdatedTime = apiNote.UpdatedTime;
                     }
+                  
                 } 
                 
-                contentId=noteContent.NoteContentId;
+                
                 msg="";
                 return  db.SaveChanges()>0;
             }

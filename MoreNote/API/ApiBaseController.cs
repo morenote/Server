@@ -195,7 +195,7 @@ namespace MoreNote.API
                     NoteId = noteId,
                     UploadUserId = userId,
                     Name = fileName,
-                    Title = fileName,
+                    Title = httpFile.FileName,
                     Size = httpFile.Length,
                     Path = uploadDirPath + fileName,
                     Type=fileEXT.ToLower(),
