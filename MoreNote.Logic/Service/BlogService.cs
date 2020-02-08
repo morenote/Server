@@ -33,13 +33,14 @@ namespace MoreNote.Logic.Service
             throw new Exception();
 
         }
-        public TagCount GetBlogTags(long userId)
+        public static TagCount GetBlogTags(long userId)
         {
             throw new Exception();
         }
-        public bool ReCountBlogTags(long userId)
+        public static bool ReCountBlogTags(long userId)
         {
-            throw new Exception();
+            //todo 需要完成此功能
+            return true;
         }
         public static Archive[] ListBlogsArchive(long userId,long noteBookId,int year,int month,string sortField ,bool isAec)
         {
