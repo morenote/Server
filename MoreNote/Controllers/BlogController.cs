@@ -51,6 +51,10 @@ namespace MoreNote.Controllers
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
             NoteAndContent noteAndContent= NoteService.GetNoteAndContent(noteId);
+            if (!noteAndContent.note.IsBlog)
+            {
+                return Content("未经授权的访问");
+            }
             ViewBag.noteAndContent = noteAndContent;
             blog.Add("Title", noteAndContent.note.Title);
             blog.Add("NoteTitle", noteAndContent.note.Title);
