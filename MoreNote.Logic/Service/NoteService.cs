@@ -19,7 +19,6 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.Note.Add(note);
-
                 return db.SaveChanges() > 0;
             }
         }
@@ -730,8 +729,6 @@ namespace MoreNote.Logic.Service
 
 
                     }
-
-
                 }
                 else
                 {

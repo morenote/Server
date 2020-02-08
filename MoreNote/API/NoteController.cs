@@ -98,27 +98,35 @@ namespace MoreNote.API
             var z = x["FileDatas[5e36bafc26f2af1a79000000]"];
             //json 返回状态好乱呀 /(ㄒoㄒ)/~~
             Re re = Re.NewRe();
-            long userId = getUserIdByToken(token); ;
-            long myUserId = userId;
+            long tokenUserId = getUserIdByToken(token); ;
+            long myUserId = tokenUserId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))
             {
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
-            long noteId = MyConvert.HexToLong(noteOrContent.NoteId);
-            if (noteId == 0)
+            long noteId = SnowFlake_Net.GenerateSnowFlakeID();
+          
+       
+            if (noteOrContent.Title==null)
             {
-                noteId = SnowFlake_Net.GenerateSnowFlakeID();
-                noteOrContent.NoteId=noteId.ToString("x");
+                noteOrContent.Title="无标题";
             }
             
             // TODO 先上传图片/附件, 如果不成功, 则返回false
             //
             int attachNum = 0;
+            if (noteOrContent.Tags!=null)
+            {
+                if (noteOrContent.Tags.Length>0&&noteOrContent.Tags[0]==null)
+                {
+                    noteOrContent.Tags=new string[0];
+                }
 
+            }
             fixPostNotecontent(ref noteOrContent);
             Note note = new Note()
             {
-                UserId = userId,
+                UserId = tokenUserId,
                 NoteId = noteId,
                 NotebookId = MyConvert.HexToLong(noteOrContent.NotebookId),
                 Title = noteOrContent.Title,
@@ -135,7 +143,7 @@ namespace MoreNote.API
             {
                 NoteContentId = note.ContentId,
                 NoteId = noteId,
-                UserId = userId,
+                UserId = tokenUserId,
                 IsBlog = note.IsBlog,
                 Content = noteOrContent.Content,
                 Abstract = noteOrContent.Abstract,
@@ -173,7 +181,7 @@ namespace MoreNote.API
                     {
                         if (!string.IsNullOrEmpty(file.LocalFileId))
                         {
-                            var result = upload("FileDatas[" + file.LocalFileId + "]", userId, noteId, file.IsAttach, out long serverFileId, out string msg);
+                            var result = upload("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long serverFileId, out string msg);
                             if (!result)
                             {
                                 if (string.IsNullOrEmpty(msg))
@@ -213,7 +221,7 @@ namespace MoreNote.API
             // 附件问题, 根据Files, 有些要删除的, 只留下这些
             if (noteOrContent.Files!=null)
             {
-                AttachService.UpdateOrDeleteAttachApi(noteId, userId, noteOrContent.Files);
+                AttachService.UpdateOrDeleteAttachApi(noteId, tokenUserId, noteOrContent.Files);
             }
            
             if (noteOrContent.Desc != null)
@@ -222,12 +230,22 @@ namespace MoreNote.API
 
             }
             //添加需要返回的
-           
+            noteOrContent.NoteId = noteId.ToString("x");
+            noteOrContent.UserId = tokenUserId.ToString("x");
+            noteOrContent. Title = note.Title;
+            noteOrContent.Tags = note.Tags;
+            noteOrContent.IsMarkdown = note.IsMarkdown;
+            noteOrContent.IsBlog = note.IsBlog;
+            noteOrContent.IsTrash = note.IsTrash;
+            noteOrContent.IsDeleted = note.IsDeleted;
+            noteOrContent.IsTrash = note.IsTrash;
+            noteOrContent.IsTrash = note.IsTrash;
             noteOrContent.Usn = note.Usn;
             noteOrContent.CreatedTime = note.CreatedTime;
             noteOrContent.UpdatedTime = note.UpdatedTime;
-            noteOrContent.UserId = getUserIdByToken(token).ToString("x");
-            noteOrContent.IsMarkdown = note.IsMarkdown;
+            noteOrContent.PublicTime = note.PublicTime;
+            //Files = files
+
             // 删除一些不要返回的, 删除Desc?
             noteOrContent.Content = "";
             noteOrContent.Abstract = "";
@@ -324,7 +342,7 @@ namespace MoreNote.API
                 }
             }
             //更新用户元数据
-            int usn = UserService.IncrUsn(tokenUserId);
+            //int usn = UserService.IncrUsn(tokenUserId);
             //-------------更新笔记内容
             var afterContentUsn = 0;
             var contentOk = false;
