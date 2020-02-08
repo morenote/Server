@@ -31,9 +31,19 @@ namespace MoreNote.API
             return File(stream, memi, Path.GetFileName(file.Path));
         }
         //todo:下载附件
-        public IActionResult GetAttach(string fileId,string token)
+        public IActionResult GetAttach(string fileId)
         {
-            return null;
+            if (string.IsNullOrEmpty(fileId))
+            {
+                return Content("error");
+            }
+            var file = AttachService.GetAttach(MyConvert.HexToLong(fileId));
+            var stream = System.IO.File.OpenRead(file.Path);
+            string fileExt = Path.GetExtension(file.Name);
+            //获取文件的ContentType
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[fileExt];
+            return File(stream, memi, Path.GetFileName(file.Path));
         }
         //todo:下载所有附件
         public IActionResult GetAllAttachs(string noteId,string token)

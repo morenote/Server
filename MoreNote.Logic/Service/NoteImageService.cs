@@ -30,15 +30,29 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static Dictionary<long,NoteFile[]> getImagesByNoteIds(long[] noteIds)
+        public static NoteFile[] getImagesByNoteIds(long[] noteIds)
+        {
+            //using (var db = new DataContext())
+            //{
+            //    var result = db.NoteImage.Where(b=>noteIds.Contains(b.NoteId));
+            //    if (result==null)
+            //    {
+            //        return null;
+            //    }
+            //    NoteImage[] noteImages = result.ToArray();
+            //    return noteImages;
+            //}
+            return null;
+        }
+        public static NoteImage[] getImagesByNoteId(long noteId)
         {
             using (var db = new DataContext())
             {
-                var result = db.NoteImage.Where(b=>noteIds.Contains(b.NoteId));
+                var result = db.NoteImage.Where(b => b.NoteId==noteId);
                 NoteImage[] noteImages = result.ToArray();
-
+                return noteImages;
             }
-            throw new Exception();
+            
         }
 
 
