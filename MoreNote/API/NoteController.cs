@@ -4,6 +4,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using System;
+using System.Text.RegularExpressions;
 
 namespace MoreNote.API
 {
@@ -111,67 +112,10 @@ namespace MoreNote.API
             {
                 noteOrContent.Title="无标题";
             }
-            
+
             // TODO 先上传图片/附件, 如果不成功, 则返回false
-            //
+            //-------------新增文件和附件内容
             int attachNum = 0;
-            if (noteOrContent.Tags!=null)
-            {
-                if (noteOrContent.Tags.Length>0&&noteOrContent.Tags[0]==null)
-                {
-                    noteOrContent.Tags=new string[0];
-                }
-
-            }
-            fixPostNotecontent(ref noteOrContent);
-            Note note = new Note()
-            {
-                UserId = tokenUserId,
-                NoteId = noteId,
-                NotebookId = MyConvert.HexToLong(noteOrContent.NotebookId),
-                Title = noteOrContent.Title,
-                Tags = noteOrContent.Tags,
-                Desc = noteOrContent.Desc,
-                IsBlog = noteOrContent.IsBlog.GetValueOrDefault(),
-                IsMarkdown = noteOrContent.IsMarkdown.GetValueOrDefault(),
-                AttachNum = attachNum,
-                CreatedTime = noteOrContent.CreatedTime,
-                UpdatedTime = noteOrContent.UpdatedTime,
-                ContentId = SnowFlake_Net.GenerateSnowFlakeID()
-            };
-            NoteContent noteContent = new NoteContent()
-            {
-                NoteContentId = note.ContentId,
-                NoteId = noteId,
-                UserId = tokenUserId,
-                IsBlog = note.IsBlog,
-                Content = noteOrContent.Content,
-                Abstract = noteOrContent.Abstract,
-                CreatedTime = noteOrContent.CreatedTime,
-                UpdatedTime = noteOrContent.UpdatedTime,
-                IsHistory = false
-
-            };
-            // 通过内容得到Desc, abstract
-            if (string.IsNullOrEmpty(noteOrContent.Abstract))
-            {
-                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Content, 200);
-                noteContent.Abstract = MyHtmlHelper.SubStringHTML(noteContent.Content, 200, "");
-            }
-            else
-            {
-                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Abstract, 200);
-            }
-            note = NoteService.AddNoteAndContent(note, noteContent, myUserId);
-
-            if (note == null || note.NoteId == 0)
-            {
-                return Json(new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "AddNoteAndContent_is_error"
-                });
-            }
             if (noteOrContent.Files != null && noteOrContent.Files.Length > 0)
             {
                 for (int i = 0; i < noteOrContent.Files.Length; i++)
@@ -217,10 +161,67 @@ namespace MoreNote.API
                     }
                 }
             }
-  
-           
-      
-            //添加需要返回的
+            //-------------替换笔记内容中的文件ID
+            fixPostNotecontent(ref noteOrContent);
+            if (noteOrContent.Tags!=null)
+            {
+                if (noteOrContent.Tags.Length>0&&noteOrContent.Tags[0]==null)
+                {
+                    noteOrContent.Tags=new string[0];
+                }
+
+            }
+            //-------------新增笔记对象
+            Note note = new Note()
+            {
+                UserId = tokenUserId,
+                NoteId = noteId,
+                NotebookId = MyConvert.HexToLong(noteOrContent.NotebookId),
+                Title = noteOrContent.Title,
+                Tags = noteOrContent.Tags,
+                Desc = noteOrContent.Desc,
+                IsBlog = noteOrContent.IsBlog.GetValueOrDefault(),
+                IsMarkdown = noteOrContent.IsMarkdown.GetValueOrDefault(),
+                AttachNum = attachNum,
+                CreatedTime = noteOrContent.CreatedTime,
+                UpdatedTime = noteOrContent.UpdatedTime,
+                ContentId = SnowFlake_Net.GenerateSnowFlakeID()
+            };
+            //-------------新增笔记内容对象
+            NoteContent noteContent = new NoteContent()
+            {
+                NoteContentId = note.ContentId,
+                NoteId = noteId,
+                UserId = tokenUserId,
+                IsBlog = note.IsBlog,
+                Content = noteOrContent.Content,
+                Abstract = noteOrContent.Abstract,
+                CreatedTime = noteOrContent.CreatedTime,
+                UpdatedTime = noteOrContent.UpdatedTime,
+                IsHistory = false
+
+            };
+            //-------------得到Desc, abstract
+            if (string.IsNullOrEmpty(noteOrContent.Abstract))
+            {
+                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Content, 200);
+                noteContent.Abstract = MyHtmlHelper.SubStringHTML(noteContent.Content, 200, "");
+            }
+            else
+            {
+                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Abstract, 200);
+            }
+            note = NoteService.AddNoteAndContent(note, noteContent, myUserId);
+            //-------------将笔记与笔记内容保存到数据库
+            if (note == null || note.NoteId == 0)
+            {
+                return Json(new ApiRe()
+                {
+                    Ok = false,
+                    Msg = "AddNoteAndContent_is_error"
+                });
+            }
+            //-------------API返回客户端信息
             noteOrContent.NoteId = noteId.ToString("x");
             noteOrContent.UserId = tokenUserId.ToString("x");
             noteOrContent. Title = note.Title;
@@ -237,7 +238,7 @@ namespace MoreNote.API
             noteOrContent.PublicTime = note.PublicTime;
             //Files = files
 
-            // 删除一些不要返回的, 删除Desc?
+            //------------- 删除API中不需要返回的内容
             noteOrContent.Content = "";
             noteOrContent.Abstract = "";
             //	apiNote := info.NoteToApiNote(note, noteOrContent.Files)
@@ -423,6 +424,31 @@ namespace MoreNote.API
             APINoteFile[] files = noteOrContent.Files;
             if (files != null && files.Length > 0)
             {
+                foreach (var file in files)
+                {
+                    if (file.FileId!=null&&file.LocalFileId!=null)
+                    {
+                        if (!file.IsAttach)
+                        {
+                            //处理图片链接
+                            Regex regex = new Regex(@"(https*://[^/]*?/api/file/getImage\?fileId=)" + file.LocalFileId);
+                            if (regex.IsMatch(noteOrContent.Content))
+                            {
+                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + file.FileId+"aaaaaaaa");
+                            }
+                        }
+                        else
+                        {
+                            //处理附件链接
+                            Regex regex = new Regex(@"(https*://[^/]*?/api/file/getAttach\?fileId=)" + file.LocalFileId);
+                            if (regex.IsMatch(noteOrContent.Content))
+                            {
+                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + file.FileId+ "aaaaaaaa");
+                            }
+                        }
+
+                    }
+                }
 
             }
         }

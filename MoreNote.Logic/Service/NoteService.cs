@@ -99,8 +99,7 @@ namespace MoreNote.Logic.Service
             NoteContent noteContent = NoteContentService.GetNoteContent(noteId, userId);
             return new NoteAndContent()
             {
-                note = note
-                ,
+                note = note,
                 noteContent = noteContent
             };
 
@@ -146,7 +145,8 @@ namespace MoreNote.Logic.Service
                 for (int i = 0; i < notes.Length; i++)
                 {
 
-                    apiNotes[i] = ToApiNote(ref notes[i], noteFilesMap[notes[i].NoteId].ToArray());
+                    APINoteFile[] aPINoteFiles=noteFilesMap.ContainsKey(notes[i].NoteId)? noteFilesMap[notes[i].NoteId].ToArray():null;
+                    apiNotes[i] = ToApiNote(ref notes[i], aPINoteFiles);
 
                 }
 
@@ -729,18 +729,18 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // api
-
+        [Obsolete]
         // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
         // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
         public static string FixContentBad(string content, bool isMarkdown)
         {
-            throw new Exception();
+            throw new Exception("废弃");
         }
         // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
         // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
         // 性能更好, 5倍的差距
         public static string FixContent(string content, bool isMarkdown)
-        {
+        {   
             //开发是不可能开发的，只能靠复制粘贴这个样子
             //todo:需要实现个方法FixContent
             string baseUrl = ConfigService.GetSiteUrl();

@@ -9,6 +9,8 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         public long FileId { get; set; }
+        //如果 不进行FixContent处理，那么FileId=LocalFileId
+        //public long LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
         public long UserId { get; set; }
         public long AlbumId { get; set; }
 
