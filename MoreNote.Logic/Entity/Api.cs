@@ -102,9 +102,9 @@ namespace MoreNote.Logic.Entity
     public class ReUpdate
     {
        
-        public bool Ok;
-        public string Msg;
-        public int Usn;
+        public bool Ok { get; set; }
+        public string Msg { get; set; }
+        public int Usn { get; set; }
     }
 
 }

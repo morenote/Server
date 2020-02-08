@@ -49,8 +49,7 @@ namespace MoreNote.API
         //todo:得到note和内容
         public IActionResult GetNoteAndContent(string token, string noteId)
         {
-            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(MyConvert.HexToLong(noteId), getUserIdByToken());
-
+            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(MyConvert.HexToLong(noteId), getUserIdByToken(),false,false,false);
             if (noteAndContent == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
@@ -400,29 +399,31 @@ namespace MoreNote.API
             }
             //处理结果
             //-------------API返回客户端信息
-            noteOrContent.NoteId = noteId.ToString("x");
-            noteOrContent.UserId = tokenUserId.ToString("x");
-            noteOrContent.Title = note.Title;
-            noteOrContent.Tags = note.Tags;
-            noteOrContent.IsMarkdown = note.IsMarkdown;
-            noteOrContent.IsBlog = note.IsBlog;
-            noteOrContent.IsTrash = note.IsTrash;
-            noteOrContent.IsDeleted = note.IsDeleted;
-            noteOrContent.IsTrash = note.IsTrash;
-            noteOrContent.IsTrash = note.IsTrash;
-            noteOrContent.Usn = note.Usn;
-            noteOrContent.CreatedTime = note.CreatedTime;
-            noteOrContent.UpdatedTime = note.UpdatedTime;
-            noteOrContent.PublicTime = note.PublicTime;
+            note = NoteService.GetNote(noteId, tokenUserId);
+           // noteOrContent.NoteId = noteId.ToString("x");
+           // noteOrContent.UserId = tokenUserId.ToString("x");
+          //  noteOrContent.Title = note.Title;
+           // noteOrContent.Tags = note.Tags;
+           // noteOrContent.IsMarkdown = note.IsMarkdown;
+           // noteOrContent.IsBlog = note.IsBlog;
+            //noteOrContent.IsTrash = note.IsTrash;
+            //noteOrContent.IsDeleted = note.IsDeleted;
+            //noteOrContent.IsTrash = note.IsTrash;
+           
+            //noteOrContent.Usn = note.Usn;
+            //noteOrContent.CreatedTime = note.CreatedTime;
+            //noteOrContent.UpdatedTime = note.UpdatedTime;
+            //noteOrContent.PublicTime = note.PublicTime;
 
             noteOrContent.Content = "";
             noteOrContent.Usn = afterNoteUsn;
             noteOrContent.UpdatedTime = DateTime.Now;
+            noteOrContent.IsDeleted=false;
             noteOrContent.UserId = tokenUserId.ToString("x");
             return Json(noteOrContent, MyJsonConvert.GetOptions());
         }
         //todo:删除trash
-        public IActionResult DeleteTrash(string noteId, int usn, string token)
+        public JsonResult DeleteTrash(string noteId, int usn, string token)
         {
             bool result = TrashService.DeleteTrashApi(MyConvert.HexToLong(noteId), getUserIdByToken(token), usn, out string msg, out int afterUsn);
             if (result)
@@ -432,7 +433,7 @@ namespace MoreNote.API
                     Ok=true,
                     Msg="",
                     Usn=afterUsn
-                });
+                },MyJsonConvert.GetOptions());
             }
             else
             {
@@ -441,7 +442,7 @@ namespace MoreNote.API
                     Ok = false,
                     Msg = msg,
                     Usn = afterUsn
-                });
+                }, MyJsonConvert.GetOptions());
             }
         }
         //todo:导出成PDF

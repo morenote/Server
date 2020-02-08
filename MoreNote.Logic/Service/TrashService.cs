@@ -43,17 +43,18 @@ namespace MoreNote.Logic.Service
         public static bool DeleteTrashApi(long noteId, long userId, int usn, out string msg, out int afterUsn)
         {
             Note note = NoteService.GetNote(noteId, userId);
-            if (note.NoteId == 0 || note.IsDeleted)
+            if (note==null)
             {
                 msg = "notExists";
-                afterUsn = usn;
+                afterUsn = 0;
                 //todo: 存疑
                 return false;
             }
+        
             if (note.Usn != usn)
             {
                 msg = "conflict";
-                afterUsn = usn;
+                afterUsn = 0;
                 return false;
             }
             // 设置删除位
@@ -63,6 +64,7 @@ namespace MoreNote.Logic.Service
             if (!result)
             {
                 msg= "设置删除位错误";
+                afterUsn=0;
                 return false;
             }
             AttachService.DeleteAllAttachs(noteId, userId);
