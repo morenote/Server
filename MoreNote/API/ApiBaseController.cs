@@ -317,7 +317,7 @@ namespace MoreNote.API
         //检查上传图片后缀名
         private bool IsAllowImageExt(string ext)
         {
-            HashSet<string> exts=new HashSet<string>() { "bmp","jpg","png","tif","gif","pcx","tga","exif","fpx","svg","psd","cdr","pcd","dxf","ufo","eps","ai","raw","WMF","webp"};
+            HashSet<string> exts=new HashSet<string>() { "bmp","jpg","jpeg","png","tif","gif","pcx","tga","exif","fpx","svg","psd","cdr","pcd","dxf","ufo","eps","ai","raw","WMF","webp"};
             if (exts.Contains(ext.ToLower()))
             {
                 return true;
