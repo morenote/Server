@@ -49,12 +49,21 @@ namespace MoreNote.Logic.Service
                 return db.SaveChanges() > 0;
             }
         }
+        public static NoteContent GetNoteContent(long noteId, long userId,bool IsHistory )
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.NoteContent
+                    .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory== IsHistory);
+                return result == null ? null : result.FirstOrDefault();
+            }
+        }
         public static NoteContent GetNoteContent(long noteId, long userId)
         {
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
-                    .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory==false);
+                    .Where(b => b.UserId == userId && b.NoteId == noteId );
                 return result == null ? null : result.FirstOrDefault();
             }
         }

@@ -83,38 +83,49 @@ namespace MoreNote.Logic.Service
                 {
                     afterUsn=0;
                     return false;
-
                 }
                 var note=result.FirstOrDefault();
                 note.IsTrash=true;
                 note.IsDeleted=true;
-                afterUsn=note.Usn=UserService.IncrUsn(userId);
+                afterUsn=UserService.IncrUsn(userId);
+                note.Usn= afterUsn;
                 return db.SaveChanges()>0;
             }
 
         }
 
+        public static Note GetNote(long noteId, long userId, bool IsTrash, bool isDelete)
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsTrash==IsTrash&&b.IsDeleted==isDelete);
+
+                return result == null ? null : result.FirstOrDefault();
+            }
+
+           
+        }
         public static Note GetNote(long noteId, long userId)
         {
             using (var db = new DataContext())
             {
-                var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
+                var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId );
+
                 return result == null ? null : result.FirstOrDefault();
             }
 
-            throw new Exception();
-        }
 
+        }
         // 得到blog, blogService用
         // 不要传userId, 因为是公开的
         public static Note GetBlogNote(long noteId)
         {
             throw new Exception();
         }
-        public static NoteAndContent GetNoteAndContent(long noteId, long userId)
+        public static NoteAndContent GetNoteAndContent(long noteId, long userId,bool isTrach,bool isDelete,bool IsHistory)
         {
-            Note note = GetNote(noteId, userId);
-            NoteContent noteContent = NoteContentService.GetNoteContent(noteId, userId);
+            Note note = GetNote(noteId, userId,isTrach,isDelete);
+            NoteContent noteContent = NoteContentService.GetNoteContent(noteId, userId, IsHistory);
             return new NoteAndContent()
             {
                 note = note,
