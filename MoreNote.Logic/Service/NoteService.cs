@@ -431,7 +431,7 @@ namespace MoreNote.Logic.Service
                     return false;
                 }
                 var note=result.FirstOrDefault();
-                afterUsn=note.Usn;
+               
                 if (verifyUsn)
                 {
                     if (note.Usn!=apiNote.Usn)
@@ -535,7 +535,10 @@ namespace MoreNote.Logic.Service
                     note.IsMarkdown=apiNote.IsMarkdown.GetValueOrDefault();
                 }
                 note.UpdatedUserId=MyConvert.HexToLong(apiNote.UserId);
-                note.Usn++;
+                //更新用户元数据乐观锁
+                afterUsn = UserService.IncrUsn(note.UserId);
+                //更新笔记元数据乐观锁
+                note.Usn = afterUsn;
                 db.SaveChanges();
                 msg="success";
                 afterUsn=note.Usn;
