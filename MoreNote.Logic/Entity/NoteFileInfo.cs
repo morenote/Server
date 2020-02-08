@@ -21,7 +21,7 @@ namespace MoreNote.Logic.Entity
         //公开 所有人可以访问
         //保护 任何允许访问笔记的人可以允许访问
         //私有 仅允许笔记拥有者访问
-        public int AccessPermission { get;set; }
+        //public int AccessPermission { get;set; }
 
         public bool IsDefaultAlbum { get; set; }
         public DateTime CreatedTime { get; set; }

@@ -126,6 +126,7 @@ namespace MoreNote.Logic.Service
 
         public static bool UpdateOrDeleteAttachApi(long noteId,long userId,APINoteFile[] files)
         {
+
             var attachs=ListAttachs(noteId,userId);
             HashSet<string> nowAttachs=new HashSet<string>(20);
             foreach (var file in files)

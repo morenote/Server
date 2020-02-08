@@ -61,9 +61,20 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void SelectNoteTestByTag()
         {
-            Note note=NoteService.SelectNoteByTag("Java");
+            Note note = NoteService.SelectNoteByTag("Java");
             Console.WriteLine(note.Title);
             //Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void UpdateNoteTest()
+        {
+            //Note note=NoteService.GetNoteById(1225057276952449024);
+            //note.Desc="dexsss";
+            //var result=NoteService.UpdateNote(note);
+            //Console.WriteLine(result);
+
+           
         }
     }
 

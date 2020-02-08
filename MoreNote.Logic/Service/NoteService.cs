@@ -6,6 +6,8 @@ using System.Text;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using Newtonsoft.Json.Schema;
+using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
 {
@@ -97,6 +99,7 @@ namespace MoreNote.Logic.Service
 
                 throw new Exception();
         }
+
         // 得到blog, blogService用
         // 不要传userId, 因为是公开的
         public static Note GetBlogNote(long noteId)
@@ -326,11 +329,219 @@ namespace MoreNote.Logic.Service
         }
         // 修改笔记
         // 这里没有判断usn
-        public static bool UpdateNote(long updateUserId,long noteId,Note needUpdate,int usb,out int afterUsn,out string msg)
+        public static bool UpdateNote(long updateUserId,long noteId,Note needUpdate,int usn,out int afterUsn,out string msg)
         {
+         
+            var oldNote=NoteService.GetNoteById(needUpdate.NoteId);
+
+            //updateUser 必须是笔记的原主人
+           
             //todo:需要完成函数NoteService.UpdateNote
+            var note=GetNoteById(noteId);
+            if (note==null)
+            {
+                msg= "notExists";
+                afterUsn = 0;
+                return false;
+            }
+            if (note.UserId!=updateUserId)
+            {
+                //当前版本仅支持个人使用 不支持多租户共享编辑或分享笔记
+                msg= "noAuth";
+                afterUsn = 0;
+                return false;
+            }
+            if (note.IsBlog&&note.HasSelfDefined)
+            {
+                needUpdate.ImgSrc="";
+                needUpdate.Desc="";
+            }
+            needUpdate.UserId=updateUserId;
+
+            // 可以将时间传过来
+            if (needUpdate.UpdatedTime==null)
+            {
+                needUpdate.UpdatedTime=DateTime.Now;
+            }
+            afterUsn=UserService.IncrUsn(updateUserId);
+            needUpdate.Usn=afterUsn;
+
+            var needRecountTags=false;
+
+            // 是否修改了isBlog
+            // 也要修改noteContents的IsBlog
+            if (needUpdate.IsBlog!=oldNote.IsBlog)
+            {
+                UpdateNoteContentIsBlog(noteId, needUpdate.IsBlog);
+                if (!oldNote.IsBlog)
+                {
+                    needUpdate.PublicTime=needUpdate.UpdatedTime;
+
+                }
+                needRecountTags=true;
+            }
+            // 添加tag2
+            // TODO 这个tag去掉, 添加tag另外添加, 不要这个
+            if (true)
+            {
+
+            }
 
             throw new Exception();
+        }
+        private static bool UpdateNote(Note note)
+        {
+            using (var db =new DataContext())
+            {
+                //   var change= db.Note.Where(b=>b.NoteId==note.NoteId).Update(x=>note);
+                return false;
+
+            }
+        }
+        /// <summary>
+        /// 更新笔记 元数据
+        /// </summary>
+        /// <param name="apiNote"></param>
+        /// <returns></returns>
+        public static bool UpdateNote(ref ApiNote apiNote,long updateUser, long contentId, bool verifyUsn,bool verifyOwner,
+            out string msg,out int afterUsn )
+        {
+            var noteId=MyConvert.HexToLong(apiNote.NoteId);
+           
+            afterUsn =0;
+            if (apiNote==null)
+            {
+                msg ="apiNote_is_null";
+                return false;
+            }
+           // var noteId = MyConvert.HexToLong(apiNote.NoteId);
+            if (noteId == 0)
+            {
+               
+                msg ="noteId_is_note_long_Number";
+                return false;
+
+            }
+            using (var db=new DataContext())
+            {
+                var result=db.Note.Where(b=>b.NoteId==noteId&&b.UserId==updateUser);
+                if (result==null)
+                {
+                    msg= "inexistence";
+                    return false;
+                }
+                var note=result.FirstOrDefault();
+                afterUsn=note.Usn;
+                if (verifyUsn)
+                {
+                    if (note.Usn!=apiNote.Usn)
+                    {
+                        msg= "Verify_Usn_Failure";
+                        return false;
+                    }
+
+                }
+                if (verifyOwner)
+                {
+                    if (note.UserId != updateUser)
+                    {
+                        msg = "Verify_updateUser_Failure";
+                        return false;
+                    }
+
+                }
+                if (apiNote.Desc!=null)
+                {
+                    note.Desc=apiNote.Desc;
+                }
+              
+                if (apiNote.Title!=null)
+                {
+                    note.Title=apiNote.Title;
+                }
+                if (apiNote.IsTrash != null)
+                {
+                    note.IsTrash = apiNote.IsTrash.GetValueOrDefault();
+                }
+                if (apiNote.IsBlog != null)
+                {
+                    if (note.IsBlog==false&&apiNote.IsBlog==true)
+                    {
+                        note.PublicTime=DateTime.Now;
+                    }
+                    note.IsBlog = apiNote.IsBlog.GetValueOrDefault(false);
+                }
+                if (apiNote.Tags != null)
+                {
+                    note.Tags = apiNote.Tags;
+                    TagService.AddTags(note.UserId,note.Tags);
+                    BlogService.ReCountBlogTags(note.UserId);
+                }
+                if (apiNote.NotebookId != null)
+                {
+                   
+                    var noteBookId = MyConvert.HexToLong(apiNote.NotebookId);
+                    if (note.NotebookId==0)
+                    {
+                        msg= "NotebookId_Is_Illegal";
+                        return false;
+                    }
+                    if (note.NotebookId != noteBookId)
+                    {
+                        // 如果修改了notebookId, 则更新notebookId'count
+                        // 两方的notebook也要修改
+                        NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
+                        NotebookService.ReCountNotebookNumberNotes(noteBookId);
+                        note.NotebookId=noteBookId;
+                        
+                    }
+
+                }
+                if (apiNote.Content!=null)
+                {
+                    note.ContentId= contentId;
+                    if (apiNote.Abstract == null)
+                    {
+                        note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Content, 200);
+
+                    }
+                    else
+                    {
+                        note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Abstract, 200);
+                    }
+
+                }
+                if (apiNote.UpdatedTime!=null)
+                {
+                    note.UpdatedTime= Tools.FixUrlTime(apiNote.UpdatedTime);
+
+                }
+                else
+                {
+                    note.UpdatedTime=DateTime.Now;
+                }
+                if (note.IsBlog && note.HasSelfDefined)
+                {
+                    note.ImgSrc = null;
+                    note.Desc = null;
+                }
+                if (apiNote.IsTrash!=null)
+                {
+                    note.IsTrash = apiNote.IsTrash.GetValueOrDefault(false);
+                    NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
+                }
+                if (apiNote.IsMarkdown!=null)
+                {
+                    note.IsMarkdown=apiNote.IsMarkdown.GetValueOrDefault();
+                }
+                note.UpdatedUserId=MyConvert.HexToLong(apiNote.UserId);
+                note.Usn++;
+                db.SaveChanges();
+                msg="success";
+                afterUsn=note.Usn;
+                return true;
+            }
+            
         }
         // 当设置/取消了笔记为博客
         public static bool UpdateNoteContentIsBlog(long noteId,bool isBlog)

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MoreNote.Common.Utils;
+﻿using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
 {
@@ -25,14 +25,14 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
-                    .Where(b => b.NoteId.Equals(noteId) ).FirstOrDefault();
+                    .Where(b => b.NoteId.Equals(noteId)).FirstOrDefault();
                 return result;
             }
 
         }
         public static bool InsertNoteContent(NoteContent noteContent)
         {
-          
+
             using (var db = new DataContext())
             {
                 var result = db.NoteContent.Add(noteContent);
@@ -40,13 +40,13 @@ namespace MoreNote.Logic.Service
                 return db.SaveChanges() > 0;
             }
         }
-        public static NoteContent GetNoteContent(long noteId,long userId)
+        public static NoteContent GetNoteContent(long noteId, long userId)
         {
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
-                    .Where(b => b.UserId==userId&&b.NoteId==noteId);
-                return result==null?null:result.FirstOrDefault();
+                    .Where(b => b.UserId == userId && b.NoteId == noteId);
+                return result == null ? null : result.FirstOrDefault();
             }
         }
         // 添加笔记本内容
@@ -66,17 +66,92 @@ namespace MoreNote.Logic.Service
         // [ok] TODO perm未测
         // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
         // TODO abstract这里生成
-        public static bool UpdateNoteContent(long updateUserId,long noteId,string content,string abstractStr,bool hasBeforeUpdateNote,int usn,DateTime updateTime,
-            out string msg,out int afterContentUsn)
+        public static bool UpdateNoteContent(long updateUserId, long noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime,
+            out string msg, out int afterContentUsn)
         {
             //todo: 需要完成函数UpdateNoteContent
             throw new Exception();
         }
-        public static bool DeleteByIdAndUserId(long noteId,long userId,bool Including_the_history)
+        public static bool UpdateNoteContent(ApiNote apiNote, 
+        out string msg,out long contentId)
         {
-          return true;
+            using (var db = new DataContext())
+            {
+                //更新 将其他笔记刷新
+                var noteId = MyConvert.HexToLong(apiNote.NoteId);
+              
+                contentId=SnowFlake_Net.GenerateSnowFlakeID();
+                var note=db.Note.Where(b=>b.NoteId== noteId).First();
+                var noteContent=db.NoteContent.Where(b=>b.NoteId== noteId&&b.IsHistory==false).FirstOrDefault();
+                db.NoteContent.Where(b => b.NoteId == noteId).Update(x => new NoteContent() { IsHistory = true });
+                //如果笔记内容发生变化，生成新的笔记内容
+                if (apiNote.Content!=null)
+                {
+                    NoteContent contentNew = new NoteContent()
+                    {
+                        NoteContentId = contentId,
+                        NoteId = noteContent.NoteContentId,
+                        UserId = noteContent.UserId,
+                        IsBlog = noteContent.IsBlog,
+                        Content = noteContent.Content,
+                        Abstract = noteContent.Abstract,
+                        CreatedTime = noteContent.CreatedTime,
+                        UpdatedTime = noteContent.UpdatedTime,
+                        UpdatedUserId = noteContent.UpdatedUserId,
+                        IsHistory = noteContent.IsHistory,
+
+                    };
+                    contentNew.IsHistory = false;
+                    if (apiNote.IsBlog != null)
+                    {
+                        contentNew.IsBlog = apiNote.IsBlog.GetValueOrDefault();
+                    }
+                    if (apiNote.Abstract != null)
+                    {
+                        contentNew.Abstract = apiNote.Abstract;
+                    }
+                    if (apiNote.Content != null)
+                    {
+                        contentNew.Content = apiNote.Content;
+                    }
+                    if (apiNote.UpdatedTime != null)
+                    {
+                        contentNew.UpdatedTime = apiNote.UpdatedTime;
+                    }
+                    db.NoteContent.Add(contentNew);
+                    msg="";
+                    return db.SaveChanges() > 0;
+
+                }
+                else
+                {
+
+                    if (apiNote.IsBlog != null)
+                    {
+                        noteContent.IsBlog = apiNote.IsBlog.GetValueOrDefault();
+                    }
+                    if (apiNote.Abstract != null)
+                    {
+                        noteContent.Abstract = apiNote.Abstract;
+                    }
+                   
+                    if (apiNote.UpdatedTime != null)
+                    {
+                        noteContent.UpdatedTime = apiNote.UpdatedTime;
+                    }
+                } 
+                
+                contentId=noteContent.NoteContentId;
+                msg="";
+                return  db.SaveChanges()>0;
+            }
         }
-        public static bool Delete_HistoryByNoteIdAndUserId(long noteId,long userId)
+        public static bool DeleteByIdAndUserId(long noteId, long userId, bool Including_the_history)
+        {
+
+            return true;
+        }
+        public static bool Delete_HistoryByNoteIdAndUserId(long noteId, long userId)
         {
             throw new Exception("此方法需要实现");
         }

@@ -8,7 +8,7 @@ namespace MoreNote.Common.Utils
     public class MyConvert
     {
         /// <summary>
-        /// hex字符串转long类型
+        /// hex字符串转long类型,失败返回0
         /// </summary>
         /// <param name="hex">16进制字符串</param>
         /// <returns> 转换后的数字 失败返回 0 </returns>
