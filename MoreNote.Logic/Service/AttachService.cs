@@ -97,6 +97,22 @@ namespace MoreNote.Logic.Service
         }
         public static bool DeleteAllAttachs(long noteId,long userId)
         {
+            using (var db=new DataContext())
+            {
+                var attachInfos=db.AttachInfo.Where(b=>b.NoteId==noteId&&b.UserId==userId).ToArray();
+                if (attachInfos!=null&&attachInfos.Length>0)
+                {
+
+                    foreach (var attach in attachInfos)
+                    {
+
+                        DeleteAttach(attach.AttachId,userId);
+                    }
+
+                }
+
+                return true;
+            }
             //todo :需要实现此功能
             return true;
         }

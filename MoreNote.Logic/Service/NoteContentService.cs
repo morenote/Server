@@ -151,15 +151,31 @@ namespace MoreNote.Logic.Service
                     }
                   
                 } 
-                
-                
                 msg="";
-                return  db.SaveChanges()>0;
+                db.SaveChanges();
+                return true;
             }
         }
         public static bool DeleteByIdAndUserId(long noteId, long userId, bool Including_the_history)
         {
+            if (Including_the_history)
+            {
+                using (var db=new DataContext())
+                {
+                    db.NoteContent.Where(b=>b.NoteId==noteId&&b.UserId==userId).Delete();
 
+                }
+
+            }
+            else
+            {
+                using (var db = new DataContext())
+                {
+                    db.NoteContent.Where(b => b.NoteId == noteId && b.UserId == userId && b.IsHistory==false).Delete();
+                }
+
+            }
+          
             return true;
         }
         public static bool Delete_HistoryByNoteIdAndUserId(long noteId, long userId)

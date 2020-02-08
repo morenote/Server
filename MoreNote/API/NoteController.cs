@@ -70,11 +70,21 @@ namespace MoreNote.API
         //todo:得到内容
         public IActionResult GetNoteContent(string token, string noteId)
         {
+            ApiRe falseRe = new ApiRe()
+            {
+                Ok = false,
+                Msg = "GetNoteContent_is_error"
+            };
             Note note = NoteService.GetNote(MyConvert.HexToLong(noteId), getUserIdByToken(token));
             NoteContent noteContent = NoteContentService.GetNoteContent(MyConvert.HexToLong(noteId), getUserIdByToken(token));
+            if (noteContent==null||note==null)
+            {
+             
+                return Json(falseRe, MyJsonConvert.GetOptions());
+
+            }
             if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
             {
-
                 noteContent.Content = NoteService.FixContent(noteContent.Content, note.IsMarkdown);
             }
             ApiNoteContent apiNote = new ApiNoteContent()
@@ -83,11 +93,7 @@ namespace MoreNote.API
                 UserId = note.UserId,
                 Content = noteContent.Content
             };
-            ApiRe falseRe = new ApiRe()
-            {
-                Ok = false,
-                Msg = "GetNoteContent_is_error"
-            };
+           
             return Json(apiNote, MyJsonConvert.GetOptions());
 
         }
@@ -393,6 +399,22 @@ namespace MoreNote.API
                 return Json(re, MyJsonConvert.GetOptions());
             }
             //处理结果
+            //-------------API返回客户端信息
+            noteOrContent.NoteId = noteId.ToString("x");
+            noteOrContent.UserId = tokenUserId.ToString("x");
+            noteOrContent.Title = note.Title;
+            noteOrContent.Tags = note.Tags;
+            noteOrContent.IsMarkdown = note.IsMarkdown;
+            noteOrContent.IsBlog = note.IsBlog;
+            noteOrContent.IsTrash = note.IsTrash;
+            noteOrContent.IsDeleted = note.IsDeleted;
+            noteOrContent.IsTrash = note.IsTrash;
+            noteOrContent.IsTrash = note.IsTrash;
+            noteOrContent.Usn = note.Usn;
+            noteOrContent.CreatedTime = note.CreatedTime;
+            noteOrContent.UpdatedTime = note.UpdatedTime;
+            noteOrContent.PublicTime = note.PublicTime;
+
             noteOrContent.Content = "";
             noteOrContent.Usn = afterNoteUsn;
             noteOrContent.UpdatedTime = DateTime.Now;
@@ -403,7 +425,24 @@ namespace MoreNote.API
         public IActionResult DeleteTrash(string noteId, int usn, string token)
         {
             bool result = TrashService.DeleteTrashApi(MyConvert.HexToLong(noteId), getUserIdByToken(token), usn, out string msg, out int afterUsn);
-            return null;
+            if (result)
+            {
+                return Json(new ReUpdate()
+                {
+                    Ok=true,
+                    Msg="",
+                    Usn=afterUsn
+                });
+            }
+            else
+            {
+                return Json(new ReUpdate()
+                {
+                    Ok = false,
+                    Msg = msg,
+                    Usn = afterUsn
+                });
+            }
         }
         //todo:导出成PDF
         public IActionResult ExportPdf()

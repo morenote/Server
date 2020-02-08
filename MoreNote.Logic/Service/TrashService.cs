@@ -1,8 +1,5 @@
-﻿using Microsoft.VisualBasic;
-using MoreNote.Logic.Entity;
+﻿using MoreNote.Logic.Entity;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MoreNote.Logic.Service
 {
@@ -22,57 +19,63 @@ namespace MoreNote.Logic.Service
         // 删除note
         // 应该放在回收站里
         // 有trashService
-        public static bool DeleteNote(long noteId,long userId)
+        public static bool DeleteNote(long noteId, long userId)
         {
             throw new Exception();
         }
         // 删除别人共享给我的笔记
         // 先判断我是否有权限, 笔记是否是我创建的
-        public static bool DeleteSharedNote(long noteId,long myUserId)
+        public static bool DeleteSharedNote(long noteId, long myUserId)
         {
             throw new Exception();
         }
         // recover
-        public static bool  recoverNote(long noteId,long notebookId,long userId)
+        public static bool recoverNote(long noteId, long notebookId, long userId)
         {
             throw new Exception();
         }
         // 删除trash
-        public static bool DeleteTrash(long noteId,long userId)
+        public static bool DeleteTrash(long noteId, long userId)
         {
             throw new Exception();
         }
-        public static bool DeleteTrashApi(long noteId,long userId,int usn, out string msg, out int afterUsn)
+        //todo 删除废纸篓
+        public static bool DeleteTrashApi(long noteId, long userId, int usn, out string msg, out int afterUsn)
         {
-            Note note=NoteService.GetNote(noteId,userId);
-            if (note.NoteId==0||note.IsDeleted)
+            Note note = NoteService.GetNote(noteId, userId);
+            if (note.NoteId == 0 || note.IsDeleted)
             {
-                msg= "notExists";
-                afterUsn=usn;
+                msg = "notExists";
+                afterUsn = usn;
                 //todo: 存疑
                 return false;
             }
-            if (note.Usn!=usn)
+            if (note.Usn != usn)
             {
                 msg = "conflict";
                 afterUsn = usn;
                 return false;
             }
             // 设置删除位
-            afterUsn= UserService.IncrUsn(userId);
+            //afterUsn = UserService.IncrUsn(userId);
             // delete note's attachs
-            AttachService.DeleteAllAttachs(noteId,userId);
+           var result= NoteService.SetDeleteStatus(noteId,userId,out afterUsn);
+            if (!result)
+            {
+                msg= "设置删除位错误";
+                return false;
+            }
+            AttachService.DeleteAllAttachs(noteId, userId);
 
-            // delete content
-           NoteContentService.DeleteByIdAndUserId(noteId,userId,true);
-              
-            // 删除content history
+            // 删除content history           
+            NoteContentService.DeleteByIdAndUserId(noteId, userId, true);
             NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
-            throw new Exception();
+            msg = "";
+            return true;
         }
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public static Note[] ListNotes(long userId,int pageNumber,int pageSize,string sortField,bool isAsc)
+        public static Note[] ListNotes(long userId, int pageNumber, int pageSize, string sortField, bool isAsc)
         {
             throw new Exception();
         }
