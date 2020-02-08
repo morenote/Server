@@ -16,7 +16,16 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
-                    .Where(b => b.IsBlog == true);
+                    .Where(b => b.IsBlog == true && b.IsHistory == false);
+                return result.ToList<NoteContent>();
+            }
+        }
+        public static List<NoteContent> ListNoteContent(bool IsHistory)
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.NoteContent
+                    .Where(b => b.IsBlog == true&&b.IsHistory== IsHistory);
                 return result.ToList<NoteContent>();
             }
         }
@@ -25,7 +34,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
-                    .Where(b => b.NoteId.Equals(noteId)).FirstOrDefault();
+                    .Where(b => b.NoteId==noteId&&b.IsHistory==false).FirstOrDefault();
                 return result;
             }
 
@@ -45,7 +54,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
-                    .Where(b => b.UserId == userId && b.NoteId == noteId);
+                    .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory==false);
                 return result == null ? null : result.FirstOrDefault();
             }
         }
@@ -79,7 +88,6 @@ namespace MoreNote.Logic.Service
             {
                 //更新 将其他笔记刷新
                 var noteId = MyConvert.HexToLong(apiNote.NoteId);
-              
                 contentId=SnowFlake_Net.GenerateSnowFlakeID();
                 var note=db.Note.Where(b=>b.NoteId== noteId).First();
                 var noteContent=db.NoteContent.Where(b=>b.NoteId== noteId&&b.IsHistory==false).FirstOrDefault();
@@ -89,8 +97,9 @@ namespace MoreNote.Logic.Service
                 {
                     NoteContent contentNew = new NoteContent()
                     {
+
                         NoteContentId = contentId,
-                        NoteId = noteContent.NoteContentId,
+                        NoteId = noteContent.NoteId,
                         UserId = noteContent.UserId,
                         IsBlog = noteContent.IsBlog,
                         Content = noteContent.Content,
