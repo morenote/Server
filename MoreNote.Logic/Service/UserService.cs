@@ -179,6 +179,15 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
+        public static User GetUserByUserName(string Username)
+        {
+            using (var db=new DataContext())
+            {
+                var result = db.User.Where(b => b.Username.Equals(Username.ToLower()));
+                return result == null ? null : result.FirstOrDefault();
+
+            }
+        }
         // 更新username
         public static bool UpdateUsername(long userId, string username)
         {

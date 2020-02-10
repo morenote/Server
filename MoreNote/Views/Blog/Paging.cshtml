@@ -1,28 +1,39 @@
-﻿{{if gt $.paging.TotalPage 1}}
-
-<!-- 上一页 -->
-{{if gt $.paging.CurPage 1}}
-{{set . "prePageClass" ""}}
-{{set . "prePageUrl" (urlConcat $.pagingBaseUrl "page" (incr $.paging.CurPage -1)) }}
-{{else}}
-{{set . "prePageClass" "disabled"}}
-{{set . "prePageUrl" "#"}}
-{{end}}
-
-<!-- 下一页 -->
-{{if lt $.paging.CurPage $.paging.TotalPage }}
-{{set . "nextPageClass" ""}}
-{{set . "nextPageUrl" (urlConcat $.pagingBaseUrl "page" (incr $.paging.CurPage 1)) }}
-{{else}}
-{{set . "nextPageClass" "disabled"}}
-{{set . "nextPageUrl" "#"}}
-{{end}}
+﻿@{
+    <!-- 上一页 -->
+    var prePageClass = "";
+    var prePageUrl = "";
+    if (ViewBag.page > 1)
+    {
+        prePageClass = "";
+        prePageUrl = Url.Action("Index", "Blog", new { page = (ViewBag.page - 1) });
+    }
+    else
+    {
+        prePageClass = "disabled";
+        prePageUrl = "#";
+    }
+    <!-- 下一页 -->
+    var nextPageClass = "";
+    var nextPageUrl = "";
+    if (ViewBag.page > (ViewBag.postCount/10))
+    {
+        nextPageClass = "disabled";
+        nextPageUrl = "#";
+    }
+    else
+    {
+        nextPageClass = "";
+        nextPageUrl = Url.Action("Index", "Blog", new { page = (ViewBag.page + 1) });;
+    }
+    //页码
+    var page = ViewBag.page;
+    var pageCount = Math.Ceiling(ViewBag.postCount / 10f);
+}
 
 
 <ul class="pager">
-    <li class="{{$.prePageClass}}"><a href="{{$.prePageUrl}}">上一页</a></li>
-    <li>{{$.paging.CurPage}} / {{$.paging.TotalPage}}</li>
-    <li class="{{$.nextPageClass}}"><a href="{{$.nextPageUrl}}">下一页</a></li>
-</ul>
 
-{{end}}
+    <li class="@prePageClass"><a href="@prePageUrl" target="_self">上一页</a></li>
+    <li>@(page)/@(pageCount)</li>
+    <li class="@nextPageClass"><a href="@nextPageUrl" target="_self">下一页</a></li>
+</ul>

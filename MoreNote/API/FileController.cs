@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
+using System;
 using System.IO;
 
 namespace MoreNote.API
@@ -18,29 +20,56 @@ namespace MoreNote.API
         //todo: 输出image
         public IActionResult GetImage(string fileId)
         {
-           
-            if (string.IsNullOrEmpty(fileId))
+            try
             {
-                return Content("error");
-            }
-            if ( fileId.Length == 24)
+                if (string.IsNullOrEmpty(fileId))
+                {
+                    return Content("error");
+                }
+                if (fileId.Length == 24)
+                {
+                    fileId = fileId.Substring(0, 16);
+                }
+                var myFileId = MyConvert.HexToLong(fileId);
+                var noteFile = FileService.GetFile(myFileId);
+                if (noteFile == null)
+                {
+                    return Content("NoFoundImage");
+                }
+                var stream = System.IO.File.OpenRead(noteFile.Path);
+                string fileExt = Path.GetExtension(noteFile.Name);
+                //获取文件的ContentType
+                var provider = new FileExtensionContentTypeProvider();
+                var memi = provider.Mappings[fileExt];
+                return File(stream, memi);
+            }catch(Exception ex)
             {
-                fileId = fileId.Substring(0, 16);
+              return  NOFound();
             }
-            var myFileId= MyConvert.HexToLong(fileId);
-            var noteFile=FileService.GetFile(myFileId);
-            if (noteFile==null)
+            
+        }
+        public IActionResult NOFound()
+        {
+
+            string path;
+            if (RuntimeEnvironment.Islinux)
             {
-              return  Content("NoFoundImage");
+                //图片来自网络
+                path = "upload/404.jpg";
+
             }
-            var stream = System.IO.File.OpenRead(noteFile.Path);
-            string fileExt = Path.GetExtension(noteFile.Name);
+            else
+            {
+                path = "upload\\404.jpg";
+            }
+            var stream = System.IO.File.OpenRead(path);
+            string fileExt = Path.GetExtension("404.jpg");
             //获取文件的ContentType
             var provider = new FileExtensionContentTypeProvider();
             var memi = provider.Mappings[fileExt];
-            
             return File(stream, memi);
         }
+
         //todo:下载附件
         public IActionResult GetAttach(string fileId)
         {

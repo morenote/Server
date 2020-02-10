@@ -14,7 +14,7 @@ namespace MoreNote.API
     {
         public APPStoreController(IHttpContextAccessor accessor) : base(accessor)
         {
-          
+
 
         }
 
