@@ -19,8 +19,6 @@
                     <label class="form-control-label">Dark</label>
                 </div>
             </span>
-
-
         </div>
 
         <div id="postsContainer">
@@ -68,16 +66,26 @@
                             {{else}}
                             {{$.post.Content | raw}}
                             {{end}}*@
-                        @Html.Raw(noteAndContent.noteContent.Content)
+                        @if (note.IsMarkdown)
+                        {
+                            <div id="markdownContent" style="display: none">
+                                <textarea>@Html.Raw(noteAndContent.noteContent.Content)</textarea>
+                            </div>@Html.Raw(noteAndContent.noteContent.Content)
+                            <div style="padding: 20px; text-align: center">
+                                <img src="/images/loading-32.gif" />
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.Raw(noteAndContent.noteContent.Content)
+                        }
                     </div>
-
 
                     @*<div class="pre-next-post" style="border-top:1px solid #f1f2f3;padding-top:10px;margin-top:20px;">
                             <p>上一篇: {{if $.prePost}}<a href="{{$.postUrl}}/{{$.prePost.UrlTitle}}">{{$.prePost.Title}}</a>{{else}}已经是第一篇啦{{end}}</p>
                             <p>下一篇: {{if $.nextPost}}<a href="{{$.postUrl}}/{{$.nextPost.UrlTitle}}">{{$.nextPost.Title}}</a>{{else}}已经是最后一篇啦{{end}}</p>
                         </div>*@
                     @await Html.PartialAsync("share_comment")
-
                 </div>
             </div>
         </div>
