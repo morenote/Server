@@ -30,9 +30,29 @@ namespace MoreNote.Controllers
             return View();
 
         }
-        public IActionResult Index()
+
+        [Route("{controller=Blog}/{action=Index}/{blogUserName?}")]
+        public IActionResult Index(string userName,int page)
         {
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContent(true);
+            if (page<1)
+            {
+                //页码
+                page = 1;
+            }
+            ViewBag.page = page;
+            if (string.IsNullOrEmpty(userName))
+            {
+                //默认账号
+                userName = "hyfree";
+            }
+            User blogUser = UserService.GetUserByUserName(userName);
+            ViewBag.blogUser = blogUser;
+            if (blogUser==null)
+            {
+                return Content("查无此人");
+            }
+            ViewBag.postCount = BlogService.CountTheNumberOfBlogs(blogUser.UserId);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContent(true,page);
             ViewBag.noteAndContent = noteAndContent;
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "标题");
@@ -51,6 +71,10 @@ namespace MoreNote.Controllers
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
             NoteAndContent noteAndContent= NoteService.GetNoteAndContent(noteId);
+            if (noteAndContent==null)
+            {
+                return Content("未经授权的访问");
+            }
             if (!noteAndContent.note.IsBlog)
             {
                 return Content("未经授权的访问");
@@ -112,10 +136,6 @@ namespace MoreNote.Controllers
             return Content("");
 
         }  
-        public IActionResult incReadNum()
-        {
-            return Content("");
-
-        }
+        
     }
 }

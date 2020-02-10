@@ -1,6 +1,8 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Logic.DB;
+using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -11,6 +13,18 @@ namespace MoreNote.Logic.Service
         public static BlogStat GetBlogStat(long noteId)
         {
             throw new Exception();
+        }
+        /// <summary>
+        /// 统计网站上公开的Post的数量
+        /// </summary>
+        public static int CountTheNumberOfBlogs(long userId)
+        {
+            using(var db=new DataContext())
+            {
+                var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
+                return count;
+           
+            }
         }
         public static BlogItem GetBlogByIdAndUrlTitle(long userId,string noteIdOrUrlTitle)
         {

@@ -43,7 +43,7 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
-        public static NoteAndContent[] GetNoteAndContent(bool isBlog)
+        public static NoteAndContent[] GetNoteAndContent(bool isBlog,int pageIndex)
         {
             using (var db = new DataContext())
             {
@@ -54,7 +54,7 @@ namespace MoreNote.Logic.Service
                               {
                                   note = _note,
                                   noteContent = _content
-                              }).ToArray();
+                              }).OrderByDescending(b=>b.note.PublicTime).Skip((pageIndex-1) * 10).Take(10).OrderByDescending(b=>b.note.PublicTime).ToArray();
                 return result;
             }
         }
