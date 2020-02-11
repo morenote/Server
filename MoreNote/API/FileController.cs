@@ -34,7 +34,8 @@ namespace MoreNote.API
                 var noteFile = FileService.GetFile(myFileId);
                 if (noteFile == null)
                 {
-                    return Content("NoFoundImage");
+                    //return Content("NoFoundImage");
+                    return NoFoundImage();
                 }
                 var stream = System.IO.File.OpenRead(noteFile.Path);
                 string fileExt = Path.GetExtension(noteFile.Name);
@@ -44,11 +45,11 @@ namespace MoreNote.API
                 return File(stream, memi);
             }catch(Exception ex)
             {
-              return  NOFound();
+              return NoFoundImage();
             }
             
         }
-        public IActionResult NOFound()
+        public IActionResult NoFoundImage()
         {
 
             string path;
