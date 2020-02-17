@@ -7,11 +7,11 @@ using System.Text.Json;
 
 namespace MoreNote.API
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/Auth/[action]")]
 
-    public class AuthController : ApiBaseController
+    public class ApiAuthController : ApiBaseController
     {
-        public AuthController(IHttpContextAccessor accessor) : base(accessor)
+        public ApiAuthController(IHttpContextAccessor accessor) : base(accessor)
         {
 
         }

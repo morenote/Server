@@ -27,7 +27,7 @@
 		<div class="form-group">
 			<label class="control-label">@msg["captcha"]</label>
 			<input type="text" class="form-control" id="captcha" name="captcha">
-			<a id="reloadCaptcha" title="@msg["reloadCaptcha"]" onclick="$('#captchaImage').attr('src', '/captcha/get?' + ((new Date()).getTime()))"><img src="/captcha/get" id="captchaImage" /></a>
+			<a id="reloadCaptcha" title="@msg["reloadCaptcha"]" onclick="$('#captchaImage').attr('src', '/captcha/get?random=' + ((new Date()).getTime()))"><img src="/captcha/get?random=@DateTime.Now.ToString("yyyyMMddHHmmssffff")" id="captchaImage" /></a>
 		</div>
 	</script>
 	<section id="box" class="animated fadeInUp">

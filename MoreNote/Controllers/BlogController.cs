@@ -52,7 +52,7 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             ViewBag.postCount = BlogService.CountTheNumberOfBlogs(blogUser.UserId);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContent(true,page);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page);
             ViewBag.noteAndContent = noteAndContent;
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "标题");
