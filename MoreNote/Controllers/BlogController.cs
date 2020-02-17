@@ -55,8 +55,8 @@ namespace MoreNote.Controllers
             NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page);
             ViewBag.noteAndContent = noteAndContent;
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            blog.Add("Title", "标题");
-            blog.Add("keywords", "关键字");
+            blog.Add("Title", "更多笔记,moreote.top");
+            blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
 
             return View();
