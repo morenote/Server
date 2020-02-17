@@ -57,10 +57,11 @@ namespace MoreNote.Common.Utils
                         {
                             ii = 2;
                         }
-                        g.DrawString(code.Substring(i, 1), f, b, 3 + (i * 12), ii);//绘制一个验证字符  
+
+                        g.DrawString(code.Substring(i, 1), f, b, 3 + (i * 15), ii);//绘制一个验证字符  
                     }
                     //在随机位置画背景点  
-                    for (int i = 0; i < 20; i++)
+                    for (int i = 0; i < 5; i++)
                     {
                         var cindex = random.Next(7);//随机颜色索引值  
                         int x = random.Next(img.Width);

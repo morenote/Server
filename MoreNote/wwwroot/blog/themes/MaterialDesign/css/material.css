@@ -1468,21 +1468,21 @@ blockquote + cite {
 	-webkit-flex-grow: 1;
 	-ms-flex-positive: 1;
 	flex-grow: 1;
-	min-height: calc(100vh - 12.2em);
+	min-height: calc(100vh - 20em);
 	box-sizing: border-box;
 }}
 @media screen and (min-width: 1400px) {
-.sidemenu .menu {
-	box-shadow: none;
-	width: 100%;
-	display: block;
-	overflow: visible;
-	-webkit-flex-grow: 1;
-	-ms-flex-positive: 1;
-	flex-grow: 1;
-	min-height: calc(100vh - 12.8em);
-	box-sizing: border-box;
-}}
+	.sidemenu .menu {
+		box-shadow: none;
+		width: 100%;
+		display: block;
+		overflow: visible;
+		-webkit-flex-grow: 1;
+		-ms-flex-positive: 1;
+		flex-grow: 1;
+		min-height: calc(100vh - 20em);
+		box-sizing: border-box;
+	}}
 .sidemenu .menu li {
 	font-family: "PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft YaHei",sans-serif;
 	line-height: 3em;
