@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.DB;
+﻿using MoreNote.Common.Helper;
+using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,30 @@ namespace MoreNote.Logic.Service
         /// <summary>
         /// 统计网站上公开的Post的数量
         /// </summary>
-        public static int CountTheNumberOfBlogs(long userId)
+        public static int CountTheNumberForBlogs(long userId)
         {
             using(var db=new DataContext())
             {
                 var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
                 return count;
            
+            }
+        }
+        public static int CountTheNumberForBlogsOfNoteBookId(long userId,long notebookId)
+        {
+            using (var db = new DataContext())
+            {
+                var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId&&b.NotebookId== notebookId).Count();
+                return count;
+
+            }
+        }
+        public static int CountTheNumberForBlogsOfTag(long userId, string tag)
+        {
+            using (var db = new DataContext())
+            {
+                var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
+                return count;
             }
         }
         public static BlogItem GetBlogByIdAndUrlTitle(long userId,string noteIdOrUrlTitle)
@@ -228,6 +246,23 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
+        public static Cate[] GetCateArrayForBlog(long userId)
+        {
+            using (var db = new DataContext())
+            {
+                var result = (from _note in db.Note
+                              join _noteBook in db.Notebook on _note.NotebookId equals _noteBook.NotebookId
+                              where _note.IsBlog == true &&_note.IsTrash==false&&_note.IsDeleted==false
+                              select new Cate
+                              {
+                                  CateId = _note.NotebookId,
+                                  Title = _noteBook.Title
+                              }).DistinctBy(p => new { p.CateId }).OrderByDescending(b => b.Title).ToArray();
+                return result;
+            }
+
+        }
+    
 
 
 
