@@ -4,6 +4,8 @@
     Theme theme = ViewBag.Theme;
     FriendLinks[] fls = ViewBag.FriendLinks;
     BlogSingle[] blogSingles = ViewBag.ViewBag;
+    Cate[] cates = ViewBag.CateArray;
+    User blogUser = ViewBag.blogUser;
 }
 <script>
     AOS.init();
@@ -25,12 +27,14 @@
         <li ripple id="navbarcatsli"><a href="javascript:void(0);"><i class="fa fa-list-ul"></i>分类</a></li>
         <div id="navbarcates" style="display:none;">
             <li class="divider"></li>
-            {{range $.cates}}
-            <li class="{{if eq .CateId $.curCateId}}active{{end}}">
-                @*<a href="{{$.cateUrl}}/{{.UrlTitle}}"><i class="fa fa-link"></i>{{.Title}}</a>*@
-                <a href="@Url.Action("Cate")"><i class="fa fa-link"></i>{{.Title}}</a>
-            </li>
-            {{end}}
+            @foreach (var item in cates)
+            {
+                @*<li class="{{if eq .CateId $.curCateId}}active{{end}}">*@
+                <li class="">
+                    @*<a href="{{$.cateUrl}}/{{.UrlTitle}}"><i class="fa fa-link"></i>{{.Title}}</a>*@
+                    <a href="~/Blog/Cate/@(blogUser.Username)/@(item.CateId.ToString("x"))"><i class="fa fa-link"></i>@item.Title</a>
+                </li>
+            }
             <li class="divider"></li>
         </div>
         <li ripple class="{{if $.curIsTags}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
