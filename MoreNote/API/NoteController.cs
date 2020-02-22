@@ -209,12 +209,23 @@ namespace MoreNote.API
             //-------------得到Desc, abstract
             if (string.IsNullOrEmpty(noteOrContent.Abstract))
             {
-                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Content, 200);
-                noteContent.Abstract = MyHtmlHelper.SubStringHTML(noteContent.Content, 200, "");
+
+                if (noteOrContent.IsMarkdown.GetValueOrDefault())
+                {
+                    note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
+                    noteContent.Abstract = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
+
+                }
+                else
+                {
+                    note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
+                    noteContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
+                }
+               
             }
             else
             {
-                note.Desc = MyHtmlHelper.SubStringHTMLToRaw(noteContent.Abstract, 200);
+                note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Abstract, 200);
             }
             note = NoteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
@@ -359,7 +370,7 @@ namespace MoreNote.API
                 // 如果传了Abstract就用之
                 if (noteOrContent.Abstract != null)
                 {
-                    noteOrContent.Abstract = MyHtmlHelper.SubStringHTML(noteOrContent.Content, 200, "");
+                    noteOrContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Abstract, 200);
                 }
             }
             //上传noteContent的变更
