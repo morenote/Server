@@ -1,20 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace MoreNote.Common.Utils
 {
     public class MyHtmlHelper
     {
-        public static string SubStringHTMLToRaw(string param,int length)
+       
+
+        public static string SubHTMLToRaw(string html,int length)
         {
+            if (string.IsNullOrEmpty(html))
+            {
+                return "SubHTMLToRaw=>null Exception";
+            }
             //todo:需要完成函数MyHtmlHelper.SubStringHTMLToRaw
-            return "SubStringHTMLToRaw";
+            HtmlToTextHelper convert = new HtmlToTextHelper();
+            string text = convert.Convert(html);
+            if (length<0)
+            {
+                length = 200;
+            }
+            if (length>text.Length)
+            {
+                length = text.Length;
+            }
+            string result = text.Substring(0, length);
+            return result;
         }
-        public static string SubStringHTML(string html,int length,string end)
+        public static string SubMarkDownToRaw(string markdown, int length)
         {
-            ////todo:需要完成函数MyHtmlHelper.SubStringHTML
-            return "SubStringHTML";
+            if (string.IsNullOrEmpty(markdown))
+            {
+                return "SubMarkDownToRaw=>null Exception";
+            }
+            //todo:需要完成函数MyHtmlHelper.SubStringHTMLToRaw
+            string html = "";
+            HtmlToTextHelper convert = new HtmlToTextHelper();
+            using (var reader = new StringReader(markdown))
+            {
+                using (var writer = new StringWriter())
+                {
+                    CommonMark.CommonMarkConverter.Convert(reader, writer);
+                    //writer.ToString()即为转换好的html
+                    html = writer.ToString();
+                }
+            }
+            string text = convert.Convert(html);
+            if (length < 0)
+            {
+                length = 200;
+            }
+            if (length > text.Length)
+            {
+                length = text.Length;
+            }
+            string result = text.Substring(0, length);
+            return result;
         }
+     
+        
     }
 }

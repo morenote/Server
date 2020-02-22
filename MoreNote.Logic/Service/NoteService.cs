@@ -622,12 +622,22 @@ namespace MoreNote.Logic.Service
                     note.ContentId = contentId;
                     if (apiNote.Abstract == null)
                     {
-                        note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Content, 200);
+                        if (apiNote.IsMarkdown.GetValueOrDefault(note.IsMarkdown))
+                        {
+                            note.Desc = MyHtmlHelper.SubMarkDownToRaw(apiNote.Content, 200);
+                        }
+                        else
+                        {
+                            note.Desc = MyHtmlHelper.SubHTMLToRaw(apiNote.Content, 200);
+
+                        }
+                      //  note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Content, 200);
 
                     }
                     else
                     {
-                        note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Abstract, 200);
+                        note.Desc = MyHtmlHelper.SubHTMLToRaw(apiNote.Abstract, 200);
+                        //note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Abstract, 200);
                     }
 
                 }
