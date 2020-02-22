@@ -1,6 +1,6 @@
 ﻿@{
     NoteAndContent[] noteAndContents = ViewBag.noteAndContent;
-
+      User blogUser = ViewBag.blogUser;
 }
 @if (noteAndContents != null && noteAndContents.Length > 0)
 {
@@ -9,7 +9,7 @@
         <div class="each-post">
             <div class="title">
                 @*<a href="{{$.postUrl}}/{{.UrlTitle}}" title="全文" target="_blank">*@
-                <a href="@Url.Action("Post")/@item.note.NoteId.ToString("x")" title="@(item.note.Title)" target="_blank">
+                <a href="/Blog/Post/@blogUser.Username/@item.note.NoteId.ToString("x")" title="@(item.note.Title)" target="_blank">
                     @(item.note.Title)
                 </a>
             </div>
@@ -32,7 +32,7 @@
                 @Html.Raw(item.noteContent.Abstract)
             </div>
             <span id="moreContainer" class="button raised bg-blue-300" style="margin-top:8px;">
-                <a id="readmore" style="color:#fff;letter-spacing:1px;" href="@Url.Action("Post")/@item.note.NoteId">查看更多</a>
+                <a id="readmore" style="color:#fff;letter-spacing:1px;" href="~/blog/post/@blogUser.Username/@item.note.NoteId.ToString("x")">查看更多</a>
             </span>
         </div>
     }
