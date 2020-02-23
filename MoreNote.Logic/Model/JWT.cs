@@ -21,7 +21,7 @@ namespace MoreNote.Logic.Model
         {
             return null;
         }
-        public static JST GetJWT(long tokenId,string userNmae,long userId, string group, long exp= 31536000)
+        public static JWT GetJWT(long tokenId,string userNmae,long userId, string group, long exp= 31536000)
         {
 
             JWT_Header header = new JWT_Header()
