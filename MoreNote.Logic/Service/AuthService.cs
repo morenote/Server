@@ -110,14 +110,15 @@ namespace MoreNote.Logic.Service
                 Msg="密码处理过程出现错误";
                 return false;
             }
-            User user=new User()
+            User user = new User()
             {
-                UserId=SnowFlake_Net.GenerateSnowFlakeID(),
-                Email=email,
-                Username=email,
-                Pwd=genPass,
-                Salt=salt,
-                FromUserId= fromUserId
+                UserId = SnowFlake_Net.GenerateSnowFlakeID(),
+                Email = email,
+                Username = email,
+                Pwd = genPass,
+                Salt = salt,
+                FromUserId = fromUserId,
+                Usn = 1
             };
             if (Register(user))
             {

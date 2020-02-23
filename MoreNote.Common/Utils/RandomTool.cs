@@ -43,16 +43,21 @@ namespace MoreNote.Common.Util
             }
             return code;
         }
-        public static string CreatSafeNum()
+        public static string CreatSafeNum(int ByteLength = 32)
         {
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
             {
                 
-                byte[] tokenData = new byte[32];
+                byte[] tokenData = new byte[ByteLength];
                 rng.GetBytes(tokenData);
                 string token = Convert.ToBase64String(tokenData);
                 return token;
             }
+        }
+        public static int CreatUnSafeNumber()
+        {
+            Random random = new Random();
+            return  random.Next();
         }
         /// <summary>
         /// 生成一个不可预测的盐,默认256位
