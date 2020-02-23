@@ -110,8 +110,16 @@ namespace MoreNote.Controllers
 
             return View();
         }
-
-        [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{noteIdHex?}/")]
+        [Route("{controller=Blog}/{action=Post}/{noteIdHex?}/")]
+        public IActionResult Post1(string noteIdHex)
+        {
+            long noteId = MyConvert.HexToLong(noteIdHex);
+            Note note = NoteService.GetNoteById(noteId);
+            User user = UserService.GetUserByUserId(note.UserId);
+            return Post(user.Username, noteIdHex);
+        }
+        
+        [Route("{controller=Blog}/{action=Post}/{blogUserName}/{noteIdHex?}/")]
         public IActionResult Post(string blogUserName,string noteIdHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);

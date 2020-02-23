@@ -48,7 +48,6 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="API_Model\" />
-    <Folder Include="Model\" />
     <Folder Include="Type\" />
   </ItemGroup>
 
