@@ -43,7 +43,7 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
-        [Route("{controller=Blog}/{action=Index}/{blogUserName?}/{cateHex?}/")]
+        [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
         public IActionResult Cate(string blogUserName,string cateHex, int page)
         {
             long notebookId = MyConvert.HexToLong(cateHex);
@@ -78,8 +78,9 @@ namespace MoreNote.Controllers
 
         }
 
-        [Route("{controller=Blog}/{action=Index}/{blogUserName?}")]
-        public IActionResult Index(string blogUserName,int page)
+        [Route("{Blog}/{blogUserIdHex?}")]
+        [Route("{controller=Blog}/{action=Index}/{blogUserIdHex?}")]
+        public IActionResult Index(string blogUserIdHex, int page)
         {
             if (page<1)
             {
@@ -87,17 +88,25 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
-            if (string.IsNullOrEmpty(blogUserName))
+            User blogUser=null;
+            if (string.IsNullOrEmpty(blogUserIdHex))
             {
+
                 //默认账号
-                blogUserName = "hyfree";
+               string blogUserName = "hyfree";
+                blogUser = UserService.GetUserByUserName(blogUserName);
             }
-            User blogUser = UserService.GetUserByUserName(blogUserName);
-            ViewBag.blogUser = blogUser;
-            if (blogUser==null)
+            else
+            {
+                blogUser = UserService.GetUserByUserId(MyConvert.HexToLong(blogUserIdHex));
+            }
+
+            if (blogUser == null)
             {
                 return Content("查无此人");
             }
+            ViewBag.blogUser = blogUser;
+           
             ViewBag.postCount = BlogService.CountTheNumberForBlogs(blogUser.UserId);
             NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page);
             ViewBag.noteAndContent = noteAndContent;
