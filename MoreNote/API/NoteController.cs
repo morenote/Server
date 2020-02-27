@@ -49,18 +49,19 @@ namespace MoreNote.API
         //todo:得到note和内容
         public IActionResult GetNoteAndContent(string token, string noteId)
         {
-            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(MyConvert.HexToLong(noteId), getUserIdByToken(),false,false,false);
+            User tokenUser = TokenSerivce.GetUserByToken(token);
+            if (tokenUser == null)
+            {
+                return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
+            }
+            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(MyConvert.HexToLong(noteId), tokenUser.UserId, false,false,false);
             if (noteAndContent == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
             }
             else
             {
-                return Json(new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "GetNoteAndContent_is_error"
-                }); ;
+                return Json(noteAndContent, MyJsonConvert.GetOptions());
             }
 
         }
@@ -294,6 +295,7 @@ namespace MoreNote.API
             }
             // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
             var note = NoteService.GetNote(noteId, tokenUserId);
+            var noteContent = NoteContentService.GetNoteContent(note.NoteId, tokenUserId,false);
             if (note == null || note.NoteId == 0)
             {
                 re.Msg = "notExists";
@@ -372,6 +374,14 @@ namespace MoreNote.API
                 {
                     noteOrContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Abstract, 200);
                 }
+                else
+                {
+                    noteOrContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
+                }
+            }
+            else
+            {
+                noteOrContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteContent.Content, 200);
             }
             //上传noteContent的变更
             contentOk = NoteContentService.UpdateNoteContent(

@@ -43,7 +43,7 @@ namespace MoreNote
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
                 options.Cookie.HttpOnly = true;
             });
-
+            //这样可以将HttpContext注入到控制器中。
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         
             services.AddMvc();

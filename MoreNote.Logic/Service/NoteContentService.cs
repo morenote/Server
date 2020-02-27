@@ -58,12 +58,22 @@ namespace MoreNote.Logic.Service
                 return result == null ? null : result.FirstOrDefault();
             }
         }
+     
         public static NoteContent GetNoteContent(long noteId, long userId)
         {
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
                     .Where(b => b.UserId == userId && b.NoteId == noteId );
+                return result == null ? null : result.FirstOrDefault();
+            }
+        }
+        public static NoteContent GetValidNoteContent(long noteId, long userId)
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.NoteContent
+                    .Where(b => b.UserId == userId && b.NoteId == noteId);
                 return result == null ? null : result.FirstOrDefault();
             }
         }

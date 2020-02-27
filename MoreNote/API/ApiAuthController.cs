@@ -24,7 +24,7 @@ namespace MoreNote.API
         /// <param name="email"></param>
         /// <param name="pwd"></param>
         /// <returns></returns>
-        [HttpPost]
+       //[HttpPost]
         public JsonResult Login(string email, string pwd)
         {
             string tokenStr = "";

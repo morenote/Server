@@ -60,7 +60,7 @@ namespace MoreNote.Controllers
             ViewBag.page = page;
 
             ViewBag.postCount = BlogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId,notebookId);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlogOfNoteBookId(page,notebookId);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlogOfNoteBookId(page,notebookId, blogUser.UserId);
             ViewBag.noteAndContent = noteAndContent;
 
             if (blogUser == null)
@@ -108,7 +108,7 @@ namespace MoreNote.Controllers
             ViewBag.blogUser = blogUser;
            
             ViewBag.postCount = BlogService.CountTheNumberForBlogs(blogUser.UserId);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page,blogUser.UserId);
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
             
