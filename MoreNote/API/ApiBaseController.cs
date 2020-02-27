@@ -45,7 +45,12 @@ namespace MoreNote.API
              *  API服务不接受cookie中的信息，token总是显式提交的
              * 
              **/
-            string token = _accessor.HttpContext.Request.Form["token"];
+            string token=null;
+            if (_accessor.HttpContext.Request.Form!=null)
+            {
+                token= _accessor.HttpContext.Request.Form["token"];
+            }
+             
             if (string.IsNullOrEmpty(token))
             {
                 token = _accessor.HttpContext.Request.Query["token"];

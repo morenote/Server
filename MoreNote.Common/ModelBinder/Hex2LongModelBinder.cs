@@ -20,7 +20,15 @@ namespace MoreNote.Common.ModelBinder
             if (bindingContext.ModelType != typeof(long)) return Task.CompletedTask;
             if (!bindingContext.BindingSource.CanAcceptDataFrom(BindingSource.Custom)) return Task.CompletedTask;
             var formName = bindingContext.ModelName;
-            var stringValue = bindingContext.HttpContext.Request.Form[formName];
+            string stringValue = null;
+            try
+            {
+                stringValue = bindingContext.HttpContext.Request.Form[formName];
+            }catch(Exception ex)
+            {
+
+            }
+           
             if (string.IsNullOrEmpty(stringValue))
             {
                  stringValue = bindingContext.HttpContext.Request.Query[formName];

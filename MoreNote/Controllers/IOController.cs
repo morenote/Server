@@ -103,7 +103,7 @@ namespace MoreNote.Controllers
             var memi = provider.Mappings[fileExt];
             return File(stream, memi, Path.GetFileName(addrUrl));
         }
-        [HttpPost]
+       // [HttpPost]
         private IActionResult UploadFiles(List<IFormFile> files)
         {
             long size = 0;
@@ -137,7 +137,7 @@ namespace MoreNote.Controllers
         /// AJAX请求上传，通过Request.Form.Files获取上传文件信息
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+       // [HttpPost]
         private JsonResult AjaxUploadFiles()
         {
             long size = 0;

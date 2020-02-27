@@ -58,13 +58,13 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
-        public static NoteAndContent[] GetNoteAndContentForBlog(int pageIndex)
+        public static NoteAndContent[] GetNoteAndContentForBlog(int pageIndex,long userId)
         {
             using (var db = new DataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
-                              where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash==false&&_note.IsDeleted==false
+                              where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash==false&&_note.IsDeleted==false&&_note.UserId== userId
                               select new NoteAndContent
                               {
                                   note = _note,
@@ -73,13 +73,13 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
-        public static NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex,long notebookId)
+        public static NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex,long notebookId,long userId)
         {
             using (var db = new DataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
-                              where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false&&_note.NotebookId== notebookId
+                              where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false&&_note.NotebookId== notebookId&&_note.UserId==userId
                               select new NoteAndContent
                               {
                                   note = _note,
@@ -158,7 +158,7 @@ namespace MoreNote.Logic.Service
         {
             using (var db = new DataContext())
             {
-                var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsTrash==IsTrash&&b.IsDeleted==isDelete);
+                var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
 
                 return result == null ? null : result.FirstOrDefault();
             }
@@ -208,7 +208,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.Note.
-                    Where(b => b.UserId == userid && b.Usn > afterUsn).Take(maxEntry);
+                    Where(b => b.UserId == userid && b.Usn > afterUsn&&b.IsDeleted==false&&b.IsTrash==false).Take(maxEntry);
                 return ToApiNotes(result.ToArray());
             }
         }
