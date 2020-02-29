@@ -9,13 +9,14 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
-    [Route("api/[controller]/[action]")]
-    public class UserController : ApiBaseController
+    [Route("api/User/[action]")]
+    public class ApiV1UserController : ApiV1BaseController
     {
-        public UserController(IHttpContextAccessor accessor) : base(accessor)
+        public ApiV1UserController(IHttpContextAccessor accessor) : base(accessor)
         {
+
         }
 
         //获取用户信息

@@ -6,14 +6,15 @@ using MoreNote.Logic.Service;
 using System;
 using System.Text.RegularExpressions;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/Note/[action]")]
     // [ApiController]
-    public class NoteController : ApiBaseController
+    public class ApiV1NoteController : ApiV1BaseController
     {
-        public NoteController(IHttpContextAccessor accessor) : base(accessor)
+        public ApiV1NoteController(IHttpContextAccessor accessor) : base(accessor)
         {
+
         }
 
         //todo:获取同步的笔记

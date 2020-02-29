@@ -4,13 +4,13 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/Tag/[action]")]
     // [ApiController]
-    public class TagController : ApiBaseController
+    public class ApiV1TagController : ApiV1BaseController
     {
-        public TagController(IHttpContextAccessor accessor) : base(accessor)
+        public ApiV1TagController(IHttpContextAccessor accessor) : base(accessor)
         {
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
     public class Init
     {
