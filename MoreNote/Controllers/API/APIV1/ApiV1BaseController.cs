@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
 
     /**
@@ -19,14 +19,14 @@ namespace MoreNote.API
      * 
      * 2020年01月27日
      * */
-    public class ApiBaseController : Controller
+    public class ApiV1BaseController : Controller
     {
         public int pageSize = 1000;
         public string defaultSortField = "UpdatedTime";
         public string leanoteUserId = "admin";// 不能更改
         protected IHttpContextAccessor _accessor;
      
-        public ApiBaseController(IHttpContextAccessor accessor)
+        public ApiV1BaseController(IHttpContextAccessor accessor)
         {
             _accessor = accessor;
 

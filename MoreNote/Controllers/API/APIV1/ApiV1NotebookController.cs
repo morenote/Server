@@ -6,14 +6,15 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using System.Collections.Generic;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/Notebook/[action]")]
    // [ApiController]
-    public class NotebookController : ApiBaseController
+    public class ApiV1NotebookController : ApiV1BaseController
     {
-        public NotebookController(IHttpContextAccessor accessor) : base(accessor)
+        public ApiV1NotebookController(IHttpContextAccessor accessor) : base(accessor)
         {
+
         }
 
         //获取同步的笔记本

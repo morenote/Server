@@ -8,11 +8,12 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
-    public class APPStoreController : ApiBaseController
+    [Route("API/APPStore/[action]")]
+    public class ApiV1APPStoreController : ApiV1BaseController
     {
-        public APPStoreController(IHttpContextAccessor accessor) : base(accessor)
+        public ApiV1APPStoreController(IHttpContextAccessor accessor) : base(accessor)
         {
 
 

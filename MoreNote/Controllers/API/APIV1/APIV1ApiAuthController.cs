@@ -5,13 +5,13 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using System.Text.Json;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
     [Route("api/Auth/[action]")]
 
-    public class ApiAuthController : ApiBaseController
+    public class ApiV1ApiAuthController : ApiV1BaseController
     {
-        public ApiAuthController(IHttpContextAccessor accessor) : base(accessor)
+        public ApiV1ApiAuthController(IHttpContextAccessor accessor) : base(accessor)
         {
 
         }

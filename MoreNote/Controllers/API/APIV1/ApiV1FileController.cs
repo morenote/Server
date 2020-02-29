@@ -7,13 +7,13 @@ using MoreNote.Logic.Service;
 using System;
 using System.IO;
 
-namespace MoreNote.API
+namespace MoreNote.API.APIV1
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/File/[action]")]
     //[ApiController]
-    public class FileController : ApiBaseController
+    public class APIFileController : ApiV1BaseController
     {
-        public FileController(IHttpContextAccessor accessor) : base(accessor)
+        public APIFileController(IHttpContextAccessor accessor) : base(accessor)
         {
         }
 
