@@ -1,6 +1,11 @@
+@{
+	Layout = null;
+	Dictionary<string, string> msg = ViewBag.msg;
+	Dictionary<string, string> member = ViewBag.member;
+}
 <nav class="nav-primary">
 	<ul class="nav" id="nav">
-	
+
 		<li class="active">
 			<a href="/member">
 				<i class="fa fa-dashboard icon">
@@ -8,11 +13,11 @@
 					</b>
 				</i>
 				<span class="nav-h1">
-					{{msg . "memberCenter"}}
+					@member["memberCenter"]
 				</span>
 			</a>
 		</li>
-		
+
 		<li>
 			<a href="#">
 				<i class="fa fa-user icon">
@@ -26,7 +31,7 @@
 					</i>
 				</span>
 				<span class="nav-h1">
-					{{msg . "accountInfo"}}
+					@member["accountInfo"]
 				</span>
 			</a>
 			<!-- 导航列表 -->
@@ -34,37 +39,37 @@
 				<li>
 					<a href="/member/user/avatar">
 						<span>
-							{{msg . "Avatar"}}
+							@member["Avatar"]
 						</span>
 					</a>
 				</li>
-				
+
 				<li>
 					<a href="/member/user/username">
 						<span>
-							{{msg . "Username"}}
+							@member["Username"]
 						</span>
 					</a>
 				</li>
-				
+
 				<li>
 					<a href="/member/user/email">
 						<span>
-							{{msg . "Email"}}
+							@member["Email"]
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/member/user/password">
 						<span>
-							{{msg . "Password"}}
+							@member["Password"]
 						</span>
 					</a>
 				</li>
-				
+
 			</ul>
 		</li>
-		
+
 		<li id="adminEmailNav">
 			<a href="#layout">
 				<i class="fa fa-bold icon">
@@ -78,63 +83,63 @@
 					</i>
 				</span>
 				<span class="nav-h1">
-					{{msg . "blog"}}
+					@msg["blog"]
 				</span>
 			</a>
 			<ul class="nav lt">
 				<li>
 					<a href="/member/blog/index">
 						<span>
-							{{msg . "Posts"}}
+							@member["Posts"]
 						</span>
 					</a>
 				</li>
-				
+
 				<li>
 					<a href="/member/blog/base">
 						<span>
-							{{msg . "basicInfoSet"}}
+							@msg["basicInfoSet"]
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/member/blog/comment">
 						<span>
-							{{msg . "Comment"}}
+							@member["Comment"]
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/member/blog/cate">
 						<span>
-							{{msg . "Category"}}
+							@member["Category"]
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/member/blog/single">
 						<span>
-							{{msg . "Single"}}
+							@member["Single"]
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/member/blog/paging">
 						<span>
-							{{msg . "pagingAndSort"}}
+							@member["pagingAndSort"]
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/member/blog/theme">
 						<span>
-							{{msg . "Theme"}}
+							@member["Theme"]
 						</span>
 					</a>
 				</li>
 			</ul>
 		</li>
-		
+
 		<li class="active">
 			<a href="/member/group/index">
 				<i class="fa fa-users icon">
@@ -142,7 +147,7 @@
 					</b>
 				</i>
 				<span class="nav-h1">
-					{{msg . "group"}}
+					@member["group"]
 				</span>
 			</a>
 		</li>

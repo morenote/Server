@@ -1,5 +1,7 @@
-@{ 
+﻿@{ 
     Layout = null;
+	Dictionary<string ,string> msg=ViewBag.msg;
+	Dictionary<string ,string> member=ViewBag.member;
 }
 <!DOCTYPE html>
 <html lang="en" class="app">
@@ -25,24 +27,24 @@
 			<div class="navbar-header aside-md logo-ctn">
 				<a href="/member" class="navbar-brand clearfix" data-toggle="fullscreen">
 					<span id="logo"></span>
-					<span class="logo-title">{{msg . "memberCenter"}}</span>
+					<span class="logo-title">@member["memberCenter"]</span>
 				</a>
 			</div>
 
 			<ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
 				<li class="hidden-xs">
 					<a href="/note" class="dk">
-						{{msg . "myNote"}}
+						@msg["myNote"]
 					</a>
 				</li>
 				<li class="hidden-xs">
 					<a href="/blog/{{$.session.Username}}" class="dk">
-						{{msg . "myBlog"}}
+						@msg["myBlog"]
 					</a>
 				</li>
 				<li class="hidden-xs">
 					<a href="/logout" class="dk">
-						{{msg . "logout"}}
+						@msg["logout"]
 					</a>
 				</li>
 				<li class="hidden-xs">

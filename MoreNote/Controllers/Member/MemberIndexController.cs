@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Value;
 
 namespace MoreNote.Controllers.member
 {
@@ -11,6 +12,8 @@ namespace MoreNote.Controllers.member
     {
         public IActionResult Index()
         {
+            ViewBag.msg = LanguageResource.GetMsg();
+            ViewBag.member = LanguageResource.GetMember();
             //return View("Views/Home/About.cshtml");
             return View("Views/Member/Index.cshtml");
         }
