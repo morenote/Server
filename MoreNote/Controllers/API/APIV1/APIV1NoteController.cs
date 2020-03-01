@@ -56,13 +56,18 @@ namespace MoreNote.API.APIV1
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
             }
             NoteAndContent noteAndContent = NoteService.GetNoteAndContent(MyConvert.HexToLong(noteId), tokenUser.UserId, false,false,false);
+            ApiNote[] apiNotes = NoteService.ToApiNotes(new Note[] { noteAndContent.note });
+            ApiNote apiNote = apiNotes[0];
+            apiNote.Content =NoteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.IsMarkdown);
+            apiNote.Desc = noteAndContent.note.Desc;
+            apiNote.Abstract = noteAndContent.noteContent.Abstract;
             if (noteAndContent == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
             }
             else
             {
-                return Json(noteAndContent, MyJsonConvert.GetOptions());
+                return Json(apiNote, MyJsonConvert.GetOptions());
             }
 
         }
@@ -168,13 +173,17 @@ namespace MoreNote.API.APIV1
                     }
                 }
             }
+            else{
+                
+            }
             //-------------替换笔记内容中的文件ID
-            fixPostNotecontent(ref noteOrContent);
+            FixPostNotecontent(ref noteOrContent);
             if (noteOrContent.Tags!=null)
             {
                 if (noteOrContent.Tags.Length>0&&noteOrContent.Tags[0]==null)
                 {
-                    noteOrContent.Tags=new string[0];
+                    //noteOrContent.Tags= Array.Empty<string>();
+                    noteOrContent.Tags= new string[] { ""};
                 }
 
             }
@@ -183,6 +192,8 @@ namespace MoreNote.API.APIV1
             {
                 UserId = tokenUserId,
                 NoteId = noteId,
+                CreatedUserId=noteId,
+                UpdatedUserId=noteId,
                 NotebookId = MyConvert.HexToLong(noteOrContent.NotebookId),
                 Title = noteOrContent.Title,
                 Tags = noteOrContent.Tags,
@@ -194,6 +205,7 @@ namespace MoreNote.API.APIV1
                 UpdatedTime = noteOrContent.UpdatedTime,
                 ContentId = SnowFlake_Net.GenerateSnowFlakeID()
             };
+
             //-------------新增笔记内容对象
             NoteContent noteContent = new NoteContent()
             {
@@ -214,13 +226,13 @@ namespace MoreNote.API.APIV1
 
                 if (noteOrContent.IsMarkdown.GetValueOrDefault())
                 {
-                    note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
+                   // note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
                     noteContent.Abstract = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
 
                 }
                 else
                 {
-                    note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
+                    //note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
                     noteContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
                 }
                
@@ -229,6 +241,25 @@ namespace MoreNote.API.APIV1
             {
                 note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Abstract, 200);
             }
+            if (noteOrContent.Desc==null)
+            {
+                if (noteOrContent.IsMarkdown.GetValueOrDefault())
+                {
+                    note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
+                    
+
+                }
+                else
+                {
+                    note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
+                   
+                }
+            }
+            else
+            {
+                note.Desc = noteOrContent.Desc;
+            }
+            
             note = NoteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
             if (note == null || note.NoteId == 0)
@@ -369,7 +400,7 @@ namespace MoreNote.API.APIV1
             if (noteOrContent.Content != null)
             {
                 // 把fileId替换下
-                fixPostNotecontent(ref noteOrContent);
+                FixPostNotecontent(ref noteOrContent);
                 // 如果传了Abstract就用之
                 if (noteOrContent.Abstract != null)
                 {
@@ -476,7 +507,7 @@ namespace MoreNote.API.APIV1
         // https://leanote.com/api/file/getImage?fileId=xx
         // https://leanote.com/api/file/getAttach?fileId=xx
         // 将fileId=映射成ServerFileId, 这里的fileId可能是本地的FileId
-        public void fixPostNotecontent(ref ApiNote noteOrContent)
+        public void FixPostNotecontent(ref ApiNote noteOrContent)
         {
             //todo 这里需要完成fixPostNotecontent
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.Content))

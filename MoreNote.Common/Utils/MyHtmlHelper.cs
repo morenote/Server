@@ -8,12 +8,15 @@ namespace MoreNote.Common.Utils
     public class MyHtmlHelper
     {
        
-
         public static string SubHTMLToRaw(string html,int length)
         {
+            if (html==null)
+            {
+                return "空白文章，没有笔记内容：SubHTMLToRaw=>null Exception";
+            }
             if (string.IsNullOrEmpty(html))
             {
-                return "SubHTMLToRaw=>null Exception";
+                return "空白文章，没有笔记内容：SubHTMLToRaw=>empty Exception";
             }
             //todo:需要完成函数MyHtmlHelper.SubStringHTMLToRaw
             HtmlToTextHelper convert = new HtmlToTextHelper();

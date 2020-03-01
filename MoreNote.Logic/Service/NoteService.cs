@@ -257,7 +257,10 @@ namespace MoreNote.Logic.Service
                 NotebookId = note.NotebookId.ToString("x"),
                 UserId = note.UserId.ToString("x"),
                 Title = note.Title,
+                Desc=note.Desc,
                 Tags = note.Tags,
+                
+              
                 IsMarkdown = note.IsMarkdown,
                 IsBlog = note.IsBlog,
                 IsTrash = note.IsTrash,
@@ -266,8 +269,7 @@ namespace MoreNote.Logic.Service
                 CreatedTime = note.CreatedTime,
                 UpdatedTime = note.UpdatedTime,
                 PublicTime = note.PublicTime,
-                Files = files
-
+                Files =( files==null?Array.Empty<APINoteFile>() :files)
             };
             return apiNote;
         }
@@ -899,10 +901,6 @@ namespace MoreNote.Logic.Service
 
 
                 }
-
-
-
-
 
             }
             return content;

@@ -41,7 +41,8 @@ namespace MoreNote.Common.Utils
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
         {
            // writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
-            writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz"));
+            //writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz"));
+            writer.WriteStringValue(value.ToLocalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz"));
         }
     }
     public class UserIdConverter : JsonConverter<long>
