@@ -208,7 +208,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.Note.
-                    Where(b => b.UserId == userid && b.Usn > afterUsn&&b.IsDeleted==false&&b.IsTrash==false).Take(maxEntry);
+                    Where(b => b.UserId == userid && b.Usn > afterUsn).Take(maxEntry);
                 return ToApiNotes(result.ToArray());
             }
         }
