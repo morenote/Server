@@ -5,7 +5,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using System.Text.Json;
 
-namespace MoreNote.API.APIV1
+namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Auth/[action]")]
 

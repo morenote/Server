@@ -4,7 +4,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.API.APIV1
+namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Tag/[action]")]
     // [ApiController]

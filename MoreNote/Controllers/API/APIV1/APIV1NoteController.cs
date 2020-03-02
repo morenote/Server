@@ -6,7 +6,7 @@ using MoreNote.Logic.Service;
 using System;
 using System.Text.RegularExpressions;
 
-namespace MoreNote.API.APIV1
+namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Note/[action]")]
     // [ApiController]

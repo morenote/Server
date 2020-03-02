@@ -78,7 +78,7 @@ namespace MoreNote.Controllers
 
         }
 
-        [Route("{Blog}/{blogUserIdHex?}")]
+        [Route("Blog/{blogUserIdHex}")]
         [Route("{controller=Blog}/{action=Index}/{blogUserIdHex?}")]
         public IActionResult Index(string blogUserIdHex, int page)
         {
@@ -103,7 +103,12 @@ namespace MoreNote.Controllers
 
             if (blogUser == null)
             {
-                return Content("查无此人");
+                blogUser = UserService.GetUserByUserName(blogUserIdHex);
+                if (blogUser == null)
+                {
+                    return Content("查无此人");
+                }
+
             }
             ViewBag.blogUser = blogUser;
            

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MoreNote.Controllers.member
+namespace MoreNote.Controllers.Member
 {
     public class MemberBaseController : Controller
     {
