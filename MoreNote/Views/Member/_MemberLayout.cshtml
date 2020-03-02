@@ -1,5 +1,10 @@
 ﻿@{
     Layout = null;
+    Dictionary<string, string> msg = ViewBag.msg;
+    Dictionary<string, string> member = ViewBag.member;
+    User user = ViewBag.user;
+    int countNote = ViewBag.countNote;
+    int countBlog = ViewBag.countBlog;
 }
 <!DOCTYPE html>
 <html lang="en" class="app">
@@ -25,28 +30,37 @@
             <div class="navbar-header aside-md logo-ctn">
                 <a href="/member" class="navbar-brand clearfix" data-toggle="fullscreen">
                     <span id="logo"></span>
-                    <span class="logo-title">{{msg . "memberCenter"}}</span>
+                    <span class="logo-title">@member["memberCenter"]</span>
                 </a>
             </div>
 
             <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
                 <li class="hidden-xs">
                     <a href="/note" class="dk">
-                        {{msg . "myNote"}}
+                        @msg["myNote"]
                     </a>
                 </li>
                 <li class="hidden-xs">
-                    <a href="/blog/{{$.session.Username}}" class="dk">
-                        {{msg . "myBlog"}}
+
+                    <a target="_blank" href="/blog/@user.Username" class="dk">
+                        @msg["myBlog"]
                     </a>
                 </li>
                 <li class="hidden-xs">
                     <a href="/logout" class="dk">
-                        {{msg . "logout"}}
+                        @msg["logout"]
                     </a>
                 </li>
                 <li class="hidden-xs">
-                    <img alt="{{.userInfo.Username}}" title="{{.userInfo.Username}}" src="{{if .userInfo.Logo}}{{.userInfo.Logo}}{{else}}/images/blog/default_avatar.png{{end}}" id="myAvatar" />
+                    @{
+                        string logo = user.Logo;
+                        if (string.IsNullOrEmpty(logo))
+                        {
+                            logo = @"/images/blog/default_avatar.png";
+
+                        }
+                    }
+                    <img alt="@user.Username" title="@user.Username" src="@logo" id="myAvatar" />
                 </li>
             </ul>
         </header>
@@ -93,143 +107,45 @@ padding: 10px 15px;text-align:center;">
                 <section id="content">
                     <section class="vbox">
                         <section class="scrollable padder">
-                            <!-- 导航
-                            <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
-                                <li>
-                                    <a href="index.html">
-                                        <i class="fa fa-home">
-                                        </i>
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Elements
-                                    </a>
-                                </li>
-                                <li class="active">
-                                    Components
-                                </li>
-                            </ul>
-                            -->
                             <!-- 主要内容区 -->
-
-
-                            <div class="m-b-md"> <h3 class="m-b-none">{{.userInfo.Username}}, {{msg . "welcomeToLeanote"}}.</h3></div>
-
-                            <section class="panel panel-default">
-                                <div class="row m-l-none m-r-none bg-light lter">
-                                    <div class="col-sm-6 col-md-3 padder-v b-r b-light">
-                                        <span class="fa-stack fa-2x pull-left m-r-sm">
-                                            <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                                            <i class="fa fa-file-o fa-stack-1x text-white"></i>
-                                        </span>
-                                        <a class="clear" href="javascript:;">
-                                            <span class="h3 block m-t-xs"><strong>{{.countNote}}</strong></span>
-                                            <small class="text-muted text-uc">{{msg . "note"}}</small>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-3 padder-v b-r b-light">
-                                        <span class="fa-stack fa-2x pull-left m-r-sm">
-                                            <i class="fa fa-circle fa-stack-2x text-info"></i>
-                                            <i class="fa fa-bold fa-stack-1x text-white"></i>
-                                        </span>
-                                        <a class="clear" href="javascript:;">
-                                            <span class="h3 block m-t-xs"><strong>{{.countBlog}}</strong></span>
-                                            <small class="text-muted text-uc">{{msg . "blog"}}</small>
-                                        </a>
-                                    </div>
-                                </div>
-                            </section>
-                            <!-- 最新动态 -->
-                            <section class="panel panel-default">
-                                <h4 class="font-thin padder">
-                                    {{msg . "leanoteEvents"}}
-                                </h4>
-                                <ul class="list-group" id="eventsList"></ul>
-                            </section>
-
-                            <!--
-                            <section class="panel panel-default">
-                                <form>
-                                    <textarea class="form-control no-border" rows="3" placeholder="Suggestions to leanote"></textarea>
-                                </form>
-                                <footer class="panel-footer bg-light lter">
-                                    <button class="btn btn-info pull-right btn-sm">
-                                        POST
-                                    </button>
-                                    <ul class="nav nav-pills nav-sm">
-                                </footer>
-                            </section>
-                            -->
-                            </div>
+                            @RenderBody();
+                            <!--主要内容区结束-->
                         </section>
                     </section>
                 </section>
             </section>
         </section>
     </section>
-
     <script src="/js/jquery-1.9.0.min.js"></script>
     <script src="/js/bootstrap.js"></script>
-    <script src="/js/i18n/msg.{{.locale}}.js"></script>
+    @*<script src="/js/i18n/msg.{{.locale}}.js"></script>*@
+    <script src="~/js/i18n/msg.zh-cn.js"></script>
     <script src="~/admin/js/artDialog/jquery.artDialog.js?skin=default"></script>
     <script src="~/js/common.js"></script>
     <script src="~/member/js/member.js"></script>
     <script>
-		$(function () {
-			var pathname = location.pathname; // admin/t
-			var search = location.search; // ?t=xxx, 如果有?page呢
-			var fullPath = pathname;
-			if (search.indexOf("?t=") >= 0) {
-				var fullPath = pathname + search; // /admin/t?t=xxx
-			}
+        $(function () {
+            var pathname = location.pathname; // admin/t
+            var search = location.search; // ?t=xxx, 如果有?page呢
+            var fullPath = pathname;
+            if (search.indexOf("?t=") >= 0) {
+                var fullPath = pathname + search; // /admin/t?t=xxx
+            }
 
-			if (fullPath == "/member/index") {
-				fullPath = "/member";
-			} else if (fullPath == '/member/blog/updateTheme') {
-				fullPath = '/member/blog/theme';
-			}
+            if (fullPath == "/member/index") {
+                fullPath = "/member";
+            } else if (fullPath == '/member/blog/updateTheme') {
+                fullPath = '/member/blog/theme';
+            }
 
-			$("#nav > li").removeClass("active");
-			// 自己
-			var $thisLi = $('#nav a[href="' + fullPath + '"]').parent();
-			$thisLi.addClass("active");
-			// 父也active
-			$thisLi.parent().parent().addClass('active');
-		});
+            $("#nav > li").removeClass("active");
+            // 自己
+            var $thisLi = $('#nav a[href="' + fullPath + '"]').parent();
+            $thisLi.addClass("active");
+            // 父也active
+            $thisLi.parent().parent().addClass('active');
+        });
     </script>
-
-    <script>
-		$(function () {
-			// leanote动态
-			var url = "https://leanote.com/blog/listCateLatest/5446753cfacfaa4f56000000";
-			function renderItem(item) {
-				return '<li class="list-group-item"><p><a target="_blank" href="http://leanote.com/blog/post/' + item.NoteId + '">' + item.Title + '</a></p><small class="block text-muted"><i class="fa fa-clock-o"></i> ' + goNowToDatetime(item.PublicTime) + '</small></li>';
-			}
-			$.ajax({
-				dataType: "jsonp",//跨域访问 dataType 必须是jsonp 类型。
-				url: url,
-				type: "GET",
-				jsonp: "callback",
-				jsonpCallback: "jsonpCallback",
-				success: function (data) {
-					if (typeof data == "object" && data.Ok) {
-						var list = data.List;
-						var html = "";
-						for (var i = 0; i < list.length; ++i) {
-							var item = list[i];
-							html += renderItem(item);
-						}
-						$("#eventsList").html(html);
-					}
-				}
-			});
-		});
-
-    </script>
-
-
+    @RenderSection("Footer",false)
 </body>
 </html>
