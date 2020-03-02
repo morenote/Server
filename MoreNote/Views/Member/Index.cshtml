@@ -1,237 +1,245 @@
-﻿@{ 
+﻿@{
     Layout = null;
-	Dictionary<string ,string> msg=ViewBag.msg;
-	Dictionary<string ,string> member=ViewBag.member;
+    Dictionary<string, string> msg = ViewBag.msg;
+    Dictionary<string, string> member = ViewBag.member;
+    User user = ViewBag.user;
+    int countNote = ViewBag.countNote;
+    int countBlog = ViewBag.countBlog;
 }
 <!DOCTYPE html>
 <html lang="en" class="app">
 <head>
-	<meta charset="utf-8" />
-	<title>
-		{{.title}}
-	</title>
-	<meta name="description" content="leanote member center" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<link href="~/css/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet">
-	<link href="~/admin/css/bootstrap.3.2.0.min.css" rel="stylesheet">
-	<link href="~/member/css/member.css" rel="stylesheet">
-	<!--[if lt IE 9]>
-		<script src="/public/admin/js/ie/html5shiv.js"></script>
-		<script src="/public/admin/js/ie/respond.min.js"></script>
-		<script src="/public/admin/js/ie/excanvas.js"></script>
-	<![endif]-->
+    <meta charset="utf-8" />
+    <title>
+        {{.title}}
+    </title>
+    <meta name="description" content="leanote member center" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="~/css/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet">
+    <link href="~/admin/css/bootstrap.3.2.0.min.css" rel="stylesheet">
+    <link href="~/member/css/member.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+        <script src="/public/admin/js/ie/html5shiv.js"></script>
+        <script src="/public/admin/js/ie/respond.min.js"></script>
+        <script src="/public/admin/js/ie/excanvas.js"></script>
+    <![endif]-->
 </head>
 <body class="lang-zh-cn">
-	<section class="vbox">
-		<header class="bg-dark dk header navbar navbar-fixed-top-xs">
-			<div class="navbar-header aside-md logo-ctn">
-				<a href="/member" class="navbar-brand clearfix" data-toggle="fullscreen">
-					<span id="logo"></span>
-					<span class="logo-title">@member["memberCenter"]</span>
-				</a>
-			</div>
+    <section class="vbox">
+        <header class="bg-dark dk header navbar navbar-fixed-top-xs">
+            <div class="navbar-header aside-md logo-ctn">
+                <a href="/member" class="navbar-brand clearfix" data-toggle="fullscreen">
+                    <span id="logo"></span>
+                    <span class="logo-title">@member["memberCenter"]</span>
+                </a>
+            </div>
 
-			<ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
-				<li class="hidden-xs">
-					<a href="/note" class="dk">
-						@msg["myNote"]
-					</a>
-				</li>
-				<li class="hidden-xs">
-					<a href="/blog/{{$.session.Username}}" class="dk">
-						@msg["myBlog"]
-					</a>
-				</li>
-				<li class="hidden-xs">
-					<a href="/logout" class="dk">
-						@msg["logout"]
-					</a>
-				</li>
-				<li class="hidden-xs">
-					<img alt="{{.userInfo.Username}}" title="{{.userInfo.Username}}" src="{{if .userInfo.Logo}}{{.userInfo.Logo}}{{else}}/images/blog/default_avatar.png{{end}}" id="myAvatar" />
-				</li>
-			</ul>
-		</header>
-		<section>
-			<section class="hbox stretch">
-				<!-- .aside -->
-				<aside class="bg-light lter b-r aside-md hidden-print" id="nav">
-					<section class="vbox">
-						<!--
-						<header class="header bg-primary lter text-center clearfix">
-							<div class="btn-group">
-								<div class="hidden-nav-xs">
-									<a class="btn btn-sm btn-primary">
-										Welcome, admin!
-									</a>
-								</div>
-							</div>
-						</header>
-						-->
+            <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
+                <li class="hidden-xs">
+                    <a href="/note" class="dk">
+                        @msg["myNote"]
+                    </a>
+                </li>
+                <li class="hidden-xs">
 
-						<section class="w-f scrollable">
-							<div class="slim-scroll" data-height="auto" data-disable-fade-out="true"
-								 data-distance="0" data-size="5px" data-color="#333333">
-								<!-- nav -->
-								@await Html.PartialAsync("/Views/Member/nav.cshtml")
-								<!-- / nav -->
-							</div>
-						</section>
-						<footer class="footer lt hidden-xs b-t b-light" style="min-height: initial;
+                    <a target="_blank" href="/blog/@user.Username" class="dk">
+                        @msg["myBlog"]
+                    </a>
+                </li>
+                <li class="hidden-xs">
+                    <a href="/logout" class="dk">
+                        @msg["logout"]
+                    </a>
+                </li>
+                <li class="hidden-xs">
+                    @{
+                        string logo = user.Logo;
+                        if (string.IsNullOrEmpty(logo))
+                        {
+                            logo = @"/images/blog/default_avatar.png";
+
+                        }
+                    }
+                    <img alt="@user.Username" title="@user.Username" src="@logo" id="myAvatar" />
+                </li>
+            </ul>
+        </header>
+        <section>
+            <section class="hbox stretch">
+                <!-- .aside -->
+                <aside class="bg-light lter b-r aside-md hidden-print" id="nav">
+                    <section class="vbox">
+                        <!--
+                        <header class="header bg-primary lter text-center clearfix">
+                            <div class="btn-group">
+                                <div class="hidden-nav-xs">
+                                    <a class="btn btn-sm btn-primary">
+                                        Welcome, admin!
+                                    </a>
+                                </div>
+                            </div>
+                        </header>
+                        -->
+
+                        <section class="w-f scrollable">
+                            <div class="slim-scroll" data-height="auto" data-disable-fade-out="true"
+                                 data-distance="0" data-size="5px" data-color="#333333">
+                                <!-- nav -->
+                                @await Html.PartialAsync("/Views/Member/nav.cshtml")
+                                <!-- / nav -->
+                            </div>
+                        </section>
+                        <footer class="footer lt hidden-xs b-t b-light" style="min-height: initial;
 padding: 10px 15px;text-align:center;">
-							© <a href="https://leanote.com" target="_blank">Leanote</a>
-							<!--
-							<a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-default btn-icon">
-								<i class="fa fa-angle-left text">
-								</i>
-								<i class="fa fa-angle-right text-active">
-								</i>
-							</a>
-							-->
-						</footer>
-					</section>
-				</aside>
-				<!-- /.aside -->
-				<section id="content">
-					<section class="vbox">
-						<section class="scrollable padder">
-							<!-- 导航
-							<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
-								<li>
-									<a href="index.html">
-										<i class="fa fa-home">
-										</i>
-										Home
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										Elements
-									</a>
-								</li>
-								<li class="active">
-									Components
-								</li>
-							</ul>
-							-->
-							<!-- 主要内容区 -->
+                            © <a href="https://leanote.com" target="_blank">Leanote</a>
+                            <!--
+                            <a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-default btn-icon">
+                                <i class="fa fa-angle-left text">
+                                </i>
+                                <i class="fa fa-angle-right text-active">
+                                </i>
+                            </a>
+                            -->
+                        </footer>
+                    </section>
+                </aside>
+                <!-- /.aside -->
+                <section id="content">
+                    <section class="vbox">
+                        <section class="scrollable padder">
+                            <!-- 导航
+                            <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+                                <li>
+                                    <a href="index.html">
+                                        <i class="fa fa-home">
+                                        </i>
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Elements
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    Components
+                                </li>
+                            </ul>
+                            -->
+                            <!-- 主要内容区 -->
 
+                            <div class="m-b-md"> <h3 class="m-b-none">@user.Username, @member["welcomeToLeanote"].</h3></div>
 
-							<div class="m-b-md"> <h3 class="m-b-none">{{.userInfo.Username}}, {{msg . "welcomeToLeanote"}}.</h3></div>
+                            <section class="panel panel-default">
+                                <div class="row m-l-none m-r-none bg-light lter">
+                                    <div class="col-sm-6 col-md-3 padder-v b-r b-light">
+                                        <span class="fa-stack fa-2x pull-left m-r-sm">
+                                            <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                                            <i class="fa fa-file-o fa-stack-1x text-white"></i>
+                                        </span>
+                                        <a class="clear" href="javascript:;">
+                                            <span class="h3 block m-t-xs"><strong>@countNote</strong></span>
+                                            <small class="text-muted text-uc">@msg["note"]</small>
+                                        </a>
+                                    </div>
 
-							<section class="panel panel-default">
-								<div class="row m-l-none m-r-none bg-light lter">
-									<div class="col-sm-6 col-md-3 padder-v b-r b-light">
-										<span class="fa-stack fa-2x pull-left m-r-sm">
-											<i class="fa fa-circle fa-stack-2x text-warning"></i>
-											<i class="fa fa-file-o fa-stack-1x text-white"></i>
-										</span>
-										<a class="clear" href="javascript:;">
-											<span class="h3 block m-t-xs"><strong>{{.countNote}}</strong></span>
-											<small class="text-muted text-uc">{{msg . "note"}}</small>
-										</a>
-									</div>
+                                    <div class="col-sm-6 col-md-3 padder-v b-r b-light">
+                                        <span class="fa-stack fa-2x pull-left m-r-sm">
+                                            <i class="fa fa-circle fa-stack-2x text-info"></i>
+                                            <i class="fa fa-bold fa-stack-1x text-white"></i>
+                                        </span>
+                                        <a class="clear" href="javascript:;">
+                                            <span class="h3 block m-t-xs"><strong>@countBlog</strong></span>
+                                            <small class="text-muted text-uc">@msg["blog"]</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- 最新动态 -->
+                            <section class="panel panel-default">
+                                <h4 class="font-thin padder">
+                                    @member["leanoteEvents"]
+                                </h4>
+                                <ul class="list-group" id="eventsList"></ul>
+                            </section>
 
-									<div class="col-sm-6 col-md-3 padder-v b-r b-light">
-										<span class="fa-stack fa-2x pull-left m-r-sm">
-											<i class="fa fa-circle fa-stack-2x text-info"></i>
-											<i class="fa fa-bold fa-stack-1x text-white"></i>
-										</span>
-										<a class="clear" href="javascript:;">
-											<span class="h3 block m-t-xs"><strong>{{.countBlog}}</strong></span>
-											<small class="text-muted text-uc">{{msg . "blog"}}</small>
-										</a>
-									</div>
-								</div>
-							</section>
-							<!-- 最新动态 -->
-							<section class="panel panel-default">
-								<h4 class="font-thin padder">
-									{{msg . "leanoteEvents"}}
-								</h4>
-								<ul class="list-group" id="eventsList"></ul>
-							</section>
+                            <!--
+                            <section class="panel panel-default">
+                                <form>
+                                    <textarea class="form-control no-border" rows="3" placeholder="Suggestions to leanote"></textarea>
+                                </form>
+                                <footer class="panel-footer bg-light lter">
+                                    <button class="btn btn-info pull-right btn-sm">
+                                        POST
+                                    </button>
+                                    <ul class="nav nav-pills nav-sm">
+                                </footer>
+                            </section>
+                            -->
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
 
-							<!--
-							<section class="panel panel-default">
-								<form>
-									<textarea class="form-control no-border" rows="3" placeholder="Suggestions to leanote"></textarea>
-								</form>
-								<footer class="panel-footer bg-light lter">
-									<button class="btn btn-info pull-right btn-sm">
-										POST
-									</button>
-									<ul class="nav nav-pills nav-sm">
-								</footer>
-							</section>
-							-->
-							</div>
-						</section>
-					</section>
-				</section>
-			</section>
-		</section>
-	</section>
+    <script src="/js/jquery-1.9.0.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/i18n/msg.{{.locale}}.js"></script>
+    <script src="~/admin/js/artDialog/jquery.artDialog.js?skin=default"></script>
+    <script src="~/js/common.js"></script>
+    <script src="~/member/js/member.js"></script>
+    <script>
+        $(function () {
+            var pathname = location.pathname; // admin/t
+            var search = location.search; // ?t=xxx, 如果有?page呢
+            var fullPath = pathname;
+            if (search.indexOf("?t=") >= 0) {
+                var fullPath = pathname + search; // /admin/t?t=xxx
+            }
 
-	<script src="/js/jquery-1.9.0.min.js"></script>
-	<script src="/js/bootstrap.js"></script>
-	<script src="/js/i18n/msg.{{.locale}}.js"></script>
-	<script src="~/admin/js/artDialog/jquery.artDialog.js?skin=default"></script>
-	<script src="~/js/common.js"></script>
-	<script src="~/member/js/member.js"></script>
-	<script>
-		$(function () {
-			var pathname = location.pathname; // admin/t
-			var search = location.search; // ?t=xxx, 如果有?page呢
-			var fullPath = pathname;
-			if (search.indexOf("?t=") >= 0) {
-				var fullPath = pathname + search; // /admin/t?t=xxx
-			}
+            if (fullPath == "/member/index") {
+                fullPath = "/member";
+            } else if (fullPath == '/member/blog/updateTheme') {
+                fullPath = '/member/blog/theme';
+            }
 
-			if (fullPath == "/member/index") {
-				fullPath = "/member";
-			} else if (fullPath == '/member/blog/updateTheme') {
-				fullPath = '/member/blog/theme';
-			}
+            $("#nav > li").removeClass("active");
+            // 自己
+            var $thisLi = $('#nav a[href="' + fullPath + '"]').parent();
+            $thisLi.addClass("active");
+            // 父也active
+            $thisLi.parent().parent().addClass('active');
+        });
+    </script>
 
-			$("#nav > li").removeClass("active");
-			// 自己
-			var $thisLi = $('#nav a[href="' + fullPath + '"]').parent();
-			$thisLi.addClass("active");
-			// 父也active
-			$thisLi.parent().parent().addClass('active');
-		});
-	</script>
-
-	<script>
-		$(function () {
-			// leanote动态
-			var url = "https://leanote.com/blog/listCateLatest/5446753cfacfaa4f56000000";
-			function renderItem(item) {
-				return '<li class="list-group-item"><p><a target="_blank" href="http://leanote.com/blog/post/' + item.NoteId + '">' + item.Title + '</a></p><small class="block text-muted"><i class="fa fa-clock-o"></i> ' + goNowToDatetime(item.PublicTime) + '</small></li>';
-			}
-			$.ajax({
-				dataType: "jsonp",//跨域访问 dataType 必须是jsonp 类型。
-				url: url,
-				type: "GET",
-				jsonp: "callback",
-				jsonpCallback: "jsonpCallback",
-				success: function (data) {
-					if (typeof data == "object" && data.Ok) {
-						var list = data.List;
-						var html = "";
-						for (var i = 0; i < list.length; ++i) {
-							var item = list[i];
-							html += renderItem(item);
-						}
-						$("#eventsList").html(html);
-					}
-				}
-			});
-		});
-
-	</script>
-
-
+    <script>
+        $(function () {
+            // leanote动态
+            var url = "https://leanote.com/blog/listCateLatest/5446753cfacfaa4f56000000";
+            function renderItem(item) {
+                return '<li class="list-group-item"><p><a target="_blank" href="http://leanote.com/blog/post/' + item.NoteId + '">' + item.Title + '</a></p><small class="block text-muted"><i class="fa fa-clock-o"></i> ' + goNowToDatetime(item.PublicTime) + '</small></li>';
+            }
+            $.ajax({
+                dataType: "jsonp",//跨域访问 dataType 必须是jsonp 类型。
+                url: url,
+                type: "GET",
+                jsonp: "callback",
+                jsonpCallback: "jsonpCallback",
+                success: function (data) {
+                    if (typeof data == "object" && data.Ok) {
+                        var list = data.List;
+                        var html = "";
+                        for (var i = 0; i < list.length; ++i) {
+                            var item = list[i];
+                            html += renderItem(item);
+                        }
+                        $("#eventsList").html(html);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

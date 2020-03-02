@@ -805,11 +805,21 @@ namespace MoreNote.Logic.Service
         // 统计
         public static int CountNote(long userId)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                var result = db.Note
+                    .Where(b => b.UserId == userId && b.IsDeleted==false&&b.IsTrash==false).Count();
+                return result;
+            }
         }
         public static int CountBlog(long usrId)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                var result = db.Note
+                    .Where(b => b.UserId == usrId && b.IsDeleted == false && b.IsTrash == false&&b.IsBlog==true).Count();
+                return result;
+            }
         }
         // 通过标签来查询
         public static int CountNoteByTag(long userId, string tag)

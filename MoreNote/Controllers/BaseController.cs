@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MoreNote.Controllers.API.APIV1
+namespace MoreNote.Controllers
 {
 
     /**
@@ -19,14 +19,14 @@ namespace MoreNote.Controllers.API.APIV1
      * 
      * 2020年01月27日
      * */
-    public class ApiV1BaseController : Controller
+    public class BaseController : Controller
     {
         public int pageSize = 1000;
         public string defaultSortField = "UpdatedTime";
         public string leanoteUserId = "admin";// 不能更改
         protected IHttpContextAccessor _accessor;
      
-        public ApiV1BaseController(IHttpContextAccessor accessor)
+        public BaseController(IHttpContextAccessor accessor)
         {
             _accessor = accessor;
 
@@ -70,6 +70,13 @@ namespace MoreNote.Controllers.API.APIV1
             string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
             long userid_number = MyConvert.HexToLong(userid_hex);
             return userid_number;
+        }
+        public User GetUserBySession()
+        {
+            string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
+            long userid_number = MyConvert.HexToLong(userid_hex);
+            User user = UserService.GetUserByUserId(userid_number);
+            return user;
         }
         // todo:得到用户信息
         public long getUserIdByToken(string token)

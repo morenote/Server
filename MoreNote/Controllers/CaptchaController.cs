@@ -23,7 +23,8 @@ namespace MoreNote.Controllers
 
                 //存session
 
-                HttpContext.Session.SetString("VerifyCode", code);
+                HttpContext.Session.SetString("VerifyCode", code.ToLower());
+                HttpContext.Session.SetInt32("VerifyCodeValid",1);
               
 
                 //string sessionID = Request.Cookies["SessionID"];
