@@ -17,6 +17,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Member\end.cshtml" />
+    <Content Remove="Views\Member\footer.cshtml" />
+    <Content Remove="Views\Member\top.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Admin\admin-form.html" />
     <None Remove="Views\Admin\admin-gallery.html" />
     <None Remove="Views\Admin\admin-help.html" />
@@ -144,6 +150,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Member\end.cshtml" />
+    <None Include="Views\Member\footer.cshtml" />
+    <None Include="Views\Member\top.cshtml" />
     <None Include="wwwroot\blog\themes\MaterialDesign\js\activate-power-mode.js" />
     <None Include="wwwroot\blog\themes\MaterialDesign\js\aos.js" />
     <None Include="wwwroot\blog\themes\MaterialDesign\js\APlayer.min.js" />
