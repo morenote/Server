@@ -19,7 +19,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-        [Route("api/1.0/app/[action]")]
+        [Route("/api/1.0/app/[action]")]
         public IActionResult getlist()
         {
            
@@ -35,13 +35,13 @@ namespace MoreNote.Controllers.API.APIV1
             return Json(aPPStoreInfoList,MyJsonConvert.GetOptions());
            
         }
-        [Route("api/1.0/app/update/callback/[action]")]
+        [Route("/api/1.0/app/update/callback/[action]")]
         public IActionResult callback()
         {
 
             return Content("callback");
         }
-        [Route("api/1.0/app/[action]")]
+        [Route("/api/1.0/app/[action]")]
         [HttpPost]
         public IActionResult AddAPP(long appid,string appautor ,string appdetail,string appname,string apppackage,
             string appdownurl,string applogourl,string appversion,string imglist,long appsize,bool agreement,string password)
