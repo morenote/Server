@@ -3,15 +3,14 @@
     Dictionary<string, string> msg = ViewBag.msg;
     Dictionary<string, string> member = ViewBag.member;
     User user = ViewBag.user;
-    int countNote = ViewBag.countNote;
-    int countBlog = ViewBag.countBlog;
+  
 }
 <!DOCTYPE html>
-<html lang="en" class="app">
+<html lang="zh-cn" class="app">
 <head>
     <meta charset="utf-8" />
     <title>
-        {{.title}}
+        @ViewBag.title
     </title>
     <meta name="description" content="leanote member center" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
