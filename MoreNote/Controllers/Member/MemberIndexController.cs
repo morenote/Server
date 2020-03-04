@@ -43,6 +43,7 @@ namespace MoreNote.Controllers.Member
 
             ViewBag.countNote = countNote;
             ViewBag.countBlog = countBlog;
+            ViewBag.title = "个人中心";
             //return View("Views/Home/About.cshtml");
             return View("Views/Member/Index.cshtml");
         }
