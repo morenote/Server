@@ -16,7 +16,7 @@ namespace MoreNote.Logic.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Album", b =>
@@ -139,8 +139,8 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Path")
                         .HasColumnType("text");
 
-                    b.Property<string>("Size")
-                        .HasColumnType("text");
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
@@ -149,6 +149,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text");
 
                     b.Property<long>("UploadUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("AttachId");
@@ -524,57 +527,6 @@ namespace MoreNote.Logic.Migrations
                     b.HasKey("GroupUserId");
 
                     b.ToTable("GroupUser");
-                });
-
-            modelBuilder.Entity("MoreNote.Logic.Entity.HostServiceProvider", b =>
-                {
-                    b.Property<long>("HostServiceProviderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("AnomalyDetection")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("BeiAnGov")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("FoundDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("HostName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ISP")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsBlock")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("MentionByName")
-                        .HasColumnType("integer");
-
-                    b.Property<string[]>("OldWebSite")
-                        .HasColumnType("text[]");
-
-                    b.Property<string>("RegistrationPlace")
-                        .HasColumnType("text");
-
-                    b.Property<int>("RiskIndex")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("ServiceProviderCompanyId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ServiceType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("WebSite")
-                        .HasColumnType("text");
-
-                    b.HasKey("HostServiceProviderId");
-
-                    b.ToTable("HostServiceProvider");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Note", b =>
@@ -983,117 +935,6 @@ namespace MoreNote.Logic.Migrations
                     b.HasKey("ReportId");
 
                     b.ToTable("ReportInfo");
-                });
-
-            modelBuilder.Entity("MoreNote.Logic.Entity.Reporter", b =>
-                {
-                    b.Property<long>("ReporterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("IsIdentify")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("WebSite")
-                        .HasColumnType("text");
-
-                    b.HasKey("ReporterId");
-
-                    b.ToTable("Reporter");
-                });
-
-            modelBuilder.Entity("MoreNote.Logic.Entity.SecretReport", b =>
-                {
-                    b.Property<long>("SecretReportId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("IsRisk")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ReportContent")
-                        .HasColumnType("text");
-
-                    b.Property<long>("ReporterId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("hostServiceProviderId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("serviceProviderCompanyId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("SecretReportId");
-
-                    b.ToTable("SecretReport");
-                });
-
-            modelBuilder.Entity("MoreNote.Logic.Entity.ServiceProviderCompany", b =>
-                {
-                    b.Property<long>("ServiceProviderCompanyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("AnomalyDetection")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("FoundDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsBlock")
-                        .HasColumnType("boolean");
-
-                    b.Property<long>("LegalPersonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("MentionByName")
-                        .HasColumnType("integer");
-
-                    b.Property<string[]>("OldWebSite")
-                        .HasColumnType("text[]");
-
-                    b.Property<DateTime>("RegionDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("RegistrationPlace")
-                        .HasColumnType("text");
-
-                    b.Property<int>("RiskIndex")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("SPName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("WebSite")
-                        .HasColumnType("text");
-
-                    b.HasKey("ServiceProviderCompanyId");
-
-                    b.ToTable("ServiceProviderCompany");
-                });
-
-            modelBuilder.Entity("MoreNote.Logic.Entity.ServiceProviderLegalPerson", b =>
-                {
-                    b.Property<long>("PersonId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("About")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("PersonId");
-
-                    b.ToTable("ServiceProviderLegalPerson");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Session", b =>

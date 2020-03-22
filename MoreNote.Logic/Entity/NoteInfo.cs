@@ -121,7 +121,7 @@ namespace MoreNote.Logic.Entity
         public bool IsNew { get; set; }
         public bool IsMarkdown { get; set; }
 
-        public string FromUserId { get; set; }//// 为共享而新建
+        public long FromUserId { get; set; }//// 为共享而新建
         public bool IsBlog { get; set; }//是否是blog, 更新note不需要修改, 添加note时才有可能用到, 此时需要判断notebook是否设为Blog
     }
     // 分开的

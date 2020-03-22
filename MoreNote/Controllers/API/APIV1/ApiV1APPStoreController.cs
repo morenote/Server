@@ -22,7 +22,11 @@ namespace MoreNote.Controllers.API.APIV1
         [Route("/api/1.0/app/[action]")]
         public IActionResult getlist()
         {
-           
+
+            /**
+             *  String json = "";
+             return Content(json);
+             * */
             AppInfo[] appInfos = APPStoreInfoService.GetAPPList();
             APPStoreInfo aPPStoreInfoList = new APPStoreInfo()
             {
