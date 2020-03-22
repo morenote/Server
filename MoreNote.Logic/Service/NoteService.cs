@@ -133,6 +133,27 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
+        /// <summary>
+        /// 增加文章的阅读数量
+        /// </summary>
+        /// <param name="noteId"></param>
+        public static void AddReadNum(long noteId)
+        {
+            using (var db = new DataContext())
+            {
+                var result = db.Note.Where(b => b.NoteId == noteId);
+                if (result!=null)
+                {
+                    var note = result.FirstOrDefault();
+                    if (note!=null)
+                    {
+                        note.ReadNum++;
+                    }
+
+                }
+                db.SaveChanges();
+            }
+        }
 
         public static bool SetDeleteStatus(long noteID,long userId,out int afterUsn)
         {

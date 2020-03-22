@@ -149,6 +149,7 @@ namespace MoreNote.Controllers
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
             NoteAndContent noteAndContent= NoteService.GetNoteAndContent(noteId);
+            NoteService.AddReadNum(noteId);
             if (noteAndContent==null)
             {
                 return Content("未经授权的访问");
