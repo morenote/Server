@@ -15,6 +15,7 @@
             </div>
 
             <div class="created-time">
+                <!--tag标签开始-->
                 @if (item.note.Tags != null && item.note.Tags.Length > 0)
                 {
 
@@ -24,9 +25,11 @@
                         @(tag)@Html.Raw("&nbsp;&nbsp;");
                     }
                 }
+                <!--tag标签结束-->
+                发布于 <span id="postmark">@item.note.PublicTime.ToString("yyyy年MM月dd日 HH:mm:ss")</span>
+                <!--博客统计-->
+                &nbsp;&nbsp;@(item.note.ReadNum)人围观&nbsp;&nbsp;&nbsp;@(item.note.CommentNum)条评论
 
-                发布于 <span id="postmark">@item.note.PublicTime</span>
-                &nbsp;&nbsp;@(item.note.ReadNum)人围观&nbsp;&nbsp;&nbsp;@(item.note.CommentNum)}条评论
             </div>
             <div class="desc">
                 @Html.Raw(item.noteContent.Abstract)
