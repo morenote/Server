@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
@@ -13,6 +14,27 @@ namespace MoreNote.Controllers
 
     public class BlogController : Controller
     {
+        private async Task InsertLogAsync(string url)
+        {
+            var headers = Request.Headers;
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var item in headers)
+            {
+                stringBuilder.Append(item.Key + "---" + item.Value + "\r\n");
+            }
+            AccessRecords accessRecords = new AccessRecords()
+            {
+                AccessId = SnowFlake_Net.GenerateSnowFlakeID(),
+                IP = headers["X-Real-IP"],
+                Referrer = headers["Referrer "],
+                RequestHeader = stringBuilder.ToString(),
+                AccessTime = DateTime.Now,
+                UnixTime = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                TimeInterval = -1,
+                url = url
+            };
+            await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
+        }
         private User ActionInitBlogUser(string blogUserName)
         {
             if (string.IsNullOrEmpty(blogUserName))
@@ -134,8 +156,10 @@ namespace MoreNote.Controllers
         }
         
         [Route("Blog/Post/{blogUserName}/{noteIdHex}/")]
-        public IActionResult Post(string blogUserName,string noteIdHex)
+        public async Task<IActionResult> PostAsync(string blogUserName,string noteIdHex)
         {
+            //添加访问日志
+            await InsertLogAsync($"Blog/Post/{blogUserName}/{noteIdHex}/").ConfigureAwait(false);
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
@@ -216,6 +240,8 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
+            string[] tags = TagService.GetBlogTags(blogUser.UserId);
+            ViewBag.tags = tags;
             blog.Add("Title", "标题");
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;

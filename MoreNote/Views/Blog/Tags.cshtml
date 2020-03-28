@@ -1,4 +1,7 @@
-﻿<!--标签页-->
+﻿@{ 
+    string[] tags = ViewBag.tags;
+}
+<!--标签页-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 @await Html.PartialAsync("Header")
@@ -20,19 +23,22 @@
             <div id="posts">
                 <div class="each-tag">
                     <ul class="tags">
-                        {{range $.tags}}
-                        <button class="button">
-                            @*<a href="{{$.tagPostsUrl}}/{{.Tag}}">{{.Tag}}</a>*@
-                            <a href="@Url.Action("Tags_Postsic")">{{.Tag}}</a>
-                        </button>
-                        {{end}}
+                        @if (tags != null && tags.Length > 0)
+                            foreach (var item in tags)
+                            {
+                                <button class="button">
+                                    <a href="@(Url.Action("Tags_Postsic")+"/"+@item)">@item</a>
+                                </button>
+                            }
+
                     </ul>
                 </div>
             </div>
         </div>
-        {{template "footer_js.html" $}}
+        @*{{template "footer_js.html" $}}*@
+        @await Html.PartialAsync("Footer_js")
 </body>
-<script src="{{$.themeBaseUrl}}/activate-power-mode.js"></script>
+<script src="~/blog/themes/MaterialDesign/js/activate-power-mode.js"></script>
 <script>
     //生成不规则大小标签云
     var tags = $(".each-tag a");

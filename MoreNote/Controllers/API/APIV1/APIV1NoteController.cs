@@ -182,8 +182,8 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 if (noteOrContent.Tags.Length>0&&noteOrContent.Tags[0]==null)
                 {
-                    //noteOrContent.Tags= Array.Empty<string>();
-                    noteOrContent.Tags= new string[] { ""};
+                     noteOrContent.Tags= Array.Empty<string>();
+                    //noteOrContent.Tags= new string[] { ""};
                 }
 
             }

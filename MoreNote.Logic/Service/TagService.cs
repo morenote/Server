@@ -1,4 +1,5 @@
-﻿using MoreNote.Common.Utils;
+﻿using MoreNote.Common.Helper;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
@@ -181,10 +182,10 @@ namespace MoreNote.Logic.Service
         }
         public static string[] GetBlogTags(long userid)
         {
-
+            //todo:这里需要性能优化，获得blog标签
             using (var db = new DataContext())
             {
-                var result = db.Note.Where(note => note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.Tags != null && note.Tags.Length > 0).ToArray();
+                var result = db.Note.Where(note =>note.UserId==userid&& note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.Tags != null && note.Tags.Length > 0).DistinctBy(p => new { p.Tags}).ToArray();
                 HashSet<string> hs = new HashSet<string>();
                 foreach (var item in result)
                 {
@@ -192,7 +193,8 @@ namespace MoreNote.Logic.Service
                
                     foreach (var tag in item.Tags)
                     {
-                        if (hs.Contains(tag))
+                          
+                        if (tag!=null&&!hs.Contains(tag))
                         {
                                 hs.Add(tag);
                         }
