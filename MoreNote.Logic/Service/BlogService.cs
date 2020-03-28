@@ -27,6 +27,15 @@ namespace MoreNote.Logic.Service
            
             }
         }
+        public static int CountTheNumberForBlogTags(long userId,string tag)
+        {
+            using (var db = new DataContext())
+            {
+                var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId&&b.Tags.Contains(tag)).Count();
+                return count;
+
+            }
+        }
         public static Note[] GetNotes(long userid)
         {
             using (var db = new DataContext())

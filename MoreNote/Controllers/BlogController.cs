@@ -254,7 +254,7 @@ namespace MoreNote.Controllers
             }
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = BlogService.CountTheNumberForBlogs(blogUser.UserId);
+            ViewBag.postCount = BlogService.CountTheNumberForBlogTags(blogUser.UserId,tag);
             NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentByTag(page, blogUser.UserId,tag);
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
