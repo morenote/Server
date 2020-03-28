@@ -1,5 +1,6 @@
 ﻿@{ 
     string[] tags = ViewBag.tags;
+    User blogUser=  ViewBag.blogUser ;
 }
 <!--标签页-->
 <!DOCTYPE html>
@@ -27,7 +28,7 @@
                             foreach (var item in tags)
                             {
                                 <button class="button">
-                                    <a href="@(Url.Action("Tags_Postsic")+"/"+@item)">@item</a>
+                                    <a href="/Blog/Tags_Posts/@blogUser.Username/@item">@item</a>
                                 </button>
                             }
 

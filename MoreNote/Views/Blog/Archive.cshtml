@@ -1,12 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+       IOrderedEnumerable<IGrouping<int, Note>> queryArchiveList  = ViewBag.queryArchiveList;
+       User blogUser= ViewBag.blogUser;
+}
+<!DOCTYPE html>
 <html lang="zh-CN">
 @await Html.PartialAsync("Header")
 <body ondragstart="return false;" class="dark-theme">
     @await Html.PartialAsync("BodyTempLate")
     <div class="main-content" data-aos="fade-left" data-aos-duration="400">
-        <div class="toolbar header bg-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}} color-white">
+        <div class="toolbar header bg-blue-300 color-white">
             <button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="fa fa-bars"></i></button>
-            <label class="toolbar-label">归档 {{if $.curCateTitle}} - {{$.curCateTitle}}{{end}}</label>
+            <label class="toolbar-label">归档 </label>
             <span class="float-right" id="switch-container">
                 <div class="switch">
                     <input type="checkbox" id="dark-theme-switch" onchange="Theme.setTheme(this.checked ? 'dark' : 'light')" />
@@ -18,7 +22,38 @@
         <div class="content-archive">
             <div class="archive-header">
                 <div class="archive-body">
-                    {{range $.archives}}
+
+                    @foreach (var queryArchive in queryArchiveList)
+                    {
+                        <section class="box-year">
+                            <div class="box-year-title">
+                                <a href="javascript:void(0);" onclick="showhide(event);" class="text-year">@queryArchive.Key</a>
+                            </div>
+                            <div class="list-article">
+                                @foreach (var note in queryArchive)
+                                {
+
+                                    <div class="item-article">
+                                        <div class="article-datetime">
+                                            <a href="/Blog/Post/@blogUser.Username/@note.NoteId.ToString("x")" class="archive-article-date">
+                                                <time datetime="" itemprop="datePublished">
+                                                    @(note.PublicTime.ToString("yyyy年MM月dd日 HH:mm:ss"))
+                                                </time>
+                                            </a>
+                                        </div>
+                                        <div class="article-title">
+                                            <a class="article-link" href="/Blog/Post/@blogUser.Username/@note.NoteId.ToString("x")">@(note.Title)</a>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </section>
+
+                    }
+
+
+                    @*{{range $.archives}}
                     <section class="box-year">
                         <div class="box-year-title">
                             <a href="javascript:void(0);" onclick="showhide(event);" class="text-year">{{.Year}}</a>
@@ -40,27 +75,28 @@
                             {{end}}
                         </div>
                     </section>
-                    {{end}}
+                    {{end}}*@
                 </div>
             </div>
         </div>
-
         @await Html.PartialAsync("Footer_js")
+        <script>
+            function showhide(e) {
+                var archiveYear = $(e.srcElement).parent().next();
+                if (archiveYear.is(':visible')) {
+                    archiveYear.fadeOut();
+                } else {
+                    archiveYear.fadeIn(600);
+                }
+            }
+        </script>
+        @*<script src="{{$.themeBaseUrl}}/activate-power-mode.js"></script>*@
+        <script src="~/blog/themes/MaterialDesign/js/activate-power-mode.js"></script>
+        <script>
+            POWERMODE.colorful = true;
+            POWERMODE.shake = false;
+            document.body.addEventListener('input', POWERMODE);
+        </script>
 </body>
-<script>
-    function showhide(e) {
-        var archiveYear = $(e.srcElement).parent().next();
-        if (archiveYear.is(':visible')) {
-            archiveYear.fadeOut();
-        } else {
-            archiveYear.fadeIn(600);
-        }
-    }
-</script>
-<script src="{{$.themeBaseUrl}}/activate-power-mode.js"></script>
-<script>
-    POWERMODE.colorful = true;
-    POWERMODE.shake = false;
-    document.body.addEventListener('input', POWERMODE);
-</script>
+
 </html>
