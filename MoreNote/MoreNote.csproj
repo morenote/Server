@@ -9,9 +9,20 @@
     <UserSecretsId>e5936244-8a9b-40f5-ae30-eec262fbbf09</UserSecretsId>
     <RootNamespace>MoreNote</RootNamespace>
     <AssemblyName>MoreNote</AssemblyName>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <NoWarn />
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NoWarn />
     <Optimize>false</Optimize>
   </PropertyGroup>
