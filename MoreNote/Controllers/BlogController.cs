@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,12 @@ namespace MoreNote.Controllers
             return blogUser;
 
         }
+        /// <summary>
+        /// 博客归档
+        /// </summary>
+        /// <param name="blogUserName"></param>
+        /// <param name="archiveHex"></param>
+        /// <returns></returns>
         [Route("{controller=Blog}/{action=Index}/{blogUserName?}/{archiveHex?}")]
         public IActionResult Archive(string blogUserName,string archiveHex)
         {
@@ -61,10 +68,19 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
+            var list = BlogService.GetNotes(blogUser.UserId);
+            IOrderedEnumerable<IGrouping<int, Note>> queryArchiveList =
+                                from note in list
+                                group note by note.PublicTime.Year into newGroup
+                                orderby newGroup.Key descending
+                                select newGroup;
+            ViewBag.queryArchiveList = queryArchiveList;
+            ViewBag.blogUser = blogUser;
             blog.Add("Title", "标题");
             ViewBag.blog = blog;
             return View();
         }
+     
         [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
         public IActionResult Cate(string blogUserName,string cateHex, int page)
         {
@@ -96,8 +112,6 @@ namespace MoreNote.Controllers
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
             return View();
-
-
         }
 
         [Route("Blog/{blogUserIdHex}")]
@@ -154,20 +168,22 @@ namespace MoreNote.Controllers
             User user = UserService.GetUserByUserId(note.UserId);
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
         }
-        
         [Route("Blog/Post/{blogUserName}/{noteIdHex}/")]
         public async Task<IActionResult> PostAsync(string blogUserName,string noteIdHex)
         {
             //添加访问日志
             await InsertLogAsync($"Blog/Post/{blogUserName}/{noteIdHex}/").ConfigureAwait(false);
+
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("查无此人");
             }
             long noteId = MyConvert.HexToLong(noteIdHex);
             if (noteId==0)
             {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("未找到");
 
             }
@@ -176,10 +192,12 @@ namespace MoreNote.Controllers
             NoteService.AddReadNum(noteId);
             if (noteAndContent==null)
             {
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Content("未经授权的访问");
             }
             if (!noteAndContent.note.IsBlog)
             {
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Content("未经授权的访问");
             }
             ViewBag.noteAndContent = noteAndContent;
@@ -195,6 +213,7 @@ namespace MoreNote.Controllers
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
@@ -218,16 +237,31 @@ namespace MoreNote.Controllers
             return View();
         }
         [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{tag?}/")]
+     
         public IActionResult Tags_Posts(string blogUserName, string tag,  int page)
         {
+            if (page < 1)
+            {
+                //页码
+                page = 1;
+            }
+            ViewBag.page = page;
+          
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
                 return Content("查无此人");
             }
+            ViewBag.blogUser = blogUser;
+
+            ViewBag.postCount = BlogService.CountTheNumberForBlogs(blogUser.UserId);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentByTag(page, blogUser.UserId,tag);
+            ViewBag.noteAndContent = noteAndContent;
+            ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
+
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            blog.Add("Title", "标题");
-            blog.Add("keywords", "关键字");
+            blog.Add("Title", "标签检索");
+            blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
             return View();
         }
@@ -242,7 +276,8 @@ namespace MoreNote.Controllers
             Dictionary<string, string> blog = new Dictionary<string, string>();
             string[] tags = TagService.GetBlogTags(blogUser.UserId);
             ViewBag.tags = tags;
-            blog.Add("Title", "标题");
+            ViewBag.blogUser = blogUser;
+            blog.Add("Title", "标签云");
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
             return View();
@@ -262,7 +297,9 @@ namespace MoreNote.Controllers
         }  
         public IActionResult getLikesAndComments()
         {
-            return Content("");
+            string json = "jsonpCallback({\"Ok\":true," +
+                "\"Code\":0,\"Msg\":\"\",\"Id\":\"\",\"List\":null,\"Item\":{\"commentUserInfo\":null,\"comments\":null,\"hasMoreLikedUser\":false,\"isILikeIt\":false,\"likedUsers\":null,\"pageInfo\":{\"CurPage\":1,\"TotalPage\":0,\"PerPageSize\":0,\"Count\":0,\"List\":null}}});";
+            return Content(json);
 
         }  
         

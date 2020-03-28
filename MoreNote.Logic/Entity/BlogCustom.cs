@@ -45,21 +45,17 @@ namespace MoreNote.Logic.Entity
         public int LikeNum{ get; set; }
         public bool IsMarkdown{ get; set; }
     }
-    // 归档
+    // 归档 数据容器 不需要数据库储存
     public class ArchiveMonth
     {
-        [Key]
-        public long ArchiveMonthId{ get; set; }
         public int Month{ get; set; }
         public Post[] Posts{ get; set; }
     }
     public class Archive
     {
-        [Key]
-        public long ArchiveId { get; set; }
         public int Year { get; set; }
-        public ArchiveMonth[] MonthAchives { get; set; }
-        public Post[] Posts { get; set; }
+        //public ArchiveMonth[] MonthAchives { get; set; }
+        public Note[] Posts { get; set; }
     }
     public class Cate
     {

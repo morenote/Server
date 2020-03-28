@@ -73,6 +73,21 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
+        public static NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long userId,string tag)
+        {
+            using (var db = new DataContext())
+            {
+                var result = (from _note in db.Note
+                              join _content in db.NoteContent on _note.NoteId equals _content.NoteId
+                              where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId&&_note.Tags.Contains(tag)
+                              select new NoteAndContent
+                              {
+                                  note = _note,
+                                  noteContent = _content
+                              }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
+                return result;
+            }
+        }
         public static NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex,long notebookId,long userId)
         {
             using (var db = new DataContext())
@@ -186,6 +201,7 @@ namespace MoreNote.Logic.Service
 
            
         }
+
         public static Note GetNote(long noteId, long userId)
         {
             using (var db = new DataContext())

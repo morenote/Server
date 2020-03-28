@@ -40,8 +40,8 @@ namespace MoreNote.Logic.DB
         public DbSet<BlogInfoCustom> BlogInfoCustom { get; set;}
         public DbSet<Post> Post { get; set;}
 
-        public DbSet<ArchiveMonth> ArchiveMonth { get; set;}
-        public DbSet<Archive> Archive { get; set;}
+        //public DbSet<ArchiveMonth> ArchiveMonth { get; set;}
+        //public DbSet<Archive> Archive { get; set;}
         public DbSet<Cate> Cate { get; set;}
 
 
