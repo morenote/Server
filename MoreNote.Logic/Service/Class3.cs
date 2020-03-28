@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MoreNote.Logic.Service
 {
-    class Class1
+    class Class3
     {
     }
 }

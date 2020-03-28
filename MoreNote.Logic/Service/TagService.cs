@@ -4,6 +4,7 @@ using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace MoreNote.Logic.Service
@@ -175,6 +176,39 @@ namespace MoreNote.Logic.Service
             {
                 var result = db.NoteTag.Add(noteTag);
                 return db.SaveChanges()>0;
+            }
+
+        }
+        public static string[] GetBlogTags(long userid)
+        {
+
+            using (var db = new DataContext())
+            {
+                var result = db.Note.Where(note => note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.Tags != null && note.Tags.Length > 0).ToArray();
+                HashSet<string> hs = new HashSet<string>();
+                foreach (var item in result)
+                {
+                    if (item.Tags!=null&& item.Tags.Length>0)
+               
+                    foreach (var tag in item.Tags)
+                    {
+                        if (hs.Contains(tag))
+                        {
+                                hs.Add(tag);
+                        }
+                    }
+                }
+                return hs.ToArray<string>();
+
+                //var result2 = (from _note in db.Note
+                //              join _noteBook in db.Notebook on _note.NotebookId equals _noteBook.NotebookId
+                //              where _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
+                //              select new Cate
+                //              {
+                //                  CateId = _note.NotebookId,
+                //                  Title = _noteBook.Title
+                //              }).DistinctBy(p => new { p.CateId }).OrderByDescending(b => b.Title).ToArray();
+                //return result2;
             }
 
         }
