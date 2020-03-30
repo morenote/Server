@@ -76,11 +76,14 @@ namespace MoreNote.Controllers
             {
                 stringBuilder.Append(item.Key + "---" + item.Value+"\r\n");
             }
+            string RealIP = headers["X-Forwarded-For"].ToString().Split(",")[0];
             AccessRecords accessRecords = new AccessRecords()
             {
                 AccessId = SnowFlake_Net.GenerateSnowFlakeID(),
-                IP = headers["X-Real-IP"],
-                Referrer = headers["Referrer "],
+                IP = RealIP,
+                X_Real_IP= headers["X-Real-IP"],
+                X_Forwarded_For = headers["X-Forwarded-For"],
+                Referrer = headers["Referer"],
                 RequestHeader = stringBuilder.ToString(),
                 AccessTime = DateTime.Now,
                 UnixTime = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,

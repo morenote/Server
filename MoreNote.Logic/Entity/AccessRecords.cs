@@ -10,6 +10,8 @@ namespace MoreNote.Logic.Entity
         [Key]
         public long AccessId { get; set; }
         public string IP { get; set; }
+        public string X_Real_IP { get; set; }
+        public string X_Forwarded_For{get;set;}
         public string Referrer { get; set; }//来源 从哪个网站来的
         public string RequestHeader { get; set; }//http header
         public DateTime AccessTime { get; set; }
