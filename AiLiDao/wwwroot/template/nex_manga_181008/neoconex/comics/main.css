@@ -1,0 +1,152 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#fff!important;}
+.wp,#wp{ width:100%!important;}
+#nexheader{ position:relative!important;}
+.nex_top_bg{ height:50px;}
+.edit{ right:32px;}
+.nex_Comics_bd{ width:1180px;  margin:0 auto; position:relative;}
+.nexsdboxsdee{ width:60px; position:absolute; top:2%; right:-85px;}
+.nexsdboxsdee ul{ position:fixed;width:65px; background: #FDF5E8; border: 1px solid #F39A07; border-radius:4px;}
+.nexsdboxsdee ul i{ display:block; width:65px; height:65px; background:url("cartoon.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/cartoon.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/cartoon.png*/ center no-repeat; position:absolute; top:-67px ;left:0;}
+.nexsdboxsdee ul li{}
+.nexsdboxsdee ul li.cur{}
+.nexsdboxsdee ul li a{ display:block; height:35px; line-height:35px; text-align:center; overflow:hidden; padding:0 5px;font-size:12px; color:#333; text-align:center; }
+.nexsdboxsdee ul li.cur a{ background:#FBE3BB; color:#F39A07;}
+
+.nex_fullSlide{ min-width:1000px; position:relative;  height:522px; overflow:hidden;  margin-bottom:20px; }
+.nex_innerBox{ width:1180px; position:relative; margin:0 auto;}
+.nex_innerBox_cons{width:246px; height:408px; padding:10px 20px; background:url("hot_bg.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/hot_bg.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/hot_bg.png*/ repeat; position:absolute; top:47px; left:0; z-index:22;}
+.nex_innerBox_cons_Top{ height:30px; line-height:30px; margin-bottom:20px;}
+.nex_innerBox_cons_Top span{ display:block; float:left; height:30px; line-height:30px; font-size:16px; color:#fff; font-weight:600;}
+.nex_innerBox_cons_Top dl{ float:right; height:20px; margin-top:6px;}
+.nex_innerBox_cons_Top dl dd{ float:left;height:20px; line-height:20px; margin-left:15px; font-size:14px; color:#fff; border-bottom:2px solid transperant; cursor:pointer;}
+.nex_innerBox_cons_Top dl dd.ons{ border-bottom:2px solid #F39A07; }
+.nex_innerBox_cons_Btm{}
+.nex_innerBox_cons_Btm dl dd{ display:none;}
+.nex_Reading_ranks{}
+.nex_Reading_ranklist{}
+.nex_Reading_rankbds{ margin-bottom:16px;}
+.nex_Reading_rankbds .fucd{}
+.nex_Reading_rankbds.fucd .nex_rankbds_in{ display:block;}
+.nex_Reading_rankbds.fucd .nex_rankbds_out{ display:none;}
+.nex_rankbds_out{ margin-bottom:10px;}
+.nex_rankbds_out em{ display:block; float:left; width:18px; height:18px; line-height:16px; text-align:center; font-size:12px; color:#fff;}
+.nex_rankbds_out em.nex_rank_num1{ background:#F39A07; border-radius:2px;}
+.nex_rankbds_out a{display:block; float:left; margin-left:10px; width:160px; height:18px; line-height:18px; color:#fff; font-size:14px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_rankbds_out a:hover{ color:#F39A07;}
+.nex_rankbds_out span{display:block; float:right; height:18px; line-height:18px; font-size:12px; color:#fff;}
+.nex_rankbds_in{ display:none;}
+.nex_rankbds_in em{ display:block; float:left; width:18px; height:18px; line-height:16px; text-align:center; font-size:12px; color:#fff;}
+.nex_rankbds_in em.nex_rank_num1{ background:#F39A07; border-radius:2px;}
+.nex_rankpics{ float:left; margin-left:10px; width:62px; height:80px;}
+.nex_rankpics img{ width:62px; height:80px;}
+.nex_rank_intels{ float:right; width:145px;}
+.nex_rank_intels h5{ max-height:48px; line-height:24px; overflow:hidden; margin-bottom:17px;}
+.nex_rank_intels h5 a{ font-size:16px; color:#fff; font-weight:600;}
+.nex_rank_intels h5 a:hover{ color:#F39A07; }
+.nex_rank_sorts{ height:15px; line-height:15px; overflow:hidden; }
+.nex_rank_sorts i{ font-size:12px; color:#fff; }
+
+.nex_in_nav{height: 30px; line-height: 30px; padding-bottom: 10px; margin: 5px auto 15px; border-bottom: 1px solid #eee;}
+.nex_in_nav ul{ float:left; margin-right:20px;}
+.nex_in_nav ul.nex_in_navpart1{ padding-left:35px; background:url("ic_index_class_lx.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_lx.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_lx.png*/ left center no-repeat;}
+.nex_in_nav ul.nex_in_navpart2{ padding-left:35px; background:url("ic_index_class_rd.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_rd.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_rd.png*/ left center no-repeat;}
+.nex_in_nav ul.nex_in_navpart3{ padding-left:35px; background:url("ic_index_class_ff.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_ff.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_ff.png*/ left center no-repeat;}
+.nex_in_nav ul.nex_in_navpart4{ padding-left:35px; background:url("ic_index_class_jd.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_jd.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_index_class_jd.png*/ left center no-repeat;}
+.nex_in_nav ul.nex_in_navpart5{ padding-left:26px; background:url("ic_home_class.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_home_class.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/ic_home_class.png*/ left center no-repeat; margin-right:0; float:right;}
+.nex_in_nav ul li{ float: left; margin: 0 7px; }
+.nex_in_nav ul li a{ font-size: 14px; color:#333;}
+.nex_in_nav ul li a:hover{ color:#F39A07;}
+.nex_in_nav ul.nex_in_navpart5:hover a{color:#F39A07;}
+.nex_fullSlide .bd{ position:relative; z-index:0;  }
+.nex_fullSlide .bd ul{ width:100% !important;  }
+.nex_fullSlide .bd li{ width:100% !important;  height:522px; overflow:hidden;}
+.nex_fullSlide .bd li a{ display:block; height:522px; }
+.nex_fullSlide .bd ul li h5{ width:510px;  height:40px; line-height:40px; margin:0 auto; background:url("tit_bg.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/tit_bg.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/tit_bg.png*/ center no-repeat; position:relative; top:355px;overflow:hidden;}
+.nex_fullSlide .bd ul li h5 span{ display:inline-block; width:470px; padding:0 10px 0 30px; background:url("doit.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/doit.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/doit.png*/ 12px center no-repeat; font-size:16px; color:#fff; font-family:Georgia, "Times New Roman", Times, serif; font-weight:500; }
+.nex_fullSlide .hd{ width:500px; margin:0 auto; position:relative; top: -120px;z-index:1;background:rgba(0,0,0,0.3); padding:10px 5px;  border-radius:2px; }
+.nex_fullSlide .hd ul{ display:table; margin:0 auto; }
+.nex_fullSlide .hd ul li{  display:inline-block; margin:0 3px; height:55px; width:94px;cursor:pointer; z-index:2; }
+.nex_fullSlide .hd ul li.on{ background:url("little_pic_bg.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/little_pic_bg.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/little_pic_bg.png*/ center no-repeat;}
+.nex_fullSlide .hd ul li span{ display:block;height:46px; width:90px; margin-top:7px;margin-left:2px; border:1px solid #333; border-radius:2px; }
+.nex_fullSlide .hd ul li.on span{ border:0;}
+.nex_index_ads{ width:1180px; margin-bottom:20px;}
+.nex_index_ads img{ width:1180px;}
+.nex_Comics_Con_box{ padding-top:15px; margin-bottom:10px; }
+.nex_Comics_Con_box_title{ height:40px; margin-bottom:20px;}
+.nex_Comics_Con_box_title span{font-size: 26px; color: #333; text-decoration: none; float: left; display: inline-block; overflow: hidden; padding-left:40px;}
+.nex_Comics_Con_box_title span.nex_title_icon1{ background:url("icon3.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon3.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon3.png*/ left center no-repeat;}
+.nex_Comics_Con_box_title span.nex_title_icon2{ background:url("icon4.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon4.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon4.png*/ left center no-repeat;}
+.nex_Comics_Con_box_title span.nex_title_icon3{ background:url("icon5.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon5.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon5.png*/ left center no-repeat;}
+.nex_Comics_Con_box_title span.nex_title_icon4{ background:url("icon2.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon2.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon2.png*/ left center no-repeat;}
+.nex_Comics_Con_box_title span.nex_title_icon5{ background:url("icon1.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon1.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon1.png*/ left center no-repeat;}
+.nex_Comics_Con_box_title span.nex_title_icon6{ background:url("icon6.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon6.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon6.png*/ left center no-repeat;}
+.nex_Comics_Con_box_title span.nex_title_icon7{ background:url("icon7.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon7.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/icon7.png*/ left center no-repeat;}
+.nex_Comics_Con_box_title a{ display:block; margin-top:10px; float:right; height:20px; line-height:20px; font-size:12px; color:#666; border:1px solid #999; border-radius:24px; padding:0 10px;}
+.nex_Comics_Con_box_title a:hover{color:#F39A07; border:1px solid #F39A07; }
+
+.nex_Comics_pL{}
+.nex_Comics_pL ul{ width:1200px;}
+.nex_Comics_pL ul li{ float: left;  width: 190px!important;  margin: 0 8px 30px 0;-webkit-transition:all 0.3s linear;-moz-transition:all 0.3s linear;-o-transition:all 0.3s linear;-ms-transition:all 0.3s linear;transition:all 0.3s linear;}
+.nex_Comics_dmpic{ width:190px; height:252px; overflow:hidden; border-radius:4px;}
+.nex_Comics_pL ul li:hover .nex_Comics_dmpic{box-shadow: 0 6px 6px rgba(0, 3, 4, 0.25);}
+.nex_Comics_dmpic img{width:190px; height:252px; }
+.nex_Comics_pL ul li h5{ height:25px; line-height:25px; margin:6px 0;overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_Comics_pL ul li h5 a{ font-size:16px; color:#333; font-weight:500;}
+.nex_Comics_pL ul li h5 a:hover{ color:#F39A07;}
+.nex_Comics_dmbtm{ height:20px; line-height:20px; overflow:hidden;}
+.nex_Comics_dmava{ float:left;}
+.nex_Comics_dmava a{ display:block;}
+.nex_Comics_dmava a span{display:inline-block; max-width:80px; padding-left:19px; background:url("author.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/author.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/author.png*/ left center no-repeat;height:20px; line-height:20px; font-size:12px; color:#666; overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_Comics_dmava a:hover span{ color:#F39A07;}
+.nex_Comics_dmviews{ float:right; height:20px; line-height:20px; font-size:12px; color:#999; padding-left:19px; background:url("hots.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/hots.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/hots.png*/ left center no-repeat;}
+
+.nex_Run_conts{ position:relative; width:1180px;}
+.nex_Run_conts .tempWrap{ width:1180px!important;}
+.nex_Run_conts a.prev{ display: block; position: absolute; top: 0; left:0;width: 35px; height:252px;text-align: center; color: #fff; background:rgba(0,0,0,0.4) url("l_a.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/l_a.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/l_a.png*/ center no-repeat;-webkit-transition:all 0.3s linear;-moz-transition:all 0.3s linear;-o-transition:all 0.3s linear;-ms-transition:all 0.3s linear;transition:all 0.3s linear; opacity:0;}
+.nex_Run_conts a.next{ display: block; position: absolute; top: 0; right:0;width: 35px; height:252px;text-align: center; color: #fff; background:rgba(0,0,0,0.4) url("r_a.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/r_a.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/r_a.png*/ center no-repeat;-webkit-transition:all 0.3s linear;-moz-transition:all 0.3s linear;-o-transition:all 0.3s linear;-ms-transition:all 0.3s linear;transition:all 0.3s linear; opacity:0;}
+.nex_Run_conts:hover a.prev{ opacity:1;}
+.nex_Run_conts:hover a.next{ opacity:1;}
+
+.nex_Top50{ margin-bottom:20px;}
+.nex_Top50 ul{ width:1200px;}
+.nex_Top50 ul li{ float:left; margin:0 8px 20px 0; width:190px;-webkit-transition:all 0.3s linear;-moz-transition:all 0.3s linear;-o-transition:all 0.3s linear;-ms-transition:all 0.3s linear;transition:all 0.3s linear;}
+.nex_Top50 ul li.nex_top50_sp{ position:relative; width:190px;}
+.nex_Top50 ul li.nex_top50_sp i{ display:block; position:absolute; top:0; left:0; border-radius:4px 0 4px 0; width:25px; height:25px; line-height:25px; text-align:center; font-size:14px; color:#555; background:#ccc; font-weight:500;}
+.nex_Top50 ul li.nex_top50_sp i.nex_top50_num1{ background:#FF4A03; color:#fff;}
+.nex_Top50 ul li.nex_top50_sp i.nex_top50_num2{ background:#FF6984; color:#fff;}
+.nex_Top50 ul li.nex_top50_sp i.nex_top50_num3{ background:#FFD722; color:#fff;}
+.nex_Top50 ul li h5{ height:25px; line-height:25px; margin:6px 0;overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_Top50 ul li h5 a{ font-size:16px; color:#333; font-weight:500;}
+.nex_Top50 ul li h5 a:hover{ color:#F39A07;}
+.nex_Top50 ul li:hover .nex_Comics_dmpic{box-shadow: 0 6px 6px rgba(0, 3, 4, 0.25);}
+.nex_Top50 ul li.nex_top50_sk{ position:relative; width:190px; height:35px; line-height:35px; margin:0 8px 10px 0;}
+.nex_top50_out i{ display:block; float:left; width:25px; height:25px; line-height:25px; margin-top:5px; font-size:14px; color:#666;}
+.nex_top50_out a{ display:block; padding-left:10px; height:35px; width:130px; line-height:35px; font-size:14px; color:#666;overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_top50_out a:hover{ color:#F39A07;}
+.nex_top50_in{position: absolute; top:-77px; left:200px; z-index: 2; background: #fff; border: 1px solid #ebebeb; box-shadow: 0 3px 14px 0 rgba(203, 193, 187, .50); border-radius: 4px; width: 266px; height:140px; padding:20px;-webkit-transition:all 0.3s linear;-moz-transition:all 0.3s linear;-o-transition:all 0.3s linear;-ms-transition:all 0.3s linear;transition:all 0.3s linear; opacity:0; display:none;}
+.nex_top50_sk:hover .nex_top50_in{ display:block;opacity:1; }
+.nex_top50_in::after{content: ' '; width: 10px; height: 10px; position: absolute; top: 50%; left: -9px; margin-top: -5px; border-right: 10px solid #fff; border-top: 10px solid transparent; border-bottom: 10px solid transparent; box-sizing: border-box;}
+.nex_top50_pic{box-shadow: 0 1px 11px 0 #ECE3E5; float:left; border-radius: 4px;  width: 105px;  height: 140px; overflow:hidden;}
+.nex_top50_pic img{width: 105px; height: 140px;}
+.nex_top50_info{ float:right; width:145px; height: 140px;position:relative;}
+.nex_top50_info h3{ max-height:44px; line-height:22px; overflow:hidden; margin-bottom:5px;}
+.nex_top50_info h3 a{ font-size:16px; color:#333; font-weight:600;}
+.nex_top50_info h3 a:hover{ color:#F39A07;}
+.nex_top50_views{ height:20px; line-height:20px; font-size:12px; color:#999; padding-left:20px; background:url("hots.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/hots.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/comics/hots.png*/ left center no-repeat;overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_top50_zzs{ position:absolute; left:0; bottom:16px; height:20px; line-height:20px; font-size:12px; color:#999; margin-bottom:2px; overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_top50_from{position:absolute; left:0; bottom:-3px;height:20px; line-height:20px; font-size:12px; color:#999;  overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_top50_from em{ color:#F39A07; margin-left:3px;}
+
+.nex_Comics_links{}
+.nex_Comics_links ul{ width:1200px;}
+.nex_Comics_links ul li{ float:left; margin:0 20px 20px 0;}
+.nex_Comics_links ul li a{ display:block; height:20px; line-height:20px; font-size:14px; color:#666;}
+.nex_Comics_links ul li a:hover{ color:#F39A07;}
+
+
+
+
+
+

@@ -1,0 +1,210 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#fff!important;}
+.wp,#wp{ width:100%!important;}
+#nexheader{ position:relative!important;}
+.nex_top_bg{ background:url("top_music_bg.jpg")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/top_music_bg.jpg*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/top_music_bg.jpg*/ top center no-repeat!important; background-size:cover;}
+.nex_music_bd{}
+.nex_music_top{ margin:20px auto;}
+
+.nex_music_sliders{ position: relative; width:658px; height:328px; overflow: hidden; float:left;border-radius:6px; }
+.nex_music_sliders .pic li{ width:658px; height:328px; }
+.nex_music_sliders .pic li a{width:658px; height:328px; display: block; position:relative; overflow:hidden; border-radius:6px;}
+.nex_music_slider_img{width:658px; height:328px; border-radius:6px;}
+.nex_music_sliders .pic li a p{ display: block; position: absolute; padding:0 25% 0 5%; width:70%; bottom: 0; left: 0; height: 60px; background: linear-gradient(180deg,transparent,rgba(0,0,0,.8)); font-size: 16px; color:#fff; line-height: 60px; overflow:hidden;}
+.nex_music_sliders .pic li a:hover p{ text-shadow: 0 0 3px #fff;}
+
+.nex_music_sliders .hd{ overflow:hidden; zoom:1; position:absolute; bottom:20px; right:15px; z-index:3}
+.nex_music_sliders .hd li{float:left;width: 12px; height: 12px; margin-top:3px; border-radius:24px;  margin-left: 12px; opacity: 1;  background-color: #fff; box-shadow: 0 0 3px #000; cursor:pointer; }
+.nex_music_sliders .hd .on{ width: 13px; height: 13px; border: 2px solid #fff;  background: #F39A07; margin-top:0px;}
+
+.nex_music_sliders .prev,
+.nex_music_sliders .next{ width:50px; height:50px; position:absolute; top:139px; z-index:3;transition:all .2s ease; border-radius:100%; display:none;}
+.nex_music_sliders .prev{ left:20px; background:rgba(0,0,0,0.3) url("m_left.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_left.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_left.png*/ center no-repeat; }
+.nex_music_sliders .next{ right:20px; background:rgba(0,0,0,0.3) url("m_right.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_right.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_right.png*/ center no-repeat; }
+.nex_music_sliders .prev:hover{ background:rgba(243, 154, 7,0.5) url("m_left.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_left.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_left.png*/ center no-repeat; }
+.nex_music_sliders .next:hover{ background:rgba(243, 154, 7,0.5) url("m_right.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_right.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/m_right.png*/ center no-repeat;  }
+.nex_music_sliders:hover .prev,.nex_music_sliders:hover .next{ display:block;}
+.nex_music_recoms{ float:right; width:502px; height:328px;}
+.nex_music_recoms ul{ width:532px;}
+.nex_music_recoms ul li{ float:left; width:154px; height:154px; margin:0 20px 20px 0;}
+.nex_music_recoms ul li a{ display:block;width:154px; height:154px; overflow:hidden; border-radius:6px; position:relative;}
+.nex_music_recom_img{width:154px; height:154px; border-radius:6px;}
+.nex_music_recoms ul li a p{display: block; position: absolute; padding:0 5%; width:90%; bottom: 0; left: 0; height: 38px; background: linear-gradient(180deg,transparent,rgba(0,0,0,.8)); font-size: 12px; color:#fff; line-height: 45px; overflow:hidden;}
+.nex_music_recoms ul li a:hover p{ text-shadow: 0 0 3px #fff;}
+
+.nex_music_ablum_hot{ margin:30px 0;}
+.nex_music_ablum_title{ height:30px; margin-bottom:20px;}
+.nex_music_ablum_title span{ display:block; float:left; font-size:18px; color:#33; padding-left:35px; font-weight:600;}
+.nex_music_ablum_title span.nex_music_icon_hot{ background:url("icon_hot.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_hot.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_hot.png*/ left center no-repeat;}
+.nex_music_ablum_title a{ display:block; float:right; border: 1px solid #d1d1d1;  color: #333;  font-size: 12px; height: 26px; line-height: 26px; border-radius:4px; padding:0 10px;}
+.nex_music_ablum_title a:hover{border: 1px solid #F39A07; background:#F39A07;  color: #fff;  }
+.nex_music_ablum_hotlist{}
+.nex_music_ablum_hotlist ul{ width:1220px;}
+.nex_music_ablum_hotlist ul li{ float:left; margin:0 33px 0 0; width:140px;}
+.nex_music_ablum_cover{}
+.nex_music_ablum_cover a{ display:block; background:url("album_cover.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/album_cover.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/album_cover.png*/ center no-repeat; width:139px; height:128px; overflow:hidden;border-radius:8px; position:relative;}
+.nex_music_ablum_thumb{ width:123px; height:128px; position:absolute; top:1px; left:1px; border-radius:4px; }
+.nex_music_ablum_cover a p{position: absolute; bottom: 0px; left:0; width: 104px; height: 34px; padding: 10px 10px 0; border-radius: 0 0 8px 8px; background: linear-gradient(180deg,transparent,rgba(0,0,0,.8)); color: #fff; line-height: 16px; }
+.nex_music_ablum_cover a p span{ display:block;position: absolute; bottom:8px; right:10px; font-size:12px; color:#fff; background:url("music.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/music.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/music.png*/ left center no-repeat; padding-left:20px;}
+.nex_music_ablum_name{ margin-top:6px; height:40px; line-height:20px; overflow:hidden;}
+.nex_music_ablum_name a{ font-size:12px; color:#333;}
+.nex_music_ablum_name a:hover{ color:#F39A07;}
+.nex_music_ablum_plays{ height:20px; line-height:20px; overflow:hidden; font-size:12px; color:#999;}
+.nex_music_index_ads{ width:1180px; margin-bottom:30px;}
+.nex_music_index_ads img{ width:1180px;border-radius:4px;}
+
+.nex_music_mid{}
+.nex_music_mid_l{ float:left; width:890px; }
+.nex_music_sort_box{ margin-bottom:30px;}
+.nex_music_ablum_title span.nex_music_icon_hotsolo{ background:url("icon_hotsolo.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_hotsolo.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_hotsolo.png*/ left center no-repeat;}
+.nex_music_ablum_title span.nex_music_icon_latest{ background:url("icon_new.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_new.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_new.png*/ left center no-repeat;}
+.nex_music_ablum_title span.nex_music_icon_acg{ background:url("icon_acg.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_acg.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_acg.png*/ left center no-repeat;}
+.nex_music_ablum_title span.nex_music_icon_manga{ background:url("icon_manga.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_manga.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_manga.png*/ left center no-repeat;}
+.nex_music_sololist{}
+.nex_music_sololist ul{ width:920px;}
+.nex_music_sololist ul li{ float:left; width:154px; margin:0 28px 28px 0;}
+.nex_music_solo_cover{}
+.nex_music_solo_cover a{ display:block; width:154px; height:154px; position:relative; border-radius:6px;}
+.nex_music_solo_cover a:after{ display:block; content:''; position:absolute; top:22px; left:22px; width:110px; height:110px; background:url("cd.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/cd.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/cd.png*/ center no-repeat;transition:all 0.5s linear; z-index:-1;}
+.nex_music_solo_cover a:hover:after{ left:70px;transform:rotate(99999deg);}
+
+
+.nex_music_si{width:154px; height:154px; border-radius:6px;}
+.nex_music_solo_cover a span.nex_music_solo_playicon{ display:block; width:30px; height:30px; position:absolute; top:62px; left:62px; background:url("music_cover.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/music_cover.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/music_cover.png*/ center no-repeat; opacity: 0; filter: alpha(opacity=0); -webkit-transform: scale(2); -ms-transform: scale(2);  -o-transform: scale(2); transform: scale(2); -webkit-transition: all .25s ease-out; -ms-transition: all ease-out .25s; -o-transition: all ease-out .25s;  transition: all .25s ease-out;}
+.nex_music_solo_cover a span.nex_music_solo_length{ display:block;position: absolute; right: 5px; bottom: 5px; padding: 0 10px; height: 20px; line-height: 20px; text-align: center; color: #fff; font-size: 12px; border-radius:4px; background-color: rgba(0,0,0,.5);}
+.nex_music_solo_cover a:hover span.nex_music_solo_playicon{z-index: 1; opacity: 1; filter: alpha(opacity=100); -webkit-transform: scale(1); -ms-transform: scale(1); -o-transform: scale(1); transform: scale(1);}
+.nex_music_solo_videolist_mask{ width:154px; height:154px; position: absolute; left: 0; top: 0;border-radius:6px;}
+.nex_music_solo_cover a:hover .nex_music_solo_videolist_mask{background:rgba(0,0,0,0.3); }
+.nex_music_solo_info{ margin-top:6px;}
+.nex_music_solo_info h5{ height:40px; line-height:20px; overflow:hidden; margin-bottom:6px;}
+.nex_music_solo_info h5 a{font-size:12px; color:#333; font-weight:500;}
+.nex_music_solo_info h5 a:hover{ color:#F39A07;}
+.nex_music_solo_infobtm{ height:15px; line-height:15px; overflow:hidden;}
+.nex_music_solo_infobtm span{ display:block; float:left; margin-right:25px; font-size:12px; color:#999; padding-left:22px; background:url("views.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/views.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/views.png*/ left center no-repeat;}
+.nex_music_solo_infobtm em{ display:block; float:left; font-size:12px; color:#999; padding-left:22px; background:url("replies.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/replies.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/replies.png*/ left center no-repeat;}
+.nex_music_mid_r{ float:right; width:260px;}
+.nex_music_tag_box{margin-bottom:30px;}
+.nex_music_tag_title{ height:30px; margin-bottom:20px;}
+.nex_music_tag_title span{ display:block; font-size:18px; color:#333; font-weight:600; padding-left:33px; background:url("icon_tag.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_tag.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_tag.png*/ left center no-repeat;}
+.nex_music_tag_list{ padding:20px; background:#FDF5E8; border-radius:8px; }
+.nex_music_tag_list a{}
+.nex_music_tag_list a:hover{ color:#F39A07; }
+
+.nex_music_rkbox{ margin-bottom:30px;}
+.nex_music_ablum_title{ height:30px; margin-bottom:20px;}
+.nex_music_ablum_title span{ display:block; float:left; font-size:18px; color:#333; padding-left:35px; font-weight:600;}
+.nex_music_ablum_title span.nex_music_icon_rk{ background:url("icon_rk.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_rk.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_rk.png*/ left center no-repeat;}
+.nex_music_ablum_title ul{ float:right;}
+.nex_music_ablum_title ul li{ float:left; margin-left:10px; border: 1px solid #d1d1d1;  color: #333;  font-size: 12px; height: 26px; line-height: 26px; border-radius:4px; padding:0 10px; cursor:pointer; }
+.nex_music_ablum_title ul li.on{border: 1px solid #F39A07; background:#F39A07;  color: #fff; }
+.nex_music_rk_switch{}
+.nex_music_rk_switch ul li{ display:none;}
+.nex_music_rk_list{}
+.nex_music_rk_list dl dd{ margin-bottom:17px; overflow:hidden;}
+.nex_music_rk_list dl dd:last-child{ margin-bottom:0px;}
+.nex_music_rk_img{ float:left; width:86px; height:55px;}
+.nex_music_rk_img a{ display:block; width:86px; height:55px; position:relative;border-radius:3px;}
+.nex_music_rk_img a i{ display:block;width: 27px; height: 18px; line-height:18px; text-align:center; font-size:12px; color:#fff; position: absolute; top: 0; left: -4px; border-radius:8px 0 0 0;}
+.nex_music_rk_img a i.nex_rk_num1{ background:#F55F1D;}
+.nex_music_rk_img a i.nex_rk_num2{ background:#FF9105;}
+.nex_music_rk_img a i.nex_rk_num3{ background:#FECD50;}
+.nex_music_rk_info{ float:right; width:160px; position:relative; height:55px;}
+.nex_music_rk_info h5{ height:38px; line-height:19px; overflow:hidden; margin-bottom:5px;}
+.nex_music_rk_info h5 a{ font-size:12px; color:#333; font-weight:500;}
+.nex_music_rk_info h5 a:hover{color:#F39A07;}
+.nex_music_rk_info p{ height:18px; line-height:18px; font-size:12px; color:#999; padding-left:22px; background:url("play_s.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/play_s.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/play_s.png*/ left center no-repeat; position:absolute; bottom:-4px; left:0;}
+.nex_music_rk_list dl dd em{ display:block; float:left; width: 20px; height: 20px; border-radius: 50%;line-height: 20px;  text-align: center; font-size:12px;  color: #fff;}
+.nex_music_rk_list dl dd em.nex_rk_num4{ background: #AFB8C7;  }
+.nex_music_rk_list dl dd em.nex_rk_num5{ background: #C3CAD5;  }
+.nex_music_rk_list dl dd em.nex_rk_num6{ background: #CDD4DE;  }
+.nex_music_rk_list dl dd em.nex_rk_num7{ background: #D2D8E0;  }
+.nex_music_rk_list dl dd em.nex_rk_num8{ background: #D7DDE5;  }
+.nex_music_rk_list dl dd.nex_rk_sp{ height:20px; line-height:20px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap; }
+.nex_music_rk_list dl dd.nex_rk_sp a{ font-size:12px; color:#333; font-weight:500; margin-left:8px;}
+.nex_music_rk_list dl dd.nex_rk_sp a:hover{ color:#F39A07;}
+.nex_music_side_ads{ margin-bottom:30px; width:260px;}
+.nex_music_side_ads img{ width:260px; border-radius:8px;}
+.nex_music_intels{ margin-bottom:30px;}
+.nex_music_ablum_title span.nex_music_icon_info{ background:url("icon_info.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_info.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_info.png*/ left center no-repeat;}
+
+.nex_music_info_list{}
+.nex_music_info_list ul li{ margin-bottom:17px; }
+.nex_music_info_list ul li:last-child{ margin-bottom:0;}
+.nex_music_info_fist{ padding-bottom:10px; border-bottom:1px solid #eee;}
+.nex_music_info_fist_img{ width:260px; height:160px; border-radius:8px; overflow:hidden;}
+.nex_music_info_fist_img a{ display:block;width:260px; height:160px; border-radius:8px; overflow:hidden; position:relative;}
+.nex_music_info_fist_img a h5{ position: absolute; bottom: 0px; left: 0; width: 240px; height: 34px; padding: 10px 10px 0; border-radius: 0 0 8px 8px; background: linear-gradient(180deg,transparent,rgba(0,0,0,.8)); color: #fff; font-size:12px; color:#fff; line-height:34px; overflow:hidden; font-weight:500;}
+.nex_music_info_fist_btm{ height:20px; margin-top:10px;}
+.nex_music_info_fist_from{ float:left;font-size:12px; color:#999; padding-left:24px; background:url("mid.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mid.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mid.png*/ left center no-repeat; }
+.nex_music_info_fist_ef{ float:right;}
+.nex_music_info_fist_ef dl dd{ float:right; font-size:12px; color:#999; margin-left:15px;}
+.nex_music_info_fist_ef dl dd.nex_music_info_reply{}
+.nex_music_info_fist_ef dl dd.nex_music_info_read{}
+.nex_music_info_fist_ef dl dd em{ margin-left:5px;}
+.nex_music_info_pic{ float:left;width:86px; height:55px;}
+.nex_music_info_pic a{ display:block;width:86px; height:55px; border-radius:4px;}
+.nex_music_info_rt{float:right; width:160px; position:relative; height:55px;}
+.nex_music_info_rt h5{ height:38px; line-height:19px; overflow:hidden; margin-bottom:5px;}
+.nex_music_info_rt h5 a{ font-size:12px; color:#333; font-weight:500;}
+.nex_music_info_rt h5 a:hover{color:#F39A07;}
+.nex_music_info_rt p{height:18px; line-height:18px; font-size:12px; color:#999; padding-left:24px; background:url("mid.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mid.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mid.png*/ left center no-repeat; position:absolute; bottom:-4px; left:0;}
+.nex_music_btm{}
+.nex_music_ablum_title span.nex_music_icon_mtv{ background:url("icon_mtv.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_mtv.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/icon_mtv.png*/ left center no-repeat;}
+.nex_music_mtv{}
+.nex_music_mtv ul{ width:1220px;}
+.nex_music_mtv ul li{ float:left; margin:0 28px 28px 0; width:173px;}
+.nex_mtv_top{width:173px; height:140px; margin-bottom:6px;}
+.nex_mtv_top a{ display:block; width:173px; height:140px; position:relative; border-radius:8px;}
+.nex_mtv_top a:before{ display:block; content:''; width:130px; height:120px; background: #d9d9d9;  position: absolute; top:10px; right:10px; transition:all 0.3s linear; z-index:-1; border-radius:3px;}
+.nex_mtv_top a:after{ display:block; content:''; width:130px; height:100px; background: #ECECEC;  position: absolute; top:20px; right:10px; transition:all 0.4s linear; z-index:-2; border-radius:3px;}
+.nex_mtv_top a:hover:before{ right:-5px;}
+.nex_mtv_top a:hover:after{ right:-10px;}
+
+.nex_mtv_top a span.nex_mtv_playicon{ display:block; width:30px; height:30px; position:absolute; top:51px; left:71px; background:url("mtv_play.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mtv_play.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mtv_play.png*/ center no-repeat; opacity: 0; filter: alpha(opacity=0); -webkit-transform: scale(2); -ms-transform: scale(2);  -o-transform: scale(2); transform: scale(2); -webkit-transition: all .25s ease-out; -ms-transition: all ease-out .25s; -o-transition: all ease-out .25s;  transition: all .25s ease-out;}
+.nex_mtv_top a:hover span.nex_mtv_playicon{z-index: 1; opacity: 1; filter: alpha(opacity=100); -webkit-transform: scale(1); -ms-transform: scale(1); -o-transform: scale(1); transform: scale(1);}
+.nex_mtv_cover_bg{ position: absolute; bottom: 0px; left: 0; width: 153px; height: 34px; padding: 10px 10px 0; border-radius: 0 0 8px 8px; background: linear-gradient(180deg,transparent,rgba(0,0,0,.8)); color: #fff; font-size:12px; color:#fff; line-height:34px; overflow:hidden; font-weight:500;}
+.nex_mtv_cover_bg em{ display:block; float:left; font-size:12px; color:#fff; padding-left:22px; background:url("mtv_view.png")/*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mtv_view.png*//*tpa=http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/music/mtv_view.png*/ left center no-repeat;}
+.nex_mtv_cover_bg i{ display:block; float:right; font-size:12px; color:#fff;}
+.nex_mtv_mid{ height:38px; line-height:19px; overflow:hidden;}
+.nex_mtv_mid a{ font-size:12px; color:#333; font-weight:500;}
+.nex_mtv_mid a:hover{color:#F39A07;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

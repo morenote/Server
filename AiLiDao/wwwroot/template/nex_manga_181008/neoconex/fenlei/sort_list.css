@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+#wp .wp{ width:100%!important; min-width:1180px;}
+#threadlist .th,.nex_ancmtlist,.emptb{ display:none;}
+.emp{ font-size:16px; color:#333; font-weight:400; padding:0;  position:relative;}
+.mn{ margin:0 auto;}
+#pt,#sd_bdl,#pgt{display:none;}
+.ct2 .mn{padding:0; border:0;width: 1180px!important;}
+.mn{padding:0; border:0;width: 1180px!important;overflow:visible!important; background:none;}
+#threadlist .bbs,#thread_types{display:none;}
+.nex_junctionport,.foldcount,.firstauthi,.firstfloor .pi{ display:none;}
+.ct2 .mn{ width: 860px!important; float: left;}
+.vwthdtit,#pt{display:none;}
+.nex_others .viewbox.firstfloor {  margin-top: 20px;  border-top: 1px solid #eee;}
+.pct{margin-top: 20px; }
+.tsm { margin-bottom:-13px; width:100%; margin:0 auto;}
+.nex_forumlist_btm_ads{ display:none;}
