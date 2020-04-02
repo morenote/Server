@@ -1,694 +1,228 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "_AiliDaoLayout";
+    ViewBag.css = "data/cache/style_2_portal_index.css";
 }
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-    <title>关于我们 动漫次元视频资源综合社区 </title>
-
-    <meta name="keywords" content="关于我们" />
-    <meta name="description" content="关于我们 ,动漫次元视频资源综合社区" />
-    <meta name="generator" content="Discuz! X3.4" />
-    <meta name="author" content="Discuz! Team and Comsenz UI Team" />
-    <meta name="copyright" content="2001-2017 Comsenz Inc." />
-    <meta name="MSSmartTagsPreventParsing" content="True" />
-    <meta http-equiv="MSThemeCompatible" content="Yes" />
-    <base href="http://47.100.112.22/demo/manga/" />
-    <link rel="stylesheet" type="text/css" href="data/cache/style_2_common.css?LBz" />
-    <link rel="stylesheet" type="text/css" href="data/cache/style_2_portal_list.css?LBz" />
-    <script type="text/javascript">var STYLEID = '2', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'LBz', charset = 'gbk', discuz_uid = '0', cookiepre = 'm3Rn_2132_', cookiedomain = '', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread', creditnotice = '1|威望|,2|金钱|,3|贡献|', defaultstyle = '', REPORTURL = 'aHR0cDovLzQ3LjEwMC4xMTIuMjIvZGVtby9tYW5nYS9wb3J0YWwucGhwP21vZD1saXN0JmNhdGlkPTE=', SITEURL = 'http://47.100.112.22/demo/manga/', JSPATH = 'static/js/', CSSPATH = 'data/cache/style_', DYNAMICURL = '';</script>
-    <script src="static/js/common.js?LBz" type="text/javascript"></script>
-    <meta name="application-name" content="动漫次元视频资源综合社区" />
-    <meta name="msapplication-tooltip" content="动漫次元视频资源综合社区" />
-    <meta name="msapplication-task" content="name=门户;action-uri=http://47.100.112.22/demo/manga/portal.php;icon-uri=http://47.100.112.22/demo/manga/static/image/common/portal.ico" />
-    <meta name="msapplication-task" content="name=论坛;action-uri=http://47.100.112.22/demo/manga/forum.php;icon-uri=http://47.100.112.22/demo/manga/static/image/common/bbs.ico" />
-    <meta name="msapplication-task" content="name=群组;action-uri=http://47.100.112.22/demo/manga/group.php;icon-uri=http://47.100.112.22/demo/manga/static/image/common/group.ico" />
-    <meta name="msapplication-task" content="name=动态;action-uri=http://47.100.112.22/demo/manga/home.php;icon-uri=http://47.100.112.22/demo/manga/static/image/common/home.ico" />
-    <script src="static/js/portal.js?LBz" type="text/javascript"></script>
-    <script type="text/javascript" src='template/nex_manga_181008/neoconex/js/jquery-1.8.3.min.js'></script>
+<div id="wp" class="wp">
+    <link rel="stylesheet" type="text/css" href="template/nex_manga_181008/neoconex/about/main.css" />
     <script type="text/javascript">
-        var jq=jQuery.noConflict();
-    </script>
-    <script language="javascript" type="text/javascript">
-function killErrors() {
-return true;
-}
-window.onerror = killErrors;
-    </script>
-    <script src="template/nex_manga_181008/neoconex/js/nexactions.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="template/nex_manga_181008/neoconex/js/animate.min.css">
-    <script>
-     var wow = new WOW({boxClass: 'nexactions',});wow.init();
-    </script>
-    <script type="text/javascript" src='template/nex_manga_181008/neoconex/js/jquery.SuperSlide.2.1.1.js'></script>
-    <script src="template/nex_manga_181008/neoconex/js/jquery.pagnation.js" type="text/javascript"></script>
-    <script type="text/javascript">
- jQuery(function(){
-  jQuery('#nexGoToTop').click(function(){jQuery('html,body').animate({scrollTop:jQuery('#nextopsxx').offset().top}, 600);});})
+        jQuery(function () {
+            jQuery('#nex_abt_intro').click(function () { jQuery('html,body').animate({ scrollTop: jQuery('#nex_part_1').offset().top }, 200); });
+            jQuery('#nex_abt_contact').click(function () { jQuery('html,body').animate({ scrollTop: jQuery('#nex_part_2').offset().top }, 200); });
+            jQuery('#nex_abt_friendlinks').click(function () { jQuery('html,body').animate({ scrollTop: jQuery('#nex_part_3').offset().top }, 200); });
+            jQuery('#nex_abt_employment').click(function () { jQuery('html,body').animate({ scrollTop: jQuery('#nex_part_4').offset().top }, 200); });
+        })
     </script>
 
-</head>
-
-<body id="nv_portal" class="pg_list pg_list_1" onkeydown="if(event.keyCode==27) return false;">
-    <div id="append_parent"></div><div id="ajaxwaitid"></div>
-    <div id="toptb" class="cl" style="display:none;">
-        <div class="wp">
-            <div class="z"><a href="javascript:;" onclick="setHomepage('http://47.100.112.22/demo/manga/');">设为首页</a><a href="http://47.100.112.22/demo/manga/" onclick="addFavorite(this.href, '动漫次元视频资源综合社区');return false;">收藏本站</a></div>
-            <div class="y">
-            </div>
-            <div class="clear"></div>
-        </div>
-    </div>
-    <div class="nex_plugin_reserved">
+    <!--侧边导航-->
+    <div class="nex_abt_content">
         <div class="w1180">
-            <div class="z">
-            </div>
-            <div class="y">
-            </div>
-            <div class="clear"></div>
-        </div>
-    </div>
-    <div id="qmenu_menu" class="p_pop blk" style="display: none;">
-        <div class="ptm pbw hm">
-            请 <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>登录</strong></a> 后使用快捷导航<br />没有帐号？<a href="member.php?mod=register" class="xi2 xw1">立即注册</a>
-        </div>
-        <div id="fjump_menu" class="btda"></div>
-    </div><div id="hd">
-        <div id="nextopsxx"></div>
-        <div class="nex_top_bg">
-            <div class="nex_top_bg_inter">
-                <div class="nex_top_interior">
-                    <!--logo-->
-                    <div class="nexlogo"><h2><a href="./" title="动漫次元视频资源综合社区"><img src="template/nex_manga_181008/neoconex/logo.png" alt="动漫次元视频资源综合社区" border="0" /></a></h2></div>
-                    <div class="nex_nav_ranklist"><a href="portal.php?mod=list&amp;catid=7" target="_blank"><i></i>排行榜</a></div>
-                    <!--search-->
-                    <div class="nex_top_search">
-                        <div id="scbar" class="scbar_narrow cl">
-                            <form id="scbar_form" method="post" autocomplete="off" onsubmit="searchFocus($('scbar_txt'))" action="search.php?searchsubmit=yes" target="_blank">
-                                <input type="hidden" name="mod" id="scbar_mod" value="search" />
-                                <input type="hidden" name="formhash" value="744dccd4" />
-                                <input type="hidden" name="srchtype" value="title" />
-                                <input type="hidden" name="srhfid" value="0" />
-                                <input type="hidden" name="srhlocality" value="portal::list" />
-                                <div class="nex_scbar_type_td"><a href="javascript:;" id="scbar_type" onclick="showMenu(this.id)" hidefocus="true">搜索</a></div>
-                                <div class="nex_scbar_txt_td"><input type="text" name="srchtxt" id="scbar_txt" value="请输入搜索内容" autocomplete="off" x-webkit-speech speech /></div>
-                                <div class="nex_scbar_btn_td"><button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="pn pnc" value="true"></button></div>
-                                <div class="clear"></div>
-                            </form>
-                        </div>
-                        <div class="nex_scbar_hot_td">
-                            <div id="nex_scbar_hot">
-                                <span class="xw1">热搜: </span>
-
-
-                                <a href="search.php?mod=forum&amp;srchtxt=%B3%D4%BC%A6%B4%F3%D7%F7%D5%BD&amp;formhash=744dccd4&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">吃鸡大作战</a>
-
-
-
-                                <a href="search.php?mod=forum&amp;srchtxt=%B3%F5%D2%F4%CE%B4%C0%B4%B5%E7%D2%F4&amp;formhash=744dccd4&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">初音未来电音</a>
-
-
-
-                                <a href="search.php?mod=forum&amp;srchtxt=%D7%AA%D5%BD%D6%AE%B3%AC%D0%FD%B6%B7%CA%BF&amp;formhash=744dccd4&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">转战之超旋斗士</a>
-
-
-
-                                <a href="search.php?mod=forum&amp;srchtxt=%B0%D9%C1%B6%B3%C9%C9%F1&amp;formhash=744dccd4&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">百炼成神</a>
-
-
-
-                                <a href="search.php?mod=forum&amp;srchtxt=%B9%FA%B2%FA%B6%AF%BB%AD%C6%AC&amp;formhash=744dccd4&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">国产动画片</a>
-
-
-
-                                <a href="search.php?mod=forum&amp;srchtxt=%C3%C8%BC%A6%D0%A1%B6%D3&amp;formhash=744dccd4&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">萌鸡小队</a>
-
-
-
-                                <a href="search.php?mod=forum&amp;srchtxt=%B7%CA%D5%AC%B2%E2%CA%D4&amp;formhash=744dccd4&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">肥宅测试</a>
-
-                            </div>
-                        </div>
-                        <ul id="scbar_type_menu" class="p_pop" style="display: none;"><li><a href="javascript:;" rel="article">文章</a></li><li><a href="javascript:;" rel="forum" class="curtype">帖子</a></li><li><a href="javascript:;" rel="user">用户</a></li></ul>
-                        <script type="text/javascript">
-initSearchmenu('scbar', '');
-                        </script>
-                    </div>
-                    <!--app-->
-                    <div class="nex_top_cell">
-                        <div class="nex_top_cell_top">访问手机版</div>
-                        <div class="nex_top_cell_hide">
-                            <img src="template/nex_manga_181008/neoconex/top/ewm.jpg">
-                            <p>扫描体验手机版</p>
-                        </div>
-                    </div>
-                    <!--login-->
-                    <div class="nexdl">
-                        <div class="nexlogin">
-                            <div class="nexmain_dls">
-                                <div class="nexDL_before">
-                                    <div class="nexDL_unknown"><img src="template/nex_manga_181008/neoconex/top/admin.png" /></div>
-                                    <div class="clear"></div>
-                                    <i></i>
-                                </div>
-                                <div class="nexbd_mains">
-                                    <em></em>
-                                    <div class="nexbd_Iner">
-                                        <div class="nexbd_Ineravt"><img src="template/nex_manga_181008/neoconex/top/admin1.png" /></div>
-                                        <div class="nexbd_welcome">游客您好</div>
-                                        <div class="nexbd_DLplace">
-                                            <ul>
-                                                <h4>已有账号？</h4>
-                                                <li class="nexbdLogin"><a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href)">登陆账号</a></li>
-                                                <h4>注册后更精彩</h4>
-                                                <li class="nexbdRegs"><a href="member.php?mod=register">立即注册</a></li>
-                                                <div class="clear"></div>
-                                            </ul>
-                                        </div>
-                                        <div class="nexbdthirdparts"><i class="nex_lineleft"></i><span>第三方账号登陆</span><i class="nex_lineright"></i></div>
-                                        <div class="nexbdthirdlogins">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">
-                                                        <img src="template/nex_manga_181008/neoconex/top/third_qq.png" />
-                                                        <p>QQ登陆</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img src="template/nex_manga_181008/neoconex/top/third_weixin.png" />
-                                                        <p>微信登陆</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img src="template/nex_manga_181008/neoconex/top/third_weibo.png" />
-                                                        <p>微博登陆</p>
-                                                    </a>
-                                                </li>
-                                                <div class="clear"></div>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                                <script type="text/javascript">
-                    jQuery(".nexDL_before").hover(
-                        function(){
-                            jQuery(this).siblings(".nexbd_mains").show();
-                            },
-                        function(){
-                            jQuery(this).siblings(".nexbd_mains").hide();
-                            })
-                    jQuery(".nexbd_mains").hover(
-                        function(){
-                            jQuery(this).show();
-                            jQuery(this).siblings(".nexDL_before").addClass("nexuppers");
-                            },
-                        function(){
-                            jQuery(this).hide();
-                            jQuery(this).siblings(".nexDL_before").removeClass("nexuppers");
-                            })
-                                </script>
-                            </div>
-
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="nexheader" class="nexheader">
-            <div class="w1180">
-                <div class="nexnav">
-                    <ul>
-                        <li id="mn_portal"><a href="portal.php" hidefocus="true" title="Portal">门户<span>Portal</span></a></li>
-                        <li id="mn_P11" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=11" hidefocus="true">动漫音乐</a></li>
-                        <li id="mn_P10" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=10" hidefocus="true">番剧</a></li>
-                        <li id="mn_P8" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=8" hidefocus="true">漫画专题</a></li>
-                        <li id="mn_F2"><a href="forum.php?mod=forumdisplay&fid=2" hidefocus="true">ACG视频</a></li>
-                        <li id="mn_F37"><a href="forum.php?mod=forumdisplay&fid=37" hidefocus="true">P站美图</a></li>
-                        <li id="mn_F36"><a href="forum.php?mod=forumdisplay&fid=36" hidefocus="true">Cosplay</a></li>
-                        <li id="mn_P2" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=2" hidefocus="true">资讯展示</a></li>
-                        <li class="a" id="mn_P1"><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=1" hidefocus="true">关于我们</a></li>
-                        <li id="mn_P9"><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=9" hidefocus="true">VIP</a></li>
-                        <li id="mn_forum_2"><a href="forum.php" hidefocus="true" title="BBS">论坛<span>BBS</span></a></li>
-                    </ul>
-                </div>
-
-                <div class="nex_fastpost_btn">
-                    <a onClick="showWindow('nav', this.href, 'get', 0)" href="forum.php?mod=misc&amp;action=nav"><i></i>我要投稿</a>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </div>
-        <script type="text/javascript">
-jQuery(function () {
-var nav = jQuery("#nexheader");
-var win = jQuery(window);
-var sc = jQuery(document);
-win.scroll(function () {
-if (sc.scrollTop() >= 10) {
-nav.addClass("nex_subtops");
-} else {
-nav.removeClass("nex_subtops");
-}
-})
-});
-        </script>
-        <script src="template/nex_manga_181008/neoconex/js/nv.js" type="text/javascript"></script>
-        <!--侧边工具栏-->
-        <div class="nexsidetls">
-            <div class="nexsidetools">
+            <div class="nexsdboxsdee nex_fellow">
                 <ul>
-                    <li class="nexsd_kf">
-                        <div class="nexstout">
-                            <img src="template/nex_manga_181008/neoconex/sidetools/kf.png">
-                            <span>客服电话</span>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="nexstout">
-                            <a onClick="showWindow('nav', this.href, 'get', 0)" href="forum.php?mod=misc&amp;action=nav">
-                                <img src="template/nex_manga_181008/neoconex/sidetools/ft.png">
-                                <span>快速发帖</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="nexstout">
-                            <a href="mailto:admin@admin.com" target="_blank">
-                                <img src="template/nex_manga_181008/neoconex/sidetools/qa.png">
-                                <span>问题反馈</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nexsd_app">
-                        <div class="nexstout nexstout_app">
-                            <img src="template/nex_manga_181008/neoconex/sidetools/app.png">
-                            <span>APP下载</span>
-                        </div>
-
-                    </li>
-                    <li class="nexsd_wx">
-                        <div class="nexstout nexstout_wx">
-                            <img src="template/nex_manga_181008/neoconex/sidetools/wx.png">
-                            <span>官方微信</span>
-                        </div>
-
-                    </li>
-                    <!--返回顶部-->
-                    <li id="scrolltop">
-                        <div class="nexstout nexstout_up">
-                            <a id="nexGoToTop">
-                                <img src="template/nex_manga_181008/neoconex/sidetools/up.png">
-                                <span>返回顶部</span>
-                            </a>
-                        </div>
-
-                    </li>
+                    <li class="cur"><a href="javascript:void(0)" id="nex_abt_intro">关于我们</a></li>
+                    <li><a href="javascript:void(0)" id="nex_abt_contact">联系我们</a></li>
+                    <li><a href="javascript:void(0)" id="nex_abt_friendlinks">友情链接</a></li>
+                    <li><a href="javascript:void(0)" id="nex_abt_employment">招贤纳士</a></li>
                 </ul>
             </div>
-            <div class="nexsidecons">
-                <ul>
-                    <li style="display:none;">
-                        <div class="nexsthds">
-                            <div class="nexsthdstops">
-                                <img src="template/nex_manga_181008/neoconex/sidetools/qq.png">
-                                <a href="tencent://Message/?Uin=1691000615&amp;websiteName=#=&amp;Menu=yes">点击联系客服</a>
-                                <p>在线时间：8:00-16:00</p>
-                            </div>
-                            <div class="nexsthdcbtms">
-                                <h5>客服电话</h5>
-                                <p>400-123-4567</p>
-                                <h4>电子邮件</h4>
-                                <span>admin@admin.com</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li style="display:none;"></li>
-                    <li style="display:none;"></li>
-                    <li style="display:none;">
-                        <div class="nexsthds nexsthds_app nexAPPuiBox">
-                            <div class="nexstappsd nexAPPui">
-                                <i></i>
-                                <div class="nexAPPinters">
-                                    <p>星点次元APP</p>
-                                    <p>随时随地分享快乐</p>
-                                    <img src="template/nex_manga_181008/neoconex/sidetools/app_code.jpg">
+
+            <!--关于我们-->
+            <div class="nex_abt_rights">
+                <div class="nex_about_intro nex_about_intro_gy" id="nex_part_1">
+                    <div class="nex_abt_bg"></div>
+                    <div class="nex_abt_title nex_abt_title_abt"><span>关于我们</span></div>
+                    <div class="nex_abtintro_txt"><!--[diy=nex_tropicles]--><div id="nex_tropicles" class="area"><div id="frameD9rWTM" class="frame move-span cl frame-1"><div id="frameD9rWTM_left" class="column frame-1-c"><div id="frameD9rWTM_left_temp" class="move-span temp"></div><div id="portal_block_139" class="block move-span"><div id="portal_block_139_content" class="dxb_bc"><div class="portal_block_summary">Neoconex（星点互联）成立于2008年，我们是一家专注用户体验设计开发与互联网品牌建设的设计公司，创立至今为17万客户提供了创新与专业的设计方案。设计服务范围包括：交互原型设计、产品视觉设计、网站设计与开发建设、移动及软件产品界面设计、图标设计、品牌及平面设计等。我们的价值与宗旨是为用户和客户打造最In的设计，用设计提升产品和企业价值。</div></div></div></div></div></div><!--[/diy]--></div>
+                    <div class="nex_abtintro_txt"><!--[diy=nex_tropicles1]--><div id="nex_tropicles1" class="area"><div id="frameF4AHMe" class="frame move-span cl frame-1"><div id="frameF4AHMe_left" class="column frame-1-c"><div id="frameF4AHMe_left_temp" class="move-span temp"></div><div id="portal_block_140" class="block move-span"><div id="portal_block_140_content" class="dxb_bc"><div class="portal_block_summary">我们是追求品质与力求不断超越自己的团队，每一位成员也是亲密的伙伴，与公司一起成长与发展。我们尊重每次合作的机会与挑战，不断精进，力求完美。团队秉承专注、专业的设计服务思维，让客户通过设计发挥产品的最大价值，并发掘无限的可能。热爱设计并坚信设计的力量让我们不断前进…</div></div></div></div></div></div><!--[/diy]--></div>
+                    <div class="nex_abtintro_txt">
+                        <!--[diy=nex_tropicles2]--><div id="nex_tropicles2" class="area">
+                            <div id="frameRE4E8u" class="frame move-span cl frame-1">
+                                <div id="frameRE4E8u_left" class="column frame-1-c">
+                                    <div id="frameRE4E8u_left_temp" class="move-span temp"></div><div id="portal_block_141" class="block move-span">
+                                        <div id="portal_block_141_content" class="dxb_bc">
+                                            <div class="portal_block_summary">
+                                                从创始至今，我们的业务方向始终不变，专注做好一件事才能更好的追求高品质，这也是Neoconex（星点互联）存在的价值。在未来我们也是基于此信念而继续创造。
+                                                在不断的创新和实践中总结出可持续和可信赖的设计流程，坚持与用户一起思考，用设计的方法发现问题、解决问题、输出设计方案，并实现客户产品和企业价值的提升。
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <em></em>
                             </div>
-                        </div>
-                    </li>
-                    <li style="display:none;">
-                        <div class="nexsthds nexsthds_weixin">
-                            <i></i>
-                            <div class="nexstwxsd">
-                                <p>扫描二维码</p>
-                                <p>关注星点次元公众号</p>
-                                <img src="template/nex_manga_181008/neoconex/sidetools/wx_ewm.png">
-                            </div>
-                        </div>
-                    </li>
-                    <li style="display:none;"></li>
-                </ul>
-            </div>
-            <script type="text/javascript">
-jQuery(".nexsidetools ul li").each(function(s){
-jQuery(this).hover(function(){
-jQuery(".nexsidecons ul li").eq(s).show().siblings().hide();
-})
-})
-            </script>
-            <script type="text/javascript">
-jQuery(".nexsidetls").each(function(s){
-jQuery(this).mouseleave(function(){
-jQuery(".nexsidecons ul li").css("display","none");
-})
-})
-            </script>
-        </div>
-        <div class="wp">
-            <div class="hdc cl">
-            </div>
-            <ul class="p_pop h_pop" id="mn_P11_menu" style="display: none"><li><a href="forum.php?mod=forumdisplay&fid=58" hidefocus="true">次元音乐单曲</a></li><li><a href="forum.php?mod=forumdisplay&fid=59" hidefocus="true">次元音乐歌单</a></li></ul><ul class="p_pop h_pop" id="mn_P10_menu" style="display: none"><li><a href="forum.php?mod=forumdisplay&fid=42" hidefocus="true">番剧帖</a></li></ul><ul class="p_pop h_pop" id="mn_P8_menu" style="display: none"><li><a href="forum.php?mod=forumdisplay&fid=40" hidefocus="true">漫画下载</a></li><li><a href="forum.php?mod=forumdisplay&fid=39" hidefocus="true">次元漫画</a></li></ul><ul class="p_pop h_pop" id="mn_P2_menu" style="display: none"><li><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=3" hidefocus="true">动漫资讯</a></li><li><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=4" hidefocus="true">游戏资讯</a></li><li><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=5" hidefocus="true">八卦娱乐</a></li><li><a href="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=6" hidefocus="true">新番速递</a></li></ul><div id="mu" class="cl">
-            </div>
-        </div>
-    </div>
-
-
-    <div id="wp" class="wp">
-        <link rel="stylesheet" type="text/css" href="template/nex_manga_181008/neoconex/about/main.css">
-        <script type="text/javascript">
-jQuery(function(){
-jQuery('#nex_abt_intro').click(function(){jQuery('html,body').animate({scrollTop:jQuery('#nex_part_1').offset().top}, 200);});
-jQuery('#nex_abt_contact').click(function(){jQuery('html,body').animate({scrollTop:jQuery('#nex_part_2').offset().top}, 200);});
-jQuery('#nex_abt_friendlinks').click(function(){jQuery('html,body').animate({scrollTop:jQuery('#nex_part_3').offset().top}, 200);});
-jQuery('#nex_abt_employment').click(function(){jQuery('html,body').animate({scrollTop:jQuery('#nex_part_4').offset().top}, 200);});
-})
-        </script>
-
-        <!--侧边导航-->
-        <div class="nex_abt_content">
-            <div class="w1180">
-                <div class="nexsdboxsdee nex_fellow">
-                    <ul>
-                        <li class="cur"><a href="javascript:void(0)" id="nex_abt_intro">关于我们</a></li>
-                        <li><a href="javascript:void(0)" id="nex_abt_contact">联系我们</a></li>
-                        <li><a href="javascript:void(0)" id="nex_abt_friendlinks">友情链接</a></li>
-                        <li><a href="javascript:void(0)" id="nex_abt_employment">招贤纳士</a></li>
-                    </ul>
+                        </div><!--[/diy]-->
+                    </div>
+                    <div class="nex_abtintro_txt"><!--[diy=nex_tropicles3]--><div id="nex_tropicles3" class="area"><div id="frameHz8bb4" class="frame move-span cl frame-1"><div id="frameHz8bb4_left" class="column frame-1-c"><div id="frameHz8bb4_left_temp" class="move-span temp"></div><div id="portal_block_142" class="block move-span"><div id="portal_block_142_content" class="dxb_bc"><div class="portal_block_summary">Neoconex（星点互联）10年来积累了大量优秀的项目案例，并验证了设计的价值。在不断的探索中总结经验，以结果为导向，继续为更多客户提供优秀的设计。</div></div></div></div></div></div><!--[/diy]--></div>
                 </div>
-
-                <!--关于我们-->
-                <div class="nex_abt_rights">
-                    <div class="nex_about_intro nex_about_intro_gy" id="nex_part_1">
-                        <div class="nex_abt_bg"></div>
-                        <div class="nex_abt_title nex_abt_title_abt"><span>关于我们</span></div>
-                        <div class="nex_abtintro_txt"><!--[diy=nex_tropicles]--><div id="nex_tropicles" class="area"><div id="frameD9rWTM" class="frame move-span cl frame-1"><div id="frameD9rWTM_left" class="column frame-1-c"><div id="frameD9rWTM_left_temp" class="move-span temp"></div><div id="portal_block_139" class="block move-span"><div id="portal_block_139_content" class="dxb_bc"><div class="portal_block_summary">Neoconex（星点互联）成立于2008年，我们是一家专注用户体验设计开发与互联网品牌建设的设计公司，创立至今为17万客户提供了创新与专业的设计方案。设计服务范围包括：交互原型设计、产品视觉设计、网站设计与开发建设、移动及软件产品界面设计、图标设计、品牌及平面设计等。我们的价值与宗旨是为用户和客户打造最In的设计，用设计提升产品和企业价值。</div></div></div></div></div></div><!--[/diy]--></div>
-                        <div class="nex_abtintro_txt"><!--[diy=nex_tropicles1]--><div id="nex_tropicles1" class="area"><div id="frameF4AHMe" class="frame move-span cl frame-1"><div id="frameF4AHMe_left" class="column frame-1-c"><div id="frameF4AHMe_left_temp" class="move-span temp"></div><div id="portal_block_140" class="block move-span"><div id="portal_block_140_content" class="dxb_bc"><div class="portal_block_summary">我们是追求品质与力求不断超越自己的团队，每一位成员也是亲密的伙伴，与公司一起成长与发展。我们尊重每次合作的机会与挑战，不断精进，力求完美。团队秉承专注、专业的设计服务思维，让客户通过设计发挥产品的最大价值，并发掘无限的可能。热爱设计并坚信设计的力量让我们不断前进…</div></div></div></div></div></div><!--[/diy]--></div>
-                        <div class="nex_abtintro_txt">
-                            <!--[diy=nex_tropicles2]--><div id="nex_tropicles2" class="area">
-                                <div id="frameRE4E8u" class="frame move-span cl frame-1">
-                                    <div id="frameRE4E8u_left" class="column frame-1-c">
-                                        <div id="frameRE4E8u_left_temp" class="move-span temp"></div><div id="portal_block_141" class="block move-span">
-                                            <div id="portal_block_141_content" class="dxb_bc">
-                                                <div class="portal_block_summary">
-                                                    从创始至今，我们的业务方向始终不变，专注做好一件事才能更好的追求高品质，这也是Neoconex（星点互联）存在的价值。在未来我们也是基于此信念而继续创造。
-                                                    在不断的创新和实践中总结出可持续和可信赖的设计流程，坚持与用户一起思考，用设计的方法发现问题、解决问题、输出设计方案，并实现客户产品和企业价值的提升。
+                <div class="nex_about_intro nex_about_introx" id="nex_part_2">
+                    <div class="nex_abt_title nex_abt_title_contact"><span>联系我们</span></div>
+                    <div class="nex_contact_box">
+                        <!--[diy=nex_contact_box]--><div id="nex_contact_box" class="area">
+                            <div id="frameG3E24Z" class="frame move-span cl frame-1">
+                                <div id="frameG3E24Z_left" class="column frame-1-c">
+                                    <div id="frameG3E24Z_left_temp" class="move-span temp"></div><div id="portal_block_143" class="block move-span">
+                                        <div id="portal_block_143_content" class="dxb_bc">
+                                            <div class="portal_block_summary">
+                                                <div class="nex_contact_map"><img src="template/nex_manga_181008/neoconex/about/map.jpg" /></div>
+                                                <div class="nex_conact_infos">
+                                                    <div class="nex_contact_info_top">为了便于合作沟通，我们的工作QQ及联系方式如下，欢迎各位小伙伴骚扰！</div>
+                                                    <h5>广告合作：</h5>
+                                                    <p>联系邮箱：1585096744@qq.com</p>
+                                                    <h5>广告代理合作：</h5>
+                                                    <p>联系邮箱：1585096744@qq.com</p>
+                                                    <h5>市场合作：</h5>
+                                                    <p>异业合作(平台/网站、流量、资源互换、赞助等）</p>
+                                                    <h5>联系QQ：2991805749</h5>
+                                                    <p>CP活动合作（专题活动、论坛活动）</p>
+                                                    <h5>联系QQ：2953268987</h5>
+                                                    <p>品牌、媒介合作（异业活动、展会、会议、赛事等）</p>
+                                                    <h5>联系QQ：2991805749</h5>
+                                                    <h5>友链交换：</h5>
+                                                    <p>联系QQ：1585096744</p>
+                                                    <h5>游戏专区友链交换;</h5>
+                                                    <p>联系QQ：2584922158</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div><!--[/diy]-->
-                        </div>
-                        <div class="nex_abtintro_txt"><!--[diy=nex_tropicles3]--><div id="nex_tropicles3" class="area"><div id="frameHz8bb4" class="frame move-span cl frame-1"><div id="frameHz8bb4_left" class="column frame-1-c"><div id="frameHz8bb4_left_temp" class="move-span temp"></div><div id="portal_block_142" class="block move-span"><div id="portal_block_142_content" class="dxb_bc"><div class="portal_block_summary">Neoconex（星点互联）10年来积累了大量优秀的项目案例，并验证了设计的价值。在不断的探索中总结经验，以结果为导向，继续为更多客户提供优秀的设计。</div></div></div></div></div></div><!--[/diy]--></div>
-                    </div>
-                    <div class="nex_about_intro nex_about_introx" id="nex_part_2">
-                        <div class="nex_abt_title nex_abt_title_contact"><span>联系我们</span></div>
-                        <div class="nex_contact_box">
-                            <!--[diy=nex_contact_box]--><div id="nex_contact_box" class="area">
-                                <div id="frameG3E24Z" class="frame move-span cl frame-1">
-                                    <div id="frameG3E24Z_left" class="column frame-1-c">
-                                        <div id="frameG3E24Z_left_temp" class="move-span temp"></div><div id="portal_block_143" class="block move-span">
-                                            <div id="portal_block_143_content" class="dxb_bc">
-                                                <div class="portal_block_summary">
-                                                    <div class="nex_contact_map"><img src="template/nex_manga_181008/neoconex/about/map.jpg" /></div>
-                                                    <div class="nex_conact_infos">
-                                                        <div class="nex_contact_info_top">为了便于合作沟通，我们的工作QQ及联系方式如下，欢迎各位小伙伴骚扰！</div>
-                                                        <h5>广告合作：</h5>
-                                                        <p>联系邮箱：1585096744@qq.com</p>
-                                                        <h5>广告代理合作：</h5>
-                                                        <p>联系邮箱：1585096744@qq.com</p>
-                                                        <h5>市场合作：</h5>
-                                                        <p>异业合作(平台/网站、流量、资源互换、赞助等）</p>
-                                                        <h5>联系QQ：2991805749</h5>
-                                                        <p>CP活动合作（专题活动、论坛活动）</p>
-                                                        <h5>联系QQ：2953268987</h5>
-                                                        <p>品牌、媒介合作（异业活动、展会、会议、赛事等）</p>
-                                                        <h5>联系QQ：2991805749</h5>
-                                                        <h5>友链交换：</h5>
-                                                        <p>联系QQ：1585096744</p>
-                                                        <h5>游戏专区友链交换;</h5>
-                                                        <p>联系QQ：2584922158</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--[/diy]-->
+                            </div>
+                        </div><!--[/diy]-->
 
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                    <div class="nex_about_intro nex_about_introx" id="nex_part_3">
-                        <div class="nex_abt_title nex_abt_title_links"><span>友情链接</span></div>
-                        <div class="nex_contact_require">
-                            <!--[diy=nex_contact_require]--><div id="nex_contact_require" class="area">
-                                <div id="frameVR30HA" class="frame move-span cl frame-1">
-                                    <div id="frameVR30HA_left" class="column frame-1-c">
-                                        <div id="frameVR30HA_left_temp" class="move-span temp"></div><div id="portal_block_144" class="block move-span">
-                                            <div id="portal_block_144_content" class="dxb_bc">
-                                                <div class="portal_block_summary">
-                                                    <p>**首页内页 ALEXA10000以内，PR6以上内容相关的优先;</p>
-                                                    <p>iPhone频道 PR5 以上内容相关;</p>
-                                                    <p>安卓频道 PR5以上内容相关;</p>
-                                                    <p>iPad频道 PR5以上内容相关;</p>
-                                                    <p>新游频道 PR5以上内容相关;</p>
-                                                    <p>YY八卦频道 日均PV8万以上内容相关;</p>
-                                                    <p>单机频道 日均IP2万以上内容相关;</p>
-                                                    <p>资讯中心 ALEXA排名2万以内，内容相关，有内容合作的优先互换</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--[/diy]-->
-                        </div>
-                        <div class="nex_linkbox">
-                            <ul>
-                                <!--[diy=nex_linkbox]-->
-                                <div id="nex_linkbox" class="area"><div id="frameFZMZ8Z" class="frame move-span cl frame-1"><div id="frameFZMZ8Z_left" class="column frame-1-c"><div id="frameFZMZ8Z_left_temp" class="move-span temp"></div><div id="portal_block_145" class="block move-span"><div id="portal_block_145_content" class="dxb_bc"><li><a href="http://www.discuz.net" target="_blank">官方论坛</a></li><li><a href="http://www.comsenz.com" target="_blank">Comsenz</a></li><li><a href="http://www.verydz.com/" target="_blank">专用主机</a></li></div></div></div></div></div><!--[/diy]-->
-
-                                <div class="clear"></div>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="nex_about_intro nex_about_introx" id="nex_part_4">
-                        <div class="nex_abt_title nex_abt_title_zhaopin"><span>招贤纳士</span></div>
-                        <div class="nex_zhaopin">
-                            <dl>
-                                <!--[diy=nex_zhaopin]-->
-                                <div id="nex_zhaopin" class="area">
-                                    <div id="frameBXMM4U" class="frame move-span cl frame-1">
-                                        <div id="frameBXMM4U_left" class="column frame-1-c">
-                                            <div id="frameBXMM4U_left_temp" class="move-span temp"></div><div id="portal_block_146" class="block move-span">
-                                                <div id="portal_block_146_content" class="dxb_bc">
-                                                    <div class="portal_block_summary">
-                                                        <dd>
-                                                            <h5>二次元网站编辑 | Content Editor</h5>
-                                                            <h6>岗位职责：</h6>
-                                                            <p>1.负责网站内容的编辑整理</p>
-                                                            <p>2.负责网站用户的关系维护，引导用户投稿</p>
-                                                            <p>3.发掘文化圈热点，及时提出运营方案</p>
-                                                            <h6>任职要求：</h6>
-                                                            <p>1.热爱 ACG 文化，对音乐、声优、国内配音社团有较为深入的了解</p>
-                                                            <p>2.擅长使用主流社交软件，与用户及陌生人开展交流</p>
-                                                            <p>3.掌握 PS 或同类图形软件的使用。熟练使用视频/音频后期软件者优先</p>
-                                                            <p>4.二次元网站 UP 主、微博大 V 、微信公众号运营优先（请将相关链接附于简历）</p>
-                                                        </dd>
-                                                        <dd>
-                                                            <h5>Android 高级开发工程师 | Android Senior Engineer</h5>
-                                                            <h6>岗位职责：</h6>
-                                                            <p>1.负责 MissEvan Android 平台应用的开发</p>
-                                                            <p>2.负责 App 稳定性相关的优化</p>
-                                                            <p>3.参与移动平台软件框架的研究，设计和实现、关键技术验证和选型等工作</p>
-                                                            <p>4.参与移动规范制订、技术文档编写</p>
-                                                            <h6>任职要求：</h6>
-                                                            <p>1.3 年以上客户端开发经验，精通 Android 应用开发</p>
-                                                            <p>2.熟悉 Android 系统源码者优先，有 NDK 相关开发经验</p>
-                                                            <p>3.有主导完成优秀应用或大型项目，对高性能程序设计、架构有较多的工程经验者优先</p>
-                                                            <h6>优先考虑：：</h6>
-                                                            <p>1.热爱二次元文化，熟悉电竞、动漫、游戏或电影等</p>
-                                                            <p>2.参与开源项目或有自己的开源项目</p>
-                                                        </dd>
-                                                        <dd>
-                                                            <h5>PHP 研发工程师 | PHP Developer</h5>
-                                                            <h6>岗位职责：</h6>
-                                                            <p>1.负责后端服务的技术开发工作</p>
-                                                            <p>2.独立完成后端功能的设计、开发工作，以及性能优化</p>
-                                                            <p>3.负责接口的开发维护和调试。</p>
-                                                            <p>4.对项目的整体规划给出自己的意见和建议</p>
-                                                            <h6>任职要求：</h6>
-                                                            <p>1.扎实的 PHP 编程基础，熟悉 Linux、Nginx 及 MySQL 数据库应用开发</p>
-                                                            <p>2.熟悉 MVC 开发模式，了解主流的 PHP 缓存技术及网站系统性能优化技术</p>
-                                                            <p>3.熟悉 PHP 后端服务开发</p>
-                                                            <p>4.对系统性能优化有一定认知</p>
-                                                            <p>5.具备强烈的责任心、进取心、求知欲及团队合作精神，有较强的沟通及协调能力</p>
-                                                            <p>6.能够独立担任一定开发工作的设计、开发和上线</p>
-                                                            <h6>优先考虑：：</h6>
-                                                            <p>1.热爱二次元文化，熟悉电竞、动漫、游戏或电影等</p>
-                                                            <p>2.参与开源项目或有自己的开源项目</p>
-                                                        </dd>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!--[/diy]-->
-
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-
-            </div>
-        </div>
-        <script type="text/javascript">
-jQuery(".nexsdboxsdee ul li").each(function(s){
-jQuery(this).hover(function(){
-jQuery(this).addClass("cur").siblings().removeClass("cur");
-})
-})
-        </script>
-        <script type="text/javascript">
-jQuery(window).scroll(function(){
-var rightH = jQuery('.nexsdboxsdee').height();
-var t = jQuery(".nexsdboxsdee").offset().top;
-var cH = jQuery(document).height();
-var h=jQuery(this).scrollTop();
-var fH = jQuery('.nexfooter').height();
-var wH = jQuery(window).height();
-var hH = cH-(h+wH);
-if(h>rightH && hH > fH){
-jQuery(".nex_fellow").addClass('nexfixed');
-}else{
-jQuery(".nex_fellow").removeClass('nexfixed');
-}
-});
-        </script>
-
-
-
-
-    </div>
-
-    <div class="nexfooter">
-        <div class="nexbottom_nav">
-            <ul>
-                <li><a href="#" target="_blank">站点地图</a></li>
-                <li><a href="#" target="_blank">关于我们</a></li>
-                <li><a href="#" target="_blank">招聘信息</a></li>
-                <li><a href="#" target="_blank">意见反馈</a></li>
-                <li><a href="#" target="_blank">免责声明</a></li>
-                <li><a href="#" target="_blank">加入我们</a></li>
-                <li><a href="#" target="_blank">我要投稿</a></li>
-                <li><a href="#" target="_blank">商务合作</a></li>
-                <li><a href="#" target="_blank">常见问题</a></li>
-            </ul>
-        </div>
-        <div class="nexfttop">
-            <div class="w1180">
-                <div class="nexfttop_L">
-                    <div class="nex_ftLogo"><img src="template/nex_manga_181008/neoconex/footer/logo.png" /></div>
-                    <div class="nex_ft_intro">关于本站：星点二次元-ACG一站式分享平台，包含 动漫资讯、cosplay、漫展信息、动漫美图、动漫周边，动漫音乐等跟二次元相关内容，欢迎投稿</div>
-                    <div class="clear"></div>
-                </div>
-                <div class="nexfttop_M">
-                    <ul>
-                        <li>网络文化经营许可证：沪网文[2016]2296-134号</li>
-                        <li>信息网络传播视听节目许可证：0910417</li>
-                        <li>违法不良信息举报邮箱：<a href="mailto:admin@admin.com">admin@admin.com</a></li>
-                        <li>违法不良信息举报电话：4000231233233转13 </li>
-                    </ul>
-                </div>
-                <div class="nexfttop_R">
-                    <div class="nex_cell_edition">
-                        <div class="nex_cell_editionimg"><img src="template/nex_manga_181008/neoconex/footer/wx.png" /></div>
-                        <div class="nex_cell_editioninfo">
-                            <p>扫描二维码</p>
-                            <p>体验配套手机端</p>
-                        </div>
                         <div class="clear"></div>
                     </div>
                 </div>
-                <div class="clear"></div>
-            </div>
-        </div>
-        <div class="nexftbottom">
-            <div class="w1180">
-                <p>声明：本站不提供任何视听上传服务，所有内容均来自视频分享站点所提供的公开引用资源,作品版权归原作者所有 禁止商用 违者必究。</p>
+                <div class="nex_about_intro nex_about_introx" id="nex_part_3">
+                    <div class="nex_abt_title nex_abt_title_links"><span>友情链接</span></div>
+                    <div class="nex_contact_require">
+                        <!--[diy=nex_contact_require]--><div id="nex_contact_require" class="area">
+                            <div id="frameVR30HA" class="frame move-span cl frame-1">
+                                <div id="frameVR30HA_left" class="column frame-1-c">
+                                    <div id="frameVR30HA_left_temp" class="move-span temp"></div><div id="portal_block_144" class="block move-span">
+                                        <div id="portal_block_144_content" class="dxb_bc">
+                                            <div class="portal_block_summary">
+                                                <p>**首页内页 ALEXA10000以内，PR6以上内容相关的优先;</p>
+                                                <p>iPhone频道 PR5 以上内容相关;</p>
+                                                <p>安卓频道 PR5以上内容相关;</p>
+                                                <p>iPad频道 PR5以上内容相关;</p>
+                                                <p>新游频道 PR5以上内容相关;</p>
+                                                <p>YY八卦频道 日均PV8万以上内容相关;</p>
+                                                <p>单机频道 日均IP2万以上内容相关;</p>
+                                                <p>资讯中心 ALEXA排名2万以内，内容相关，有内容合作的优先互换</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--[/diy]-->
+                    </div>
+                    <div class="nex_linkbox">
+                        <ul>
+                            <!--[diy=nex_linkbox]-->
+                            <div id="nex_linkbox" class="area"><div id="frameFZMZ8Z" class="frame move-span cl frame-1"><div id="frameFZMZ8Z_left" class="column frame-1-c"><div id="frameFZMZ8Z_left_temp" class="move-span temp"></div><div id="portal_block_145" class="block move-span"><div id="portal_block_145_content" class="dxb_bc"><li><a href="http://www.discuz.net" target="_blank">官方论坛</a></li><li><a href="http://www.comsenz.com" target="_blank">Comsenz</a></li><li><a href="http://www.verydz.com/" target="_blank">专用主机</a></li></div></div></div></div></div><!--[/diy]-->
 
-                <p>Powered by <a href="http://www.discuz.net" target="_blank">Discuz!</a> <em>X3.4</em>&copy; 2001-2013 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a> <em>星点互联设计</em> ( <a href="http://www.miitbeian.gov.cn/" target="_blank">鲁ICP(325452342)</a> ) </p>
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nex_about_intro nex_about_introx" id="nex_part_4">
+                    <div class="nex_abt_title nex_abt_title_zhaopin"><span>招贤纳士</span></div>
+                    <div class="nex_zhaopin">
+                        <dl>
+                            <!--[diy=nex_zhaopin]-->
+                            <div id="nex_zhaopin" class="area">
+                                <div id="frameBXMM4U" class="frame move-span cl frame-1">
+                                    <div id="frameBXMM4U_left" class="column frame-1-c">
+                                        <div id="frameBXMM4U_left_temp" class="move-span temp"></div><div id="portal_block_146" class="block move-span">
+                                            <div id="portal_block_146_content" class="dxb_bc">
+                                                <div class="portal_block_summary">
+                                                    <dd>
+                                                        <h5>二次元网站编辑 | Content Editor</h5>
+                                                        <h6>岗位职责：</h6>
+                                                        <p>1.负责网站内容的编辑整理</p>
+                                                        <p>2.负责网站用户的关系维护，引导用户投稿</p>
+                                                        <p>3.发掘文化圈热点，及时提出运营方案</p>
+                                                        <h6>任职要求：</h6>
+                                                        <p>1.热爱 ACG 文化，对音乐、声优、国内配音社团有较为深入的了解</p>
+                                                        <p>2.擅长使用主流社交软件，与用户及陌生人开展交流</p>
+                                                        <p>3.掌握 PS 或同类图形软件的使用。熟练使用视频/音频后期软件者优先</p>
+                                                        <p>4.二次元网站 UP 主、微博大 V 、微信公众号运营优先（请将相关链接附于简历）</p>
+                                                    </dd>
+                                                    <dd>
+                                                        <h5>Android 高级开发工程师 | Android Senior Engineer</h5>
+                                                        <h6>岗位职责：</h6>
+                                                        <p>1.负责 MissEvan Android 平台应用的开发</p>
+                                                        <p>2.负责 App 稳定性相关的优化</p>
+                                                        <p>3.参与移动平台软件框架的研究，设计和实现、关键技术验证和选型等工作</p>
+                                                        <p>4.参与移动规范制订、技术文档编写</p>
+                                                        <h6>任职要求：</h6>
+                                                        <p>1.3 年以上客户端开发经验，精通 Android 应用开发</p>
+                                                        <p>2.熟悉 Android 系统源码者优先，有 NDK 相关开发经验</p>
+                                                        <p>3.有主导完成优秀应用或大型项目，对高性能程序设计、架构有较多的工程经验者优先</p>
+                                                        <h6>优先考虑：：</h6>
+                                                        <p>1.热爱二次元文化，熟悉电竞、动漫、游戏或电影等</p>
+                                                        <p>2.参与开源项目或有自己的开源项目</p>
+                                                    </dd>
+                                                    <dd>
+                                                        <h5>PHP 研发工程师 | PHP Developer</h5>
+                                                        <h6>岗位职责：</h6>
+                                                        <p>1.负责后端服务的技术开发工作</p>
+                                                        <p>2.独立完成后端功能的设计、开发工作，以及性能优化</p>
+                                                        <p>3.负责接口的开发维护和调试。</p>
+                                                        <p>4.对项目的整体规划给出自己的意见和建议</p>
+                                                        <h6>任职要求：</h6>
+                                                        <p>1.扎实的 PHP 编程基础，熟悉 Linux、Nginx 及 MySQL 数据库应用开发</p>
+                                                        <p>2.熟悉 MVC 开发模式，了解主流的 PHP 缓存技术及网站系统性能优化技术</p>
+                                                        <p>3.熟悉 PHP 后端服务开发</p>
+                                                        <p>4.对系统性能优化有一定认知</p>
+                                                        <p>5.具备强烈的责任心、进取心、求知欲及团队合作精神，有较强的沟通及协调能力</p>
+                                                        <p>6.能够独立担任一定开发工作的设计、开发和上线</p>
+                                                        <h6>优先考虑：：</h6>
+                                                        <p>1.热爱二次元文化，熟悉电竞、动漫、游戏或电影等</p>
+                                                        <p>2.参与开源项目或有自己的开源项目</p>
+                                                    </dd>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--[/diy]-->
+
+                        </dl>
+                    </div>
+                </div>
             </div>
+            <div class="clear"></div>
+
         </div>
     </div>
-
-    <div id="ft" style="margin:0;padding:0; height:0;"></div>
-    <script src="home.php?mod=misc&ac=sendmail&rand=1585667647" type="text/javascript"></script>
-    <div id="scrolltop" style="display:none;">
-        <span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo('0','0')" id="scrolltopa"><b>返回顶部</b></a></span>
-    </div>
-
-
-    <script type="text/javascript">_attachEvent(window, 'scroll', function () { showTopLink(); });checkBlind();</script>
     <script type="text/javascript">
-function click(e) {
-if (document.all) {
-if (event.button==2||event.button==3) { alert("支持正版！！！有需求请与管理联系QQ:1691000615！谢谢您的合作！！！");
-oncontextmenu='return false';
-}
-}
-if (document.layers) {
-if (e.which == 3) {
-oncontextmenu='return false';
-}
-}
-}
-if (document.layers) {
-document.captureEvents(Event.MOUSEDOWN);
-}
-document.onmousedown=click;
-document.oncontextmenu = new Function("return false;")
-document.onkeydown =document.onkeyup = document.onkeypress=function(){
-if(window.event.keyCode == 123) {
-window.event.returnValue=false;
-return(false);
-}
-}
+        jQuery(".nexsdboxsdee ul li").each(function (s) {
+            jQuery(this).hover(function () {
+                jQuery(this).addClass("cur").siblings().removeClass("cur");
+            })
+        })
     </script>
-</body>
-</html>
+    <script type="text/javascript">
+        jQuery(window).scroll(function () {
+            var rightH = jQuery('.nexsdboxsdee').height();
+            var t = jQuery(".nexsdboxsdee").offset().top;
+            var cH = jQuery(document).height();
+            var h = jQuery(this).scrollTop();
+            var fH = jQuery('.nexfooter').height();
+            var wH = jQuery(window).height();
+            var hH = cH - (h + wH);
+            if (h > rightH && hH > fH) {
+                jQuery(".nex_fellow").addClass('nexfixed');
+            } else {
+                jQuery(".nex_fellow").removeClass('nexfixed');
+            }
+        });
+    </script>
 
+
+
+
+</div>
+@section Header{
+    <link rel="stylesheet" type="text/css" href="data/cache/style_2_common.css" tppabs="http://47.100.112.22/demo/manga/data/cache/style_2_common.css?LBz" />
+    <link rel="stylesheet" type="text/css" href="data/cache/style_2_portal_index.css" tppabs="http://47.100.112.22/demo/manga/data/cache/style_2_portal_index.css?LBz" />
+    <script src="static/js/common.js" tppabs="http://47.100.112.22/demo/manga/static/js/common.js?LBz" type="text/javascript"></script>
+}

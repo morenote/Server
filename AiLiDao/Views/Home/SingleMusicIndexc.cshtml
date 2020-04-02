@@ -1,0 +1,1342 @@
+﻿
+@{
+    ViewData["Title"] = "SingleMusicIndexc";
+    Layout = "~/Views/Shared/_AiliDaoLayout.cshtml";
+    ViewBag.css = "data/cache/style_2_forum_forumdisplay.css";
+}
+    <div id="wp" class="wp">
+        <style id="diy_style" type="text/css"></style>
+        <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
+        <div id="pt" class="bm cl">
+            <div class="z">
+                <a href="./" class="nvhm" title="首页">动漫次元视频资源综合社区</a><em>»</em><a href="forum.php">论坛</a> <em>›</em> <a href="forum.php?gid=1">ACG广场</a><em>›</em> <a href="forum.php?mod=forumdisplay&amp;fid=58">动漫音乐</a>
+            </div>
+        </div><div class="wp">
+            <!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+        </div>
+        <div class="boardnav">
+            <div id="ct" class="wp cl ct2">
+                <link rel="stylesheet" type="text/css" href="template/nex_manga_181008/neoconex/fenlei/sort_list.css">
+                <script type="text/javascript">
+var forum_optionlist = '<?xml version="1.0" encoding="gbk"?><forum_optionlist><s76><stitle>音乐标题</stitle><stype>text</stype><sunit></sunit><sidentifier>nex_music_title</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>1</srequired><sunchangeable>0</sunchangeable><ssearch>0</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect>false</sprotect><smaxlength>0</smaxlength><sinputsize></sinputsize><sdefaultvalue></sdefaultvalue><sprofile></sprofile><schoices></schoices></s76><s77><stitle>音乐专辑</stitle><stype>text</stype><sunit></sunit><sidentifier>nex_music_album</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>0</srequired><sunchangeable>0</sunchangeable><ssearch>0</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect>false</sprotect><smaxlength>0</smaxlength><sinputsize></sinputsize><sdefaultvalue></sdefaultvalue><sprofile></sprofile><schoices></schoices></s77><s78><stitle>艺术家</stitle><stype>text</stype><sunit></sunit><sidentifier>nex_music_artist</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>0</srequired><sunchangeable>0</sunchangeable><ssearch>0</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect>false</sprotect><smaxlength>0</smaxlength><sinputsize></sinputsize><sdefaultvalue></sdefaultvalue><sprofile></sprofile><schoices></schoices></s78><s79><stitle>发行时间</stitle><stype>text</stype><sunit></sunit><sidentifier>nex_music_date</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>0</srequired><sunchangeable>0</sunchangeable><ssearch>0</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect>false</sprotect><smaxlength>0</smaxlength><sinputsize></sinputsize><sdefaultvalue></sdefaultvalue><sprofile></sprofile><schoices></schoices></s79><s80><stitle>封面图</stitle><stype>image</stype><sunit></sunit><sidentifier>nex_music_cover</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>1</srequired><sunchangeable>0</sunchangeable><ssearch>0</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect>false</sprotect><smaxwidth>0</smaxwidth><smaxheight>0</smaxheight><sinputsize></sinputsize><schoices></schoices></s80><s81><stitle>音乐时长</stitle><stype>text</stype><sunit></sunit><sidentifier>nex_music_time</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>1</srequired><sunchangeable>0</sunchangeable><ssearch>0</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect>false</sprotect><smaxlength>0</smaxlength><sinputsize></sinputsize><sdefaultvalue></sdefaultvalue><sprofile></sprofile><schoices></schoices></s81><s82><stitle>播放链接</stitle><stype>text</stype><sunit></sunit><sidentifier>nex_music_code</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>0</srequired><sunchangeable>0</sunchangeable><ssearch>0</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect>false</sprotect><smaxlength>0</smaxlength><sinputsize></sinputsize><sdefaultvalue></sdefaultvalue><sprofile></sprofile><schoices></schoices></s82><s90><stitle>音乐类型</stitle><stype>radio</stype><sunit></sunit><sidentifier>nex_music_sort</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>1</srequired><sunchangeable>0</sunchangeable><ssearch>2</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect><susergroup></susergroup><sverify></sverify></sprotect><schoices><s1>原创音乐</s1><s2>翻唱</s2><s3>Vocaloid</s3><s4>三次元音乐</s4><s5>演奏创作</s5><s6>剧情歌</s6><s7>二次元音乐</s7><s8>OP/ED/OST</s8></schoices></s90><s91><stitle>音乐语种</stitle><stype>radio</stype><sunit></sunit><sidentifier>nex_music_lang</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>1</srequired><sunchangeable>0</sunchangeable><ssearch>2</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect><susergroup></susergroup><sverify></sverify></sprotect><schoices><s1>中文</s1><s2>英文</s2><s3>日文</s3><s4>其他</s4></schoices></s91><s92><stitle>音乐标签</stitle><stype>checkbox</stype><sunit></sunit><sidentifier>nex_music_tags</sidentifier><sdescription></sdescription><spermprompt></spermprompt><srequired>1</srequired><sunchangeable>0</sunchangeable><ssearch>2</ssearch><ssubjectshow>1</ssubjectshow><sexpiration>0</sexpiration><sprotect><susergroup></susergroup><sverify></sverify></sprotect><schoices><s1><![CDATA[<span>剧情歌</span>]]></s1><s2><![CDATA[<span>原创曲</span>]]></s2><s3><![CDATA[<span>古风</span>]]></s3><s4><![CDATA[<span>原创PV</span>]]></s4><s5><![CDATA[<span>电音</span>]]></s5><s6><![CDATA[<span>大自然的搬运工</span>]]></s6><s7><![CDATA[<span>治愈向</span>]]></s7><s8><![CDATA[<span>灵魂歌手</span>]]></s8><s9><![CDATA[<span>萌系</span>]]></s9><s10><![CDATA[<span>作业向</span>]]></s10><s11><![CDATA[<span>纯音无词</span>]]></s11><s12><![CDATA[<span>背景音</span>]]></s12><s13><![CDATA[<span>插曲</span>]]></s13><s14><![CDATA[<span>燃向</span>]]></s14><s15><![CDATA[<span>天籁</span>]]></s15><s16><![CDATA[<span>老歌</span>]]></s16><s17><![CDATA[<span>鬼畜</span>]]></s17><s18><![CDATA[<span>欧美</span>]]></s18><s19><![CDATA[<span>翻唱</span>]]></s19><s20><![CDATA[<span>吉他</span>]]></s20><s21><![CDATA[<span>配音</span>]]></s21><s22><![CDATA[<span>舞曲</span>]]></s22><s23><![CDATA[<span>初音未来</span>]]></s23></schoices></s92></forum_optionlist>';
+                </script>
+                <script src="static/js/threadsort.js?LBz" type="text/javascript"></script>                                                                              <div>
+                    <div class="ptn pbn mbm bbs">
+                        <table id="fontsearch" class="tsm cl">
+
+                            <tbody>
+                                <tr>
+                                    <th width="8%">音乐类型:</th>
+                                    <td>
+                                        <ul class="cl">
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;filter=sort&amp;nex_music_sort=all" class="xi2">不限</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=1" class="xi2">原创音乐</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=2" class="xi2">翻唱</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=3" class="xi2">Vocaloid</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=4" class="xi2">三次元音乐</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=5" class="xi2">演奏创作</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=6" class="xi2">剧情歌</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=7" class="xi2">二次元音乐</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_sort=8" class="xi2">OP/ED/OST</a></li>
+
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="8%">音乐语种:</th>
+                                    <td>
+                                        <ul class="cl">
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;filter=sort&amp;nex_music_lang=all" class="xi2">不限</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_lang=1" class="xi2">中文</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_lang=2" class="xi2">英文</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_lang=3" class="xi2">日文</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_lang=4" class="xi2">其他</a></li>
+
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="8%">音乐标签:</th>
+                                    <td>
+                                        <ul class="cl">
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;filter=sort&amp;nex_music_tags=all" class="xi2">不限</a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=1" class="xi2"><span>剧情歌</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=2" class="xi2"><span>原创曲</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=3" class="xi2"><span>古风</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=4" class="xi2"><span>原创PV</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=5" class="xi2"><span>电音</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=6" class="xi2"><span>大自然的搬运工</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=7" class="xi2"><span>治愈向</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=8" class="xi2"><span>灵魂歌手</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=9" class="xi2"><span>萌系</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=10" class="xi2"><span>作业向</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=11" class="xi2"><span>纯音无词</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=12" class="xi2"><span>背景音</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=14" class="xi2"><span>燃向</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=13" class="xi2"><span>插曲</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=15" class="xi2"><span>天籁</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=16" class="xi2"><span>老歌</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=17" class="xi2"><span>鬼畜</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=18" class="xi2"><span>欧美</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=19" class="xi2"><span>翻唱</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=20" class="xi2"><span>吉他</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=21" class="xi2"><span>配音</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=22" class="xi2"><span>舞曲</span></a></li>
+                                            <li><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortid&amp;sortid=4&amp;searchsort=1&amp;nex_music_tags=23" class="xi2"><span>初音未来</span></a></li>
+
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="mn">
+                    <div class="drag">
+                        <!--[diy=diy4]--><div id="diy4" class="area"></div><!--[/diy]-->
+                    </div>
+
+
+
+
+
+                    <div id="pgt" class="bm bw0 pgs cl">
+
+                    </div>
+                    <ul id="thread_types" class="ttp bm cl">
+                        <li id="ttp_all"><a href="forum.php?mod=forumdisplay&amp;fid=58&amp;filter=sortall&amp;sortall=1">全部</a></li>
+                        <li class="xw1 a"><a href="forum.php?mod=forumdisplay&amp;fid=58">次元音乐单曲<span class="xg1 num">30</span></a></li>
+                    </ul>
+                    <script type="text/javascript">showTypes('thread_types');</script>
+                    <div id="threadlist" class="bm bmw">
+
+                        <div class="nex_music_sololist">
+                            <ul>
+                                <form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&amp;action=moderate&amp;fid=58&amp;infloat=yes&amp;nopost=yes">
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=274" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=963&amp;size=220x400&amp;key=468e4f550c3dc001) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:49</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=274" target="_blank">打上花火  动画电影《升空的焰火，从下面看还是从侧面看?》主题曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>40</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=296" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=985&amp;size=220x400&amp;key=3aac7941017da48d) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:21</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=296" target="_blank">辉夜大小姐想让我告白～天才们的恋爱头脑战～片头曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>31</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=295" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=984&amp;size=220x400&amp;key=e6cad5378bde36f1) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:53</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=295" target="_blank">不可逆リプレイス  TV动画《信长协奏曲》片尾曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>18</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=294" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=983&amp;size=220x400&amp;key=ee5076394bb5c462) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:47</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=294" target="_blank">nameless story  TV动画《某科学的超电磁炮T》片尾曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>23</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=293" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=982&amp;size=220x400&amp;key=9a827ad769dbc72e) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:40</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=293" target="_blank">More One Night  TV动画《少女终末旅行》片尾曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>17</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=292" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=981&amp;size=220x400&amp;key=6f6bbb74a755c528) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:17</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=292" target="_blank">イこうぜ☆パラダイス TV动画《异种族风俗娘评鉴指南》片头曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>20</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=291" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=980&amp;size=220x400&amp;key=c59c7a993ee574f5) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:09</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=291" target="_blank">明日、僕は君に会いに行く。 TV动画《世界第一初恋》第一季片尾曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>10</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=290" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=979&amp;size=220x400&amp;key=aefe0d216ea713bf) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:40</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=290" target="_blank">まどろみの約束 TV动画《冰果》ED1</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>8</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=289" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=978&amp;size=220x400&amp;key=d1b4758edabff1ef) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:48</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=289" target="_blank">コンプリケイション TV动画《无头骑士异闻录》OP2</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>6</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=288" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=977&amp;size=220x400&amp;key=da9b1cd418277ca0) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:57</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=288" target="_blank">Resuscitated Hope TVアニメ「GOSICK」ED1テーマ</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>7</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=287" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=976&amp;size=220x400&amp;key=e7f42a41f1b49c6b) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:16</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=287" target="_blank">神のまにまに</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>8</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=286" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=975&amp;size=220x400&amp;key=bb59dcda379f0e38) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:15</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=286" target="_blank">Hello,world!  TV动画《血界战线》片头曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>7</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=285" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=974&amp;size=220x400&amp;key=8122347d53349ad1) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:44</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=285" target="_blank">NEXT TO YOU TV动画《寄生兽 生命的准则》配乐</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>7</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=284" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=973&amp;size=220x400&amp;key=fb2ee61a6315c8b5) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:12</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=284" target="_blank">僕らの手には何もないけど、</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>8</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=283" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=972&amp;size=220x400&amp;key=8cc22ed38ab62b45) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:57</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=283" target="_blank">Clattanoia  TV动画《OVERLORD》片头曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>5</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=282" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=971&amp;size=220x400&amp;key=c05ff5ee1be75f48) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:16</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=282" target="_blank">Hacking to the Gate  TV动画《命运石之门》片头曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>6</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=281" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=970&amp;size=220x400&amp;key=6b56a04f77b3d659) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:53</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=281" target="_blank">Paradisus-Paradoxum  TV动画《Re:从零开始异世界生活》OP2</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>6</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=280" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=969&amp;size=220x400&amp;key=14a2a2fc5b4d179a) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:43</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=280" target="_blank">扉をあけて TV动画《魔卡少女樱》OP2</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>6</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=279" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=968&amp;size=220x400&amp;key=1b79030d8fa3ee67) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:42</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=279" target="_blank">いけないボーダーライン  TV动画《超时空要塞Δ》插曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>10</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=278" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=967&amp;size=220x400&amp;key=740a7659a07a8595) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:27</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=278" target="_blank">Stay Alive  TV动画《Re:从零开始异世界生活》ED2</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>6</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=277" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=966&amp;size=220x400&amp;key=24e6b4cf740a69cb) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:12</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=277" target="_blank">brave heart TV动画《数码宝贝大冒险》进化曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>8</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=276" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=965&amp;size=220x400&amp;key=5db32c8d07ed3f06) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:40</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=276" target="_blank">彼女は旅に出る</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>8</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=275" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=964&amp;size=220x400&amp;key=605037a289a7977f) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:52</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=275" target="_blank">病名は愛だった - (病名为爱)</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>7</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=273" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=962&amp;size=220x400&amp;key=c3c9c0fe95fee76a) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:44</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=273" target="_blank">This game TV动画《游戏人生》片头曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>5</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=272" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=961&amp;size=220x400&amp;key=eef4543075f848ac) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:16</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=272" target="_blank">カラフル。  TV动画《路人女主的养成方法》片尾曲</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>7</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=271" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=960&amp;size=220x400&amp;key=936010489d813c59) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:13</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=271" target="_blank">恋愛サーキュレーション</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>9</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=270" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=959&amp;size=220x400&amp;key=a7e84d4d9e1eb81c) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">03:52</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=270" target="_blank">病名は愛だった (Cover 鏡音リン/鏡音レン)</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>6</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=269" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=958&amp;size=220x400&amp;key=945640b918759a0f) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">05:52</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=269" target="_blank">secret base ~君がくれたもの~ (10 years after Ver.)</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>8</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=268" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=957&amp;size=220x400&amp;key=c4d3976c6c60422f) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">05:38</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=268" target="_blank">My Dearest  TV动画《罪恶王冠》OP1</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>9</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="nex_music_so">
+                                        <div class="nex_music_solo_cover">
+                                            <a href="forum.php?mod=viewthread&amp;tid=267" target="_blank">
+                                                <div class="nex_music_si" style="background:url(forum.php?mod=image&amp;aid=956&amp;size=220x400&amp;key=334b8741fa898f52) center no-repeat; background-size:cover;"></div>
+                                                <span class="nex_music_solo_playicon"></span>
+                                                <div class="nex_music_solo_videolist_mask"></div>
+                                                <span class="nex_music_solo_length">04:14</span>
+                                            </a>
+                                        </div>
+                                        <div class="nex_music_solo_info">
+                                            <h5><a href="forum.php?mod=viewthread&amp;tid=267" target="_blank">光るなら</a></h5>
+                                            <div class="nex_music_solo_infobtm">
+                                                <span>8</span>
+                                                <em>0</em>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </form>
+
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bm bw0 pgs cl">
+                        <span id="visitedforumstmp" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'21'})" class="pgb y"><a href="forum.php">返&nbsp;回</a></span>
+                        <a href="javascript:;" id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})" onclick="showWindow('newthread', 'forum.php?mod=post&amp;action=newthread&amp;fid=58')" title="发新帖"><img src="static/image/common/pn_post.png" alt="发新帖"></a>
+                    </div>            <div class="nex_forumlist_btm_ads">
+                        <!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"><div id="frameifAlkD" class="frame move-span cl frame-1"><div id="frameifAlkD_left" class="column frame-1-c"><div id="frameifAlkD_left_temp" class="move-span temp"></div><div id="portal_block_125" class="block move-span"><div id="portal_block_125_content" class="dxb_bc"><div class="portal_block_summary"><a href="#" target="_blank"><img src="template/nex_manga_181008/neoconex/forumlist/ads3.jpg"></a></div></div></div></div></div></div><!--[/diy]-->
+                    </div>
+
+                    <!--[diy=diyforumdisplaybottom]--><div id="diyforumdisplaybottom" class="area"></div><!--[/diy]-->
+
+                </div>
+
+                <div class="sd">
+                    <!--广告位-->
+                    <div class="nex_discuz_side_ads"><!--[diy=nex_discuz_side_ads1]--><div id="nex_discuz_side_ads1" class="area"><div id="frameSf7Dom" class="frame move-span cl frame-1"><div id="frameSf7Dom_left" class="column frame-1-c"><div id="frameSf7Dom_left_temp" class="move-span temp"></div><div id="portal_block_118" class="block move-span"><div id="portal_block_118_content" class="dxb_bc"><div class="portal_block_summary"><a href="#" target="_blank"><img src="template/nex_manga_181008/neoconex/forumlist/ads1.jpg"></a></div></div></div></div></div></div><!--[/diy]--></div>
+                    <!--排行榜-->
+                    <div class="nex_dz_rksidebox">
+                        <div class="nex_discuz_sidebox_top">
+                            <span>热门排行榜</span>
+                            <ul>
+                                <li class="on">日榜</li>
+                                <i class="nex_tab_line"></i>
+                                <li>周榜</li>
+                                <div class="clear"></div>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="nex_discuz_hotread">
+                            <ul>
+                                <li style="display:block;">
+                                    <div class="nex_ranklistings">
+                                        <dl>
+                                            <!--[diy=nex_ranklistings]-->
+                                            <div id="nex_ranklistings" class="area">
+                                                <div id="framegodM7d" class="frame move-span cl frame-1">
+                                                    <div id="framegodM7d_left" class="column frame-1-c">
+                                                        <div id="framegodM7d_left_temp" class="move-span temp"></div><div id="portal_block_119" class="block move-span">
+                                                            <div id="portal_block_119_content" class="dxb_bc">
+                                                                <dd class="curs">
+                                                                    <div class="nex_rk_output">
+                                                                        <em class="nex_rknum_1">1</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=81" target="_blank">重做初定版，那年被禁播的动漫还有人记得吗</a>
+                                                                        <span>共2130阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em class="nex_rknum_1">1</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=81" target="_blank"><img src="data/attachment/forum/201811/04/143333htrbjgjzu8j6lgl2.gif" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=81" target="_blank">重做初定版，那年被禁播的动漫还有人记得吗</a></h5>
+                                                                            <p>KristenMercer</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em class="nex_rknum_2">2</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=134" target="_blank">エロ本を捨てたらこの子が釣れちゃった!? </a>
+                                                                        <span>共1489阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em class="nex_rknum_2">2</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=134" target="_blank"><img src="data/attachment/block/2a/2afa6179395639cbaff872cc2d8c2660.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=134" target="_blank">エロ本を捨てたらこの子が釣れちゃった!? </a></h5>
+                                                                            <p>KristenMercer</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em class="nex_rknum_3">3</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=113" target="_blank">[OrangeMaru (YD)] カルデアメイド (Fate/G</a>
+                                                                        <span>共1035阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em class="nex_rknum_3">3</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=113" target="_blank"><img src="data/attachment/block/ab/abafc8fff42832fdb135b8ba4eac9af9.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=113" target="_blank">[OrangeMaru (YD)] カルデアメイド (Fate/G</a></h5>
+                                                                            <p>admin</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>4</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=130" target="_blank">[上向だい] ハメ撮りガールズ [DL版]</a>
+                                                                        <span>共1025阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>4</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=130" target="_blank"><img src="data/attachment/block/01/018fffde2342d8280a42cb7f4b3a78c7.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=130" target="_blank">[上向だい] ハメ撮りガールズ [DL版]</a></h5>
+                                                                            <p>admin</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>5</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=133" target="_blank">[ファイヤーワークス (秋太郎)] Eat Up! (</a>
+                                                                        <span>共864阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>5</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=133" target="_blank"><img src="data/attachment/block/13/138cd2313ae6956c786e92b32adce96c.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=133" target="_blank">[ファイヤーワークス (秋太郎)] Eat Up! (</a></h5>
+                                                                            <p>KristenMercer</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>6</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=120" target="_blank">[青い点 (青点)] Adlescence05 愛莉澄 [塔</a>
+                                                                        <span>共837阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>6</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=120" target="_blank"><img src="data/attachment/block/de/de7c0e5f3ade91eff9da2d0eb300939e.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=120" target="_blank">[青い点 (青点)] Adlescence05 愛莉澄 [塔</a></h5>
+                                                                            <p>不来点妹汁吗</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>7</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=135" target="_blank">艦これおまけ本まとめ (艦隊これくしょん -</a>
+                                                                        <span>共822阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>7</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=135" target="_blank"><img src="data/attachment/block/08/08c71f3e4984d259759bcf12a33b68b9.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=135" target="_blank">艦これおまけ本まとめ (艦隊これくしょん -</a></h5>
+                                                                            <p>KristenMercer</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>8</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=111" target="_blank">《刀剑神域：圣母圣咏》愿优纪的全新旅程能</a>
+                                                                        <span>共819阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>8</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=111" target="_blank"><img src="data/attachment/block/e2/e2ef62620aeeca99b9d0ae10003d7f08.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=111" target="_blank">《刀剑神域：圣母圣咏》愿优纪的全新旅程能</a></h5>
+                                                                            <p>薯片先生</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>9</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=177" target="_blank">先生とぼく 第1-3話</a>
+                                                                        <span>共814阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>9</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=177" target="_blank"><img src="data/attachment/block/30/305762282df551aefb687b7db8d08806.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=177" target="_blank">先生とぼく 第1-3話</a></h5>
+                                                                            <p>萌萌哒的黎幻酱</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>10</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=123" target="_blank">[厚木で5時 (みうらっは)] 絶対魔獣輪姦III</a>
+                                                                        <span>共716阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>10</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=123" target="_blank"><img src="data/attachment/block/9a/9a2e66d3c84f04a27bf682d5fe845d4f.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=123" target="_blank">[厚木で5時 (みうらっは)] 絶対魔獣輪姦III</a></h5>
+                                                                            <p>不来点妹汁吗</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--[/diy]-->
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="nex_ranklistings">
+                                        <dl>
+                                            <!--[diy=nex_ranklistingsd]-->
+                                            <div id="nex_ranklistingsd" class="area">
+                                                <div id="framejLMpOe" class="frame move-span cl frame-1">
+                                                    <div id="framejLMpOe_left" class="column frame-1-c">
+                                                        <div id="framejLMpOe_left_temp" class="move-span temp"></div><div id="portal_block_120" class="block move-span">
+                                                            <div id="portal_block_120_content" class="dxb_bc">
+                                                                <dd class="curs">
+                                                                    <div class="nex_rk_output">
+                                                                        <em class="nex_rknum_1">1</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=66" target="_blank">日本网友列出“阿宅疲劳等级” 满级就可以</a>
+                                                                        <span>共221阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em class="nex_rknum_1">1</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=66" target="_blank"><img src="data/attachment/block/37/371c9194b69c70203eb49b74fc686754.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=66" target="_blank">日本网友列出“阿宅疲劳等级” 满级就可以</a></h5>
+                                                                            <p>admin</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em class="nex_rknum_2">2</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=111" target="_blank">《刀剑神域：圣母圣咏》愿优纪的全新旅程能</a>
+                                                                        <span>共819阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em class="nex_rknum_2">2</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=111" target="_blank"><img src="data/attachment/block/e2/e2ef62620aeeca99b9d0ae10003d7f08.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=111" target="_blank">《刀剑神域：圣母圣咏》愿优纪的全新旅程能</a></h5>
+                                                                            <p>薯片先生</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em class="nex_rknum_3">3</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=81" target="_blank">重做初定版，那年被禁播的动漫还有人记得吗</a>
+                                                                        <span>共2130阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em class="nex_rknum_3">3</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=81" target="_blank"><img src="data/attachment/forum/201811/04/143333htrbjgjzu8j6lgl2.gif" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=81" target="_blank">重做初定版，那年被禁播的动漫还有人记得吗</a></h5>
+                                                                            <p>KristenMercer</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>4</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=65" target="_blank">《女高中生的无用日常》动画化决定</a>
+                                                                        <span>共162阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>4</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=65" target="_blank"><img src="data/attachment/block/fa/fa6525432bb6fa11e11f16ecd86259b0.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=65" target="_blank">《女高中生的无用日常》动画化决定</a></h5>
+                                                                            <p>萌萌哒的黎幻酱</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>5</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=135" target="_blank">艦これおまけ本まとめ (艦隊これくしょん -</a>
+                                                                        <span>共822阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>5</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=135" target="_blank"><img src="data/attachment/block/08/08c71f3e4984d259759bcf12a33b68b9.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=135" target="_blank">艦これおまけ本まとめ (艦隊これくしょん -</a></h5>
+                                                                            <p>KristenMercer</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>6</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=34" target="_blank">透过衣服的你的肌肤♡透视装特辑</a>
+                                                                        <span>共569阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>6</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=34" target="_blank"><img src="data/attachment/block/8f/8f614ace529783f19ccb1dec849d2a40.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=34" target="_blank">透过衣服的你的肌肤♡透视装特辑</a></h5>
+                                                                            <p>不来点妹汁吗</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>7</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=38" target="_blank">动人的魅惑大腿！袜圈特辑</a>
+                                                                        <span>共219阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>7</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=38" target="_blank"><img src="data/attachment/block/55/550a050cb6e621b506f74f80a41de677.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=38" target="_blank">动人的魅惑大腿！袜圈特辑</a></h5>
+                                                                            <p>admin</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>8</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=85" target="_blank">孤岛惊魂5片尾曲《We Will Rise Again》自</a>
+                                                                        <span>共239阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>8</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=85" target="_blank"><img src="data/attachment/block/07/0748c1ad42e2f744afa97003eeb705d3.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=85" target="_blank">孤岛惊魂5片尾曲《We Will Rise Again》自</a></h5>
+                                                                            <p>不来点妹汁吗</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>9</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=42" target="_blank">杀死童贞服特辑</a>
+                                                                        <span>共257阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>9</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=42" target="_blank"><img src="data/attachment/block/ed/ed02608aea622bbbb93c736c288199ab.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=42" target="_blank">杀死童贞服特辑</a></h5>
+                                                                            <p>面饼仙儿</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd><dd>
+                                                                    <div class="nex_rk_output">
+                                                                        <em>10</em>
+                                                                        <a href="forum.php?mod=viewthread&amp;tid=89" target="_blank">胆小狗英雄 第三季Courage The Cowardly Do</a>
+                                                                        <span>共248阅读</span>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <div class="nex_rk_input">
+                                                                        <em>10</em>
+                                                                        <div class="nex_rk_inputpic"><a href="forum.php?mod=viewthread&amp;tid=89" target="_blank"><img src="data/attachment/block/47/471857e243b879446963ff2479bcea66.jpg" width="110" height="70"></a></div>
+                                                                        <div class="nex_rk_inputports">
+                                                                            <h5><a href="forum.php?mod=viewthread&amp;tid=89" target="_blank">胆小狗英雄 第三季Courage The Cowardly Do</a></h5>
+                                                                            <p>揣猫的白丸</p>
+                                                                        </div>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                </dd>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--[/diy]-->
+                                        </dl>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <script type="text/javascript">
+                    jQuery(".nex_discuz_sidebox_top ul li").each(function(s){
+                        jQuery(this).hover(function(){
+                            jQuery(this).addClass("on").siblings().removeClass("on");
+                            jQuery(".nex_discuz_hotread ul li").eq(s).show().siblings().hide();
+                            })
+                        })
+                        </script>
+                        <script type="text/javascript">
+                    jQuery(".nex_ranklistings dl dd").each(function(s){
+                        jQuery(this).hover(function(){
+                            jQuery(this).addClass("curs").siblings().removeClass("curs");
+                            })
+                        })
+                        </script>
+                    </div>
+                    <!--最新发布-->
+                    <div class="nex_dz_rksidebox nex_dz_newluncsidebox">
+                        <div class="nex_discuz_sidebox_top">
+                            <span>最新发布</span>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="nex_newlunached">
+                            <ul>
+                                <!--[diy=nex_newlunached]-->
+                                <div id="nex_newlunached" class="area">
+                                    <div id="frameFjmlei" class="frame move-span cl frame-1">
+                                        <div id="frameFjmlei_left" class="column frame-1-c">
+                                            <div id="frameFjmlei_left_temp" class="move-span temp"></div><div id="portal_block_121" class="block move-span">
+                                                <div id="portal_block_121_content" class="dxb_bc">
+                                                    <li>
+                                                        <a href="forum.php?mod=viewthread&amp;tid=296" target="_blank">
+                                                            <img src="data/attachment/block/93/9306c2caa569382be07371428e2b450b.jpg" width="130" height="85">
+                                                            <h5>辉夜大小姐想让我告白～天才们的恋爱头脑战</h5>
+                                                        </a>
+                                                    </li><li>
+                                                        <a href="forum.php?mod=viewthread&amp;tid=295" target="_blank">
+                                                            <img src="data/attachment/block/f5/f540af954db3a3324b6040462eb8e6ee.jpg" width="130" height="85">
+                                                            <h5>不可逆リプレイス  TV动画《信长协奏曲》片</h5>
+                                                        </a>
+                                                    </li><li>
+                                                        <a href="forum.php?mod=viewthread&amp;tid=294" target="_blank">
+                                                            <img src="data/attachment/block/2a/2a59edbaaf6993edebfae9e5abfb55cd.jpg" width="130" height="85">
+                                                            <h5>nameless story  TV动画《某科学的超电磁炮</h5>
+                                                        </a>
+                                                    </li><li>
+                                                        <a href="forum.php?mod=viewthread&amp;tid=293" target="_blank">
+                                                            <img src="data/attachment/block/fa/faea01402c28074da9ecbd588b52ea99.jpg" width="130" height="85">
+                                                            <h5>More One Night  TV动画《少女终末旅行》片</h5>
+                                                        </a>
+                                                    </li><li>
+                                                        <a href="forum.php?mod=viewthread&amp;tid=292" target="_blank">
+                                                            <img src="data/attachment/block/ae/aec26ae6dec1c23d2951a5a6b099ebdd.jpg" width="130" height="85">
+                                                            <h5>イこうぜ☆パラダイス TV动画《异种族风俗</h5>
+                                                        </a>
+                                                    </li><li>
+                                                        <a href="forum.php?mod=viewthread&amp;tid=291" target="_blank">
+                                                            <img src="data/attachment/block/9d/9d128ffdc4b41a72c15fafcd39f04bd8.jpg" width="130" height="85">
+                                                            <h5>明日、僕は君に会いに行く。 TV动画《世界</h5>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--[/diy]-->
+
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--会员排行-->
+                    <div class="nex_dz_rksidebox">
+                        <div class="nex_discuz_sidebox_top nex_member_sidebox_top">
+                            <span>会员排行</span>
+                            <ul>
+                                <li class="on">按发帖</li>
+                                <i class="nex_tab_line"></i>
+                                <li>按积分</li>
+                                <div class="clear"></div>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="nex_discuz_members">
+                            <ul>
+                                <li style="display:block;">
+                                    <div class="nex_bbsmember_list">
+                                        <dl>
+                                            <!--[diy=nex_bbsmember_list]-->
+                                            <div id="nex_bbsmember_list" class="area">
+                                                <div id="framefal5Be" class="frame move-span cl frame-1">
+                                                    <div id="framefal5Be_left" class="column frame-1-c">
+                                                        <div id="framefal5Be_left_temp" class="move-span temp"></div><div id="portal_block_122" class="block move-span">
+                                                            <div id="portal_block_122_content" class="dxb_bc">
+                                                                <dd>
+                                                                    <div class="nex_member_pic">
+                                                                        <a href="home.php?mod=space&amp;uid=1" target="_blank"><img src="http://47.100.112.22/demo/manga/uc_server/avatar.php?uid=1&amp;size=big"><i class="nex_member_lever1"></i></a>
+                                                                    </div>
+                                                                    <div class="nex_member_details">
+                                                                        <h5><a href="home.php?mod=space&amp;uid=1" target="_blank">admin</a></h5>
+                                                                        <p>发帖：75<em>·</em>主题：67</p>
+                                                                    </div>
+                                                                    <div class="nex_member_more"><a href="home.php?mod=space&amp;uid=1" target="_blank">详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd>
+                                                                    <div class="nex_member_pic">
+                                                                        <a href="home.php?mod=space&amp;uid=4" target="_blank"><img src="http://47.100.112.22/demo/manga/uc_server/avatar.php?uid=4&amp;size=big"><i class="nex_member_lever2"></i></a>
+                                                                    </div>
+                                                                    <div class="nex_member_details">
+                                                                        <h5><a href="home.php?mod=space&amp;uid=4" target="_blank">不来点妹汁吗</a></h5>
+                                                                        <p>发帖：44<em>·</em>主题：43</p>
+                                                                    </div>
+                                                                    <div class="nex_member_more"><a href="home.php?mod=space&amp;uid=4" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd>
+                                                                    <div class="nex_member_pic">
+                                                                        <a href="home.php?mod=space&amp;uid=2" target="_blank"><img src="http://47.100.112.22/demo/manga/uc_server/avatar.php?uid=2&amp;size=big"><i class="nex_member_lever3"></i></a>
+                                                                    </div>
+                                                                    <div class="nex_member_details">
+                                                                        <h5><a href="home.php?mod=space&amp;uid=2" target="_blank">面饼仙儿</a></h5>
+                                                                        <p>发帖：31<em>·</em>主题：28</p>
+                                                                    </div>
+                                                                    <div class="nex_member_more"><a href="home.php?mod=space&amp;uid=2" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd class="nex_member_spn">
+                                                                    <div class="nex_membersip_4">4</div>
+                                                                    <div class="nex_member_name">揣猫的白丸</div>
+                                                                    <div class="nex_member_dosd">发帖：29</div>
+                                                                    <div class="nex_member_hids"><a href="home.php?mod=space&amp;uid=3" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd class="nex_member_spn">
+                                                                    <div class="nex_membersip_4">5</div>
+                                                                    <div class="nex_member_name">薯片先生</div>
+                                                                    <div class="nex_member_dosd">发帖：28</div>
+                                                                    <div class="nex_member_hids"><a href="home.php?mod=space&amp;uid=5" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd class="nex_member_spn">
+                                                                    <div class="nex_membersip_4">6</div>
+                                                                    <div class="nex_member_name">KristenMercer</div>
+                                                                    <div class="nex_member_dosd">发帖：28</div>
+                                                                    <div class="nex_member_hids"><a href="home.php?mod=space&amp;uid=6" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--[/diy]-->
+
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="nex_bbsmember_list">
+                                        <dl>
+                                            <!--[diy=nex_bbsmember_listf]-->
+                                            <div id="nex_bbsmember_listf" class="area">
+                                                <div id="frameWI7z7E" class="frame move-span cl frame-1">
+                                                    <div id="frameWI7z7E_left" class="column frame-1-c">
+                                                        <div id="frameWI7z7E_left_temp" class="move-span temp"></div><div id="portal_block_123" class="block move-span">
+                                                            <div id="portal_block_123_content" class="dxb_bc">
+                                                                <dd>
+                                                                    <div class="nex_member_pic">
+                                                                        <a href="home.php?mod=space&amp;uid=8" target="_blank"><img src="http://47.100.112.22/demo/manga/uc_server/avatar.php?uid=8&amp;size=big"><i class="nex_member_lever1"></i></a>
+                                                                    </div>
+                                                                    <div class="nex_member_details">
+                                                                        <h5><a href="home.php?mod=space&amp;uid=8" target="_blank">neoconex</a></h5>
+                                                                        <p>发帖：1<em>·</em>主题：0</p>
+                                                                    </div>
+                                                                    <div class="nex_member_more"><a href="home.php?mod=space&amp;uid=8" target="_blank">详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd>
+                                                                    <div class="nex_member_pic">
+                                                                        <a href="home.php?mod=space&amp;uid=1" target="_blank"><img src="http://47.100.112.22/demo/manga/uc_server/avatar.php?uid=1&amp;size=big"><i class="nex_member_lever2"></i></a>
+                                                                    </div>
+                                                                    <div class="nex_member_details">
+                                                                        <h5><a href="home.php?mod=space&amp;uid=1" target="_blank">admin</a></h5>
+                                                                        <p>发帖：75<em>·</em>主题：67</p>
+                                                                    </div>
+                                                                    <div class="nex_member_more"><a href="home.php?mod=space&amp;uid=1" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd>
+                                                                    <div class="nex_member_pic">
+                                                                        <a href="home.php?mod=space&amp;uid=4" target="_blank"><img src="http://47.100.112.22/demo/manga/uc_server/avatar.php?uid=4&amp;size=big"><i class="nex_member_lever3"></i></a>
+                                                                    </div>
+                                                                    <div class="nex_member_details">
+                                                                        <h5><a href="home.php?mod=space&amp;uid=4" target="_blank">不来点妹汁吗</a></h5>
+                                                                        <p>发帖：44<em>·</em>主题：43</p>
+                                                                    </div>
+                                                                    <div class="nex_member_more"><a href="home.php?mod=space&amp;uid=4" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd class="nex_member_spn">
+                                                                    <div class="nex_membersip_4">4</div>
+                                                                    <div class="nex_member_name">面饼仙儿</div>
+                                                                    <div class="nex_member_dosd">发帖：31</div>
+                                                                    <div class="nex_member_hids"><a href="home.php?mod=space&amp;uid=2" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd class="nex_member_spn">
+                                                                    <div class="nex_membersip_4">5</div>
+                                                                    <div class="nex_member_name">揣猫的白丸</div>
+                                                                    <div class="nex_member_dosd">发帖：29</div>
+                                                                    <div class="nex_member_hids"><a href="home.php?mod=space&amp;uid=3" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd><dd class="nex_member_spn">
+                                                                    <div class="nex_membersip_4">6</div>
+                                                                    <div class="nex_member_name">薯片先生</div>
+                                                                    <div class="nex_member_dosd">发帖：28</div>
+                                                                    <div class="nex_member_hids"><a href="home.php?mod=space&amp;uid=5" target="_blank">+详情</a></div>
+                                                                    <div class="clear"></div>
+                                                                </dd>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--[/diy]-->
+                                        </dl>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <script type="text/javascript">
+                    jQuery(".nex_member_sidebox_top ul li").each(function(s){
+                        jQuery(this).hover(function(){
+                            jQuery(this).addClass("on").siblings().removeClass("on");
+                            jQuery(".nex_discuz_members ul li").eq(s).show().siblings().hide();
+                            })
+                        })
+                        </script>
+                    </div>
+                    <!--广告位-->
+                    <div class="nex_discuz_side_ads"><!--[diy=nex_discuz_side_ads7]--><div id="nex_discuz_side_ads7" class="area"><div id="frameODFPLB" class="frame move-span cl frame-1"><div id="frameODFPLB_left" class="column frame-1-c"><div id="frameODFPLB_left_temp" class="move-span temp"></div><div id="portal_block_124" class="block move-span"><div id="portal_block_124_content" class="dxb_bc"><div class="portal_block_summary"><a href="#" target="_blank"><img src="template/nex_manga_181008/neoconex/forumlist/ads2.jpg"></a></div></div></div></div></div></div><!--[/diy]--></div>
+
+                    <div class="drag">
+                        <!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td id="v_forums">
+                            <h3 class="mbn pbn bbda xg1">浏览过的版块</h3>
+                            <ul class="xl xl1">
+                                <li><a href="forum.php?mod=forumdisplay&amp;fid=2">ACG视频</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, 0, 0, 'forum.php?mod=forumdisplay&fid=58&filter=sortid&orderby=lastpost&sortid=4&', 1);}</script>
+        <div class="wp mtn">
+            <!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+        </div>
+        <script>fixed_top_nv();</script>
+    </div>
+
