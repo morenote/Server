@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "通用类库测试", "通�
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.LogicTests", "单元测试\NickelProject.LogicTests\MoreNote.LogicTests.csproj", "{F56CF558-94F8-4193-986D-FA31A728A7AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWorkerService", "MyWorkerService\MyWorkerService.csproj", "{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote", "MoreNote\MoreNote.csproj", "{7B551EA5-A3E6-4970-951E-94D778965022}"
 EndProject
 Global
@@ -94,14 +92,6 @@ Global
 		{F56CF558-94F8-4193-986D-FA31A728A7AB}.Release|x64.Build.0 = Release|x64
 		{F56CF558-94F8-4193-986D-FA31A728A7AB}.Release|x86.ActiveCfg = Release|x86
 		{F56CF558-94F8-4193-986D-FA31A728A7AB}.Release|x86.Build.0 = Release|x86
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Release|x64.ActiveCfg = Release|Any CPU
-		{2FAA7A8E-2948-4B61-92DC-659E7D3FE31D}.Release|x86.ActiveCfg = Release|Any CPU
 		{7B551EA5-A3E6-4970-951E-94D778965022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B551EA5-A3E6-4970-951E-94D778965022}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B551EA5-A3E6-4970-951E-94D778965022}.Debug|x64.ActiveCfg = Debug|x64
