@@ -22,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\..\MoreNote.Logic\MoreNote.Logic.csproj" />
-    <ProjectReference Include="..\..\MoreNote\MoreNote.csproj" />
   </ItemGroup>
 
 </Project>
