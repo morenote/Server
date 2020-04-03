@@ -40,44 +40,49 @@
 			<h1 id="logo"></h1>
 			<div id="boxForm">
 				<div id="boxHeader">@msg["login"]</div>
-				<form>
-					<div class="alert alert-danger" id="loginMsg"></div>
-					@*<input id="from" type="hidden" value="{{.from}}" />*@
-					<input id="from" type="hidden" />
-					<div class="form-group">
-						<label class="control-label">@msg["email"]</label>
-						<input type="text" class="form-control" id="email" name="email" value="">
-					</div>
-					<div class="form-group">
-						<label class="control-label">@msg["password"]</label>
-						<input type="password" class="form-control" id="pwd" name="pwd">
-					</div>
+                <form>
+                    <div class="alert alert-danger" id="loginMsg"></div>
+                    @*<input id="from" type="hidden" value="{{.from}}" />*@
+                    <input id="from" type="hidden" />
+                    <div class="form-group">
+                        <label class="control-label">@msg["email"]</label>
+                        <input type="text" class="form-control" id="email" name="email" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">@msg["password"]</label>
+                        <input type="password" class="form-control" id="pwd" name="pwd">
+                    </div>
 
-					<div id="captchaContainer">
+                    <div id="captchaContainer">
 
-					</div>
+                    </div>
 
-					<div class="clearfix">
-						<a href="/findPassword" class="pull-right m-t-xs"><small>@msg["forgetPassword"]</small></a>
-						<button id="loginBtn" class="btn btn-success">@msg["login"]</button>
-					</div>
-					<!--
-					<div class="line line-dashed"></div>
+                    <div class="clearfix">
+                        <a href="/findPassword" class="pull-right m-t-xs"><small>@msg["forgetPassword"]</small></a>
+                        <button id="loginBtn" class="btn btn-success">@msg["login"]</button>
+                    </div>
+                    <!--
+    <div class="line line-dashed"></div>
 
-					<a href="#" id="github" class="btn btn-github btn-block m-b-sm"><i class="fa fa-github pull-left"></i>@msg["use"] Github</a>
-					-->
+    <a href="#" id="github" class="btn btn-github btn-block m-b-sm"><i class="fa fa-github pull-left"></i>@msg["use"] Github</a>
+    -->
 
-					<div class="line line-dashed"></div>
+                    <div class="line line-dashed"></div>
 
-					<p class="text-muted text-center"><small>@msg["hasAcount"]</small></p>
+                    <p class="text-muted text-center"><small>@msg["hasAcount"]</small></p>
 
-					{{if .openRegister}}
-					<a href="/register" class="btn btn-default btn-block">@msg["register"]</a>
-					@msg["or"]
-					{{end}}
 
-					<a id="loginBtnDemo" href="/demo" class="btn btn-default btn-block">@msg["try"]</a>
-				</form>
+                    @if (MoreNote.Config.ConfigSetting.openRegister)
+                    {
+                        <a href="/register" class="btn btn-default btn-block">@msg["register"]</a>
+                    }
+
+                    @if (MoreNote.Config.ConfigSetting.openDemo)
+                    {
+                        <a id="loginBtnDemo" href="/demo" class="btn btn-default btn-block">@msg["try"]</a>
+                    }
+
+                </form>
 			</div>
 		</div>
 	</section>
