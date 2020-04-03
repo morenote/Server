@@ -2,13 +2,15 @@
 
 MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net core发行版
 
+演示网站：[morenote云笔记](https://www.morenote.top/)
+
 
 ## 概述
 
 使用.net Core技术构建笔记托管服务，并运行在CentOS7上。
 
 
-原则上提供与leanote一致的API表现，并且原则上最大限度的支持leanote的笔记文件的编码格式。
+原则上尽量提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。
 
 相对而言，MoreNote提供了更多的控制选项和更差劲的性能表现👏，MoreNote可以占有更多内存和CPU避免服务器处于长期闲置状态。
 同时MoreNote有更多的编码漏洞和权限漏洞，所以当前版本仅供学习📚用途。
@@ -28,6 +30,9 @@ MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net core发行
 |  ----    | ----  |---- |---- | --- |
 | V 0.0.1  |进行中 |   没有|   没有|leanote 2.6.1|
 
+- [x]当前版本已经兼容 leanote的桌面端
+- [ ]当前版本已经兼容 leanote的移动端
+- [ ]当前版本支持网页编辑器
 
 ## 区别
 
@@ -38,7 +43,7 @@ MoreNote与leanote的主要区别如下：
 | 开发语言 | C#(.net core 3.1) | Go |
 | 数据库 | PostGreSQL | MongoDB  |
 | 性能 | 非常慢 | 非常快  |
-| 内存占有 | 370M/1.8G | 应该比我少😆  |
+| 内存占有 |  至少500MB | 应该比我少😆  |
 | 主题 | 不支持 | 支持主题包安装  |
 | 支持 | 不支持 | 社区支持&付费版支持  |
 | 多用户 | 不支持 | 支持  |
@@ -62,6 +67,7 @@ MoreNote与leanote的主要区别如下：
 分布式节点：暂无
 
 #### 安装教程
+目前仅支持CentOS7
 
 ```ssh
 git clone URL
