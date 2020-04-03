@@ -158,7 +158,7 @@ namespace MoreNote.Controllers
             ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
             
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            blog.Add("Title", "更多笔记,moreote.top");
+            blog.Add("Title", "moreote云笔记");
             blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
 
