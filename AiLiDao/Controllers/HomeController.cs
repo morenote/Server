@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AiLiDao.Controllers
 {
-    [Route("/{action=Index}")]
+    [Route("/{action=Anime}")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -72,6 +72,10 @@ namespace AiLiDao.Controllers
             return View();
         }
 
+        public IActionResult PlayerV1()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

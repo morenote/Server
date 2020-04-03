@@ -90,7 +90,13 @@
             <div class="nex_top_bg_inter">
                 <div class="nex_top_interior">
                     <!--logo-->
-                    <div class="nexlogo"><h2><a href="portal.php.htm" tppabs="http://47.100.112.22/demo/manga/" title="动漫次元视频资源综合社区"><img src="template/nex_manga_181008/neoconex/logo.png" tppabs="http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/logo.png" alt="动漫次元视频资源综合社区" border="0" /></a></h2></div>
+                    <div class="nexlogo">
+                        <h2>
+                            <a href="portal.php.htm" tppabs="http://47.100.112.22/demo/manga/" title="动漫次元视频资源综合社区">
+                                <img src="template/nex_manga_181008/neoconex/logo.png" tppabs="http://47.100.112.22/demo/manga/template/nex_manga_181008/neoconex/logo.png" alt="动漫次元视频资源综合社区" border="0" />
+                            </a>
+                        </h2>
+                    </div>
                     <div class="nex_nav_ranklist"><a href="portal.php-mod=list&catid=7.htm" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=7" target="_blank"><i></i>排行榜</a></div>
                     <!--search-->
                     <div class="nex_top_search">
@@ -220,17 +226,17 @@
             <div class="w1180">
                 <div class="nexnav">
                     <ul>
-                        <li class="@if (selectPage == 0) { @a} " id="mn_portal"><a href="/Index" tppabs="http://47.100.112.22/demo/manga/portal.php" hidefocus="true" title="Portal">门户<span>Portal</span></a></li>
-                        <li class="@if (selectPage == 1) { @a}" id="mn_P11" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="/Music" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=11" hidefocus="true">动漫音乐</a></li>
-                        <li class="@if (selectPage == 2) { @a}" id="mn_P10" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="/Anime" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=10" hidefocus="true">番剧</a></li>
-                        <li class="@if (selectPage == 3) { @a}" id="mn_P8" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="/Comic" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=8" hidefocus="true">漫画专题</a></li>
-                        <li class="@if (selectPage == 4) { @a}" id="mn_F2"><a href="/AcgVideo" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=2" hidefocus="true">ACG视频</a></li>
-                        <li class="@if (selectPage == 5) { @a}" id="mn_F37"><a href="/PixivPicture" hidefocus="true">P站美图</a></li>
-                        <li class="@if (selectPage == 6) { @a}" id="mn_F36"><a href="/CosPlay" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=36" hidefocus="true">Cosplay</a></li>
-                        <li class="@if (selectPage == 7) { @a}" id="mn_P2" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="portal.php-mod=list&catid=2.htm" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=2" hidefocus="true">资讯展示</a></li>
-                        <li class="@if (selectPage == 8) { @a}" id="mn_P1"><a href="/About" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=1" hidefocus="true">关于我们</a></li>
-                        <li class="@if (selectPage == 9) { @a}" id="mn_P9"><a href="/VIP" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=9" hidefocus="true">VIP</a></li>
-                        <li class="@if (selectPage == 10){ @a}" id="mn_forum_2"><a href="/BBS" tppabs="http://47.100.112.22/demo/manga/forum.php" hidefocus="true" title="BBS">论坛<span>BBS</span></a></li>
+                        <li class="@if (selectPage == 0) { @a} "hidden="hidden" id="mn_portal"><a href="/Index" tppabs="http://47.100.112.22/demo/manga/portal.php" hidefocus="true" title="Portal">门户<span>Portal</span></a></li>
+                        <li class="@if (selectPage == 1) { @a}" hidden="hidden" id="mn_P11" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="/Music" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=11" hidefocus="true">动漫音乐</a></li>
+                        <li class="@if (selectPage == 2) { @a}"   id="mn_P10" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="/Anime" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=10" hidefocus="true">番剧</a></li>
+                        <li class="@if (selectPage == 3) { @a}" hidden="hidden" id="mn_P8" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="/Comic" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=8" hidefocus="true">漫画专题</a></li>
+                        <li class="@if (selectPage == 4) { @a}" hidden="hidden" id="mn_F2"><a href="/AcgVideo" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=2" hidefocus="true">ACG视频</a></li>
+                        <li class="@if (selectPage == 5) { @a}" hidden="hidden" id="mn_F37"><a href="/PixivPicture" hidefocus="true">P站美图</a></li>
+                        <li class="@if (selectPage == 6) { @a}" hidden="hidden" id="mn_F36"><a href="/CosPlay" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=36" hidefocus="true">Cosplay</a></li>
+                        <li class="@if (selectPage == 7) { @a}" hidden="hidden" id="mn_P2" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="portal.php-mod=list&catid=2.htm" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=2" hidefocus="true">资讯展示</a></li>
+                        <li class="@if (selectPage == 8) { @a}" hidden="hidden" id="mn_P1"><a href="/About" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=1" hidefocus="true">关于我们</a></li>
+                        <li class="@if (selectPage == 9) { @a}" hidden="hidden" id="mn_P9"><a href="/VIP" tppabs="http://47.100.112.22/demo/manga/portal.php?mod=list&catid=9" hidefocus="true">VIP</a></li>
+                        <li class="@if (selectPage == 10){ @a}" hidden="hidden" id="mn_forum_2"><a href="/BBS" tppabs="http://47.100.112.22/demo/manga/forum.php" hidefocus="true" title="BBS">论坛<span>BBS</span></a></li>
                     </ul>
                 </div>
 
@@ -372,7 +378,7 @@
                 <li><a href="/SongList" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=59" hidefocus="true">次元音乐歌单</a></li>
             </ul>
             <ul class="p_pop h_pop" id="mn_P10_menu" style="display: none">
-                <li><a href="/AnimeIndex" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=42" hidefocus="true">番剧帖</a></li>
+                <li><a href="/AnimeIndex" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=42" hidefocus="true">番剧索引</a></li>
             </ul>
             <ul class="p_pop h_pop" id="mn_P8_menu" style="display: none">
                 <li><a href="forum.php-mod=forumdisplay&fid=40.htm" tppabs="http://47.100.112.22/demo/manga/forum.php?mod=forumdisplay&fid=40" hidefocus="true">漫画下载</a></li>
