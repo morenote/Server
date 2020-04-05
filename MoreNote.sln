@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.LogicTests", "ÂçïÂ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote", "MoreNote\MoreNote.csproj", "{7B551EA5-A3E6-4970-951E-94D778965022}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWorkerService", "MyWorkerService\MyWorkerService.csproj", "{5BFF7131-FA5A-4156-BAE0-12088B231323}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,18 @@ Global
 		{7B551EA5-A3E6-4970-951E-94D778965022}.Release|x64.Build.0 = Release|x64
 		{7B551EA5-A3E6-4970-951E-94D778965022}.Release|x86.ActiveCfg = Release|x86
 		{7B551EA5-A3E6-4970-951E-94D778965022}.Release|x86.Build.0 = Release|x86
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Debug|x64.Build.0 = Debug|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Debug|x86.Build.0 = Debug|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Release|x64.ActiveCfg = Release|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Release|x64.Build.0 = Release|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BFF7131-FA5A-4156-BAE0-12088B231323}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -27,9 +27,8 @@ namespace MoreNote
                 options.MinimumSameSitePolicy = SameSiteMode.None;
 
             });
-
-
-
+            //随机图片API初始化程序
+            services.AddHostedService<MoreNoteWorkerService.InitRandomImagesWorker>();
             //添加session服务
             services.AddDistributedMemoryCache();
 
