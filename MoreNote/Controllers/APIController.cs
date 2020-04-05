@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +22,10 @@ namespace MoreNote.Controllers
         /// <summary>
         /// 随机图片列表
         /// </summary>
-        private static Dictionary<string,byte[]> _randomImageList = new Dictionary<string, byte[]>(60);
+        private static Dictionary<string, Dictionary<string, byte[]>> _randomImageList = new Dictionary<string, Dictionary<string, byte[]>>();
+        /// <summary>
+        /// 图片游标
+        /// </summary>
         int index = 0;
         /// <summary>
         /// 随即图片初始化的时间
@@ -29,9 +34,10 @@ namespace MoreNote.Controllers
         /// </summary>
         private static int _initTime = -1;
 
-        private void getImages(int size)
-        {
+        public static Dictionary<string, Dictionary<string, byte[]>> RandomImageList { get => _randomImageList; set => _randomImageList = value; }
 
+        private void getImages()
+        {
             _randomImageList.Clear();
             index = 0;
             string dir = ConfigManager.GetPostgreSQLConfig().randomImageDir;
@@ -62,13 +68,16 @@ namespace MoreNote.Controllers
         {
             return View();
         }
-
-        public async Task<IActionResult> GetRandomImage(string fileId)
+       
+        public async Task<IActionResult> GetRandomImage(string type)
         {
+            if (true)
+            {
 
+            }
             if (DateTime.Now.Hour!= _initTime)
             {
-                getImages(60);
+                getImages();
             }
             var headers = Request.Headers;
             StringBuilder stringBuilder = new StringBuilder();
@@ -129,5 +138,7 @@ namespace MoreNote.Controllers
             }
             
         }
+
+       
     }
 }
