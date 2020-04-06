@@ -27,8 +27,7 @@ namespace MoreNote.Controllers
         /// 图片游标
         /// </summary>
         private int index = 0;
-
-        private int size = 5;
+        private int size = 120;
 
         /// <summary>
         /// 随即图片初始化的时间
