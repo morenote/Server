@@ -76,6 +76,7 @@ namespace MoreNote.Controllers
         }
         public async Task<IActionResult> GetRandomImage(string type)
         {
+            string ext = null;
             if (string.IsNullOrEmpty(type))
             {
                 type = "动漫综合2";
@@ -96,6 +97,7 @@ namespace MoreNote.Controllers
                 string filename = "";
                 GetHttpWebRequest(type, out filename);
                 key = Path.GetFileName(filename);
+                ext = Path.GetExtension(key);
                 key = SHAEncrypt_Helper.MD5Encrypt(key);
                 _randomImageList[type].Add(key, filename);
             }
@@ -108,6 +110,7 @@ namespace MoreNote.Controllers
                     string filename = "";
                     GetHttpWebRequest(type, out filename);
                     key = Path.GetFileName(filename);
+                    ext = Path.GetExtension(key);
                     key = SHAEncrypt_Helper.MD5Encrypt(key);
                     _randomImageList[type].Add(key, filename);
 
@@ -119,6 +122,8 @@ namespace MoreNote.Controllers
                     string filepath = _randomImageList[type].ElementAt(num).Key;
                     string fileName = System.IO.Path.GetFileName(filepath);
                     key = fileName;
+                    ext = Path.GetExtension(key);
+                    key = SHAEncrypt_Helper.MD5Encrypt(key);
                 }
             }
             var headers = Request.Headers;
@@ -149,7 +154,7 @@ namespace MoreNote.Controllers
             //string fileName = System.IO.Path.GetFileName(filepath);
             //string url = System.Net.WebUtility.UrlEncode($"/API/ImageService/{type}/{key}");
             //string url = System.Net.WebUtility.UrlEncode($"ImageService/{type}/{key}");
-            return Redirect($"/API/ImageService/{type}/{key}");
+            return Redirect($"/API/ImageService/{type}/{key}{ext}");
         }
 
         [Route("API/ImageService/{type}/{filepath}")]
@@ -160,6 +165,7 @@ namespace MoreNote.Controllers
             {
                 return NotFound();
             }
+            filepath = Path.GetFileNameWithoutExtension(filepath);
             if (!typeName.ContainsKey(type))
             {
                 return NotFound();
