@@ -8,9 +8,9 @@ namespace MoreNote.Common.Config
     //配置管理器
     public class ConfigManager
     {
-        private  static PostgreSQLConfig config;
+        private  static WebSiteConfig config;
 
-        public static PostgreSQLConfig GetPostgreSQLConfig()
+        public static WebSiteConfig GetPostgreSQLConfig()
         {
             if (config != null)
             {
@@ -20,7 +20,7 @@ namespace MoreNote.Common.Config
             {
                 string path = "/etc/morenote/PostgreSQLConfig.json";
                 string json = File.ReadAllText(path);
-                PostgreSQLConfig postgreSQLConfig = System.Text.Json.JsonSerializer.Deserialize<PostgreSQLConfig>(json);
+                WebSiteConfig postgreSQLConfig = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
                 config = postgreSQLConfig;
                 return postgreSQLConfig;
 
@@ -29,7 +29,7 @@ namespace MoreNote.Common.Config
             {
                 string path = @"C:\etc\morenote\PostgreSQLConfig.json";
                 string json = File.ReadAllText(path);
-                PostgreSQLConfig postgreSQLConfig = System.Text.Json.JsonSerializer.Deserialize<PostgreSQLConfig>(json);
+                WebSiteConfig postgreSQLConfig = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
                 config = postgreSQLConfig;
                 return postgreSQLConfig;
             }
