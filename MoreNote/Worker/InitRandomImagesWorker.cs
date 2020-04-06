@@ -28,13 +28,13 @@ namespace MoreNoteWorkerService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                //Ìî³ä
-                var randomImageList = APIController.RandomImageList;
-                var size = randomImageList.Count;
-                int max = 120;
-                string name ="";
-                GetHttpWebRequest("¶¯Âþ×ÛºÏ2", out name);
+                //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                ////Ìî³ä
+                //var randomImageList = APIController.RandomImageList;
+                //var size = randomImageList.Count;
+                //int max = 120;
+                //string name ="";
+                //GetHttpWebRequest("¶¯Âþ×ÛºÏ2", out name);
                 await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
             }
         }
