@@ -175,8 +175,17 @@ namespace MoreNote.Controllers
 
         private static byte[] GetHttpWebRequest(string type,out string fileName)
         {
+            string url = "";
+            if (type.Equals("少女映画"))
+            {
+                 url = "https://api.r10086.com:8000/少女映画.php?password=20";
+            }
+            else
+            {
+                url = $"https://api.r10086.com:8000/" + type + ".php";
+            }
             //建立请求
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://api.r10086.com:8000/" + type + ".php");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             //添加Referer信息
             request.Headers.Add(HttpRequestHeader.Referer, "http://www.bz08.cn/");
             //伪装成谷歌浏览器
