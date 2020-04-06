@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 
 using MoreNote.Common.Config;
+using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +24,9 @@ namespace MoreNote.Controllers
         /// 随机图片列表
         /// </summary>
         private static Dictionary<string, Dictionary<string, string>> _randomImageList = new Dictionary<string, Dictionary<string, string>>();
+        private static Dictionary<string, string> typeName = new Dictionary<string, string>();
+
+
 
         /// <summary>
         /// 图片游标
@@ -69,14 +74,18 @@ namespace MoreNote.Controllers
         {
             return View();
         }
-
         public async Task<IActionResult> GetRandomImage(string type)
         {
             if (string.IsNullOrEmpty(type))
             {
                 type = "动漫综合2";
-
             }
+            string md5 = SHAEncrypt_Helper.MD5Encrypt(type);
+            if (!typeName.ContainsKey(md5))
+            {
+                typeName.Add(md5, type);
+            }
+            type = md5;
             string key = null;
             if (!_randomImageList.Keys.Contains(type))
             {
@@ -87,6 +96,7 @@ namespace MoreNote.Controllers
                 string filename = "";
                 GetHttpWebRequest(type, out filename);
                 key = Path.GetFileName(filename);
+                key = SHAEncrypt_Helper.MD5Encrypt(key);
                 _randomImageList[type].Add(key, filename);
             }
             else
@@ -98,6 +108,7 @@ namespace MoreNote.Controllers
                     string filename = "";
                     GetHttpWebRequest(type, out filename);
                     key = Path.GetFileName(filename);
+                    key = SHAEncrypt_Helper.MD5Encrypt(key);
                     _randomImageList[type].Add(key, filename);
 
                 }
@@ -136,16 +147,24 @@ namespace MoreNote.Controllers
 
             //string filepath = _randomImageList.ElementAt(num).Key;
             //string fileName = System.IO.Path.GetFileName(filepath);
+            //string url = System.Net.WebUtility.UrlEncode($"/API/ImageService/{type}/{key}");
+            //string url = System.Net.WebUtility.UrlEncode($"ImageService/{type}/{key}");
             return Redirect($"/API/ImageService/{type}/{key}");
         }
 
         [Route("API/ImageService/{type}/{filepath}")]
         public async Task<IActionResult> ImageService(string type,string filepath)
         {
+            
             if (string.IsNullOrEmpty(filepath))
             {
                 return NotFound();
             }
+            if (!typeName.ContainsKey(type))
+            {
+                return NotFound();
+            }
+            //type = typeName[type];
             if (!_randomImageList.ContainsKey(type))
             {
                 return NotFound();
@@ -170,11 +189,12 @@ namespace MoreNote.Controllers
                 //_randomImageList[filepath] = byteArray;
                 return File(byteArray, memi);
             }
-          
         }
 
-        private static byte[] GetHttpWebRequest(string type,out string fileName)
+        private  byte[] GetHttpWebRequest(string type,out string fileName)
         {
+         
+            type = typeName[type];
             string url = "";
             if (type.Equals("少女映画"))
             {
@@ -239,5 +259,8 @@ namespace MoreNote.Controllers
             fileName = name;
             return buffer1;
         }
+
+
+      
     }
 }
