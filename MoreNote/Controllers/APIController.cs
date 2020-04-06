@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 
 using MoreNote.Common.Config;
+using MoreNote.Common.Config.Model;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -15,6 +16,7 @@ using System.Net;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using UpYunLibrary;
 
 namespace MoreNote.Controllers
 {
@@ -24,15 +26,16 @@ namespace MoreNote.Controllers
         /// 随机图片列表
         /// </summary>
         private static Dictionary<string, Dictionary<string, string>> _randomImageList = new Dictionary<string, Dictionary<string, string>>();
-        private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-
+        //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
+        static WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
+        static UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
 
 
         /// <summary>
         /// 图片游标
         /// </summary>
         private int index = 0;
-        private int size = 120;
+        private int size = 60;
 
         /// <summary>
         /// 随即图片初始化的时间
@@ -81,12 +84,6 @@ namespace MoreNote.Controllers
             {
                 type = "动漫综合2";
             }
-            string md5 = SHAEncrypt_Helper.MD5Encrypt(type);
-            if (!typeName.ContainsKey(md5))
-            {
-                typeName.Add(md5, type);
-            }
-            type = md5;
             string key = null;
             if (!_randomImageList.Keys.Contains(type))
             {
@@ -96,10 +93,10 @@ namespace MoreNote.Controllers
             {
                 string filename = "";
                 GetHttpWebRequest(type, out filename);
-                key = Path.GetFileName(filename);
+                key = filename;
                 ext = Path.GetExtension(key);
-                key = SHAEncrypt_Helper.MD5Encrypt(key);
-                _randomImageList[type].Add(key, filename);
+                key = SHAEncrypt_Helper.Hash1Encrypt(key);
+                _randomImageList[type].Add(key,  ext);
             }
             else
             {
@@ -109,21 +106,19 @@ namespace MoreNote.Controllers
                     _initTime = DateTime.Now.Hour;
                     string filename = "";
                     GetHttpWebRequest(type, out filename);
-                    key = Path.GetFileName(filename);
+                    key = filename;
                     ext = Path.GetExtension(key);
-                    key = SHAEncrypt_Helper.MD5Encrypt(key);
-                    _randomImageList[type].Add(key, filename);
+                    key = SHAEncrypt_Helper.Hash1Encrypt(key);
+                    _randomImageList[type].Add(key, ext);
 
                 }
                 else
                 {
                     Random random = new Random();
                     int num = random.Next(0, _randomImageList[type].Count);
-                    string filepath = _randomImageList[type].ElementAt(num).Key;
-                    string fileName = System.IO.Path.GetFileName(filepath);
-                    key = fileName;
-                    ext = Path.GetExtension(key);
-                    key = SHAEncrypt_Helper.MD5Encrypt(key);
+                    key = _randomImageList[type].ElementAt(num).Key;
+                    ext = _randomImageList[type].ElementAt(num).Value;
+                   
                 }
             }
             var headers = Request.Headers;
@@ -154,7 +149,12 @@ namespace MoreNote.Controllers
             //string fileName = System.IO.Path.GetFileName(filepath);
             //string url = System.Net.WebUtility.UrlEncode($"/API/ImageService/{type}/{key}");
             //string url = System.Net.WebUtility.UrlEncode($"ImageService/{type}/{key}");
-            return Redirect($"/API/ImageService/{type}/{key}{ext}");
+            type = SHAEncrypt_Helper.Hash1Encrypt(type);
+            upyun.secret = postgreSQLConfig.upyunSecret; ;
+            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            unixTimestamp += 5;
+            string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{key}{ext}");
+            return Redirect($"https://upyun.morenote.top/upload/{type}/{key}{ext}?_upt={_upt}");
         }
 
         [Route("API/ImageService/{type}/{filepath}")]
@@ -166,10 +166,10 @@ namespace MoreNote.Controllers
                 return NotFound();
             }
             filepath = Path.GetFileNameWithoutExtension(filepath);
-            if (!typeName.ContainsKey(type))
-            {
-                return NotFound();
-            }
+            //if (!typeName.ContainsKey(type))
+            //{
+            //    return NotFound();
+            //}
             //type = typeName[type];
             if (!_randomImageList.ContainsKey(type))
             {
@@ -200,7 +200,7 @@ namespace MoreNote.Controllers
         private  byte[] GetHttpWebRequest(string type,out string fileName)
         {
          
-            type = typeName[type];
+            
             string url = "";
             if (type.Equals("少女映画"))
             {
@@ -244,20 +244,23 @@ namespace MoreNote.Controllers
             {
                 stmMemory.Write(buffer1, 0, i);
             }
+
             //写入磁盘
             string name = System.IO.Path.GetFileName(originalString);
-            name = $"{dir}{dsc}upload{dsc}{type}{dsc}{name}";
-            if (!Directory.Exists($"{dir}{dsc}upload{dsc}{type}"))
-            {
-                Directory.CreateDirectory($"{dir}{dsc}upload{dsc}{type}");
-            }
-            if (!System.IO.File.Exists(name))
-            {
-                FileStream file = new FileStream(name, FileMode.Create, FileAccess.ReadWrite);
-                file.Write(stmMemory.ToArray());
-                file.Flush();
-                file.Close();
-            }
+            //上传到又拍云
+            upyun.writeFile($"/upload/{SHAEncrypt_Helper.Hash1Encrypt(type)}/{SHAEncrypt_Helper.Hash1Encrypt(name)}{Path.GetExtension(name)}", stmMemory.ToArray(), true);
+            //name = $"{dir}{dsc}upload{dsc}{type}{dsc}{name}";
+            //if (!Directory.Exists($"{dir}{dsc}upload{dsc}{type}"))
+            //{
+            //    Directory.CreateDirectory($"{dir}{dsc}upload{dsc}{type}");
+            //}
+            //if (!System.IO.File.Exists(name))
+            //{
+            //    FileStream file = new FileStream(name, FileMode.Create, FileAccess.ReadWrite);
+            //    file.Write(stmMemory.ToArray());
+            //    file.Flush();
+            //    file.Close();
+            //}
             //FileStream file = new FileStream("1.jpg",FileMode.Create, FileAccess.ReadWrite);
             //关闭流
             receiveStream.Close();
