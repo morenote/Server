@@ -134,6 +134,7 @@ namespace MoreNoteWorkerService
                 catch(Exception ex)
                 {
                     _logger.LogInformation(ex.Message, DateTimeOffset.Now);
+                    await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken).ConfigureAwait(false);
                 }
                
             
