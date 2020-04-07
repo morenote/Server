@@ -7,21 +7,106 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MoreNote.Common.Config;
+using MoreNote.Common.Config.Model;
+using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Controllers;
+using MoreNote.Logic.Entity;
+using MoreNote.Logic.Service;
+using UpYunLibrary;
 
 namespace MoreNoteWorkerService
 {
     public class InitRandomImagesWorker : BackgroundService
     {
         private readonly ILogger<InitRandomImagesWorker> _logger;
-
+        /// <summary>
+        /// 网站配置
+        /// </summary>
+        static WebSiteConfig config = ConfigManager.GetPostgreSQLConfig();
+        /// <summary>
+        /// 又拍云
+        /// </summary>
+        static UpYun upyun = new UpYun(config.upyunBucket, config.upyunUsername, config.upyunPassword);
         public InitRandomImagesWorker()
         {
+
         }
+        List<string > typeList=new List<string>();
+        Random random = new Random();
 
         public InitRandomImagesWorker(ILogger<InitRandomImagesWorker> logger)
         {
             _logger = logger;
+            typeList.Add("动漫综合1");
+            typeList.Add("动漫综合2");
+            typeList.Add("动漫综合3");
+            typeList.Add("动漫综合4");
+            typeList.Add("动漫综合5");
+            typeList.Add("动漫综合6");
+            typeList.Add("动漫综合7");
+            typeList.Add("动漫综合8");
+            typeList.Add("动漫综合9");
+            typeList.Add("动漫综合10");
+            typeList.Add("动漫综合11");
+            typeList.Add("动漫综合12");
+            typeList.Add("动漫综合13");
+            typeList.Add("动漫综合14");
+            typeList.Add("动漫综合15");
+            typeList.Add("动漫综合16");
+            typeList.Add("动漫综合17");
+
+            typeList.Add("风景系列1");
+            typeList.Add("风景系列2");
+            typeList.Add("风景系列3");
+            typeList.Add("风景系列4");
+            typeList.Add("风景系列5");
+            typeList.Add("风景系列6");
+            typeList.Add("风景系列7");
+            typeList.Add("风景系列8");
+            typeList.Add("风景系列9");
+
+
+            typeList.Add("物语系列1");
+            typeList.Add("物语系列2");
+
+
+            typeList.Add("少女前线1");
+
+            typeList.Add("明日方舟1");
+            typeList.Add("明日方舟2");
+
+
+            typeList.Add("重装战姬1");
+
+
+            typeList.Add("P站系列1");
+            typeList.Add("P站系列2");
+
+
+            typeList.Add("CG系列1");
+            typeList.Add("CG系列2");
+            typeList.Add("CG系列3");
+            typeList.Add("CG系列4");
+            typeList.Add("CG系列5");
+
+
+            typeList.Add("守望先锋");
+
+            typeList.Add("王者荣耀");
+
+            typeList.Add("少女写真1");
+            typeList.Add("少女写真2");
+            typeList.Add("少女写真3");
+            typeList.Add("少女写真4");
+            typeList.Add("少女写真5");
+            typeList.Add("死库水萝莉");
+            typeList.Add("萝莉");
+            typeList.Add("极品美女图片");
+            typeList.Add("日本COS中国COS");
+            typeList.Add("少女映画");
+
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,16 +120,32 @@ namespace MoreNoteWorkerService
                 //int max = 120;
                 //string name ="";
                 //GetHttpWebRequest("动漫综合2", out name);
-                await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
+                var number = random.Next(typeList.Count);
+                await GetHttpWebRequestForAnYaAsync(typeList[number]).ConfigureAwait(false);
+                int time = DateTime.Now.Hour;
+                //每过60秒随机抓取一次
+                //频率太高，站长会顺着网线过来打人
+                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken).ConfigureAwait(false);
+            
             }
         }
-        private static byte[] GetHttpWebRequest(string type,out string key)
+        private async Task GetHttpWebRequestForAnYaAsync(string type)
         {
+
+            string url = "";
+            if (type.Equals("少女映画"))
+            {
+                url = "https://api.r10086.com:8000/少女映画.php?password=20";
+            }
+            else
+            {
+                url = $"https://api.r10086.com:8000/" + type + ".php";
+            }
             //建立请求
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://api.r10086.com:8000/" + type + ".php");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             //添加Referer信息
             request.Headers.Add(HttpRequestHeader.Referer, "http://www.bz08.cn/");
-            //伪装成谷歌浏览器
+            //伪装成谷歌浏览器 
             //request.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
             request.Headers.Add(HttpRequestHeader.UserAgent, "I am a cute web crawler");
             //添加cookie认证信息
@@ -74,10 +175,29 @@ namespace MoreNoteWorkerService
             {
                 stmMemory.Write(buffer1, 0, i);
             }
+           
             //写入磁盘
             string name = System.IO.Path.GetFileName(originalString);
-            //name = "upload\\" + name;
-            //if (!File.Exists(name))
+            //上传到又拍云
+            upyun.writeFile($"/upload/{SHAEncrypt_Helper.MD5Encrypt(type)}/{SHAEncrypt_Helper.Hash1Encrypt(name)}{Path.GetExtension(name)}", stmMemory.ToArray(), true);
+            RandomImage randomImage = new RandomImage()
+            {
+                RandomImageId = SnowFlake_Net.GenerateSnowFlakeID(),
+                TypeName = type,
+                TypeNameMD5 = SHAEncrypt_Helper.MD5Encrypt(type),
+                TypeNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(type),
+                FileName = name,
+                FileNameMD5 = SHAEncrypt_Helper.MD5Encrypt(name),
+                FileNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(name),
+                Sex = false,
+            };
+            await RandomImageService.InsertImageAsync(randomImage).ConfigureAwait(false);
+            //name = $"{dir}{dsc}upload{dsc}{type}{dsc}{name}";
+            //if (!Directory.Exists($"{dir}{dsc}upload{dsc}{type}"))
+            //{
+            //    Directory.CreateDirectory($"{dir}{dsc}upload{dsc}{type}");
+            //}
+            //if (!System.IO.File.Exists(name))
             //{
             //    FileStream file = new FileStream(name, FileMode.Create, FileAccess.ReadWrite);
             //    file.Write(stmMemory.ToArray());
@@ -86,10 +206,10 @@ namespace MoreNoteWorkerService
             //}
             //FileStream file = new FileStream("1.jpg",FileMode.Create, FileAccess.ReadWrite);
             //关闭流
+            stmMemory.Close();
             receiveStream.Close();
             response.Close();
-            key = name;
-            return buffer1;
+           
         }
 
 
