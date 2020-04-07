@@ -147,7 +147,7 @@ namespace MoreNote.Controllers
             type = randomImage.TypeNameMD5;
             upyun.secret = postgreSQLConfig.upyunSecret; ;
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            unixTimestamp += 5;
+            unixTimestamp += 3;
             string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileNameSHA1}{ext}");
             return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileNameSHA1}{ext}?_upt={_upt}");
         }
