@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MoreNote.Common.Config;
@@ -83,6 +84,15 @@ namespace MoreNote.Controllers
             if (string.IsNullOrEmpty(type))
             {
                 type = "动漫综合2";
+            }
+            if (type.Equals("少女映画"))
+            {
+                string userHex = HttpContext.Session.GetString("_userId");
+                if (string.IsNullOrEmpty(userHex))
+                {
+                    //没登陆
+                    return Redirect("/Auth/login");
+                }
             }
             if (!_randomImageList.ContainsKey(type))
             {
