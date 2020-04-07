@@ -190,19 +190,25 @@ namespace MoreNoteWorkerService
             //写入磁盘
             string name = System.IO.Path.GetFileName(originalString);
             //上传到又拍云
-            upyun.writeFile($"/upload/{SHAEncrypt_Helper.MD5Encrypt(type)}/{SHAEncrypt_Helper.Hash1Encrypt(name)}{Path.GetExtension(name)}", stmMemory.ToArray(), true);
-            RandomImage randomImage = new RandomImage()
+            if (!RandomImageService.Exist(type, SHAEncrypt_Helper.Hash1Encrypt(name)))
             {
-                RandomImageId = SnowFlake_Net.GenerateSnowFlakeID(),
-                TypeName = type,
-                TypeNameMD5 = SHAEncrypt_Helper.MD5Encrypt(type),
-                TypeNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(type),
-                FileName = name,
-                FileNameMD5 = SHAEncrypt_Helper.MD5Encrypt(name),
-                FileNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(name),
-                Sex = false,
-            };
-            await RandomImageService.InsertImageAsync(randomImage).ConfigureAwait(false);
+                upyun.writeFile($"/upload/{SHAEncrypt_Helper.MD5Encrypt(type)}/{SHAEncrypt_Helper.Hash1Encrypt(name)}{Path.GetExtension(name)}", stmMemory.ToArray(), true);
+                RandomImage randomImage = new RandomImage()
+                {
+                    RandomImageId = SnowFlake_Net.GenerateSnowFlakeID(),
+                    TypeName = type,
+                    TypeNameMD5 = SHAEncrypt_Helper.MD5Encrypt(type),
+                    TypeNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(type),
+                    FileName = name,
+                    FileNameMD5 = SHAEncrypt_Helper.MD5Encrypt(name),
+                    FileNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(name),
+                    Sex = false,
+                };
+                //记录到数据库
+                await RandomImageService.InsertImageAsync(randomImage).ConfigureAwait(false);
+
+            }
+            
             //name = $"{dir}{dsc}upload{dsc}{type}{dsc}{name}";
             //if (!Directory.Exists($"{dir}{dsc}upload{dsc}{type}"))
             //{
