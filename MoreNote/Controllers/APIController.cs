@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
-
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MoreNote.Common.Config;
 using MoreNote.Common.Config.Model;
 using MoreNote.Common.Util;
@@ -25,17 +25,17 @@ namespace MoreNote.Controllers
         /// <summary>
         /// 随机图片列表
         /// </summary>
-        private static Dictionary<string, Dictionary<string, string>> _randomImageList = new Dictionary<string, Dictionary<string, string>>();
+        private static Dictionary<string, List<RandomImage>> _randomImageList = new Dictionary<string, List<RandomImage>>();
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
         static WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
         static UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
-
+        static Random random = new Random();
 
         /// <summary>
         /// 图片游标
         /// </summary>
         private int index = 0;
-        private int size = 60;
+        private int size = 120;
 
         /// <summary>
         /// 随即图片初始化的时间
@@ -84,43 +84,44 @@ namespace MoreNote.Controllers
             {
                 type = "动漫综合2";
             }
-            string key = null;
-            if (!_randomImageList.Keys.Contains(type))
+            if (!_randomImageList.ContainsKey(type))
             {
-                _randomImageList[type] = new Dictionary<string, string>();
+                _randomImageList.Add(type, new List<RandomImage>(size));
             }
-            if (_randomImageList[type].Count < size)
+            RandomImage randomImage = RandomImageService.GetRandomImage(type);
+            if (_randomImageList[type].Count<size)
             {
-                string filename = "";
-                GetHttpWebRequest(type, out filename);
-                key = filename;
-                ext = Path.GetExtension(key);
-                key = SHAEncrypt_Helper.Hash1Encrypt(key);
-                _randomImageList[type].Add(key,  ext);
+                randomImage = RandomImageService.GetRandomImage(type);
+                if (random==null)
+                {
+                    return NotFound();
+                }
+                _randomImageList[type].Add(randomImage);
             }
             else
             {
-                if (DateTime.Now.Hour!= _initTime)
+                if (DateTime.Now.Hour!=_initTime)
                 {
-                    _randomImageList[type].Clear();
                     _initTime = DateTime.Now.Hour;
-                    string filename = "";
-                    GetHttpWebRequest(type, out filename);
-                    key = filename;
-                    ext = Path.GetExtension(key);
-                    key = SHAEncrypt_Helper.Hash1Encrypt(key);
-                    _randomImageList[type].Add(key, ext);
-
+                    _randomImageList[type].Clear();
+                    randomImage = RandomImageService.GetRandomImage(type);
+                    if (random == null)
+                    {
+                        return NotFound();
+                    }
+                    _randomImageList[type].Add(randomImage);
                 }
                 else
                 {
-                    Random random = new Random();
-                    int num = random.Next(0, _randomImageList[type].Count);
-                    key = _randomImageList[type].ElementAt(num).Key;
-                    ext = _randomImageList[type].ElementAt(num).Value;
-                   
+                    int index = random.Next(_randomImageList[type].Count-1);
+                    randomImage = _randomImageList[type][index];
                 }
             }
+            if (randomImage==null)
+            {
+                return NotFound();
+            }
+            ext = Path.GetExtension(randomImage.FileName);
             var headers = Request.Headers;
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var item in headers)
@@ -142,60 +143,54 @@ namespace MoreNote.Controllers
                 url = "/api/GetRandomImage"
             };
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
-            //Random random = new Random();
-            //int num = random.Next(0, _randomImageList.Count);
 
-            //string filepath = _randomImageList.ElementAt(num).Key;
-            //string fileName = System.IO.Path.GetFileName(filepath);
-            //string url = System.Net.WebUtility.UrlEncode($"/API/ImageService/{type}/{key}");
-            //string url = System.Net.WebUtility.UrlEncode($"ImageService/{type}/{key}");
-            type = SHAEncrypt_Helper.Hash1Encrypt(type);
+            type = randomImage.TypeNameMD5;
             upyun.secret = postgreSQLConfig.upyunSecret; ;
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             unixTimestamp += 5;
-            string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{key}{ext}");
-            return Redirect($"https://upyun.morenote.top/upload/{type}/{key}{ext}?_upt={_upt}");
+            string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileNameSHA1}{ext}");
+            return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileNameSHA1}{ext}?_upt={_upt}");
         }
 
-        [Route("API/ImageService/{type}/{filepath}")]
-        public async Task<IActionResult> ImageService(string type,string filepath)
-        {
+        //[Route("API/ImageService/{type}/{filepath}")]
+        //public async Task<IActionResult> ImageService(string type,string filepath)
+        //{
             
-            if (string.IsNullOrEmpty(filepath))
-            {
-                return NotFound();
-            }
-            filepath = Path.GetFileNameWithoutExtension(filepath);
-            //if (!typeName.ContainsKey(type))
-            //{
-            //    return NotFound();
-            //}
-            //type = typeName[type];
-            if (!_randomImageList.ContainsKey(type))
-            {
-                return NotFound();
-            }
-            Dictionary<string,string> dic = _randomImageList[type];
-            if (!dic.ContainsKey(filepath))
-            {
-                return NotFound();
-            }
-            //string dir = ConfigManager.GetPostgreSQLConfig().randomImageDir;
-            filepath = dic[filepath];
-            //filepath = dir + Path.DirectorySeparatorChar + filepath;
-            string fileExt = System.IO.Path.GetExtension(filepath);
-            //获取文件的ContentType
-            var provider = new FileExtensionContentTypeProvider();
-            var memi = provider.Mappings[fileExt];
+        //    if (string.IsNullOrEmpty(filepath))
+        //    {
+        //        return NotFound();
+        //    }
+        //    filepath = Path.GetFileNameWithoutExtension(filepath);
+        //    //if (!typeName.ContainsKey(type))
+        //    //{
+        //    //    return NotFound();
+        //    //}
+        //    //type = typeName[type];
+        //    if (!_randomImageList.ContainsKey(type))
+        //    {
+        //        return NotFound();
+        //    }
+        //    Dictionary<string,string> dic = _randomImageList[type];
+        //    if (!dic.ContainsKey(filepath))
+        //    {
+        //        return NotFound();
+        //    }
+        //    //string dir = ConfigManager.GetPostgreSQLConfig().randomImageDir;
+        //    filepath = dic[filepath];
+        //    //filepath = dir + Path.DirectorySeparatorChar + filepath;
+        //    string fileExt = System.IO.Path.GetExtension(filepath);
+        //    //获取文件的ContentType
+        //    var provider = new FileExtensionContentTypeProvider();
+        //    var memi = provider.Mappings[fileExt];
          
-            using (var stream = System.IO.File.OpenRead(filepath))
-            {
-                byte[] byteArray = new byte[stream.Length];
-                await stream.ReadAsync(byteArray);
-                //_randomImageList[filepath] = byteArray;
-                return File(byteArray, memi);
-            }
-        }
+        //    using (var stream = System.IO.File.OpenRead(filepath))
+        //    {
+        //        byte[] byteArray = new byte[stream.Length];
+        //        await stream.ReadAsync(byteArray);
+        //        //_randomImageList[filepath] = byteArray;
+        //        return File(byteArray, memi);
+        //    }
+        //}
 
         private  byte[] GetHttpWebRequest(string type,out string fileName)
         {
