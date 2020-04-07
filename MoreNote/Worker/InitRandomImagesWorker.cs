@@ -113,19 +113,29 @@ namespace MoreNoteWorkerService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                ////填充
-                //var randomImageList = APIController.RandomImageList;
-                //var size = randomImageList.Count;
-                //int max = 120;
-                //string name ="";
-                //GetHttpWebRequest("动漫综合2", out name);
-                var number = random.Next(typeList.Count);
-                await GetHttpWebRequestForAnYaAsync(typeList[number]).ConfigureAwait(false);
-                int time = DateTime.Now.Hour;
-                //每过60秒随机抓取一次
-                //频率太高，站长会顺着网线过来打人
-                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken).ConfigureAwait(false);
+                try
+                {
+                    //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                    ////填充
+                    //var randomImageList = APIController.RandomImageList;
+                    //var size = randomImageList.Count;
+                    //int max = 120;
+                    //string name ="";
+                    //GetHttpWebRequest("动漫综合2", out name);
+                    var number = random.Next(typeList.Count);
+                    await GetHttpWebRequestForAnYaAsync(typeList[number]).ConfigureAwait(false);
+                    int time = DateTime.Now.Hour;
+                    //每过60秒随机抓取一次
+                    //频率太高，站长会顺着网线过来打人
+
+                    await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken).ConfigureAwait(false);
+
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogInformation(ex.Message, DateTimeOffset.Now);
+                }
+               
             
             }
         }
