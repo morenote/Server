@@ -147,7 +147,7 @@ namespace MoreNoteWorkerService
         }
         private async Task GetHttpWebRequestForAnYaAsync(string type)
         {
-            type = "动漫综合2";
+          
             string url = "";
             if (type.Equals("少女映画"))
             {
