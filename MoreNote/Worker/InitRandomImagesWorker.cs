@@ -57,6 +57,10 @@ namespace MoreNoteWorkerService
             typeList.Add("动漫综合16");
             typeList.Add("动漫综合17");
 
+            typeList.Add("火影忍者1");
+            
+            typeList.Add("缘之空1");
+
             typeList.Add("风景系列1");
             typeList.Add("风景系列2");
             typeList.Add("风景系列3");
@@ -106,6 +110,7 @@ namespace MoreNoteWorkerService
             typeList.Add("极品美女图片");
             typeList.Add("日本COS中国COS");
             typeList.Add("少女映画");
+            
 
         }
 
