@@ -31,13 +31,25 @@ namespace MoreNote.Controllers
         static WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
         static UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
         static Random random = new Random();
-
+        /// <summary>
+        /// 保险丝
+        /// </summary>
+        static int _randomImageFuseSize = postgreSQLConfig.randomImageFuseSize;
+        /// <summary>
+        /// 保险丝计数器
+        /// 当访问量查过保险丝的能力时，直接熔断接口。
+        /// </summary>
+        static int _fuseCount = 0;
+        static private object _fuseObj = new object();
         /// <summary>
         /// 图片游标
         /// </summary>
         private int index = 0;
-        private int size = 120;
-
+        /// <summary>
+        /// 随机数组的大小
+        /// </summary>
+        private static int size = postgreSQLConfig.randomImageSize;
+       
         /// <summary>
         /// 随即图片初始化的时间
         /// 这意味着 每小时的图片数量只有60个图片是随机选择的
@@ -80,6 +92,11 @@ namespace MoreNote.Controllers
         }
         public async Task<IActionResult> GetRandomImage(string type)
         {
+            int hour = DateTime.Now.Hour;
+            lock (_fuseObj)
+            {
+                _fuseCount++;
+            }
             string ext = null;
             if (string.IsNullOrEmpty(type))
             {
@@ -112,7 +129,8 @@ namespace MoreNote.Controllers
             {
                 if (DateTime.Now.Hour!=_initTime)
                 {
-                    _initTime = DateTime.Now.Hour;
+                    _fuseCount = 0;
+                     _initTime = DateTime.Now.Hour;
                     _randomImageList[type].Clear();
                     randomImage = RandomImageService.GetRandomImage(type);
                     if (random == null)
@@ -123,10 +141,16 @@ namespace MoreNote.Controllers
                 }
                 else
                 {
+                    if ( _fuseCount > _randomImageFuseSize)
+                    {
+                        Response.StatusCode =(int) HttpStatusCode.BadGateway;
+                        return Content("接口并发太高，接口已经熔断");
+                    }
                     int index = random.Next(_randomImageList[type].Count-1);
                     randomImage = _randomImageList[type][index];
                 }
             }
+          
             if (randomImage==null)
             {
                 return NotFound();

@@ -15,6 +15,13 @@ namespace MoreNote.Common.Config.Model
         public string upyunBucket { get; set; }
         public string upyunUsername { get; set; }
         public string upyunPassword { get; set; }
-        
+        /// <summary>
+        /// 随机图片访问保险丝
+        /// 当访问数量超过这个保险丝时，对接口进行熔断处理
+        /// 避免对整个系统的运行产生破坏
+        /// </summary>
+        public int randomImageFuseSize { get; set; }
+        //随机程度
+        public int randomImageSize { get; set; }
     }
 }
