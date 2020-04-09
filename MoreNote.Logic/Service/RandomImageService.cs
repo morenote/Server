@@ -32,15 +32,21 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
-        public static bool Exist(string type, string fileNameSHA1)
+        public static bool Exist(string type, string fileSHA1)
         {
             using (var db = new DataContext())
             {
-                var count = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.FileNameSHA1 .Equals(fileNameSHA1)).Count();
+                var count = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.FileSHA1 .Equals(fileSHA1)).Count();
                 return count>0;
             }
         }
-
-
+        public static bool Exist( string fileSHA1)
+        {
+            using (var db = new DataContext())
+            {
+                var count = db.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).Count();
+                return count > 0;
+            }
+        }
     }
 }

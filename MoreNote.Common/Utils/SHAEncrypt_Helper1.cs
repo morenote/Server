@@ -136,7 +136,19 @@ namespace MoreNote.Common.Util
             }
             return tmp.ToString();
         }
-     
+        public static string Hash1Encrypt(byte[] message)
+        {
+            var sha256 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+            byte[] hashedDataBytes;
+            hashedDataBytes = sha256.ComputeHash(message);
+            StringBuilder tmp = new StringBuilder();
+            foreach (byte i in hashedDataBytes)
+            {
+                tmp.Append(i.ToString("x2"));
+            }
+            return tmp.ToString();
+        }
+
     }
 }
 

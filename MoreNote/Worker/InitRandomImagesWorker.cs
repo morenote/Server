@@ -147,7 +147,7 @@ namespace MoreNoteWorkerService
         }
         private async Task GetHttpWebRequestForAnYaAsync(string type)
         {
-
+            type = "动漫综合2";
             string url = "";
             if (type.Equals("少女映画"))
             {
@@ -194,10 +194,12 @@ namespace MoreNoteWorkerService
            
             //写入磁盘
             string name = System.IO.Path.GetFileName(originalString);
+            byte[] imageBytes = stmMemory.ToArray();
+            string fileSHA1 = SHAEncrypt_Helper.Hash1Encrypt(imageBytes);
             //上传到又拍云
-            if (!RandomImageService.Exist(type, SHAEncrypt_Helper.Hash1Encrypt(name)))
+            if (!RandomImageService.Exist(type, fileSHA1))
             {
-                upyun.writeFile($"/upload/{SHAEncrypt_Helper.MD5Encrypt(type)}/{SHAEncrypt_Helper.Hash1Encrypt(name)}{Path.GetExtension(name)}", stmMemory.ToArray(), true);
+                upyun.writeFile($"/upload/{SHAEncrypt_Helper.MD5Encrypt(type)}/{fileSHA1}{Path.GetExtension(name)}", imageBytes, true);
                 RandomImage randomImage = new RandomImage()
                 {
                     RandomImageId = SnowFlake_Net.GenerateSnowFlakeID(),
@@ -207,6 +209,7 @@ namespace MoreNoteWorkerService
                     FileName = name,
                     FileNameMD5 = SHAEncrypt_Helper.MD5Encrypt(name),
                     FileNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(name),
+                    FileSHA1 = fileSHA1,
                     Sex = false,
                 };
                 //记录到数据库

@@ -13,6 +13,7 @@ namespace MoreNote.Logic.Entity
         public string FileName { get; set; }
         public string FileNameMD5 { get; set; }
         public string FileNameSHA1 { get; set; }
+        public string FileSHA1 { get; set; }
         public bool Sex { get; set; }
 
 
