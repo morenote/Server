@@ -56,10 +56,20 @@ namespace MoreNoteWorkerService
             typeList.Add("动漫综合15");
             typeList.Add("动漫综合16");
             typeList.Add("动漫综合17");
+            typeList.Add("动漫综合18");
 
             typeList.Add("火影忍者1");
+
+      
             
             typeList.Add("缘之空1");
+
+            typeList.Add("东方project1");
+
+            typeList.Add("物语系列1");
+            typeList.Add("物语系列2");
+
+            typeList.Add("少女前线1");
 
             typeList.Add("风景系列1");
             typeList.Add("风景系列2");
@@ -70,13 +80,6 @@ namespace MoreNoteWorkerService
             typeList.Add("风景系列7");
             typeList.Add("风景系列8");
             typeList.Add("风景系列9");
-
-
-            typeList.Add("物语系列1");
-            typeList.Add("物语系列2");
-
-
-            typeList.Add("少女前线1");
 
             typeList.Add("明日方舟1");
             typeList.Add("明日方舟2");
@@ -105,6 +108,9 @@ namespace MoreNoteWorkerService
             typeList.Add("少女写真3");
             typeList.Add("少女写真4");
             typeList.Add("少女写真5");
+            typeList.Add("少女写真6");
+
+
             typeList.Add("死库水萝莉");
             typeList.Add("萝莉");
             typeList.Add("极品美女图片");
