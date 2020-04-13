@@ -91,6 +91,7 @@ namespace MoreNote.Logic.DB
         public DbSet<AccessRecords> AccessRecords { get; set; }
 
         public DbSet<RandomImage> RandomImage { get; set; }
+        //public DbSet<RandomImage> WebReportInfo { get; set; }
 
     }
 }
