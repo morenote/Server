@@ -16,6 +16,7 @@ namespace MoreNote.Controllers
         //}
         public IActionResult Login()
         {
+            ViewBag.Title = "请登录";
             ViewBag.msg = LanguageResource.GetMsg();
             return View();
         }
