@@ -91,6 +91,7 @@ namespace MoreNoteWorkerService
 
             typeList.Add("P站系列1");
             typeList.Add("P站系列2");
+            typeList.Add("P站系列3");
 
 
             typeList.Add("CG系列1");
