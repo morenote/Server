@@ -23,5 +23,9 @@ namespace MoreNote.Common.Config.Model
         public int randomImageFuseSize { get; set; }
         //随机程度
         public int randomImageSize { get; set; }
+        /// <summary>
+        /// 是否启动token防盗链
+        /// </summary>
+        public bool token_anti_theft_chain { get; set; }
     }
 }
