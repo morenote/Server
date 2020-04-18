@@ -155,6 +155,7 @@ namespace MoreNote.Controllers
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             unixTimestamp += 3;
             //开启token防盗链
+
             if (postgreSQLConfig.token_anti_theft_chain)
             {
                 string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileSHA1}{ext}");
