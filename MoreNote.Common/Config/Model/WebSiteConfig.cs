@@ -27,5 +27,10 @@ namespace MoreNote.Common.Config.Model
         /// 是否启动token防盗链
         /// </summary>
         public bool token_anti_theft_chain { get; set; }
+        /// <summary>
+        /// 爬虫抓取速度
+        /// </summary>
+        public int Reptile_Delay_Second { get; set; }
+
     }
 }

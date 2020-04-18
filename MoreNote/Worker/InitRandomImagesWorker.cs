@@ -139,14 +139,12 @@ namespace MoreNoteWorkerService
                     int time = DateTime.Now.Hour;
                     //每过60秒随机抓取一次
                     //频率太高，站长会顺着网线过来打人
-
-                    await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken).ConfigureAwait(false);
-
+                    await Task.Delay(TimeSpan.FromSeconds(config.Reptile_Delay_Second), stoppingToken).ConfigureAwait(false);
                 }
                 catch(Exception ex)
                 {
                     _logger.LogInformation(ex.Message, DateTimeOffset.Now);
-                    await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromSeconds(config.Reptile_Delay_Second), stoppingToken).ConfigureAwait(false);
                 }
                
             
