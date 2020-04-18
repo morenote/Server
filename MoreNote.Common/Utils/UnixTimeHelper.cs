@@ -21,6 +21,18 @@ namespace MoreNote.Common.Utils
         {
             return( (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000);
         }
+        public static int GetTimeStampInInt32()
+        {
+            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            return unixTimestamp;
+        }
+
+        public static bool IsValid(int oldTime,int validtime)
+        {
+            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            bool valid = unixTimestamp < (oldTime + validtime);
+            return valid;
+        }
         public static long GetTimeStampInLong(DateTime dateTime)
         {
             return ((dateTime.ToUniversalTime().Ticks - 621355968000000000) / 10000000);
