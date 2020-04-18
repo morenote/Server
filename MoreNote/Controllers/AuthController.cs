@@ -24,9 +24,9 @@ namespace MoreNote.Controllers
         {
           
             string verifyCode= HttpContext.Session.GetString("VerifyCode");
-            int time = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
-            int Valid= HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
-            if (Valid != 1||!UnixTimeHelper.IsValid(time,15))
+            int time = HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
+            int valid= HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
+            if (valid != 1||!UnixTimeHelper.IsValid(time,15))
             {
                 Re re = new Re() { Ok = false, Msg = "验证码过期或失效" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
