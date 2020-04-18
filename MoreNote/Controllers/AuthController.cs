@@ -24,19 +24,24 @@ namespace MoreNote.Controllers
         {
           
             string verifyCode= HttpContext.Session.GetString("VerifyCode");
-          
+            int time = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
+            int Valid= HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
+            if (Valid != 1||UnixTimeHelper.IsValid(time,15))
+            {
+                Re re = new Re() { Ok = false, Msg = "验证码过期或失效" };
+                return Json(re, MyJsonConvert.GetSimpleOptions());
+            }
+            //销毁验证码的标志
+            HttpContext.Session.SetInt32("VerifyCodeValid", 0);
             if (string.IsNullOrEmpty(verifyCode)||string.IsNullOrEmpty(captcha))
             {
-               
                 Re re = new Re() { Ok=false,Msg="错误参数"};
                 return Json(re,MyJsonConvert.GetSimpleOptions());
-
             }
             else
             {
                 if (!captcha.ToLower().Equals(verifyCode))
                 {
-                   
                     Re re = new Re() { Ok = false, Msg = "验证码错误" };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }
@@ -55,11 +60,8 @@ namespace MoreNote.Controllers
                     HttpContext.Session.SetString("_userId", user.UserId.ToString("x"));
                     Re re = new Re() { Ok = true };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
-
                 }
-              
-
-                return Content("11");
+             
             }
            
 
