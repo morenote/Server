@@ -196,14 +196,20 @@ namespace MoreNote.Controllers
             NoteService.AddReadNum(noteId);
             if (noteAndContent==null)
             {
-                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("未经授权的访问");
+            }
+            if (noteAndContent.note.IsDeleted || noteAndContent.note.IsTrash)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return Content("这篇文章已经被删除");
             }
             if (!noteAndContent.note.IsBlog)
             {
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                return Content("未经授权的访问");
+                return Content("这篇文章已经被取消分享");
             }
+           
             ViewBag.noteAndContent = noteAndContent;
             blog.Add("Title", noteAndContent.note.Title);
             blog.Add("NoteTitle", noteAndContent.note.Title);
