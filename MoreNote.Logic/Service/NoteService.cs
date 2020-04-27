@@ -219,6 +219,15 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
+        /// <summary>
+        /// 获得笔记和内容
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="userId"></param>
+        /// <param name="isTrach">是否垃圾</param>
+        /// <param name="isDelete">是否删除</param>
+        /// <param name="IsHistory">是否历史记录</param>
+        /// <returns></returns>
         public static NoteAndContent GetNoteAndContent(long noteId, long userId,bool isTrach,bool isDelete,bool IsHistory)
         {
             Note note = GetNote(noteId, userId,isTrach,isDelete);
