@@ -82,7 +82,7 @@ namespace MoreNote.Controllers.API.APIV1
                 Msg = "GetNoteContent_is_error"
             };
             Note note = NoteService.GetNote(MyConvert.HexToLong(noteId), getUserIdByToken(token));
-            NoteContent noteContent = NoteContentService.GetNoteContent(MyConvert.HexToLong(noteId), getUserIdByToken(token));
+            NoteContent noteContent = NoteContentService.GetNoteContent(MyConvert.HexToLong(noteId), getUserIdByToken(token),false);
             if (noteContent==null||note==null)
             {
              

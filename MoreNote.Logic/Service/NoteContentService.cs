@@ -58,7 +58,7 @@ namespace MoreNote.Logic.Service
                 return result == null ? null : result.FirstOrDefault();
             }
         }
-     
+        [Obsolete("不推荐使用")]
         public static NoteContent GetNoteContent(long noteId, long userId)
         {
             using (var db = new DataContext())
