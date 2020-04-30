@@ -27,7 +27,7 @@ namespace MoreNote.Controllers
         /// <summary>
         /// 随机图片列表
         /// </summary>
-        private static readonly Dictionary<string, List<RandomImage>> _randomImageList = new Dictionary<string, List<RandomImage>>();
+        private static  Dictionary<string, List<RandomImage>> _randomImageList = new Dictionary<string, List<RandomImage>>();
 
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
         private static readonly WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
@@ -65,7 +65,7 @@ namespace MoreNote.Controllers
         private static readonly char dsc = Path.DirectorySeparatorChar;
         private static readonly string dir = ConfigManager.GetPostgreSQLConfig().randomImageDir;
 
-        public static Dictionary<string, List<RandomImage>> RandomImageList => _randomImageList;
+ 
 
         public async Task<IActionResult> GetRandomImage(string type)
         {
@@ -175,44 +175,58 @@ namespace MoreNote.Controllers
         [HttpPost]
         public async Task<IActionResult> UpYunImageServiceHook()
         {
-            HttpRequest x = Request;
+           
             using (StreamReader reader = new StreamReader(Request.Body))
             {
-                string body = await reader.ReadToEndAsync().ConfigureAwait(true);
-                ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, MyJsonConvert.GetOptions());
-                string fileSHA1 = Path.GetFileNameWithoutExtension(message.uri);
-
-                using (DataContext db = new DataContext())
+                try
                 {
-                    RandomImage imagedb = db.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
-                    if (imagedb == null)
+                    string body = await reader.ReadToEndAsync().ConfigureAwait(true);
+                    ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, MyJsonConvert.GetOptions());
+                    if (string.IsNullOrEmpty(message.uri)||message.type==UpyunType.test)
                     {
-                        Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        Response.StatusCode = 200;
                         return Content("未找到");
                     }
-                    switch (message.type)
+                    string fileSHA1 = Path.GetFileNameWithoutExtension(message.uri);
+
+                    using (DataContext db = new DataContext())
                     {
-                        case UpyunType.delete:
-                            imagedb.Delete = true;
-                            break;
-                        case UpyunType.shield:
-                            imagedb.Block = true;
-                            break;
-                        case UpyunType.cancel_shield:
-                            imagedb.Block = false;
-                            break;
-                        case UpyunType.forbidden:
-                            imagedb.Block = true;
-                            break;
-                        case UpyunType.cancel_forbidden:
-                            imagedb.Block = false;
-                            break;
-                        default:
-                            break;
+                        RandomImage imagedb = db.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
+                        if (imagedb == null)
+                        {
+                            Response.StatusCode = (int)HttpStatusCode.NotFound;
+                            return Content("未找到");
+                        }
+                        switch (message.type)
+                        {
+                            case UpyunType.delete:
+                                imagedb.Delete = true;
+                                break;
+                            case UpyunType.shield:
+                                imagedb.Block = true;
+                                break;
+                            case UpyunType.cancel_shield:
+                                imagedb.Block = false;
+                                break;
+                            case UpyunType.forbidden:
+                                imagedb.Block = true;
+                                break;
+                            case UpyunType.cancel_forbidden:
+                                imagedb.Block = false;
+                                break;
+                            default:
+                                break;
+                        }
+                        db.SaveChanges();
                     }
-                    db.SaveChanges();
-                }               
-                // Do something
+                    // Do something
+                }
+                catch (Exception ex)
+                {
+                    Response.StatusCode = 404;
+                    return Content("false");
+                }
+               
             }
             Response.StatusCode = 200;
             return Content("ok");
