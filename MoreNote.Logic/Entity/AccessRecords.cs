@@ -18,6 +18,9 @@ namespace MoreNote.Logic.Entity
         public long UnixTime { get; set; }
         public long TimeInterval { get; set; }//距离上一次访问的时间间隔 如果没有上次 1
         public string url { get; set; }
+        public string RemoteIpAddress { get; set; }
+        public string RemotePort { get; set; }
+   
     }
     public class Blacklist
     {
