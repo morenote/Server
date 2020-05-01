@@ -140,6 +140,8 @@ namespace MoreNote.Controllers
                 stringBuilder.Append(item.Key + "---" + item.Value + "\r\n");
             }
             string RealIP = headers["X-Forwarded-For"].ToString().Split(",")[0];
+            string remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+            string remotePort = Request.HttpContext.Connection.RemotePort.ToString();
             AccessRecords accessRecords = new AccessRecords()
             {
                 AccessId = SnowFlake_Net.GenerateSnowFlakeID(),
@@ -151,7 +153,9 @@ namespace MoreNote.Controllers
                 AccessTime = DateTime.Now,
                 UnixTime = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
                 TimeInterval = -1,
-                url = "/api/GetRandomImage"
+                url = "/api/GetRandomImage",
+                RemoteIpAddress= remoteIpAddress,
+                RemotePort= remotePort
             };
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             type = randomImage.TypeNameMD5;
