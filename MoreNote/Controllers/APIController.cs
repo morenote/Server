@@ -69,7 +69,7 @@ namespace MoreNote.Controllers
 
         public async Task<IActionResult> GetRandomImage(string type)
         {
-            int hour = DateTime.Now.Hour;
+          
             lock (_fuseObj)
             {
                 _fuseCount++;
@@ -104,6 +104,7 @@ namespace MoreNote.Controllers
             }
             else
             {
+                
                 if (DateTime.Now.Hour != _initTime)
                 {
                     _fuseCount = 0;
@@ -236,8 +237,11 @@ namespace MoreNote.Controllers
             return Content("ok");
 
         }
-
-
+        //浏览器检测
+        public async Task<IActionResult> BrowserDetection()
+        {
+            return Redirect($"https://www.morenote.top/BrowserDetection.js");
+        }
 
 
     }
