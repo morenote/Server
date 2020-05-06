@@ -179,13 +179,14 @@ namespace MoreNoteWorkerService
             }
             request.CookieContainer.Add(cookie);
             //发送请求获取Http响应
-            HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync();
+            HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync().ConfigureAwait(false);
             //HttpWebResponse response = (HttpWebResponse)(await request.GetResponseAsync().ConfigureAwait(false));
 
             var originalString = response.ResponseUri.OriginalString;
             Console.WriteLine(originalString);
             //获取响应流
             Stream receiveStream = response.GetResponseStream();
+            
             //获取响应流的长度
             int length = (int)response.ContentLength;
             //读取到内存
@@ -193,7 +194,7 @@ namespace MoreNoteWorkerService
             byte[] buffer1 = new byte[length];
             int i;
             //将字节逐个放入到Byte 中
-            while ((i = await receiveStream.ReadAsync(buffer1, 0, buffer1.Length)) > 0)
+            while ((i = await receiveStream.ReadAsync(buffer1, 0, buffer1.Length).ConfigureAwait(false)) > 0)
             {
                 stmMemory.Write(buffer1, 0, i);
             }
