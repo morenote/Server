@@ -17,12 +17,12 @@
 }
 
 #content h1{
-    background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+    /*background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);*/
     /*background-color: #64b5f6;*/
     /*border-radius: 50px;*/
 }
 #content h2{
-    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    /*background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);*/
     /*background-color: #8bc8fb;*/
     /*border-radius: 50px;*/
 }
