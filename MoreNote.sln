@@ -24,9 +24,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote", "MoreNote\MoreNo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWorkerService", "MyWorkerService\MyWorkerService.csproj", "{5BFF7131-FA5A-4156-BAE0-12088B231323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpYunLibrary", "UpYunLibrary\UpYunLibrary.csproj", "{2CC6B7B9-4345-4B38-BF30-4B55411AEEBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpYunLibrary", "UpYunLibrary\UpYunLibrary.csproj", "{2CC6B7B9-4345-4B38-BF30-4B55411AEEBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "又拍云对象储存测试", "又拍云对象储存测试\又拍云对象储存测试.csproj", "{93CE8AE3-CBC5-4A79-910C-3DA58BBAD09E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "又拍云对象储存测试", "又拍云对象储存测试\又拍云对象储存测试.csproj", "{93CE8AE3-CBC5-4A79-910C-3DA58BBAD09E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAYJS_CSharp_SDK", "PAYJS_CSharp_SDK\PAYJS_CSharp_SDK.csproj", "{39722D58-D692-4308-874D-924E4E25A370}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -146,6 +148,18 @@ Global
 		{93CE8AE3-CBC5-4A79-910C-3DA58BBAD09E}.Release|x64.Build.0 = Release|Any CPU
 		{93CE8AE3-CBC5-4A79-910C-3DA58BBAD09E}.Release|x86.ActiveCfg = Release|Any CPU
 		{93CE8AE3-CBC5-4A79-910C-3DA58BBAD09E}.Release|x86.Build.0 = Release|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Debug|x64.Build.0 = Debug|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Debug|x86.Build.0 = Debug|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Release|x64.ActiveCfg = Release|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Release|x64.Build.0 = Release|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Release|x86.ActiveCfg = Release|Any CPU
+		{39722D58-D692-4308-874D-924E4E25A370}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
