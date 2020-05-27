@@ -93,5 +93,9 @@ namespace MoreNote.Logic.DB
         public DbSet<RandomImage> RandomImage { get; set; }
         //public DbSet<RandomImage> WebReportInfo { get; set; }
 
+        //支付功能
+        public DbSet<GoodOrder> GoodOrder { get; set; }
+
+
     }
 }

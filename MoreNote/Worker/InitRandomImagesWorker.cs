@@ -157,11 +157,11 @@ namespace MoreNoteWorkerService
             string url = "";
             if (type.Equals("少女映画"))
             {
-                url = "https://api.r10086.com:8443/少女映画.php?password=20";
+                url = "https://api.5z0.cc/少女映画.php?password=20";
             }
             else
             {
-                url = $"https://api.r10086.com:8443/" + type + ".php";
+                url = $"https://api.5z0.cc/" + type + ".php";
             }
             //建立请求
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

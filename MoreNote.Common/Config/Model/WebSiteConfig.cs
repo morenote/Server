@@ -31,6 +31,10 @@ namespace MoreNote.Common.Config.Model
         /// 爬虫抓取速度
         /// </summary>
         public int Reptile_Delay_Second { get; set; }
+        //商户ID
+        public String PayJS_MCHID { get; set; }
+        //密钥
+        public String PayJS_Key { get; set; }
 
     }
 }
