@@ -9,7 +9,7 @@
         <div class="each-post">
             <div class="title">
                 @*<a href="{{$.postUrl}}/{{.UrlTitle}}" title="全文" target="_blank">*@
-                <a href="/Blog/Post/@blogUser.Username/@item.note.NoteId.ToString("x")" title="@(item.note.Title)" target="_blank">
+                <a href="/Blog/Post/@blogUser.Username/@item.note.NoteId.ToString("x")" title="@(item.note.Title)" >
                     @(item.note.Title)
                 </a>
             </div>
@@ -22,7 +22,8 @@
                     @foreach (var tag in item.note.Tags)
                     {
                         <i class="fa fa-bookmark-o" style="color:#DA3E3E"></i>
-                        @(tag)@Html.Raw("&nbsp;&nbsp;");
+                        @*@(tag)@Html.Raw("&nbsp;&nbsp;");*@
+                        <a href="/Blog/Tags_Posts/@blogUser.Username/@tag">@tag</a>@Html.Raw("&nbsp;&nbsp;")
                     }
                 }
                 <!--tag标签结束-->

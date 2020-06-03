@@ -33,7 +33,9 @@
                             @foreach (string tag in note.Tags)
                             {
                                 <i class="fa fa-bookmark-o" style="color:#DA3E3E"></i>
-                                @(tag);
+                                @*@(tag);*@
+                                <a href="/Blog/Tags_Posts/@blogUser.Username/@tag">@tag</a>
+
                                 @Html.Raw("&nbsp; &nbsp;");
                             }
                         发布于 <span id="postmark">@note.CreatedTime </span>
