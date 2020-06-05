@@ -34,92 +34,13 @@ namespace MoreNoteWorkerService
         {
 
         }
-        List<string > typeList=new List<string>();
+       
         Random random = new Random();
-
+       
         public InitRandomImagesWorker(ILogger<InitRandomImagesWorker> logger)
         {
             _logger = logger;
-            typeList.Add("动漫综合1");
-            typeList.Add("动漫综合2");
-            typeList.Add("动漫综合3");
-            typeList.Add("动漫综合4");
-            typeList.Add("动漫综合5");
-            typeList.Add("动漫综合6");
-            typeList.Add("动漫综合7");
-            typeList.Add("动漫综合8");
-            typeList.Add("动漫综合9");
-            typeList.Add("动漫综合10");
-            typeList.Add("动漫综合11");
-            typeList.Add("动漫综合12");
-            typeList.Add("动漫综合13");
-            typeList.Add("动漫综合14");
-            typeList.Add("动漫综合15");
-            typeList.Add("动漫综合16");
-            typeList.Add("动漫综合17");
-            typeList.Add("动漫综合18");
-
-            typeList.Add("火影忍者1");
-
-      
-            
-            typeList.Add("缘之空1");
-
-            typeList.Add("东方project1");
-
-            typeList.Add("物语系列1");
-            typeList.Add("物语系列2");
-
-            typeList.Add("少女前线1");
-
-            typeList.Add("风景系列1");
-            typeList.Add("风景系列2");
-            typeList.Add("风景系列3");
-            typeList.Add("风景系列4");
-            typeList.Add("风景系列5");
-            typeList.Add("风景系列6");
-            typeList.Add("风景系列7");
-            typeList.Add("风景系列8");
-            typeList.Add("风景系列9");
-
-            typeList.Add("明日方舟1");
-            typeList.Add("明日方舟2");
-
-
-            typeList.Add("重装战姬1");
-
-
-            typeList.Add("P站系列1");
-            typeList.Add("P站系列2");
-            typeList.Add("P站系列3");
-
-
-            typeList.Add("CG系列1");
-            typeList.Add("CG系列2");
-            typeList.Add("CG系列3");
-            typeList.Add("CG系列4");
-            typeList.Add("CG系列5");
-
-
-            typeList.Add("守望先锋");
-
-            typeList.Add("王者荣耀");
-
-            typeList.Add("少女写真1");
-            typeList.Add("少女写真2");
-            typeList.Add("少女写真3");
-            typeList.Add("少女写真4");
-            typeList.Add("少女写真5");
-            typeList.Add("少女写真6");
-
-
-            typeList.Add("死库水萝莉");
-            typeList.Add("萝莉");
-            typeList.Add("极品美女图片");
-            typeList.Add("日本COS中国COS");
-            typeList.Add("少女映画");
-            
-
+          
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -135,8 +56,8 @@ namespace MoreNoteWorkerService
                     //int max = 120;
                     //string name ="";
                     //GetHttpWebRequest("动漫综合2", out name);
-                    var number = random.Next(typeList.Count);
-                    await GetHttpWebRequestForAnYaAsync(typeList[number]).ConfigureAwait(false);
+                    var number = random.Next(UpdataImageURLWorker.imageTypeList.Count);
+                    await GetHttpWebRequestForAnYaAsync(UpdataImageURLWorker.imageTypeList[number]).ConfigureAwait(false);
                     int time = DateTime.Now.Hour;
                     //每过60秒随机抓取一次
                     //频率太高，站长会顺着网线过来打人
