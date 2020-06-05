@@ -8,6 +8,8 @@ using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
+using MoreNoteWorkerService;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +26,8 @@ namespace MoreNote.Controllers
 {
     public class APIController : Controller
     {
-        /// <summary>
-        /// 随机图片列表
-        /// </summary>
-        private static  Dictionary<string, List<RandomImage>> _randomImageList = new Dictionary<string, List<RandomImage>>();
-
+        
+      
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
         private static readonly WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
         private static readonly UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
@@ -71,10 +70,25 @@ namespace MoreNote.Controllers
             {
                 _fuseCount++;
             }
-            string ext = null;
-            if (string.IsNullOrEmpty(type))
+            RandomImage randomImage = null;
+            if (DateTime.Now.Hour != _initTime)
             {
-                type = "动漫综合2";
+                _fuseCount = 0;
+                _initTime = DateTime.Now.Hour;
+            }
+            else
+            {
+                if (_fuseCount > _randomImageFuseSize)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadGateway;
+                    return Content("接口并发太高，接口已经熔断");
+                }
+                
+            }
+           
+            if (string.IsNullOrEmpty(type)||!UpdataImageURLWorker.randomImageList.ContainsKey(type))
+            {
+                type = "动漫综合2"; 
             }
             if (type.Equals("少女映画"))
             {
@@ -85,52 +99,10 @@ namespace MoreNote.Controllers
                     return Redirect("/Auth/login");
                 }
             }
-            if (!_randomImageList.ContainsKey(type))
-            {
-                _randomImageList.Add(type, new List<RandomImage>(size));
-            }
-            RandomImage randomImage = RandomImageService.GetRandomImage(type);
-            if (_randomImageList[type].Count < size)
-            {
-                randomImage = RandomImageService.GetRandomImage(type);
-                if (random == null)
-                {
-                    return NotFound();
-                }
-                _randomImageList[type].Add(randomImage);
-            }
-            else
-            {
-                
-                if (DateTime.Now.Hour != _initTime)
-                {
-                    _fuseCount = 0;
-                    _initTime = DateTime.Now.Hour;
-                    _randomImageList[type].Clear();
-                    randomImage = RandomImageService.GetRandomImage(type);
-                    if (random == null)
-                    {
-                        return NotFound();
-                    }
-                    _randomImageList[type].Add(randomImage);
-                }
-                else
-                {
-                    if (_fuseCount > _randomImageFuseSize)
-                    {
-                        Response.StatusCode = (int)HttpStatusCode.BadGateway;
-                        return Content("接口并发太高，接口已经熔断");
-                    }
-                    int index = random.Next(_randomImageList[type].Count - 1);
-                    randomImage = _randomImageList[type][index];
-                }
-            }
+            int index = random.Next(UpdataImageURLWorker.randomImageList[type].Count - 1);
+            randomImage = UpdataImageURLWorker.randomImageList[type][index];
 
-            if (randomImage == null)
-            {
-                return NotFound();
-            }
-            ext = Path.GetExtension(randomImage.FileName);
+            string ext = Path.GetExtension(randomImage.FileName);
             IHeaderDictionary headers = Request.Headers;
             StringBuilder stringBuilder = new StringBuilder();
             foreach (KeyValuePair<string, Microsoft.Extensions.Primitives.StringValues> item in headers)
