@@ -165,7 +165,7 @@ namespace MoreNoteWorkerService
                 if (randomImageList[imageTypeList[y]].Count>=size)
                 {
                     RandomImage randomImage = RandomImageService.GetRandomImage(imageTypeList[y]);
-                    randomImageList[imageTypeList[y]][random.Next(0,size)]=null;
+                  
                     randomImageList[imageTypeList[y]][random.Next(0,size)]=randomImage;
                 }
                 else
