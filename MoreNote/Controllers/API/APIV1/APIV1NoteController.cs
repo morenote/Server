@@ -50,6 +50,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:得到note和内容
         public IActionResult GetNoteAndContent(string token, string noteId)
         {
+
             User tokenUser = TokenSerivce.GetUserByToken(token);
             if (tokenUser == null)
             {

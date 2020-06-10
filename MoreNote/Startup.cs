@@ -28,8 +28,8 @@ namespace MoreNote
 
             });
             //随机图片API初始化程序
-            services.AddHostedService<MoreNoteWorkerService.InitRandomImagesWorker>();
-            services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
+            //services.AddHostedService<MoreNoteWorkerService.InitRandomImagesWorker>();
+            //services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
             //添加session服务
             services.AddDistributedMemoryCache();
 

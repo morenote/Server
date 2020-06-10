@@ -411,7 +411,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.Note
-                    .Where(b => b.NotebookId == notebookId && b.UserId == userId);
+                    .Where(b => b.NotebookId == notebookId && b.UserId == userId&&b.IsTrash==isTrash);
                 return result.ToArray();
             }
 
