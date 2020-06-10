@@ -31,6 +31,39 @@ namespace MoreNote.Controllers
             _accessor = accessor;
 
         }
+        public bool HasLogined()
+        {
+            string userHex = HttpContext.Session.GetString("_userId");
+            if (string.IsNullOrEmpty(userHex))
+            {
+                //没登陆
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+        public string GetUserId()
+        {
+            string userHex = HttpContext.Session.GetString("_userId");
+            return userHex;
+        }
+        public User GetUserInfo()
+        {
+            string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
+            long userid_number = MyConvert.HexToLong(userid_hex);
+            User user = UserService.GetUserByUserId(userid_number);
+            return user;
+        }
+        public string SetLocale()
+        {
+            //todo:SetLocale未完成
+            var lnag = "zh-cn";
+            return null;
+
+        }
         public IActionResult action()
         {
             return Content("error");
