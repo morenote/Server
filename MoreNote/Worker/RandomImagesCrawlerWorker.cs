@@ -19,9 +19,12 @@ using UpYunLibrary;
 
 namespace MoreNoteWorkerService
 {
-    public class InitRandomImagesWorker : BackgroundService
+    /// <summary>
+    /// ÀÊª˙Õº∆¨Ω”ø⁄µƒ≈¿≥Ê
+    /// </summary>
+    public class RandomImagesCrawlerWorker : BackgroundService
     {
-        private readonly ILogger<InitRandomImagesWorker> _logger;
+        private readonly ILogger<RandomImagesCrawlerWorker> _logger;
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
@@ -30,14 +33,14 @@ namespace MoreNoteWorkerService
         /// ”÷≈ƒ‘∆
         /// </summary>
         static UpYun upyun = new UpYun(config.upyunBucket, config.upyunUsername, config.upyunPassword);
-        public InitRandomImagesWorker()
+        public RandomImagesCrawlerWorker()
         {
 
         }
        
         Random random = new Random();
        
-        public InitRandomImagesWorker(ILogger<InitRandomImagesWorker> logger)
+        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger)
         {
             _logger = logger;
           

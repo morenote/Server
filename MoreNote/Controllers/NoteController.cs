@@ -20,6 +20,9 @@ namespace MoreNote.Controllers
         public IActionResult Note()
         {
             ViewBag.msg = LanguageResource.GetMsg();
+            ViewBag.member = LanguageResource.GetMember();
+            ViewBag.markdown = LanguageResource.GetMarkdown();
+            ViewBag.blog = LanguageResource.GetBlog();
             Dictionary<string, string> js = new Dictionary<string, string>();
             User user = GetUserBySession();
             Notebook[] noteBoooks = NotebookService.GetNoteBookTree(user.UserId);
@@ -27,15 +30,18 @@ namespace MoreNote.Controllers
             //json  = System.IO.File.ReadAllText(@"E:\Project\JSON\notebook\GetNotebooks.json");
             //js.Add("notebooks", json);
             ViewBag.notebooks= JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
+            ViewBag.msg = LanguageResource.GetMsg();
             ViewBag.js = js;
-            return View("Note-dev");
-          
+            ViewBag.userInfo = user;
+            //return View("Note-dev");
+            return View();
+
         }
         public IActionResult getNoteContent(string noteId)
         {
             long noteNumber = MyConvert.HexToLong(noteId);
             long userNumber = GetUserIdBySession();
-            NoteContent noteContent = NoteContentService.GetNoteContent(MyConvert.HexToLong(noteId), GetUserIdBySession());
+            NoteContent noteContent = NoteContentService.GetValidNoteContent(MyConvert.HexToLong(noteId), GetUserIdBySession());
             return Json(noteContent, MyJsonConvert.GetOptions());
         }
         public JsonResult ListNotes(string notebookId)

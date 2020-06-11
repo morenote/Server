@@ -124,7 +124,11 @@ namespace MoreNote.Logic.Service
         }
         public static UserBlog GetUserBlog(long userId)
         {
-            throw new Exception();
+            using (var db=new DataContext())
+            {
+                var result = db.UserBlog.Where(b => b.UserId == userId).FirstOrDefault();
+                return result;
+            }
         }
         public static bool UpdateUserBlog(UserBlog userBlog)
         {

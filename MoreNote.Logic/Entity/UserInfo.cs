@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MoreNote.Logic.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -75,10 +77,10 @@ namespace MoreNote.Logic.Entity
         public int MaxPerAttachSize{ get; set; }// 单个附件大小
     }
 }    // note主页需要
-public class UserAndBlogUrl
+    public class UserAndBlogUrl
     {
-    [Key]
-        public long UserAndBlogUrlId{ get; set; }
+
+        public User user { get; set; }
         public string BlogUrl{ get; set; }
         public string PostUrl{ get; set; }
     }

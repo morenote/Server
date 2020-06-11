@@ -143,9 +143,9 @@ namespace MoreNote.Logic.Entity
         BlogComment blogComment { get; set; }
         public bool IsILikeIt { get; set; }
     }
-    public class BlogUrls
+    public struct BlogUrls
     {
-        [Key]
+        
         public long BlogUrlsId { get; set; }
         public string IndexUrl { get; set; }
         public string CateUrl { get; set; }
