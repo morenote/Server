@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MoreNote.Common.Config;
+using MoreNote.Common.Config.Model;
 using System;
 
 namespace MoreNote
@@ -14,6 +16,7 @@ namespace MoreNote
         {
             Configuration = configuration;
         }
+        WebSiteConfig config = ConfigManager.GetPostgreSQLConfig();
 
         public IConfiguration Configuration { get; }
 
@@ -28,8 +31,16 @@ namespace MoreNote
 
             });
             //随机图片API初始化程序
-            //services.AddHostedService<MoreNoteWorkerService.InitRandomImagesWorker>();
-            //services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
+            if (config.CrawlerWorker)
+            {
+                services.AddHostedService<MoreNoteWorkerService.RandomImagesCrawlerWorker>();
+            }
+            if (config.RandomAPI)
+            {
+                services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
+            }
+            
+           
             //添加session服务
             services.AddDistributedMemoryCache();
 

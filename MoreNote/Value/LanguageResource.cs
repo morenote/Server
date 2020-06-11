@@ -7,7 +7,7 @@ using MoreNote.Logic.Entity;
 
 namespace MoreNote.Value
 {
-    public class LanguageResource
+    public static class LanguageResource
     {
         private static Dictionary<string ,string> album = null;
         private static Dictionary<string ,string> blog = null;
@@ -18,11 +18,7 @@ namespace MoreNote.Value
         private static Dictionary<string ,string> tinymce_editor = null;
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
-        // 定义私有构造函数，使外界不能创建该类实例
-        private LanguageResource()
-        {
-        
-        }
+
         public static Dictionary<string, string> GetAlbum()
         {
             if (album == null)

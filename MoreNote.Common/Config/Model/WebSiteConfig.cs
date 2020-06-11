@@ -35,6 +35,9 @@ namespace MoreNote.Common.Config.Model
         public String PayJS_MCHID { get; set; }
         //密钥
         public String PayJS_Key { get; set; }
+        public bool CrawlerWorker { get; set; }
+        public bool RandomAPI { get; set; }
+
 
     }
 }

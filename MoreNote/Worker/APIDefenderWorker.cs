@@ -22,7 +22,7 @@ namespace MoreNoteWorkerService
     //定期扫描网站日志，并将恶意访问者的IP加入黑名单
     public class APIDefenderWorker : BackgroundService
     {
-        private readonly ILogger<InitRandomImagesWorker> _logger;
+        private readonly ILogger<RandomImagesCrawlerWorker> _logger;
         /// <summary>
         /// 网站配置
         /// </summary>
@@ -34,7 +34,7 @@ namespace MoreNoteWorkerService
    
         Random random = new Random();
 
-        public APIDefenderWorker(ILogger<InitRandomImagesWorker> logger)
+        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger)
         {
             _logger = logger;
         }

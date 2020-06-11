@@ -1,7 +1,12 @@
 ﻿@{
     Layout = "";
     Dictionary<string, string> msg = ViewBag.msg;
+    Dictionary<string, string> member = ViewBag.member;
     Dictionary<string, string> js = ViewBag.js;
+    Dictionary<string, string> markdown = ViewBag.markdown;
+    Dictionary<string, string> blog = ViewBag.blog;
+    User userInfo = ViewBag.userInfo;
+    bool isAdmin = true;
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -47,30 +52,30 @@ document.write(files);
             <!-- 头部 -->
             <!-- <div id="headerContainer"> -->
             <div id="header">
-                <a id="logo" href="/" title="Leanote {{msg . "home"}}" class="pull-left"></a>
+                <a id="logo" href="/" title="Leanote @msg["home"]" class="pull-left"></a>
                 <div id="switcher" class="pull-left">
-                    <i class="fa fa-dedent" id="leftSwitcher" title="{{msg . "leftHidden"}}"></i>
-                    <span id="leftSwitcher2" class="fa fa-indent" title="{{msg . "leftShow"}}"></span>
+                    <i class="fa fa-dedent" id="leftSwitcher" title="@msg["leftHidden"]"></i>
+                    <span id="leftSwitcher2" class="fa fa-indent" title="@msg["leftShow"]"></span>
                 </div>
                 <!-- search -->
                 <div class="pull-left" id="searchWrap">
                     <form class="navbar-form form-inline col-lg-2" id="searchNote">
-                        <input class="form-control" placeholder="{{msg . "SearchNote"}}" type="text" id="searchNoteInput">
+                        <input class="form-control" placeholder="@msg["SearchNote"]" type="text" id="searchNoteInput">
                     </form>
                 </div>
                 <!-- 全局按钮 -->
                 <div class="pull-left" style="" id="newNoteWrap">
                     <!-- 新建笔记 -->
                     <div id="newMyNote">
-                        <a class="new-note" id="newNoteBtn" title="{{msg . "newNote"}}">
+                        <a class="new-note" id="newNoteBtn" title="@msg["newNote"]">
                             <!--<i class="fa fa-file-o"></i>-->
-                            <span class="new-note-text">{{msg . "newNote"}}</span>
-                            <span class="new-note-text-abbr">{{msg . "new"}}</span>
+                            <span class="new-note-text">@msg["newNote"]</span>
+                            <span class="new-note-text-abbr">@msg["new"]</span>
                         </a>
                         <span class="new-split">|</span>
-                        <a class="new-note new-markdown" id="newNoteMarkdownBtn" title="{{msg . "newMarkdown"}}">
+                        <a class="new-note new-markdown" id="newNoteMarkdownBtn" title="@msg["newMarkdown"]">
                             <!-- <i class="lea-icon icon-markdown"></i> -->
-                            <span class="new-markdown-text">{{msg . "newMarkdown"}}</span>
+                            <span class="new-markdown-text">@msg["newMarkdown"]</span>
                             <span class="new-markdown-text-abbr">Md</span>
                         </a>
                         <span class="for-split"> - </span>
@@ -82,7 +87,7 @@ document.write(files);
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <div class="dropdown-menu dropdown-list" id="searchNotebookForAddDropdownList">
-                                <input type="text" placeholder="{{msg . "SearchNotebook"}}" class="form-control" id="searchNotebookForAdd" />
+                                <input type="text" placeholder="@msg["SearchNotebook"]" class="form-control" id="searchNotebookForAdd" />
                                 <ul class="clearfix" role="menu" aria-labelledby="listNotebookDropdownMenu" id="notebookNavForNewNote">
                                 </ul>
                             </div>
@@ -94,12 +99,12 @@ document.write(files);
                     <div id="newSharedNote" style="display: none">
                         <a id="newSharedNoteBtn" class="new-note">
                             <!--<i class="fa fa-file-o"></i> -->
-                            <span class="new-note-text">{{msg . "newNote"}}</span>
-                            <span class="new-note-text-abbr">{{msg . "new"}}</span>
+                            <span class="new-note-text">@msg["newNote"]</span>
+                            <span class="new-note-text-abbr">@msg["new"]</span>
                         </a>
                         <span class="new-split">|</span>
-                        <a id="newShareNoteMarkdownBtn" class="new-note new-markdown" title="{{msg . "newMarkdown"}}">
-                            <span class="new-markdown-text">{{msg . "newMarkdown"}}</span>
+                        <a id="newShareNoteMarkdownBtn" class="new-note new-markdown" title="@msg["newMarkdown"]">
+                            <span class="new-markdown-text">@msg["newMarkdown"]</span>
                             <span class="new-markdown-text-abbr">Md</span>
                         </a>
                         <span class="for-split"> - </span>
@@ -125,10 +130,10 @@ document.write(files);
 
                 <div class="pull-right" id="myProfile">
                     <div class="dropdown">
-                        <a class="dropdown-toggle profile-img" title="{{.userInfo.Username}}" data-toggle="dropdown">
-                            @* <img alt="{{.userInfo.Username}}" title="{{.userInfo.Username}}" src="{{if .userInfo.Logo}}{{.userInfo.Logo}}{{else}}/images/blog/default_avatar.png{{end}}" id="myAvatar" />*@
+                        <a class="dropdown-toggle profile-img" title="@userInfo.Username" data-toggle="dropdown">
+                            @* <img alt="@userInfo.Username" title="@userInfo.Username" src="{{if .userInfo.Logo}}{{.userInfo.Logo}}{{else}}/images/blog/default_avatar.png{{end}}" id="myAvatar" />*@
                             <span class="username">
-                                {{.userInfo.Username}}
+                                @userInfo.Username
                             </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -136,14 +141,14 @@ document.write(files);
                             <li role="presentation">
                                 <a href="/member" target="_blank">
                                     <i class="fa fa-user"></i>
-                                    {{msg . "memberCenter"}}
+                                    @member["memberCenter"]
                                 </a>
                             </li>
 
                             <li role="presentation" id="setTheme">
                                 <a>
                                     <i class="fa fa-sun-o"></i>
-                                    {{leaMsg . "Theme"}}
+                                    @member["Theme"]
                                 </a>
                             </li>
 
@@ -151,55 +156,57 @@ document.write(files);
                             <li role="presentation">
                                 <a href="/member/blog/index" target="_blank">
                                     <i class="fa fa-bold"></i>
-                                    {{msg . "blogSet"}}
+                                    @msg["blogSet"]
                                 </a>
                             </li>
 
                             <li role="presentation" class="my-link">
                                 <a target="_blank" href="{{$.userInfo.BlogUrl}}">
                                     <i class="fa fa-bold"></i>
-                                    {{msg . "myBlog"}}
+                                    @msg["myBlog"]
                                 </a>
                             </li>
 
                             <li role="presentation" class="divider my-link writing-mobile-hide"></li>
                             <li role="presentation" class="my-link toggle-editor-mode writing-mobile-hide">
-                                <a href="#writing" title="{{msg . "writingMode"}} ctrl/cmd+e">
+                                <a href="#writing" title="@msg["writingMode"] ctrl/cmd+e">
                                     <i class="fa fa-rocket"></i>
-                                    {{msg . "writingMode"}}
+                                    @msg["writingMode"]
                                 </a>
                             </li>
+                            @if (isAdmin)
+                            {
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation">
+                                    <a target="_blank" title="@msg["admin"]" href="/admin/index">
+                                        <i class="fa fa-dashboard"></i>
+                                        <span>@msg["admin"]</span>
+                                    </a>
+                                </li>
 
-                            {{if .isAdmin}}
-                            <li role="presentation" class="divider"></li>
-                            <li role="presentation">
-                                <a target="_blank" title="{{msg . "admin"}}" href="/admin/index">
-                                    <i class="fa fa-dashboard"></i>
-                                    <span>{{msg . "admin"}}</span>
-                                </a>
-                            </li>
-                            {{end}}
+                            }
+                           
                             <li role="presentation" class="divider"></li>
                             <li role="presentation" onclick="logout()">
                                 <i class="fa fa-sign-out"></i>
-                                {{msg . "logout"}}
+                                @msg["logout"]
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="pull-right top-nav writting-hide lea-blog">
                     <a target="_blank" href="http://lea.leanote.com">
-                        {{msg . "Explore"}}
+                        @msg["Explore"]
                     </a>
                 </div>
 
                 <div class="pull-right top-nav writting-hide" id="myBlog">
                     <a target="_blank" href="{{$.blogUrl}}/{{.userInfo.Username}}">
-                        {{msg . "myBlog"}}
+                        @msg["myBlog"]
                     </a>
                 </div>
                 <div class="pull-right toggle-editor-mode top-nav" id="toggleEditorMode">
-                    <a href="#writing"><span>{{msg . "writingMode"}}</span></a>
+                    <a href="#writing"><span>@msg["writingMode"]</span></a>
                 </div>
 
                 {{if eq .userInfo.Email "demo@leanote.com"}}
@@ -265,7 +272,7 @@ document.write(files);
                             </div>
 
                             <div class="folderBody">
-                                <input type="text" class="form-control" id="searchNotebookForList" placeholder="{{msg . "SearchNotebook"}}" />
+                                <input type="text" class="form-control" id="searchNotebookForList" placeholder="@msg["SearchNotebook"]" />
                                 <ul class="ztree" id="notebookList"></ul>
                                 <ul class="ztree" id="notebookListForSearch"></ul>
                             </div>
@@ -275,15 +282,15 @@ document.write(files);
                             <div class="folderHeader">
                                 <i class="fa fa-bookmark fa-left"></i>
                                 <span>
-                                    {{msg . "tag"}}
+                                    @msg["tag"]
                                 </span>
                             </div>
 
                             <ul class="folderBody clearfix" id="tagNav">
-                                <li data-tag="red"><a> <span class="label label-red">{{msg . "red"}}</span></a></li>
-                                <li data-tag="blue"><a> <span class="label label-blue">{{msg . "blue"}}</span></a></li>
-                                <li data-tag="yellow"><a> <span class="label label-yellow">{{msg . "yellow"}}</span></a></li>
-                                <li data-tag="green"><a> <span class="label label-green">{{msg . "green"}}</span></a></li>
+                                <li data-tag="red"><a> <span class="label label-red">@msg["red"]</span></a></li>
+                                <li data-tag="blue"><a> <span class="label label-blue">@msg["blue"]</span></a></li>
+                                <li data-tag="yellow"><a> <span class="label label-yellow">@msg["yellow"]</span></a></li>
+                                <li data-tag="green"><a> <span class="label label-green">@msg["green"]</span></a></li>
                             </ul>
                         </div>
 
@@ -291,7 +298,7 @@ document.write(files);
                             <div class="folderHeader">
                                 <i class="fa fa-user fa-left"></i>
                                 <span>
-                                    {{msg . "share"}}
+                                    @msg["share"]
                                 </span>
                             </div>
 
@@ -442,15 +449,15 @@ document.write(files);
                         <!-- for tips -->
                         <div id="editorMask">
                             <!-- z-index: 10 -->
-                            {{msg . "noNoteNewNoteTips"}}
+                            @msg["noNoteNewNoteTips"]
                             <br />
                             <br />
                             <div id="editorMaskBtns">
-                                <a class="note">{{msg . "newNote"}}</a>
-                                <a class="markdown">{{msg . "newMarkdownNote"}}</a>
+                                <a class="note">@msg["newNote"]</a>
+                                <a class="markdown">@msg["newMarkdownNote"]</a>
                             </div>
                             <div id="editorMaskBtnsEmpty">
-                                {{msg . "canntNewNoteTips"}}
+                                @msg["canntNewNoteTips"]
                             </div>
                         </div>
                         <div id="batchMask" class="note-mask">
@@ -481,19 +488,19 @@ document.write(files);
                                         <a class="metro-a dropdown-toggle" data-toggle="dropdown"
                                            id="addTagTrigger" style="cursor: text; padding-left: 0">
                                             <span class="add-tag-text">
-                                                {{msg . "clickAddTag"}}
+                                                @msg["clickAddTag"]
                                             </span>
                                         </a>
                                         <input type="text" id="addTagInput" />
                                         <ul class="dropdown-menu" role="menu" id="tagColor">
                                             <li role="presentation">
-                                                <span class="label label-red">{{msg . "red"}}</span>
+                                                <span class="label label-red">@msg["red"]</span>
                                             </li>
                                             <li role="presentation">
-                                                <span class="label label-blue">{{msg . "blue"}}</span>
+                                                <span class="label label-blue">@msg["blue"]</span>
                                             </li>
-                                            <li role="presentation"><span class="label label-yellow">{{msg . "yellow"}}</span></li>
-                                            <li role="presentation"><span class="label label-green">{{msg . "green"}}</span></li>
+                                            <li role="presentation"><span class="label label-yellow">@msg["yellow"]</span></li>
+                                            <li role="presentation"><span class="label label-green">@msg["green"]</span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -507,18 +514,18 @@ document.write(files);
                                     </li>
                                     <li>
                                         <a class="ios7-a " id="saveBtn"
-                                           data-toggle="dropdown" title="ctrl/cmd+s {{msg . "save"}}">
+                                           data-toggle="dropdown" title="ctrl/cmd+s @msg["save"]">
                                             <span class="fa fa-save"></span>
                                         </a>
                                     </li>
                                     <li class="dropdown" id="noteInfoDropdown">
-                                        <a class="ios7-a dropdown-toggle" data-toggle="dropdown" title="{{msg . "Information"}}">
+                                        <a class="ios7-a dropdown-toggle" data-toggle="dropdown" title="@msg["Information"]">
                                             <span class="fa fa-info"></span>
                                         </a>
                                         <div class="dropdown-menu" id="noteInfo"></div>
                                     </li>
                                     <li class="dropdown" id="attachDropdown">
-                                        <a class="ios7-a dropdown-toggle" data-toggle="dropdown" id="showAttach" title="{{msg . "attachments"}}">
+                                        <a class="ios7-a dropdown-toggle" data-toggle="dropdown" id="showAttach" title="@msg["attachments"]">
                                             <span class="fa fa-paperclip"></span>
                                             <span id="attachNum"></span>
                                         </a>
@@ -529,11 +536,11 @@ document.write(files);
                                                 <div id="dropAttach" class="dropzone">
                                                     <a class="btn btn-success btn-choose-file">
                                                         <i class="fa fa-upload"></i>
-                                                        <span>{{msg . "Choose File"}}</span>
+                                                        <span>@msg["Choose File"]</span>
                                                     </a>
                                                     <a class="btn btn-default" id="downloadAllBtn">
                                                         <i class="fa fa-download"></i>
-                                                        <span>{{msg . "Download All"}}</span>
+                                                        <span>@msg["Download All"]</span>
                                                     </a>
 
                                                     <input type="file" name="file" multiple />
@@ -546,20 +553,20 @@ document.write(files);
 
                                     <li>
                                         <a class="ios7-a " id="contentHistory"
-                                           data-toggle="dropdown" title="{{msg . "history"}}">
+                                           data-toggle="dropdown" title="@msg["history"]">
                                             <span class="fa fa-history"></span>
                                         </a>
                                     </li>
                                     <li>
                                         <a class="ios7-a " id="tipsBtn"
-                                           data-toggle="dropdown" title="{{msg . "editorTips"}}">
+                                           data-toggle="dropdown" title="@msg["editorTips"]">
                                             <span class="fa fa-question"></span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                             <div id="noteTitleDiv">
-                                <input name="noteTitle" id="noteTitle" value="" placeholder="{{msg . "unTitled"}}" tabindex="1" />
+                                <input name="noteTitle" id="noteTitle" value="" placeholder="@msg["unTitled"]" tabindex="1" />
                             </div>
 
                             <!-- 只读时 -->
@@ -570,11 +577,11 @@ document.write(files);
                                     <span id="noteReadTags"></span>
 
                                     <!-- 修改时间 -->
-                                    <i class="fa fa-clock-o"></i> {{msg . "update"}}
+                                    <i class="fa fa-clock-o"></i> @msg["update"]
                                     <span id="noteReadUpdatedTime"></span>
 
                                     <!-- 修改时间 -->
-                                    <i class="fa fa-clock-o"></i> {{msg . "create"}}
+                                    <i class="fa fa-clock-o"></i> @msg["create"]
                                     <span id="noteReadCreatedTime"></span>
                                 </div>
                             </div>
@@ -589,15 +596,15 @@ document.write(files);
                                 <!-- 查看信息 -->
                                 <div id="infoToolbar" class="info-toolbar invisible">
 
-                                    <span class="lang">{{msg . "created"}}</span>: <span class="created-time"></span>
-                                    <span class="lang">{{msg . "updated"}}</span>: <span class="updated-time"></span>
+                                    <span class="lang">@msg["created"]</span>: <span class="created-time"></span>
+                                    <span class="lang">@msg["updated"]</span>: <span class="updated-time"></span>
                                 </div>
                             </div>
                             <div class="editorBg"></div>
                             <div id="leanoteNav" class="leanoteNav">
                                 <h1>
-                                    <i class="fa fa-align-justify" title="{{msg . "nav"}}"></i>
-                                    <span>{{msg . "nav"}}</span>
+                                    <i class="fa fa-align-justify" title="@msg["nav"]"></i>
+                                    <span>@msg["nav"]</span>
                                 </h1>
                                 <div id="leanoteNavContent" class="leanoteNavContent">
                                 </div>
@@ -606,7 +613,7 @@ document.write(files);
                             <!-- leaui image drop image to editor-->
                             <form id="upload" method="post" action="/file/uploadImageLeaui" enctype="multipart/form-data" style="margin-top: 5px;">
                                 <div id="drop">
-                                    {{leaMsg . "Drop images to here"}}
+                                   @msg["Drop images to here"]
                                     <input type="file" name="file" multiple style="display: none" />
                                 </div>
                                 <ul id="uploadMsg">
@@ -624,8 +631,8 @@ document.write(files);
                                 <div class="navbar navbar-default">
                                     <div class="navbar-inner" id="wmd-button-bar">
                                         <div id="mdInfoToolbar" class="info-toolbar invisible">
-                                            <span class="lang">{{msg . "created"}}</span>: <span class="created-time"></span>
-                                            <span class="lang">{{msg . "updated"}}</span>: <span class="updated-time"></span>
+                                            <span class="lang">@msg["created"]</span>: <span class="created-time"></span>
+                                            <span class="lang">@msg["updated"]</span>: <span class="updated-time"></span>
                                         </div>
 
                                         <div class="wmd-button-bar-inner clearfix">
@@ -644,7 +651,7 @@ document.write(files);
                                             <!-- 帮助 -->
                                             <ul class="nav left-buttons">
                                                 <li class="wmd-button-group6 btn-group">
-                                                <li class="wmd-button btn btn-success" id="wmd-help-button" title="{{msg . "Markdown syntax"}}" style="left: 0px; display: none;"><span style="display: none; background-position: 0px 0px;"></span><i class="fa fa-question-circle"></i></li>
+                                                <li class="wmd-button btn btn-success" id="wmd-help-button" title="@markdown["Markdown syntax"]" style="left: 0px; display: none;"><span style="display: none; background-position: 0px 0px;"></span><i class="fa fa-question-circle"></i></li>
                                                 </li>
                                             </ul>
 
@@ -691,8 +698,8 @@ document.write(files);
                                 <div class="extension-preview-buttons">
                                     <div id="leanoteNavMd" class="leanoteNav">
                                         <h1>
-                                            <i class="fa fa-align-justify" title="{{msg . "nav"}}"></i>
-                                            <span>{{msg . "nav"}}</span>
+                                            <i class="fa fa-align-justify" title="@msg["nav"]"></i>
+                                            <span>@msg["nav"]</span>
                                         </h1>
                                         <div id="leanoteNavContentMd" class="leanoteNavContent table-of-contents">
                                         </div>
@@ -769,8 +776,8 @@ document.write(files);
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">{{msg . "cancel"}}</button>
-                            <button type="button" class="btn btn-primary" id="editorDialog-confirm">{{msg . "confirm"}}</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">@msg["cancel"]</button>
+                            <button type="button" class="btn btn-primary" id="editorDialog-confirm">@blog["confirm"]</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -833,7 +840,7 @@ document.write(files);
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" class="modalTitle">{{msg . "theme"}}</h4>
+                            <h4 class="modal-title" class="modalTitle">@blog["theme"]</h4>
                         </div>
                         <div class="modal-body">
                             <table id="themeForm">
@@ -842,21 +849,21 @@ document.write(files);
                                         <label>
                                             <img src="/images/slider/all.gif" height="100px">
                                             <br />
-                                            <input type="radio" name="theme" value="default"> {{msg . "default"}}
+                                            <input type="radio" name="theme" value="default"> @msg["default"]
                                         </label>
                                     </td>
                                     <td>
                                         <label>
                                             <img src="/images/slider/all-simple.gif" height="100px">
                                             <br />
-                                            <input type="radio" name="theme" value="simple"> {{msg . "simple"}}
+                                            <input type="radio" name="theme" value="simple"> @msg["simple"]
                                         </label>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">{{msg . "close"}}</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">@msg["close"]</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -890,7 +897,7 @@ var LEA = {};
 LEA.locale = "@msg["locale"]";
 var UrlPrefix = 'http:\/\/127.0.0.1:5914';
         var UserInfo = { "UserId":"10fc1cfeba021000","Email":"1757696115@qq.com","Verified":true,"Username":"hyfree","UsernameRaw":"hyfree","CreatedTime":"2018-08-26T11:01:09.356+08:00","Logo":"https://leanote.com/public/upload/569/5b8217f5ab64414f2f0005a3/images/logo/f5abfbaa4af795fa6ec9d5afca94c9ca.png","Theme":"simple","NotebookWidth":303,"NoteListWidth":374,"MdEditorWidth":621,"LeftIsMin":false,"ThirdUserId":"","ThirdUsername":"","ThirdType":0,"WXUnionId":"oORVzuIKgb2u1eTgMfl7ZvZocmYw","WXMPOpenId":"","FromUserId":"","NoteCnt":0,"Usn":2728,"FullSyncBefore":"0001-01-01T00:00:00Z","IsOrg":false,"BlogUrl":"http://blog.leanote.com/hyfree","PostUrl":"http://blog.leanote.com/post/hyfree"};
-var notebooks =@Html.Raw(js["notebooks"]);
+var notebooks =@Html.Raw(ViewBag.notebooks);
 var shareNotebooks = null;
 var sharedUserInfos = [];
         var curNoteId = '119e541f60021000';

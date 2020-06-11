@@ -14,10 +14,12 @@ using System.Threading.Tasks;
 
 namespace MoreNoteWorkerService
 {
-    //定期扫描网站日志，并将恶意访问者的IP加入黑名单
+    /// <summary>
+    /// 随机图片接口
+    /// </summary>
     public class UpdataImageURLWorker : BackgroundService
     {
-        private readonly ILogger<InitRandomImagesWorker> _logger;
+        private readonly ILogger<RandomImagesCrawlerWorker> _logger;
         public static List<string> imageTypeList = new List<string>();
         /// <summary>
         /// 随机图片列表
@@ -36,7 +38,7 @@ namespace MoreNoteWorkerService
 
         private readonly Random random = new Random();
 
-        public UpdataImageURLWorker(ILogger<InitRandomImagesWorker> logger)
+        public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger)
         {
             _logger = logger;
             InitList();

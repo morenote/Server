@@ -58,7 +58,7 @@ namespace MoreNote.Logic.DB
         public DbSet<BlogLike> BlogLike { get; set; }
         public DbSet<BlogComment> BlogComment { get; set; }
         public DbSet<BlogCommentPublic> BlogCommentPublic { get; set; }
-        public DbSet<BlogUrls> BlogUrls { get; set; }
+    
 
         public DbSet<Page> Page { get; set; }
         public DbSet<Config> Config { get; set; }
@@ -84,8 +84,8 @@ namespace MoreNote.Logic.DB
         public DbSet<Token> Token { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
-        public DbSet<UserAndBlogUrl> UserAndBlogUrl { get; set; }
-        public DbSet<UserAndBlog> UserAndBlog { get; set; }
+     
+   
         //应用更新服务
         public DbSet<AppInfo> AppInfo { get; set; }
         public DbSet<AccessRecords> AccessRecords { get; set; }

@@ -58,7 +58,7 @@ namespace MoreNote.Logic.Service
                 return result == null ? null : result.FirstOrDefault();
             }
         }
-        [Obsolete("不推荐使用")]
+        [Obsolete("不推荐使用,使用GetValidNoteContent替代")]
         public static NoteContent GetNoteContent(long noteId, long userId)
         {
             using (var db = new DataContext())
@@ -73,7 +73,7 @@ namespace MoreNote.Logic.Service
             using (var db = new DataContext())
             {
                 var result = db.NoteContent
-                    .Where(b => b.UserId == userId && b.NoteId == noteId);
+                    .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory==false);
                 return result == null ? null : result.FirstOrDefault();
             }
         }

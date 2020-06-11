@@ -118,7 +118,12 @@ namespace MoreNote.Logic.Service
         // 得到用户信息 userId
         public static User GetUserInfo(long userId)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                var result = db.User
+                    .Where(b => b.UserId== userId).FirstOrDefault();
+                return result;
+            }
         }
         // 得到用户信息 email
         public static User GetUserInfoByEmail(string email)
@@ -161,7 +166,17 @@ namespace MoreNote.Logic.Service
         // 得到用户信息+博客主页
         public static UserAndBlogUrl GetUserAndBlogUrl(long userId)
         {
-            throw new Exception();
+            User user = GetUserInfo(userId);
+            UserBlog userBlog = BlogService.GetUserBlog(userId);
+            BlogUrls blogUrls = BlogService.GetBlogUrls(userBlog, user);
+            UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
+            {
+                user = user,
+                BlogUrl = blogUrls.IndexUrl,
+                PostUrl = blogUrls.PostUrl,
+            };
+            return userAndBlogUrl;
+           
         }
         // 得到userAndBlog公开信息
 
