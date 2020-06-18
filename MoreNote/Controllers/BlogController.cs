@@ -1,17 +1,20 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using MoreNote.Common.Utils;
+using MoreNote.Logic.Entity;
+using MoreNote.Logic.Service;
+using MoreNote.Models.AspNetCore.Mvc;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using MoreNote.Common.Utils;
-using MoreNote.Logic.Entity;
-using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers
 {
- 
+
 
     public class BlogController : Controller
     {
@@ -300,16 +303,18 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
-        public IActionResult IncReadNum()
+        public IActionResult IncReadNum(string noteId)
         {
-            return Content("");
-
+            Re re = new Re();
+            long noteNum = MyConvert.HexToLong(noteId);
+            re.Ok = BlogService.IncReadNum(noteNum);
+         
+            return Json(re,MyJsonConvert.GetOptions());
         }  
-        public IActionResult getLikesAndComments()
+        public IActionResult GetLikesAndComments()
         {
-            string json = "jsonpCallback({\"Ok\":true," +
-                "\"Code\":0,\"Msg\":\"\",\"Id\":\"\",\"List\":null,\"Item\":{\"commentUserInfo\":null,\"comments\":null,\"hasMoreLikedUser\":false,\"isILikeIt\":false,\"likedUsers\":null,\"pageInfo\":{\"CurPage\":1,\"TotalPage\":0,\"PerPageSize\":0,\"Count\":0,\"List\":null}}});";
-            return Content(json);
+            string json = @"jsonpCallback({""Ok"":true,""Code"":0,""Msg"":"""",""Id"":"""",""List"":null,""Item"":true});";
+            return new JavaScriptResult(json);
 
         }  
         

@@ -20,7 +20,7 @@
     </a>
     [[/for]]
 </script>
-@*{{if and $.blogInfo.OpenComment (not (eq $.blogInfo.CommentType "disqus"))}}
+{{if and $.blogInfo.OpenComment (not (eq $.blogInfo.CommentType "disqus"))}}
 <script type="text/x-jsrender" id="tComments">
     [[for comments]]
     <li class="comment-item">
@@ -133,8 +133,8 @@
     </div>
 </div>
 {{end}}
-*@
-@*{{if and $.blogInfo.OpenComment (eq $.blogInfo.CommentType "disqus")}}
+
+{{if and $.blogInfo.OpenComment (eq $.blogInfo.CommentType "disqus")}}
 
 <div id="disqus_thread"></div>
 <!-- comment -->
@@ -153,4 +153,4 @@
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 {{end}}	
-    *@
+    

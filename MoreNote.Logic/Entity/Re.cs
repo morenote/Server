@@ -12,8 +12,8 @@ namespace MoreNote.Logic.Entity
         public int Code { get; set; }
         public string Msg { get; set; }
         public string Id { get; set; }
-        public string[] List;
-        public string[] Item;
+        public string List { get; set; }
+        public Dictionary<string,string> Item { get; set; }
         public static Re NewRe()
         {
             return new Re()
