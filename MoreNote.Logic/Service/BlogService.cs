@@ -166,7 +166,23 @@ namespace MoreNote.Logic.Service
         }
         public static bool IncReadNum(long noteId)
         {
-            throw new Exception();
+            using (var db = new DataContext())
+            {
+                try
+                {
+                    var result = db.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+                    result.ReadNum++;
+                    return db.SaveChanges()==1;
+                    
+                }
+                catch (Exception)
+                {
+                    //bug
+                    return false;
+                }
+              
+               
+            }
         }
         public static bool LikeBlog(long noteId,long userId)
         {
