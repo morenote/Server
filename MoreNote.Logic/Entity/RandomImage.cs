@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace MoreNote.Logic.Entity
 {
     public class RandomImage
     {
+        [Key]
         public long RandomImageId { get; set; }
         public string TypeName { get; set; }
         public string TypeNameMD5 { get; set; }
