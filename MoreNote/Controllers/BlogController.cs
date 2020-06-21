@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -123,6 +124,9 @@ namespace MoreNote.Controllers
 
         [Route("Blog/{blogUserIdHex}")]
         [Route("{controller=Blog}/{action=Index}/{blogUserIdHex?}")]
+        //[Authorize(Roles = "Admin,SuperAdmin")]
+        //[AllowAnonymous]
+        //[Authorize(Policy = "EmployeeOnly")]
         public IActionResult Index(string blogUserIdHex, int page)
         {
             if (page<1)
@@ -175,6 +179,7 @@ namespace MoreNote.Controllers
             User user = UserService.GetUserByUserId(note.UserId);
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
         }
+        [Authorize(Policy = "guest")]
         [Route("Blog/Post/{blogUserName}/{noteIdHex}/")]
         public async Task<IActionResult> PostAsync(string blogUserName,string noteIdHex)
         {

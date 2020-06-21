@@ -134,6 +134,10 @@ namespace MoreNote.Logic.Entity
         public long[] LikeUserIds { get; set; }// 点赞的用户ids
 
         public DateTime CreatedTime { get; set; }
+        /// <summary>
+        /// 评论是否允许公开显示，评论经过批准允许后才可以公开显示
+        /// </summary>
+        public bool Allow { get; set; }
 
     }
     public class BlogCommentPublic

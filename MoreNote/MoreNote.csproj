@@ -10,6 +10,10 @@
     <RootNamespace>MoreNote</RootNamespace>
     <AssemblyName>MoreNote</AssemblyName>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <AssemblyOriginatorKeyFile>morenote.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -44,6 +48,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     
@@ -206,6 +212,22 @@
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
 
 
 </Project>
