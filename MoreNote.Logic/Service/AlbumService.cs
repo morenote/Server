@@ -16,7 +16,7 @@ namespace MoreNote.Logic.Service
         {
            album.CreatedTime=DateTime.Now;
             album.Type=IMAGE_TYPE;
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                var result= db.Album.Add(album);
                 return  db.SaveChanges()>0;
@@ -26,7 +26,7 @@ namespace MoreNote.Logic.Service
         public static Album[] GetAlbums(long userId)
         {
            
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Album
                     .Where(b => b.UserId.Equals(userId));
@@ -37,7 +37,7 @@ namespace MoreNote.Logic.Service
         // presupposition: has no images under this ablum
         public static bool DeleteAlbum(long userId,long albumId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 if (db.File.Where(b=>b.AlbumId==albumId&&b.UserId==userId).Count()==0)
                 {

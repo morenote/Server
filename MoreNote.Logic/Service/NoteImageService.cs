@@ -32,7 +32,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteFile[] getImagesByNoteIds(long[] noteIds)
         {
-            //using (var db = new DataContext())
+            //using (var db = DataContext.getDataContext())
             //{
             //    var result = db.NoteImage.Where(b=>noteIds.Contains(b.NoteId));
             //    if (result==null)
@@ -46,7 +46,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteImage[] getImagesByNoteId(long noteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteImage.Where(b => b.NoteId==noteId);
                 NoteImage[] noteImages = result.ToArray();

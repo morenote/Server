@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Service
         public static AppInfo[] GetAPPList()
         {
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.AppInfo;
                 return result.ToArray();
@@ -23,7 +23,7 @@ namespace MoreNote.Logic.Service
             int a = 0;
             try
             {
-                using (var db = new DataContext())
+                using (var db = DataContext.getDataContext())
                 {
                     var result = db.AppInfo.Add(appInfo);
                     a = db.SaveChanges();

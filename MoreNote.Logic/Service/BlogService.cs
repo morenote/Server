@@ -29,7 +29,7 @@ namespace MoreNote.Logic.Service
         }
         public static int CountTheNumberForBlogTags(long userId,string tag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId&&b.Tags.Contains(tag)).Count();
                 return count;
@@ -38,7 +38,7 @@ namespace MoreNote.Logic.Service
         }
         public static Note[] GetNotes(long userid)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result =
                     db.Note.Where(note => note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.UserId == userid).OrderByDescending(note=>note.PublicTime).ToArray();
@@ -47,7 +47,7 @@ namespace MoreNote.Logic.Service
         }
         public static int CountTheNumberForBlogsOfNoteBookId(long userId,long notebookId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId&&b.NotebookId== notebookId).Count();
                 return count;
@@ -56,7 +56,7 @@ namespace MoreNote.Logic.Service
         }
         public static int CountTheNumberForBlogsOfTag(long userId, string tag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var count = db.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
                 return count;
@@ -166,7 +166,7 @@ namespace MoreNote.Logic.Service
         }
         public static bool IncReadNum(long noteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 try
                 {
@@ -286,7 +286,7 @@ namespace MoreNote.Logic.Service
         }
         public static Cate[] GetCateArrayForBlog(long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _noteBook in db.Notebook on _note.NotebookId equals _noteBook.NotebookId

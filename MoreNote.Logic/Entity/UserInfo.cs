@@ -15,10 +15,19 @@ namespace MoreNote.Logic.Entity
     }
     public class Authorization
     {
+        public Authorization(long authorizationId, string type, string value)
+        {
+            AuthorizationId = authorizationId;
+            Type = type;
+            Value = value;
+        }
+
         [Key]
         public long AuthorizationId { get; set; }
         public string Type { get; set; }
         public string Value { get; set; }
+        
+        
     }
 
     public class User
@@ -34,7 +43,7 @@ namespace MoreNote.Logic.Entity
        
         public int Cost { get; set; }//加密强度--》迭代次数
         public string Role { get; set; }//角色 用户组
-        public Authorization[] Jurisdiction { get;set;} //授权 拥有的权限
+        public List<Authorization> Jurisdiction { get;set;} //授权 拥有的权限
 
         public DateTime CreatedTime{ get; set; }
 

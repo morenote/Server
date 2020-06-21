@@ -16,7 +16,7 @@ namespace MoreNote.Logic.Service
         public static bool AddToken(Token token)
         {
             int a = 0;
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Token.Add(token);
                 a = db.SaveChanges();
@@ -71,7 +71,7 @@ namespace MoreNote.Logic.Service
         public static Token GetTokenByTokenStr(long userid,string str)
         {
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Token
                     .Where(b => b.UserId.Equals(userid)&&b.TokenStr.Equals(str)).FirstOrDefault();
@@ -81,7 +81,7 @@ namespace MoreNote.Logic.Service
         public static User GetUserByToken(string token)
         {
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Token
                     .Where(b => b.TokenStr.Equals(token)).FirstOrDefault();
@@ -99,7 +99,7 @@ namespace MoreNote.Logic.Service
         }
         public static bool DeleteTokenByToken(string token)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 db.Token.Where(a => a.TokenStr.Equals(token));
                 return db.SaveChanges() > 0;

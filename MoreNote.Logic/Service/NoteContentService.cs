@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Service
     {
         public static List<NoteContent> ListNoteContent()
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteContent
                     .Where(b => b.IsBlog == true && b.IsHistory == false);
@@ -22,7 +22,7 @@ namespace MoreNote.Logic.Service
         }
         public static List<NoteContent> ListNoteContent(bool IsHistory)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteContent
                     .Where(b => b.IsBlog == true&&b.IsHistory== IsHistory);
@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteContent SelectNoteContent(long noteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteContent
                     .Where(b => b.NoteId==noteId&&b.IsHistory==false).FirstOrDefault();
@@ -42,7 +42,7 @@ namespace MoreNote.Logic.Service
         public static bool InsertNoteContent(NoteContent noteContent)
         {
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteContent.Add(noteContent);
 
@@ -51,7 +51,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteContent GetNoteContent(long noteId, long userId,bool IsHistory )
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteContent
                     .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory== IsHistory);
@@ -61,7 +61,7 @@ namespace MoreNote.Logic.Service
         [Obsolete("不推荐使用,使用GetValidNoteContent替代")]
         public static NoteContent GetNoteContent(long noteId, long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteContent
                     .Where(b => b.UserId == userId && b.NoteId == noteId );
@@ -70,7 +70,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteContent GetValidNoteContent(long noteId, long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteContent
                     .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory==false);
@@ -103,7 +103,7 @@ namespace MoreNote.Logic.Service
         public static bool UpdateNoteContent(ApiNote apiNote, 
         out string msg,out long contentId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 //更新 将其他笔记刷新
                 var noteId = MyConvert.HexToLong(apiNote.NoteId);
@@ -188,7 +188,7 @@ namespace MoreNote.Logic.Service
             }
             else
             {
-                using (var db = new DataContext())
+                using (var db = DataContext.getDataContext())
                 {
                     db.NoteContent.Where(b => b.NoteId == noteId && b.UserId == userId && b.IsHistory==false).Delete();
                 }

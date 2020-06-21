@@ -11,7 +11,7 @@ namespace MoreNote.Logic.Service
     {
         public static User GetUser(string email)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.User
                     .Where(b => b.Email.Equals(email)).FirstOrDefault();
@@ -21,7 +21,7 @@ namespace MoreNote.Logic.Service
         public static User GetUserByUserId(long userid)
         {
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.User
                     .Where(b => b.UserId.Equals(userid)).FirstOrDefault();
@@ -37,7 +37,7 @@ namespace MoreNote.Logic.Service
         /// <returns>自增后的usn</returns>
         public static int IncrUsn(long userid)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var user = db.User
                     .Where(b => b.UserId == (userid
@@ -58,7 +58,7 @@ namespace MoreNote.Logic.Service
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 db.User.Add(user);
                 return db.SaveChanges()>0;
@@ -82,7 +82,7 @@ namespace MoreNote.Logic.Service
         // 是否存在该用户 email
         public static bool IsExistsUser(string email)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 if (db.User.Where(m => m.Email.Equals(email.ToLower())).Count() > 0)
                 {
@@ -118,7 +118,7 @@ namespace MoreNote.Logic.Service
         // 得到用户信息 userId
         public static User GetUserInfo(long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.User
                     .Where(b => b.UserId== userId).FirstOrDefault();

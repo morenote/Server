@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service
         }
         private static bool AddFile(NoteFile noteFile)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 db.File.Add(noteFile);
                 return db.SaveChanges()>0;
