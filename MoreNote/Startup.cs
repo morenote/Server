@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -39,8 +41,6 @@ namespace MoreNote
             {
                 services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
             }
-            
-           
             //添加session服务
             services.AddDistributedMemoryCache();
 
@@ -56,7 +56,31 @@ namespace MoreNote
             });
             //这样可以将HttpContext注入到控制器中。
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        
+            //services.AddAuthentication("CookieAuthentication")
+            //                .AddCookie("CookieAuthentication", config =>
+            //                {
+            //                    config.Cookie.Name = "UserLoginCookie";
+            //                    config.LoginPath = "/Auth/login";
+
+            //                });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = new PathString("/Auth/login");
+                options.AccessDeniedPath = new PathString("/Auth/login");
+                
+            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("EmployeeOnly", policy =>
+                {
+                    //policy.AddAuthenticationSchemes("Cookie, Bearer");
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("EmployeeNumber");
+                });
+                
+            });
             services.AddMvc();
 
         }
@@ -86,15 +110,17 @@ namespace MoreNote
             //});
             app.UseHttpsRedirection();
             app.UseRouting();
-
+         
+            app.UseAuthentication();
             app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Blog}/{action=Index}/{id?}");
             });
+
         }
     }
 }

@@ -13,17 +13,29 @@ namespace MoreNote.Logic.Entity
         public  const string ThirdGithub = "ThirdQQ";
         public static string ThirdQQ;
     }
+    public class Authorization
+    {
+        [Key]
+        public long AuthorizationId { get; set; }
+        public string Type { get; set; }
+        public string Value { get; set; }
+    }
+
     public class User
     {
         [Key]
-        public long UserId{ get; set; }
-        public string Email{ get; set; }//全是小写
-        public bool Verified{ get; set; }//Email是否已验证过?
-        public string Username{ get; set; }//不区分大小写, 全是小写
-        public string UsernameRaw{ get; set; }//// 可能有大小写
-        public string Pwd{ get; set; }
+        public long UserId { get; set; }
+        public string Email { get; set; }//全是小写
+        public bool Verified { get; set; }//Email是否已验证过?
+        public string Username { get; set; }//不区分大小写, 全是小写
+        public string UsernameRaw { get; set; }//// 可能有大小写
+        public string Pwd { get; set; }
         public string Salt { get; set; }//MD5 盐
-        public string Cost { get; set; }//加密强度--》针对passs做慢hash的参数
+       
+        public int Cost { get; set; }//加密强度--》迭代次数
+        public string Role { get; set; }//角色 用户组
+        public Authorization[] Jurisdiction { get;set;} //授权 拥有的权限
+
         public DateTime CreatedTime{ get; set; }
 
         public string Logo{ get; set; }//9-24
