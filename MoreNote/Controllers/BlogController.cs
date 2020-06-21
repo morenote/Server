@@ -179,7 +179,7 @@ namespace MoreNote.Controllers
             User user = UserService.GetUserByUserId(note.UserId);
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
         }
-        [Authorize(Policy = "guest")]
+        //[Authorize(Policy = "guest")]
         [Route("Blog/Post/{blogUserName}/{noteIdHex}/")]
         public async Task<IActionResult> PostAsync(string blogUserName,string noteIdHex)
         {
