@@ -14,7 +14,10 @@ namespace MoreNote.Logic.DB
         public DataContext()
         {
         }
-
+        public static DataContext getDataContext()
+        {
+            return new DataContext();
+        }
         public DataContext(DbContextOptions<DataContext> options)
           : base(options)
         {

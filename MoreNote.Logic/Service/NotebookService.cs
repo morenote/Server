@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Service
     {
         public static Notebook GetNotebookById(long notebookId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Notebook.
                     Where(b => b.NotebookId == notebookId).FirstOrDefault();
@@ -35,7 +35,7 @@ namespace MoreNote.Logic.Service
             notebook.CreatedTime = now;
             notebook.UpdatedTime = now;
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Notebook.Add(notebook);
                 return db.SaveChanges() > 0;
@@ -55,7 +55,7 @@ namespace MoreNote.Logic.Service
             notebook.CreatedTime = now;
             notebook.UpdatedTime = now;
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Notebook.Add(notebook);
                 return db.SaveChanges() > 0;
@@ -63,7 +63,7 @@ namespace MoreNote.Logic.Service
         }
         public static bool UpdateNotebookApi(long userId,long notebookId,string title,long parentNotebookId,int seq,int usn,out Notebook notebook)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Notebook.
                     Where(b=>b.NotebookId==notebookId);
@@ -85,7 +85,7 @@ namespace MoreNote.Logic.Service
 
         public static Notebook[] GetAll(long userid)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Notebook
                     .Where(b => b.UserId == userid).ToArray<Notebook>();
@@ -117,7 +117,7 @@ namespace MoreNote.Logic.Service
         }
         public static Notebook[] GeSyncNotebooks(long userid,int afterUsn,int maxEntry)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Notebook.
                     Where(b=>b.UserId==userid&&b.Usn>afterUsn).Take(maxEntry);
@@ -197,7 +197,7 @@ namespace MoreNote.Logic.Service
         // API调用, 删除笔记本, 不作笔记控制
         public static bool DeleteNotebookForce(long userId, long notebookId, int usn)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 //var result = db.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
                 var result = db.Notebook.Where(note => note.NotebookId == notebookId && note.UserId == userId && note.Usn == usn).Update(x => new Notebook { IsDeleted = true });
@@ -223,7 +223,7 @@ namespace MoreNote.Logic.Service
         // trashService: DeleteNote (recove不用, 都统一在MoveNote里了)
         public static bool ReCountNotebookNumberNotes(long? notebookId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var count = db.Note.Where(b=>b.NotebookId==notebookId&&b.IsTrash==false&&b.IsDeleted==false).Count();
                 var notebook=db.Notebook.Where(b=>b.NotebookId==notebookId).FirstOrDefault();

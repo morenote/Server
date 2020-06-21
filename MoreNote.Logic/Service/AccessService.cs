@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Service
         public static async  Task<bool> InsertAccessAsync(AccessRecords ar)
         {
           
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.AccessRecords.Add(ar);
                 return await db.SaveChangesAsync() > 0;

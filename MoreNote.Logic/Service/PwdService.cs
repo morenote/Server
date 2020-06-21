@@ -19,7 +19,7 @@ namespace MoreNote.Logic.Service
         public static bool FindPwd(string email)
         {
 
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var userid = db.User
                     .Where(b => b.Email.Equals(email)).First();

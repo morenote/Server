@@ -15,7 +15,7 @@ namespace MoreNote.Logic.Service
       
         public static bool AddTags(long userId,string[] tags)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
              
             }
@@ -69,7 +69,7 @@ namespace MoreNote.Logic.Service
         }
         public static bool UpdateByIdAndUserId(long tagId,long userId,NoteTag noteTag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var noteT = db.NoteTag
                     .Where(b => b.TagId==tagId
@@ -113,7 +113,7 @@ namespace MoreNote.Logic.Service
                 return false;
             }
            
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteTag
                     .Where(b => b.UserId==userId&&b.Tag.Equals(tag
@@ -134,7 +134,7 @@ namespace MoreNote.Logic.Service
         // 同步用
         public static NoteTag[] GeSyncTags(long userId, int afterUsn, int maxEntry)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteTag.
                     Where(b => b.UserId == userId && b.Usn > afterUsn).Take(maxEntry);
@@ -143,7 +143,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteTag GetTag(long tagId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteTag
                     .Where(b => b.TagId==tagId);
@@ -156,7 +156,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteTag GetTag(long userId,string tag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteTag
                     .Where(b =>b.UserId==userId&& b.Tag.Equals(tag));
@@ -173,7 +173,7 @@ namespace MoreNote.Logic.Service
             {
                 noteTag.TagId=SnowFlake_Net.GenerateSnowFlakeID();
             }
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteTag.Add(noteTag);
                 return db.SaveChanges()>0;
@@ -183,7 +183,7 @@ namespace MoreNote.Logic.Service
         public static string[] GetBlogTags(long userid)
         {
             //todo:这里需要性能优化，获得blog标签
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note.Where(note =>note.UserId==userid&& note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.Tags != null && note.Tags.Length > 0).DistinctBy(p => new { p.Tags}).ToArray();
                 HashSet<string> hs = new HashSet<string>();

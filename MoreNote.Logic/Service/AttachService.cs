@@ -18,7 +18,7 @@ namespace MoreNote.Logic.Service
         {
             attachInfo.CreatedTime = DateTime.Now;
             int a = 0;
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 
                 db.AttachInfo.Add(attachInfo);
@@ -43,7 +43,7 @@ namespace MoreNote.Logic.Service
         // addNum 1或-1
         public static bool UpdateNoteAttachNum(long noteId,int addNUm)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 Note note=db.Note
                     .Where(b=>b.NoteId==noteId).FirstOrDefault();
@@ -72,7 +72,7 @@ namespace MoreNote.Logic.Service
         }
         public static AttachInfo[] getAttachsByNoteIds(long[] noteIds)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 AttachInfo[] attachs = db.AttachInfo.Where(b => noteIds.Contains(b.NoteId) ).ToArray();
                 return attachs;
@@ -81,7 +81,7 @@ namespace MoreNote.Logic.Service
         }
         public static AttachInfo[] getAttachsByNoteId(long noteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var attachs = db.AttachInfo.Where(b => b.NoteId == noteId).ToArray();
                 return attachs;

@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Service
 
         public static bool AddNote(Note note)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note.Add(note);
                 return db.SaveChanges() > 0;
@@ -26,7 +26,7 @@ namespace MoreNote.Logic.Service
         //我也是？？？？
         public static Note GetNoteById(long NoteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note
                     .Where(b => b.NoteId == NoteId).FirstOrDefault();
@@ -35,7 +35,7 @@ namespace MoreNote.Logic.Service
         }
         public static Note SelectNoteByTag(String Tag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note
                     .Where(b => b.Tags.Contains(Tag)).FirstOrDefault();
@@ -45,7 +45,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteAndContent[] GetNoteAndContent(bool isBlog,int pageIndex)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
@@ -60,7 +60,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteAndContent[] GetNoteAndContentForBlog(int pageIndex,long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
@@ -75,7 +75,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long userId,string tag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
@@ -90,7 +90,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex,long notebookId,long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
@@ -105,7 +105,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteAndContent[] GetNoteAndContentForBlogOfTag(int pageIndex,string tag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
@@ -120,7 +120,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteAndContent GetNoteAndContentForBlog(long noteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
@@ -135,7 +135,7 @@ namespace MoreNote.Logic.Service
         }
         public static NoteAndContent GetNoteAndContent(long noteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = (from _note in db.Note
                               join _content in db.NoteContent on _note.NoteId equals _content.NoteId
@@ -154,7 +154,7 @@ namespace MoreNote.Logic.Service
         /// <param name="noteId"></param>
         public static void AddReadNum(long noteId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note.Where(b => b.NoteId == noteId);
                 if (result!=null)
@@ -192,7 +192,7 @@ namespace MoreNote.Logic.Service
 
         public static Note GetNote(long noteId, long userId, bool IsTrash, bool isDelete)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
 
@@ -204,7 +204,7 @@ namespace MoreNote.Logic.Service
 
         public static Note GetNote(long noteId, long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note.Where(b => b.UserId == userId && b.NoteId == noteId );
 
@@ -251,7 +251,7 @@ namespace MoreNote.Logic.Service
         // > afterUsn的笔记
         public static ApiNote[] GetSyncNotes(long userid, int afterUsn, int maxEntry)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note.
                     Where(b => b.UserId == userid && b.Usn > afterUsn).Take(maxEntry);
@@ -408,7 +408,7 @@ namespace MoreNote.Logic.Service
         bool isTrash
         )
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note
                     .Where(b => b.NotebookId == notebookId && b.UserId == userId&&b.IsTrash==isTrash);
@@ -425,7 +425,7 @@ namespace MoreNote.Logic.Service
           bool isAsc,
           bool isBlog)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note
                     .Where(b => b.NotebookId == notebookId && b.UserId == userId);
@@ -589,7 +589,7 @@ namespace MoreNote.Logic.Service
         }
         private static bool UpdateNote(Note note)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 //   var change= db.Note.Where(b=>b.NoteId==note.NoteId).Update(x=>note);
                 return false;
@@ -620,7 +620,7 @@ namespace MoreNote.Logic.Service
                 return false;
 
             }
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note.Where(b => b.NoteId == noteId && b.UserId == updateUser);
                 if (result == null)
@@ -851,7 +851,7 @@ namespace MoreNote.Logic.Service
         // 统计
         public static int CountNote(long userId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note
                     .Where(b => b.UserId == userId && b.IsDeleted==false&&b.IsTrash==false).Count();
@@ -860,7 +860,7 @@ namespace MoreNote.Logic.Service
         }
         public static int CountBlog(long usrId)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.Note
                     .Where(b => b.UserId == usrId && b.IsDeleted == false && b.IsTrash == false&&b.IsBlog==true).Count();
@@ -870,7 +870,7 @@ namespace MoreNote.Logic.Service
         // 通过标签来查询
         public static int CountNoteByTag(long userId, string tag)
         {
-            using (var db = new DataContext())
+            using (var db = DataContext.getDataContext())
             {
                 var result = db.NoteTag
                     .Where(b => b.UserId == userId && b.Tag.Equals(tag)).Count();
