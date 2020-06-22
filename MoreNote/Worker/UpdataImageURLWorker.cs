@@ -95,8 +95,9 @@ namespace MoreNoteWorkerService
 
                 imageTypeList.Add("东方project1");
 
-                imageTypeList.Add("物语系列1");
-                imageTypeList.Add("物语系列2");
+                imageTypeList.Add("猫娘1");
+
+               
 
                 imageTypeList.Add("少女前线1");
 
@@ -109,6 +110,10 @@ namespace MoreNoteWorkerService
                 imageTypeList.Add("风景系列7");
                 imageTypeList.Add("风景系列8");
                 imageTypeList.Add("风景系列9");
+                imageTypeList.Add("风景系列10");
+
+                imageTypeList.Add("物语系列1");
+                imageTypeList.Add("物语系列2");
 
                 imageTypeList.Add("明日方舟1");
                 imageTypeList.Add("明日方舟2");
@@ -120,6 +125,7 @@ namespace MoreNoteWorkerService
                 imageTypeList.Add("P站系列1");
                 imageTypeList.Add("P站系列2");
                 imageTypeList.Add("P站系列3");
+                imageTypeList.Add("P站系列4");
 
 
                 imageTypeList.Add("CG系列1");
