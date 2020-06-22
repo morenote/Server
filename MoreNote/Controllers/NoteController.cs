@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -9,6 +10,7 @@ using System.Text.Json;
 
 namespace MoreNote.Controllers
 {
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class NoteController : BaseController
     {
         public NoteController(IHttpContextAccessor accessor) : base(accessor)

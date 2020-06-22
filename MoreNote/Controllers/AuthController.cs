@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -65,11 +66,17 @@ namespace MoreNote.Controllers
                     identity.AddClaim(new Claim(ClaimTypes.Sid, user.UserId.ToString()));
                     identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
                     identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
-                    identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));//角色 用户组
-                    identity.AddClaim(new Claim("editor", "contents"));//授权 
-                    identity.AddClaim(new Claim("EmployeeNumber","12"));
-                    identity.AddClaim(new Claim("EmployeeNumber","12"));
-                  
+                    if (!string.IsNullOrEmpty(user.Role))
+                    {
+                        identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));//角色 用户组
+                    }
+                    if (user.Jurisdiction!=null&&user.Jurisdiction.Any())
+                    {
+                        foreach (var item in user.Jurisdiction)
+                        {
+                            identity.AddClaim(new Claim(item.Type, item.Value));//授权 
+                        }
+                    }
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties
                     {
                         IsPersistent = true,
