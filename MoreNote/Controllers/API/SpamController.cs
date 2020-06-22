@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MoreNote.Controllers.API
 {
-    [Route("api/Auth/[action]")]
+    [Route("api/Spam/[action]")]
     public class SpamController : Controller
     {
         public IActionResult Index()
