@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Logic.Entity;
@@ -16,89 +18,48 @@ namespace MoreNote.Controllers.Member
         {
 
         }
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Username()
         {
-            string userHex = HttpContext.Session.GetString("_userId");
-
-            if (string.IsNullOrEmpty(userHex))
-            {
-                //没登陆
-                return Redirect("/Auth/login");
-            }
+         
             User user = GetUserBySession();
-            if (user == null)
-            {
-                //身份无效
-                return Redirect("/Auth/login");
-            }
             ViewBag.user = user;
             ViewBag.msg = LanguageResource.GetMsg();
             ViewBag.member = LanguageResource.GetMember();
             ViewBag.title = "用户名";
             return View("Views/Member/user/Username.cshtml");
         }
-    
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Email()
         {
-            string userHex = HttpContext.Session.GetString("_userId");
-
-            if (string.IsNullOrEmpty(userHex))
-            {
-                //没登陆
-                return Redirect("/Auth/login");
-            }
+         
             User user = GetUserBySession();
-            if (user == null)
-            {
-                //身份无效
-                return Redirect("/Auth/login");
-            }
             ViewBag.user = user;
             ViewBag.msg = LanguageResource.GetMsg();
             ViewBag.member = LanguageResource.GetMember();
             ViewBag.title = "电子邮箱";
             return View("Views/Member/user/email.cshtml");
         }
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Password()
         {
-            string userHex = HttpContext.Session.GetString("_userId");
-
-            if (string.IsNullOrEmpty(userHex))
-            {
-                //没登陆
-                return Redirect("/Auth/login");
-            }
             User user = GetUserBySession();
-            if (user == null)
-            {
-                //身份无效
-                return Redirect("/Auth/login");
-            }
             ViewBag.user = user;
             ViewBag.msg = LanguageResource.GetMsg();
             ViewBag.member = LanguageResource.GetMember();
             ViewBag.title = "密码";
             return View("Views/Member/user/password.cshtml");
         }
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Index()
         {
             return View();
         }
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Avatar()
         {
-            string userHex = HttpContext.Session.GetString("_userId");
-
-            if (string.IsNullOrEmpty(userHex))
-            {
-                //没登陆
-                return Redirect("/Auth/login");
-            }
+          
             User user = GetUserBySession();
-            if (user == null)
-            {
-                //身份无效
-                return Redirect("/Auth/login");
-            }
             ViewBag.user = user;
             ViewBag.msg = LanguageResource.GetMsg();
             ViewBag.member = LanguageResource.GetMember();

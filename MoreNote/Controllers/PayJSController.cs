@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Config;
@@ -16,6 +17,7 @@ using PAYJS_CSharp_SDK.Model;
 
 namespace MoreNote.Controllers
 {
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class PayJSController : Controller
     {
         static WebSiteConfig webSiteConfig = ConfigManager.GetPostgreSQLConfig();

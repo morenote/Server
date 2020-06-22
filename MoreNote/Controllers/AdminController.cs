@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,13 +13,14 @@ using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers
 {
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class AdminController : Controller
     {
         //private readonly DataContext _context;
 
-    
 
-        // GET: Admin
+
+     
         public async Task<IActionResult> Index()
         {
             using (DataContext _context = new DataContext())
@@ -61,9 +64,10 @@ namespace MoreNote.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
        // [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> Create([Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")] AppInfo appInfo)
         {
-            return NotFound();
+           
             using (DataContext _context = new DataContext())
             {
                 if (ModelState.IsValid)
@@ -76,10 +80,10 @@ namespace MoreNote.Controllers
             }
         }
 
-        // GET: Admin/Edit/5
+        
         public async Task<IActionResult> Edit(long? id)
         {
-            return NotFound();
+           
             using (DataContext _context = new DataContext())
             {
                 if (id == null)
@@ -101,9 +105,10 @@ namespace MoreNote.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         [ValidateAntiForgeryToken]
+    
         public async Task<IActionResult> Edit(long id, [Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")] AppInfo appInfo)
         {
-            return NotFound();
+          
             using (DataContext _context = new DataContext())
             {
                 if (id != appInfo.appid)
@@ -138,7 +143,7 @@ namespace MoreNote.Controllers
         // GET: Admin/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            return NotFound();
+            
             using (DataContext _context = new DataContext())
             {
                 if (id == null)
@@ -158,7 +163,6 @@ namespace MoreNote.Controllers
         }
 
         // POST: Admin/Delete/5
-        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {

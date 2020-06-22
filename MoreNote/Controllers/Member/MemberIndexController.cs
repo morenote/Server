@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,21 +20,11 @@ namespace MoreNote.Controllers.Member
         {
         }
 
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Index()
         {
-            string userHex = HttpContext.Session.GetString("_userId");
 
-            if (string.IsNullOrEmpty(userHex))
-            {
-                //没登陆
-                return Redirect("/Auth/login");
-            }
             User user = GetUserBySession();
-            if (user==null)
-            {
-                //身份无效
-                return Redirect("/Auth/login");
-            }
             ViewBag.user = user;
             ViewBag.msg = LanguageResource.GetMsg();
             ViewBag.member = LanguageResource.GetMember();
