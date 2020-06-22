@@ -128,7 +128,7 @@ namespace MoreNote.Controllers
         //[AllowAnonymous]
         //[Authorize(Policy = "EmployeeOnly")]
         public IActionResult Index(string blogUserIdHex, int page)
-        {
+        {       
             if (page<1)
             {
                 //页码

@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MoreNote.Common.Config;
 using MoreNote.Common.Config.Model;
+using MoreNote.Logic.DB;
+
 using System;
 
 namespace MoreNote
@@ -47,6 +50,7 @@ namespace MoreNote
             //var connection = "Server=localhost;Port=3306;Database=nickeldb; User=root;Password=123456;";
             //var connection = Environment.GetEnvironmentVariable("postgres");
             //services.AddDbContextPool<DataContext>(options => options.UseNpgsql(connection));
+           // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.

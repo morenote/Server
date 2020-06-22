@@ -1,6 +1,7 @@
 ﻿using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MoreNote.Logic.Service
@@ -29,6 +30,20 @@ namespace MoreNote.Logic.Service
                 RandomImage result = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Skip(num).FirstOrDefault();
                 return result;
             }
+        }
+        public static List<RandomImage> GetRandomImages(string type ,int size)
+        {
+            using (DataContext db = DataContext.getDataContext())
+            {
+                int count = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
+                if (count < size)
+                {
+                    size = count;
+                }
+                List<RandomImage> result = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Take(size).ToList<RandomImage>();
+                return result;
+            }
+
         }
         public static bool Exist(string type, string fileSHA1)
         {
