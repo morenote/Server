@@ -126,20 +126,20 @@ namespace MoreNoteWorkerService
             //写入磁盘
             string name = System.IO.Path.GetFileName(originalString);
             byte[] imageBytes = stmMemory.ToArray();
-            string fileSHA1 = SHAEncrypt_Helper.Hash1Encrypt(imageBytes);
+            string fileSHA1 = SHAEncryptHelper.Hash1Encrypt(imageBytes);
             //上传到又拍云
             if (!RandomImageService.Exist(type, fileSHA1))
             {
-                upyun.writeFile($"/upload/{SHAEncrypt_Helper.MD5Encrypt(type)}/{fileSHA1}{Path.GetExtension(name)}", imageBytes, true);
+                upyun.writeFile($"/upload/{SHAEncryptHelper.MD5Encrypt(type)}/{fileSHA1}{Path.GetExtension(name)}", imageBytes, true);
                 RandomImage randomImage = new RandomImage()
                 {
                     RandomImageId = SnowFlake_Net.GenerateSnowFlakeID(),
                     TypeName = type,
-                    TypeNameMD5 = SHAEncrypt_Helper.MD5Encrypt(type),
-                    TypeNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(type),
+                    TypeNameMD5 = SHAEncryptHelper.MD5Encrypt(type),
+                    TypeNameSHA1 = SHAEncryptHelper.Hash1Encrypt(type),
                     FileName = name,
-                    FileNameMD5 = SHAEncrypt_Helper.MD5Encrypt(name),
-                    FileNameSHA1 = SHAEncrypt_Helper.Hash1Encrypt(name),
+                    FileNameMD5 = SHAEncryptHelper.MD5Encrypt(name),
+                    FileNameSHA1 = SHAEncryptHelper.Hash1Encrypt(name),
                     FileSHA1 = fileSHA1,
                     Sex = false,
                 };

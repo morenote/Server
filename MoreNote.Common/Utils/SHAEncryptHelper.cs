@@ -5,8 +5,8 @@ using System.IO;
 
 namespace MoreNote.Common.Util
 {
-   public class SHAEncrypt_Helper
-{
+   public class SHAEncryptHelper
+    {
     /// <summary>
     /// 计算文件的 MD5 值
     /// </summary>

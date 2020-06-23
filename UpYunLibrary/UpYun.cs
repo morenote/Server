@@ -47,6 +47,8 @@ namespace UpYunLibrary
             string _upt = sign + etime;
             return _upt;
         }
+         
+       
         /**
         * 初始化 UpYun 存储接口
         * @param $bucketname 空间名称

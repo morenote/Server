@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Service
             user = UserService.GetUser(email);
             if (user != null)
             {
-                string temp = SHAEncrypt_Helper.Hash256Encrypt(pwd + user.Salt);
+                string temp = SHAEncryptHelper.Hash256Encrypt(pwd + user.Salt);
                 if (temp.Equals(user.Pwd))
                 {
                     long tokenid = SnowFlake_Net.GenerateSnowFlakeID();
@@ -104,7 +104,7 @@ namespace MoreNote.Logic.Service
             //产生一个盐用于保存密码
             string salt= RandomTool.CreatSafeSalt();
             //对用户密码做哈希运算
-            string genPass= SHAEncrypt_Helper.Hash256Encrypt(pwd+salt);
+            string genPass= SHAEncryptHelper.Hash256Encrypt(pwd+salt);
             if (string.IsNullOrEmpty(genPass))
             {
                 Msg="密码处理过程出现错误";
