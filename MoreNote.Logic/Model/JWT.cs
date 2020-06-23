@@ -50,7 +50,7 @@ namespace MoreNote.Logic.Model
             message.Append(payload.exp);
             message.Append(payload.random);
             string password = "";
-            string signature = SHAEncrypt_Helper.Hash1Encrypt(message + password);
+            string signature = SHAEncryptHelper.Hash1Encrypt(message + password);
             JWT jWT = new JWT()
             {
                 Header = header,

@@ -22,7 +22,7 @@ namespace MoreNote.Common.Utils
             return( (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000);
         }
         public static int GetTimeStampInInt32()
-        {
+        {   //(int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             return unixTimestamp;
         }

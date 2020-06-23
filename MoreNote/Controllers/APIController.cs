@@ -121,7 +121,7 @@ namespace MoreNote.Controllers
                 Referrer = headers["Referer"],
                 RequestHeader = stringBuilder.ToString(),
                 AccessTime = DateTime.Now,
-                UnixTime = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                UnixTime = (long)UnixTimeHelper.GetTimeStampInInt32(),
                 TimeInterval = -1,
                 url = "/api/GetRandomImage",
                 RemoteIpAddress= remoteIpAddress,
@@ -130,7 +130,7 @@ namespace MoreNote.Controllers
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             type = randomImage.TypeNameMD5;
             upyun.secret = postgreSQLConfig.upyunSecret; ;
-            int unixTimestamp = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             unixTimestamp += 3;
             //开启token防盗链
 
