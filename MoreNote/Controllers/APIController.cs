@@ -29,7 +29,7 @@ namespace MoreNote.Controllers
         
       
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-        private static readonly WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
+        private static readonly WebSiteConfig postgreSQLConfig = ConfigManager.GetWebConfig();
         private static readonly UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
         private static readonly Random random = new Random();
 
@@ -59,7 +59,7 @@ namespace MoreNote.Controllers
 
         //目录分隔符
         private static readonly char dsc = Path.DirectorySeparatorChar;
-        private static readonly string dir = ConfigManager.GetPostgreSQLConfig().randomImageDir;
+        private static readonly string dir = ConfigManager.GetWebConfig().randomImageDir;
 
  
 

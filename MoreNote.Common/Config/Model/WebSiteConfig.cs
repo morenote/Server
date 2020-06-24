@@ -37,6 +37,7 @@ namespace MoreNote.Common.Config.Model
         public String PayJS_Key { get; set; }
         public bool CrawlerWorker { get; set; }
         public bool RandomAPI { get; set; }
+        public UpYunOSSConfig UpYunOSSConfig { get; set; }
 
 
     }

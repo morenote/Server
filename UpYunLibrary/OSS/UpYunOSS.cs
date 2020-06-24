@@ -13,7 +13,7 @@ namespace UpYunLibrary.OSS
 {
     public class UpYunOSS
     {
-        public static string GetPolicy(OSSOptions options)
+        public static string GetPolicy(UPYunOSSOptions options)
         {
             string json = JsonSerializer.Serialize(options, MyJsonConvert.GetOptions());
             json = json.Replace("save_key", "save-key");

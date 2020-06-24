@@ -15,7 +15,7 @@ namespace UpYunLibrary.Tests
         [TestMethod()]
         public void CreatTokenTest()
         {
-            WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
+            WebSiteConfig postgreSQLConfig = ConfigManager.GetWebConfig();
             UpYun upyun = new UpYun("bucket", "username", "password");
             upyun.secret = postgreSQLConfig.upyunSecret; ;
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -27,7 +27,7 @@ namespace UpYunLibrary.Tests
         [TestMethod()]
         public void UpYunTest()
         {
-            WebSiteConfig postgreSQLConfig = ConfigManager.GetPostgreSQLConfig();
+            WebSiteConfig postgreSQLConfig = ConfigManager.GetWebConfig();
             UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
             ArrayList str = upyun.readDir("/");
             foreach (var item in str)

@@ -30,7 +30,7 @@ namespace MoreNoteWorkerService
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
-        private static readonly WebSiteConfig config = ConfigManager.GetPostgreSQLConfig();
+        private static readonly WebSiteConfig config = ConfigManager.GetWebConfig();
         public UpdataImageURLWorker()
         {
 

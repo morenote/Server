@@ -12,7 +12,7 @@ namespace UpYunLibrary.OSS.Tests
         [TestMethod()]
         public void GetPolicyTest()
         {
-            OSSOptions options = new OSSOptions();
+            UPYunOSSOptions options = new UPYunOSSOptions();
             options.bucket = "morenote-file";
             options.save_key = "/{year}/{mon}/{day}/{filemd5}{.suffix}";
             options.expiration = 86400;
