@@ -26,7 +26,7 @@ namespace MoreNoteWorkerService
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
-        static WebSiteConfig config = ConfigManager.GetPostgreSQLConfig();
+        static WebSiteConfig config = ConfigManager.GetWebConfig();
         public APIDefenderWorker()
         {
 

@@ -1,6 +1,9 @@
 ﻿@{
     Layout = "_Layout";
-     
+    string policy = ViewBag.policy;
+    string signature = ViewBag.signature;
+    string bucket = ViewBag.bucket;
+
 }
 @*<!DOCTYPE html>
 <html>
@@ -48,9 +51,9 @@
         //var form_api_secret = '';
         // 计算签名
         //var signature = md5(policy + '&' + form_api_secret);
-        var policy = '';
-        var signature = '';
-        var bucket = '';
+        var policy = '@policy';
+        var signature = '@signature';
+        var bucket = '@bucket';
     </script>
     <script src="~/libs/plupload/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
     <script src="~/libs/plupload/lib/md5.js"></script>

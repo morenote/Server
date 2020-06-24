@@ -21,7 +21,7 @@ namespace MoreNote
         {
             Configuration = configuration;
         }
-        WebSiteConfig config = ConfigManager.GetPostgreSQLConfig();
+        WebSiteConfig config = ConfigManager.GetWebConfig();
 
         public IConfiguration Configuration { get; }
 

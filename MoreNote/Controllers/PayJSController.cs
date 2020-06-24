@@ -20,7 +20,7 @@ namespace MoreNote.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class PayJSController : Controller
     {
-        static WebSiteConfig webSiteConfig = ConfigManager.GetPostgreSQLConfig();
+        static WebSiteConfig webSiteConfig = ConfigManager.GetWebConfig();
         static Payjs pay = new Payjs(webSiteConfig.PayJS_MCHID, webSiteConfig.PayJS_Key);
         public IActionResult Index()
         {

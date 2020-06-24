@@ -10,7 +10,7 @@ namespace MoreNote.Common.Config
     {
         private  static WebSiteConfig config;
 
-        public static WebSiteConfig GetPostgreSQLConfig()
+        public static WebSiteConfig GetWebConfig()
         {
             if (config != null)
             {
