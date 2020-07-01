@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Config;
 using MoreNote.Common.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MoreNote.Controllers
 {
@@ -17,7 +18,7 @@ namespace MoreNote.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult UploadUPyun()
         {
             var webConfig = ConfigManager.GetWebConfig();
@@ -32,5 +33,7 @@ namespace MoreNote.Controllers
             ViewBag.signature = signature;
             return View();
         }
+
+
     }
 }

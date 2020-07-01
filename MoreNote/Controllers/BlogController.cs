@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -15,8 +14,6 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-
-
     public class BlogController : Controller
     {
         private async Task InsertLogAsync(string url)
@@ -28,7 +25,7 @@ namespace MoreNote.Controllers
                 stringBuilder.Append(item.Key + "---" + item.Value + "\r\n");
             }
             string RealIP = headers["X-Forwarded-For"].ToString().Split(",")[0];
-            
+
             AccessRecords accessRecords = new AccessRecords()
             {
                 AccessId = SnowFlake_Net.GenerateSnowFlakeID(),
@@ -44,6 +41,7 @@ namespace MoreNote.Controllers
             };
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
         }
+
         private User ActionInitBlogUser(string blogUserName)
         {
             if (string.IsNullOrEmpty(blogUserName))
@@ -59,8 +57,8 @@ namespace MoreNote.Controllers
             }
             ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
             return blogUser;
-
         }
+
         /// <summary>
         /// 博客归档
         /// </summary>
@@ -68,10 +66,10 @@ namespace MoreNote.Controllers
         /// <param name="archiveHex"></param>
         /// <returns></returns>
         [Route("{controller=Blog}/{action=Index}/{blogUserName?}/{archiveHex?}")]
-        public IActionResult Archive(string blogUserName,string archiveHex)
+        public IActionResult Archive(string blogUserName, string archiveHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
-            if (blogUser==null)
+            if (blogUser == null)
             {
                 return Content("查无此人");
             }
@@ -88,9 +86,9 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
-     
+
         [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
-        public IActionResult Cate(string blogUserName,string cateHex, int page)
+        public IActionResult Cate(string blogUserName, string cateHex, int page)
         {
             long notebookId = MyConvert.HexToLong(cateHex);
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -105,8 +103,8 @@ namespace MoreNote.Controllers
             }
             ViewBag.page = page;
 
-            ViewBag.postCount = BlogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId,notebookId);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlogOfNoteBookId(page,notebookId, blogUser.UserId);
+            ViewBag.postCount = BlogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId, notebookId);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.UserId);
             ViewBag.noteAndContent = noteAndContent;
 
             if (blogUser == null)
@@ -124,23 +122,23 @@ namespace MoreNote.Controllers
 
         [Route("Blog/{blogUserIdHex}")]
         [Route("{controller=Blog}/{action=Index}/{blogUserIdHex?}")]
+
         //[Authorize(Roles = "Admin,SuperAdmin")]
         //[AllowAnonymous]
         //[Authorize(Policy = "EmployeeOnly")]
         public IActionResult Index(string blogUserIdHex, int page)
-        {       
-            if (page<1)
+        {
+            if (page < 1)
             {
                 //页码
                 page = 1;
             }
             ViewBag.page = page;
-            User blogUser=null;
+            User blogUser = null;
             if (string.IsNullOrEmpty(blogUserIdHex))
             {
-
                 //默认账号
-               string blogUserName = "hyfree";
+                string blogUserName = "hyfree";
                 blogUser = UserService.GetUserByUserName(blogUserName);
             }
             else
@@ -155,15 +153,14 @@ namespace MoreNote.Controllers
                 {
                     return Content("查无此人");
                 }
-
             }
             ViewBag.blogUser = blogUser;
-           
+
             ViewBag.postCount = BlogService.CountTheNumberForBlogs(blogUser.UserId);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page,blogUser.UserId);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page, blogUser.UserId);
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
-            
+
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "moreote云笔记");
             blog.Add("keywords", "搜索");
@@ -171,6 +168,7 @@ namespace MoreNote.Controllers
 
             return View();
         }
+
         [Route("Blog/Post/{noteIdHex}/")]
         public IActionResult Post1(string noteIdHex)
         {
@@ -179,9 +177,10 @@ namespace MoreNote.Controllers
             User user = UserService.GetUserByUserId(note.UserId);
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
         }
+
         //[Authorize(Policy = "guest")]
         [Route("Blog/Post/{blogUserName}/{noteIdHex}/")]
-        public async Task<IActionResult> PostAsync(string blogUserName,string noteIdHex)
+        public async Task<IActionResult> PostAsync(string blogUserName, string noteIdHex)
         {
             //添加访问日志
             await InsertLogAsync($"Blog/Post/{blogUserName}/{noteIdHex}/").ConfigureAwait(false);
@@ -193,16 +192,15 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             long noteId = MyConvert.HexToLong(noteIdHex);
-            if (noteId==0)
+            if (noteId == 0)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("未找到");
-
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            NoteAndContent noteAndContent= NoteService.GetNoteAndContent(noteId);
+            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(noteId);
             NoteService.AddReadNum(noteId);
-            if (noteAndContent==null)
+            if (noteAndContent == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("未经授权的访问");
@@ -217,7 +215,7 @@ namespace MoreNote.Controllers
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Content("这篇文章已经被取消分享");
             }
-           
+
             ViewBag.noteAndContent = noteAndContent;
             blog.Add("Title", noteAndContent.note.Title);
             blog.Add("NoteTitle", noteAndContent.note.Title);
@@ -225,8 +223,9 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+
         [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{keywords?}/")]
-        public IActionResult Search(string blogUserName,string keywords)
+        public IActionResult Search(string blogUserName, string keywords)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
@@ -240,8 +239,9 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+
         [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{SingleIdHex?}/")]
-        public IActionResult Single(string blogUserName,string SingleIdHex)
+        public IActionResult Single(string blogUserName, string SingleIdHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
@@ -254,9 +254,9 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+
         [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{tag?}/")]
-     
-        public IActionResult Tags_Posts(string blogUserName, string tag,  int page)
+        public IActionResult Tags_Posts(string blogUserName, string tag, int page)
         {
             if (page < 1)
             {
@@ -264,7 +264,7 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
-          
+
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
@@ -272,8 +272,8 @@ namespace MoreNote.Controllers
             }
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = BlogService.CountTheNumberForBlogTags(blogUser.UserId,tag);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentByTag(page, blogUser.UserId,tag);
+            ViewBag.postCount = BlogService.CountTheNumberForBlogTags(blogUser.UserId, tag);
+            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentByTag(page, blogUser.UserId, tag);
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
 
@@ -283,6 +283,7 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+
         [Route("{controller=Blog}/{action=Post}/{blogUserName?}/")]
         public IActionResult Tags(string blogUserName)
         {
@@ -300,6 +301,7 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+
         public IActionResult NoFound()
         {
             Dictionary<string, string> blog = new Dictionary<string, string>();
@@ -308,20 +310,35 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+
         public IActionResult IncReadNum(string noteId)
         {
             Re re = new Re();
             long noteNum = MyConvert.HexToLong(noteId);
             re.Ok = BlogService.IncReadNum(noteNum);
-         
-            return Json(re,MyJsonConvert.GetOptions());
-        }  
+
+            return Json(re, MyJsonConvert.GetOptions());
+        }
+
         public IActionResult GetLikesAndComments()
         {
             string json = @"jsonpCallback({""Ok"":true,""Code"":0,""Msg"":"""",""Id"":"""",""List"":null,""Item"":true});";
             return new JavaScriptResult(json);
+        }
 
-        }  
-        
+        public bool blogCommon(long userId,UserBlog userBlog,User userInfo,out UserBlog ub)
+        {
+            if (userInfo.UserId==0)
+            {
+                userInfo = UserService.GetUserByUserId(userId);
+                ub = userBlog;
+                return false;
+            }
+            // var recentBlogs = BlogService.ListBlogs(userId, "", 1, 5, userBlog.SortField, userBlog.IsAsc);
+            ub = null;
+            return false;
+
+
+        }
     }
 }

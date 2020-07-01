@@ -78,8 +78,29 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static void ListBlogs(long uerId,long noteBookId ,int page,int pageSize,string sortField,bool isAsc,out Page pageObj,out BlogItem blogItem)
+        /// <summary>
+        /// 博客列表
+        /// userId 表示谁的blog
+        /// </summary>
+        /// <param name="uerId"></param>
+        /// <param name="noteBookId"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortField"></param>
+        /// <param name="isAsc"></param>
+        /// <param name="pageObj"></param>
+        /// <param name="blogItem"></param>
+        public static void ListBlogs(long userId,long noteBookId ,int page,int pageSize,string sortField,bool isAsc,out Page pageObj,out BlogItem blogItem)
         {
+            int count = 0;
+           var notes =  NoteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true,out count );
+            if (notes==null||notes.Length==0)
+            {
+                pageObj = new Page();
+                blogItem = null;
+                return;
+            }
+
             throw new Exception();
 
         }
