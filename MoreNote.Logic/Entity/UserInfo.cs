@@ -80,8 +80,6 @@ namespace MoreNote.Logic.Entity
         //更新序号
         public int Usn{ get; set; }//UpdateSequenceNum , 全局的
         public DateTime FullSyncBefore{ get; set; }//需要全量同步的时间, 如果 > 客户端的LastSyncTime, 则需要全量更新
-
-
     }
     public class UserAccount
     {

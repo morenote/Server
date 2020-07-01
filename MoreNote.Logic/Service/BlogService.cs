@@ -102,6 +102,25 @@ namespace MoreNote.Logic.Service
             }
 
             throw new Exception();
+        }
+        public static BlogInfo GetBlogInfo(UserBlog userBlog, User userinfo)
+        {
+            BlogInfo blogInfo = new BlogInfo()
+            {
+                UserId = userinfo.UserId.ToString("X"),
+                Username = userinfo.Username,
+                UserLogo = userinfo.Logo,
+                Title = userBlog.Title,
+                SubTitle = userBlog.SubTitle,
+                Logo = userBlog.Logo,
+                OpenComment = userBlog.CanComment,
+                CommentType = userBlog.CommentType,// leanote, or disqus
+                DisqusId = userBlog.DisqusId,
+                ThemeId = userBlog.ThemeId.ToString("X"),
+                SubDomain = userBlog.SubDomain,
+                Domain = userBlog.Domain,
+            };
+            return blogInfo;
 
         }
         public static TagCount GetBlogTags(long userId)

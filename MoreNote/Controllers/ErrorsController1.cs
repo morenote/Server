@@ -12,7 +12,7 @@ namespace MoreNote.Controllers
         public IActionResult Unauthorized1()
         {
             return Unauthorized();
-            return View();
+            
         }
 
     }
