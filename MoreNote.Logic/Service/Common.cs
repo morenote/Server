@@ -6,9 +6,22 @@ namespace MoreNote.Logic.Service
 {
    public  class Common
     {
-        public static void parsePageAndSort(int pageNumber,int pageSize,string sortField,bool isAsc,out int skipNum,out string sortFieIdR)
+        public static void parsePageAndSort(int pageNumber,int pageSize,string sortField,bool isAsc,out int skipNum,out string sortFieldR)
         {
-            throw new Exception();
+            skipNum = (pageNumber - 1) * pageSize;
+            if (string.IsNullOrEmpty(sortField))
+            {
+                sortField = "UpdatedTime";
+            }
+            if (!isAsc)
+            {
+                sortFieldR = "-" + sortField;
+
+            }
+            else
+            {
+                sortFieldR = sortField;
+            }
         }
     }
 }

@@ -165,7 +165,6 @@
   <ItemGroup>
     <Folder Include="Views\Pic\" />
     <Folder Include="wwwroot\apk\" />
-    <Folder Include="wwwroot\lib\wangedite\" />
   </ItemGroup>
 
   <ItemGroup>
