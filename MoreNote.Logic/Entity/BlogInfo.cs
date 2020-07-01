@@ -5,10 +5,26 @@ using System.Text;
 
 namespace MoreNote.Logic.Entity
 {
-    class BlogInfo
+    public  class BlogInfo
     {
+        public String UserId { get; set; }
+        public String Username { get; set; }
+        public String UserLogo { get; set; }
+        public String Title { get; set; }
+        public String SubTitle { get; set; }
+        public String Logo { get; set; }
+        public bool OpenComment { get; set; }
+        public string CommentType { get; set; }
+        public String DisqusId { get; set; }
+        public String ThemeId { get; set; }
+        public String SubDomain { get; set; }
+        public String Domain { get; set; }
+
+      
+
 
     }
+   
     // 只为blog, 不为note copy hahaha
     public class BlogItem
     {
@@ -160,5 +176,6 @@ namespace MoreNote.Logic.Entity
         public string TagsUrl { get; set; }
         public string TagPostsUrl { get; set; }
     }
+    
 
 }

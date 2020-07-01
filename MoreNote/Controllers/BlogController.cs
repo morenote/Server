@@ -326,19 +326,41 @@ namespace MoreNote.Controllers
             return new JavaScriptResult(json);
         }
 
-        public bool blogCommon(long userId,UserBlog userBlog,User userInfo,out UserBlog ub)
+        public bool BlogCommon(long userId, UserBlog userBlog, User userInfo, out UserBlog ub)
         {
-            if (userInfo.UserId==0)
+            if (userInfo.UserId == 0)
             {
                 userInfo = UserService.GetUserByUserId(userId);
-                ub = userBlog;
-                return false;
+                if (userInfo.UserId == 0)
+                {
+                    ub = userBlog;
+                    return false;
+                }
             }
+
+            //	c.ViewArgs["userInfo"] = userInfo
+
+            // 最新笔记
+            // 语言, url地址
+            // 得到博客设置信息
+
+            SetBlog(userBlog, userInfo);
+
+            //	c.ViewArgs["userBlog"] = userBlog
+            // 分类导航
+
+            // 单页导航
+            // 当前分类Id, 全设为""
+            // 得到主题信息
             // var recentBlogs = BlogService.ListBlogs(userId, "", 1, 5, userBlog.SortField, userBlog.IsAsc);
             ub = null;
             return false;
+        }
 
-
+        public void SetBlog(UserBlog userBlog, User userInfo)
+        {
+            BlogInfo blogInfo = BlogService.GetBlogInfo(userBlog, userInfo);
+            ViewBag.blogInfo = blogInfo;
         }
     }
 }
