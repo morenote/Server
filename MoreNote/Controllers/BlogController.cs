@@ -350,6 +350,7 @@ namespace MoreNote.Controllers
             // 分类导航
 
             // 单页导航
+            SetUrl(userBlog, userInfo);
             // 当前分类Id, 全设为""
             // 得到主题信息
             // var recentBlogs = BlogService.ListBlogs(userId, "", 1, 5, userBlog.SortField, userBlog.IsAsc);
@@ -361,6 +362,58 @@ namespace MoreNote.Controllers
         {
             BlogInfo blogInfo = BlogService.GetBlogInfo(userBlog, userInfo);
             ViewBag.blogInfo = blogInfo;
+        }
+        // 各种地址设置
+        public void SetUrl(UserBlog userBlog,User user)
+        {
+            // 主页 http://leanote.com/blog/life or http://blog.leanote.com/life or http:// xxxx.leanote.com or aa.com
+            // host := c.Request.Request.Host
+            // var staticUrl = configService.GetUserUrl(strings.Split(host, ":")[0])
+            // staticUrl == host, 为保证同源!!! 只有host, http://leanote.com, http://blog/leanote.com
+            // life.leanote.com, lealife.com
+            var siteUrl = ConfigService.GetSiteUrl();
+            var blogUrls = BlogService.GetBlogUrls(userBlog, user);
+            // 分类
+            // 搜索
+            // 查看
+            ViewBag.siteUrl = siteUrl;
+            ViewBag.indexUrl = blogUrls.IndexUrl;
+            ViewBag.cateUrl = blogUrls.CateUrl;
+            ViewBag.postUrl = blogUrls.PostUrl;
+            ViewBag.searchUrl = blogUrls.SearchUrl;
+            ViewBag.singleUrl = blogUrls.SingleUrl;
+            ViewBag.archiveUrl = blogUrls.ArchiveUrl;
+            ViewBag.archivesUrl = blogUrls.ArchiveUrl;
+            ViewBag.tagsUrl = blogUrls.TagsUrl;
+            ViewBag.tagPostsUrl = blogUrls.TagPostsUrl;
+            ViewBag.tagUrl = blogUrls.TagsUrl;
+            // themeBaseUrl 本theme的路径url, 可以加载js, css, images之类的
+            ViewBag.themeBaseUrl = "/" + userBlog.ThemePath;
+
+            // 其它static js
+            ViewBag.jQueryUrl = "/js/jquery-1.9.0.min.js";
+
+
+            ViewBag.prettifyJsUrl = "/js/google-code-prettify/prettify.js";
+
+            ViewBag.prettifyCssUrl = "/js/google-code-prettify/prettify.css";
+
+
+            ViewBag.blogCommonJsUrl = "/public/blog/js/common.js";
+
+
+            ViewBag.shareCommentCssUrl = "/public/blog/css/share_comment.css";
+
+            ViewBag.shareCommentJsUrl = "/public/blog/js/share_comment.js";
+
+
+            ViewBag.fontAwesomeUrl = "/css/font-awesome-4.2.0/css/font-awesome.css";
+
+
+            ViewBag.bootstrapCssUrl = "/css/bootstrap.css";
+
+            ViewBag.bootstrapJsUrl = "/js/bootstrap-min.js";
+
         }
     }
 }

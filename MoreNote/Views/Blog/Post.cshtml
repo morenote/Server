@@ -99,18 +99,18 @@
     @await Html.PartialAsync("Footer_js")
     @await Html.PartialAsync("Highlight")
     <script>
-//var siteUrl = "{{$.siteUrl}}"; // common.js需要
-        var siteUrl = "http://127.0.0.1:5914"; // common.js需要
-// 以下 share_comment.js需要
-//var blogInfo={UserId: "{{$.blogInfo.UserId}}", OpenComment: {{$.blogInfo.OpenComment}}, CommentType: "{{$.blogInfo.CommentType}}"};
-//var noteId = "{{$.post.NoteId}}"; //
-//var preLikeNum = +"{{$.post.LikeNum}}";
-//var commentNum = +"{{$.post.CommentNum}}";
+    //var siteUrl = "{{$.siteUrl}}"; // common.js需要
+    var siteUrl = "http://127.0.0.1:5914"; // common.js需要
+    // 以下 share_comment.js需要
+    //var blogInfo={UserId: "{{$.blogInfo.UserId}}", OpenComment: {{$.blogInfo.OpenComment}}, CommentType: "{{$.blogInfo.CommentType}}"};
+    //var noteId = "{{$.post.NoteId}}"; //
+    //var preLikeNum = +"{{$.post.LikeNum}}";
+    //var commentNum = +"{{$.post.CommentNum}}";
 
-        var blogInfo = { UserId: "@blogUser.UserId.ToString("X")", OpenComment: true , CommentType: "default"};
-var noteId = "@note.NoteId.ToString("X")"; //
-var preLikeNum = +"1122";
-var commentNum = +"0";
+    var blogInfo = { UserId: "@blogUser.UserId.ToString("X")", OpenComment: true , CommentType: "default"};
+    var noteId = "@note.NoteId.ToString("X")"; //
+    var preLikeNum = +"1122";
+    var commentNum = +"0";
     </script>
     <!-- 一些公用的js -->
 
