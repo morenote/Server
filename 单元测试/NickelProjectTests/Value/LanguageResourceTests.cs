@@ -13,7 +13,7 @@ namespace MoreNote.Value.Tests
         public void GetMsgTest()
         {
             Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
-            var a=  LanguageResource.GetMsg();
+            var a= LanguageResource.GetMsg();
             Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
             var b = LanguageResource.GetMsg();
             if (b.ContainsKey("donate"))
