@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Entity
         public String SubTitle { get; set; }
         public String Logo { get; set; }
         public bool OpenComment { get; set; }
-        public string CommentType { get; set; }
+        public string CommentType { get; set; } // leanote, or disqus
         public String DisqusId { get; set; }
         public String ThemeId { get; set; }
         public String SubDomain { get; set; }
@@ -49,7 +49,7 @@ namespace MoreNote.Logic.Entity
         [Key]
         public long UserBlogCommentId { get; set; }
         public bool CanComment { get; set; } // 是否可以评论 
-        public string CommentType { get; set; } // default 
+        public string CommentType { get; set; } // default   CommentType // leanote, or disqus
         public string DisqusId { get; set; }  
     }
 

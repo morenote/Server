@@ -184,7 +184,7 @@ namespace MoreNote.Controllers
         {
             //添加访问日志
             await InsertLogAsync($"Blog/Post/{blogUserName}/{noteIdHex}/").ConfigureAwait(false);
-
+           
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
@@ -215,7 +215,8 @@ namespace MoreNote.Controllers
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Content("这篇文章已经被取消分享");
             }
-
+            UserBlog userBlog = BlogService.GetUserBlog(blogUser.UserId);
+            BlogCommon(blogUser.UserId, userBlog, blogUser);
             ViewBag.noteAndContent = noteAndContent;
             blog.Add("Title", noteAndContent.note.Title);
             blog.Add("NoteTitle", noteAndContent.note.Title);
@@ -326,14 +327,14 @@ namespace MoreNote.Controllers
             return new JavaScriptResult(json);
         }
 
-        public bool BlogCommon(long userId, UserBlog userBlog, User userInfo, out UserBlog ub)
+        public bool BlogCommon(long userId, UserBlog userBlog, User userInfo)
         {
             if (userInfo.UserId == 0)
             {
                 userInfo = UserService.GetUserByUserId(userId);
                 if (userInfo.UserId == 0)
                 {
-                    ub = userBlog;
+                 
                     return false;
                 }
             }
@@ -354,7 +355,7 @@ namespace MoreNote.Controllers
             // 当前分类Id, 全设为""
             // 得到主题信息
             // var recentBlogs = BlogService.ListBlogs(userId, "", 1, 5, userBlog.SortField, userBlog.IsAsc);
-            ub = null;
+           
             return false;
         }
 
