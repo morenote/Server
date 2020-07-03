@@ -36,12 +36,12 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void InsertNoteContentTest()
         {
-            string ContentJson = System.IO.File.ReadAllText(@"E:\Project\JSON\note\getNoteContent.json");
-            NoteContent noteConteny = JsonSerializer.Deserialize<NoteContent>(ContentJson, MyJsonConvert.GetOptions());
-            noteConteny.NoteId = 201901;
-            noteConteny.UpdatedUserId = SnowFlake_Net.GenerateSnowFlakeID();
-            noteConteny.UserId = SnowFlake_Net.GenerateSnowFlakeID();
-            NoteContentService.InsertNoteContent(noteConteny);
+            //string ContentJson = System.IO.File.ReadAllText(@"E:\Project\JSON\note\getNoteContent.json");
+            //NoteContent noteConteny = JsonSerializer.Deserialize<NoteContent>(ContentJson, MyJsonConvert.GetOptions());
+            //noteConteny.NoteId = 201901;
+            //noteConteny.UpdatedUserId = SnowFlake_Net.GenerateSnowFlakeID();
+            //noteConteny.UserId = SnowFlake_Net.GenerateSnowFlakeID();
+            //NoteContentService.InsertNoteContent(noteConteny);
 
         }
 

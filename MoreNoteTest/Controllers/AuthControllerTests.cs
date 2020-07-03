@@ -17,31 +17,31 @@ namespace MoreNote.Controllers.Tests
         [TestMethod()]
         public void DoLoginTest()
         {
-            using (var db= DataContext.getDataContext())
-            {
-                User user = db.User.Where(b => b.Username.Equals("hyfree")).FirstOrDefault();
-                Console.WriteLine(user.Email);
-                var authorizations= user.Jurisdiction;
-                if (authorizations==null)
-                {
-                    //Assert.Fail("authorizations==null");
-                    authorizations = new List<Authorization>();
-                    authorizations.Add(new Authorization(SnowFlake_Net.GenerateSnowFlakeID(), "user", "12"));
+            //using (var db= DataContext.getDataContext())
+            //{
+            //    User user = db.User.Where(b => b.Username.Equals("hyfree")).FirstOrDefault();
+            //    Console.WriteLine(user.Email);
+            //    var authorizations= user.Jurisdiction;
+            //    if (authorizations==null)
+            //    {
+            //        //Assert.Fail("authorizations==null");
+            //        authorizations = new List<Authorization>();
+            //        authorizations.Add(new Authorization(SnowFlake_Net.GenerateSnowFlakeID(), "user", "12"));
 
 
-                }
-                if (authorizations.Any())
-                {
-                    foreach (var item in authorizations)
-                    {
-                        Console.WriteLine(item.Type);
-                        Console.WriteLine(item.Value);
+            //    }
+            //    if (authorizations.Any())
+            //    {
+            //        foreach (var item in authorizations)
+            //        {
+            //            Console.WriteLine(item.Type);
+            //            Console.WriteLine(item.Value);
 
-                    }
+            //        }
 
-                }
-                db.SaveChanges();
-            }
+            //    }
+            //    db.SaveChanges();
+            //}
 
         }
     }
