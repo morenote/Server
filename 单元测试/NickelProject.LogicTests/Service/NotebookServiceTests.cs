@@ -33,9 +33,9 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void GetNoteBookTreeTest()
         {
-            Notebook[] notebooks = NotebookService.GetNoteBookTree(1208692382644703232);
-            string json = JsonSerializer.Serialize(notebooks, MyJsonConvert.GetOptions());
-            Console.WriteLine(json);
+            //Notebook[] notebooks = NotebookService.GetNoteBookTree(1208692382644703232);
+            //string json = JsonSerializer.Serialize(notebooks, MyJsonConvert.GetOptions());
+            //Console.WriteLine(json);
            // Assert.Fail();
         }
         [TestMethod()]

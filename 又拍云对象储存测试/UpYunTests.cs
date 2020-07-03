@@ -27,13 +27,13 @@ namespace UpYunLibrary.Tests
         [TestMethod()]
         public void UpYunTest()
         {
-            WebSiteConfig postgreSQLConfig = ConfigManager.GetWebConfig();
-            UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
-            ArrayList str = upyun.readDir("/");
-            foreach (var item in str)
-            {
-                Console.WriteLine(item);
-            }
+            //WebSiteConfig postgreSQLConfig = ConfigManager.GetWebConfig();
+            //UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
+            //ArrayList str = upyun.readDir("/");
+            //foreach (var item in str)
+            //{
+            //    Console.WriteLine(item);
+            //}
 
         }
     }
