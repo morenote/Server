@@ -55,8 +55,8 @@ namespace MoreNote.Controllers
         // GET: Admin/Create
         public IActionResult Create()
         {
+            if(1==1)
             return NotFound();
-            return View();
         }
 
         // POST: Admin/Create
