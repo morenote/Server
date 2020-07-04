@@ -13,13 +13,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    #安装C#的linux环境
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    #安装依赖
+    #还原依赖
     - name: Install dependencies
       run: dotnet restore
+    #安装Node
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+          node-version: '10.x'
     #保存缓存
     - name: Cache multiple paths
       uses: actions/cache@v2
@@ -34,3 +40,43 @@ jobs:
     #运行测试
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    #部署到远程服务器
+    - name: deploy to server
+      uses: AEnterprise/rsync-deploy@v1.0
+      env:
+        DEPLOY_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        ARGS: "-e -c -r --delete"
+        SERVER_PORT: ${{ secrets.SERVER_PORT }}
+        FOLDER: "./"
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        USERNAME: ${{ secrets.USERNAME }}
+        SERVER_DESTINATION: ${{ secrets.SERVER_DESTINATION }}
+      
+       
+       
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+    
