@@ -33,4 +33,4 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     #运行测试
     - name: Test
-    run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore --verbosity normal
