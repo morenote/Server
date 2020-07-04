@@ -32,6 +32,7 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         SERVER_DESTINATION: ${{ secrets.SERVER_DESTINATION }}
     #SSH命令
+      
     - name: ls -a via ssh
       uses: garygrossgarten/github-action-ssh@release
       with:
