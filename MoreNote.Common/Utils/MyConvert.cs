@@ -30,6 +30,7 @@ namespace MoreNote.Common.Utils
                 return 0;
             }
         }
+     
         public static long? HexToLongObject(string hex)
         {
             if (string.IsNullOrEmpty(hex))
