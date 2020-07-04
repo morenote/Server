@@ -27,13 +27,13 @@ jobs:
       with:
           node-version: '10.x'
     #保存缓存
-    - name: Cache multiple paths
-      uses: actions/cache@v2
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-        restore-keys: |
-            ${{ runner.os }}-nuget-
+    #- name: Cache multiple paths
+   #   uses: actions/cache@v2
+    #  with:
+   #     path: ~/.nuget/packages
+   #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+ #       restore-keys: |
+    #        ${{ runner.os }}-nuget-
     #编译
     - name: Build
       run: dotnet build --configuration Release --no-restore
