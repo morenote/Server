@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore
     #保存缓存
     - name: Cache multiple paths
-    - uses: actions/cache@v2
+      uses: actions/cache@v2
       with:
         path: ~/.nuget/packages
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
