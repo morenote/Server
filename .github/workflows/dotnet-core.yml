@@ -20,7 +20,17 @@ jobs:
     #安装依赖
     - name: Install dependencies
       run: dotnet restore
+    #保存缓存
+    - name: Cache multiple paths
+    - uses: actions/cache@v2
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+            ${{ runner.os }}-nuget-
+    #编译
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    #运行测试
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+    run: dotnet test --no-restore --verbosity normal
