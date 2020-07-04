@@ -35,6 +35,7 @@
     <Content Remove="Views\Member\end.cshtml" />
     <Content Remove="Views\Member\footer.cshtml" />
     <Content Remove="Views\Member\top.cshtml" />
+    <Content Remove="wwwroot\blog\themes\MaterialDesign\js\file.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +76,11 @@
     </PackageReference>
 
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.5" />
+
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
 
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 
@@ -283,8 +289,8 @@
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />
-    <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptOutDir></TypeScriptOutDir>
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptMapRoot />

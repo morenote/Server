@@ -30,9 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PAYJS_CSharp_SDK", "PAYJS_C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleCrypto.Core", "SimpleCrypto.Core\SimpleCrypto.Core.csproj", "{D3BA6B71-C7EE-4ED9-A669-80DA37D9891E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCryptoCoreTest", "SimpleCryptoCoreTest\SimpleCryptoCoreTest.csproj", "{910B4A67-2D1D-4012-BD20-7C32BB6EBBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleCryptoCoreTest", "SimpleCryptoCoreTest\SimpleCryptoCoreTest.csproj", "{910B4A67-2D1D-4012-BD20-7C32BB6EBBAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreNoteTest", "MoreNoteTest\MoreNoteTest.csproj", "{0EAC5F49-004A-4799-93D0-87DAF9A64E33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNoteTest", "MoreNoteTest\MoreNoteTest.csproj", "{0EAC5F49-004A-4799-93D0-87DAF9A64E33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

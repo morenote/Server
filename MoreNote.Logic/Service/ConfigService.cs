@@ -129,12 +129,11 @@ namespace MoreNote.Logic.Service
         //blog
         public static string GetBlogDomain()
         {
-            throw new Exception();
+            return "/blog";
         }
         public static string GetBlogUrl()
         {
-            throw 
-                 new Exception();
+            return GetBlogDomain();
         }
         //lea
         public static string GetLeaDomain()
