@@ -23,6 +23,7 @@ namespace MoreNote.Controllers
             foreach (var item in headers)
             {
                 stringBuilder.Append(item.Key + "---" + item.Value + "\r\n");
+                
             }
             string RealIP = headers["X-Forwarded-For"].ToString().Split(",")[0];
 
