@@ -2,12 +2,14 @@ name: MoreNote.NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+       - master
     tags:        
       - v1             # Push events to v1 tag
       - v2.* 
   pull_request:
-    branches: [ master ]
+    branches:
+       - master
     tags:        
       - v1.*            # Push events to v1 tag
       - v2.* 
