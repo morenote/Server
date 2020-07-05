@@ -2,12 +2,14 @@ name: masterTest
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - master
     tags:        
       - test             # Push events to v1 tag
       - test_* 
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
     tags:        
       - test             # Push events to v1 tag
       - test_* 
