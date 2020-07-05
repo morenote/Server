@@ -5,14 +5,14 @@ on:
     branches: 
       - master
     tags:        
-      - test             # Push events to v1 tag
-      - test_* 
+      - needtest             # Push events to v1 tag
+      - needtest_* 
   pull_request:
     branches:
       - master
     tags:        
-      - test             # Push events to v1 tag
-      - test_* 
+      - needtest             # Push events to v1 tag
+      - needtest_* 
     
 
 jobs:
