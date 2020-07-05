@@ -236,11 +236,19 @@ namespace MoreNote.Controllers.API.APIV1
             }
             msg = "";
             serverFileId = 0;
-          
-            var uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/upload/{userId.ToString("x")}/images/{DateTime.Now.ToString("yyyy_MM")}/";
-            if (RuntimeEnvironment.IsWindows)
+            var uploadDirPath = "";//文件的上传路径
+            if (RuntimeEnvironment.Islinux)
+            {   //linux的上传路径
+                 uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/upload/{userId.ToString("x")}/images/{DateTime.Now.ToString("yyyy_MM")}/";
+            }else if (RuntimeEnvironment.IsWindows)
             {
+                //window的上传路径
                 uploadDirPath = $@"upload\{userId.ToString("x")}\images\{DateTime.Now.ToString("yyyy_MM")}\";
+            }
+            else
+            {   //IsOSX的上传路径
+                uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/upload/{userId.ToString("x")}/images/{DateTime.Now.ToString("yyyy_MM")}/";
+
             }
             var diskFileId = SnowFlake_Net.GenerateSnowFlakeID();
             serverFileId=diskFileId;
