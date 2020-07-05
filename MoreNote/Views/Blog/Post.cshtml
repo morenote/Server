@@ -100,7 +100,7 @@
     @await Html.PartialAsync("Highlight")
     <script>
     //var siteUrl = "{{$.siteUrl}}"; // common.js需要
-    var siteUrl = "http://127.0.0.1:5914"; // common.js需要
+    var siteUrl = @ViewBag.siteUrl; // common.js需要
     // 以下 share_comment.js需要
     //var blogInfo={UserId: "{{$.blogInfo.UserId}}", OpenComment: {{$.blogInfo.OpenComment}}, CommentType: "{{$.blogInfo.CommentType}}"};
     //var noteId = "{{$.post.NoteId}}"; //
