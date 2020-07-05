@@ -3,10 +3,11 @@ name: MoreNote.NET Core
 on:
   push:
     branches: 
-       - deploy
+       - master
   pull_request:
     branches:
-       - deploy
+       - master
+   
 
 jobs:
   build:
@@ -15,9 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-     with:
-        fetch-depth: 0
-        ref: deploy
+      with:
+         fetch-depth: 0
     #安装C#的linux环境
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
