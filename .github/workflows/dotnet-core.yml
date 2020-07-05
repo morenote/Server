@@ -3,8 +3,15 @@ name: MoreNote.NET Core
 on:
   push:
     branches: [ master ]
+    tags:        
+      - v1             # Push events to v1 tag
+      - v2.* 
   pull_request:
     branches: [ master ]
+    tags:        
+      - v1.*            # Push events to v1 tag
+      - v2.* 
+    
 
 jobs:
   build:
@@ -57,32 +64,3 @@ jobs:
        port : ${{ secrets.SERVER_PORT }}
        username: ${{ secrets.USERNAME }}
        privateKey: ${{ secrets.DEPLOY_KEY}}
-      
-       
-       
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-    

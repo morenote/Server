@@ -1,0 +1,36 @@
+name: masterTest
+
+on:
+  push:
+    branches: [ master ]
+    tags:        
+      - test             # Push events to v1 tag
+      - test_* 
+  pull_request:
+    branches: [ master ]
+    tags:        
+      - test             # Push events to v1 tag
+      - test_* 
+    
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    #安装C#的linux环境
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    #还原依赖
+    - name: Install dependencies
+      run: dotnet restore
+    #编译
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    #运行测试
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
