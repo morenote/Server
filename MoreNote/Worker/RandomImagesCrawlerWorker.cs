@@ -48,6 +48,7 @@ namespace MoreNoteWorkerService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var imageTypeList = RandomImageService.getImageTypeList();
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
@@ -59,8 +60,8 @@ namespace MoreNoteWorkerService
                     //int max = 120;
                     //string name ="";
                     //GetHttpWebRequest("动漫综合2", out name);
-                    var number = random.Next(UpdataImageURLWorker.imageTypeList.Count);
-                    await GetHttpWebRequestForAnYaAsync(UpdataImageURLWorker.imageTypeList[number]).ConfigureAwait(false);
+                    var number = random.Next(imageTypeList.Count);
+                    await GetHttpWebRequestForAnYaAsync(imageTypeList[number]).ConfigureAwait(false);
                     int time = DateTime.Now.Hour;
                     //每过60秒随机抓取一次
                     //频率太高，站长会顺着网线过来打人

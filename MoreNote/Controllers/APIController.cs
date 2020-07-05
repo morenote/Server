@@ -65,7 +65,7 @@ namespace MoreNote.Controllers
 
         public async Task<IActionResult> GetRandomImage(string type)
         {
-          
+            var randomImageList = RandomImageService.GetRandomImageList();
             lock (_fuseObj)
             {
                 _fuseCount++;
@@ -86,7 +86,7 @@ namespace MoreNote.Controllers
                 
             }
            
-            if (string.IsNullOrEmpty(type)||!UpdataImageURLWorker.randomImageList.ContainsKey(type))
+            if (string.IsNullOrEmpty(type)||!randomImageList.ContainsKey(type))
             {
                 type = "动漫综合2"; 
             }
@@ -99,8 +99,8 @@ namespace MoreNote.Controllers
                     return Redirect("/Auth/login");
                 }
             }
-            int index = random.Next(UpdataImageURLWorker.randomImageList[type].Count - 1);
-            randomImage = UpdataImageURLWorker.randomImageList[type][index];
+            int index = random.Next(randomImageList[type].Count - 1);
+            randomImage = randomImageList[type][index];
 
             string ext = Path.GetExtension(randomImage.FileName);
             IHeaderDictionary headers = Request.Headers;
