@@ -51,7 +51,7 @@ jobs:
     - name: ls -a via ssh
       uses: garygrossgarten/github-action-ssh@release
       with:
-       command: ls -a
+       command: supervisord ctl stop  MoreNote &&  rm -rf /www/morenote.top/app && mkdir /www/morenote.top/app&& \cp -rf  /github/actions/morenote/*  /www/morenote.top/app && supervisord ctl start MoreNote
        host: ${{ secrets.SERVER_IP }}
        port : ${{ secrets.SERVER_PORT }}
        username: ${{ secrets.USERNAME }}
