@@ -5,16 +5,21 @@ MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net core发行
 演示网站：<a href="https://www.morenote.top/" target="_blank">morenote云笔记</a>
 
 
-
 ## 概述
 
-使用.net Core技术构建笔记托管服务，并运行在CentOS7上。
+![MoreNote.NET Core](https://github.com/hyfree/MoreNote/workflows/MoreNote.NET%20Core/badge.svg?event=push)
+
+使用.net Core 3.1构建云笔记托管服务，并运行在Linux上。
 
 
 原则上尽量提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。
 
-相对而言，MoreNote提供了更多的控制选项和更差劲的性能表现👏，MoreNote可以占有更多内存和CPU避免服务器处于长期闲置状态。
-同时MoreNote有更多的编码漏洞和权限漏洞，所以当前版本仅供学习📚用途。
+相对而言，MoreNote提供了更多的控制选项和更差劲的性能和安全表现👏。如果您使用的是 `MoreNote` 托管您的笔记，
+您可能已经知道它仍处于有限的公共测试版中，`MoreNote` 建议不要在生产环境中使用或托管您的重要笔记。
+
+您的笔记很有可能再某次崩溃中全部丢失。
+
+所以，检查你的服务器，检查部署路径，并且使用风险自担。
 
 **特性**
 
