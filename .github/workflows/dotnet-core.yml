@@ -48,10 +48,11 @@ jobs:
         SERVER_IP: ${{ secrets.SERVER_IP }}
         USERNAME: ${{ secrets.USERNAME }}
         SERVER_DESTINATION: ${{ secrets.SERVER_DESTINATION }}
-    - name: ls -a via ssh
+    #停止服务&&移除旧的程序文件&&拷贝新的程序文件&&启动服务
+    - name: server restart
       uses: garygrossgarten/github-action-ssh@release
       with:
-       command: supervisord ctl stop  MoreNote &&  rm -rf /www/morenote.top/app && mkdir /www/morenote.top/app&& \cp -rf  /github/actions/morenote/*  /www/morenote.top/app && supervisord ctl start MoreNote
+       command: supervisord ctl stop  MoreNote &&  rm -rf /www/morenote.top/app && mkdir /www/morenote.top/app && \cp -rf  /github/actions/morenote/*  /www/morenote.top/app && supervisord ctl start MoreNote
        host: ${{ secrets.SERVER_IP }}
        port : ${{ secrets.SERVER_PORT }}
        username: ${{ secrets.USERNAME }}

@@ -50,6 +50,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="API_Model\" />
     <Folder Include="Type\" />
+    <Folder Include="RandomImage\" />
   </ItemGroup>
 
 </Project>
