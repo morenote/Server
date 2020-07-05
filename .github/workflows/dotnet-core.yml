@@ -27,6 +27,9 @@ jobs:
     #运行测试
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    #发布代码版本
+    - name: Publish
+      run: dotnet publish -c Release  -o bin/publish/morenote --no-self-contained  --no-restore --no-build
     #安装ssh
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
@@ -41,7 +44,7 @@ jobs:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY}}
         ARGS: "-e -c -r --delete"
         SERVER_PORT: ${{ secrets.SERVER_PORT }}
-        FOLDER: "./"
+        FOLDER: "./bin/publish/morenote"
         SERVER_IP: ${{ secrets.SERVER_IP }}
         USERNAME: ${{ secrets.USERNAME }}
         SERVER_DESTINATION: ${{ secrets.SERVER_DESTINATION }}
