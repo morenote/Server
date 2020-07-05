@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
        - deploy
-    
 
 jobs:
   build:
@@ -16,6 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+     with:
+        fetch-depth: 0
+        ref: deploy
     #安装C#的linux环境
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
