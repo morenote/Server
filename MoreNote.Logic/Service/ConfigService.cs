@@ -14,18 +14,16 @@ namespace MoreNote.Logic.Service
         private const string path = @"Config\config.json";
         public EmailConfig emailConfig;
 
-        public struct GlobalConfigService
-        {
-            long adminUserId;
-            string siteUrl;
-            string adminUserName;
-            //全局
-            Dictionary<string,string> GlobalAllConfigs;
-            Dictionary<string,string> GlobalStringConfigs;
-            Dictionary<string,string[]> GlobalArrayConfigs;
-            Dictionary<string,string> GlobalMapConfigs;
-            Dictionary<string,string> GlobalArrMapConfigs;
-        }
+        long adminUserId;
+        string siteUrl;
+        string adminUserName;
+        //全局
+        Dictionary<string, string> GlobalAllConfigs;
+        Dictionary<string, string> GlobalStringConfigs;
+        Dictionary<string, string[]> GlobalArrayConfigs;
+        Dictionary<string, string> GlobalMapConfigs;
+        Dictionary<string, string> GlobalArrMapConfigs;
+
         // appStart时 将全局的配置从数据库中得到作为全局
         public static bool InitGlobalConfigs()
         {
@@ -33,8 +31,9 @@ namespace MoreNote.Logic.Service
         }
         public static string GetSiteUrl()
         {
-            return @"http://localhost:5914";
-            
+            //todo:修改这个GetSiteUrl
+            return @"https://www.morenote.top/";
+
         }
         public static bool updateGlobalConfig(long userid,string key,string value)
         {
