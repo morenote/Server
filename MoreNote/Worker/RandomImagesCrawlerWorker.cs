@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MoreNote.Common.Config;
-using MoreNote.Common.Config.Model;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
 using MoreNote.Controllers;
@@ -28,7 +27,7 @@ namespace MoreNoteWorkerService
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
-        static WebSiteConfig config = ConfigManager.GetWebConfig();
+        static WebSiteConfig config = ConfigFileService.GetWebConfig();
         /// <summary>
         /// ”÷≈ƒ‘∆
         /// </summary>

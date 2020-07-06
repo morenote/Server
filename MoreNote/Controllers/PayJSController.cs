@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MoreNote.Common.Config;
-using MoreNote.Common.Config.Model;
+
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service;
 
 using PAYJS_CSharp_SDK;
 using PAYJS_CSharp_SDK.Model;
@@ -18,7 +19,7 @@ namespace MoreNote.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class PayJSController : Controller
     {
-        private static WebSiteConfig webSiteConfig = ConfigManager.GetWebConfig();
+        private static WebSiteConfig webSiteConfig = ConfigFileService.GetWebConfig();
 
         private static Payjs pay = new Payjs(webSiteConfig.PayJS_MCHID, webSiteConfig.PayJS_Key);
 

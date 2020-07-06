@@ -1,15 +1,16 @@
-﻿using System.IO;
-using MoreNote.Common.Config.Model;
+﻿using MoreNote.Logic.Entity.ConfigFile;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
 using MoreNote.Common.Util;
+using System.IO;
 
-namespace MoreNote.Common.Config
+namespace MoreNote.Logic.Service
 {
-
-    //配置管理器
-    public class ConfigManager
+   public class ConfigFileService
     {
-        private  static WebSiteConfig config;
-
+        private static WebSiteConfig config;
         public static WebSiteConfig GetWebConfig()
         {
             if (config != null)

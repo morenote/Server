@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using MoreNote.Common.Config;
-using MoreNote.Common.Config.Model;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -28,7 +27,7 @@ namespace MoreNoteWorkerService
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
-        private static readonly WebSiteConfig config = ConfigManager.GetWebConfig();
+        private static readonly WebSiteConfig config = ConfigFileService.GetWebConfig();
         public UpdataImageURLWorker()
         {
 

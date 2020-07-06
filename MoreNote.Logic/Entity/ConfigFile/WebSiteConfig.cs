@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MoreNote.Common.Config.Model
+namespace MoreNote.Logic.Entity.ConfigFile
 {
     public class WebSiteConfig
     {

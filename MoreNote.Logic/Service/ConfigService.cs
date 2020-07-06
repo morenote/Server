@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using MoreNote.Logic.Entity.ConfigFile;
 
 namespace MoreNote.Logic.Service
 {
+   
     public class ConfigService
     {
+       
         private static ConfigService _configService;
         private static object _lockObject = new object();
         private const string path = @"Config\config.json";
@@ -23,6 +26,9 @@ namespace MoreNote.Logic.Service
         Dictionary<string, string[]> GlobalArrayConfigs;
         Dictionary<string, string> GlobalMapConfigs;
         Dictionary<string, string> GlobalArrMapConfigs;
+
+
+       
 
         // appStart时 将全局的配置从数据库中得到作为全局
         public static bool InitGlobalConfigs()

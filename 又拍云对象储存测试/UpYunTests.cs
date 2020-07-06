@@ -3,8 +3,7 @@ using UpYunLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using MoreNote.Common.Config;
-using MoreNote.Common.Config.Model;
+using MoreNote.Logic.Entity.ConfigFile;
 using System.Collections;
 
 namespace UpYunLibrary.Tests
