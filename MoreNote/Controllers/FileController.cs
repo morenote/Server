@@ -6,9 +6,9 @@ using UpYunLibrary.OSS;
 
 using Microsoft.AspNetCore.Mvc;
 
-using MoreNote.Common.Config;
 using MoreNote.Common.Utils;
 using Microsoft.AspNetCore.Authorization;
+using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers
 {
@@ -21,7 +21,7 @@ namespace MoreNote.Controllers
         [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult UploadUPyun()
         {
-            var webConfig = ConfigManager.GetWebConfig();
+            var webConfig = ConfigFileService.GetWebConfig();
             var options = new UPYunOSSOptions();
             options.bucket = webConfig.UpYunOSSConfig.Bucket;
             options.save_key = "/{year}/{mon}/{day}/{filemd5}{.suffix}";

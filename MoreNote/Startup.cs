@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MoreNote.Common.Config;
-using MoreNote.Common.Config.Model;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.DB;
 
 using System;
+using MoreNote.Logic.Service;
 
 namespace MoreNote
 {
@@ -21,7 +21,7 @@ namespace MoreNote
         {
             Configuration = configuration;
         }
-        WebSiteConfig config = ConfigManager.GetWebConfig();
+        WebSiteConfig config = ConfigFileService.GetWebConfig();
 
         public IConfiguration Configuration { get; }
 
@@ -32,7 +32,7 @@ namespace MoreNote
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;//关闭GDPR规范    
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
 
             });
             //随机图片API初始化程序

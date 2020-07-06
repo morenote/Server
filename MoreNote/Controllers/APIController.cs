@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-using MoreNote.Common.Config;
-using MoreNote.Common.Config.Model;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Entity.ConfigFile;
 
 using MoreNoteWorkerService;
 
@@ -29,7 +27,7 @@ namespace MoreNote.Controllers
         
       
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-        private static readonly WebSiteConfig postgreSQLConfig = ConfigManager.GetWebConfig();
+        private static readonly WebSiteConfig postgreSQLConfig = ConfigFileService.GetWebConfig();
         private static readonly UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
         private static readonly Random random = new Random();
 
@@ -59,7 +57,7 @@ namespace MoreNote.Controllers
 
         //目录分隔符
         private static readonly char dsc = Path.DirectorySeparatorChar;
-        private static readonly string dir = ConfigManager.GetWebConfig().randomImageDir;
+        private static readonly string dir = ConfigFileService.GetWebConfig().randomImageDir;
 
  
 

@@ -1,11 +1,13 @@
 ﻿using MoreNote.Logic.Entity;
 using Microsoft.EntityFrameworkCore;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MoreNote.Common.Config;
+using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service;
 
 namespace MoreNote.Logic.DB
 {
@@ -34,7 +36,7 @@ namespace MoreNote.Logic.DB
             //测试服务器
             //var connection = "Host=127.0.0.1.5;Port=5432;Database=dbname; User ID=userid;Password=password;";
            // var postgres = Environment.GetEnvironmentVariable("postgres");
-            var postgres = ConfigManager.GetWebConfig();
+            var postgres = ConfigFileService.GetWebConfig();
             optionsBuilder.UseNpgsql(postgres.connection);
         }
 
