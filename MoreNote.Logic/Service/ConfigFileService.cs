@@ -17,22 +17,30 @@ namespace MoreNote.Logic.Service
             {
                 return config;
             }
-            if (RuntimeEnvironment.Islinux)
+            if (RuntimeEnvironment.IsWindows)
             {
-                string path = "/etc/morenote/PostgreSQLConfig.json";
+                string path = @"C:\etc\morenote\WebSiteConfig.json";
+                if (!File.Exists(path))
+                {
+                    throw new  IOException($"{path}不存在");
+                }
+                string json = File.ReadAllText(path);
+                WebSiteConfig postgreSQLConfig = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
+                config = postgreSQLConfig;
+                return postgreSQLConfig;
+            }
+            else
+            {
+                string path = "/etc/morenote/WebSiteConfig.json";
+                if (!File.Exists(path))
+                {
+                    throw new IOException($"{path}不存在");
+                }
                 string json = File.ReadAllText(path);
                 WebSiteConfig postgreSQLConfig = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
                 config = postgreSQLConfig;
                 return postgreSQLConfig;
 
-            }
-            else
-            {
-                string path = @"C:\etc\morenote\PostgreSQLConfig.json";
-                string json = File.ReadAllText(path);
-                WebSiteConfig postgreSQLConfig = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
-                config = postgreSQLConfig;
-                return postgreSQLConfig;
             }
 
         }
