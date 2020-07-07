@@ -96,7 +96,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             AppInfo appInfo = new AppInfo()
             {
-                appid = SnowFlake_Net.GenerateSnowFlakeID(),
+                appid = SnowFlakeNet.GenerateSnowFlakeID(),
                 appautor = appautor,
                 appdetail = appdetail,
                 appname = appname,

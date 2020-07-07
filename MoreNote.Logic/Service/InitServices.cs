@@ -28,7 +28,7 @@ namespace MoreNote.Logic.Service
         // 添加笔记时通过title得到urlTitle
         public static string fixUrlTitle(string urlTitle)
         {
-          return SnowFlake_Net.GenerateSnowFlakeIDHex();
+          return SnowFlakeNet.GenerateSnowFlakeIDHex();
         }
         public static string getUniqueUrlTitle(long userId,string urlTitle,string types,int padding)
         {

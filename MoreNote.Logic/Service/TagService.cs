@@ -54,7 +54,7 @@ namespace MoreNote.Logic.Service
             var timeNow =DateTime.Now;
             noteTag = new NoteTag()
             {
-                TagId = SnowFlake_Net.GenerateSnowFlakeID(),
+                TagId = SnowFlakeNet.GenerateSnowFlakeID(),
                 Count = 1,
                 Tag = tag,
                 UserId = userId,
@@ -171,7 +171,7 @@ namespace MoreNote.Logic.Service
         {
             if (noteTag.TagId==0)
             {
-                noteTag.TagId=SnowFlake_Net.GenerateSnowFlakeID();
+                noteTag.TagId=SnowFlakeNet.GenerateSnowFlakeID();
             }
             using (var db = DataContext.getDataContext())
             {

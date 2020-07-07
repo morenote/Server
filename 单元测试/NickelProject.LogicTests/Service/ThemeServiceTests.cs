@@ -32,8 +32,8 @@ namespace MoreNote.Logic.Service.Tests
         public void InsertURLTest()
         {
             FriendLinks friendLinks = new FriendLinks();
-            friendLinks.FriendLinksId = SnowFlake_Net.GenerateSnowFlakeID();
-            friendLinks.ThemeId = SnowFlake_Net.GenerateSnowFlakeID();
+            friendLinks.FriendLinksId = SnowFlakeNet.GenerateSnowFlakeID();
+            friendLinks.ThemeId = SnowFlakeNet.GenerateSnowFlakeID();
             friendLinks.Title = "标题1";
             friendLinks.Title = "标题2";
             //Assert.Fail();

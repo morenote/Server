@@ -25,7 +25,7 @@ namespace MoreNote.Logic.Service
         {
             if (notebook.NotebookId==0)
             {
-                notebook.NotebookId = SnowFlake_Net.GenerateSnowFlakeID();
+                notebook.NotebookId = SnowFlakeNet.GenerateSnowFlakeID();
             }
             notebook.UrlTitle = notebook.NotebookId.ToString("X");
 
@@ -45,7 +45,7 @@ namespace MoreNote.Logic.Service
         {
             if (notebook.NotebookId == 0)
             {
-                notebook.NotebookId = SnowFlake_Net.GenerateSnowFlakeID();
+                notebook.NotebookId = SnowFlakeNet.GenerateSnowFlakeID();
             }
             notebook.UrlTitle = notebook.NotebookId.ToString("X");
 
