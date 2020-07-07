@@ -54,7 +54,7 @@ namespace MoreNote.Logic.Service
         public static bool AddUser(User
              user)
         {
-            if (user.UserId == 0) user.UserId = SnowFlake_Net.GenerateSnowFlakeID();
+            if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);

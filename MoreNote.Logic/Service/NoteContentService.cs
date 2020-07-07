@@ -114,7 +114,7 @@ namespace MoreNote.Logic.Service
                 {
                     //新增笔记内容，需要将上一个笔记设置为历史笔记
                     db.NoteContent.Where(b => b.NoteId == noteId&&b.IsHistory==false).Update(x => new NoteContent() { IsHistory = true });
-                    contentId = SnowFlake_Net.GenerateSnowFlakeID();
+                    contentId = SnowFlakeNet.GenerateSnowFlakeID();
                     NoteContent contentNew = new NoteContent()
                     {
 

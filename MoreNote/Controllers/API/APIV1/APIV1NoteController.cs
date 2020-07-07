@@ -118,7 +118,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
-            long noteId = SnowFlake_Net.GenerateSnowFlakeID();
+            long noteId = SnowFlakeNet.GenerateSnowFlakeID();
           
        
             if (noteOrContent.Title==null)
@@ -204,7 +204,7 @@ namespace MoreNote.Controllers.API.APIV1
                 AttachNum = attachNum,
                 CreatedTime = noteOrContent.CreatedTime,
                 UpdatedTime = noteOrContent.UpdatedTime,
-                ContentId = SnowFlake_Net.GenerateSnowFlakeID()
+                ContentId = SnowFlakeNet.GenerateSnowFlakeID()
             };
 
             //-------------新增笔记内容对象

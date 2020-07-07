@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Text;
+
+using MoreNote.Common.ExtensionMethods;
+
 using Snowflake.Core;
 
 namespace MoreNote.Common.Utils
 {
-    public class SnowFlake_Net
+    public class SnowFlakeNet
     {
         private static IdWorker worker = null;
        
        // 定义一个标识确保线程同步
         private static readonly object locker = new object();
         // 定义私有构造函数，使外界不能创建该类实例
-        private SnowFlake_Net()
+        private SnowFlakeNet()
         {
             if (worker == null)
             {
@@ -55,7 +58,7 @@ namespace MoreNote.Common.Utils
         /// <returns></returns>
         public static string GenerateSnowFlakeIDHex()
         {
-            return GenerateSnowFlakeID().ToString("x");
+            return GenerateSnowFlakeID().Hex();
         }
     }
 }

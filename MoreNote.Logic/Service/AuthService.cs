@@ -16,11 +16,11 @@ namespace MoreNote.Logic.Service
                 string temp = SHAEncryptHelper.Hash256Encrypt(pwd + user.Salt);
                 if (temp.Equals(user.Pwd))
                 {
-                    long tokenid = SnowFlake_Net.GenerateSnowFlakeID();
+                    long tokenid = SnowFlakeNet.GenerateSnowFlakeID();
                     var token=TokenSerivce.GenerateToken(tokenid);
                     Token myToken = new Token
                     {
-                        TokenId = SnowFlake_Net.GenerateSnowFlakeID(),
+                        TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
                         UserId = user.UserId,
                         Email = user.Email,
                         TokenStr = token,
@@ -112,7 +112,7 @@ namespace MoreNote.Logic.Service
             }
             User user = new User()
             {
-                UserId = SnowFlake_Net.GenerateSnowFlakeID(),
+                UserId = SnowFlakeNet.GenerateSnowFlakeID(),
                 Email = email,
                 Username = email,
                 Pwd = genPass,

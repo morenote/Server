@@ -67,7 +67,7 @@ namespace MoreNote.Common.Utils
                 }
                 else
                 {
-                    long sf = SnowFlake_Net.GenerateSnowFlakeID();
+                    long sf = SnowFlakeNet.GenerateSnowFlakeID();
                     keyValuePairs.Add(a, sf);
                     return sf;
                 }

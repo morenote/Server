@@ -29,7 +29,7 @@ namespace MoreNote.Logic.Service
         {
             StringBuilder tokenBuilder=new StringBuilder();
 
-            long tokenid = SnowFlake_Net.GenerateSnowFlakeID();
+            long tokenid = SnowFlakeNet.GenerateSnowFlakeID();
             tokenBuilder.Append(tokenid.ToString("x"));
             tokenBuilder.Append("@");
             tokenBuilder.Append(RandomTool.CreatRandomString(16));

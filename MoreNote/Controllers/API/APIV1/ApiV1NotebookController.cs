@@ -110,7 +110,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 Notebook notebook = new Notebook()
                 {
-                    NotebookId = SnowFlake_Net.GenerateSnowFlakeID(),
+                    NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
                     Title = title,
                     Seq = seq,
                     UserId = user.UserId,

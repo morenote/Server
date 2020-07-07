@@ -156,7 +156,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 uploadDirPath = $@"upload\{userId.ToString("x")}\attachs\{DateTime.Now.ToString("yyyy_MM")}\";
             }
-            var diskFileId = SnowFlake_Net.GenerateSnowFlakeID();
+            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             //检查是否登录
@@ -250,7 +250,7 @@ namespace MoreNote.Controllers.API.APIV1
                 uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/upload/{userId.ToString("x")}/images/{DateTime.Now.ToString("yyyy_MM")}/";
 
             }
-            var diskFileId = SnowFlake_Net.GenerateSnowFlakeID();
+            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId=diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             //检查是否登录

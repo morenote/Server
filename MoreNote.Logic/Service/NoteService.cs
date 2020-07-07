@@ -502,7 +502,7 @@ namespace MoreNote.Logic.Service
         {
             if (note.NoteId == 0)
             {
-                note.NoteId = SnowFlake_Net.GenerateSnowFlakeID();
+                note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
             }
 
             // 关于创建时间, 可能是客户端发来, 此时判断时间是否有
@@ -548,9 +548,9 @@ namespace MoreNote.Logic.Service
         {
             if (note.NoteId == 0)
             {
-                note.NoteId = SnowFlake_Net.GenerateSnowFlakeID();
+                note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
             }
-            noteContent.NoteContentId = SnowFlake_Net.GenerateSnowFlakeID();
+            noteContent.NoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
             noteContent.NoteId = note.NoteId;
             if (note.UserId != 0 && note.UserId != myUserId)
             {

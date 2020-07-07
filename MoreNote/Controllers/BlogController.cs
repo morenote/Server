@@ -29,7 +29,7 @@ namespace MoreNote.Controllers
 
             AccessRecords accessRecords = new AccessRecords()
             {
-                AccessId = SnowFlake_Net.GenerateSnowFlakeID(),
+                AccessId = SnowFlakeNet.GenerateSnowFlakeID(),
                 IP = RealIP,
                 X_Real_IP = headers["X-Real-IP"],
                 X_Forwarded_For = headers["X-Forwarded-For"],
