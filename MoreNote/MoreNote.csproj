@@ -135,9 +135,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="hello.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="TextFile.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

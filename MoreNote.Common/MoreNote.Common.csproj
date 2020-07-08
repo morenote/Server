@@ -24,4 +24,8 @@
     <Folder Include="Network\新文件夹\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Google.Authenticator\Google.Authenticator.csproj" />
+  </ItemGroup>
+
 </Project>
