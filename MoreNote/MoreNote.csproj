@@ -50,6 +50,10 @@
 
   <ItemGroup>
     
+    <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.0.0" />
+    
+    <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.0.1" />
+    
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
@@ -130,8 +134,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
-    <ProjectReference Include="..\PAYJS_CSharp_SDK\PAYJS_CSharp_SDK.csproj" />
-    <ProjectReference Include="..\UpYunLibrary\UpYunLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
