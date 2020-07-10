@@ -16,8 +16,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SimpleCrypto.Core\SimpleCrypto.Core.csproj" />
-  </ItemGroup>
-
 </Project>

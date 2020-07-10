@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Service;
 using MoreNote.Logic.Entity.ConfigFile;
-
-using MoreNoteWorkerService;
+using MoreNote.Logic.Service;
 
 using System;
 using System.Collections.Generic;
@@ -24,11 +23,11 @@ namespace MoreNote.Controllers
 {
     public class APIController : Controller
     {
-        
-      
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
         private static readonly WebSiteConfig postgreSQLConfig = ConfigFileService.GetWebConfig();
+
         private static readonly UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
+
         private static readonly Random random = new Random();
 
         /// <summary>
@@ -41,6 +40,7 @@ namespace MoreNote.Controllers
         /// 当访问量查过保险丝的能力时，直接熔断接口。
         /// </summary>
         private static int _fuseCount = 0;
+
         private static readonly object _fuseObj = new object();
 
         /// <summary>
@@ -57,9 +57,8 @@ namespace MoreNote.Controllers
 
         //目录分隔符
         private static readonly char dsc = Path.DirectorySeparatorChar;
-        private static readonly string dir = ConfigFileService.GetWebConfig().randomImageDir;
 
- 
+        private static readonly string dir = ConfigFileService.GetWebConfig().randomImageDir;
 
         public async Task<IActionResult> GetRandomImage(string type)
         {
@@ -81,12 +80,11 @@ namespace MoreNote.Controllers
                     Response.StatusCode = (int)HttpStatusCode.BadGateway;
                     return Content("接口并发太高，接口已经熔断");
                 }
-                
             }
-           
-            if (string.IsNullOrEmpty(type)||!randomImageList.ContainsKey(type))
+
+            if (string.IsNullOrEmpty(type) || !randomImageList.ContainsKey(type))
             {
-                type = "动漫综合2"; 
+                type = "动漫综合2";
             }
             if (type.Equals("少女映画"))
             {
@@ -122,14 +120,15 @@ namespace MoreNote.Controllers
                 UnixTime = (long)UnixTimeHelper.GetTimeStampInInt32(),
                 TimeInterval = -1,
                 url = "/api/GetRandomImage",
-                RemoteIpAddress= remoteIpAddress,
-                RemotePort= remotePort
+                RemoteIpAddress = remoteIpAddress,
+                RemotePort = remotePort
             };
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             type = randomImage.TypeNameMD5;
             upyun.secret = postgreSQLConfig.upyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             unixTimestamp += 3;
+
             //开启token防盗链
 
             if (postgreSQLConfig.token_anti_theft_chain)
@@ -141,20 +140,18 @@ namespace MoreNote.Controllers
             {
                 return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}");
             }
-
         }
 
         [HttpPost]
         public async Task<IActionResult> UpYunImageServiceHook()
         {
-           
             using (StreamReader reader = new StreamReader(Request.Body))
             {
                 try
                 {
                     string body = await reader.ReadToEndAsync().ConfigureAwait(true);
-                    ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, MyJsonConvert.GetOptions());
-                    if (string.IsNullOrEmpty(message.uri)||message.type==UpyunType.test)
+                    ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, Common.Utils.MyJsonConvert.GetOptions());
+                    if (string.IsNullOrEmpty(message.uri) || message.type == UpyunType.test)
                     {
                         Response.StatusCode = 200;
                         return Content("未找到");
@@ -174,23 +171,29 @@ namespace MoreNote.Controllers
                             case UpyunType.delete:
                                 imagedb.Delete = true;
                                 break;
+
                             case UpyunType.shield:
                                 imagedb.Block = true;
                                 break;
+
                             case UpyunType.cancel_shield:
                                 imagedb.Block = false;
                                 break;
+
                             case UpyunType.forbidden:
                                 imagedb.Block = true;
                                 break;
+
                             case UpyunType.cancel_forbidden:
                                 imagedb.Block = false;
                                 break;
+
                             default:
                                 break;
                         }
                         db.SaveChanges();
                     }
+
                     // Do something
                 }
                 catch (Exception ex)
@@ -198,17 +201,17 @@ namespace MoreNote.Controllers
                     Response.StatusCode = 404;
                     return Content("false");
                 }
-               
             }
             Response.StatusCode = 200;
             return Content("ok");
-
         }
+
         //浏览器检测
         public async Task<IActionResult> BrowserDetection()
         {
             return Redirect($"https://www.morenote.top/BrowserDetection.js");
         }
+
         /// <summary>
         /// 获取图形验证码
         /// </summary>
@@ -218,19 +221,19 @@ namespace MoreNote.Controllers
         {
             Response.ContentType = "image/jpeg";
 
-
             using (var stream = CheckCode.Create(out var code))
             {
                 var buffer = stream.ToArray();
 
                 //存session
                 HttpContext.Session.SetString("VerifyCode", code.ToLower());
+
                 //使用标志，不允许重复使用一个验证码。
                 //这个验证码被消费一次后，要置0。
                 HttpContext.Session.SetInt32("VerifyCodeValid", 1);
+
                 //验证码生成时间。
                 HttpContext.Session.SetInt32("VerifyCodeTime", UnixTimeHelper.GetTimeStampInInt32());
-
 
                 //string sessionID = Request.Cookies["SessionID"];
                 //RedisManager.SetString(sessionID, code);
@@ -242,10 +245,6 @@ namespace MoreNote.Controllers
 
                 await Response.Body.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
             }
-
-
         }
-
-
     }
 }
