@@ -50,7 +50,7 @@
 
   <ItemGroup>
     
-    <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.3" />
+    <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
     
     <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.0.0" />
     

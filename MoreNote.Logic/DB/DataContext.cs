@@ -1,12 +1,5 @@
-﻿using MoreNote.Logic.Entity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 
 namespace MoreNote.Logic.DB
@@ -38,6 +31,7 @@ namespace MoreNote.Logic.DB
            // var postgres = Environment.GetEnvironmentVariable("postgres");
             var postgres = ConfigFileService.GetWebConfig();
             optionsBuilder.UseNpgsql(postgres.connection);
+            
         }
 
         public DbSet<Album> Album { get; set; }

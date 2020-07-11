@@ -12,8 +12,14 @@ namespace MoreNote.Common.Util.Tests
         [TestMethod()]
         public void CreatSafeSaltTest()
         {
-           string salt= RandomTool.CreatSafeSalt(32);
-           Console.WriteLine(salt);
+            string salt = RandomTool.CreatSafeSalt(32);
+            Console.WriteLine(salt);
+        }
+
+        [TestMethod()]
+        public void CreatSafeSaltTest1()
+        {
+
         }
     }
 }
