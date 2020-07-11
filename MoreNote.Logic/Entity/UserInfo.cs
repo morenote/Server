@@ -40,7 +40,7 @@ namespace MoreNote.Logic.Entity
         public string UsernameRaw { get; set; }//// 可能有大小写
         public string Pwd { get; set; }
         public string Salt { get; set; }//MD5 盐
-       
+        public string GoogleAuthenticatorSecretKey { get; set; }//谷歌身份验证密码
         public int Cost { get; set; }//加密强度--》迭代次数
         public string Role { get; set; }//角色 用户组
         public List<Authorization> Jurisdiction { get;set;} //授权 拥有的权限
