@@ -8,9 +8,9 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Tag/[action]")]
     // [ApiController]
-    public class ApiV1TagController : ApiV1BaseController
+    public class TagAPIController : BaseAPIController
     {
-        public ApiV1TagController(IHttpContextAccessor accessor) : base(accessor)
+        public TagAPIController(IHttpContextAccessor accessor) : base(accessor)
         {
         }
 
