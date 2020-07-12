@@ -10,9 +10,9 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Note/[action]")]
     // [ApiController]
-    public class ApiV1NoteController : ApiV1BaseController
+    public class NoteAPIController : BaseAPIController
     {
-        public ApiV1NoteController(IHttpContextAccessor accessor) : base(accessor)
+        public NoteAPIController(IHttpContextAccessor accessor) : base(accessor)
         {
 
         }

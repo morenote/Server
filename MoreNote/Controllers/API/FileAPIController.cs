@@ -11,12 +11,18 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/File/[action]")]
     //[ApiController]
-    public class APIFileController : ApiV1BaseController
+    public class FileAPIController : BaseAPIController
     {
-        public APIFileController(IHttpContextAccessor accessor) : base(accessor)
+        public FileAPIController(IHttpContextAccessor accessor) : base(accessor)
         {
         }
 
+        //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片
+        [Route("api/File/GetImageForWeb/{fileId}")]
+        public IActionResult GetImageForWeb(string fileId)
+        {
+            return  GetImage(fileId);
+        }
         //todo: 输出image
         public IActionResult GetImage(string fileId)
         {

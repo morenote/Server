@@ -9,9 +9,9 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Auth/[action]")]
 
-    public class ApiV1ApiAuthController : ApiV1BaseController
+    public class AuthAPIController : BaseAPIController
     {
-        public ApiV1ApiAuthController(IHttpContextAccessor accessor) : base(accessor)
+        public AuthAPIController(IHttpContextAccessor accessor) : base(accessor)
         {
 
         }

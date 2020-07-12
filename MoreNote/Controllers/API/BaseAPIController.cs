@@ -19,14 +19,14 @@ namespace MoreNote.Controllers.API.APIV1
      * 
      * 2020年01月27日
      * */
-    public class ApiV1BaseController : Controller
+    public class BaseAPIController : Controller
     {
         public int pageSize = 1000;
         public string defaultSortField = "UpdatedTime";
         public string leanoteUserId = "admin";// 不能更改
         protected IHttpContextAccessor _accessor;
      
-        public ApiV1BaseController(IHttpContextAccessor accessor)
+        public BaseAPIController(IHttpContextAccessor accessor)
         {
             _accessor = accessor;
 
