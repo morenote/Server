@@ -398,7 +398,12 @@ namespace MoreNote.Logic.Service
 
         public Post[] FixBlogs(BlogItem[] blogs)
         {
-            throw new Exception();
+            var posts = new Post[blogs.Length];
+            for (int i = 0; i < blogs.Length; i++)
+            {
+                posts[i] = FixBlog(blogs[i]);
+            }
+            return posts;
         }
 
         public Post FixBlog(BlogItem blogItem)

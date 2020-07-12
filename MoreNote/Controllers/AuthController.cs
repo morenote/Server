@@ -16,8 +16,13 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
+        public AuthController(IHttpContextAccessor accessor) : base(accessor)
+        {
+
+
+        }
         //public IActionResult Index()
         //{
         //    return View();

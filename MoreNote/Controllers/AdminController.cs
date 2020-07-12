@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +15,15 @@ using MoreNote.Logic.Service;
 namespace MoreNote.Controllers
 {
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        //private readonly DataContext _context;
+        public AdminController(IHttpContextAccessor accessor) : base(accessor)
+        {
 
 
+        }
 
-     
+
         public async Task<IActionResult> Index()
         {
             using (DataContext _context = new DataContext())

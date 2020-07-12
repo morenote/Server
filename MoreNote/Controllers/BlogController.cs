@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -14,8 +15,40 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-    public class BlogController : Controller
+    public class BlogController : BaseController
     {
+        public BlogController(IHttpContextAccessor accessor) : base(accessor)
+        {
+
+        }
+        private IActionResult render(string templateName,string themePath)
+        {
+            var isPreview = false;
+            if (ViewBag.isPreview==null)
+            {
+                var themePath2 = ViewBag.themePath;
+                if (themePath2==null)
+                {
+                    return E404();
+                }
+                isPreview = true;
+                themePath = themePath2;
+                setPreviewUrl();
+                // 因为common的themeInfo是从UserBlog.ThemeId来取的, 所以这里要fugai下
+                ViewBag.themeInfo = ViewBag.themeInfoPreview;
+            }
+            //todo:RenderTemplateStr
+            return null; 
+        }
+        public void setPreviewUrl()
+        {
+
+        }
+        private IActionResult E404()
+        {
+            ViewBag.title = "404";
+            return NoFound();
+        }
         private async Task InsertLogAsync(string url)
         {
             var headers = Request.Headers;
@@ -199,23 +232,29 @@ namespace MoreNote.Controllers
                 return Content("未找到");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
+
+            
             NoteAndContent noteAndContent = NoteService.GetNoteAndContent(noteId);
+
             NoteService.AddReadNum(noteId);
             if (noteAndContent == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("未经授权的访问");
             }
+
             if (noteAndContent.note.IsDeleted || noteAndContent.note.IsTrash)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("这篇文章已经被删除");
             }
+
             if (!noteAndContent.note.IsBlog)
             {
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Content("这篇文章已经被取消分享");
             }
+
             UserBlog userBlog = BlogService.GetUserBlog(blogUser.UserId);
             BlogCommon(blogUser.UserId, userBlog, blogUser);
             ViewBag.noteAndContent = noteAndContent;
@@ -328,15 +367,14 @@ namespace MoreNote.Controllers
             return new JavaScriptResult(json);
         }
 
-        public bool BlogCommon(long userId, UserBlog userBlog, User userInfo)
+        public UserBlog BlogCommon(long userId, UserBlog userBlog, User userInfo)
         {
             if (userInfo.UserId == 0)
             {
                 userInfo = UserService.GetUserByUserId(userId);
                 if (userInfo.UserId == 0)
                 {
-                 
-                    return false;
+                    return null;
                 }
             }
 
@@ -357,7 +395,7 @@ namespace MoreNote.Controllers
             // 得到主题信息
             // var recentBlogs = BlogService.ListBlogs(userId, "", 1, 5, userBlog.SortField, userBlog.IsAsc);
            
-            return false;
+            return null;
         }
 
         public void SetBlog(UserBlog userBlog, User userInfo)

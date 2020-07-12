@@ -13,8 +13,12 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-    public class IOController : Controller
+    public class IOController : BaseController
     {
+        public IOController(IHttpContextAccessor accessor) : base(accessor)
+        {
+
+        }
 
         //Post表单上传
         public async Task<IActionResult> FileFormSave(List<IFormFile> files)
