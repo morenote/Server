@@ -31,14 +31,19 @@ MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net core发行
 
 ## 项目状态
 
+代码基本是fork的leanote的项目代码，目前整体项目完成度小于5%。
+
+目前已经copy了关于leanote桌面端API的相关代码。
 
 |  版本   | Dev版  | 测试版|发布版|兼容版本|
 |  ----    | ----  |---- |---- | --- |
 | V 0.0.1  |进行中 |   没有|   没有|leanote 2.6.1|
 
-- [x]当前版本已经兼容 leanote的桌面端
-- [ ]当前版本已经兼容 leanote的移动端
-- [ ]当前版本支持网页编辑器
+## 目标实现
+
+- [x] 当前版本已经兼容 leanote的桌面端的部分API
+- [ ] 当前版本已经兼容 leanote的移动端
+- [ ] 当前版本支持网页编辑器
 
 ## 区别
 

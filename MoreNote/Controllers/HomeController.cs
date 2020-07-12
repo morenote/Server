@@ -10,9 +10,12 @@ using System.Diagnostics;
 
 namespace MoreNote.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(IHttpContextAccessor accessor) : base(accessor)
+        {
 
+        }
         public IActionResult Index()
         {
             //return Content("An API listing authors of docs.asp.net.");

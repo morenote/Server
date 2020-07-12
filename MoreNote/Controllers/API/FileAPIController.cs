@@ -18,12 +18,14 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片
+        //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
         [Route("api/File/GetImageForWeb/{fileId}")]
         public IActionResult GetImageForWeb(string fileId)
         {
             return  GetImage(fileId);
         }
-        //todo: 输出image
+        //todo: 输出image 需要get参数
+        //api/File/GetImage?fileId=xxxx
         public IActionResult GetImage(string fileId)
         {
             try

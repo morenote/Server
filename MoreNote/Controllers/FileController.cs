@@ -9,11 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using Microsoft.AspNetCore.Authorization;
 using MoreNote.Logic.Service;
+using Microsoft.AspNetCore.Http;
 
 namespace MoreNote.Controllers
 {
-    public class FileController : Controller
+    public class FileController : BaseController
     {
+        public FileController(IHttpContextAccessor accessor) : base(accessor)
+        {
+        }
         public IActionResult Index()
         {
             return View();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -10,8 +11,12 @@ using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers
 {
-    public class NoteBookController : Controller
+    public class NoteBookController : BaseController
     {
+        public NoteBookController(IHttpContextAccessor accessor) : base(accessor)
+        {
+
+        }
         public IActionResult Index()
         {
             return View();

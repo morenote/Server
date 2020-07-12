@@ -21,8 +21,13 @@ using UpYunLibrary.ContentRecognition;
 
 namespace MoreNote.Controllers
 {
-    public class APIController : Controller
+    public class APIController : BaseController
     {
+        public APIController(IHttpContextAccessor accessor) : base(accessor)
+        {
+
+
+        }
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
         private static readonly WebSiteConfig postgreSQLConfig = ConfigFileService.GetWebConfig();
 
