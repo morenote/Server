@@ -23,8 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
-    <PackageReference Include="github.hyfree.SimpleCrypto.Core" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
@@ -45,6 +43,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Library\Google.Authenticator\Google.Authenticator.csproj" />
+    <ProjectReference Include="..\Library\SpamClassificationML.Model\SpamClassificationML.Model.csproj" />
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
   
   </ItemGroup>
