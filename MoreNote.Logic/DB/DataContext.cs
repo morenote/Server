@@ -94,7 +94,7 @@ namespace MoreNote.Logic.DB
 
         //支付功能
         public DbSet<GoodOrder> GoodOrder { get; set; }
-
+        public DbSet<SpamInfo> SpamDB { get; set; }
 
     }
 }
