@@ -14,7 +14,9 @@ namespace MoreNote.Common.Cryptography.Tests
         [TestMethod()]
         public void EncodeTest()
         {
-            string str = "";
+            string str = "127.0.0.1";
+            var base64 = Base64Helper.Encode(str);
+            Console.WriteLine(base64);
         }
 
         [TestMethod()]

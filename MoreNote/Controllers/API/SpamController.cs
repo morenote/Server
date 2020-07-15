@@ -30,7 +30,8 @@ namespace MoreNote.Controllers.API
                 Prediction = modelOutput.Prediction,
                 Score = modelOutput.Score,
                 ManualCheck = false,
-                ManualResult = false
+                ManualResult = false,
+                Data=DateTime.Now
             };
             SpamService.AddSpamInfo(spam);
             return Json(modelOutput,MyJsonConvert.GetSimpleOptions());
