@@ -108,8 +108,6 @@ namespace MoreNote.Controllers.API.APIV1
         public JsonResult AddNote(ApiNote noteOrContent, string token)
         {
 
-            var x = _accessor.HttpContext.Request.Form.Files;
-            var z = x["FileDatas[5e36bafc26f2af1a79000000]"];
             //json 返回状态好乱呀 /(ㄒoㄒ)/~~
             Re re = Re.NewRe();
             long tokenUserId = getUserIdByToken(token); ;

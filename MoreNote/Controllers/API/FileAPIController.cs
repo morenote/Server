@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
@@ -34,11 +36,7 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     return Content("error");
                 }
-                if (fileId.Length == 24)
-                {
-                    fileId = fileId.Substring(0, 16);
-                }
-                var myFileId = MyConvert.HexToLong(fileId);
+                var myFileId = fileId.ToLong();
                 var noteFile = FileService.GetFile(myFileId);
                 if (noteFile == null)
                 {

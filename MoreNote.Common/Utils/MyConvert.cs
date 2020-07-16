@@ -17,7 +17,6 @@ namespace MoreNote.Common.Utils
             if (string.IsNullOrEmpty(hex))
             {
                 return 0;
-
             }
             long number = 0;
             try
