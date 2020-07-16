@@ -15,12 +15,12 @@ namespace SpamClassificationML.Model.Tests
         public void PredictTest()
         {
             // Add input data
-            var input = new ModelInput();
-            input.Value = "商业秘密的秘密性那是维系其商业价值和垄断地位的前提条件之一";
-            // Load model and predict output of sample data
-            ModelOutput result = ConsumeModel.Predict(@"E:\服务器\MLModel.zip", input);
-            Console.WriteLine(result.Prediction);
-            Console.WriteLine(result.Score);
+            //var input = new ModelInput();
+            //input.Value = "商业秘密的秘密性那是维系其商业价值和垄断地位的前提条件之一";
+            //// Load model and predict output of sample data
+            //ModelOutput result = ConsumeModel.Predict(@"E:\服务器\MLModel.zip", input);
+            //Console.WriteLine(result.Prediction);
+            //Console.WriteLine(result.Score);
 
         }
     }
