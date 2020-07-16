@@ -365,7 +365,7 @@ namespace MoreNote.Logic.Service
             }
             else
             {
-                userIdOrEmail = userInfo.UserId.Hex();
+                userIdOrEmail = userInfo.UserId.ToHex();
             }
             indexUrl = blogUrl + "/" + userIdOrEmail;
 

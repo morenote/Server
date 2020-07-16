@@ -17,24 +17,26 @@ namespace MoreNote.Controllers.API
     {
         public IActionResult Predict(string input)
         {
-            if (string.IsNullOrEmpty(input))
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Content("error");
-            }
-            var modelOutput= SpamService.Predict(input);
-            var spam = new SpamInfo()
-            {
-                SpamId = SnowFlakeNet.GenerateSnowFlakeID(),
-                Input = input,
-                Prediction = modelOutput.Prediction,
-                Score = modelOutput.Score,
-                ManualCheck = false,
-                ManualResult = false,
-                Data=DateTime.Now
-            };
-            SpamService.AddSpamInfo(spam);
-            return Json(modelOutput,MyJsonConvert.GetSimpleOptions());
+            return Content("error");
+            //暂时废弃
+            //if (string.IsNullOrEmpty(input))
+            //{
+            //    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            //    return Content("error");
+            //}
+            //var modelOutput= SpamService.Predict(input);
+            //var spam = new SpamInfo()
+            //{
+            //    SpamId = SnowFlakeNet.GenerateSnowFlakeID(),
+            //    Input = input,
+            //    Prediction = modelOutput.Prediction,
+            //    Score = modelOutput.Score,
+            //    ManualCheck = false,
+            //    ManualResult = false,
+            //    Data=DateTime.Now
+            //};
+            //SpamService.AddSpamInfo(spam);
+            //return Json(modelOutput,MyJsonConvert.GetSimpleOptions());
         }
     }
 }

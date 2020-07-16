@@ -58,7 +58,7 @@ namespace MoreNote.Common.Utils
         /// <returns></returns>
         public static string GenerateSnowFlakeIDHex()
         {
-            return GenerateSnowFlakeID().Hex();
+            return GenerateSnowFlakeID().ToHex();
         }
     }
 }
