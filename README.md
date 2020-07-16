@@ -5,6 +5,7 @@ MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net core发行
 演示网站：<a href="https://www.morenote.top/" target="_blank">morenote云笔记</a>
 
 github:https://github.com/hyfree/MoreNote
+
 gitee:https://gitee.com/hyfree_cn/MoreNote/
 
 ## 概述
