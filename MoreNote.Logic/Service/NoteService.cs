@@ -5,6 +5,7 @@ using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using Z.EntityFramework.Plus;
 
@@ -445,18 +446,22 @@ namespace MoreNote.Logic.Service
                         db.Note
                .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize);
                         break;
+
                     case "PublicTime":
                         db.Note
                .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize);
                         break;
+
                     case "CreatedTime":
                         db.Note
                .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize);
                         break;
+
                     case "Title":
                         db.Note
-                    .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s=>s.Title).Skip(skipNum).Take(pageSize);
+                    .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize);
                         break;
+
                     default:
                         break;
                 }
@@ -1002,7 +1007,13 @@ namespace MoreNote.Logic.Service
                     // <a href="http://leanote.com/attach/download?attachId=5504243a38f4111dcb00017d"></a>
                     if (eachPattern["src"].Equals("src"))
                     {
-                        //todo yo
+                        //https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/substitutions-in-regular-expressions
+                        Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b",RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        string pattern = @"\p{Sc}*(\s?\d+[.,]?\d*)\p{Sc}*";
+                        string replacement = "$1";
+                        string input = "$16.32 12.19 £16.29 €18.29  €18,29";
+                        Regex.Replace(input, pattern, replacement);
+                        //todo: yo
                     }
                 }
                 else
