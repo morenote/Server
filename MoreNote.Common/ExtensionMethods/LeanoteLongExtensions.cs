@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace MoreNote.Common.ExtensionMethods
 {
-    public static class LongExtensions
+    public static class LeanoteLongExtensions
     {
         public static string ToHex(this long number)
         {
