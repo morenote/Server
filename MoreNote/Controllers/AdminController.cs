@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +18,6 @@ namespace MoreNote.Controllers
     {
         public AdminController(IHttpContextAccessor accessor) : base(accessor)
         {
-
-
         }
 
 
@@ -28,10 +25,9 @@ namespace MoreNote.Controllers
         {
             using (DataContext _context = new DataContext())
             {
-              //  return View(await _context.AppInfo.ToListAsync());
+                //  return View(await _context.AppInfo.ToListAsync());
                 return View(APPStoreInfoService.GetAPPList());
             }
-           
         }
 
         // GET: Admin/Details/5
@@ -58,19 +54,20 @@ namespace MoreNote.Controllers
         // GET: Admin/Create
         public IActionResult Create()
         {
-            if(1==1)
-            return NotFound();
+            if (1 == 1)
+                return NotFound();
         }
 
         // POST: Admin/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-       // [HttpPost]
+        // [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> Create([Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")] AppInfo appInfo)
+        public async Task<IActionResult> Create(
+            [Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")]
+            AppInfo appInfo)
         {
-           
             using (DataContext _context = new DataContext())
             {
                 if (ModelState.IsValid)
@@ -79,14 +76,14 @@ namespace MoreNote.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
+
                 return View(appInfo);
             }
         }
 
-        
+
         public async Task<IActionResult> Edit(long? id)
         {
-           
             using (DataContext _context = new DataContext())
             {
                 if (id == null)
@@ -99,6 +96,7 @@ namespace MoreNote.Controllers
                 {
                     return NotFound();
                 }
+
                 return View(appInfo);
             }
         }
@@ -108,13 +106,13 @@ namespace MoreNote.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         [ValidateAntiForgeryToken]
-    
-        public async Task<IActionResult> Edit(long id, [Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")] AppInfo appInfo)
+        public async Task<IActionResult> Edit(long id,
+            [Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")]
+            AppInfo appInfo)
         {
-          
-            using (DataContext _context = new DataContext())
+            using (DataContext context = new DataContext())
             {
-                if (id != appInfo.appid)
+                if (appInfo == null || id != appInfo.appid)
                 {
                     return NotFound();
                 }
@@ -123,8 +121,8 @@ namespace MoreNote.Controllers
                 {
                     try
                     {
-                        _context.Update(appInfo);
-                        await _context.SaveChangesAsync();
+                        context.Update(appInfo);
+                        await context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -137,8 +135,10 @@ namespace MoreNote.Controllers
                             throw;
                         }
                     }
+
                     return RedirectToAction(nameof(Index));
                 }
+
                 return View(appInfo);
             }
         }
@@ -146,7 +146,6 @@ namespace MoreNote.Controllers
         // GET: Admin/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            
             using (DataContext _context = new DataContext())
             {
                 if (id == null)

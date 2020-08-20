@@ -18,7 +18,6 @@ gitee:https://gitee.com/hyfree_cn/MoreNote/
 原则上尽量提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。
 
 相对而言，MoreNote提供了更多的控制选项和更差劲的性能和安全表现👏。
-。
 
 ## 使用前警告
 

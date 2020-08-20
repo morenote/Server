@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreNote.Common.ExtensionMethods;
 
 namespace 通用类库测试
 {
@@ -8,6 +9,9 @@ namespace 通用类库测试
         [TestMethod]
         public void TestMethod1()
         {
+            long number=long.MaxValue;
+             string hex=  number.ToHex();
+            System.Console.WriteLine(hex);
         }
     }
 }

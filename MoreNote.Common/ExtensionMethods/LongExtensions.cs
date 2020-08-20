@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace MoreNote.Common.ExtensionMethods
 {
@@ -11,25 +12,16 @@ namespace MoreNote.Common.ExtensionMethods
 
         public static string ToHex24(this long number)
         {
-            //11ae1ade40021000aaaaaaaa
-            return number.ToString("x")+ "aaaaaaaa";
+            return number.ToString("x")+  "12345678";
         }
-
-        public static long ToLong(this string hex)
-        {
-            //119993f42d821000
-            long result = 0;
-            if (hex.Length == 16)
-            {
-            }
-            else if (hex.Length == 24)
+        public static long ToLongByHex(this string hex)
+        {   
+            if (hex.Length == 24)
             {
                 hex = hex.Substring(0, 16);
             }
-            else
-            {
-                return 0;
-            }
+            //119993f42d821000
+            long result;
             long.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result);
             return result;
         }
