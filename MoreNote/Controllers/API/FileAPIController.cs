@@ -36,7 +36,7 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     return Content("error");
                 }
-                var myFileId = fileId.ToLong();
+                var myFileId = fileId.ToLongByHex();
                 var noteFile = FileService.GetFile(myFileId);
                 if (noteFile == null)
                 {
