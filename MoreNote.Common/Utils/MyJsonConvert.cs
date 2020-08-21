@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoreNote.Common.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -11,7 +12,7 @@ namespace MoreNote.Common.Utils
     {
         public static System.Text.Json.JsonSerializerOptions GetOptions()
         {
-            var options = new System.Text.Json.JsonSerializerOptions
+            JsonSerializerOptions options = new System.Text.Json.JsonSerializerOptions
             {
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             };
@@ -21,11 +22,11 @@ namespace MoreNote.Common.Utils
         }
         public static System.Text.Json.JsonSerializerOptions GetSimpleOptions()
         {
-            var options = new System.Text.Json.JsonSerializerOptions
+            JsonSerializerOptions options = new System.Text.Json.JsonSerializerOptions
             {
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             };
-          
+
             return options;
         }
 
@@ -40,7 +41,7 @@ namespace MoreNote.Common.Utils
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
         {
-           // writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            // writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             //writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz"));
             writer.WriteStringValue(value.ToLocalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz"));
         }
@@ -49,46 +50,14 @@ namespace MoreNote.Common.Utils
     {
         public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-
-            //Debug.Assert(typeToConvert == typeof(DateTime));
-            //return DateTime.Parse(reader.GetString());
-            //  Debug.Assert();
-            string a = reader.GetString();
-            try
-            {
-                //return long.Parse(reader.GetString());
-                return long.Parse(reader.GetString(), System.Globalization.NumberStyles.HexNumber);
-            }
-            catch (Exception ex)
-            {
-                if (keyValuePairs.ContainsKey(a))
-                {
-                    return keyValuePairs[a];
-                }
-                else
-                {
-                    long sf = SnowFlakeNet.GenerateSnowFlakeID();
-                    keyValuePairs.Add(a, sf);
-                    return sf;
-                }
-            }
-
+            //return long.Parse(reader.GetString(), System.Globalization.NumberStyles.HexNumber);
+            return reader.GetString().ToLongByHex();
         }
-        private static Dictionary<string, long> keyValuePairs = new Dictionary<string, long>();
+
 
         public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
         {
-            if (value==0)
-            {
-                writer.WriteStringValue("");
-
-            }
-            else
-            {
-                writer.WriteStringValue(value.ToString("x"));
-
-            }
-           
+            writer.WriteStringValue(value.ToHex24());
         }
 
     }

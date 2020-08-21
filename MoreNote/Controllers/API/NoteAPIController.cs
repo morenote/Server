@@ -526,7 +526,7 @@ namespace MoreNote.Controllers.API.APIV1
                             Regex regex = new Regex(@"(https*://[^/]*?/api/file/getImage\?fileId=)" + file.LocalFileId);
                             if (regex.IsMatch(noteOrContent.Content))
                             {
-                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + file.FileId+"aaaaaaaa");
+                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" +"00000000"+ file.FileId);
                             }
                         }
                         else
@@ -535,7 +535,7 @@ namespace MoreNote.Controllers.API.APIV1
                             Regex regex = new Regex(@"(https*://[^/]*?/api/file/getAttach\?fileId=)" + file.LocalFileId);
                             if (regex.IsMatch(noteOrContent.Content))
                             {
-                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + file.FileId+ "aaaaaaaa");
+                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + "00000000"+file.FileId);
                             }
                         }
 
