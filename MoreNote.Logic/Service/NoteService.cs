@@ -1,4 +1,5 @@
-﻿using MoreNote.Common.Utils;
+﻿using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 
@@ -305,9 +306,9 @@ namespace MoreNote.Logic.Service
         {
             ApiNote apiNote = new ApiNote()
             {
-                NoteId = note.NoteId.ToString("x"),
-                NotebookId = note.NotebookId.ToString("x"),
-                UserId = note.UserId.ToString("x"),
+                NoteId = note.NoteId.ToHex24(),
+                NotebookId = note.NotebookId.ToHex24(),
+                UserId = note.UserId.ToHex24(),
                 Title = note.Title,
                 Desc = note.Desc,
                 Tags = note.Tags,
@@ -369,7 +370,7 @@ namespace MoreNote.Logic.Service
                 {
                     APINoteFile noteFile = new APINoteFile()
                     {
-                        FileId = item.AttachId.ToString("x"),
+                        FileId = item.AttachId.ToHex24(),
                         Type = item.Type,
                         Title = item.Title,
                         IsAttach = true

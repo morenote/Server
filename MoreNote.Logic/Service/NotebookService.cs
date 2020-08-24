@@ -27,7 +27,7 @@ namespace MoreNote.Logic.Service
             {
                 notebook.NotebookId = SnowFlakeNet.GenerateSnowFlakeID();
             }
-            notebook.UrlTitle = notebook.NotebookId.ToString("X");
+            notebook.UrlTitle = notebook.NotebookId.ToHex24();
 
             notebook.Usn = UserService.IncrUsn(notebook.UserId);
 
@@ -47,7 +47,7 @@ namespace MoreNote.Logic.Service
             {
                 notebook.NotebookId = SnowFlakeNet.GenerateSnowFlakeID();
             }
-            notebook.UrlTitle = notebook.NotebookId.ToString("X");
+            notebook.UrlTitle = notebook.NotebookId.ToHex24();
 
             notebook.Usn = UserService.IncrUsn(notebook.UserId);
 

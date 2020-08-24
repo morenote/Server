@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -36,7 +37,7 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     Ok = true,
                     Token = tokenStr,
-                    UserId = user.UserId.ToString("x"),
+                    UserId = user.UserId.ToHex24(),
                     Email = user.Email,
                     Username = user.Username
                 };

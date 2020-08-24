@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -156,7 +157,7 @@ namespace MoreNote.Controllers
         }
         public void SetUserIdToSession(long userId)
         {
-            _accessor.HttpContext.Session.SetString("userId", userId.ToString("x"));
+            _accessor.HttpContext.Session.SetString("userId", userId.ToHex24());
         }
         public User getUserByToken()
         {
@@ -191,10 +192,10 @@ namespace MoreNote.Controllers
             msg = "";
             serverFileId = 0;
 
-            var uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/attachs/{userId.ToString("x")}/images/{DateTime.Now.ToString("yyyy_MM")}/";
+            var uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/attachs/{userId.ToHex24()}/images/{DateTime.Now.ToString("yyyy_MM")}/";
             if (RuntimeEnvironment.IsWindows)
             {
-                uploadDirPath = $@"upload\{userId.ToString("x")}\attachs\{DateTime.Now.ToString("yyyy_MM")}\";
+                uploadDirPath = $@"upload\{userId.ToHex24()}\attachs\{DateTime.Now.ToString("yyyy_MM")}\";
             }
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
@@ -221,7 +222,7 @@ namespace MoreNote.Controllers
                 msg = $"The_Attach_extension_{fileEXT}_is_blocked";
                 return false;
             }
-            var fileName = diskFileId.ToString("x") + "." + fileEXT;
+            var fileName = diskFileId.ToHex24() + "." + fileEXT;
             //判断合法性
             if (httpFiles == null || httpFile.Length < 0)
             {
@@ -277,10 +278,10 @@ namespace MoreNote.Controllers
             msg = "";
             serverFileId = 0;
           
-            var uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/upload/{userId.ToString("x")}/images/{DateTime.Now.ToString("yyyy_MM")}/";
+            var uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/upload/{userId.ToHex24()}/images/{DateTime.Now.ToString("yyyy_MM")}/";
             if (RuntimeEnvironment.IsWindows)
             {
-                uploadDirPath = $@"upload\{userId.ToString("x")}\images\{DateTime.Now.ToString("yyyy_MM")}\";
+                uploadDirPath = $@"upload\{userId.ToHex24()}\images\{DateTime.Now.ToString("yyyy_MM")}\";
             }
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId=diskFileId;
@@ -307,7 +308,7 @@ namespace MoreNote.Controllers
                 msg= $"The_image_extension_{fileEXT}_is_blocked";
                 return false;
             }
-            var  fileName=diskFileId.ToString("x")+"."+fileEXT;
+            var  fileName=diskFileId.ToHex24()+"."+fileEXT;
             //判断合法性
             if (httpFiles == null || httpFile.Length < 0)
             {

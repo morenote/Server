@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -152,7 +153,7 @@ namespace MoreNote.Controllers.API.APIV1
                             else
                             {
                                 // 建立映射
-                                file.FileId = serverFileId.ToString("x");
+                                file.FileId = serverFileId.ToHex24();
                                 noteOrContent.Files[i] = file;
                                 if (file.IsAttach)
                                 {
@@ -270,8 +271,8 @@ namespace MoreNote.Controllers.API.APIV1
                 });
             }
             //-------------API返回客户端信息
-            noteOrContent.NoteId = noteId.ToString("x");
-            noteOrContent.UserId = tokenUserId.ToString("x");
+            noteOrContent.NoteId = noteId.ToHex24();
+            noteOrContent.UserId = tokenUserId.ToHex24();
             noteOrContent. Title = note.Title;
             noteOrContent.Tags = note.Tags;
             noteOrContent.IsMarkdown = note.IsMarkdown;
@@ -365,7 +366,7 @@ namespace MoreNote.Controllers.API.APIV1
                             else
                             {
                                 // 建立映射
-                                file.FileId = serverFileId.ToString("x");
+                                file.FileId = serverFileId.ToHex24();
                                 noteOrContent.Files[i] = file;
 
                             }
@@ -452,8 +453,8 @@ namespace MoreNote.Controllers.API.APIV1
             //处理结果
             //-------------API返回客户端信息
             note = NoteService.GetNote(noteId, tokenUserId);
-           // noteOrContent.NoteId = noteId.ToString("x");
-           // noteOrContent.UserId = tokenUserId.ToString("x");
+           // noteOrContent.NoteId = noteId.ToHex24();
+           // noteOrContent.UserId = tokenUserId.ToHex24();
           //  noteOrContent.Title = note.Title;
            // noteOrContent.Tags = note.Tags;
            // noteOrContent.IsMarkdown = note.IsMarkdown;
@@ -471,7 +472,7 @@ namespace MoreNote.Controllers.API.APIV1
             noteOrContent.Usn = afterNoteUsn;
             noteOrContent.UpdatedTime = DateTime.Now;
             noteOrContent.IsDeleted=false;
-            noteOrContent.UserId = tokenUserId.ToString("x");
+            noteOrContent.UserId = tokenUserId.ToHex24();
             return Json(noteOrContent, MyJsonConvert.GetOptions());
         }
         //todo:删除trash
@@ -526,7 +527,7 @@ namespace MoreNote.Controllers.API.APIV1
                             Regex regex = new Regex(@"(https*://[^/]*?/api/file/getImage\?fileId=)" + file.LocalFileId);
                             if (regex.IsMatch(noteOrContent.Content))
                             {
-                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" +"00000000"+ file.FileId);
+                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + file.FileId);
                             }
                         }
                         else
@@ -535,7 +536,7 @@ namespace MoreNote.Controllers.API.APIV1
                             Regex regex = new Regex(@"(https*://[^/]*?/api/file/getAttach\?fileId=)" + file.LocalFileId);
                             if (regex.IsMatch(noteOrContent.Content))
                             {
-                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + "00000000"+file.FileId);
+                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" +file.FileId);
                             }
                         }
 

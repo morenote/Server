@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace MoreNote.Common.Utils.Tests
         {
 
             long a = 1213656203658399745;
-            string hex = a.ToString("x");
+            string hex = a.ToHex24();
             Console.WriteLine(hex);
             long b = MyConvert.HexToLong(hex);
             Console.WriteLine(b);//1213656226102120449

@@ -32,7 +32,7 @@
                 @*<li class="{{if eq .CateId $.curCateId}}active{{end}}">*@
                 <li class="">
                     @*<a href="{{$.cateUrl}}/{{.UrlTitle}}"><i class="fa fa-link"></i>{{.Title}}</a>*@
-                    <a href="~/Blog/Cate/@(blogUser.Username)/@(item.CateId.ToString("x"))"><i class="fa fa-link"></i>@item.Title</a>
+                    <a href="~/Blog/Cate/@(blogUser.Username)/@(item.CateId.ToHex24())"><i class="fa fa-link"></i>@item.Title</a>
                 </li>
             }
             <li class="divider"></li>

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
-
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -90,7 +90,7 @@ namespace MoreNote.Controllers
 
                     //登录成功
                     HttpContext.Session.SetString("_token", token);
-                    HttpContext.Session.SetString("_userId", user.UserId.ToString("x"));
+                    HttpContext.Session.SetString("_userId", user.UserId.ToHex24());
                     Re re = new Re() { Ok = true };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }

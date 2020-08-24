@@ -51,7 +51,7 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     ApiUser apiUser = new ApiUser()
                     {
-                        UserId = user.UserId.ToString("x"),
+                        UserId = user.UserId.ToHex24(),
                         Username = user.Username,
                         Email = user.Email,
                         Logo = user.Logo,

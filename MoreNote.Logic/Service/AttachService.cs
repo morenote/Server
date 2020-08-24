@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using Z.EntityFramework.Plus;
@@ -179,7 +180,7 @@ namespace MoreNote.Logic.Service
             }
             foreach (var attach in attachs)
             {
-              var fileId=attach.AttachId.ToString("x");
+              var fileId=attach.AttachId.ToHex24();
                 if (!nowAttachs.Contains(fileId))
                 {
                     // 需要删除的

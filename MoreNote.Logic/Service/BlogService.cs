@@ -115,7 +115,7 @@ namespace MoreNote.Logic.Service
         {
             BlogInfo blogInfo = new BlogInfo()
             {
-                UserId = userinfo.UserId.ToString("X"),
+                UserId = userinfo.UserId.ToHex24(),
                 Username = userinfo.Username,
                 UserLogo = userinfo.Logo,
                 Title = userBlog.Title,
@@ -124,7 +124,7 @@ namespace MoreNote.Logic.Service
                 OpenComment = userBlog.CanComment,
                 CommentType = userBlog.CommentType,// leanote, or disqus
                 DisqusId = userBlog.DisqusId,
-                ThemeId = userBlog.ThemeId.ToString("X"),
+                ThemeId = userBlog.ThemeId.ToHex24(),,
                 SubDomain = userBlog.SubDomain,
                 Domain = userBlog.Domain,
             };
