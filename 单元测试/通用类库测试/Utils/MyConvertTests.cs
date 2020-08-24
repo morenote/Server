@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 
 using System;

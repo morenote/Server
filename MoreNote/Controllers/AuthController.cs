@@ -131,7 +131,7 @@ namespace MoreNote.Controllers
                     Msg = "管理员已经将注册功能关闭"
                 }, MyJsonConvert.GetSimpleOptions());
             }
-            bool result = AuthService.Register(email, pwd, MyConvert.HexToLong(iu));
+            bool result = AuthService.Register(email, pwd,iu.ToLongByHex());
             if (result)
             {
                 return Json(new ApiRe()

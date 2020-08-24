@@ -656,7 +656,7 @@ namespace MoreNote.Logic.Service
         public static bool UpdateNote(ref ApiNote apiNote, long updateUser, long contentId, bool verifyUsn, bool verifyOwner,
             out string msg, out int afterUsn)
         {
-            var noteId = MyConvert.HexToLong(apiNote.NoteId);
+            var noteId = apiNote.NoteId.ToLongByHex();
 
             afterUsn = 0;
             if (apiNote == null)
@@ -726,7 +726,7 @@ namespace MoreNote.Logic.Service
                 }
                 if (apiNote.NotebookId != null)
                 {
-                    var noteBookId = MyConvert.HexToLong(apiNote.NotebookId);
+                    var noteBookId = apiNote.NotebookId.ToLongByHex();
                     if (note.NotebookId == 0)
                     {
                         msg = "NotebookId_Is_Illegal";
@@ -786,7 +786,7 @@ namespace MoreNote.Logic.Service
                 {
                     note.IsMarkdown = apiNote.IsMarkdown.GetValueOrDefault();
                 }
-                note.UpdatedUserId = MyConvert.HexToLong(apiNote.UserId);
+                note.UpdatedUserId = apiNote.UserId.ToLongByHex();
 
                 //更新用户元数据乐观锁
                 afterUsn = UserService.IncrUsn(note.UserId);

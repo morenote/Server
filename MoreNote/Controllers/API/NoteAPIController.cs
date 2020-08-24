@@ -34,8 +34,8 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:得到笔记本下的笔记
         public IActionResult GetNotes(string notebookId, string token)
         {
-            Note[] notes = NoteService.ListNotes(getUserIdByToken(token), MyConvert.HexToLong(notebookId), false);
-            long myNotebookId = MyConvert.HexToLong(notebookId);
+            Note[] notes = NoteService.ListNotes(getUserIdByToken(token), notebookId.ToLongByHex(), false);
+            long myNotebookId = notebookId.ToLongByHex();
             return null;
         }
         //todo:得到trash
@@ -57,7 +57,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
             }
-            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(MyConvert.HexToLong(noteId), tokenUser.UserId, false,false,false);
+            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(noteId.ToLongByHex(), tokenUser.UserId, false,false,false);
             ApiNote[] apiNotes = NoteService.ToApiNotes(new Note[] { noteAndContent.note });
             ApiNote apiNote = apiNotes[0];
             apiNote.Content =NoteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.IsMarkdown);
@@ -83,8 +83,8 @@ namespace MoreNote.Controllers.API.APIV1
                 Ok = false,
                 Msg = "GetNoteContent_is_error"
             };
-            Note note = NoteService.GetNote(MyConvert.HexToLong(noteId), getUserIdByToken(token));
-            NoteContent noteContent = NoteContentService.GetNoteContent(MyConvert.HexToLong(noteId), getUserIdByToken(token),false);
+            Note note = NoteService.GetNote(noteId.ToLongByHex(), getUserIdByToken(token));
+            NoteContent noteContent = NoteContentService.GetNoteContent(noteId.ToLongByHex(), getUserIdByToken(token),false);
             if (noteContent==null||note==null)
             {
              
@@ -194,7 +194,7 @@ namespace MoreNote.Controllers.API.APIV1
                 NoteId = noteId,
                 CreatedUserId=noteId,
                 UpdatedUserId=noteId,
-                NotebookId = MyConvert.HexToLong(noteOrContent.NotebookId),
+                NotebookId = noteOrContent.NotebookId.ToLongByHex(),
                 Title = noteOrContent.Title,
                 Tags = noteOrContent.Tags,
                 Desc = noteOrContent.Desc,
@@ -301,7 +301,7 @@ namespace MoreNote.Controllers.API.APIV1
             var needUpdateNote = false;
             var re = new ReUpdate();
             long tokenUserId = getUserIdByToken(token);
-            var noteId = MyConvert.HexToLong(noteOrContent.NoteId);
+            var noteId = noteOrContent.NoteId.ToLongByHex();
             //-------------校验参数合法性
             if (tokenUserId == 0)
             {
@@ -478,7 +478,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:删除trash
         public JsonResult DeleteTrash(string noteId, int usn, string token)
         {
-            bool result = TrashService.DeleteTrashApi(MyConvert.HexToLong(noteId), getUserIdByToken(token), usn, out string msg, out int afterUsn);
+            bool result = TrashService.DeleteTrashApi(noteId.ToLongByHex(), getUserIdByToken(token), usn, out string msg, out int afterUsn);
             if (result)
             {
                 return Json(new ReUpdate()

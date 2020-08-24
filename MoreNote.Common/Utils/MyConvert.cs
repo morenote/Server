@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MoreNote.Common.Utils
 {
-    public class MyConvert
+      class MyConvert
     {
         /// <summary>
         /// hex字符串转long类型,失败返回0
