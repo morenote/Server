@@ -1,4 +1,5 @@
-﻿using MoreNote.Common.Utils;
+﻿using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -43,7 +44,7 @@ namespace MoreNote.Logic.Service
         // 先md5, 再取12位
         public static string subIdHalf(long id)
         {
-            return id.ToString("x");
+            return id.ToHex24();
         }
         // types == note,notebook,single
         // id noteId, notebookId, singleId 当title没的时候才有用, 用它来替换
@@ -53,7 +54,7 @@ namespace MoreNote.Logic.Service
             string urlTitle=title.Trim();
             if (string.IsNullOrEmpty(urlTitle))
             {
-                urlTitle= "Untitled-" + userId.ToString("x");
+                urlTitle= "Untitled-" + userId.ToHex24();
 
             }
             else

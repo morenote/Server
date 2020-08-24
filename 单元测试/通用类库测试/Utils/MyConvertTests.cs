@@ -15,7 +15,7 @@ namespace MoreNote.Common.Utils.Tests
         public void HexToLongTest()
         {
             long number = 1269544638696525824;
-            string hex = number.ToString("x");
+            string hex = number.ToHex24();
             Console.WriteLine(hex);
 
         }
