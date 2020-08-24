@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -114,7 +115,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Title = title,
                     Seq = seq,
                     UserId = user.UserId,
-                    ParentNotebookId = MyConvert.HexToLong(parentNotebookId)
+                    ParentNotebookId = parentNotebookId.ToLongByHex()
                     
                 };
                 if (NotebookService.AddNotebook( ref notebook))
@@ -156,7 +157,7 @@ namespace MoreNote.Controllers.API.APIV1
             else
             {
                 Notebook notebook;
-                if (NotebookService.UpdateNotebookApi(user.UserId,MyConvert.HexToLong(notebookId),title, MyConvert.HexToLong(parentNotebookId), seq,usn,out notebook))
+                if (NotebookService.UpdateNotebookApi(user.UserId,notebookId.ToLongByHex(),title, parentNotebookId.ToLongByHex(), seq,usn,out notebook))
                 {
 
                     ApiNotebook apiNotebook = fixNotebook(notebook);
@@ -191,7 +192,7 @@ namespace MoreNote.Controllers.API.APIV1
 
                 return Json(apiRe, MyJsonConvert.GetOptions());
             }
-            if (NotebookService.DeleteNotebookForce(user.UserId, MyConvert.HexToLong(notebookId), usn))
+            if (NotebookService.DeleteNotebookForce(user.UserId, notebookId.ToLongByHex(), usn))
             {
                 ApiRe apiRe = new ApiRe()
                 {

@@ -1,4 +1,5 @@
-﻿using MoreNote.Common.Utils;
+﻿using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
@@ -106,7 +107,7 @@ namespace MoreNote.Logic.Service
             using (var db = DataContext.getDataContext())
             {
                 //更新 将其他笔记刷新
-                var noteId = MyConvert.HexToLong(apiNote.NoteId);
+                var noteId = apiNote.NoteId.ToLongByHex();
                 var note=db.Note.Where(b=>b.NoteId== noteId).First();
                 var noteContent=db.NoteContent.Where(b=>b.NoteId== noteId&&b.IsHistory==false).FirstOrDefault();
                 //如果笔记内容发生变化，生成新的笔记内容

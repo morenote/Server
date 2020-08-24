@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -41,14 +42,14 @@ namespace MoreNote.Controllers
         }
         public IActionResult getNoteContent(string noteId)
         {
-            long noteNumber = MyConvert.HexToLong(noteId);
+            long noteNumber = noteId.ToLongByHex();
             long userNumber = GetUserIdBySession();
-            NoteContent noteContent = NoteContentService.GetValidNoteContent(MyConvert.HexToLong(noteId), GetUserIdBySession());
+            NoteContent noteContent = NoteContentService.GetValidNoteContent(noteId.ToLongByHex(), GetUserIdBySession());
             return Json(noteContent, MyJsonConvert.GetOptions());
         }
         public JsonResult ListNotes(string notebookId)
         {
-            Note[] notes = NoteService.ListNotes(GetUserIdBySession(), MyConvert.HexToLong(notebookId), false);
+            Note[] notes = NoteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(), false);
             //string json = JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
             return Json(notes,MyJsonConvert.GetOptions());
 

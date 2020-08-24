@@ -69,7 +69,7 @@ namespace MoreNote.Controllers.API.APIV1
         public long GetUserIdBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
-            long userid_number = MyConvert.HexToLong(userid_hex);
+            long userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
         // todo:得到用户信息
@@ -105,7 +105,7 @@ namespace MoreNote.Controllers.API.APIV1
             if (string.IsNullOrEmpty(token))
             {
                 string userid_hex = _accessor.HttpContext.Session.GetString("userId");
-                long userid_number = MyConvert.HexToLong(userid_hex);
+                long userid_number = userid_hex.ToLongByHex();
                 return userid_number;
             }
             else
@@ -144,7 +144,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return 0;
             }
-            return MyConvert.HexToLong(hex);
+            return hex.ToLongByHex();
         }
         // todo :上传附件
         public bool uploadAttach(string name,long userId, long noteId, out string msg, out long serverFileId)

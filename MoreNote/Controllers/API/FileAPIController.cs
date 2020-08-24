@@ -89,7 +89,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 fileId = fileId.Substring(0, 16);
             }
-            var attachFile = AttachService.GetAttach(MyConvert.HexToLong(fileId));
+            var attachFile = AttachService.GetAttach(fileId.ToLongByHex());
             if (attachFile == null)
             {
                 return Content("NoFoundAttach");

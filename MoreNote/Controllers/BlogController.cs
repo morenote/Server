@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -124,7 +124,7 @@ namespace MoreNote.Controllers
         [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
         public IActionResult Cate(string blogUserName, string cateHex, int page)
         {
-            long notebookId = MyConvert.HexToLong(cateHex);
+            long notebookId = cateHex.ToLongByHex();
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
@@ -177,7 +177,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                blogUser = UserService.GetUserByUserId(MyConvert.HexToLong(blogUserIdHex));
+                blogUser = UserService.GetUserByUserId(blogUserIdHex.ToLongByHex());
             }
 
             if (blogUser == null)
@@ -206,7 +206,7 @@ namespace MoreNote.Controllers
         [Route("Blog/Post/{noteIdHex}/")]
         public IActionResult Post1(string noteIdHex)
         {
-            long noteId = MyConvert.HexToLong(noteIdHex);
+            long noteId = noteIdHex.ToLongByHex();
             Note note = NoteService.GetNoteById(noteId);
             User user = UserService.GetUserByUserId(note.UserId);
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
@@ -225,7 +225,7 @@ namespace MoreNote.Controllers
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("查无此人");
             }
-            long noteId = MyConvert.HexToLong(noteIdHex);
+            long noteId = noteIdHex.ToLongByHex();
             if (noteId == 0)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -355,7 +355,7 @@ namespace MoreNote.Controllers
         public IActionResult IncReadNum(string noteId)
         {
             Re re = new Re();
-            long noteNum = MyConvert.HexToLong(noteId);
+            long noteNum = noteId.ToLongByHex();
             re.Ok = BlogService.IncReadNum(noteNum);
 
             return Json(re, MyJsonConvert.GetOptions());
