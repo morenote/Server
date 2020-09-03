@@ -83,7 +83,7 @@ namespace MoreNote.Controllers
                 if (_fuseCount > _randomImageFuseSize)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadGateway;
-                    return Content("接口并发太高，接口已经熔断");
+                    return Content("接口遭到攻击，并发量超出限制值，触发防火墙策略。");
                 }
             }
 
