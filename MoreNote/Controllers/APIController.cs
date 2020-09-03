@@ -146,7 +146,11 @@ namespace MoreNote.Controllers
                 return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}");
             }
         }
+        public IActionResult GetRandomImageFuseSize()
+        {
+            return Content(_fuseCount.ToString());
 
+        }
         [HttpPost]
         public async Task<IActionResult> UpYunImageServiceHook()
         {
