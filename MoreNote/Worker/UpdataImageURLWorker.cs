@@ -64,7 +64,7 @@ namespace MoreNoteWorkerService
       
         private async Task UpdatImage()
         {
-            var imageTypeList = RandomImageService.getImageTypeList();
+            var imageTypeList = RandomImageService.GetImageTypeList();
             var randomImageList = RandomImageService.GetRandomImageList();
             for (int y = 0; y < imageTypeList.Count; y++)
             {

@@ -47,7 +47,7 @@ namespace MoreNoteWorkerService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var imageTypeList = RandomImageService.getImageTypeList();
+            var imageTypeList = RandomImageService.GetImageTypeList();
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
