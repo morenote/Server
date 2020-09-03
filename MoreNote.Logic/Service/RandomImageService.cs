@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Service
         private static List<string> _imageTypeList = null;
         public static List<string> GetImageTypeList()
         {
-            if (_imageTypeList == null)
+            if (_imageTypeList==null)
             {
 
                 _imageTypeList = new List<string>();
@@ -45,16 +45,16 @@ namespace MoreNote.Logic.Service
             _imageTypeList.Add("火影忍者1");
 
             _imageTypeList.Add("海贼王1");
-            _imageTypeList.Add("从零开始的异世界生活1");
-            _imageTypeList.Add("SAO1");
+                _imageTypeList.Add("从零开始的异世界生活1");
+                _imageTypeList.Add("SAO1");
 
 
 
-            _imageTypeList.Add("缘之空1");
+                _imageTypeList.Add("缘之空1");
 
-            _imageTypeList.Add("东方project1");
+                _imageTypeList.Add("东方project1");
 
-            _imageTypeList.Add("猫娘1");
+                _imageTypeList.Add("猫娘1");
 
 
 
@@ -124,7 +124,7 @@ namespace MoreNote.Logic.Service
 
         public static Dictionary<string, List<RandomImage>> GetRandomImageList()
         {
-            if (randomImageList == null)
+            if (randomImageList==null)
             {
                 randomImageList = new Dictionary<string, List<RandomImage>>();
 
@@ -155,7 +155,7 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
-        public static List<RandomImage> GetRandomImages(string type, int size)
+        public static List<RandomImage> GetRandomImages(string type ,int size)
         {
             using (DataContext db = DataContext.getDataContext())
             {
