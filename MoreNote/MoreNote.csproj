@@ -171,7 +171,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Pic\" />
-    <Folder Include="wwwroot\apk\" />
   </ItemGroup>
 
   <ItemGroup>
