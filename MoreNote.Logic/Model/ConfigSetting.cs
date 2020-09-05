@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MoreNote.Config
+namespace MoreNote.Logic.Model
 {
     public static class ConfigSetting
     {
