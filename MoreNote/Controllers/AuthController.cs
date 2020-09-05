@@ -90,7 +90,7 @@ namespace MoreNote.Controllers
 
                     //登录成功
                     HttpContext.Session.SetString("_token", token);
-                    HttpContext.Session.SetString("_userId", user.UserId.ToHex24());
+                    HttpContext.Session.SetString("_UserId", user.UserId.ToHex24());
                     Re re = new Re() { Ok = true };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }

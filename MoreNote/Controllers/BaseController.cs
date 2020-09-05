@@ -34,7 +34,7 @@ namespace MoreNote.Controllers
         }
         public bool HasLogined()
         {
-            string userHex = HttpContext.Session.GetString("_userId");
+            string userHex = HttpContext.Session.GetString("_UserId");
             if (string.IsNullOrEmpty(userHex))
             {
                 //没登陆
@@ -48,12 +48,12 @@ namespace MoreNote.Controllers
         }
         public string GetUserId()
         {
-            string userHex = HttpContext.Session.GetString("_userId");
+            string userHex = HttpContext.Session.GetString("_UserId");
             return userHex;
         }
         public User GetUserInfo()
         {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
+            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
             User user = UserService.GetUserByUserId(userid_number);
             return user;
@@ -101,13 +101,13 @@ namespace MoreNote.Controllers
         }
         public long GetUserIdBySession()
         {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
+            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
         public User GetUserBySession()
         {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
+            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
             User user = UserService.GetUserByUserId(userid_number);
             return user;

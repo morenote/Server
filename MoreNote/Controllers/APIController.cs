@@ -93,7 +93,7 @@ namespace MoreNote.Controllers
             }
             if (type.Equals("少女映画"))
             {
-                string userHex = HttpContext.Session.GetString("_userId");
+                string userHex = HttpContext.Session.GetString("_UserId");
                 if (string.IsNullOrEmpty(userHex))
                 {
                     //没登陆
