@@ -120,6 +120,13 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+       /// <summary>
+       /// 分类 /cate/xxxxxxxx?notebookId=1212
+       /// </summary>
+       /// <param name="blogUserName"></param>
+       /// <param name="cateHex"></param>
+       /// <param name="page"></param>
+       /// <returns></returns>
 
         [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
         public IActionResult Cate(string blogUserName, string cateHex, int page)

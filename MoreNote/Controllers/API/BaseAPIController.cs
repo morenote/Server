@@ -68,7 +68,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
         public long GetUserIdBySession()
         {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_userId");
+            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
