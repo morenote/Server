@@ -61,6 +61,7 @@ namespace MoreNote.Logic.DB
 
         public DbSet<Page> Page { get; set; }
         public DbSet<Config> Config { get; set; }
+
         public DbSet<EmailLog> EmailLog { get; set; }
         public DbSet<NoteFile> File { get; set; }
         public DbSet<Group> Group { get; set; }
