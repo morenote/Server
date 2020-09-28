@@ -86,7 +86,7 @@ namespace MoreNote.Controllers
                     {
                         IsPersistent = true,
                         ExpiresUtc = DateTime.Now.AddDays(1)
-                    });
+                    }).ConfigureAwait(false);
 
                     //登录成功
                     HttpContext.Session.SetString("_token", token);
