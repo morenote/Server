@@ -41,7 +41,7 @@ namespace MoreNote.Controllers
                 }
 
                 var appInfo = await _context.AppInfo
-                    .FirstOrDefaultAsync(m => m.appid == id);
+                    .FirstOrDefaultAsync(m => m.appid == id).ConfigureAwait(false);
                 if (appInfo == null)
                 {
                     return NotFound();
@@ -73,7 +73,7 @@ namespace MoreNote.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.Add(appInfo);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -91,7 +91,7 @@ namespace MoreNote.Controllers
                     return NotFound();
                 }
 
-                var appInfo = await _context.AppInfo.FindAsync(id);
+                var appInfo = await _context.AppInfo.FindAsync(id).ConfigureAwait(false);
                 if (appInfo == null)
                 {
                     return NotFound();
@@ -122,7 +122,7 @@ namespace MoreNote.Controllers
                     try
                     {
                         context.Update(appInfo);
-                        await context.SaveChangesAsync();
+                        await context.SaveChangesAsync().ConfigureAwait(false);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -154,7 +154,7 @@ namespace MoreNote.Controllers
                 }
 
                 var appInfo = await _context.AppInfo
-                    .FirstOrDefaultAsync(m => m.appid == id);
+                    .FirstOrDefaultAsync(m => m.appid == id).ConfigureAwait(false);
                 if (appInfo == null)
                 {
                     return NotFound();
@@ -169,13 +169,6 @@ namespace MoreNote.Controllers
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             return NotFound();
-            using (DataContext _context = new DataContext())
-            {
-                var appInfo = await _context.AppInfo.FindAsync(id);
-                _context.AppInfo.Remove(appInfo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
         }
 
         private bool AppInfoExists(long id)

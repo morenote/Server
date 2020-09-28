@@ -404,7 +404,7 @@ namespace MoreNote.Controllers
                 var filePath = uploadDirPath + fileName;
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    await formFile.CopyToAsync(stream);
+                    await formFile.CopyToAsync(stream).ConfigureAwait(false);
                 }
                 return true;
             }
