@@ -1,0 +1,41 @@
+﻿@model MoreNote.Logic.Entity.ResolutionStrategy
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>ResolutionStrategy</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StrategyKey" class="control-label"></label>
+                <input asp-for="StrategyKey" class="form-control" />
+                <span asp-validation-for="StrategyKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StrategyName" class="control-label"></label>
+                <input asp-for="StrategyName" class="form-control" />
+                <span asp-validation-for="StrategyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckTime" class="control-label"></label>
+                <input asp-for="CheckTime" class="form-control" />
+                <span asp-validation-for="CheckTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

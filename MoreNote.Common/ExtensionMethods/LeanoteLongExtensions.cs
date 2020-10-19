@@ -25,5 +25,16 @@ namespace MoreNote.Common.ExtensionMethods
             long.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result);
             return result;
         }
+          public static long ToLongByNumber(this string number)
+        {   
+            //if (hex.Length == 24)
+            //{
+            //    hex = hex.Substring(0, 16);
+            //}
+            //119993f42d821000
+            long result;
+            long.TryParse(number, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
+            return result;
+        }
     }
 }

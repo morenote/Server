@@ -1,0 +1,37 @@
+﻿@model MoreNote.Logic.Entity.ResolutionStrategy
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ResolutionStrategy</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StrategyKey)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StrategyKey)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StrategyName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StrategyName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CheckTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CheckTime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.StrategyID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
