@@ -89,13 +89,20 @@ namespace MoreNote.Logic.DB
         //应用更新服务
         public DbSet<AppInfo> AppInfo { get; set; }
         public DbSet<AccessRecords> AccessRecords { get; set; }
-
+        //随机图片服务
         public DbSet<RandomImage> RandomImage { get; set; }
+        public DbSet<ResolutionStrategy> ResolutionStrategy { get; set; }
+        public DbSet<ResolutionLocation> ResolutionLocation { get; set; }
+
+
+
         //public DbSet<RandomImage> WebReportInfo { get; set; }
 
         //支付功能
         public DbSet<GoodOrder> GoodOrder { get; set; }
         public DbSet<SpamInfo> SpamDB { get; set; }
+
+        
 
     }
 }

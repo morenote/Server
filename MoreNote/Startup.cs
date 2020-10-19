@@ -43,7 +43,10 @@ namespace MoreNote
             if (config.RandomAPI)
             {
                 services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
+                //网络分析和权重
+                //services.AddHostedService<MoreNoteWorkerService.AnalysisOfNetwork>();
             }
+
             //添加session服务
             services.AddDistributedMemoryCache();
 

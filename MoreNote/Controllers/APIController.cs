@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
@@ -146,6 +147,28 @@ namespace MoreNote.Controllers
                 return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}");
             }
         }
+
+        public IActionResult ResolutionStrategy(String StrategyID)
+        {
+            if (string.IsNullOrEmpty(StrategyID))
+            {
+                    Response.StatusCode=404;
+                    return Content("StrategyID does not exist");
+            }
+            using (var db=DataContext.getDataContext())
+            {
+                try
+                {
+                     var rl=db.ResolutionLocation.Where(b=>b.StrategyID.Equals(StrategyID.ToLongByNumber())).OrderBy(e=>e.Score).FirstOrDefault();
+                     return Redirect(rl.URL);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode=404;
+                    return Content("StrategyID does not exist");
+                }
+            }
+        }
         public IActionResult GetRandomImageFuseSize()
         {
             return Content(_fuseCount.ToString());
@@ -216,7 +239,7 @@ namespace MoreNote.Controllers
         }
 
         //浏览器检测
-        public async Task<IActionResult> BrowserDetection()
+        public IActionResult BrowserDetection()
         {
             return Redirect($"https://www.morenote.top/BrowserDetection.js");
         }
