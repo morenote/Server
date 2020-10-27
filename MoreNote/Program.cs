@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace MoreNote
@@ -10,23 +9,11 @@ namespace MoreNote
         {
             //启动服务器
             CreateHostBuilder(args).Build().Run();
-            //var host = new WebHostBuilder()
-            //     .UseUrls("http://*:5000")
-            //     .UseKestrel()
-            //     .UseStartup<Startup>()
-            //     .Build();
-
-            //    host.Run();
         }
-
-        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        //    WebHost.CreateDefaultBuilder(args)
-        //        .UseUrls("http://*:5000")
-        //        .UseStartup<Startup>();
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                
+
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder

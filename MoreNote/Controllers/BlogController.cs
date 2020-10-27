@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
-using MoreNote.Models.AspNetCore.Mvc;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

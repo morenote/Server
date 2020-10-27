@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Logic.Business;
 
 using MoreNote.Logic.Entity;
-using MoreNote.Models;
+using MoreNote.Logic.Model;
 using MoreNote.Value;
 using System.Collections.Generic;
 using System.Diagnostics;

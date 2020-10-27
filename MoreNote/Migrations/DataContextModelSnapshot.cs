@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MoreNote.Models;
+
 using MoreNote.Logic.DB;
 
 namespace MoreNote.Migrations

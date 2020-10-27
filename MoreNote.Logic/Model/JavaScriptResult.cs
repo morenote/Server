@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace MoreNote.Models.AspNetCore.Mvc
+namespace MoreNote.Logic.Model
 {
     public class JavaScriptResult : IActionResult
     {
