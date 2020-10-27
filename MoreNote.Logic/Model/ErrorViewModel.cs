@@ -1,4 +1,4 @@
-namespace MoreNote.Models
+namespace MoreNote.Logic.Model
 {
     public class ErrorViewModel
     {
