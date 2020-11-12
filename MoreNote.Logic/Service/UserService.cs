@@ -196,7 +196,7 @@ namespace MoreNote.Logic.Service
         }
         public static User GetUserByUserName(string Username)
         {
-            using (var db=new DataContext())
+            using (var db= DataContext.getDataContext())
             {
                 var result = db.User.Where(b => b.Username.Equals(Username.ToLower()));
                 return result == null ? null : result.FirstOrDefault();

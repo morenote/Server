@@ -1,23 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Platforms>AnyCPU;x64;x86</Platforms>
+	  <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.6" />
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.8" />
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
-    <PackageReference Include="FarNet" Version="5.2.24" />
+    <PackageReference Include="FarNet" Version="5.4.0" />
     <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Snowflake.Core" Version="2.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.0.53" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="5.1.0" />
     <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
   </ItemGroup>
 

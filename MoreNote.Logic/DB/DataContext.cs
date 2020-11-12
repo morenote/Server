@@ -6,6 +6,7 @@ namespace MoreNote.Logic.DB
 {
     public class DataContext: DbContext
     {
+
         public DataContext()
         {
         }
