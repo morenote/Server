@@ -3,6 +3,7 @@
   <PropertyGroup>
 	  <TargetFramework>net5.0</TargetFramework>
 	  <OutputType>Exe</OutputType>
+	  <UserSecretsId>d3b6d0b2-55da-4dd0-a053-3271a7026623</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
