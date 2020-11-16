@@ -9,5 +9,6 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public string Bucket { get; set; }
         public string FormApiSecret { get; set; }
 
+
     }
 }

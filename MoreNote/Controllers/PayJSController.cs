@@ -26,7 +26,7 @@ namespace MoreNote.Controllers
         }
         private static WebSiteConfig webSiteConfig = ConfigFileService.GetWebConfig();
 
-        private static Payjs pay = new Payjs(webSiteConfig.PayJS_MCHID, webSiteConfig.PayJS_Key);
+        private static Payjs pay = new Payjs(webSiteConfig.Payjs.PayJS_MCHID, webSiteConfig.Payjs.PayJS_Key);
 
         public IActionResult Index()
         {
@@ -50,7 +50,7 @@ namespace MoreNote.Controllers
             GoodOrder goodOrder = new GoodOrder()
             {
                 GoodOrderId = id,
-                mchid = webSiteConfig.PayJS_MCHID,
+                mchid = webSiteConfig.Payjs.PayJS_MCHID,
                 total_fee = nativeRequestMessage.total_fee,
                 out_trade_no = id.ToString(),
                 body = nativeRequestMessage.body,

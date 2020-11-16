@@ -36,11 +36,11 @@ namespace MoreNote
 
             });
             //随机图片API初始化程序
-            if (config.CrawlerWorker)
+            if (config.Spiders.CrawlerWorker)
             {
                 services.AddHostedService<MoreNoteWorkerService.RandomImagesCrawlerWorker>();
             }
-            if (config.RandomAPI)
+            if (config.PublicAPI.RandomImageAPI)
             {
                 services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
                 //网络分析和权重
