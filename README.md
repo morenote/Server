@@ -1,6 +1,9 @@
 # MoreNote
 
-MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net core发行版
+> MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net发行版  
+> Free. Cross-platform. Open source.  
+> A developer platform for building all  apps.  
+> But  Who cares?
 
 演示网站：<a href="https://www.morenote.top/" target="_blank">morenote云笔记</a>
 
@@ -12,7 +15,7 @@ gitee:https://gitee.com/hyfree_cn/MoreNote/
 
 ![MoreNote.NET Core](https://github.com/hyfree/MoreNote/workflows/MoreNote.NET%20Core/badge.svg?event=push)
 
-使用.net Core 3.1构建云笔记托管服务，并运行在Linux上。
+使用.Net5构建云笔记托管服务，并运行在Linux上。
 
 
 原则上尽量提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。
@@ -59,10 +62,10 @@ MoreNote与leanote的主要区别如下：
 
 | 区别| MoreNote | leanote |
 | :----- | :----: | :----: |
-| 开发语言 | C#(.net core 3.1) | Go |
-| 数据库 | PostGreSQL | MongoDB  |
+| 开发语言 | C#(.Net5) | Go |
+| 数据库 | PostgreSQL | MongoDB  |
 | 性能 | 非常慢 | 非常快  |
-| 内存占有 |  至少500MB | 应该比我少😆  |
+| 内存占有 |  至少1GB可用内存 | 应该比我少😆  |
 | 主题 | 不支持 | 支持主题包安装  |
 | 支持 | 不支持 | 社区支持&付费版支持  |
 | 多用户 | 不支持 | 支持  |
@@ -75,9 +78,9 @@ MoreNote与leanote的主要区别如下：
 #### 软件架构
 前端框架： LeanoteUI、AmazeUI、JQuery
 
-后端框架：asp .net mvc core 3.1
+后端框架：asp .net mvc 5
 
-服务器端： Centos7、Ubuntu18（原则上是支持dockers的）
+服务器端： Centos7（原则上是支持dockers的）
 
 数据库端： PostgreSQL11或12
 
@@ -94,7 +97,7 @@ dotnet run
 ```
 
 #### 使用说明
- MoreNote的主要设计目标是轻量型的笔记托管服务，MoreNote使用高性能的dotnet core设计(然并卵😂)。
+ MoreNote的主要设计目标是轻量型的笔记托管服务，MoreNote使用高性能的.Net5设计低性能的跨平台云笔记托管服务(然并卵)。
 
 
 #### 参与贡献
