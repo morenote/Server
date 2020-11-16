@@ -60,7 +60,7 @@ namespace MoreNoteWorkerService
                 }
             }
         }
-        private static readonly int size = config.randomImageSize;
+        private static readonly int size = config.PublicAPI.RandomImageSize;
       
         private async Task UpdatImage()
         {

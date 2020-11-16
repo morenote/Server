@@ -32,14 +32,14 @@ namespace MoreNote.Controllers
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
         private static readonly WebSiteConfig postgreSQLConfig = ConfigFileService.GetWebConfig();
 
-        private static readonly UpYun upyun = new UpYun(postgreSQLConfig.upyunBucket, postgreSQLConfig.upyunUsername, postgreSQLConfig.upyunPassword);
+        private static readonly UpYun upyun = new UpYun(postgreSQLConfig.UpYunCDN.UpyunBucket, postgreSQLConfig.UpYunCDN.UpyunUsername, postgreSQLConfig.UpYunCDN.UpyunPassword);
 
         private static readonly Random random = new Random();
 
         /// <summary>
         /// 保险丝
         /// </summary>
-        private static readonly int _randomImageFuseSize = postgreSQLConfig.randomImageFuseSize;
+        private static readonly int _randomImageFuseSize = postgreSQLConfig.PublicAPI.RandomImageFuseSize;
 
         /// <summary>
         /// 保险丝计数器
@@ -52,7 +52,7 @@ namespace MoreNote.Controllers
         /// <summary>
         /// 随机数组的大小
         /// </summary>
-        private static readonly int size = postgreSQLConfig.randomImageSize;
+        private static readonly int size = postgreSQLConfig.PublicAPI.RandomImageSize;
 
         /// <summary>
         /// 随即图片初始化的时间
@@ -64,7 +64,7 @@ namespace MoreNote.Controllers
         //目录分隔符
         private static readonly char dsc = Path.DirectorySeparatorChar;
 
-        private static readonly string dir = ConfigFileService.GetWebConfig().randomImageDir;
+      
 
         public async Task<IActionResult> GetRandomImage(string type)
         {
@@ -131,13 +131,13 @@ namespace MoreNote.Controllers
             };
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             type = randomImage.TypeNameMD5;
-            upyun.secret = postgreSQLConfig.upyunSecret; ;
+            upyun.secret = postgreSQLConfig.UpYunCDN.UpyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             unixTimestamp += 3;
 
             //开启token防盗链
 
-            if (postgreSQLConfig.token_anti_theft_chain)
+            if (postgreSQLConfig.PublicAPI.Token_anti_theft_chain)
             {
                 string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileSHA1}{ext}");
                 return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}?_upt={_upt}");

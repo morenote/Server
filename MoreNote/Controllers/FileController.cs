@@ -27,12 +27,12 @@ namespace MoreNote.Controllers
         {
             var webConfig = ConfigFileService.GetWebConfig();
             var options = new UPYunOSSOptions();
-            options.bucket = webConfig.UpYunOSSConfig.Bucket;
+            options.bucket = webConfig.UpYunOSS.Bucket;
             options.save_key = "/{year}/{mon}/{day}/{filemd5}{.suffix}";
             options.expiration = UnixTimeHelper.GetTimeStampInInt32() + 60;
             var policy = UpYunOSS.GetPolicy(options);
-            var signature = UpYunOSS.GetSignature(policy, webConfig.UpYunOSSConfig.FormApiSecret);
-            ViewBag.bucket = webConfig.UpYunOSSConfig.Bucket;
+            var signature = UpYunOSS.GetSignature(policy, webConfig.UpYunOSS.FormApiSecret);
+            ViewBag.bucket = webConfig.UpYunOSS.Bucket;
             ViewBag.policy = policy;
             ViewBag.signature = signature;
             return View();

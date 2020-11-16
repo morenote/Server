@@ -31,7 +31,7 @@ namespace MoreNote.Logic.DB
             //var connection = "Host=127.0.0.1.5;Port=5432;Database=dbname; User ID=userid;Password=password;";
            // var postgres = Environment.GetEnvironmentVariable("postgres");
             var postgres = ConfigFileService.GetWebConfig();
-            optionsBuilder.UseNpgsql(postgres.connection);
+            optionsBuilder.UseNpgsql(postgres.PostgreSql.Connection);
             
         }
 

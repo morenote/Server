@@ -17,6 +17,51 @@ namespace MoreNote.Logic.Service
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
+        private static string GetConfigPath()
+        {
+            if (RuntimeEnvironment.IsWindows)
+            {
+                return @"C:\morenote\WebSiteConfig.json";
+            }
+            else
+            {
+                return "/morenote/WebSiteConfig.json";
+            }
+        }
+
+        private static void InitWindowConfigDirectory()
+        {
+            if (!Directory.Exists(@"C:\morenote"))
+            {
+                Directory.CreateDirectory(@"C:\morenote");
+            }
+        }
+
+        private static void InitLinuxConfigDirectory()
+        {
+            if (!Directory.Exists(@"/morenote"))
+            {
+                Directory.CreateDirectory(@"/morenote");
+            }
+        }
+
+        private static void InitConfig()
+        {
+            if (RuntimeEnvironment.IsWindows)
+            {
+                InitWindowConfigDirectory();
+            }
+            else
+            {
+                InitLinuxConfigDirectory();
+            }
+            WebSiteConfig webSiteConfig = new WebSiteConfig();
+            string json = System.Text.Json.JsonSerializer.Serialize(webSiteConfig);
+            File.Create(path).Close();
+            File.WriteAllText(path, json);
+         
+        }
+
         private ConfigFileService()
         {
             if (config == null)
@@ -24,7 +69,6 @@ namespace MoreNote.Logic.Service
                 config = GetWebConfig();
             }
         }
-
         public static WebSiteConfig GetWebConfig()
         {
             if (config == null)
@@ -33,17 +77,10 @@ namespace MoreNote.Logic.Service
                 {
                     if (config == null)
                     {
-                        if (RuntimeEnvironment.IsWindows)
-                        {
-                            path = @"C:\etc\morenote\WebSiteConfig.json";
-                        }
-                        else
-                        {
-                            path = "/etc/morenote/WebSiteConfig.json";
-                        }
+                        path = GetConfigPath();
                         if (!File.Exists(path))
                         {
-                            throw new IOException($"{path}不存在");
+                            InitConfig();
                         }
                         string json = File.ReadAllText(path);
                         config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);

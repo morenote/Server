@@ -26,7 +26,7 @@ namespace MoreNote.Logic.Service
                         consumeModel = new ConsumeModel();
                         if (consumeModel.predEngine == null)
                         {
-                            consumeModel.loadModel(webSiteConfig.ModelPath);
+                            consumeModel.loadModel(webSiteConfig.MachineLearning.SpamModelPath);
                         }
                     }
                     return consumeModel;
