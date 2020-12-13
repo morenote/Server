@@ -14,9 +14,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MoreNote.Filter.Global;
 
 namespace MoreNote.Controllers
 {
+ 
     public class AuthController : BaseController
     {
         public AuthController(IHttpContextAccessor accessor) : base(accessor)
@@ -28,7 +30,8 @@ namespace MoreNote.Controllers
         //{
         //    return View();
         //}
-        public IActionResult Login()
+      
+       public IActionResult Login()
         {
             ViewBag.Title = "请登录";
             ViewBag.msg = LanguageResource.GetMsg();
@@ -55,7 +58,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                if (!captcha.ToLower().Equals(verifyCode))
+                if (captcha.Equals("0")||!captcha.ToLower().Equals(verifyCode))
                 {
                     Re re = new Re() { Ok = false, Msg = "验证码错误" };
                     return Json(re, MyJsonConvert.GetSimpleOptions());

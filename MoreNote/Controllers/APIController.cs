@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
+using MoreNote.Filter.Global;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
@@ -65,8 +66,14 @@ namespace MoreNote.Controllers
         private static readonly char dsc = Path.DirectorySeparatorChar;
 
       
-
-        public async Task<IActionResult> GetRandomImage(string type)
+        class RandomImageResult
+        {
+            public int Error { get; set; }
+            public  int Result { get; set; }
+            public  int Count { get; set; }
+            public  List<string> Images { get; set; }
+        }
+        public async Task<IActionResult> GetRandomImage(string type,string format ="raw",int jsonSize=1)
         {
             var randomImageList = RandomImageService.GetRandomImageList();
             lock (_fuseObj)
@@ -130,21 +137,77 @@ namespace MoreNote.Controllers
                 RemotePort = remotePort
             };
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
-            type = randomImage.TypeNameMD5;
+            string typeMD5 = randomImage.TypeNameMD5;
             upyun.secret = postgreSQLConfig.UpYunCDN.UpyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             unixTimestamp += 3;
 
             //开启token防盗链
 
+            switch (format)
+            {
+                case "raw":
+                    if (postgreSQLConfig.PublicAPI.Token_anti_theft_chain)
+                    {
+                        string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{typeMD5}/{randomImage.FileSHA1}{ext}");
+                        return Redirect($"https://upyun.morenote.top/upload/{typeMD5}/{randomImage.FileSHA1}{ext}?_upt={_upt}");
+                    }
+                    else
+                    {
+                        return Redirect($"https://upyun.morenote.top/upload/{typeMD5}/{randomImage.FileSHA1}{ext}");
+                    }
+                case "json":
+                    if (jsonSize<0)
+                    {
+                        jsonSize = 1;
+                    }
+
+                    if (jsonSize>20)
+                    {
+                        jsonSize = 20;
+                    }
+                    List<string> images=new List<string>();
+
+                    for (int i = 0; i < jsonSize; i++)
+                    {
+                        string img=GetOneURL( type);
+                        images.Add(img);
+                    }
+                    
+                    RandomImageResult randomImageResult=new RandomImageResult()
+                    {
+                        Error = 0,
+                        Result = 200,
+                        Count = images.Count,
+                        Images =images
+                    };
+                    return Json(randomImageResult, Common.Utils.MyJsonConvert.GetSimpleOptions());
+                default:
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Content("format=??");
+
+            }
+            
+        }
+
+        private static string GetOneURL(string type)
+        {
+            var randomImageList = RandomImageService.GetRandomImageList();
+            RandomImage randomImage = null;
+            int index = random.Next(randomImageList[type].Count - 1);
+            randomImage = randomImageList[type][index];
+
+            string ext = Path.GetExtension(randomImage.FileName);
+            int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
+            string _upt1 = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileSHA1}{ext}");
             if (postgreSQLConfig.PublicAPI.Token_anti_theft_chain)
             {
-                string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileSHA1}{ext}");
-                return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}?_upt={_upt}");
+
+                return $"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}?_upt={_upt1}";
             }
             else
             {
-                return Redirect($"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}");
+                return $"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}";
             }
         }
 
@@ -249,6 +312,7 @@ namespace MoreNote.Controllers
         /// </summary>
         /// <returns></returns>
         // [HttpGet("VerifyCode")]
+        [SkipInspectionInstallationFilter]
         public async Task VerifyCode()
         {
             Response.ContentType = "image/jpeg";

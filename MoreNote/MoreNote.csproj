@@ -124,8 +124,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TextFile.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="sources.list">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Value\zh-cn\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
