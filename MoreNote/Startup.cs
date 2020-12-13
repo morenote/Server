@@ -11,6 +11,8 @@ using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.DB;
 
 using System;
+using Microsoft.AspNetCore.Mvc.Filters;
+using MoreNote.Filter.Global;
 using MoreNote.Logic.Service;
 
 namespace MoreNote
@@ -35,12 +37,13 @@ namespace MoreNote
                 options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
 
             });
+      
             //随机图片API初始化程序
-            if (config.Spiders.CrawlerWorker)
+            if (config!=null&&config.Spiders!=null&&config.Spiders.CrawlerWorker)
             {
                 services.AddHostedService<MoreNoteWorkerService.RandomImagesCrawlerWorker>();
             }
-            if (config.PublicAPI.RandomImageAPI)
+            if (config!=null&&config.PublicAPI!=null&&config.PublicAPI.RandomImageAPI)
             {
                 services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
                 //网络分析和权重
@@ -88,8 +91,11 @@ namespace MoreNote
                 });
                 
             });
-            services.AddMvc();
-
+            // services.AddMvc();
+            // services.AddSingleton<IAuthorizationFilter, InspectionInstallationFilter>();
+            services.AddMvc(option => {
+                option.Filters.Add<InspectionInstallationFilter>();
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -17,7 +17,7 @@ namespace MoreNote.Logic.Service
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
-        private static string GetConfigPath()
+        public static string GetConfigPath()
         {
             if (RuntimeEnvironment.IsWindows)
             {
@@ -109,6 +109,7 @@ namespace MoreNote.Logic.Service
             }
             string json = System.Text.Json.JsonSerializer.Serialize(tempConfig);
             File.WriteAllText(onePath, json);
+            config=tempConfig;
         }
     }
 }

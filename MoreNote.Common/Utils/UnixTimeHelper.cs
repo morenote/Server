@@ -26,7 +26,12 @@ namespace MoreNote.Common.Utils
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             return unixTimestamp;
         }
-
+        /// <summary>
+        /// 检查是否有效
+        /// </summary>
+        /// <param name="oldTime"></param>
+        /// <param name="validtime"></param>
+        /// <returns></returns>
         public static bool IsValid(int oldTime,int validtime)
         {
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
