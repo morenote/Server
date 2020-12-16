@@ -137,7 +137,7 @@ namespace MoreNote.Controllers.API.APIV1
                     {
                         if (!string.IsNullOrEmpty(file.LocalFileId))
                         {
-                            var result = upload("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long serverFileId, out string msg);
+                            var result = UploadImages("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long serverFileId, out string msg);
                             if (!result)
                             {
                                 if (string.IsNullOrEmpty(msg))
@@ -351,7 +351,7 @@ namespace MoreNote.Controllers.API.APIV1
                     {
                         if (!string.IsNullOrEmpty(file.LocalFileId))
                         {
-                            var result = upload("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long serverFileId, out string msg);
+                            var result = UploadImages("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long serverFileId, out string msg);
                             if (!result)
                             {
                                 if (string.IsNullOrEmpty(msg))

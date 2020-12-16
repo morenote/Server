@@ -31,16 +31,16 @@ namespace MoreNote.Controllers
 
         }
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-        private static readonly WebSiteConfig postgreSQLConfig = ConfigFileService.GetWebConfig();
+        private static readonly WebSiteConfig webcConfig = ConfigFileService.GetWebConfig();
 
-        private static readonly UpYun upyun = new UpYun(postgreSQLConfig.UpYunCDN.UpyunBucket, postgreSQLConfig.UpYunCDN.UpyunUsername, postgreSQLConfig.UpYunCDN.UpyunPassword);
+        private static readonly UpYun upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername, webcConfig.UpYunCDN.UpyunPassword);
 
         private static readonly Random random = new Random();
 
         /// <summary>
         /// 保险丝
         /// </summary>
-        private static readonly int _randomImageFuseSize = postgreSQLConfig.PublicAPI.RandomImageFuseSize;
+        private static readonly int _randomImageFuseSize = webcConfig.PublicAPI.RandomImageFuseSize;
 
         /// <summary>
         /// 保险丝计数器
@@ -53,7 +53,7 @@ namespace MoreNote.Controllers
         /// <summary>
         /// 随机数组的大小
         /// </summary>
-        private static readonly int size = postgreSQLConfig.PublicAPI.RandomImageSize;
+        private static readonly int size = webcConfig.PublicAPI.RandomImageSize;
 
         /// <summary>
         /// 随即图片初始化的时间
@@ -136,18 +136,19 @@ namespace MoreNote.Controllers
                 RemoteIpAddress = remoteIpAddress,
                 RemotePort = remotePort
             };
+            //访问日志
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             string typeMD5 = randomImage.TypeNameMD5;
-            upyun.secret = postgreSQLConfig.UpYunCDN.UpyunSecret; ;
+            upyun.secret = webcConfig.UpYunCDN.UpyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
-            unixTimestamp += 3;
+            unixTimestamp += 5;
 
             //开启token防盗链
 
             switch (format)
             {
                 case "raw":
-                    if (postgreSQLConfig.PublicAPI.Token_anti_theft_chain)
+                    if (webcConfig.PublicAPI.Token_anti_theft_chain)
                     {
                         string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{typeMD5}/{randomImage.FileSHA1}{ext}");
                         return Redirect($"https://upyun.morenote.top/upload/{typeMD5}/{randomImage.FileSHA1}{ext}?_upt={_upt}");
@@ -200,7 +201,7 @@ namespace MoreNote.Controllers
             string ext = Path.GetExtension(randomImage.FileName);
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             string _upt1 = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileSHA1}{ext}");
-            if (postgreSQLConfig.PublicAPI.Token_anti_theft_chain)
+            if (webcConfig.PublicAPI.Token_anti_theft_chain)
             {
 
                 return $"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}?_upt={_upt1}";

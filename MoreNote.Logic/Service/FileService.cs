@@ -6,13 +6,63 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using UpYunLibrary;
 
 namespace MoreNote.Logic.Service
 {
     public class FileService
     {
         const string DEFAULT_ALBUM_ID = "52d3e8ac99c37b7f0d000001";
+        public static async Task<bool> SaveUploadFileOnUPYunAsync(UpYun upyun, IFormFile formFile, string uploadDirPath, string fileName)
+        {
+            if (formFile.Length > 0)
+            {
+                // string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
+                // long fileSize = formFile.Length; //获得文件大小，以字节为单位
+
+                if (!Directory.Exists(uploadDirPath))
+                {
+                    Directory.CreateDirectory(uploadDirPath);
+                }
+                var filePath = uploadDirPath + fileName;
+                MemoryStream stmMemory = new MemoryStream();
+                await formFile.CopyToAsync(stmMemory).ConfigureAwait(false);
+                byte[] imageBytes = stmMemory.ToArray();
+                return upyun.writeFile($"{uploadDirPath}{fileName}", imageBytes, true);
+              
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static async Task<bool> SaveUploadFileOnDiskAsync(IFormFile formFile, string uploadDirPath, string fileName)
+        {
+            if (formFile.Length > 0)
+            {
+                // string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
+                // long fileSize = formFile.Length; //获得文件大小，以字节为单位
+
+                if (!Directory.Exists(uploadDirPath))
+                {
+                    Directory.CreateDirectory(uploadDirPath);
+                }
+                var filePath = uploadDirPath + fileName;
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(stream).ConfigureAwait(false);
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         // add Image
+
         public static bool AddImage(NoteFile image,long albumId,long userId,bool needCheck)
         {
             image.CreatedTime=DateTime.Now;
