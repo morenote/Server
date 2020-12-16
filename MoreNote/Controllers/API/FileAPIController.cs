@@ -16,9 +16,9 @@ namespace MoreNote.Controllers.API.APIV1
     //[ApiController]
     public class FileAPIController : BaseAPIController
     {
-        private static readonly WebSiteConfig webcConfig = ConfigFileService.GetWebConfig();
+      
         
-
+       
         public FileAPIController(IHttpContextAccessor accessor) : base(accessor)
         {
         }
@@ -37,6 +37,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             try
             {
+             
                
                 if (string.IsNullOrEmpty(fileId)) return Content("error");
                 var myFileId = fileId.ToLongByHex();
@@ -45,10 +46,11 @@ namespace MoreNote.Controllers.API.APIV1
                     //return Content("NoFoundImage");
                     return NoFoundImage();
                 //获取又拍云操作对象
-                UpYun upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername, webcConfig.UpYunCDN.UpyunPassword);
+                UpYun upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
+                upyun.secret = config.UpYunCDN.UpyunSecret; 
                 string path = noteFile.Path;
                 int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
-                unixTimestamp = unixTimestamp + 5;
+                unixTimestamp += 5;
                 string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, path);
                 return Redirect($"https://upyun.morenote.top{path}?_upt={_upt}");
             }
@@ -72,9 +74,10 @@ namespace MoreNote.Controllers.API.APIV1
             if (attachFile == null) return Content("NoFoundAttach");
             
             //获取又拍云操作对象
-            UpYun upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername, webcConfig.UpYunCDN.UpyunPassword);
+            UpYun upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
+            upyun.secret = config.UpYunCDN.UpyunSecret; 
             string path = attachFile.Path;
-            int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
+            long unixTimestamp = UnixTimeHelper.GetTimeStampInLong();
             unixTimestamp = unixTimestamp + 5;
             string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, path);
             return Redirect($"https://upyun.morenote.top{path}?_upt={_upt}");
