@@ -68,7 +68,7 @@ namespace MoreNote.Controllers
                 Referrer = headers["Referer"],
                 RequestHeader = stringBuilder.ToString(),
                 AccessTime = DateTime.Now,
-                UnixTime = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                UnixTime = UnixTimeHelper.GetTimeStampInLong(),
                 TimeInterval = -1,
                 url = url
             };
