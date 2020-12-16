@@ -4,11 +4,13 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using UpYunLibrary;
 
 namespace MoreNote.Controllers
 {
@@ -26,10 +28,18 @@ namespace MoreNote.Controllers
         public string defaultSortField = "UpdatedTime";
         public string leanoteUserId = "admin";// 不能更改
         protected IHttpContextAccessor _accessor;
-     
+        /// <summary>
+        /// 网站配置
+        /// </summary>
+        public  WebSiteConfig config = ConfigFileService.GetWebConfig();
+        /// <summary>
+        /// 又拍云
+        /// </summary>
+        public  UpYun upyun=null;
         public BaseController(IHttpContextAccessor accessor)
         {
             _accessor = accessor;
+            upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
 
         }
         public bool HasLogined()
@@ -187,16 +197,13 @@ namespace MoreNote.Controllers
             return hex.ToLongByHex();
         }
         // todo :上传附件
-        public bool uploadAttach(string name,long userId, long noteId, out string msg, out long serverFileId)
+        public bool UploadAttach(string name,long userId, long noteId, out string msg, out long serverFileId)
         {
             msg = "";
             serverFileId = 0;
 
-            var uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/attachs/{userId.ToHex24()}/images/{DateTime.Now.ToString("yyyy_MM")}/";
-            if (RuntimeEnvironment.IsWindows)
-            {
-                uploadDirPath = $@"upload\{userId.ToHex24()}\attachs\{DateTime.Now.ToString("yyyy_MM")}\";
-            }
+            var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
+           
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
@@ -222,14 +229,14 @@ namespace MoreNote.Controllers
                 msg = $"The_Attach_extension_{fileEXT}_is_blocked";
                 return false;
             }
-            var fileName = diskFileId.ToHex24() + "." + fileEXT;
+            var fileName = diskFileId.ToHex() + "." + fileEXT;
             //判断合法性
             if (httpFiles == null || httpFile.Length < 0)
             {
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
+            Task<bool> task = FileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -264,25 +271,23 @@ namespace MoreNote.Controllers
                 return false;
             }
         }
+       
         public long getUserId()
         {
             return 0;
         }
 
-        public bool upload(string name,long userId,long noteId, bool isAttach, out long serverFileId, out string msg)
+        public bool UploadImages(string name,long userId,long noteId, bool isAttach, out long serverFileId, out string msg)
         {
             if (isAttach)
             {
-                return uploadAttach(name,userId, noteId, out msg, out serverFileId);
+                return UploadAttach(name,userId, noteId, out msg, out serverFileId);
             }
             msg = "";
             serverFileId = 0;
           
-            var uploadDirPath = $"{RuntimeEnvironment.DirectorySeparatorChar}www/upload/{userId.ToHex24()}/images/{DateTime.Now.ToString("yyyy_MM")}/";
-            if (RuntimeEnvironment.IsWindows)
-            {
-                uploadDirPath = $@"upload\{userId.ToHex24()}\images\{DateTime.Now.ToString("yyyy_MM")}\";
-            }
+            var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
+        
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId=diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
@@ -308,14 +313,14 @@ namespace MoreNote.Controllers
                 msg= $"The_image_extension_{fileEXT}_is_blocked";
                 return false;
             }
-            var  fileName=diskFileId.ToHex24()+"."+fileEXT;
+            var  fileName=diskFileId.ToHex()+"."+fileEXT;
             //判断合法性
             if (httpFiles == null || httpFile.Length < 0)
             {
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
+            Task<bool> task = FileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -390,29 +395,8 @@ namespace MoreNote.Controllers
             }
 
         }
-        public async Task<bool> SaveUploadFileOnDiskAsync(IFormFile formFile, string uploadDirPath, string fileName)
-        {
-            if (formFile.Length > 0)
-            {
-                // string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
-                // long fileSize = formFile.Length; //获得文件大小，以字节为单位
+        
 
-                if (!Directory.Exists(uploadDirPath))
-                {
-                    Directory.CreateDirectory(uploadDirPath);
-                }
-                var filePath = uploadDirPath + fileName;
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await formFile.CopyToAsync(stream).ConfigureAwait(false);
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         public enum FileTyte
         {
             /**

@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
-
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Util;
 using MoreNote.Common.Utils;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
-using System;
-using System.IO;
+using UpYunLibrary;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -15,6 +16,9 @@ namespace MoreNote.Controllers.API.APIV1
     //[ApiController]
     public class FileAPIController : BaseAPIController
     {
+        private static readonly WebSiteConfig webcConfig = ConfigFileService.GetWebConfig();
+        
+
         public FileAPIController(IHttpContextAccessor accessor) : base(accessor)
         {
         }
@@ -24,88 +28,62 @@ namespace MoreNote.Controllers.API.APIV1
         [Route("api/File/GetImageForWeb/{fileId}")]
         public IActionResult GetImageForWeb(string fileId)
         {
-            return  GetImage(fileId);
+            return GetImage(fileId);
         }
+
         //todo: 输出image 需要get参数
         //api/File/GetImage?fileId=xxxx
         public IActionResult GetImage(string fileId)
         {
             try
             {
-                if (string.IsNullOrEmpty(fileId))
-                {
-                    return Content("error");
-                }
+               
+                if (string.IsNullOrEmpty(fileId)) return Content("error");
                 var myFileId = fileId.ToLongByHex();
                 var noteFile = FileService.GetFile(myFileId);
                 if (noteFile == null)
-                {
                     //return Content("NoFoundImage");
                     return NoFoundImage();
-                }
-                var stream = System.IO.File.OpenRead(noteFile.Path);
-                string fileExt = Path.GetExtension(noteFile.Name);
-                //获取文件的ContentType
-                var provider = new FileExtensionContentTypeProvider();
-                var memi = provider.Mappings[fileExt];
-                return File(stream, memi);
-            }catch(Exception ex)
-            {
-              return NoFoundImage();
+                //获取又拍云操作对象
+                UpYun upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername, webcConfig.UpYunCDN.UpyunPassword);
+                string path = noteFile.Path;
+                int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
+                unixTimestamp = unixTimestamp + 5;
+                string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, path);
+                return Redirect($"https://upyun.morenote.top{path}?_upt={_upt}");
             }
-            
+            catch (Exception ex)
+            {
+                return NoFoundImage();
+            }
         }
+
         public IActionResult NoFoundImage()
         {
-
-            string path;
-            if (RuntimeEnvironment.Islinux)
-            {
-                //图片来自网络
-                path = "upload/404.jpg";
-
-            }
-            else
-            {
-                path = "upload\\404.jpg";
-            }
-            var stream = System.IO.File.OpenRead(path);
-            string fileExt = Path.GetExtension("404.jpg");
-            //获取文件的ContentType
-            var provider = new FileExtensionContentTypeProvider();
-            var memi = provider.Mappings[fileExt];
-            return File(stream, memi);
+            return Redirect($"https://upyun.morenote.top/404.jpg");
         }
 
         //todo:下载附件
         public IActionResult GetAttach(string fileId)
         {
-           
-            if (string.IsNullOrEmpty(fileId))
-            {
-                return Content("error");
-            }
-            if (fileId.Length == 24)
-            {
-                fileId = fileId.Substring(0, 16);
-            }
+            if (string.IsNullOrEmpty(fileId)) return Content("error");
+            if (fileId.Length == 24) fileId = fileId.Substring(0, 16);
             var attachFile = AttachService.GetAttach(fileId.ToLongByHex());
-            if (attachFile == null)
-            {
-                return Content("NoFoundAttach");
-            }
-            var stream = System.IO.File.OpenRead(attachFile.Path);
-            string fileExt = Path.GetExtension(attachFile.Name);
-            //获取文件的ContentType
-            var provider = new FileExtensionContentTypeProvider();
-            var memi = provider.Mappings[fileExt];
-            return File(stream, memi, Path.GetFileName(attachFile.Path));
+            if (attachFile == null) return Content("NoFoundAttach");
+            
+            //获取又拍云操作对象
+            UpYun upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername, webcConfig.UpYunCDN.UpyunPassword);
+            string path = attachFile.Path;
+            int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
+            unixTimestamp = unixTimestamp + 5;
+            string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, path);
+            return Redirect($"https://upyun.morenote.top{path}?_upt={_upt}");
         }
+
         //todo:下载所有附件
-        public IActionResult GetAllAttachs(string noteId,string token)
+        public IActionResult GetAllAttachs(string noteId, string token)
         {
             return null;
         }
-      
     }
 }

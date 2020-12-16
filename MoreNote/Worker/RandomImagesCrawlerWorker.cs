@@ -122,7 +122,6 @@ namespace MoreNoteWorkerService
             {
                 stmMemory.Write(buffer1, 0, i);
             }
-           
             //–¥»Î¥≈≈Ã
             string name = System.IO.Path.GetFileName(originalString);
             byte[] imageBytes = stmMemory.ToArray();
