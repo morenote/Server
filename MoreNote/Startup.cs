@@ -57,12 +57,20 @@ namespace MoreNote
             //var connection = Environment.GetEnvironmentVariable("postgres");
             //services.AddDbContextPool<DataContext>(options => options.UseNpgsql(connection));
            // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
+            
+            //添加redis
+	        services.AddDistributedRedisCache(options =>
+	        {
+		        options.Configuration = "localhost";
+				
+	        });
             services.AddSession(options =>
             {
+               
                 // Set a short timeout for easy testing.
                 options.Cookie.Name = "SessionID";
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
-                options.Cookie.HttpOnly = true;
+                options.Cookie.HttpOnly = true;//设为httponly 阻止js脚本读取
             });
             //这样可以将HttpContext注入到控制器中。
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -96,6 +104,7 @@ namespace MoreNote
             services.AddMvc(option => {
                 option.Filters.Add<InspectionInstallationFilter>();
             });
+   
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
