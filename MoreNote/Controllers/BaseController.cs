@@ -39,8 +39,11 @@ namespace MoreNote.Controllers
         public BaseController(IHttpContextAccessor accessor)
         {
             _accessor = accessor;
-            upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
-
+            if (config!=null&&config.UpYunCDN!=null)
+            {
+                upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
+            }
+           
         }
         public bool HasLogined()
         {

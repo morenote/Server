@@ -93,7 +93,7 @@ namespace MoreNoteWorkerService
             request.Headers.Add(HttpRequestHeader.Referer, "http://www.bz08.cn/");
             //伪装成谷歌浏览器 
             //request.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
-            request.Headers.Add(HttpRequestHeader.UserAgent, "I am a cute web crawler");
+            request.Headers.Add(HttpRequestHeader.UserAgent, "Power By www.morenote.top");
             //添加cookie认证信息
             Cookie cookie = new Cookie("PHPSESSID", "s9gajue8h7plf7n5ab8fehiuoq");
             cookie.Domain = "api.r10086.com";
