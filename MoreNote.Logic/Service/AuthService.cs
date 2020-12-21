@@ -1,6 +1,6 @@
 ﻿using System;
 
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 
@@ -146,8 +146,12 @@ namespace MoreNote.Logic.Service
 
            
         }
+        //第三方得到用户名, 可能需要多次判断
         public static string getUsername(string thirdType,string thirdUserName)
         {
+            string username=thirdType + "-" + thirdUserName;
+
+
             throw new Exception();
         }
         public User ThirdRegister(string thirdType,string thirdUserId,string thirdUserName)

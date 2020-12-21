@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MoreNote.Common.Util
+namespace MoreNote.Common.Utils
 {
     /// <summary>
     /// 随机数据发生工具类

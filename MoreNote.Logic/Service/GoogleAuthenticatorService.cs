@@ -5,7 +5,7 @@ using System.Text;
 
 using Google.Authenticator;
 
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 
 namespace MoreNote.Logic.Service

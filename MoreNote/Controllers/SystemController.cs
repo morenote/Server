@@ -11,7 +11,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using System.Text.Json;
 using System.IO;
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers

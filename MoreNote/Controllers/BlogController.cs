@@ -142,6 +142,8 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
+            Notebook notebook=NotebookService.GetNotebookById(notebookId);
+            ViewBag.notebook=notebook;
 
             ViewBag.postCount = BlogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId, notebookId);
             NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.UserId);
@@ -152,9 +154,8 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
-
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            blog.Add("Title", "标题");
+            blog.Add("Title", $"分类-{notebook.Title}");
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
             return View();

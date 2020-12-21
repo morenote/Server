@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MoreNote.Logic.Entity.ConfigFile;
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Common.Utils;
 using MoreNote.Controllers;
 using MoreNote.Logic.Entity;

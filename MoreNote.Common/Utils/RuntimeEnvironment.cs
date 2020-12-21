@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace MoreNote.Common.Util
+namespace MoreNote.Common.Utils
 {
     public class RuntimeEnvironment
     {

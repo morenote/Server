@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using MoreNote.Common.ExtensionMethods;
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;

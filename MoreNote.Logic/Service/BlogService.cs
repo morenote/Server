@@ -1,5 +1,6 @@
 ﻿using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Helper;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 
@@ -9,11 +10,36 @@ using System.Linq;
 
 namespace MoreNote.Logic.Service
 {
+    // blog
+    /*
+    note, notebook都可设为blog
+    关键是, 怎么得到blog列表? 还要分页
+
+    ??? 不用新建, 直接使用notes表, 添加IsBlog字段. 新建表 blogs {NoteId, UserId, CreatedTime, IsTop(置顶)}, NoteId, UserId 为unique!!
+
+    // 设置一个note为blog
+    添加到blogs中
+
+    // 设置/取消notebook为blog
+    创建一个note时, 如果其notebookId已设为blog, 那么添加该note到blog中.
+    设置一个notebook为blog时, 将其下所有的note添加到blogs里 -> 更新其IsBlog为true
+    取消一个notebook不为blog时, 删除其下的所有note -> 更新其IsBlog为false
+
+    */
     public class BlogService
     {
         public static BlogStat GetBlogStat(long noteId)
         {
-            throw new Exception();
+            var note= NoteService.GetBlogNote(noteId);
+            var stat=new BlogStat()
+            {
+                NodeId=note.NoteId,
+                ReadNum=note.ReadNum,
+                LikeNum=note.LikeNum,
+                CommentNum=note.CommentNum
+            };
+            return stat;
+           
         }
 
         /// <summary>
@@ -67,22 +93,66 @@ namespace MoreNote.Logic.Service
 
         public static BlogItem GetBlogByIdAndUrlTitle(long userId, string noteIdOrUrlTitle)
         {
-            throw new Exception();
+            if (Util.IsObjectId(noteIdOrUrlTitle))
+            {
+                return GetBlog(noteIdOrUrlTitle.ToLongByHex());
+
+            }
+            else
+            {
+                using (var db=DataContext.getDataContext())
+                {
+                     var note=db.Note.Where(b=>b.UserId==userId&&b.Title==noteIdOrUrlTitle
+                     &&b.IsBlog==true
+                     &&b.IsTrash==false
+                     &&b.IsDeleted==false).FirstOrDefault();
+                    return GetBlogItem(note);
+
+                }
+               
+            }
+           
         }
 
         public static BlogItem GetBlog(long noteId)
         {
-            throw new Exception();
+            using (var db=DataContext.getDataContext())
+            {
+                var note=db.Note.Where(b=>b.NoteId==noteId).FirstOrDefault();
+                return GetBlogItem(note);
+            }
         }
 
         public static BlogItem GetBlogItem(Note note)
         {
-            throw new Exception();
+            if (note==null||!note.IsBlog)
+            {
+                return new BlogItem();
+            }
+            //内容
+            var noteContent= NoteContentService.GetNoteContent(note.NoteId,note.UserId);
+            // 组装成blogItem
+            User user=UserService.GetUserByUserId(note.UserId);
+            var blog=new BlogItem()
+            {
+                Note=note,
+                Abstract=noteContent.Abstract,
+                Content=noteContent.Content,
+                HasMore=false,
+                User=user
+
+            };
+            return blog;
         }
 
         public static Notebook[] ListBlogNotebooks(long userId)
         {
-            throw new Exception();
+            using(var db = DataContext.getDataContext())
+            {
+                var noteBooks=db.Notebook.Where(b=>b.UserId==userId&&
+               b.IsBlog==true).ToArray();
+                return noteBooks;
+            }
         }
 
         /// <summary>
@@ -107,7 +177,6 @@ namespace MoreNote.Logic.Service
                 blogItem = null;
                 return;
             }
-
             throw new Exception();
         }
 

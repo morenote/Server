@@ -28,12 +28,12 @@ namespace MoreNote.Logic.Entity
     // 只为blog, 不为note copy hahaha
     public class BlogItem
     {
-        [Key]
-        public long NoteId{ get; set; }
+     
+        public Note Note{ get; set; }
         public string Abstract{ get; set; }
         public string Content{ get; set; } //可能是content的一部分, 截取.点击more后就是整个信息了
         public bool HasMore{ get; set; }//是否是否还有
-        public User user{ get; set; }//用户信息
+        public User User{ get; set; }//用户信息
 
     }
     public class UserBlogBase
