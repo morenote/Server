@@ -19,7 +19,7 @@ namespace MoreNote.Logic.Service
             using (var db = DataContext.getDataContext())
             {
                var result= db.Album.Add(album);
-                return  db.SaveChanges()>0;
+               return  db.SaveChanges()>0;
             }
         }
         //get albums
@@ -44,6 +44,20 @@ namespace MoreNote.Logic.Service
                   return  db.Album.Where(a=>a.AlbumId==albumId).Delete()>0;
                 }
                 return false;
+            }
+        }
+        public static  bool UpdateAlbum(long albumId,long userId,string name)
+        {
+            using (var db = DataContext.getDataContext())
+            {
+                var result = db.Album
+                    .Where(b => b.AlbumId.Equals(albumId)&&b.UserId.Equals(userId));
+                if (result!=null)
+                {
+
+                }
+                result.FirstOrDefault().Name=name;
+               return db.SaveChanges()>0;
             }
         }
     }

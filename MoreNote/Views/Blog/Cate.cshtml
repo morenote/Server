@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Notebook notebook=ViewBag.notebook;
+}
+<!DOCTYPE html>
 <html lang="zh-CN">
 @await Html.PartialAsync("Header")
 <body ondragstart="return false;" class="dark-theme">
@@ -7,7 +10,7 @@
        
         <div class="toolbar header bg-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}} color-white">
             <button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="fa fa-bars"></i></button>
-            <label class="toolbar-label">分类 - {{$.curCateTitle}}</label>
+            <label class="toolbar-label">分类 - @notebook.Title</label>
             <span class="float-right" id="switch-container">
                 <div class="switch">
                     <input type="checkbox" id="dark-theme-switch" onchange="Theme.setTheme(this.checked ? 'dark' : 'light')" />

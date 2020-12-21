@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using MoreNote.Common.Utils;
 
 namespace MoreNote.Logic.Model

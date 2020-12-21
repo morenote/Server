@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MoreNote.Common.Util
+namespace MoreNote.Common.Utils
 {
     public class HyLoger
     {

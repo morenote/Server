@@ -2,7 +2,7 @@
 using System.DrawingCore;
 using System.DrawingCore.Imaging;
 using System.IO;
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 
 namespace MoreNote.Common.Utils
 {

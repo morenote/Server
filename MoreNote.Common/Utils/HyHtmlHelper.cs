@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace MoreNote.Common.Util
+namespace MoreNote.Common.Utils
 {
     public class HyHtmlHelper
     {

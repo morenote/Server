@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace MoreNote.Common.Util
+namespace MoreNote.Common.Utils
 {
    public class SHAEncryptHelper
     {

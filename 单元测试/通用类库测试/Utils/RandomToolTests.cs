@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreNote.Common.Util;
+using MoreNote.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MoreNote.Common.Util.Tests
+namespace MoreNote.Common.Utils.Tests
 {
     [TestClass()]
     public class RandomToolTests

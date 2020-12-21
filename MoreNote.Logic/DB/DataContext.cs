@@ -48,7 +48,6 @@ namespace MoreNote.Logic.DB
         /// <summary>
         /// Blog
         /// </summary>
-        public DbSet<BlogItem> BlogItem { get; set; }
         public DbSet<UserBlogBase> UserBlogBase { get; set; }
         public DbSet<UserBlogComment> UserBlogComment { get; set; }
         public DbSet<UserBlogStyle> UserBlogStyle { get; set; }
