@@ -141,7 +141,7 @@ namespace MoreNote.Controllers
             string typeMD5 = randomImage.TypeNameMD5;
             upyun.secret = webcConfig.UpYunCDN.UpyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
-            unixTimestamp += 5;
+            unixTimestamp += 60;
 
             //开启token防盗链
 
