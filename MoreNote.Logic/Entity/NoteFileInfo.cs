@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using MoreNote.Logic.Service.FileService;
 
 namespace MoreNote.Logic.Entity
 {
@@ -22,6 +23,8 @@ namespace MoreNote.Logic.Entity
         public Int64 Size { get; set; } // file  size (byte)
         public string Type { get; set; } // file  type ""=image "doc"=word
         public string Path { get; set; } // the file path
+        public StorageTypeEnum StorageType { get; set; } //储存方式 本地？又拍云 对象储存？
+
         //0 public 1 protected 2 private
         //公开 所有人可以访问
         //保护 任何允许访问笔记的人可以允许访问
@@ -35,7 +38,7 @@ namespace MoreNote.Logic.Entity
         
         //自定义
         public int NumberOfFileReferences { get; set; }//文件引用数 当文件引用数=0 说明没有笔记引用该文件
-        public string sha1 { get; set; }
-        public string md5 { get; set; }
+        public string SHA1 { get; set; }
+        public string MD5 { get; set; }
     }
 }

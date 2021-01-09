@@ -6,6 +6,7 @@ using System.Text;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using UpYunLibrary;
 using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
@@ -117,7 +118,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-      
+        // Delete note to delete attas firstly
         public static bool DeleteAllAttachs(long noteId,long userId)
         {
             using (var db=new DataContext())
@@ -128,8 +129,8 @@ namespace MoreNote.Logic.Service
 
                     foreach (var attach in attachInfos)
                     {
-
                         DeleteAttach(attach.AttachId,userId);
+                       
                     }
                 }
                 return true;

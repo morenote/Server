@@ -26,7 +26,7 @@ namespace MoreNote.Logic.Model
 
             JWT_Header header = new JWT_Header()
             {
-                alg = "sha1"
+                alg = "SHA1"
             };
             JWT_Payload payload = new JWT_Payload
             {
