@@ -10,6 +10,7 @@ namespace MoreNote.Logic.Service
 {
      public class AlbumService
     {
+        
         const int  IMAGE_TYPE=0;
         //add album
         public static bool AddAlbum(Album album)
@@ -46,6 +47,7 @@ namespace MoreNote.Logic.Service
                 return false;
             }
         }
+        
         public static  bool UpdateAlbum(long albumId,long userId,string name)
         {
             using (var db = DataContext.getDataContext())

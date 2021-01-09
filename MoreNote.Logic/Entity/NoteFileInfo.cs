@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoreNote.Logic.Entity
 {
+    /// <summary>
+    /// 对应Leanote的File
+    /// </summary>
    public class NoteFile
     {
         [Key]

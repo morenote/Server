@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoreNote.Logic.Entity
 {
+    /// <summary>
+    /// 对应Api.go的NoteFile数据结构
+    /// </summary>
     public class APINoteFile
     {
         public string FileId { get; set; }//服务器端id

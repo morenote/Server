@@ -30,7 +30,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static NoteFile[] getImagesByNoteIds(long[] noteIds)
+        public static Dictionary<long,List<NoteFile>> getImagesByNoteIds(long[] noteIds)
         {
             //using (var db = DataContext.getDataContext())
             //{
