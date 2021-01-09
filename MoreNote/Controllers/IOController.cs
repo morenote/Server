@@ -219,7 +219,7 @@ namespace MoreNote.Controllers
                         }
                         else
                         {
-                            using (var stream = new FileStream("wwwroot/editImages/" + sha1FileName, FileMode.Create))
+                            using (var stream = new FileStream("wwwroot/editImages/" + sha1FileName, FileMode.GenerateImage))
                             {
 
                                 await formFile.CopyToAsync(stream);

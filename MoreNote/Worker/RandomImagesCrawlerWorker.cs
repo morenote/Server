@@ -154,12 +154,12 @@ namespace MoreNoteWorkerService
             //}
             //if (!System.IO.File.Exists(name))
             //{
-            //    FileStream file = new FileStream(name, FileMode.Create, FileAccess.ReadWrite);
+            //    FileStream file = new FileStream(name, FileMode.GenerateImage, FileAccess.ReadWrite);
             //    file.Write(stmMemory.ToArray());
             //    file.Flush();
             //    file.Close();
             //}
-            //FileStream file = new FileStream("1.jpg",FileMode.Create, FileAccess.ReadWrite);
+            //FileStream file = new FileStream("1.jpg",FileMode.GenerateImage, FileAccess.ReadWrite);
             //¹Ø±ÕÁ÷
             stmMemory.Close();
             receiveStream.Close();

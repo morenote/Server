@@ -239,7 +239,7 @@ namespace MoreNote.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = FileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
+            Task<bool> task = UpyunFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -323,7 +323,7 @@ namespace MoreNote.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = FileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
+            Task<bool> task = UpyunFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -341,7 +341,7 @@ namespace MoreNote.Controllers
                     //todo: 增加特性=图片管理
    
                 };
-                var AddResult=FileService.AddImage(noteFile,0,userId,true);
+                var AddResult=UpyunFileService.AddImage(noteFile,0,userId,true);
                 if (!AddResult)
                 {
                     msg="添加数据库失败";
