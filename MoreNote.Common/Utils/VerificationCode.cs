@@ -6,17 +6,21 @@ using MoreNote.Common.Utils;
 
 namespace MoreNote.Common.Utils
 {
-    public class CheckCode
+    /// <summary>
+    /// 验证码
+    /// </summary>
+    public class VerificationCode
     {
         /// <summary>
         /// 创造一个验证码图片
         /// </summary>
         /// <param name="code">图片中的随机字符串</param>
-        /// <param name="strLength">字符串长度</param>
+        /// <param name="codeLength">生成的验证码所含的字母数量</param>
         /// <returns>返回一个随机字符串图片</returns>
-        public static MemoryStream Create(out string code, int strLength = 4)
+        public static MemoryStream GenerateImage(out string code, int codeLength = 4)
         {
-            code = RandomTool.CreatRandomString(strLength);
+            //验证码
+            code = RandomTool.CreatRandomString(codeLength);
             //Bitmap img = null;
             //Graphics g = null;
             MemoryStream ms;
@@ -43,22 +47,20 @@ namespace MoreNote.Common.Utils
                 using (var g = Graphics.FromImage(img))
                 {
                     g.Clear(Color.White);//背景设为白色
-
-                   
                     //验证码绘制在g中  
                     for (int i = 0; i < code.Length; i++)
                     {
                         var cindex = random.Next(7);//随机颜色索引值  
                         var findex = random.Next(5);//随机字体索引值  
-                        Font f = new Font(fonts[findex], 15, FontStyle.Bold);//字体  
-                        Brush b = new SolidBrush(c[cindex]);//颜色  
-                        int ii = 4;
-                        if ((i + 1) % 2 == 0)//控制验证码不在同一高度  
-                        {
-                            ii = 2;
-                        }
-
-                        g.DrawString(code.Substring(i, 1), f, b, 3 + (i * 15), ii);//绘制一个验证字符  
+                        Font font = new Font(fonts[findex], 15, FontStyle.Bold);//字体  
+                        Brush brush = new SolidBrush(c[cindex]);//颜色  
+                        //产生一个轻微的抖动
+                        int shakeX = random.Next(0, 5);
+                        int shakeY = random.Next(0, 10);
+                        float x = 3 + (i * 15) + shakeX;//x坐标
+                        float y = 0+shakeY;//Y坐标
+                        string character = code.Substring(i, 1);//绘制的字符
+                        g.DrawString(character, font, brush, x, y);//绘制一个验证字符  
                     }
                     //在随机位置画背景点  
                     for (int i = 0; i < 5; i++)
@@ -74,7 +76,7 @@ namespace MoreNote.Common.Utils
                     //随机线条
                     for(int i = 0; i < 2; i++)
                     {
-                        var cindex = random.Next(7);//随机颜色索引值  
+                        var cindex = random.Next(9);//随机颜色索引值  
                         int x1 = random.Next(img.Width);
                         int y1 = random.Next(img.Height);
                         int x2 = random.Next(img.Width);
@@ -83,7 +85,6 @@ namespace MoreNote.Common.Utils
                         {
                             g.DrawLine(pen: pen, x1: x1, y1: y1, x2: x2, y2: y2);
                         }
-
                     }
                     ms = new MemoryStream();//生成内存流对象  
                     img.Save(ms, ImageFormat.Jpeg);//将此图像以Png图像文件的格式保存到流中  

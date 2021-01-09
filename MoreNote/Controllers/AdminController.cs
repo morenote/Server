@@ -51,14 +51,14 @@ namespace MoreNote.Controllers
             }
         }
 
-        // GET: Admin/Create
+        // GET: Admin/GenerateImage
         public IActionResult Create()
         {
             if (1 == 1)
                 return NotFound();
         }
 
-        // POST: Admin/Create
+        // POST: Admin/GenerateImage
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         // [HttpPost]

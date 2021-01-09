@@ -18,26 +18,32 @@ namespace MoreNote.Logic.Service
         public static bool AddAttach(AttachInfo attachInfo,bool fromApi,out string msg)
         {
             attachInfo.CreatedTime = DateTime.Now;
-            int a = 0;
-            using (var db = DataContext.getDataContext())
+            var ok=InsertAttach(attachInfo);
+            var note=NoteService.GetNoteById(attachInfo.NoteId);
+            long userId=0L;
+            if(note.NoteId!=0){
+                userId=note.UserId;
+            }else{
+                userId=attachInfo.UploadUserId;
+            }
+          if (ok)
             {
-                
+                // 更新笔记的attachs num
+                UpdateNoteAttachNum(attachInfo.NoteId,1);
+            }
+            if (!fromApi)
+            {
+                // 增长note's usn
+                NoteService.IncrNoteUsn(attachInfo.NoteId, attachInfo.UserId);
+            }
+            msg="";
+            return true;
+        }
+        //插入AttachInfo
+        private static bool InsertAttach(AttachInfo attachInfo){
+            using(var db=DataContext.getDataContext()){
                 db.AttachInfo.Add(attachInfo);
-                var result= db.SaveChanges()>0;
-
-                // api调用时, 添加attach之前是没有note的
-                if (result)
-                {
-                    UpdateNoteAttachNum(attachInfo.NoteId,1);
-
-                }
-                if (!fromApi)
-                {
-                    NoteService.IncrNoteUsn(attachInfo.NoteId, attachInfo.UserId);
-
-                }
-                msg="";
-                return true;
+                return db.SaveChanges()>0;
             }
         }
         // 更新笔记的附件个数
@@ -49,8 +55,8 @@ namespace MoreNote.Logic.Service
                 Note note=db.Note
                     .Where(b=>b.NoteId==noteId).FirstOrDefault();
                 if (note==null)
-                {return false;
-
+                {
+                    return false;
                 }
                 else
                 {
@@ -60,6 +66,7 @@ namespace MoreNote.Logic.Service
                 }
             }
         }
+        // list attachs
         public static AttachInfo[] ListAttachs(long noteId,long userId)
         {
             
@@ -71,16 +78,34 @@ namespace MoreNote.Logic.Service
             }
             throw new Exception();
         }
-        public static AttachInfo[] getAttachsByNoteIds(long[] noteIds)
+        // api调用, 通过noteIds得到note's attachs, 通过noteId归类返回
+        public static  Dictionary<long,List<AttachInfo>> GetAttachsByNoteIds(long[] noteIds)
         {
             using (var db = DataContext.getDataContext())
             {
-                AttachInfo[] attachs = db.AttachInfo.Where(b => noteIds.Contains(b.NoteId) ).ToArray();
-                return attachs;
+                Dictionary<long,List<AttachInfo>> dic=new Dictionary<long, List<AttachInfo>>();
+                foreach(long id in noteIds){
+                    List<AttachInfo> attachs = db.AttachInfo.Where(b => noteIds.Contains(b.NoteId) ).ToList();
+                    dic.Add(id,attachs);
+                }
+                return dic;
                 //todo:// 权限控制
             }
         }
-        public static AttachInfo[] getAttachsByNoteId(long noteId)
+        public static bool UpdateImageTitle(long userId,long fileId,string title)
+        {
+            using (var db=DataContext.getDataContext())
+            {
+              var image=   db.File.Where(file => file.FileId == fileId && file.UserId == userId);
+              if (image!=null)
+              {
+                  var imageFile = image.FirstOrDefault();
+                  imageFile.Title = title;
+              }
+              return  db.SaveChanges()>0;
+            }
+        }
+        public static AttachInfo[] GetAttachsByNoteId(long noteId)
         {
             using (var db = DataContext.getDataContext())
             {
@@ -92,10 +117,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public static bool UpdateImageTitle(long userId,long fileId,string title)
-        {
-           throw new Exception();
-        }
+      
         public static bool DeleteAllAttachs(long noteId,long userId)
         {
             using (var db=new DataContext())
@@ -109,9 +131,7 @@ namespace MoreNote.Logic.Service
 
                         DeleteAttach(attach.AttachId,userId);
                     }
-
                 }
-
                 return true;
             }
             //todo :需要实现此功能
@@ -123,7 +143,6 @@ namespace MoreNote.Logic.Service
         {
             if (attachId!=0&&userId!=0)
             {
-
                 using (var db=new DataContext())
                 {
                   var attach=  db.AttachInfo.Where(b=>b.AttachId==attachId&&b.UserId==userId).FirstOrDefault();
@@ -144,7 +163,6 @@ namespace MoreNote.Logic.Service
         //todo： 考虑该函数的删除文件的安全性，是否存在注入的风险
         private static void DeleteAttachOnDisk(string path)
         {
-         
             File.Delete(path);
         }
         public static AttachInfo GetAttach(long attachId,long userId)

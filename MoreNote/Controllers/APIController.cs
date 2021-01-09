@@ -322,7 +322,7 @@ namespace MoreNote.Controllers
             {
                 Response.ContentType = "image/jpeg";
 
-                using (var stream = CheckCode.Create(out var code))
+                using (var stream = VerificationCode.GenerateImage(out var code))
                 {
                     var buffer = stream.ToArray();
 
