@@ -141,7 +141,9 @@ namespace MoreNote.Controllers
             string typeMD5 = randomImage.TypeNameMD5;
             upyun.secret = webcConfig.UpYunCDN.UpyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
+            Console.WriteLine("现在的时间="+unixTimestamp);
             unixTimestamp += 60;
+             Console.WriteLine("过期时间="+unixTimestamp);
 
             //开启token防盗链
 
@@ -229,7 +231,7 @@ namespace MoreNote.Controllers
                 catch (Exception)
                 {
                     Response.StatusCode=404;
-                    return Content("StrategyID does not exist");
+                    return Content("StrategyID does not exist"); 
                 }
             }
         }
