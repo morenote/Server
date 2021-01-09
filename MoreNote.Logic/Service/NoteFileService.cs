@@ -12,7 +12,11 @@ using UpYunLibrary;
 
 namespace MoreNote.Logic.Service
 {
-     class FileManageService
+    /// <summary>
+    /// 又拍云对象储存文件服务
+    /// 是对于FileServier的实现
+    /// </summary>
+    public class NoteFileService
     {
         const string DEFAULT_ALBUM_ID = "52d3e8ac99c37b7f0d000001";
         public static async Task<bool> SaveUploadFileOnUPYunAsync(UpYun upyun, IFormFile formFile, string uploadDirPath, string fileName)

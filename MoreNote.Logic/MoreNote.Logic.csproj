@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Service\FileService\IMPL\" />
   </ItemGroup>
 
 </Project>

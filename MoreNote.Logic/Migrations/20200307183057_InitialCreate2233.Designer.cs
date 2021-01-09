@@ -706,10 +706,10 @@ namespace MoreNote.Logic.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("md5")
+                    b.Property<string>("MD5")
                         .HasColumnType("text");
 
-                    b.Property<string>("sha1")
+                    b.Property<string>("SHA1")
                         .HasColumnType("text");
 
                     b.HasKey("FileId");

@@ -41,7 +41,7 @@ namespace MoreNote.Controllers.API.APIV1
                
                 if (string.IsNullOrEmpty(fileId)) return Content("error");
                 var myFileId = fileId.ToLongByHex();
-                var noteFile = UpyunFileService.GetFile(myFileId);
+                var noteFile = NoteFileService.GetFile(myFileId);
                 if (noteFile == null)
                     //return Content("NoFoundImage");
                     return NoFoundImage();

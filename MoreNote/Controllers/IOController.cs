@@ -208,9 +208,9 @@ namespace MoreNote.Controllers
                         }
 
                         string sha1FileName = string.Empty;
-                        byte[] hashBytes = HashData(formFile.OpenReadStream(), "sha1");
-                        string sha1 = ByteArrayToHexString(hashBytes);
-                        sha1FileName = sha1 + fileExt;
+                        byte[] hashBytes = HashData(formFile.OpenReadStream(), "SHA1");
+                        string SHA1 = ByteArrayToHexString(hashBytes);
+                        sha1FileName = SHA1 + fileExt;
                         if (System.IO.File.Exists("wwwroot/editImages/" + sha1FileName))
                         {
 
@@ -254,7 +254,7 @@ namespace MoreNote.Controllers
         /// 计算哈希值
         /// </summary>
         /// <param name="stream">要计算哈希值的 Stream</param>
-        /// <param name="algName">算法:sha1,md5</param>
+        /// <param name="algName">算法:SHA1,MD5</param>
         /// <returns>哈希值字节数组</returns>
         private byte[] HashData(System.IO.Stream stream, string algName)
         {
@@ -263,15 +263,15 @@ namespace MoreNote.Controllers
             {
                 throw new ArgumentNullException("algName 不能为 null");
             }
-            if (string.Compare(algName, "sha1", true) == 0)
+            if (string.Compare(algName, "SHA1", true) == 0)
             {
                 algorithm = System.Security.Cryptography.SHA1.Create();
             }
             else
             {
-                if (string.Compare(algName, "md5", true) != 0)
+                if (string.Compare(algName, "MD5", true) != 0)
                 {
-                    throw new Exception("algName 只能使用 sha1 或 md5");
+                    throw new Exception("algName 只能使用 SHA1 或 MD5");
                 }
                 algorithm = System.Security.Cryptography.MD5.Create();
             }
