@@ -12,7 +12,7 @@ using UpYunLibrary;
 
 namespace MoreNote.Logic.Service
 {
-    public class FileService
+     class FileManageService
     {
         const string DEFAULT_ALBUM_ID = "52d3e8ac99c37b7f0d000001";
         public static async Task<bool> SaveUploadFileOnUPYunAsync(UpYun upyun, IFormFile formFile, string uploadDirPath, string fileName)

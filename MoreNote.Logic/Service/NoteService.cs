@@ -339,7 +339,7 @@ namespace MoreNote.Logic.Service
         public static Dictionary<long, List<APINoteFile>> getFiles(long[] noteIds)
         {
             var noteImages = NoteImageService.getImagesByNoteIds(noteIds);
-            var noteAttachs = AttachService.getAttachsByNoteIds(noteIds);
+            var noteAttachs = AttachService.GetAttachsByNoteIds(noteIds);
             Dictionary<long, List<APINoteFile>> noteFilesMap = new Dictionary<long, List<APINoteFile>>(100);
 
             //if (noteImages != null && noteImages.Length > 0)
@@ -364,25 +364,43 @@ namespace MoreNote.Logic.Service
 
             //    }
             //}
-            if (noteAttachs != null && noteAttachs.Length > 0)
-            {
-                foreach (var item in noteAttachs)
+            foreach(var noteId in noteIds){
+                APINoteFile apiNoteFile=new APINoteFile();
+              
+                //images 图像
+                if (noteImages!=null&&noteImages.ContainsKey(noteId))
                 {
-                    APINoteFile noteFile = new APINoteFile()
+                    if (!noteFilesMap.ContainsKey(noteId))
                     {
-                        FileId = item.AttachId.ToHex24(),
-                        Type = item.Type,
-                        Title = item.Title,
-                        IsAttach = true
-                    };
-                    if (noteFilesMap.ContainsKey(item.NoteId))
-                    {
-                        noteFilesMap[item.NoteId].Add(noteFile);
+                        noteFilesMap.Add(noteId,new List<APINoteFile>());
                     }
-                    else
+                    foreach (NoteFile image in noteImages[noteId])
                     {
-                        noteFilesMap.Add(item.NoteId, new List<APINoteFile>());
-                        noteFilesMap[item.NoteId].Add(noteFile);
+                        apiNoteFile = new APINoteFile()
+                        {
+                            FileId = image.FileId.ToHex24(),
+                            Type = image.Type
+                        };
+                        noteFilesMap[noteId].Add(apiNoteFile);
+                    }
+                }
+                //attach 附件
+                if (noteAttachs!=null&&noteAttachs.ContainsKey(noteId))
+                {
+                    if (!noteFilesMap.ContainsKey(noteId))
+                    {
+                        noteFilesMap.Add(noteId,new List<APINoteFile>());
+                    }
+                    foreach (NoteFile attach in noteImages[noteId])
+                    {
+                        apiNoteFile = new APINoteFile()
+                        {
+                            FileId = attach.FileId.ToHex24(),
+                            Type = attach.Type,
+                            Title=attach.Title,
+                            IsAttach = true
+                        };
+                        noteFilesMap[noteId].Add(apiNoteFile);
                     }
                 }
             }
@@ -399,7 +417,7 @@ namespace MoreNote.Logic.Service
         public static NoteFile[] getFiles(long noteId)
         {
             var noteImages = NoteImageService.getImagesByNoteId(noteId);
-            var noteAttachs = AttachService.getAttachsByNoteId(noteId);
+            var noteAttachs = AttachService.GetAttachsByNoteId(noteId);
 
             Dictionary<long, NoteFile[]> noteFilesMap = new Dictionary<long, NoteFile[]>(100);
 

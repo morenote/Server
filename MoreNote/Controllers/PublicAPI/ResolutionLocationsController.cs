@@ -44,14 +44,14 @@ namespace MoreNote.Controllers.PublicAPI
             return View(resolutionLocation);
         }
 
-        // GET: ResolutionLocations/Create
+        // GET: ResolutionLocations/GenerateImage
         [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ResolutionLocations/Create
+        // POST: ResolutionLocations/GenerateImage
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
