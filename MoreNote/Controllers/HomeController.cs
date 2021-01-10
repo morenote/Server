@@ -7,13 +7,15 @@ using MoreNote.Logic.Model;
 using MoreNote.Value;
 using System.Collections.Generic;
 using System.Diagnostics;
+using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IHttpContextAccessor accessor) : base(accessor)
+        public HomeController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
         {
+           
 
         }
         public IActionResult Index()

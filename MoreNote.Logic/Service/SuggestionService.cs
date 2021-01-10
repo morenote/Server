@@ -7,7 +7,7 @@ namespace MoreNote.Logic.Service
 {
     public class SuggestionService
     {
-        public static bool AddSuggestion(Suggestion suggestion)
+        public  bool AddSuggestion(Suggestion suggestion)
         {
             throw new Exception();
         }

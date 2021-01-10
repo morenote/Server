@@ -25,10 +25,11 @@ namespace MoreNoteWorkerService
     public class APIDefenderWorker : BackgroundService
     {
         private readonly ILogger<RandomImagesCrawlerWorker> _logger;
+        private ConfigFileService configFileService;
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
-        static WebSiteConfig config = ConfigFileService.GetWebConfig();
+        static WebSiteConfig config ;
         public APIDefenderWorker()
         {
 
@@ -36,9 +37,12 @@ namespace MoreNoteWorkerService
 
         Random random = new Random();
 
-        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger)
+        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService)
         {
             _logger = logger;
+            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            
+                config = configFileService.GetWebConfig();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

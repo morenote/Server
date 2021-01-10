@@ -15,8 +15,14 @@ namespace MoreNote.Controllers.API.APIV1
     [Route("api/User/[action]")]
     public class UserAPIController : BaseAPIController
     {
-        public UserAPIController(IHttpContextAccessor accessor) : base(accessor)
+        private AuthService authService;
+        private UserService userService;
+        private TokenSerivce tokenSerivce;
+        public UserAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
         {
+            this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService))as AuthService;
+            this.userService = dependencyInjectionService.ServiceProvider.GetService(typeof(UserService))as UserService;
+            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce))as TokenSerivce;
 
         }
 
@@ -28,7 +34,7 @@ namespace MoreNote.Controllers.API.APIV1
             long myUserId = userId;
             if (myUserId!=0)
             {
-                if (!AuthService.IsLogin(myUserId,token))
+                if (!authService.IsLogin(myUserId,token))
                 {
                     ApiRe apiRe = new ApiRe()
                     {
@@ -37,7 +43,7 @@ namespace MoreNote.Controllers.API.APIV1
                     };
                     return Json(apiRe, MyJsonConvert.GetOptions());
                 }
-                User user = UserService.GetUserByUserId(myUserId);
+                User user = userService.GetUserByUserId(myUserId);
 
                 if (user == null)
                 {
@@ -87,7 +93,7 @@ namespace MoreNote.Controllers.API.APIV1
         public JsonResult GetSyncState(string token)
         {
             
-                User user = TokenSerivce.GetUserByToken(token);
+                User user = tokenSerivce.GetUserByToken(token);
                 if (user==null)
                 {
                     ApiRe apiRe = new ApiRe()

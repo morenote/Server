@@ -12,10 +12,18 @@ namespace MoreNote.Filter.Global
 {
     public class InspectionInstallationFilter : ActionFilterAttribute
     {
+        public InspectionInstallationFilter(DependencyInjectionService dependencyInjectionService)
+        {
+            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            config = configFileService.GetWebConfig();
+
+        }
         public bool Disable { get; set; }
+        private WebSiteConfig config;
+        private ConfigFileService configFileService;
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            WebSiteConfig config = ConfigFileService.GetWebConfig();
+           
             if (Disable||config.IsAlreadyInstalled)
             {
                 return;

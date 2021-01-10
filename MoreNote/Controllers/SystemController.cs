@@ -16,13 +16,18 @@ using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers
 {
-    public class SystemController : Controller
+    public class SystemController : BaseController
     {
+        private ConfigFileService configFileService;
+        public SystemController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
+        {
+            this.configFileService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
 
+        }
         [SkipInspectionInstallationFilter]
         public IActionResult Install()
         {
-            WebSiteConfig webSiteConfig=ConfigFileService.GetWebConfig();
+            WebSiteConfig webSiteConfig=configFileService.GetWebConfig();
             if(webSiteConfig!=null&&webSiteConfig.IsAlreadyInstalled)
             {
                   string path=RuntimeEnvironment.IsWindows?@"C:\morenote\WebSiteConfig.json":"/morenote/WebSiteConfig.json";
@@ -42,7 +47,7 @@ namespace MoreNote.Controllers
          [SkipInspectionInstallationFilter]
         public IActionResult DoInstall(string captcha,string config)
         {
-            WebSiteConfig localWebSiteConfig=ConfigFileService.GetWebConfig();
+            WebSiteConfig localWebSiteConfig=configFileService.GetWebConfig();
             string path=RuntimeEnvironment.IsWindows?@"C:\morenote\WebSiteConfig.json":"/morenote/WebSiteConfig.json";
             if(localWebSiteConfig!=null&&localWebSiteConfig.IsAlreadyInstalled)
             {
@@ -74,7 +79,7 @@ namespace MoreNote.Controllers
                           re = new Re() { Ok = false, Msg = "PostgreSql错误参数" };
                          return Json(re, MyJsonConvert.GetSimpleOptions());
                     }
-                    ConfigFileService.Save(webSiteConfig,ConfigFileService.GetConfigPath());
+                    configFileService.Save(webSiteConfig,ConfigFileService.GetConfigPath());
                     //登录成功
                     re = new Re() { Ok = true };
                     return Json(re, MyJsonConvert.GetSimpleOptions());

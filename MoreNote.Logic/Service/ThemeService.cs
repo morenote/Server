@@ -9,33 +9,37 @@ namespace MoreNote.Logic.Service
 {
     public class ThemeService
     {
-        public static FriendLinks[] GetURLs(long themeId)
+        private DataContext dataContext;
+
+        public ThemeService(DependencyInjectionService dependencyInjectionService, DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
+
+        public  FriendLinks[] GetURLs(long themeId)
         {
 
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.FriendLinks.
+          
+                var result = dataContext.FriendLinks.
                     Where(b => b.ThemeId.Equals(themeId));
 
                 return result.ToArray();
-            }
+            
         }
-        public static bool InsertTheme(Theme theme)
+        public  bool InsertTheme(Theme theme)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.Theme.Add(theme);
-                return db.SaveChanges() > 0;
-            }
+            
+                var result = dataContext.Theme.Add(theme);
+                return dataContext.SaveChanges() > 0;
+            
 
         }
-        public static bool InsertURL(FriendLinks fl)
+        public  bool InsertURL(FriendLinks fl)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.FriendLinks.Add(fl);
-                return db.SaveChanges() > 0;
-            }
+            
+                var result = dataContext.FriendLinks.Add(fl);
+                return dataContext.SaveChanges() > 0;
+            
 
         }
     }

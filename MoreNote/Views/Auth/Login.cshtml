@@ -1,5 +1,6 @@
 ﻿@{
 	 Dictionary<string ,string> msg=ViewBag.msg;
+	ConfigSetting configSetting = ViewBag.ConfigSetting;
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -74,11 +75,11 @@
                     <div class="line line-dashed"></div>
 
                     <p class="text-muted text-center"><small>@msg["hasAcount"]</small></p>
-                    @if (MoreNote.Logic.Model.ConfigSetting.openRegister)
+                    @if (configSetting.OpenRegister)
                     {
                         <a href="/register" class="btn btn-default btn-block">@msg["register"]</a>
                     }
-                    @if (MoreNote.Logic.Model.ConfigSetting.openDemo)
+                    @if (configSetting.OpenDemo)
                     {
                         <a id="loginBtnDemo" href="/demo" class="btn btn-default btn-block">@msg["try"]</a>
                     }

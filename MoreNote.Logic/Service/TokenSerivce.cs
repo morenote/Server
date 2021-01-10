@@ -14,15 +14,21 @@ namespace MoreNote.Logic.Service
 {
     public class TokenSerivce
     {
-        public static bool AddToken(Token token)
+        private DataContext dataContext;
+
+        public TokenSerivce(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
+
+        public  bool AddToken(Token token)
         {
             int a = 0;
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.Token.Add(token);
-                a = db.SaveChanges();
-                return db.SaveChanges() > 0;
-            }
+           
+                var result = dataContext.Token.Add(token);
+                a = dataContext.SaveChanges();
+                return dataContext.SaveChanges() > 0;
+            
         }
         [Obsolete]
 
@@ -45,7 +51,7 @@ namespace MoreNote.Logic.Service
         /// <param name="tokenId">tokenId</param>
         /// <param name="tokenByteSize">不可预测部分的byte长度</param>
         /// <returns></returns>
-        public static string GenerateToken(long tokenId,int tokenByteSize=16)
+        public  string GenerateToken(long tokenId,int tokenByteSize=16)
         {
             if (tokenByteSize<1)
             {
@@ -69,26 +75,24 @@ namespace MoreNote.Logic.Service
                 return token;
             }
         }
-        public static Token GetTokenByTokenStr(long userid,string str)
+        public  Token GetTokenByTokenStr(long userid,string str)
         {
 
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.Token
+           
+                var result = dataContext.Token
                     .Where(b => b.UserId.Equals(userid)&&b.TokenStr.Equals(str)).FirstOrDefault();
                 return result;
-            }
+            
         }
-        public static User GetUserByToken(string token)
+        public  User GetUserByToken(string token)
         {
 
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.Token
+          
+                var result = dataContext.Token
                     .Where(b => b.TokenStr.Equals(token)).FirstOrDefault();
                 if (result!=null)
                 {
-                    var user = db.User
+                    var user = dataContext.User
                     .Where(b => b.UserId==result.UserId).FirstOrDefault();
                     return user;
                 }
@@ -96,28 +100,27 @@ namespace MoreNote.Logic.Service
                 {
                     return null;
                 }
-            }
+            
         }
-        public static bool DeleteTokenByToken(string token)
+        public  bool DeleteTokenByToken(string token)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                db.Token.Where(a => a.TokenStr.Equals(token));
-                return db.SaveChanges() > 0;
-            }
+          
+                dataContext.Token.Where(a => a.TokenStr.Equals(token));
+                return dataContext.SaveChanges() > 0;
+            
         }
         // 生成token
-        public static  string NewToken(long userId,string email,int tokenType)
+        public   string NewToken(long userId,string email,int tokenType)
         {
             throw new Exception();
         }
         // 删除token
-        public static bool DeleteToken(long userId,int tokenType)
+        public  bool DeleteToken(long userId,int tokenType)
         {
             throw new Exception();
         }
         // 验证token, 是否存在, 过时?
-        public static bool VerifyToken(string token,int tokenType)
+        public  bool VerifyToken(string token,int tokenType)
         {
             throw new Exception();
         }

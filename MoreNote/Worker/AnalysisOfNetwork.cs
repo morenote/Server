@@ -22,6 +22,18 @@ namespace MoreNoteWorkerService
     public class AnalysisOfNetwork : BackgroundService
     {
         private readonly ILogger<RandomImagesCrawlerWorker> _logger;
+        private DataContext dataContext;
+        private ConfigFileService configFileService;
+  
+
+        public AnalysisOfNetwork(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        {
+            _logger = logger;
+            this.dataContext = dataContext;
+            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+
+            webSiteConfig = configFileService.GetWebConfig();
+        }
 
         /// <summary>
         /// ÀÊª˙Õº∆¨¡–±Ì
@@ -30,7 +42,7 @@ namespace MoreNoteWorkerService
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
-        private static readonly WebSiteConfig config = ConfigFileService.GetWebConfig();
+        private   WebSiteConfig webSiteConfig ;
         public AnalysisOfNetwork()
         {
 
@@ -38,11 +50,7 @@ namespace MoreNoteWorkerService
 
         private readonly Random random = new Random();
 
-        public AnalysisOfNetwork(ILogger<RandomImagesCrawlerWorker> logger)
-        {
-            _logger = logger;
-
-        }
+     
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -64,9 +72,8 @@ namespace MoreNoteWorkerService
 
         private async Task CheckTheNetwork()
         {
-            using (DataContext db = DataContext.getDataContext())
-            {
-                ResolutionLocation[] rls = db.ResolutionLocation.ToArray();
+          
+                ResolutionLocation[] rls = dataContext.ResolutionLocation.ToArray();
                 foreach (ResolutionLocation item in rls)
                 {
                     try
@@ -113,9 +120,9 @@ namespace MoreNoteWorkerService
                     }
 
                 }
-                await db.SaveChangesAsync().ConfigureAwait(false);
+                await dataContext.SaveChangesAsync().ConfigureAwait(false);
 
-            }
+            
         }
 
         private int AnalyseSpeed(double millisecond)

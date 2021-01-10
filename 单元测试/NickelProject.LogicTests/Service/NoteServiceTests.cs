@@ -22,7 +22,7 @@ namespace MoreNote.Logic.Service.Tests
         {
             //using (var db = DataContext.getDataContext())
             //{
-            //    var list = db.NoteContent.ToList();
+            //    var list = dataContext.NoteContent.ToList();
             //    foreach (var item in list)
             //    {
             //        if (item.Content==null)
@@ -48,7 +48,7 @@ namespace MoreNote.Logic.Service.Tests
             //        }
                         
             //    }
-            //    db.SaveChanges();
+            //    dataContext.SaveChanges();
                
             //}
     

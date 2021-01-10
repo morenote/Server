@@ -13,8 +13,12 @@ namespace MoreNote.Controllers
 {
     public class NoteBookController : BaseController
     {
-        public NoteBookController(IHttpContextAccessor accessor) : base(accessor)
+        private NotebookService notebookService;
+        public NoteBookController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
+            this.notebookService=dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService))as NotebookService;
+            ;
+
 
         }
         public IActionResult Index()
@@ -24,7 +28,7 @@ namespace MoreNote.Controllers
         public IActionResult GetNotebooks()
         {
             long userid = 1208692382644703232;
-            Notebook[] noteBoooks = NotebookService.GetNoteBookTree(userid);
+            Notebook[] noteBoooks = notebookService.GetNoteBookTree(userid);
             string json = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
             return Content(json);
         }

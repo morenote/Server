@@ -10,8 +10,15 @@ namespace MoreNote.Logic.Service
 {
     public class NoteImageService
     {
+        private DataContext dataContext;
+
+        public NoteImageService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
         // 通过id, userId得到noteIds
-        public static long GetNoteIds(long imageId)
+
+        public  long GetNoteIds(long imageId)
         {
             return 0;
         }
@@ -20,21 +27,21 @@ namespace MoreNote.Logic.Service
         // <img src="/file/outputImage?fileId=12323232" />
         // 图片必须是我的, 不然不添加
         // imgSrc 防止博客修改了, 但内容删除了
-        public static bool UpdateNoteImages(long userId,long noteId,string imgSrc,string content)
+        public  bool UpdateNoteImages(long userId,long noteId,string imgSrc,string content)
         {
             
             return true;
         }
         // 复制图片, 把note的图片都copy给我, 且修改noteContent图片路径
-        public static string CopyNoteImages(long fromNoteId,long fromUserId,long newNoteId,string content,long toUserID)
+        public  string CopyNoteImages(long fromNoteId,long fromUserId,long newNoteId,string content,long toUserID)
         {
             throw new Exception();
         }
-        public static Dictionary<long,List<NoteFile>> getImagesByNoteIds(long[] noteIds)
+        public  Dictionary<long,List<NoteFile>> getImagesByNoteIds(long[] noteIds)
         {
             //using (var db = DataContext.getDataContext())
             //{
-            //    var result = db.NoteImage.Where(b=>noteIds.Contains(b.NoteId));
+            //    var result = dataContext.NoteImage.Where(b=>noteIds.Contains(b.NoteId));
             //    if (result==null)
             //    {
             //        return null;
@@ -44,14 +51,13 @@ namespace MoreNote.Logic.Service
             //}
             return null;
         }
-        public static NoteImage[] getImagesByNoteId(long noteId)
+        public  NoteImage[] getImagesByNoteId(long noteId)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteImage.Where(b => b.NoteId==noteId);
+          
+                var result = dataContext.NoteImage.Where(b => b.NoteId==noteId);
                 NoteImage[] noteImages = result.ToArray();
                 return noteImages;
-            }
+         
             
         }
 

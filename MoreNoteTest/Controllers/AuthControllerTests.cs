@@ -22,7 +22,7 @@ namespace MoreNote.Controllers.Tests
 
             // using (var db = DataContext.getDataContext())
             // {
-            //     var noteFiles = db.File.ToList();
+            //     var noteFiles = dataContext.File.ToList();
             //     foreach (var noteFile in noteFiles)
             //     {
             //         // /www/upload/10fc1cfeba021000/images/2020_02/110e684d86421000.jpeg
@@ -34,12 +34,12 @@ namespace MoreNote.Controllers.Tests
             //
             //         }
             //     }
-            //     db.SaveChanges();
+            //     dataContext.SaveChanges();
             // }
 
             //using (var db= DataContext.getDataContext())
             //{
-            //    User user = db.User.Where(b => b.Username.Equals("hyfree")).FirstOrDefault();
+            //    User user = dataContext.User.Where(b => b.Username.Equals("hyfree")).FirstOrDefault();
             //    Console.WriteLine(user.Email);
             //    var authorizations= user.Jurisdiction;
             //    if (authorizations==null)
@@ -60,7 +60,7 @@ namespace MoreNote.Controllers.Tests
             //        }
 
             //    }
-            //    db.SaveChanges();
+            //    dataContext.SaveChanges();
             //}
 
         }

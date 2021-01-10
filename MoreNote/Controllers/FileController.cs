@@ -15,8 +15,12 @@ namespace MoreNote.Controllers
 {
     public class FileController : BaseController
     {
-        public FileController(IHttpContextAccessor accessor) : base(accessor)
+        private ConfigFileService configFileService;
+        public FileController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
+           
+            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            ;
         }
         public IActionResult Index()
         {
@@ -25,7 +29,7 @@ namespace MoreNote.Controllers
         [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult UploadUPyun()
         {
-            var webConfig = ConfigFileService.GetWebConfig();
+            var webConfig = configFileService.GetWebConfig();
             var options = new UPYunOSSOptions();
             options.bucket = webConfig.UpYunOSS.Bucket;
             options.save_key = "/{year}/{mon}/{day}/{filemd5}{.suffix}";

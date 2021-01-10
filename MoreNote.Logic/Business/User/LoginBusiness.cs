@@ -11,18 +11,18 @@ namespace MoreNote.Logic.Business.User
 {
     public class LoginBusiness
     {
-        public static int GoLogin(string email, string passwd)
+        public  int GoLogin(string email, string passwd)
         {
             return 0;
         }
 
-        public static bool CanLogin(string email, string passwd)
+        public  bool CanLogin(string email, string passwd)
         {
 
 
             return true;
         }
-        public static bool CanLogin(IRequestCookieCollection cookies)
+        public  bool CanLogin(IRequestCookieCollection cookies)
         {
             return true;
         }

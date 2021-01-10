@@ -10,7 +10,7 @@
 */
 
 /**
- * Javascript class that mimics how WCF serializes a object of type MongoDB.Bson.ObjectId
+ * Javascript class that mimics how WCF serializes a object of type MongodataContext.Bson.ObjectId
  * and converts between that format and the standard 24 character representation.
 */
 var ObjectId = (function () {

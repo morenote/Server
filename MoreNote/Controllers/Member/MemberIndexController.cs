@@ -16,8 +16,11 @@ namespace MoreNote.Controllers.Member
     [Route("Member/{action=Index}")]
     public class MemberIndexController : BaseController
     {
-        public MemberIndexController(IHttpContextAccessor accessor) : base(accessor)
+        private NoteService noteService;
+        public MemberIndexController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
         {
+            noteService=dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService)) as NoteService;
+           
         }
 
         [Authorize(Roles = "Admin,SuperAdmin")]
@@ -29,8 +32,8 @@ namespace MoreNote.Controllers.Member
             ViewBag.msg = LanguageResource.GetMsg();
             ViewBag.member = LanguageResource.GetMember();
 
-            int countNote = NoteService.CountNote(user.UserId);
-            int countBlog = NoteService.CountBlog(user.UserId);
+            int countNote = noteService.CountNote(user.UserId);
+            int countBlog = noteService.CountBlog(user.UserId);
 
             ViewBag.countNote = countNote;
             ViewBag.countBlog = countBlog;

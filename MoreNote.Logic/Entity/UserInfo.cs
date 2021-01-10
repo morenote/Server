@@ -8,10 +8,10 @@ using System.Text;
 namespace MoreNote.Logic.Entity
 {
     
-    public static class UserInfo
+    public  class UserInfo
     {
         public  const string ThirdGithub = "ThirdQQ";
-        public static string ThirdQQ;
+        public  string ThirdQQ;
     }
     public class Authorization
     {

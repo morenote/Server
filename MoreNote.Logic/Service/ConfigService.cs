@@ -31,76 +31,76 @@ namespace MoreNote.Logic.Service
        
 
         // appStart时 将全局的配置从数据库中得到作为全局
-        public static bool InitGlobalConfigs()
+        public  bool InitGlobalConfigs()
         {
             throw new Exception();
         }
-        public static string GetSiteUrl()
+        public  string GetSiteUrl()
         {
             //todo:修改这个GetSiteUrl
             return @"https://www.morenote.top/";
 
         }
-        public static bool updateGlobalConfig(long userid,string key,string value)
+        public  bool updateGlobalConfig(long userid,string key,string value)
         {
             throw new Exception();
         }
-        public static bool UpdateGlobalStringConfig(long userId,string key,string value)
+        public  bool UpdateGlobalStringConfig(long userId,string key,string value)
         {
             throw new Exception();
         }
         //获取全局配置, 博客平台使用
-        public static string GetGlobalStringConfig(string key)
+        public  string GetGlobalStringConfig(string key)
         {
             throw new Exception();
         }
-        public static string[] GetGlobalArrayConfig(string key)
+        public  string[] GetGlobalArrayConfig(string key)
         {
             throw new Exception();
         }
-        public static HashSet<string> GetGlobalMapConfig(string key)
+        public  HashSet<string> GetGlobalMapConfig(string key)
         {
             throw new Exception();
         }
-        public static HashSet<string>[] GetGlobalArrMapConfig(string key)
+        public  HashSet<string>[] GetGlobalArrMapConfig(string key)
         {
             throw new Exception();
         }
-        public static bool IsOpenRegister()
+        public  bool IsOpenRegister()
         {
             return true;
         }
         //-------
         // 修改共享笔记的配置
-        public static bool UpdateShareNoteConfig(long registerSharedUserId,int[] registerSharedNotebookPerms,int[] registerSharedNotePerms,long[] registerSharedNotebookIds,long[] registerSharedNoteIds,long[] registerCopyNoteIds)
+        public  bool UpdateShareNoteConfig(long registerSharedUserId,int[] registerSharedNotebookPerms,int[] registerSharedNotePerms,long[] registerSharedNotebookIds,long[] registerSharedNoteIds,long[] registerCopyNoteIds)
         {
             throw new Exception();
         }
-        public static bool AddBackup(string path,string remark)
+        public  bool AddBackup(string path,string remark)
         {
             throw new Exception();
         }
-        public static string getBackupDirname()
+        public  string getBackupDirname()
         {
             throw new Exception();
         }
-        public static bool Backup(string remark)
+        public  bool Backup(string remark)
         {
             throw new Exception();
         }
-        public static bool Restore(string createTime)
+        public  bool Restore(string createTime)
         {
             throw new Exception();
         }
-        public static bool DeleteBackup(string createdTime)
+        public  bool DeleteBackup(string createdTime)
         {
             throw new Exception();
         }
-        public static bool UpdateBackupRemark(string createdTime,string remark)
+        public  bool UpdateBackupRemark(string createdTime,string remark)
         {
             throw new Exception();
         }
-        public static Dictionary<string,string> GetBackup(string createdTime)
+        public  Dictionary<string,string> GetBackup(string createdTime)
         {
             throw new Exception();
         }
@@ -109,52 +109,52 @@ namespace MoreNote.Logic.Service
         string defaultDomain;
         string schema= @"http://";
         string port;
-        public static void init()
+        public  void init()
         {
             throw new Exception();
         }
-        public static string GetSchema()
+        public  string GetSchema()
         {
             throw  new Exception();
         }
         // 默认
-        public static string GetDefaultDomain()
+        public  string GetDefaultDomain()
         {
             throw new Exception();
         }
         // note 
-        public static string GetNoteDomain()
+        public  string GetNoteDomain()
         {
             throw new Exception();
         }
-        public static string GetNoteUrl()
+        public  string GetNoteUrl()
         {
             throw new Exception();
         }
         //blog
-        public static string GetBlogDomain()
+        public  string GetBlogDomain()
         {
             return "/blog";
         }
-        public static string GetBlogUrl()
+        public  string GetBlogUrl()
         {
             return GetBlogDomain();
         }
         //lea
-        public static string GetLeaDomain()
+        public  string GetLeaDomain()
         {
             throw new Exception();
         }
-        public static string GetLeaUrl()
+        public  string GetLeaUrl()
         {
             throw new Exception();
         }
-        public static string GetUserUrl(string domain)
+        public  string GetUserUrl(string domain)
         {
             throw 
                  new Exception();
         }
-        public static string GetUserSubUrl(string subDomain)
+        public  string GetUserSubUrl(string subDomain)
         {
             throw 
                  new Exception();
@@ -170,38 +170,38 @@ namespace MoreNote.Logic.Service
             throw new Exception();
 
         }
-        public static bool IsGoodCustomDomain(string domain)
+        public  bool IsGoodCustomDomain(string domain)
         {
             throw new Exception();
         }
-        public static bool IsGoodSubDomain(string domain)
+        public  bool IsGoodSubDomain(string domain)
         {
             throw new Exception();
         }
-        public static long GetUploadSize(string key)
+        public  long GetUploadSize(string key)
         {
             throw  new Exception();
         }
-        public static long GetInt64(string key)
+        public  long GetInt64(string key)
         {
             throw new Exception();
         }
-        public static int GetInt32(string key)
+        public  int GetInt32(string key)
         {
             throw new Exception();
         }
-        public static Dictionary<string ,long> GetUploadSizeLimit()
+        public  Dictionary<string ,long> GetUploadSizeLimit()
         {
             throw new Exception();
         }
         // 为用户得到全局的配置
         // NoteController调用
-        public static Dictionary<string,object> GetGlobalConfigForUser()
+        public  Dictionary<string,object> GetGlobalConfigForUser()
         {
             throw new Exception();
         }
         //主页是否是管理员的博客页
-        public static bool HomePageIsAdminsBlog()
+        public  bool HomePageIsAdminsBlog()
         {
             throw new Exception();
         }
@@ -228,7 +228,7 @@ namespace MoreNote.Logic.Service
             public string userName { get; set; }
             public string password { get; set; }
         }
-        public static ConfigService GetConfigService()
+        public  ConfigService GetConfigService()
         {
             lock (_lockObject)
             {
@@ -260,7 +260,7 @@ namespace MoreNote.Logic.Service
 
 
         }
-        public static void Save(ConfigService configService)
+        public  void Save(ConfigService configService)
         {
             lock (_lockObject)
             {

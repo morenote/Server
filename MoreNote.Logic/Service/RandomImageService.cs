@@ -3,15 +3,23 @@ using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace MoreNote.Logic.Service
 {
     public class RandomImageService
     {
+        private DataContext dataContext;
+
+        public RandomImageService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
+
         private static Dictionary<string, List<RandomImage>> randomImageList = null;
         private static List<string> _imageTypeList = null;
-
-        public static List<string> GetImageTypeList()
+        
+        public  List<string> GetImageTypeList()
         {
             if (_imageTypeList == null)
             {
@@ -111,7 +119,7 @@ namespace MoreNote.Logic.Service
             _imageTypeList.Add("鹿鸣系列视频");
         }
 
-        public static Dictionary<string, List<RandomImage>> GetRandomImageList()
+        public  Dictionary<string, List<RandomImage>> GetRandomImageList()
         {
             if (randomImageList == null)
             {
@@ -120,61 +128,56 @@ namespace MoreNote.Logic.Service
             return randomImageList;
         }
 
-        public static async System.Threading.Tasks.Task InsertImageAsync(RandomImage randomImage)
+        public  async System.Threading.Tasks.Task InsertImageAsync(RandomImage randomImage)
         {
-            using (DataContext db = DataContext.getDataContext())
-            {
-                db.RandomImage.Add(randomImage);
-                await db.SaveChangesAsync();
-            }
+           
+                dataContext.RandomImage.Add(randomImage);
+                await dataContext.SaveChangesAsync();
+            
         }
 
-        public static RandomImage GetRandomImage(string type)
+        public  RandomImage GetRandomImage(string type)
         {
-            using (DataContext db = DataContext.getDataContext())
-            {
-                int count = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
+           
+                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
                 if (count < 1)
                 {
                     return null;
                 }
                 Random random = new Random();
                 int num = random.Next(0, count);
-                RandomImage result = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Skip(num).FirstOrDefault();
+                RandomImage result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Skip(num).FirstOrDefault();
                 return result;
-            }
+            
         }
 
-        public static List<RandomImage> GetRandomImages(string type, int size)
+        public  List<RandomImage> GetRandomImages(string type, int size)
         {
-            using (DataContext db = DataContext.getDataContext())
-            {
-                int count = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
+          
+                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
                 if (count < size)
                 {
                     size = count;
                 }
-                List<RandomImage> result = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Take(size).ToList<RandomImage>();
+                List<RandomImage> result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Take(size).ToList<RandomImage>();
                 return result;
-            }
+            
         }
 
-        public static bool Exist(string type, string fileSHA1)
+        public  bool Exist(string type, string fileSHA1)
         {
-            using (DataContext db = DataContext.getDataContext())
-            {
-                int count = db.RandomImage.Where(b => b.TypeName.Equals(type) && b.FileSHA1.Equals(fileSHA1)).Count();
+           
+                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.FileSHA1.Equals(fileSHA1)).Count();
                 return count > 0;
-            }
+            
         }
 
-        public static bool Exist(string fileSHA1)
+        public  bool Exist(string fileSHA1)
         {
-            using (DataContext db = DataContext.getDataContext())
-            {
-                int count = db.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).Count();
+           
+                int count = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).Count();
                 return count > 0;
-            }
+            
         }
     }
 }

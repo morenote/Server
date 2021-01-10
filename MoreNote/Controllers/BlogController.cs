@@ -16,9 +16,20 @@ namespace MoreNote.Controllers
 {
     public class BlogController : BaseController
     {
-        public BlogController(IHttpContextAccessor accessor) : base(accessor)
+        private AccessService AccessService { get; set; }
+        private BlogService blogService;
+        private ConfigService configService;
+        private TagService tagService;
+        private NotebookService notebookService;
+        private NoteService noteService;
+        public BlogController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
-
+            this.AccessService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService)) as AccessService;
+            this.blogService = dependencyInjectionService.ServiceProvider.GetService(typeof(BlogService))as BlogService;
+            this.configService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigService))as ConfigService;
+            this.tagService = dependencyInjectionService.ServiceProvider.GetService(typeof(TagService))as TagService;
+            this.notebookService = dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService))as NotebookService;
+            this.noteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService))as NoteService;
         }
         private IActionResult render(string templateName,string themePath)
         {
@@ -82,13 +93,13 @@ namespace MoreNote.Controllers
                 //默认账号
                 blogUserName = "hyfree";
             }
-            User blogUser = UserService.GetUserByUserName(blogUserName);
+            User blogUser = userService.GetUserByUserName(blogUserName);
             ViewBag.blogUser = blogUser;
             if (blogUser == null)
             {
                 return null;
             }
-            ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
             return blogUser;
         }
 
@@ -107,7 +118,7 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            var list = BlogService.GetNotes(blogUser.UserId);
+            var list = blogService.GetNotes(blogUser.UserId);
             IOrderedEnumerable<IGrouping<int, Note>> queryArchiveList =
                                 from note in list
                                 group note by note.PublicTime.Year into newGroup
@@ -142,18 +153,18 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
-            Notebook notebook=NotebookService.GetNotebookById(notebookId);
+            Notebook notebook=notebookService.GetNotebookById(notebookId);
             ViewBag.notebook=notebook;
 
-            ViewBag.postCount = BlogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId, notebookId);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.UserId);
+            ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId, notebookId);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.UserId);
             ViewBag.noteAndContent = noteAndContent;
 
             if (blogUser == null)
             {
                 return Content("查无此人");
             }
-            ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", $"分类-{notebook.Title}");
             blog.Add("keywords", "关键字");
@@ -180,16 +191,16 @@ namespace MoreNote.Controllers
             {
                 //默认账号
                 string blogUserName = "hyfree";
-                blogUser = UserService.GetUserByUserName(blogUserName);
+                blogUser = userService.GetUserByUserName(blogUserName);
             }
             else
             {
-                blogUser = UserService.GetUserByUserId(blogUserIdHex.ToLongByHex());
+                blogUser = userService.GetUserByUserId(blogUserIdHex.ToLongByHex());
             }
 
             if (blogUser == null)
             {
-                blogUser = UserService.GetUserByUserName(blogUserIdHex);
+                blogUser = userService.GetUserByUserName(blogUserIdHex);
                 if (blogUser == null)
                 {
                     return Content("查无此人");
@@ -197,10 +208,10 @@ namespace MoreNote.Controllers
             }
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = BlogService.CountTheNumberForBlogs(blogUser.UserId);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentForBlog(page, blogUser.UserId);
+            ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.UserId);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.UserId);
             ViewBag.noteAndContent = noteAndContent;
-            ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "moreote云笔记");
@@ -214,8 +225,8 @@ namespace MoreNote.Controllers
         public IActionResult Post1(string noteIdHex)
         {
             long noteId = noteIdHex.ToLongByHex();
-            Note note = NoteService.GetNoteById(noteId);
-            User user = UserService.GetUserByUserId(note.UserId);
+            Note note = noteService.GetNoteById(noteId);
+            User user = userService.GetUserByUserId(note.UserId);
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
         }
 
@@ -241,9 +252,9 @@ namespace MoreNote.Controllers
             Dictionary<string, string> blog = new Dictionary<string, string>();
 
             
-            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(noteId);
+            NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId);
 
-            NoteService.AddReadNum(noteId);
+            noteService.AddReadNum(noteId);
             if (noteAndContent == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -262,7 +273,7 @@ namespace MoreNote.Controllers
                 return Content("这篇文章已经被取消分享");
             }
 
-            UserBlog userBlog = BlogService.GetUserBlog(blogUser.UserId);
+            UserBlog userBlog = blogService.GetUserBlog(blogUser.UserId);
             BlogCommon(blogUser.UserId, userBlog, blogUser);
             ViewBag.noteAndContent = noteAndContent;
             blog.Add("Title", noteAndContent.note.Title);
@@ -320,10 +331,10 @@ namespace MoreNote.Controllers
             }
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = BlogService.CountTheNumberForBlogTags(blogUser.UserId, tag);
-            NoteAndContent[] noteAndContent = NoteService.GetNoteAndContentByTag(page, blogUser.UserId, tag);
+            ViewBag.postCount = blogService.CountTheNumberForBlogTags(blogUser.UserId, tag);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentByTag(page, blogUser.UserId, tag);
             ViewBag.noteAndContent = noteAndContent;
-            ViewBag.CateArray = BlogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "标签检索");
@@ -341,7 +352,7 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            string[] tags = TagService.GetBlogTags(blogUser.UserId);
+            string[] tags = tagService.GetBlogTags(blogUser.UserId);
             ViewBag.tags = tags;
             ViewBag.blogUser = blogUser;
             blog.Add("Title", "标签云");
@@ -363,7 +374,7 @@ namespace MoreNote.Controllers
         {
             Re re = new Re();
             long noteNum = noteId.ToLongByHex();
-            re.Ok = BlogService.IncReadNum(noteNum);
+            re.Ok = blogService.IncReadNum(noteNum);
 
             return Json(re, MyJsonConvert.GetOptions());
         }
@@ -378,7 +389,7 @@ namespace MoreNote.Controllers
         {
             if (userInfo.UserId == 0)
             {
-                userInfo = UserService.GetUserByUserId(userId);
+                userInfo = userService.GetUserByUserId(userId);
                 if (userInfo.UserId == 0)
                 {
                     return null;
@@ -407,7 +418,7 @@ namespace MoreNote.Controllers
 
         public void SetBlog(UserBlog userBlog, User userInfo)
         {
-            BlogInfo blogInfo = BlogService.GetBlogInfo(userBlog, userInfo);
+            BlogInfo blogInfo = blogService.GetBlogInfo(userBlog, userInfo);
             ViewBag.blogInfo = blogInfo;
         }
         // 各种地址设置
@@ -418,8 +429,8 @@ namespace MoreNote.Controllers
             // var staticUrl = configService.GetUserUrl(strings.Split(host, ":")[0])
             // staticUrl == host, 为保证同源!!! 只有host, http://leanote.com, http://blog/leanote.com
             // life.leanote.com, lealife.com
-            var siteUrl = ConfigService.GetSiteUrl();
-            var blogUrls = BlogService.GetBlogUrls(userBlog, user);
+            var siteUrl = configService.GetSiteUrl();
+            var blogUrls = blogService.GetBlogUrls(userBlog, user);
             // 分类
             // 搜索
             // 查看

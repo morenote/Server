@@ -27,22 +27,22 @@ namespace MoreNote.Logic.Service
         // [ok]
 
         // 谁共享给了我的Query
-        public static long getOrQ(long userId)
+        public  long getOrQ(long userId)
         {
             throw new Exception();
         }
         // 得到共享给我的笔记本和用户(谁共享给了我)
-        public static User[] GetShareNotebooks(long userId)
+        public  User[] GetShareNotebooks(long userId)
         {
             throw new Exception();
         }
         // 排序
-        public static void GetShareNotebooks(long userId,out object ShareNotebooksByUser,out User user)
+        public  void GetShareNotebooks(long userId,out object ShareNotebooksByUser,out User user)
         {
             throw new Exception();
         }
         // 排序
-        public static SubNotebooks sortSubShareNotebooks(SubNotebooks subNotebooks)
+        public  SubNotebooks sortSubShareNotebooks(SubNotebooks subNotebooks)
         {
             throw new Exception();
         }

@@ -13,10 +13,12 @@ namespace MoreNote.Controllers.API.APIV1
     [Route("API/APPStore/[action]")]
     public class APPStoreAPIController : BaseAPIController
     {
-        public APPStoreAPIController(IHttpContextAccessor accessor) : base(accessor)
+        private APPStoreInfoService APPStoreInfoService { get; set; }
+        private AuthService authService;
+        public APPStoreAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
         {
-
-
+            this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService))as AuthService;
+            this.APPStoreInfoService = dependencyInjectionService.ServiceProvider.GetService(typeof(APPStoreInfoService))as APPStoreInfoService;
         }
 
         [Route("/api/1.0/app/[action]")]

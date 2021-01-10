@@ -15,15 +15,20 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MoreNote.Filter.Global;
+using MoreNote.Logic.Model;
 
 namespace MoreNote.Controllers
 {
  
     public class AuthController : BaseController
     {
-        public AuthController(IHttpContextAccessor accessor) : base(accessor)
-        {
+        private AuthService authService;
+        private ConfigService configService;
 
+        public AuthController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        {
+            this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService)) as AuthService;
+            this.configService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigService))as ConfigService;
 
         }
         //public IActionResult Index()
@@ -35,6 +40,9 @@ namespace MoreNote.Controllers
         {
             ViewBag.Title = "请登录";
             ViewBag.msg = LanguageResource.GetMsg();
+            ConfigSetting configSetting = new ConfigSetting();
+           
+            ViewBag.ConfigSetting = configSetting;
             return View();
         }
 
@@ -63,7 +71,7 @@ namespace MoreNote.Controllers
                     Re re = new Re() { Ok = false, Msg = "验证码错误" };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }
-                if (!AuthService.LoginByPWD(email, pwd, out string token, out User user))
+                if (!authService.LoginByPWD(email, pwd, out string token, out User user))
                 {
                     //登录失败
                     Re re = new Re() { Ok = false, Msg = "wrongUsernameOrPassword" };
@@ -120,14 +128,14 @@ namespace MoreNote.Controllers
 
             ViewBag.iu = iu;
             ViewBag.from = from;
-            ViewBag.openRegister = ConfigService.IsOpenRegister();
+            ViewBag.openRegister = configService.IsOpenRegister();
 
             return View();
         }
 
         public JsonResult DoRegister(string email, string pwd, string iu)
         {
-            if (!ConfigService.IsOpenRegister())
+            if (!configService.IsOpenRegister())
             {
                 return Json(new ApiRe()
                 {
@@ -135,7 +143,7 @@ namespace MoreNote.Controllers
                     Msg = "管理员已经将注册功能关闭"
                 }, MyJsonConvert.GetSimpleOptions());
             }
-            bool result = AuthService.Register(email, pwd,iu.ToLongByHex());
+            bool result = authService.Register(email, pwd,iu.ToLongByHex());
             if (result)
             {
                 return Json(new ApiRe()

@@ -24,30 +24,38 @@ namespace MoreNoteWorkerService
     public class RandomImagesCrawlerWorker : BackgroundService
     {
         private readonly ILogger<RandomImagesCrawlerWorker> _logger;
+        private RandomImageService randomImageService;
         /// <summary>
         /// 网站配置
         /// </summary>
-        static WebSiteConfig config = ConfigFileService.GetWebConfig();
+         WebSiteConfig config ;
+
+        private ConfigFileService configFileService;
+
         /// <summary>
         /// 又拍云
         /// </summary>
-        static UpYun upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
+        private UpYun upyun;
         public RandomImagesCrawlerWorker()
         {
+            
 
         }
        
         Random random = new Random();
        
-        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger)
+        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService)
         {
             _logger = logger;
-          
+            randomImageService=dependencyInjectionService.ServiceProvider.GetService(typeof(RandomImageService)) as RandomImageService;
+            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            config = configFileService.GetWebConfig();
+            upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var imageTypeList = RandomImageService.GetImageTypeList();
+            var imageTypeList = randomImageService.GetImageTypeList();
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
@@ -127,7 +135,7 @@ namespace MoreNoteWorkerService
             byte[] imageBytes = stmMemory.ToArray();
             string fileSHA1 = SHAEncryptHelper.Hash1Encrypt(imageBytes);
             //上传到又拍云
-            if (!RandomImageService.Exist(type, fileSHA1))
+            if (!randomImageService.Exist(type, fileSHA1))
             {
                 upyun.writeFile($"/upload/{SHAEncryptHelper.MD5Encrypt(type)}/{fileSHA1}{Path.GetExtension(name)}", imageBytes, true);
                 RandomImage randomImage = new RandomImage()
@@ -143,7 +151,7 @@ namespace MoreNoteWorkerService
                     Sex = false,
                 };
                 //记录到数据库
-                await RandomImageService.InsertImageAsync(randomImage).ConfigureAwait(false);
+                await randomImageService.InsertImageAsync(randomImage).ConfigureAwait(false);
 
             }
             
