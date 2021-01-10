@@ -8,15 +8,21 @@ using MoreNote.Logic.Entity;
 namespace MoreNote.Logic.Service
 {
    public  class AccessService
-    {
-        public static async  Task<bool> InsertAccessAsync(AccessRecords ar)
+   {
+       private DataContext dataContext;
+
+       public AccessService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+       {
+           this.dataContext = dataContext;
+       }
+
+       public  async  Task<bool> InsertAccessAsync(AccessRecords ar)
         {
           
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.AccessRecords.Add(ar);
-                return await db.SaveChangesAsync() > 0;
-            }
+            
+                var result = dataContext.AccessRecords.Add(ar);
+                return await dataContext.SaveChangesAsync() > 0;
+            
         }
     }
 }

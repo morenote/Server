@@ -7,8 +7,12 @@ using System.Text;
 
 namespace MoreNote.Logic.Service
 {
-    class EmailService: MailMessage
+    public class EmailService: MailMessage
     {
+        public EmailService()
+        {
+
+        }
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -58,7 +62,7 @@ namespace MoreNote.Logic.Service
             this.To.Add(new MailAddress(emailAddress));
         }
 
-        public static EmailService NewEmailService()
+        public  EmailService NewEmailService()
         {
             throw 
                 new Exception();
@@ -75,7 +79,7 @@ namespace MoreNote.Logic.Service
         }
 
         //return a smtp client
-        public static object dial(string addr)
+        public  object dial(string addr)
         {
             throw new Exception();
         }
@@ -87,12 +91,12 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static bool RegisterSendActiveEmail(User userInfo,string email)
+        public  bool RegisterSendActiveEmail(User userInfo,string email)
         {
           //todo:
           return true;
         }
-        public static bool UpdateEmailSendActiveEmail(User
+        public  bool UpdateEmailSendActiveEmail(User
              userInfo,string email)
         {
             throw 
@@ -112,7 +116,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static  bool ValidTpl(string str)
+        public   bool ValidTpl(string str)
         {
             throw 
                 new Exception();
@@ -121,23 +125,23 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public static bool  renderEmail (string subject ,string body)
+        public  bool  renderEmail (string subject ,string body)
         {
             throw new Exception();
         }
-        public static bool SendEmailToUsers(User user,string subject,string body)
+        public  bool SendEmailToUsers(User user,string subject,string body)
         {
             throw new Exception();
         }
-        public static bool SendEmailToEmails(string[] email,string subject,string body)
+        public  bool SendEmailToEmails(string[] email,string subject,string body)
         {
             throw new Exception();
         }
-        public static bool AddEmailLog(string email,string subject,string body,bool ok,string msg)
+        public  bool AddEmailLog(string email,string subject,string body,bool ok,string msg)
         {
             throw new Exception();
         }
-        public static bool DeleteEmails(long[] ids)
+        public  bool DeleteEmails(long[] ids)
         {
             throw new Exception();
         }

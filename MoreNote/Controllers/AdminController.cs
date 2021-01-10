@@ -16,8 +16,14 @@ namespace MoreNote.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class AdminController : BaseController
     {
-        public AdminController(IHttpContextAccessor accessor) : base(accessor)
+        private APPStoreInfoService APPStoreInfoService { get; set; }
+        private AccessService AccessService { get; set; }
+   
+        public AdminController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
+            this.AccessService = dependencyInjectionService.ServiceProvider.GetService(typeof(AccessService))as AccessService;
+         
+            this.APPStoreInfoService = dependencyInjectionService.ServiceProvider.GetService(typeof(APPStoreInfoService))as APPStoreInfoService;
         }
 
 

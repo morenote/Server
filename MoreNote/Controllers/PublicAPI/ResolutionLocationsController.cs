@@ -13,12 +13,12 @@ namespace MoreNote.Controllers.PublicAPI
 {
     public class ResolutionLocationsController : Controller
     {
-        private readonly DataContext _context=DataContext.getDataContext();
+        private readonly DataContext _context;
 
-        //public ResolutionLocationsController(DataContext context)
-        //{
-        //    _context = context;
-        //}
+        public ResolutionLocationsController(DataContext context)
+        {
+            _context = context;
+        }
 
         // GET: ResolutionLocations
         public async Task<IActionResult> Index()

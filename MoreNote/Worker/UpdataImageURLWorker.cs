@@ -19,6 +19,7 @@ namespace MoreNoteWorkerService
     public class UpdataImageURLWorker : BackgroundService
     {
         private readonly ILogger<RandomImagesCrawlerWorker> _logger;
+        private RandomImageService randomImageService;
        
         /// <summary>
         /// ÀÊª˙Õº∆¨¡–±Ì
@@ -27,7 +28,9 @@ namespace MoreNoteWorkerService
         /// <summary>
         /// Õ¯’æ≈‰÷√
         /// </summary>
-        private static readonly WebSiteConfig config = ConfigFileService.GetWebConfig();
+        private  readonly WebSiteConfig config;
+
+        private ConfigFileService configFileService;
         public UpdataImageURLWorker()
         {
 
@@ -35,10 +38,13 @@ namespace MoreNoteWorkerService
 
         private readonly Random random = new Random();
 
-        public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger)
+        public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService)
         {
             _logger = logger;
-         
+            randomImageService=dependencyInjectionService.ServiceProvider.GetService(typeof(RandomImageService))as RandomImageService;
+            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            config = configFileService.GetWebConfig();
+             size = config.PublicAPI.RandomImageSize;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -60,12 +66,13 @@ namespace MoreNoteWorkerService
                 }
             }
         }
-        private static readonly int size = config.PublicAPI.RandomImageSize;
+
+        private readonly int size;
       
         private async Task UpdatImage()
         {
-            var imageTypeList = RandomImageService.GetImageTypeList();
-            var randomImageList = RandomImageService.GetRandomImageList();
+            var imageTypeList = randomImageService.GetImageTypeList();
+            var randomImageList = randomImageService.GetRandomImageList();
             for (int y = 0; y < imageTypeList.Count; y++)
             {
                
@@ -79,12 +86,12 @@ namespace MoreNoteWorkerService
                 }
                 if (randomImageList[imageTypeList[y]].Count>=size)
                 {
-                    RandomImage randomImage = RandomImageService.GetRandomImage(imageTypeList[y]);
+                    RandomImage randomImage = randomImageService.GetRandomImage(imageTypeList[y]);
                     randomImageList[imageTypeList[y]][random.Next(0,size)]=randomImage;
                 }
                 else
                 {
-                    randomImageList[imageTypeList[y]] = RandomImageService.GetRandomImages(imageTypeList[y], size);
+                    randomImageList[imageTypeList[y]] = randomImageService.GetRandomImages(imageTypeList[y], size);
                 }
                
             }

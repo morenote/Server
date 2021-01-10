@@ -9,58 +9,59 @@ using Z.EntityFramework.Plus;
 namespace MoreNote.Logic.Service
 {
      public class AlbumService
-    {
-        
-        const int  IMAGE_TYPE=0;
+     {
+         private DataContext dataContext;
+         const int  IMAGE_TYPE=0;
+         
+        public AlbumService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
+       
         //add album
-        public static bool AddAlbum(Album album)
+        public  bool AddAlbum(Album album)
         {
            album.CreatedTime=DateTime.Now;
             album.Type=IMAGE_TYPE;
-            using (var db = DataContext.getDataContext())
-            {
-               var result= db.Album.Add(album);
-               return  db.SaveChanges()>0;
-            }
+            var result= dataContext.Album.Add(album);
+               return  dataContext.SaveChanges()>0;
+            
         }
         //get albums
-        public static Album[] GetAlbums(long userId)
+        public  Album[] GetAlbums(long userId)
         {
            
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.Album
+           
+                var result = dataContext.Album
                     .Where(b => b.UserId.Equals(userId));
                 return result.ToArray();
-            }
+            
         }
         // delete album
         // presupposition: has no images under this ablum
-        public static bool DeleteAlbum(long userId,long albumId)
+        public  bool DeleteAlbum(long userId,long albumId)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                if (db.File.Where(b=>b.AlbumId==albumId&&b.UserId==userId).Count()==0)
+          
+                if (dataContext.File.Where(b=>b.AlbumId==albumId&&b.UserId==userId).Count()==0)
                 {
-                  return  db.Album.Where(a=>a.AlbumId==albumId).Delete()>0;
+                  return  dataContext.Album.Where(a=>a.AlbumId==albumId).Delete()>0;
                 }
                 return false;
-            }
+            
         }
         
-        public static  bool UpdateAlbum(long albumId,long userId,string name)
+        public   bool UpdateAlbum(long albumId,long userId,string name)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.Album
+           
+                var result = dataContext.Album
                     .Where(b => b.AlbumId.Equals(albumId)&&b.UserId.Equals(userId));
                 if (result!=null)
                 {
 
                 }
                 result.FirstOrDefault().Name=name;
-               return db.SaveChanges()>0;
-            }
+               return dataContext.SaveChanges()>0;
+            
         }
     }
 }

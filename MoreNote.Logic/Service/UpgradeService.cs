@@ -7,7 +7,7 @@ namespace MoreNote.Logic.Service
     public class UpgradeService
     {
         // 添加了PublicTime, RecommendTime
-        public static bool UpgradeBlog()
+        public  bool UpgradeBlog()
         {
             throw new Exception();
         }
@@ -19,26 +19,26 @@ namespace MoreNote.Logic.Service
         <li>Generate "UrlTitle" for all notebooks</li>
         <li>Generate "UrlTitle" for all singles</li>
         */
-        public static bool UpgradeBetaToBeta2(long userId)
+        public  bool UpgradeBetaToBeta2(long userId)
         {
             throw new Exception();
         }
         // Usn设置
         // 客户端 api
-        public static void moveTag()
+        public  void moveTag()
         {
             throw new Exception();
         }
-        public static void setNotebookUsn()
+        public  void setNotebookUsn()
         {
             throw new Exception();
         }
-        public static void setNoteUsn()
+        public  void setNoteUsn()
         {
             throw new Exception();
         }
         // 升级为Api, beta.4
-        public static bool Api(long userId)
+        public  bool Api(long userId)
         {
             throw new Exception();
 

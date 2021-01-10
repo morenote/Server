@@ -31,19 +31,30 @@ namespace MoreNote.Controllers
         /// <summary>
         /// 网站配置
         /// </summary>
-        public  WebSiteConfig config = ConfigFileService.GetWebConfig();
+        public  WebSiteConfig config ;
         /// <summary>
         /// 又拍云
         /// </summary>
         public  UpYun upyun=null;
-        public BaseController(IHttpContextAccessor accessor)
+
+        public AttachService attachService;
+        public TokenSerivce tokenSerivce;
+        public NoteFileService noteFileService;
+        public UserService userService;
+        private ConfigFileService configFileService;
+        public BaseController(DependencyInjectionService dependencyInjectionService)
         {
-            _accessor = accessor;
+            this.attachService = dependencyInjectionService.ServiceProvider.GetService(typeof(AttachService)) as AttachService;
+            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce)) as TokenSerivce;
+            this.noteFileService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteFileService)) as NoteFileService;
+            this.configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            
+            _accessor = dependencyInjectionService.ServiceProvider.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
             if (config!=null&&config.UpYunCDN!=null)
             {
                 upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
             }
-           
+            config = configFileService.GetWebConfig();
         }
         public bool HasLogined()
         {
@@ -68,7 +79,7 @@ namespace MoreNote.Controllers
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
-            User user = UserService.GetUserByUserId(userid_number);
+            User user = userService.GetUserByUserId(userid_number);
             return user;
         }
         public string SetLocale()
@@ -122,7 +133,7 @@ namespace MoreNote.Controllers
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
-            User user = UserService.GetUserByUserId(userid_number);
+            User user = userService.GetUserByUserId(userid_number);
             return user;
         }
         // todo:得到用户信息
@@ -135,7 +146,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                User user = TokenSerivce.GetUserByToken(token);
+                User user = tokenSerivce.GetUserByToken(token);
                 long userid = (user == null ? 0 : user.UserId);
                 return userid;
             }
@@ -148,7 +159,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                User user = TokenSerivce.GetUserByToken(token);
+                User user = tokenSerivce.GetUserByToken(token);
                 return user;
             }
         }
@@ -163,7 +174,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                User user = TokenSerivce.GetUserByToken(token);
+                User user = tokenSerivce.GetUserByToken(token);
                 long userid = (user == null ? 0 : user.UserId);
                 return userid;
             }
@@ -181,7 +192,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                User user = TokenSerivce.GetUserByToken(token);
+                User user = tokenSerivce.GetUserByToken(token);
                 return user;
             }
         }
@@ -239,7 +250,7 @@ namespace MoreNote.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = NoteFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
+            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -260,7 +271,7 @@ namespace MoreNote.Controllers
                     //todo: 增加特性=图片管理
 
                 };
-                var AddResult = AttachService.AddAttach(attachInfo, true,out string AttachMsg);
+                var AddResult = attachService.AddAttach(attachInfo, true,out string AttachMsg);
                 if (!AddResult)
                 {
                     msg = "添加数据库失败";
@@ -323,7 +334,7 @@ namespace MoreNote.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = NoteFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
+            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -341,7 +352,7 @@ namespace MoreNote.Controllers
                     //todo: 增加特性=图片管理
    
                 };
-                var AddResult=NoteFileService.AddImage(noteFile,0,userId,true);
+                var AddResult=noteFileService.AddImage(noteFile,0,userId,true);
                 if (!AddResult)
                 {
                     msg="添加数据库失败";

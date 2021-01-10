@@ -12,82 +12,84 @@ namespace MoreNote.Logic.Service
 
     public class NoteContentService
     {
-        public static List<NoteContent> ListNoteContent()
+        private NoteImageService noteImageService;
+        private DataContext dataContext;
+
+        public NoteContentService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteContent
+            this.noteImageService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteImageService)) as NoteImageService;
+            this.dataContext = dataContext;
+        }
+
+        public  List<NoteContent> ListNoteContent()
+        {
+            
+                var result = dataContext.NoteContent
                     .Where(b => b.IsBlog == true && b.IsHistory == false);
                 return result.ToList<NoteContent>();
-            }
+            
         }
-        public static List<NoteContent> ListNoteContent(bool IsHistory)
+        public  List<NoteContent> ListNoteContent(bool IsHistory)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteContent
+           
+                var result = dataContext.NoteContent
                     .Where(b => b.IsBlog == true&&b.IsHistory== IsHistory);
                 return result.ToList<NoteContent>();
-            }
+            
         }
-        public static NoteContent SelectNoteContent(long noteId)
+        public  NoteContent SelectNoteContent(long noteId)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteContent
+           
+                var result = dataContext.NoteContent
                     .Where(b => b.NoteId==noteId&&b.IsHistory==false).FirstOrDefault();
                 return result;
-            }
+            
 
         }
-        public static bool InsertNoteContent(NoteContent noteContent)
+        public  bool InsertNoteContent(NoteContent noteContent)
         {
 
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteContent.Add(noteContent);
+            
+                var result = dataContext.NoteContent.Add(noteContent);
 
-                return db.SaveChanges() > 0;
-            }
+                return dataContext.SaveChanges() > 0;
+            
         }
-        public static NoteContent GetNoteContent(long noteId, long userId,bool IsHistory )
+        public  NoteContent GetNoteContent(long noteId, long userId,bool IsHistory )
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteContent
+           
+                var result = dataContext.NoteContent
                     .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory== IsHistory);
                 return result == null ? null : result.FirstOrDefault();
-            }
+            
         }
         [Obsolete("不推荐使用,使用GetValidNoteContent替代")]
-        public static NoteContent GetNoteContent(long noteId, long userId)
+        public  NoteContent GetNoteContent(long noteId, long userId)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteContent
+            
+                var result = dataContext.NoteContent
                     .Where(b => b.UserId == userId && b.NoteId == noteId );
                 return result == null ? null : result.FirstOrDefault();
-            }
+            
         }
-        public static NoteContent GetValidNoteContent(long noteId, long userId)
+        public  NoteContent GetValidNoteContent(long noteId, long userId)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.NoteContent
+            
+                var result = dataContext.NoteContent
                     .Where(b => b.UserId == userId && b.NoteId == noteId&&b.IsHistory==false);
                 return result == null ? null : result.FirstOrDefault();
-            }
+            
         }
         // 添加笔记本内容
         // [ok]
-        public static NoteContent AddNoteContent(NoteContent noteContent)
+        public  NoteContent AddNoteContent(NoteContent noteContent)
         {
             noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
             noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
             noteContent.UpdatedUserId = noteContent.UserId;
             InsertNoteContent(noteContent);
             // 更新笔记图片
-            NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
+            noteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;
         }
 
@@ -95,26 +97,25 @@ namespace MoreNote.Logic.Service
         // [ok] TODO perm未测
         // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
         // TODO abstract这里生成
-        public static bool UpdateNoteContent(long updateUserId, long noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime,
+        public  bool UpdateNoteContent(long updateUserId, long noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime,
             out string msg, out int afterContentUsn)
         {
             //todo: 需要完成函数UpdateNoteContent
             throw new Exception();
         }
-        public static bool UpdateNoteContent(ApiNote apiNote, 
+        public  bool UpdateNoteContent(ApiNote apiNote, 
         out string msg,out long contentId)
         {
-            using (var db = DataContext.getDataContext())
-            {
+          
                 //更新 将其他笔记刷新
                 var noteId = apiNote.NoteId.ToLongByHex();
-                var note=db.Note.Where(b=>b.NoteId== noteId).First();
-                var noteContent=db.NoteContent.Where(b=>b.NoteId== noteId&&b.IsHistory==false).FirstOrDefault();
+                var note=dataContext.Note.Where(b=>b.NoteId== noteId).First();
+                var noteContent=dataContext.NoteContent.Where(b=>b.NoteId== noteId&&b.IsHistory==false).FirstOrDefault();
                 //如果笔记内容发生变化，生成新的笔记内容
                 if (apiNote.Content!=null)
                 {
                     //新增笔记内容，需要将上一个笔记设置为历史笔记
-                    db.NoteContent.Where(b => b.NoteId == noteId&&b.IsHistory==false).Update(x => new NoteContent() { IsHistory = true });
+                    dataContext.NoteContent.Where(b => b.NoteId == noteId&&b.IsHistory==false).Update(x => new NoteContent() { IsHistory = true });
                     contentId = SnowFlakeNet.GenerateSnowFlakeID();
                     NoteContent contentNew = new NoteContent()
                     {
@@ -148,9 +149,9 @@ namespace MoreNote.Logic.Service
                     {
                         contentNew.UpdatedTime = apiNote.UpdatedTime;
                     }
-                    db.NoteContent.Add(contentNew);
+                    dataContext.NoteContent.Add(contentNew);
                     msg="";
-                    return db.SaveChanges() > 0;
+                    return dataContext.SaveChanges() > 0;
 
                 }
                 else
@@ -172,33 +173,32 @@ namespace MoreNote.Logic.Service
                   
                 } 
                 msg="";
-                db.SaveChanges();
+                dataContext.SaveChanges();
                 return true;
-            }
+            
         }
-        public static bool DeleteByIdAndUserId(long noteId, long userId, bool Including_the_history)
+        public  bool DeleteByIdAndUserId(long noteId, long userId, bool Including_the_history)
         {
             if (Including_the_history)
             {
                 using (var db=new DataContext())
                 {
-                    db.NoteContent.Where(b=>b.NoteId==noteId&&b.UserId==userId).Delete();
+                    dataContext.NoteContent.Where(b=>b.NoteId==noteId&&b.UserId==userId).Delete();
 
                 }
 
             }
             else
             {
-                using (var db = DataContext.getDataContext())
-                {
-                    db.NoteContent.Where(b => b.NoteId == noteId && b.UserId == userId && b.IsHistory==false).Delete();
-                }
+            
+                    dataContext.NoteContent.Where(b => b.NoteId == noteId && b.UserId == userId && b.IsHistory==false).Delete();
+                
 
             }
           
             return true;
         }
-        public static bool Delete_HistoryByNoteIdAndUserId(long noteId, long userId)
+        public  bool Delete_HistoryByNoteIdAndUserId(long noteId, long userId)
         {
             throw new Exception("此方法需要实现");
         }

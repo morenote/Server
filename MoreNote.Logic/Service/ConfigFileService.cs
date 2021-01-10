@@ -10,6 +10,13 @@ namespace MoreNote.Logic.Service
     /// </summary>
     public class ConfigFileService
     {
+        public ConfigFileService()
+        {
+            if (config == null)
+            {
+                config = GetWebConfig();
+            }
+        }
         private static string path = null;
 
         private static WebSiteConfig config;
@@ -17,7 +24,7 @@ namespace MoreNote.Logic.Service
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
-        public static string GetConfigPath()
+        public  static string GetConfigPath()
         {
             if (RuntimeEnvironment.IsWindows)
             {
@@ -62,14 +69,8 @@ namespace MoreNote.Logic.Service
          
         }
 
-        private ConfigFileService()
-        {
-            if (config == null)
-            {
-                config = GetWebConfig();
-            }
-        }
-        public static WebSiteConfig GetWebConfig()
+
+        public   WebSiteConfig GetWebConfig()
         {
             if (config == null)
             {
@@ -91,7 +92,7 @@ namespace MoreNote.Logic.Service
             return config;
         }
 
-        public static void Save()
+        public  void Save()
         {
             if (config == null)
             {
@@ -101,7 +102,7 @@ namespace MoreNote.Logic.Service
             File.WriteAllText(path, json);
         }
 
-        public static void Save(WebSiteConfig tempConfig, string onePath)
+        public  void Save(WebSiteConfig tempConfig, string onePath)
         {
             if (tempConfig == null)
             {

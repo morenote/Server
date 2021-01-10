@@ -1,39 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MoreNote.Logic.DB;
+﻿using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using System;
+using System.Linq;
 
 namespace MoreNote.Logic.Service
 {
     public class APPStoreInfoService
     {
-        public static AppInfo[] GetAPPList()
-        {
+        private DataContext dataContext;
 
-            using (var db = DataContext.getDataContext())
-            {
-                var result = db.AppInfo;
-                return result.ToArray();
-            }
+        public APPStoreInfoService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        {
+            this.dataContext = dataContext;
         }
-        public static bool AddAPP(AppInfo appInfo)
+
+        public AppInfo[] GetAPPList()
+        {
+            var result = dataContext.AppInfo;
+            return result.ToArray();
+        }
+
+        public bool AddAPP(AppInfo appInfo)
         {
             int a = 0;
             try
             {
-                using (var db = DataContext.getDataContext())
-                {
-                    var result = db.AppInfo.Add(appInfo);
-                    a = db.SaveChanges();
-                    return a > 0;
-                }
-            }catch(Exception ex)
+                var result = dataContext.AppInfo.Add(appInfo);
+                a = dataContext.SaveChanges();
+                return a > 0;
+            }
+            catch (Exception ex)
             {
                 return false;
             }
-        
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Service;
 using MoreNote.Value;
 
 namespace MoreNote.Controllers.Member
@@ -14,7 +15,7 @@ namespace MoreNote.Controllers.Member
     [Route("/member/user/{action=Username}")]
     public class MemberUserController : BaseController
     {
-        public MemberUserController(IHttpContextAccessor accessor) : base(accessor)
+        public MemberUserController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
         {
 
         }

@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Formats.Asn1;
+using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.Utils;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -8,16 +9,28 @@ namespace MoreNote.Logic.Service
 {
     public class AuthService
     {
-        public static bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
+        private UserService userService;
+        private TagService tagService;
+        private TokenSerivce tokenSerivce;
+
+        public AuthService(DependencyInjectionService dependencyInjectionService)
         {
-            user = UserService.GetUser(email);
+            this.userService = dependencyInjectionService.ServiceProvider.GetService(typeof(UserService)) as UserService;
+            this.tagService = dependencyInjectionService.ServiceProvider.GetService(typeof(TagService)) as TagService;
+            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce)) as TokenSerivce;
+        }
+
+        public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
+        {
+            
+            user = userService.GetUser(email);
             if (user != null)
             {
                 string temp = SHAEncryptHelper.Hash256Encrypt(pwd + user.Salt);
                 if (temp.Equals(user.Pwd))
                 {
                     long tokenid = SnowFlakeNet.GenerateSnowFlakeID();
-                    var token=TokenSerivce.GenerateToken(tokenid);
+                    var token=tokenSerivce.GenerateToken(tokenid);
                     Token myToken = new Token
                     {
                         TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
@@ -27,7 +40,7 @@ namespace MoreNote.Logic.Service
                         Type = 0,
                         CreatedTime = DateTime.Now
                     };
-                    TokenSerivce.AddToken(myToken);
+                    tokenSerivce.AddToken(myToken);
                     tokenStr = myToken.TokenStr;
                     return true;
                 }
@@ -44,7 +57,7 @@ namespace MoreNote.Logic.Service
             }
 
         }
-        public static bool LoginByToken(string email, string token)
+        public  bool LoginByToken(string email, string token)
         {
             return true;
         }
@@ -54,9 +67,9 @@ namespace MoreNote.Logic.Service
         /// <param name="userid"></param>
         /// <param name="tokenStr"></param>
         /// <returns></returns>
-        public static bool IsLogin(long userid,string tokenStr)
+        public  bool IsLogin(long userid,string tokenStr)
         {
-            Token token = TokenSerivce.GetTokenByTokenStr(userid
+            Token token = tokenSerivce.GetTokenByTokenStr(userid
                 , tokenStr);
             if (token!=null)
             {
@@ -70,11 +83,11 @@ namespace MoreNote.Logic.Service
 
         // 使用bcrypt认证或者Md5认证
         // Use bcrypt (Md5 depreciated)
-        public static User Login(string emailOrUserName ,string pwd)
+        public  User Login(string emailOrUserName ,string pwd)
         {
             throw new Exception();
         }
-        public static bool Register(string email,string pwd,long fromUserId)
+        public  bool Register(string email,string pwd,long fromUserId)
         {
            return Register( email,  pwd,  fromUserId, out string Msg);
         }
@@ -89,14 +102,14 @@ namespace MoreNote.Logic.Service
         // 1. 添加用户
         // 2. 将leanote共享给我
         // [ok]
-        public static bool Register(string email, string pwd, long fromUserId,out string Msg)
+        public  bool Register(string email, string pwd, long fromUserId,out string Msg)
         {
             if (string.IsNullOrEmpty(email)||string.IsNullOrEmpty(pwd)||pwd.Length<6)
             {
                 Msg="参数错误";
                 return false;
             }
-            if (UserService.IsExistsUser(email))
+            if (userService.IsExistsUser(email))
             {
                Msg= "userHasBeenRegistered-"+ email;
                 return false;
@@ -132,10 +145,10 @@ namespace MoreNote.Logic.Service
             }
 
         }
-        public static bool Register(User
+        public  bool Register(User
              user)
         {
-            if (UserService.AddUser(user))
+            if (userService.AddUser(user))
             {
                 return true;
             }
@@ -147,7 +160,7 @@ namespace MoreNote.Logic.Service
            
         }
         //第三方得到用户名, 可能需要多次判断
-        public static string getUsername(string thirdType,string thirdUserName)
+        public  string getUsername(string thirdType,string thirdUserName)
         {
             string username=thirdType + "-" + thirdUserName;
 

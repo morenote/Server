@@ -12,8 +12,11 @@ namespace MoreNote.Controllers.API.APIV1
 
     public class AuthAPIController : BaseAPIController
     {
-        public AuthAPIController(IHttpContextAccessor accessor) : base(accessor)
+        private AuthService authService;
+        public AuthAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
         {
+            this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService))as AuthService;
+         
 
         }
 
@@ -30,7 +33,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             string tokenStr = "";
             User user;
-            if (AuthService.LoginByPWD(email, pwd, out tokenStr, out user))
+            if (authService.LoginByPWD(email, pwd, out tokenStr, out user))
             {
                 SetUserIdToSession(user.UserId);
                  AuthOk authOk = new AuthOk()
@@ -74,7 +77,7 @@ namespace MoreNote.Controllers.API.APIV1
             //ex:API当前不使用cookie和session判断用户身份，
             //API调用必须显式的提供token字段，以证明身份
             ApiRe apiRe;
-            if (AuthService.Register(email,pwd,0))
+            if (authService.Register(email,pwd,0))
             {
                 apiRe = new ApiRe()
                 {

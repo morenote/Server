@@ -4,6 +4,7 @@ namespace MoreNote.Common.Utils
 {
     public class RedisManager
     {
+        
         private static IDatabase db=null;
         public RedisManager()
         {
@@ -13,7 +14,6 @@ namespace MoreNote.Common.Utils
                 ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
                 db = redis.GetDatabase();
             }
-            
         }
 
         public static void SetString(string K,string V)

@@ -13,15 +13,15 @@ namespace MoreNote.Logic.Model
 
         public string Signature { get; set; }
 
-        public static JWT GetJWTFormBase64(string base64)
+        public  JWT GetJWTFormBase64(string base64)
         {
             return null;
         }
-        public static JWT GetJWTFormJson(string base64)
+        public  JWT GetJWTFormJson(string base64)
         {
             return null;
         }
-        public static JWT GetJWT(long tokenId,string userNmae,long userId, string group, long exp= 31536000)
+        public  JWT GetJWT(long tokenId,string userNmae,long userId, string group, long exp= 31536000)
         {
 
             JWT_Header header = new JWT_Header()
@@ -60,12 +60,12 @@ namespace MoreNote.Logic.Model
             return jWT;
         }
 
-        public static string ToJSon(string base64)
+        public  string ToJSon(string base64)
         {
             return null;
 
         }
-        public static string ToBase64(string base64)
+        public  string ToBase64(string base64)
         {
             return null;
         }

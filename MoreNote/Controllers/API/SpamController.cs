@@ -3,18 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Utils;
+using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers.API
 {
     [Route("api/Spam/[action]")]
-    public class SpamController : Controller
+    public class SpamController : BaseAPIController
     {
+        private SpamService spamService;
+        public SpamController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        {
+           spamService=dependencyInjectionService.ServiceProvider.GetService(typeof(SpamService))as SpamService;
+           
+
+        }
         public IActionResult Predict(string input)
         {
          
@@ -23,7 +31,7 @@ namespace MoreNote.Controllers.API
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Content("error");
             }
-            var modelOutput = SpamService.Predict(input);
+            var modelOutput = spamService.Predict(input);
             var spam = new SpamInfo()
             {
                 SpamId = SnowFlakeNet.GenerateSnowFlakeID(),
@@ -34,7 +42,7 @@ namespace MoreNote.Controllers.API
                 ManualResult = false,
                 Data = DateTime.Now
             };
-            SpamService.AddSpamInfo(spam);
+            spamService.AddSpamInfo(spam);
             return Json(modelOutput, MyJsonConvert.GetSimpleOptions());
         }
     }

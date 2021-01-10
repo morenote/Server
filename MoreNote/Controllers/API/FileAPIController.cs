@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Common.Utils;
@@ -16,12 +17,16 @@ namespace MoreNote.Controllers.API.APIV1
     //[ApiController]
     public class FileAPIController : BaseAPIController
     {
+
+
+
+        public NoteService noteService;
       
-        
-       
-        public FileAPIController(IHttpContextAccessor accessor) : base(accessor)
-        {
-        }
+       public FileAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+       {
+         
+           this.noteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService))as NoteService;
+       }
 
         //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片
         //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
@@ -41,7 +46,7 @@ namespace MoreNote.Controllers.API.APIV1
                
                 if (string.IsNullOrEmpty(fileId)) return Content("error");
                 var myFileId = fileId.ToLongByHex();
-                var noteFile = NoteFileService.GetFile(myFileId);
+                var noteFile = noteFileService.GetFile(myFileId);
                 if (noteFile == null)
                     //return Content("NoFoundImage");
                     return NoFoundImage();
@@ -70,7 +75,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             if (string.IsNullOrEmpty(fileId)) return Content("error");
             if (fileId.Length == 24) fileId = fileId.Substring(0, 16);
-            var attachFile = AttachService.GetAttach(fileId.ToLongByHex());
+            var attachFile = attachService.GetAttach(fileId.ToLongByHex());
             if (attachFile == null) return Content("NoFoundAttach");
             
             //获取又拍云操作对象

@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Model
 {
-    public static class ConfigSetting
+    public  class ConfigSetting
     {
         /// <summary>
         /// 是否打开注册功能
         /// </summary>
-        public static bool openRegister=false;
+        public  bool OpenRegister=false;
         /// <summary>
         /// 是否打开Demo演示功能
         /// </summary>
-        public static bool openDemo = false;
+        public  bool OpenDemo = false;
 
     }
 }

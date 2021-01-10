@@ -24,9 +24,11 @@ namespace MoreNote.Controllers.API.APIV1
      * */
     public class BaseAPIController : BaseController
     {
-        public BaseAPIController(IHttpContextAccessor accessor) : base(accessor)
+   
+
+        public BaseAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
         {
-            
+          
         }
     }
 }

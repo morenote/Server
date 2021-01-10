@@ -13,9 +13,22 @@ namespace MoreNote.Controllers.API.APIV1
     // [ApiController]
     public class NoteAPIController : BaseAPIController
     {
-        public NoteAPIController(IHttpContextAccessor accessor) : base(accessor)
-        {
+        private AttachService attachService;
+        private NoteService noteService;
+        private TokenSerivce tokenSerivce;
+        private NoteContentService noteContentService;
+        private TrashService trashService;
+        private IHttpContextAccessor accessor;
+     
 
+        public NoteAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        {
+            this.attachService = dependencyInjectionService.ServiceProvider.GetService(typeof(AttachService))as AttachService;
+            this.noteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService))as NoteService;
+            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce))as TokenSerivce;
+            this.noteContentService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteContentService))as NoteContentService;
+            this.trashService = dependencyInjectionService.ServiceProvider.GetService(typeof(TrashService))as TrashService;
+            this.accessor = dependencyInjectionService.ServiceProvider.GetService(typeof(IHttpContextAccessor))as IHttpContextAccessor;
         }
 
         //todo:获取同步的笔记
@@ -28,13 +41,13 @@ namespace MoreNote.Controllers.API.APIV1
         public JsonResult GetSyncNotes(int afterUsn, int maxEntry, string token)
         {
             if (maxEntry == 0) maxEntry = 100;
-            ApiNote[] apiNotes = NoteService.GetSyncNotes(getUserIdByToken(token), afterUsn, maxEntry);
+            ApiNote[] apiNotes = noteService.GetSyncNotes(getUserIdByToken(token), afterUsn, maxEntry);
             return Json(apiNotes, MyJsonConvert.GetOptions());
         }
         //todo:得到笔记本下的笔记
         public IActionResult GetNotes(string notebookId, string token)
         {
-            Note[] notes = NoteService.ListNotes(getUserIdByToken(token), notebookId.ToLongByHex(), false);
+            Note[] notes = noteService.ListNotes(getUserIdByToken(token), notebookId.ToLongByHex(), false);
             long myNotebookId = notebookId.ToLongByHex();
             return null;
         }
@@ -52,15 +65,15 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetNoteAndContent(string token, string noteId)
         {
 
-            User tokenUser = TokenSerivce.GetUserByToken(token);
+            User tokenUser = tokenSerivce.GetUserByToken(token);
             if (tokenUser == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
             }
-            NoteAndContent noteAndContent = NoteService.GetNoteAndContent(noteId.ToLongByHex(), tokenUser.UserId, false,false,false);
-            ApiNote[] apiNotes = NoteService.ToApiNotes(new Note[] { noteAndContent.note });
+            NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId.ToLongByHex(), tokenUser.UserId, false,false,false);
+            ApiNote[] apiNotes = noteService.ToApiNotes(new Note[] { noteAndContent.note });
             ApiNote apiNote = apiNotes[0];
-            apiNote.Content =NoteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.IsMarkdown);
+            apiNote.Content =noteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.IsMarkdown);
             apiNote.Desc = noteAndContent.note.Desc;
             apiNote.Abstract = noteAndContent.noteContent.Abstract;
             if (noteAndContent == null)
@@ -83,8 +96,8 @@ namespace MoreNote.Controllers.API.APIV1
                 Ok = false,
                 Msg = "GetNoteContent_is_error"
             };
-            Note note = NoteService.GetNote(noteId.ToLongByHex(), getUserIdByToken(token));
-            NoteContent noteContent = NoteContentService.GetNoteContent(noteId.ToLongByHex(), getUserIdByToken(token),false);
+            Note note = noteService.GetNote(noteId.ToLongByHex(), getUserIdByToken(token));
+            NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), getUserIdByToken(token),false);
             if (noteContent==null||note==null)
             {
              
@@ -93,7 +106,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
             {
-                noteContent.Content = NoteService.FixContent(noteContent.Content, note.IsMarkdown);
+                noteContent.Content = noteService.FixContent(noteContent.Content, note.IsMarkdown);
             }
             ApiNoteContent apiNote = new ApiNoteContent()
             {
@@ -260,7 +273,7 @@ namespace MoreNote.Controllers.API.APIV1
                 note.Desc = noteOrContent.Desc;
             }
             
-            note = NoteService.AddNoteAndContent(note, noteContent, myUserId);
+            note = noteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
             if (note == null || note.NoteId == 0)
             {
@@ -326,8 +339,8 @@ namespace MoreNote.Controllers.API.APIV1
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
-            var note = NoteService.GetNote(noteId, tokenUserId);
-            var noteContent = NoteContentService.GetNoteContent(note.NoteId, tokenUserId,false);
+            var note = noteService.GetNote(noteId, tokenUserId);
+            var noteContent = noteContentService.GetNoteContent(note.NoteId, tokenUserId,false);
             if (note == null || note.NoteId == 0)
             {
                 re.Msg = "notExists";
@@ -390,7 +403,7 @@ namespace MoreNote.Controllers.API.APIV1
             // 附件问题, 根据Files, 有些要删除的, 只留下这些
             if (noteOrContent.Files != null)
             {
-                AttachService.UpdateOrDeleteAttachApi(noteId, tokenUserId, noteOrContent.Files);
+                attachService.UpdateOrDeleteAttachApi(noteId, tokenUserId, noteOrContent.Files);
             }
             //-------------更新笔记内容
             var afterContentUsn = 0;
@@ -416,7 +429,7 @@ namespace MoreNote.Controllers.API.APIV1
                 noteOrContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteContent.Content, 200);
             }
             //上传noteContent的变更
-            contentOk = NoteContentService.UpdateNoteContent(
+            contentOk = noteContentService.UpdateNoteContent(
                  noteOrContent,
                  out contentMsg,
                  out contentId
@@ -435,7 +448,7 @@ namespace MoreNote.Controllers.API.APIV1
             var noteOk = false;
             var noteMsg = "";
 
-            noteOk = NoteService.UpdateNote(
+            noteOk = noteService.UpdateNote(
            ref noteOrContent,
            tokenUserId,
            contentId,
@@ -452,7 +465,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             //处理结果
             //-------------API返回客户端信息
-            note = NoteService.GetNote(noteId, tokenUserId);
+            note = noteService.GetNote(noteId, tokenUserId);
            // noteOrContent.NoteId = noteId.ToHex24();
            // noteOrContent.UserId = tokenUserId.ToHex24();
           //  noteOrContent.Title = note.Title;
@@ -478,7 +491,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:删除trash
         public JsonResult DeleteTrash(string noteId, int usn, string token)
         {
-            bool result = TrashService.DeleteTrashApi(noteId.ToLongByHex(), getUserIdByToken(token), usn, out string msg, out int afterUsn);
+            bool result = trashService.DeleteTrashApi(noteId.ToLongByHex(), getUserIdByToken(token), usn, out string msg, out int afterUsn);
             if (result)
             {
                 return Json(new ReUpdate()

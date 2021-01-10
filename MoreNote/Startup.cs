@@ -23,13 +23,15 @@ namespace MoreNote
         {
             Configuration = configuration;
         }
-        WebSiteConfig config = ConfigFileService.GetWebConfig();
+        WebSiteConfig config;
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigFileService configFileService = new ConfigFileService();
+            config = configFileService.GetWebConfig();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -50,27 +52,27 @@ namespace MoreNote
                 //services.AddHostedService<MoreNoteWorkerService.AnalysisOfNetwork>();
             }
 
-            //添加session服务
-            services.AddDistributedMemoryCache();
-
-            //var connection = "Server=localhost;Port=3306;Database=nickeldb; User=root;Password=123456;";
-            //var connection = Environment.GetEnvironmentVariable("postgres");
-            //services.AddDbContextPool<DataContext>(options => options.UseNpgsql(connection));
+           
+            //增加数据库
+            var connection =config.PostgreSql.Connection;
+            services.AddDbContextPool<DataContext>(options => options.UseNpgsql(connection));
            // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
             
-            //添加redis
+           
+            //services.AddDistributedMemoryCache();
+            //使用Redis分布式缓存
 	        services.AddDistributedRedisCache(options =>
 	        {
 		        options.Configuration = "localhost";
-				
-	        });
+            });
+            //增加Session
             services.AddSession(options =>
             {
                
                 // Set a short timeout for easy testing.
                 options.Cookie.Name = "SessionID";
-                options.IdleTimeout = TimeSpan.FromMinutes(10);
-                options.Cookie.HttpOnly = true;//设为httponly 阻止js脚本读取
+                options.IdleTimeout = TimeSpan.FromMinutes(10);//过期时间
+                options.Cookie.HttpOnly = true;//设为HttpOnly 阻止js脚本读取
             });
             //这样可以将HttpContext注入到控制器中。
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -104,7 +106,43 @@ namespace MoreNote
             services.AddMvc(option => {
                 option.Filters.Add<InspectionInstallationFilter>();
             });
-   
+            
+            //依赖注入的对象
+            services.AddTransient(typeof(AccessService));
+            services.AddTransient(typeof(AlbumService));
+            services.AddTransient(typeof(APPStoreInfoService));
+            services.AddTransient(typeof(AttachService));
+            services.AddTransient(typeof(AuthService));
+            services.AddTransient(typeof(BlogService));
+            services.AddTransient(typeof(CommonService));
+            services.AddTransient(typeof(ConfigFileService));
+            services.AddTransient(typeof(ConfigService));
+            services.AddTransient(typeof(EmailService));
+            services.AddTransient(typeof(GoogleAuthenticatorService));
+            services.AddTransient(typeof(GroupService));
+            services.AddTransient(typeof(InitServices));
+            services.AddTransient(typeof(NotebookService));
+            services.AddTransient(typeof(NoteContentHistoryService));
+            services.AddTransient(typeof(NoteContentService));
+            services.AddTransient(typeof(NoteFileService));
+            services.AddTransient(typeof(NoteImageService));
+            services.AddTransient(typeof(NoteService));
+            services.AddTransient(typeof(PwdService));
+            services.AddTransient(typeof(RandomImageService));
+            services.AddTransient(typeof(SessionService));
+            services.AddTransient(typeof(ShareService));
+            services.AddTransient(typeof(SpamService));
+            services.AddTransient(typeof(SuggestionService));
+            services.AddTransient(typeof(TagService));
+            services.AddTransient(typeof(ThemeService));
+            services.AddTransient(typeof(TokenSerivce));
+            services.AddTransient(typeof(UpgradeService));
+            services.AddTransient(typeof(UserService));
+            services.AddTransient(typeof(UserService));
+            
+            services.AddSingleton(typeof(DependencyInjectionService));
+            
+            DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

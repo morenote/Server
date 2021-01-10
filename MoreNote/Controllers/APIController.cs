@@ -25,17 +25,29 @@ namespace MoreNote.Controllers
 {
     public class APIController : BaseController
     {
-        public APIController(IHttpContextAccessor accessor) : base(accessor)
+        private AccessService AccessService { get; set; }
+        private RandomImageService randomImageService;
+        private DataContext dataContext;
+        private ConfigFileService configFileService;
+    
+
+        public APIController(DependencyInjectionService dependencyInjectionService,DataContext dataContext) : base( dependencyInjectionService)
         {
-
-
+            this.AccessService = dependencyInjectionService.ServiceProvider.GetService(typeof(AccessService)) as AccessService;
+            this.dataContext = dataContext;
+            randomImageService=dependencyInjectionService.ServiceProvider.GetService(typeof(RandomImageService))as RandomImageService;
+            configFileService =
+                dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService)) as ConfigFileService;
+            webcConfig = configFileService.GetWebConfig();
+            upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername,
+                webcConfig.UpYunCDN.UpyunPassword);
         }
         //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-        private static readonly WebSiteConfig webcConfig = ConfigFileService.GetWebConfig();
+        private static  WebSiteConfig webcConfig;
 
-        private static readonly UpYun upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername, webcConfig.UpYunCDN.UpyunPassword);
+        private static  UpYun upyun ;
 
-        private static readonly Random random = new Random();
+        private static  Random random = new Random();
 
         /// <summary>
         /// 保险丝
@@ -75,7 +87,7 @@ namespace MoreNote.Controllers
         }
         public async Task<IActionResult> GetRandomImage(string type,string format ="raw",int jsonSize=1)
         {
-            var randomImageList = RandomImageService.GetRandomImageList();
+            var randomImageList = randomImageService.GetRandomImageList();
             lock (_fuseObj)
             {
                 _fuseCount++;
@@ -193,9 +205,9 @@ namespace MoreNote.Controllers
             
         }
 
-        private static string GetOneURL(string type)
+        private  string GetOneURL(string type)
         {
-            var randomImageList = RandomImageService.GetRandomImageList();
+            var randomImageList = randomImageService.GetRandomImageList();
             RandomImage randomImage = null;
             int index = random.Next(randomImageList[type].Count - 1);
             randomImage = randomImageList[type][index];
@@ -221,11 +233,10 @@ namespace MoreNote.Controllers
                     Response.StatusCode=404;
                     return Content("StrategyID does not exist");
             }
-            using (var db=DataContext.getDataContext())
-            {
+           
                 try
                 {
-                     var rl=db.ResolutionLocation.Where(b=>b.StrategyID.Equals(StrategyID.ToLongByNumber())).OrderBy(e=>e.Score).FirstOrDefault();
+                     var rl=dataContext.ResolutionLocation.Where(b=>b.StrategyID.Equals(StrategyID.ToLongByNumber())).OrderBy(e=>e.Score).FirstOrDefault();
                      return Redirect(rl.URL);
                 }
                 catch (Exception)
@@ -233,7 +244,7 @@ namespace MoreNote.Controllers
                     Response.StatusCode=404;
                     return Content("StrategyID does not exist"); 
                 }
-            }
+            
         }
         public IActionResult GetRandomImageFuseSize()
         {

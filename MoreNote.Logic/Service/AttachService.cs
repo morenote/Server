@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
@@ -13,10 +14,19 @@ namespace MoreNote.Logic.Service
 {
     public class AttachService
     {
+        private NoteService  NoteService { get; set; }
+        private DataContext dataContext;
+        public AttachService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        {
+           
+            this.dataContext = dataContext;
+            NoteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService)) as NoteService;
+        }
+
         //add attach
         //api 调用时，添加attach之前时没有note的
         //fromApi表示是api添加的, updateNote传过来的, 此时不要incNote's usn, 因为updateNote会inc的
-        public static bool AddAttach(AttachInfo attachInfo,bool fromApi,out string msg)
+        public  bool AddAttach(AttachInfo attachInfo,bool fromApi,out string msg)
         {
             attachInfo.CreatedTime = DateTime.Now;
             var ok=InsertAttach(attachInfo);
@@ -41,19 +51,18 @@ namespace MoreNote.Logic.Service
             return true;
         }
         //插入AttachInfo
-        private static bool InsertAttach(AttachInfo attachInfo){
-            using(var db=DataContext.getDataContext()){
-                db.AttachInfo.Add(attachInfo);
-                return db.SaveChanges()>0;
-            }
+        private  bool InsertAttach(AttachInfo attachInfo){
+          
+                dataContext.AttachInfo.Add(attachInfo);
+                return dataContext.SaveChanges()>0;
+            
         }
         // 更新笔记的附件个数
         // addNum 1或-1
-        public static bool UpdateNoteAttachNum(long noteId,int addNUm)
+        public  bool UpdateNoteAttachNum(long noteId,int addNUm)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                Note note=db.Note
+          
+                Note note=dataContext.Note
                     .Where(b=>b.NoteId==noteId).FirstOrDefault();
                 if (note==null)
                 {
@@ -62,68 +71,63 @@ namespace MoreNote.Logic.Service
                 else
                 {
                     note.AttachNum= note.AttachNum+addNUm;
-                    db.SaveChanges();
+                    dataContext.SaveChanges();
                     return true;
                 }
-            }
+            
         }
         // list attachs
-        public static AttachInfo[] ListAttachs(long noteId,long userId)
+        public  AttachInfo[] ListAttachs(long noteId,long userId)
         {
             
-            using (var db=new DataContext())
-            {
-                var attachs=db.AttachInfo.Where(b=>b.NoteId==noteId&&b.UserId==userId).ToArray();
+          
+                var attachs=dataContext.AttachInfo.Where(b=>b.NoteId==noteId&&b.UserId==userId).ToArray();
                return attachs;
                 //todo:// 权限控制
-            }
-            throw new Exception();
+            
+         
         }
         // api调用, 通过noteIds得到note's attachs, 通过noteId归类返回
-        public static  Dictionary<long,List<AttachInfo>> GetAttachsByNoteIds(long[] noteIds)
+        public   Dictionary<long,List<AttachInfo>> GetAttachsByNoteIds(long[] noteIds)
         {
-            using (var db = DataContext.getDataContext())
-            {
+           
                 Dictionary<long,List<AttachInfo>> dic=new Dictionary<long, List<AttachInfo>>();
                 foreach(long id in noteIds){
-                    List<AttachInfo> attachs = db.AttachInfo.Where(b => noteIds.Contains(b.NoteId) ).ToList();
+                    List<AttachInfo> attachs = dataContext.AttachInfo.Where(b => noteIds.Contains(b.NoteId) ).ToList();
                     dic.Add(id,attachs);
                 }
                 return dic;
                 //todo:// 权限控制
-            }
+           
         }
-        public static bool UpdateImageTitle(long userId,long fileId,string title)
+        public  bool UpdateImageTitle(long userId,long fileId,string title)
         {
-            using (var db=DataContext.getDataContext())
-            {
-              var image=   db.File.Where(file => file.FileId == fileId && file.UserId == userId);
+           
+              var image=   dataContext.File.Where(file => file.FileId == fileId && file.UserId == userId);
               if (image!=null)
               {
                   var imageFile = image.FirstOrDefault();
                   imageFile.Title = title;
               }
-              return  db.SaveChanges()>0;
-            }
+              return  dataContext.SaveChanges()>0;
+            
         }
-        public static AttachInfo[] GetAttachsByNoteId(long noteId)
+        public  AttachInfo[] GetAttachsByNoteId(long noteId)
         {
-            using (var db = DataContext.getDataContext())
-            {
-                var attachs = db.AttachInfo.Where(b => b.NoteId == noteId).ToArray();
+           
+                var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId).ToArray();
                 return attachs;
                 //todo:// 权限控制
 
-            }
+            
 
         }
 
         // Delete note to delete attas firstly
-        public static bool DeleteAllAttachs(long noteId,long userId)
+        public  bool DeleteAllAttachs(long noteId,long userId)
         {
-            using (var db=new DataContext())
-            {
-                var attachInfos=db.AttachInfo.Where(b=>b.NoteId==noteId&&b.UserId==userId).ToArray();
+           
+                var attachInfos=dataContext.AttachInfo.Where(b=>b.NoteId==noteId&&b.UserId==userId).ToArray();
                 if (attachInfos!=null&&attachInfos.Length>0)
                 {
 
@@ -134,26 +138,26 @@ namespace MoreNote.Logic.Service
                     }
                 }
                 return true;
-            }
+            
             //todo :需要实现此功能
             return true;
         }
         // delete attach
         // 删除附件为什么要incrNoteUsn ? 因为可能没有内容要修改的
-        public static bool DeleteAttach(long attachId ,long userId)
+        public  bool DeleteAttach(long attachId ,long userId)
         {
             if (attachId!=0&&userId!=0)
             {
                 using (var db=new DataContext())
                 {
-                  var attach=  db.AttachInfo.Where(b=>b.AttachId==attachId&&b.UserId==userId).FirstOrDefault();
+                  var attach=  dataContext.AttachInfo.Where(b=>b.AttachId==attachId&&b.UserId==userId).FirstOrDefault();
                     long noteId= attach.NoteId;
                     string path=attach.Path;
-                  db.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).Delete();
+                  dataContext.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).Delete();
                   UpdateNoteAttachNum(noteId, -1);
                     DeleteAttachOnDisk(path);
                     return true;
-                 // db.AttachInfo.Remove(attach);
+                 // dataContext.AttachInfo.Remove(attach);
                 }
             }
             else
@@ -166,25 +170,25 @@ namespace MoreNote.Logic.Service
         {
             File.Delete(path);
         }
-        public static AttachInfo GetAttach(long attachId,long userId)
+        public  AttachInfo GetAttach(long attachId,long userId)
         {
             throw new Exception();
         }
-        public static AttachInfo GetAttach(long attachId)
+        public  AttachInfo GetAttach(long attachId)
         {
             using (var db=new DataContext())
             {
-                var result=db.AttachInfo.Where(b=>b.AttachId==attachId);
+                var result=dataContext.AttachInfo.Where(b=>b.AttachId==attachId);
                 return result==null?null:result.FirstOrDefault();
 
             }
         }
-        public static bool CopyAttachs(long noteId,long toNoteId)
+        public  bool CopyAttachs(long noteId,long toNoteId)
         {
             throw new Exception();
         }
 
-        public static bool UpdateOrDeleteAttachApi(long noteId,long userId,APINoteFile[] files)
+        public  bool UpdateOrDeleteAttachApi(long noteId,long userId,APINoteFile[] files)
         {
 
             var attachs=ListAttachs(noteId,userId);

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace MoreNote.Logic.Service
 {
-   public  class Common
+   public  class CommonService
     {
-        public static void parsePageAndSort(int pageNumber,int pageSize,string sortField,bool isAsc,out int skipNum,out string sortFieldR)
+        public  void parsePageAndSort(int pageNumber,int pageSize,string sortField,bool isAsc,out int skipNum,out string sortFieldR)
         {
             skipNum = (pageNumber - 1) * pageSize;
             if (string.IsNullOrEmpty(sortField))

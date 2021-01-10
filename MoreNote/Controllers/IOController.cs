@@ -10,13 +10,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoreNote.Logic.Service;
 
 namespace MoreNote.Controllers
 {
     public class IOController : BaseController
     {
-        public IOController(IHttpContextAccessor accessor) : base(accessor)
+        public IOController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
+           
 
         }
 

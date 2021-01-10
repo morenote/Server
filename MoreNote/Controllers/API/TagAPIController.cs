@@ -10,14 +10,21 @@ namespace MoreNote.Controllers.API.APIV1
     // [ApiController]
     public class TagAPIController : BaseAPIController
     {
-        public TagAPIController(IHttpContextAccessor accessor) : base(accessor)
+        private TokenSerivce tokenSerivce;
+        private TagService tagService;
+        public TagAPIController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
+           
+            tokenSerivce=dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce))as TokenSerivce;
+            tagService=dependencyInjectionService.ServiceProvider.GetService(typeof(TagService))as TagService;
+            
+
         }
 
         //todo:获取同步的标签
         public JsonResult GetSyncTags(string token, int afterUsn, int maxEntry)
         {
-            User user = TokenSerivce.GetUserByToken(token);
+            User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
                 ApiRe apiRe = new ApiRe()
@@ -27,13 +34,13 @@ namespace MoreNote.Controllers.API.APIV1
                 };
                 return Json(apiRe, MyJsonConvert.GetOptions());
             }
-            NoteTag[] noteTags = TagService.GeSyncTags(user.UserId, afterUsn, maxEntry);
+            NoteTag[] noteTags = tagService.GeSyncTags(user.UserId, afterUsn, maxEntry);
             return Json(noteTags, MyJsonConvert.GetOptions());
         }
         //todo:添加Tag
         public JsonResult AddTag(string token, string tag)
         {
-            NoteTag noteTag = TagService.AddOrUpdateTag(getUserIdByToken(token), tag);
+            NoteTag noteTag = tagService.AddOrUpdateTag(getUserIdByToken(token), tag);
             if (noteTag == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetOptions());
@@ -46,7 +53,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:删除标签
         public IActionResult DeleteTag(string token, string tag, int usn)
         {
-            bool result = TagService.DeleteTagApi(getUserIdByToken(token), tag, usn, out int toUsn, out string msg);
+            bool result = tagService.DeleteTagApi(getUserIdByToken(token), tag, usn, out int toUsn, out string msg);
             if (result)
             {
                 ReUpdate reUpdate = new ReUpdate()

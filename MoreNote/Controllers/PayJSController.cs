@@ -20,13 +20,19 @@ namespace MoreNote.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class PayJSController : BaseController
     {
-        public PayJSController(IHttpContextAccessor accessor) : base(accessor)
+        private DataContext dataContext;
+        private ConfigFileService configFileService;
+        public PayJSController(DependencyInjectionService dependencyInjectionService,DataContext dataContext) : base(dependencyInjectionService)
         {
+            this.dataContext = dataContext;
+            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            webSiteConfig = configFileService.GetWebConfig();
+            pay = new Payjs(webSiteConfig.Payjs.PayJS_MCHID, webSiteConfig.Payjs.PayJS_Key);
 
         }
-        private static WebSiteConfig webSiteConfig = ConfigFileService.GetWebConfig();
+        private  WebSiteConfig webSiteConfig;
 
-        private static Payjs pay = new Payjs(webSiteConfig.Payjs.PayJS_MCHID, webSiteConfig.Payjs.PayJS_Key);
+        private  Payjs pay ;
 
         public IActionResult Index()
         {
@@ -61,11 +67,10 @@ namespace MoreNote.Controllers
                 NativeRequestMessage = nativeRequestMessage.ToJsonString(),
                 NativeResponseMessage = responseMessage.ToJsonString()
             };
-            using (var db = new DataContext())
-            {
-                var orderObj = db.GoodOrder.Add(goodOrder);
-                db.SaveChanges();
-            }
+          
+                var orderObj = dataContext.GoodOrder.Add(goodOrder);
+                dataContext.SaveChanges();
+            
 
             return View();
         }
@@ -95,7 +100,7 @@ namespace MoreNote.Controllers
                 {
                     using (var db = new DataContext())
                     {
-                        var orderObj = db.GoodOrder.Where(b => b.payjs_order_id.Equals(notifyResponseMessage.payjs_order_id)).FirstOrDefault();
+                        var orderObj = dataContext.GoodOrder.Where(b => b.payjs_order_id.Equals(notifyResponseMessage.payjs_order_id)).FirstOrDefault();
                         if (orderObj.total_fee != notifyResponseMessage.total_fee)
                         {
                             throw new Exception("金额不正确");
@@ -105,7 +110,7 @@ namespace MoreNote.Controllers
                         orderObj.openid = notifyResponseMessage.openid;
                         orderObj.Notify = true;
                         orderObj.NotifyResponseMessage = notifyResponseMessage.ToJsonString();
-                        db.SaveChanges();
+                        dataContext.SaveChanges();
                         Response.StatusCode = (int)HttpStatusCode.OK;
                         return Content("OK");
                     }

@@ -9,11 +9,9 @@ namespace MoreNote.Logic.DB
 
         public DataContext()
         {
+            
         }
-        public static DataContext getDataContext()
-        {
-            return new DataContext();
-        }
+     
         public DataContext(DbContextOptions<DataContext> options)
           : base(options)
         {
@@ -25,15 +23,7 @@ namespace MoreNote.Logic.DB
           //  modelBuilder.Entity<UserEntity>().HasIndex(b => b.Userid);
 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //测试服务器
-            //var connection = "Host=127.0.0.1.5;Port=5432;Database=dbname; User ID=userid;Password=password;";
-           // var postgres = Environment.GetEnvironmentVariable("postgres");
-            var postgres = ConfigFileService.GetWebConfig();
-            optionsBuilder.UseNpgsql(postgres.PostgreSql.Connection);
-            
-        }
+      
 
         public DbSet<Album> Album { get; set; }
         public DbSet<AttachInfo> AttachInfo { get; set;}

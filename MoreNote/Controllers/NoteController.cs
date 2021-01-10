@@ -14,10 +14,15 @@ namespace MoreNote.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class NoteController : BaseController
     {
-        public NoteController(IHttpContextAccessor accessor) : base(accessor)
+        private NotebookService notebookService;
+        private NoteContentService noteContentService;
+        private NoteService noteService;
+        public NoteController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
 
-
+            this.notebookService = dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService))as NotebookService;
+            this.noteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService))as NoteService;
+            this.noteContentService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteContentService))as NoteContentService;
         }
       
         public IActionResult Note()
@@ -28,7 +33,7 @@ namespace MoreNote.Controllers
             ViewBag.blog = LanguageResource.GetBlog();
             Dictionary<string, string> js = new Dictionary<string, string>();
             User user = GetUserBySession();
-            Notebook[] noteBoooks = NotebookService.GetNoteBookTree(user.UserId);
+            Notebook[] noteBoooks = notebookService.GetNoteBookTree(user.UserId);
             string json = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
             //json  = System.IO.File.ReadAllText(@"E:\Project\JSON\notebook\GetNotebooks.json");
             //js.Add("notebooks", json);
@@ -44,12 +49,12 @@ namespace MoreNote.Controllers
         {
             long noteNumber = noteId.ToLongByHex();
             long userNumber = GetUserIdBySession();
-            NoteContent noteContent = NoteContentService.GetValidNoteContent(noteId.ToLongByHex(), GetUserIdBySession());
+            NoteContent noteContent = noteContentService.GetValidNoteContent(noteId.ToLongByHex(), GetUserIdBySession());
             return Json(noteContent, MyJsonConvert.GetOptions());
         }
         public JsonResult ListNotes(string notebookId)
         {
-            Note[] notes = NoteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(), false);
+            Note[] notes = noteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(), false);
             //string json = JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
             return Json(notes,MyJsonConvert.GetOptions());
 

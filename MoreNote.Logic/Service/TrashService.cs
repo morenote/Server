@@ -5,6 +5,20 @@ namespace MoreNote.Logic.Service
 {
     public class TrashService
     {
+        private AttachService AttachService { get; set; }
+
+        private NoteService NoteService { get; set; }
+        private NotebookService NotebookService { get; set; }
+
+        private NoteContentService NoteContentService { get; set; }
+
+        public TrashService(DependencyInjectionService dependencyInjectionService)
+        {
+            AttachService = dependencyInjectionService.ServiceProvider.GetService(typeof(AttachService)) as AttachService;
+            NoteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService)) as NoteService;
+            NotebookService = dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService)) as NotebookService;
+            NoteContentService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteContentService))as NoteContentService;
+        }
         // 回收站
         // 可以移到noteSerice中
 
@@ -19,28 +33,28 @@ namespace MoreNote.Logic.Service
         // 删除note
         // 应该放在回收站里
         // 有trashService
-        public static bool DeleteNote(long noteId, long userId)
+        public  bool DeleteNote(long noteId, long userId)
         {
             throw new Exception();
         }
         // 删除别人共享给我的笔记
         // 先判断我是否有权限, 笔记是否是我创建的
-        public static bool DeleteSharedNote(long noteId, long myUserId)
+        public  bool DeleteSharedNote(long noteId, long myUserId)
         {
             throw new Exception();
         }
         // recover
-        public static bool recoverNote(long noteId, long notebookId, long userId)
+        public  bool recoverNote(long noteId, long notebookId, long userId)
         {
             throw new Exception();
         }
         // 删除trash
-        public static bool DeleteTrash(long noteId, long userId)
+        public  bool DeleteTrash(long noteId, long userId)
         {
             throw new Exception();
         }
         //todo 删除废纸篓
-        public static bool DeleteTrashApi(long noteId, long userId, int usn, out string msg, out int afterUsn)
+        public  bool DeleteTrashApi(long noteId, long userId, int usn, out string msg, out int afterUsn)
         {
             Note note = NoteService.GetNote(noteId, userId);
             if (note==null)
@@ -77,7 +91,7 @@ namespace MoreNote.Logic.Service
         }
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public static Note[] ListNotes(long userId, int pageNumber, int pageSize, string sortField, bool isAsc)
+        public  Note[] ListNotes(long userId, int pageNumber, int pageSize, string sortField, bool isAsc)
         {
             throw new Exception();
         }
