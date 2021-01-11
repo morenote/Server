@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Filter.Global;
@@ -31,28 +32,10 @@ namespace MoreNote.Controllers
         private ConfigFileService configFileService;
     
 
-        public APIController(DependencyInjectionService dependencyInjectionService,DataContext dataContext) : base( dependencyInjectionService)
-        {
-            this.AccessService = dependencyInjectionService.ServiceProvider.GetService(typeof(AccessService)) as AccessService;
-            this.dataContext = dataContext;
-            randomImageService=dependencyInjectionService.ServiceProvider.GetService(typeof(RandomImageService))as RandomImageService;
-            configFileService =
-                dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService)) as ConfigFileService;
-            webcConfig = configFileService.GetWebConfig();
-            upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername,
-                webcConfig.UpYunCDN.UpyunPassword);
-        }
-        //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-        private static  WebSiteConfig webcConfig;
-
-        private static  UpYun upyun ;
-
-        private static  Random random = new Random();
-
         /// <summary>
         /// 保险丝
         /// </summary>
-        private static readonly int _randomImageFuseSize = webcConfig.PublicAPI.RandomImageFuseSize;
+        private  readonly int _randomImageFuseSize;
 
         /// <summary>
         /// 保险丝计数器
@@ -61,11 +44,11 @@ namespace MoreNote.Controllers
         private static int _fuseCount = 0;
 
         private static readonly object _fuseObj = new object();
-
+        
         /// <summary>
         /// 随机数组的大小
         /// </summary>
-        private static readonly int size = webcConfig.PublicAPI.RandomImageSize;
+        private  int  size;
 
         /// <summary>
         /// 随即图片初始化的时间
@@ -76,6 +59,29 @@ namespace MoreNote.Controllers
 
         //目录分隔符
         private static readonly char dsc = Path.DirectorySeparatorChar;
+          //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
+        private static  WebSiteConfig webcConfig;
+
+        private static  UpYun upyun ;
+
+        private static  Random random = new Random();
+
+
+        public APIController(DependencyInjectionService dependencyInjectionService,DataContext dataContext) : base( dependencyInjectionService)
+        {
+            this.AccessService = dependencyInjectionService.GetAccessService();
+            this.dataContext = dataContext;
+            randomImageService=dependencyInjectionService.ServiceProvider.GetRequiredService<RandomImageService>();
+            configFileService =dependencyInjectionService.ServiceProvider.GetRequiredService<ConfigFileService>();
+            webcConfig = configFileService.GetWebConfig();
+            upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername,
+                webcConfig.UpYunCDN.UpyunPassword);
+           _randomImageFuseSize=  webcConfig.PublicAPI.RandomImageFuseSize;
+            size = webcConfig.PublicAPI.RandomImageSize;
+        }
+      
+        
+
 
       
         class RandomImageResult
