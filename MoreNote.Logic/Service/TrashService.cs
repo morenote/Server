@@ -5,19 +5,11 @@ namespace MoreNote.Logic.Service
 {
     public class TrashService
     {
-        private AttachService AttachService { get; set; }
-
-        private NoteService NoteService { get; set; }
-        private NotebookService NotebookService { get; set; }
-
-        private NoteContentService NoteContentService { get; set; }
-
+       
+        DependencyInjectionService dependencyInjectionService;
         public TrashService(DependencyInjectionService dependencyInjectionService)
         {
-            AttachService = dependencyInjectionService.ServiceProvider.GetService(typeof(AttachService)) as AttachService;
-            NoteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService)) as NoteService;
-            NotebookService = dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService)) as NotebookService;
-            NoteContentService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteContentService))as NoteContentService;
+          this.dependencyInjectionService = dependencyInjectionService;
         }
         // 回收站
         // 可以移到noteSerice中
@@ -56,7 +48,11 @@ namespace MoreNote.Logic.Service
         //todo 删除废纸篓
         public  bool DeleteTrashApi(long noteId, long userId, int usn, out string msg, out int afterUsn)
         {
-            Note note = NoteService.GetNote(noteId, userId);
+            NoteService noteService=dependencyInjectionService.GetNoteService();
+            AttachService attachService=dependencyInjectionService.GetAttachService();
+            NoteContentService noteContentService=dependencyInjectionService.GetNoteContentService();
+            NotebookService notebookService=dependencyInjectionService.GetNotebookService();
+            Note note = noteService.GetNote(noteId, userId);
             if (note==null)
             {
                 msg = "notExists";
@@ -74,18 +70,18 @@ namespace MoreNote.Logic.Service
             // 设置删除位
             //afterUsn = UserService.IncrUsn(userId);
             // delete note's attachs
-           var result= NoteService.SetDeleteStatus(noteId,userId,out afterUsn);
+           var result= noteService.SetDeleteStatus(noteId,userId,out afterUsn);
             if (!result)
             {
                 msg= "设置删除位错误";
                 afterUsn=0;
                 return false;
             }
-            AttachService.DeleteAllAttachs(noteId, userId);
+            attachService.DeleteAllAttachs(noteId, userId);
 
             // 删除content history           
-            NoteContentService.DeleteByIdAndUserId(noteId, userId, true);
-            NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
+            noteContentService.DeleteByIdAndUserId(noteId, userId, true);
+            notebookService.ReCountNotebookNumberNotes(note.NotebookId);
             msg = "";
             return true;
         }

@@ -1,5 +1,4 @@
-﻿using MoreNote.Logic.DB;
-using MoreNote.Logic.Entity;
+﻿using MoreNote.Logic.Entity;
 using System;
 using System.Linq;
 
@@ -7,17 +6,20 @@ namespace MoreNote.Logic.Service
 {
     public class APPStoreInfoService
     {
-        private DataContext dataContext;
+        private DependencyInjectionService dependencyInjectionService;
 
-        public APPStoreInfoService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        public APPStoreInfoService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dataContext;
+            this.dependencyInjectionService = dependencyInjectionService;
         }
 
         public AppInfo[] GetAPPList()
         {
-            var result = dataContext.AppInfo;
-            return result.ToArray();
+            using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
+                var result = dataContext.AppInfo;
+                return result.ToArray();
+            }
         }
 
         public bool AddAPP(AppInfo appInfo)
@@ -25,9 +27,12 @@ namespace MoreNote.Logic.Service
             int a = 0;
             try
             {
-                var result = dataContext.AppInfo.Add(appInfo);
-                a = dataContext.SaveChanges();
-                return a > 0;
+                using (var dataContext = dependencyInjectionService.GetDataContext())
+                {
+                    var result = dataContext.AppInfo.Add(appInfo);
+                    a = dataContext.SaveChanges();
+                    return a > 0;
+                }
             }
             catch (Exception ex)
             {

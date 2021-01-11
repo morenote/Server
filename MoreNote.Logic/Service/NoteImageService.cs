@@ -10,11 +10,11 @@ namespace MoreNote.Logic.Service
 {
     public class NoteImageService
     {
-        private DataContext dataContext;
+        DependencyInjectionService dependencyInjectionService;
 
-        public NoteImageService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        public NoteImageService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dataContext;
+           	this.dependencyInjectionService = dependencyInjectionService;
         }
         // 通过id, userId得到noteIds
 
@@ -53,10 +53,15 @@ namespace MoreNote.Logic.Service
         }
         public  NoteImage[] getImagesByNoteId(long noteId)
         {
-          
-                var result = dataContext.NoteImage.Where(b => b.NoteId==noteId);
+            	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		 var result = dataContext.NoteImage.Where(b => b.NoteId==noteId);
                 NoteImage[] noteImages = result.ToArray();
                 return noteImages;
+		
+		}
+          
+               
          
             
         }

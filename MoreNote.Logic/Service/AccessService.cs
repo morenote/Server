@@ -9,20 +9,20 @@ namespace MoreNote.Logic.Service
 {
    public  class AccessService
    {
-       private DataContext dataContext;
+       private DependencyInjectionService dependencyInjectionService;
 
-       public AccessService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+       public AccessService(DependencyInjectionService dependencyInjectionService)
        {
-           this.dataContext = dataContext;
+           this.dependencyInjectionService = dependencyInjectionService;
        }
 
        public  async  Task<bool> InsertAccessAsync(AccessRecords ar)
         {
-          
-            
-                var result = dataContext.AccessRecords.Add(ar);
+            using(DataContext dataContext = dependencyInjectionService.GetDataContext())
+            {
+                   var result = dataContext.AccessRecords.Add(ar);
                 return await dataContext.SaveChangesAsync() > 0;
-            
+            }
         }
     }
 }

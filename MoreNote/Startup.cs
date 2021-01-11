@@ -147,7 +147,7 @@ namespace MoreNote
             
             services.AddSingleton(typeof(DependencyInjectionService));
             
-            DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
+           // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MoreNote.Logic.DB;
+using System;
 
 namespace MoreNote.Logic.Service
 {
@@ -11,16 +9,93 @@ namespace MoreNote.Logic.Service
     /// </summary>
     public class DependencyInjectionService
     {
-        public  static IServiceProvider IServiceProvider { get; set; }
-        public IServiceProvider ServiceProvider
+        public IServiceProvider ServiceProvider { get; set; }
+
+        public DependencyInjectionService(IServiceProvider serviceProvider)
         {
-            get => IServiceProvider;
+            this.ServiceProvider = serviceProvider;
         }
 
-        public DependencyInjectionService()
+        public DataContext GetDataContext()
         {
+                 var scope = ServiceProvider.CreateScope();
+                var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                return dataContext;
             
-            
+        }
+
+        public UserService GetUserService()
+        {
+            return ServiceProvider.GetRequiredService<UserService>();
+        }
+
+        public NoteImageService GetNoteImageService()
+        {
+            return ServiceProvider.GetRequiredService<NoteImageService>();
+        }
+
+        public NoteContentService GetNoteContentService()
+        {
+            return ServiceProvider.GetRequiredService<NoteContentService>();
+        }
+
+        public AttachService GetAttachService()
+        {
+            return ServiceProvider.GetRequiredService<AttachService>();
+        }
+
+        public CommonService GetCommonService()
+        {
+            return ServiceProvider.GetRequiredService<CommonService>();
+        }
+
+        public InitServices GetInitServices()
+        {
+            return ServiceProvider.GetRequiredService<InitServices>();
+        }
+
+        public NotebookService GetNotebookService()
+        {
+            return ServiceProvider.GetRequiredService<NotebookService>();
+        }
+
+        public TagService GetTagService()
+        {
+            return ServiceProvider.GetRequiredService<TagService>();
+        }
+
+        public TokenSerivce GetTokenSerivce()
+        {
+            return ServiceProvider.GetRequiredService<TokenSerivce>();
+        }
+
+        public NoteService GetNoteService()
+        {
+            return ServiceProvider.GetRequiredService<NoteService>();
+        }
+
+        public BlogService GetBlogService()
+        {
+            return ServiceProvider.GetRequiredService<BlogService>();
+        }
+
+        public ConfigService GetConfigService()
+        {
+            return ServiceProvider.GetRequiredService<ConfigService>();
+        }
+
+        public ConfigFileService GetConfigFileService()
+        {
+            return ServiceProvider.GetRequiredService<ConfigFileService>();
+        }
+
+        public EmailService GetEmailService()
+        {
+            return ServiceProvider.GetRequiredService<EmailService>();
+        }
+        public AccessService GetAccessService()
+        {
+            return ServiceProvider.GetRequiredService<AccessService>();;
         }
     }
 }

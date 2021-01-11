@@ -1,26 +1,23 @@
-﻿using MoreNote.Logic.DB;
-using MoreNote.Logic.Entity;
+﻿using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MoreNote.Logic.Service
 {
     public class RandomImageService
     {
-        private DataContext dataContext;
+        private DependencyInjectionService dependencyInjectionService;
 
         public RandomImageService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dependencyInjectionService.ServiceProvider.GetRequiredService<DataContext>();
+            this.dependencyInjectionService = dependencyInjectionService;
         }
 
         private static Dictionary<string, List<RandomImage>> randomImageList = null;
         private static List<string> _imageTypeList = null;
-        
-        public  List<string> GetImageTypeList()
+
+        public List<string> GetImageTypeList()
         {
             if (_imageTypeList == null)
             {
@@ -120,7 +117,7 @@ namespace MoreNote.Logic.Service
             _imageTypeList.Add("鹿鸣系列视频");
         }
 
-        public  Dictionary<string, List<RandomImage>> GetRandomImageList()
+        public Dictionary<string, List<RandomImage>> GetRandomImageList()
         {
             if (randomImageList == null)
             {
@@ -129,17 +126,19 @@ namespace MoreNote.Logic.Service
             return randomImageList;
         }
 
-        public  async System.Threading.Tasks.Task InsertImageAsync(RandomImage randomImage)
+        public async System.Threading.Tasks.Task InsertImageAsync(RandomImage randomImage)
         {
-           
+            using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
                 dataContext.RandomImage.Add(randomImage);
                 await dataContext.SaveChangesAsync();
-            
+            }
         }
 
-        public  RandomImage GetRandomImage(string type)
+        public RandomImage GetRandomImage(string type)
         {
-           
+            using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
                 int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
                 if (count < 1)
                 {
@@ -149,12 +148,13 @@ namespace MoreNote.Logic.Service
                 int num = random.Next(0, count);
                 RandomImage result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Skip(num).FirstOrDefault();
                 return result;
-            
+            }
         }
 
-        public  List<RandomImage> GetRandomImages(string type, int size)
+        public List<RandomImage> GetRandomImages(string type, int size)
         {
-          
+            using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
                 int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
                 if (count < size)
                 {
@@ -162,23 +162,26 @@ namespace MoreNote.Logic.Service
                 }
                 List<RandomImage> result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Take(size).ToList<RandomImage>();
                 return result;
-            
+            }
         }
 
-        public  bool Exist(string type, string fileSHA1)
+        public bool Exist(string type, string fileSHA1)
         {
-           
+            using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
                 int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.FileSHA1.Equals(fileSHA1)).Count();
                 return count > 0;
-            
+            }
         }
 
-        public  bool Exist(string fileSHA1)
+        public bool Exist(string fileSHA1)
         {
+            	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		 int count = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).Count();
+            return count > 0;
+		}
            
-                int count = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).Count();
-                return count > 0;
-            
         }
     }
 }

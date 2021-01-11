@@ -9,31 +9,35 @@ namespace MoreNote.Logic.Service
 {
     public class UserService
     {
-        private DataContext dataContext;
-        private BlogService blogService;
-        private EmailService emailService;
+        DependencyInjectionService dependencyInjectionService;
 
-        public UserService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        public UserService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dataContext;
-            this.blogService = dependencyInjectionService.ServiceProvider.GetService(typeof(BlogService)) as BlogService;
-            this.emailService = dependencyInjectionService.ServiceProvider.GetService(typeof(EmailService)) as EmailService;
+           this.dependencyInjectionService = dependencyInjectionService;
         }
 
         public  User GetUser(string email)
-        {
-          
-                var result = dataContext.User
+        {	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		 var result = dataContext.User
                     .Where(b => b.Email.Equals(email)).FirstOrDefault();
                 return result;
+		
+		}
+          
+               
         }
         public  User GetUserByUserId(long userid)
         {
 
-          
-                var result = dataContext.User
+          	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		   var result = dataContext.User
                     .Where(b => b.UserId.Equals(userid)).FirstOrDefault();
                 return result;
+		
+		}
+             
             
         }
 
@@ -45,13 +49,18 @@ namespace MoreNote.Logic.Service
         /// <returns>自增后的usn</returns>
         public  int IncrUsn(long userid)
         {
-            
-                var user = dataContext.User
+            	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+                 var user = dataContext.User
                     .Where(b => b.UserId == (userid
                     )).FirstOrDefault();
                 user.Usn += 1;
                 dataContext.SaveChanges();
                 return user.Usn;
+		
+		
+		}
+               
             
         }
         public  int GetUsn(long userId)
@@ -61,13 +70,18 @@ namespace MoreNote.Logic.Service
         public  bool AddUser(User
              user)
         {
+            EmailService emailService=dependencyInjectionService.GetEmailService();
             if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             emailService.RegisterSendActiveEmail(user, user.Email);
-           
-                dataContext.User.Add(user);
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		 dataContext.User.Add(user);
                 return dataContext.SaveChanges()>0;
+		
+		}
+               
             
         }
         // 通过email得到userId
@@ -88,8 +102,10 @@ namespace MoreNote.Logic.Service
         // 是否存在该用户 email
         public  bool IsExistsUser(string email)
         {
-           
-                if (dataContext.User.Where(m => m.Email.Equals(email.ToLower())).Count() > 0)
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		
+		 if (dataContext.User.Where(m => m.Email.Equals(email.ToLower())).Count() > 0)
                 {
                     return true;
                 }
@@ -97,6 +113,8 @@ namespace MoreNote.Logic.Service
                 {
                     return false;
                 }
+		}
+               
             
         }
         // 是否存在该用户 username
@@ -123,10 +141,14 @@ namespace MoreNote.Logic.Service
         // 得到用户信息 userId
         public  User GetUserInfo(long userId)
         {
-           
-                var result = dataContext.User
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		  var result = dataContext.User
                     .Where(b => b.UserId== userId).FirstOrDefault();
                 return result;
+		
+		}
+              
             
         }
         // 得到用户信息 email
@@ -171,6 +193,7 @@ namespace MoreNote.Logic.Service
         public  UserAndBlogUrl GetUserAndBlogUrl(long userId)
         {
             User user = GetUserInfo(userId);
+            BlogService blogService=dependencyInjectionService.GetBlogService();
             UserBlog userBlog = blogService.GetUserBlog(userId);
             BlogUrls blogUrls = blogService.GetBlogUrls(userBlog, user);
             UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
@@ -200,9 +223,13 @@ namespace MoreNote.Logic.Service
         }
         public  User GetUserByUserName(string Username)
         {
-           
-                var result = dataContext.User.Where(b => b.Username.Equals(Username.ToLower()));
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		
+		        var result = dataContext.User.Where(b => b.Username.Equals(Username.ToLower()));
                 return result == null ? null : result.FirstOrDefault();
+		}
+                
 
             
         }

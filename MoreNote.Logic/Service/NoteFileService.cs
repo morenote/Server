@@ -21,11 +21,11 @@ namespace MoreNote.Logic.Service
         
         const string DEFAULT_ALBUM_ID = "52d3e8ac99c37b7f0d000001";
 
-        private DataContext dataContext;
+         DependencyInjectionService dependencyInjectionService;
 
-        public NoteFileService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        public NoteFileService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dataContext;
+           this.dependencyInjectionService = dependencyInjectionService;
         }
 
         public  async Task<bool> SaveUploadFileOnUPYunAsync(UpYun upyun, IFormFile formFile, string uploadDirPath, string fileName)
@@ -94,9 +94,14 @@ namespace MoreNote.Logic.Service
         }
         private  bool AddFile(NoteFile noteFile)
         {
-           
-                dataContext.File.Add(noteFile);
+            	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+                 dataContext.File.Add(noteFile);
                 return dataContext.SaveChanges()>0;
+		
+		}
+           
+               
 
             
         }
@@ -141,10 +146,14 @@ namespace MoreNote.Logic.Service
         }
         public  NoteFile GetFile(long fileId)
         {
-          
-               var result= dataContext.File.Where(b=>b.FileId==fileId);
+          	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		   var result= dataContext.File.Where(b=>b.FileId==fileId);
                var file=(result==null?null:result.FirstOrDefault());
                return file;
+		
+		}
+            
 
             
         }
