@@ -10,11 +10,10 @@ namespace MoreNote.Logic.Service
 {
     public class SpamService
     {
-        private DataContext dataContext;
-        private ConfigFileService configFileService;
-        public SpamService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+       DependencyInjectionService dependencyInjectionService;
+        public SpamService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dataContext;
+            this.dependencyInjectionService = dependencyInjectionService;
         }
 
         private static ConsumeModel consumeModel = null;
@@ -23,6 +22,7 @@ namespace MoreNote.Logic.Service
 
         private  ConsumeModel GetConsumeModel()
         {
+            ConfigFileService configFileService=dependencyInjectionService.GetConfigFileService();
             WebSiteConfig webSiteConfig = configFileService.GetWebConfig();
             if (consumeModel == null)
             {
@@ -56,9 +56,13 @@ namespace MoreNote.Logic.Service
         }
         public  void AddSpamInfo(SpamInfo spamInfo)
         {
-           
-                dataContext.SpamDB.Add(spamInfo);
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		dataContext.SpamDB.Add(spamInfo);
                 dataContext.SaveChanges();
+		
+		}
+                
             
 
         }

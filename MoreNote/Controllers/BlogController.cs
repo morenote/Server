@@ -16,7 +16,7 @@ namespace MoreNote.Controllers
 {
     public class BlogController : BaseController
     {
-        private AccessService AccessService { get; set; }
+        private AccessService accessService ;
         private BlogService blogService;
         private ConfigService configService;
         private TagService tagService;
@@ -24,7 +24,7 @@ namespace MoreNote.Controllers
         private NoteService noteService;
         public BlogController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
-            this.AccessService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService)) as AccessService;
+            this.accessService = dependencyInjectionService.GetAccessService();
             this.blogService = dependencyInjectionService.ServiceProvider.GetService(typeof(BlogService))as BlogService;
             this.configService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigService))as ConfigService;
             this.tagService = dependencyInjectionService.ServiceProvider.GetService(typeof(TagService))as TagService;
@@ -83,7 +83,7 @@ namespace MoreNote.Controllers
                 TimeInterval = -1,
                 url = url
             };
-            await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
+            await accessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
         }
 
         private User ActionInitBlogUser(string blogUserName)

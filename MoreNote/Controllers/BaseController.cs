@@ -48,7 +48,7 @@ namespace MoreNote.Controllers
             this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce)) as TokenSerivce;
             this.noteFileService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteFileService)) as NoteFileService;
             this.configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
-            
+            this.userService=dependencyInjectionService.GetUserService();
             _accessor = dependencyInjectionService.ServiceProvider.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
             if (config!=null&&config.UpYunCDN!=null)
             {

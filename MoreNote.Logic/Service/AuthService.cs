@@ -9,20 +9,17 @@ namespace MoreNote.Logic.Service
 {
     public class AuthService
     {
-        private UserService userService;
-        private TagService tagService;
-        private TokenSerivce tokenSerivce;
-
+     
+          DependencyInjectionService dependencyInjectionService;
         public AuthService(DependencyInjectionService dependencyInjectionService)
         {
-            this.userService = dependencyInjectionService.ServiceProvider.GetService(typeof(UserService)) as UserService;
-            this.tagService = dependencyInjectionService.ServiceProvider.GetService(typeof(TagService)) as TagService;
-            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce)) as TokenSerivce;
+           this.dependencyInjectionService=dependencyInjectionService;
         }
 
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
         {
-            
+            UserService userService=dependencyInjectionService.GetUserService();
+            TokenSerivce tokenSerivce=dependencyInjectionService.GetTokenSerivce();
             user = userService.GetUser(email);
             if (user != null)
             {
@@ -69,6 +66,7 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public  bool IsLogin(long userid,string tokenStr)
         {
+            var tokenSerivce=dependencyInjectionService.ServiceProvider.GetRequiredService<TokenSerivce>();
             Token token = tokenSerivce.GetTokenByTokenStr(userid
                 , tokenStr);
             if (token!=null)
@@ -109,6 +107,7 @@ namespace MoreNote.Logic.Service
                 Msg="参数错误";
                 return false;
             }
+            var userService=dependencyInjectionService.ServiceProvider.GetRequiredService<UserService>();
             if (userService.IsExistsUser(email))
             {
                Msg= "userHasBeenRegistered-"+ email;
@@ -145,9 +144,9 @@ namespace MoreNote.Logic.Service
             }
 
         }
-        public  bool Register(User
-             user)
+        public  bool Register(User user)
         {
+            var userService=dependencyInjectionService.ServiceProvider.GetRequiredService<UserService>();
             if (userService.AddUser(user))
             {
                 return true;

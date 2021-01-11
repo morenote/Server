@@ -7,31 +7,37 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using Z.EntityFramework.Plus;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MoreNote.Logic.Service
 {
     public class NotebookService
     {
-        private DataContext dataContext;
-        private UserService userService;
-
-        public NotebookService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+ 
+         DependencyInjectionService dependencyInjectionService;
+        public NotebookService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dataContext;
-            this.userService = dependencyInjectionService.ServiceProvider.GetService(typeof(UserService)) as UserService;
+            this.dependencyInjectionService = dependencyInjectionService;
+         
         }
 
         public  Notebook GetNotebookById(long notebookId)
         {
            
-                var result = dataContext.Notebook.
+            	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		        var result = dataContext.Notebook.
                     Where(b => b.NotebookId == notebookId).FirstOrDefault();
                 return result;
+		
+		}
+                
             
 
         }
         public  bool AddNotebook(Notebook notebook)
         {
+            UserService userService=dependencyInjectionService.GetUserService();
             if (notebook.NotebookId==0)
             {
                 notebook.NotebookId = SnowFlakeNet.GenerateSnowFlakeID();
@@ -43,14 +49,19 @@ namespace MoreNote.Logic.Service
             DateTime now = DateTime.Now;
             notebook.CreatedTime = now;
             notebook.UpdatedTime = now;
-
-           
-                var result = dataContext.Notebook.Add(notebook);
+            	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		
+		 var result = dataContext.Notebook.Add(notebook);
                 return dataContext.SaveChanges() > 0;
+		}
+           
+               
             
         }
         public  bool AddNotebook(ref Notebook notebook)
         {
+            UserService userService=dependencyInjectionService.GetUserService();
             if (notebook.NotebookId == 0)
             {
                 notebook.NotebookId = SnowFlakeNet.GenerateSnowFlakeID();
@@ -63,15 +74,21 @@ namespace MoreNote.Logic.Service
             notebook.CreatedTime = now;
             notebook.UpdatedTime = now;
 
-          
-                var result = dataContext.Notebook.Add(notebook);
+          	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		 var result = dataContext.Notebook.Add(notebook);
                 return dataContext.SaveChanges() > 0;
+		
+		}
+               
             
         }
         public  bool UpdateNotebookApi(long userId,long notebookId,string title,long parentNotebookId,int seq,int usn,out Notebook notebook)
         {
-            
-                var result = dataContext.Notebook.
+        using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+                UserService userService=dependencyInjectionService.GetUserService();
+		       var result = dataContext.Notebook.
                     Where(b=>b.NotebookId==notebookId);
                 if (result==null)
                 {
@@ -85,16 +102,23 @@ namespace MoreNote.Logic.Service
                 notebook.UpdatedTime = DateTime.Now;
                 notebook.ParentNotebookId = parentNotebookId;
                 return dataContext.SaveChanges() > 0;
+		
+		}
+         
             
         }
 
 
         public  Notebook[] GetAll(long userid)
         {
-           
-                var result = dataContext.Notebook
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		     var result = dataContext.Notebook
                     .Where(b => b.UserId == userid).ToArray<Notebook>();
                 return result;
+		
+		}
+           
             
         }
         public  Notebook[] GetNoteBookTree(long userid)
@@ -122,10 +146,14 @@ namespace MoreNote.Logic.Service
         }
         public  Notebook[] GeSyncNotebooks(long userid,int afterUsn,int maxEntry)
         {
-           
-                var result = dataContext.Notebook.
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{   var result = dataContext.Notebook.
                     Where(b=>b.UserId==userid&&b.Usn>afterUsn).Take(maxEntry);
                 return result.ToArray();
+		
+		
+		}
+             
             
         }
        
@@ -201,11 +229,16 @@ namespace MoreNote.Logic.Service
         // API调用, 删除笔记本, 不作笔记控制
         public  bool DeleteNotebookForce(long userId, long notebookId, int usn)
         {
-           
-                //var result = dataContext.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+                        //var result = dataContext.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
                 var result = dataContext.Notebook.Where(note => note.NotebookId == notebookId && note.UserId == userId && note.Usn == usn).Update(x => new Notebook { IsDeleted = true });
                 return result > 0;
             
+		
+		
+		}
+        
         }
 
         // 排序
@@ -226,11 +259,15 @@ namespace MoreNote.Logic.Service
         // trashService: DeleteNote (recove不用, 都统一在MoveNote里了)
         public  bool ReCountNotebookNumberNotes(long? notebookId)
         {
-           
-                var count = dataContext.Note.Where(b=>b.NotebookId==notebookId&&b.IsTrash==false&&b.IsDeleted==false).Count();
+           	using(var dataContext = dependencyInjectionService.GetDataContext())
+		{
+		
+		 var count = dataContext.Note.Where(b=>b.NotebookId==notebookId&&b.IsTrash==false&&b.IsDeleted==false).Count();
                 var notebook=dataContext.Notebook.Where(b=>b.NotebookId==notebookId).FirstOrDefault();
                 notebook.NumberNotes=count;
                 return dataContext .SaveChanges()>0;
+		}
+               
         }
         public  void ReCountAll()
         {
