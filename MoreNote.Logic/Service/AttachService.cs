@@ -148,8 +148,7 @@ namespace MoreNote.Logic.Service
         {
             if (attachId!=0&&userId!=0)
             {
-                using (var db=new DataContext())
-                {
+              
                   var attach=  dataContext.AttachInfo.Where(b=>b.AttachId==attachId&&b.UserId==userId).FirstOrDefault();
                     long noteId= attach.NoteId;
                     string path=attach.Path;
@@ -158,7 +157,7 @@ namespace MoreNote.Logic.Service
                     DeleteAttachOnDisk(path);
                     return true;
                  // dataContext.AttachInfo.Remove(attach);
-                }
+                
             }
             else
             {
@@ -176,12 +175,11 @@ namespace MoreNote.Logic.Service
         }
         public  AttachInfo GetAttach(long attachId)
         {
-            using (var db=new DataContext())
-            {
+           
                 var result=dataContext.AttachInfo.Where(b=>b.AttachId==attachId);
                 return result==null?null:result.FirstOrDefault();
 
-            }
+            
         }
         public  bool CopyAttachs(long noteId,long toNoteId)
         {

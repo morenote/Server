@@ -181,11 +181,10 @@ namespace MoreNote.Logic.Service
         {
             if (Including_the_history)
             {
-                using (var db=new DataContext())
-                {
+              
                     dataContext.NoteContent.Where(b=>b.NoteId==noteId&&b.UserId==userId).Delete();
 
-                }
+                
 
             }
             else

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MoreNote.Logic.Service
 {
@@ -11,9 +12,9 @@ namespace MoreNote.Logic.Service
     {
         private DataContext dataContext;
 
-        public RandomImageService(DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        public RandomImageService(DependencyInjectionService dependencyInjectionService)
         {
-            this.dataContext = dataContext;
+            this.dataContext = dependencyInjectionService.ServiceProvider.GetRequiredService<DataContext>();
         }
 
         private static Dictionary<string, List<RandomImage>> randomImageList = null;

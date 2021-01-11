@@ -55,7 +55,12 @@ namespace MoreNote
            
             //增加数据库
             var connection =config.PostgreSql.Connection;
-            services.AddDbContextPool<DataContext>(options => options.UseNpgsql(connection));
+            services.AddEntityFrameworkNpgsql();
+            services.AddDbContextPool<DataContext>((serviceProvider,optionsBuilder) =>
+            { 
+                optionsBuilder.UseNpgsql(connection);
+                optionsBuilder.UseInternalServiceProvider(serviceProvider);
+                });
            // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
             
            

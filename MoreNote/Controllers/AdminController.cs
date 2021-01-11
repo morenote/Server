@@ -18,10 +18,12 @@ namespace MoreNote.Controllers
     {
         private APPStoreInfoService APPStoreInfoService { get; set; }
         private AccessService AccessService { get; set; }
+        DataContext dataContext;
    
         public AdminController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
         {
             this.AccessService = dependencyInjectionService.ServiceProvider.GetService(typeof(AccessService))as AccessService;
+            this.dataContext = dependencyInjectionService.ServiceProvider.GetService(typeof(DataContext))as DataContext;
          
             this.APPStoreInfoService = dependencyInjectionService.ServiceProvider.GetService(typeof(APPStoreInfoService))as APPStoreInfoService;
         }
@@ -29,24 +31,22 @@ namespace MoreNote.Controllers
 
         public async Task<IActionResult> Index()
         {
-            using (DataContext _context = new DataContext())
-            {
+            
                 //  return View(await _context.AppInfo.ToListAsync());
                 return View(APPStoreInfoService.GetAPPList());
-            }
+            
         }
 
         // GET: Admin/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            using (DataContext _context = new DataContext())
-            {
+            
                 if (id == null)
                 {
                     return NotFound();
                 }
 
-                var appInfo = await _context.AppInfo
+                var appInfo = await dataContext.AppInfo
                     .FirstOrDefaultAsync(m => m.appid == id).ConfigureAwait(false);
                 if (appInfo == null)
                 {
@@ -54,7 +54,7 @@ namespace MoreNote.Controllers
                 }
 
                 return View(appInfo);
-            }
+            
         }
 
         // GET: Admin/GenerateImage
@@ -74,37 +74,35 @@ namespace MoreNote.Controllers
             [Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")]
             AppInfo appInfo)
         {
-            using (DataContext _context = new DataContext())
-            {
+          
                 if (ModelState.IsValid)
                 {
-                    _context.Add(appInfo);
-                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dataContext.Add(appInfo);
+                    await dataContext.SaveChangesAsync().ConfigureAwait(false);
                     return RedirectToAction(nameof(Index));
                 }
 
                 return View(appInfo);
-            }
+            
         }
 
 
         public async Task<IActionResult> Edit(long? id)
         {
-            using (DataContext _context = new DataContext())
-            {
+           
                 if (id == null)
                 {
                     return NotFound();
                 }
 
-                var appInfo = await _context.AppInfo.FindAsync(id).ConfigureAwait(false);
+                var appInfo = await dataContext.AppInfo.FindAsync(id).ConfigureAwait(false);
                 if (appInfo == null)
                 {
                     return NotFound();
                 }
 
                 return View(appInfo);
-            }
+            
         }
 
         // POST: Admin/Edit/5
@@ -116,8 +114,7 @@ namespace MoreNote.Controllers
             [Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")]
             AppInfo appInfo)
         {
-            using (DataContext context = new DataContext())
-            {
+           
                 if (appInfo == null || id != appInfo.appid)
                 {
                     return NotFound();
@@ -127,8 +124,8 @@ namespace MoreNote.Controllers
                 {
                     try
                     {
-                        context.Update(appInfo);
-                        await context.SaveChangesAsync().ConfigureAwait(false);
+                        dataContext.Update(appInfo);
+                        await dataContext.SaveChangesAsync().ConfigureAwait(false);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -146,20 +143,19 @@ namespace MoreNote.Controllers
                 }
 
                 return View(appInfo);
-            }
+            
         }
 
         // GET: Admin/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            using (DataContext _context = new DataContext())
-            {
+          
                 if (id == null)
                 {
                     return NotFound();
                 }
 
-                var appInfo = await _context.AppInfo
+                var appInfo = await dataContext.AppInfo
                     .FirstOrDefaultAsync(m => m.appid == id).ConfigureAwait(false);
                 if (appInfo == null)
                 {
@@ -167,7 +163,7 @@ namespace MoreNote.Controllers
                 }
 
                 return View(appInfo);
-            }
+            
         }
 
         // POST: Admin/Delete/5
@@ -179,10 +175,9 @@ namespace MoreNote.Controllers
 
         private bool AppInfoExists(long id)
         {
-            using (DataContext _context = new DataContext())
-            {
-                return _context.AppInfo.Any(e => e.appid == id);
-            }
+           
+                return dataContext.AppInfo.Any(e => e.appid == id);
+            
         }
     }
 }
