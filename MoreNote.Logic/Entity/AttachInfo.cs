@@ -23,7 +23,7 @@ namespace MoreNote.Logic.Entity
         public Int64 Size{ get; set; } // file size (byte)
         public string Type{ get; set; }   // file type, "doc" = word
         public string Path{ get; set; }  // the file path such as: files/userId/attachs/adfadf.doc
-        public  StorageTypeEnum StorageType { get; set; }//附件储存方式
+       // public  StorageTypeEnum StorageType { get; set; }//附件储存方式
         
         public DateTime CreatedTime{ get; set; }
 
