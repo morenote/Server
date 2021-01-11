@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Service
     {
         private DependencyInjectionService dependencyInjectionService;
 
-        public NoteContentService(DependencyInjectionService dependencyInjectionService, DataContext dataContext)
+        public NoteContentService(DependencyInjectionService dependencyInjectionService)
         {
             this.dependencyInjectionService = dependencyInjectionService;
         }

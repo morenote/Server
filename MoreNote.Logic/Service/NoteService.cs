@@ -382,22 +382,22 @@ namespace MoreNote.Logic.Service
                 APINoteFile apiNoteFile = new APINoteFile();
 
                 //images 图像
-                if (noteImages != null && noteImages.ContainsKey(noteId))
-                {
-                    if (!noteFilesMap.ContainsKey(noteId))
-                    {
-                        noteFilesMap.Add(noteId, new List<APINoteFile>());
-                    }
-                    foreach (NoteFile image in noteImages[noteId])
-                    {
-                        apiNoteFile = new APINoteFile()
-                        {
-                            FileId = image.FileId.ToHex24(),
-                            Type = image.Type
-                        };
-                        noteFilesMap[noteId].Add(apiNoteFile);
-                    }
-                }
+                //if (noteImages != null && noteImages.ContainsKey(noteId))
+                //{
+                //    if (!noteFilesMap.ContainsKey(noteId))
+                //    {
+                //        noteFilesMap.Add(noteId, new List<APINoteFile>());
+                //    }
+                //    foreach (NoteFile image in noteImages[noteId])
+                //    {
+                //        apiNoteFile = new APINoteFile()
+                //        {
+                //            FileId = image.FileId.ToHex24(),
+                //            Type = image.Type
+                //        };
+                //        noteFilesMap[noteId].Add(apiNoteFile);
+                //    }
+                //}
                 //attach 附件
                 if (noteAttachs != null && noteAttachs.ContainsKey(noteId))
                 {
@@ -405,11 +405,11 @@ namespace MoreNote.Logic.Service
                     {
                         noteFilesMap.Add(noteId, new List<APINoteFile>());
                     }
-                    foreach (NoteFile attach in noteImages[noteId])
+                    foreach (AttachInfo attach in noteAttachs[noteId])
                     {
                         apiNoteFile = new APINoteFile()
                         {
-                            FileId = attach.FileId.ToHex24(),
+                            FileId = attach.AttachId.ToHex24(),
                             Type = attach.Type,
                             Title = attach.Title,
                             IsAttach = true

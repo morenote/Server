@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.ExtensionMethods;
-using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
@@ -86,91 +85,85 @@ namespace MoreNote.Logic.Service
         // list attachs
         public AttachInfo[] ListAttachs(long noteId, long userId)
         {
-            		using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		    var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
-            return attachs;
-            //todo:// 权限控制
-		
-		}
-        
+            using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
+                var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
+                return attachs;
+                //todo:// 权限控制
+            }
         }
 
         // api调用, 通过noteIds得到note's attachs, 通过noteId归类返回
         public Dictionary<long, List<AttachInfo>> GetAttachsByNoteIds(long[] noteIds)
         {
-            		using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		   Dictionary<long, List<AttachInfo>> dic = new Dictionary<long, List<AttachInfo>>();
-            foreach (long id in noteIds)
+            using (var dataContext = dependencyInjectionService.GetDataContext())
             {
-                List<AttachInfo> attachs = dataContext.AttachInfo.Where(b => noteIds.Contains(b.NoteId)).ToList();
-                dic.Add(id, attachs);
+                Dictionary<long, List<AttachInfo>> dic = new Dictionary<long, List<AttachInfo>>();
+                foreach (long id in noteIds)
+                {
+                    var result = dataContext.AttachInfo.Where(b => noteIds.Contains(b.NoteId));
+                    if (result != null)
+                    {
+                        List<AttachInfo> attachs = result.ToList<AttachInfo>();
+                        dic.Add(id, attachs);
+                    }
+                }
+                return dic;
+                //todo:// 权限控制
             }
-            return dic;
-            //todo:// 权限控制
-		
-		}
-         
         }
 
         public bool UpdateImageTitle(long userId, long fileId, string title)
         {
-            		using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		      var image = dataContext.File.Where(file => file.FileId == fileId && file.UserId == userId);
-            if (image != null)
+            using (var dataContext = dependencyInjectionService.GetDataContext())
             {
-                var imageFile = image.FirstOrDefault();
-                imageFile.Title = title;
+                var image = dataContext.File.Where(file => file.FileId == fileId && file.UserId == userId);
+                if (image != null)
+                {
+                    var imageFile = image.FirstOrDefault();
+                    imageFile.Title = title;
+                }
+                return dataContext.SaveChanges() > 0;
             }
-            return dataContext.SaveChanges() > 0;
-		
-		}
-      
         }
 
         public AttachInfo[] GetAttachsByNoteId(long noteId)
         {
-            		using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId).ToArray();
-            return attachs;
-            //todo:// 权限控制
-		
-		}
-            
+            using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
+                var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId).ToArray();
+                return attachs;
+                //todo:// 权限控制
+            }
         }
 
         // Delete note to delete attas firstly
         public bool DeleteAllAttachs(long noteId, long userId)
         {
-            		using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		     var attachInfos = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
-            if (attachInfos != null && attachInfos.Length > 0)
+            using (var dataContext = dependencyInjectionService.GetDataContext())
             {
-                foreach (var attach in attachInfos)
+                var attachInfos = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
+                if (attachInfos != null && attachInfos.Length > 0)
                 {
-                    DeleteAttach(attach.AttachId, userId);
+                    foreach (var attach in attachInfos)
+                    {
+                        DeleteAttach(attach.AttachId, userId);
+                    }
                 }
-            }
-            return true;
+                return true;
 
-            //todo :需要实现此功能
-            return true;
-		
-		}
-       
+                //todo :需要实现此功能
+                return true;
+            }
         }
 
         // delete attach
         // 删除附件为什么要incrNoteUsn ? 因为可能没有内容要修改的
         public bool DeleteAttach(long attachId, long userId)
         {
-
             if (attachId != 0 && userId != 0)
-            {using (var dataContext = dependencyInjectionService.GetDataContext())
+            {
+                using (var dataContext = dependencyInjectionService.GetDataContext())
                 {
                     var attach = dataContext.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).FirstOrDefault();
                     long noteId = attach.NoteId;
@@ -199,7 +192,8 @@ namespace MoreNote.Logic.Service
         }
 
         public AttachInfo GetAttach(long attachId)
-        {using (var dataContext = dependencyInjectionService.GetDataContext())
+        {
+            using (var dataContext = dependencyInjectionService.GetDataContext())
             {
                 var result = dataContext.AttachInfo.Where(b => b.AttachId == attachId);
                 return result == null ? null : result.FirstOrDefault();
