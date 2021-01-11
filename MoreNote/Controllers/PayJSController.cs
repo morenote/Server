@@ -98,8 +98,7 @@ namespace MoreNote.Controllers
                 }
                 try
                 {
-                    using (var db = new DataContext())
-                    {
+                   
                         var orderObj = dataContext.GoodOrder.Where(b => b.payjs_order_id.Equals(notifyResponseMessage.payjs_order_id)).FirstOrDefault();
                         if (orderObj.total_fee != notifyResponseMessage.total_fee)
                         {
@@ -113,7 +112,7 @@ namespace MoreNote.Controllers
                         dataContext.SaveChanges();
                         Response.StatusCode = (int)HttpStatusCode.OK;
                         return Content("OK");
-                    }
+                    
                 }
                 catch (Exception)
                 {

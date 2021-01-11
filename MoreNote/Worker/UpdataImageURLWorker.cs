@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MoreNoteWorkerService
 {
@@ -41,8 +42,8 @@ namespace MoreNoteWorkerService
         public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService)
         {
             _logger = logger;
-            randomImageService=dependencyInjectionService.ServiceProvider.GetService(typeof(RandomImageService))as RandomImageService;
-            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            randomImageService=dependencyInjectionService.ServiceProvider.GetRequiredService<RandomImageService>();
+            configFileService=dependencyInjectionService.ServiceProvider.GetRequiredService<ConfigFileService>();
             config = configFileService.GetWebConfig();
              size = config.PublicAPI.RandomImageSize;
         }

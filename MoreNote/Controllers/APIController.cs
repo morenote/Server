@@ -267,9 +267,8 @@ namespace MoreNote.Controllers
                     }
                     string fileSHA1 = Path.GetFileNameWithoutExtension(message.uri);
 
-                    using (DataContext db = new DataContext())
-                    {
-                        RandomImage imagedb = db.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
+                   
+                        RandomImage imagedb = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
                         if (imagedb == null)
                         {
                             Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -300,9 +299,7 @@ namespace MoreNote.Controllers
                             default:
                                 break;
                         }
-                        db.SaveChanges();
-                    }
-
+                        dataContext.SaveChanges();
                     // Do something
                 }
                 catch (Exception ex)

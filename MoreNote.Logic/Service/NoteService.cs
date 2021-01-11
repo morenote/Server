@@ -204,8 +204,7 @@ namespace MoreNote.Logic.Service
 
         public  bool SetDeleteStatus(long noteID, long userId, out int afterUsn)
         {
-            using (var db = new DataContext())
-            {
+           
                 var result = dataContext.Note.Where(b => b.NoteId == noteID && b.UserId == userId);
                 if (result == null)
                 {
@@ -218,7 +217,7 @@ namespace MoreNote.Logic.Service
                 afterUsn = userService.IncrUsn(userId);
                 note.Usn = afterUsn;
                 return dataContext.SaveChanges() > 0;
-            }
+            
         }
 
         public  Note GetNote(long noteId, long userId, bool IsTrash, bool isDelete)

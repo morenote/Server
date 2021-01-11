@@ -61,11 +61,10 @@ namespace MoreNote.Logic.Service
         /// </summary>
         public  int CountTheNumberForBlogs(long userId)
         {
-            using (var db = new DataContext())
-            {
+            
                 var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
                 return count;
-            }
+            
         }
 
         public  int CountTheNumberForBlogTags(long userId, string tag)
@@ -257,11 +256,10 @@ namespace MoreNote.Logic.Service
 
         public  UserBlog GetUserBlog(long userId)
         {
-            using (var db = new DataContext())
-            {
+           
                 var result = dataContext.UserBlog.Where(b => b.UserId == userId).FirstOrDefault();
                 return result;
-            }
+            
         }
 
         public  bool UpdateUserBlog(UserBlog userBlog)
