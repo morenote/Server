@@ -8,7 +8,17 @@ namespace MoreNote.Logic.DB
     {
 
       
-     
+        // protected  void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
+        //    //测试服务器
+        //    //var connection = "Host=127.0.0.1.5;Port=5432;Database=dbname; User ID=userid;Password=password;";
+        //   // var postgres = Environment.GetEnvironmentVariable("postgres");
+        //   //ConfigFileService configFileService=new ConfigFileService();
+        //   // var postgres = configFileService.GetWebConfig();
+        //   // optionsBuilder.UseNpgsql(postgres.PostgreSql.Connection);
+            
+        //}
         public DataContext(DbContextOptions<DataContext> options)
           : base(options)
         {

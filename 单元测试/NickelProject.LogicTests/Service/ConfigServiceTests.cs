@@ -9,6 +9,8 @@ namespace MoreNote.Logic.Service.Tests
     [TestClass()]
     public class ConfigServiceTests
     {
+        ConfigFileService configFileService=new ConfigFileService();
+      
         [TestMethod()]
         public void GetConfigServiceTest()
         {
@@ -30,11 +32,7 @@ namespace MoreNote.Logic.Service.Tests
             configService.emailConfig.Port = 456;
             configService.emailConfig.userName = "username";
             configService.emailConfig.password = "password";
-
-
-
-
-            ConfigService.Save(configService);
+            configFileService.Save();
            // Assert.Fail();
         }
     }

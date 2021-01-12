@@ -7,13 +7,20 @@ namespace MoreNote.Logic.Service.Tests
     [TestClass()]
     public class TokenSerivceTests
     {
+        //TokenSerivce tokenSerivce=new TokenSerivce();
+
+        public TokenSerivceTests( )
+        {
+            //this.tokenSerivce = tokenSerivce;
+        }
+
         [TestMethod()]
         public void GenerateTokenTest()
         {
             long id = SnowFlakeNet.GenerateSnowFlakeID();
             Console.WriteLine(id);
-            string token = TokenSerivce.GenerateToken(id,16);
-            Console.WriteLine(token);
+            //string token = tokenSerivce.GenerateToken(id,16);
+            //Console.WriteLine(token);
         }
     }
 }

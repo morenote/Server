@@ -18,10 +18,14 @@ namespace MoreNote.Logic.Service
 
         public DataContext GetDataContext()
         {
-                 var scope = ServiceProvider.CreateScope();
+                var scope = ServiceProvider.CreateScope();
                 var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
                 return dataContext;
-            
+        }
+        public IServiceScope GetServiceScope()
+        {
+            var scope = ServiceProvider.CreateScope();
+            return scope;
         }
 
         public UserService GetUserService()
