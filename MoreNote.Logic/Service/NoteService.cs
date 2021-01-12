@@ -573,7 +573,6 @@ namespace MoreNote.Logic.Service
             AddNote(note);
 
             // tag1
-
             tagService.AddTags(note.UserId, note.Tags);
 
             // recount notebooks' notes number
