@@ -23,15 +23,17 @@ namespace MoreNote.Logic.Service
             {
                 using (var dataContext = sc.GetDataContext())
                 {
-                    foreach (var tag in tags)
+                    foreach (var item in tags)
                     {
-
-                        if (tag!=null&&dataContext.NoteTag.Where(tag => tag.Tag.Equals(tag)).Count() == 0)
+                        //解决item引起的bug
+                        //todo:继续实现这个方法，维护与leanote的兼容性
+                        var result= dataContext.NoteTag.Where(tag => tag.Tag.Equals(item));
+                        if (item!=null&&result!=null&&result.Any())
                         {
                             dataContext.NoteTag.Add(new NoteTag(){ 
                                 TagId=SnowFlakeNet.GenerateSnowFlakeID(),
                                 UserId=userId,
-                                Tag=tag,
+                                Tag=item,
                                 Usn=0,
                                 Count=0,
                                 CreatedTime=DateTime.Now,
