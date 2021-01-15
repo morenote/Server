@@ -5678,8 +5678,8 @@ define("tinymce/dom/Range", [
 			}
 
 			childB = containerB;
-			while (childB && childataContext.parentNode != cmnRoot) {
-				childB = childataContext.parentNode;
+			while (childB && childB.parentNode != cmnRoot) {
+				childB = childB.parentNode;
 			}
 
 			if (!childB) {
