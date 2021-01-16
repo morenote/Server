@@ -58,7 +58,7 @@ namespace MoreNote
             services.AddEntityFrameworkNpgsql();
             services.AddDbContextPool<DataContext>((serviceProvider,optionsBuilder) =>
             { 
-                optionsBuilder.UseNpgsql(connection,b=>b.MigrationsAssembly("MoreNote"));
+                optionsBuilder.UseNpgsql(connection);
                 optionsBuilder.UseInternalServiceProvider(serviceProvider);
                
                 });
