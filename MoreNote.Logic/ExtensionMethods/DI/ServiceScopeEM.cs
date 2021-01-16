@@ -15,5 +15,6 @@ namespace MoreNote.Logic.ExtensionMethods.DI
             return serviceScope.ServiceProvider.GetRequiredService<DataContext>();
 
         }
+     
     }
 }
