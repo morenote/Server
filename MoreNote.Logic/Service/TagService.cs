@@ -23,23 +23,31 @@ namespace MoreNote.Logic.Service
             {
                 using (var dataContext = sc.GetDataContext())
                 {
-                    foreach (var item in tags)
+                    foreach (var itemTag in tags)
                     {
                         //解决item引起的bug
-                        //todo:继续实现这个方法，维护与leanote的兼容性
-                        var result= dataContext.NoteTag.Where(tag => tag.Tag.Equals(item));
-                        if (item!=null&&result!=null&&result.Any())
+                        //todo:持续改进这个方法，改进与leanote的兼容性
+                        if (itemTag!=null)
                         {
-                            dataContext.NoteTag.Add(new NoteTag(){ 
-                                TagId=SnowFlakeNet.GenerateSnowFlakeID(),
+                            var result= dataContext.Tag.Where(tag => tag.UserId==userId);
+                            if (result!=null)
+                            {
+                                var userTags=result.FirstOrDefault();
+                                //这个地方区分大小写吗
+                                if (!userTags.Tags.Contains(itemTag))
+                                {
+                                    userTags.Tags.Add(itemTag);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Tag tag=new Tag()
+                            {
                                 UserId=userId,
-                                Tag=item,
-                                Usn=0,
-                                Count=0,
-                                CreatedTime=DateTime.Now,
-                                UpdatedTime=DateTime.Now,
-                                IsDeleted=false
-                                });;
+                                Tags=new List<string>()
+                            };
+                        tag.Tags.Add(itemTag);
                         }
                     }
                     dataContext.SaveChanges();
