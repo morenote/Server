@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Service
 {
     public class NoteService
     {
-        private DependencyInjectionService dependencyInjectionService;
+       private DependencyInjectionService dependencyInjectionService;
 
         public NoteService(DependencyInjectionService dependencyInjectionService)
         {

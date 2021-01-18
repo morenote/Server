@@ -34,11 +34,14 @@ namespace MoreNote.Logic.Service
         //get albums
         public Album[] GetAlbums(long userId)
         {
-            using (var dataContext = dependencyInjection.GetDataContext())
+            using (var sc = dependencyInjection.GetServiceScope())
             {
-                var result = dataContext.Album
-                 .Where(b => b.UserId.Equals(userId));
-                return result.ToArray();
+                using (var dataContext = sc.GetDataContext())
+                {
+                    var result = dataContext.Album
+                     .Where(b => b.UserId.Equals(userId));
+                    return result.ToArray();
+                }
             }
         }
 
@@ -46,27 +49,33 @@ namespace MoreNote.Logic.Service
         // presupposition: has no images under this ablum
         public bool DeleteAlbum(long userId, long albumId)
         {
-            using (var dataContext = dependencyInjection.GetDataContext())
+            using (var sc = dependencyInjection.GetServiceScope())
             {
-                if (dataContext.File.Where(b => b.AlbumId == albumId && b.UserId == userId).Count() == 0)
+                using (var dataContext = sc.GetDataContext())
                 {
-                    return dataContext.Album.Where(a => a.AlbumId == albumId).Delete() > 0;
+                    if (dataContext.File.Where(b => b.AlbumId == albumId && b.UserId == userId).Count() == 0)
+                    {
+                        return dataContext.Album.Where(a => a.AlbumId == albumId).Delete() > 0;
+                    }
+                    return false;
                 }
-                return false;
             }
         }
 
         public bool UpdateAlbum(long albumId, long userId, string name)
         {
-            using (var dataContext = dependencyInjection.GetDataContext())
+            using (var sc = dependencyInjection.GetServiceScope())
             {
-                var result = dataContext.Album
-                  .Where(b => b.AlbumId.Equals(albumId) && b.UserId.Equals(userId));
-                if (result != null)
+                using (var dataContext = sc.GetDataContext())
                 {
+                    var result = dataContext.Album
+                      .Where(b => b.AlbumId.Equals(albumId) && b.UserId.Equals(userId));
+                    if (result != null)
+                    {
+                    }
+                    result.FirstOrDefault().Name = name;
+                    return dataContext.SaveChanges() > 0;
                 }
-                result.FirstOrDefault().Name = name;
-                return dataContext.SaveChanges() > 0;
             }
         }
     }

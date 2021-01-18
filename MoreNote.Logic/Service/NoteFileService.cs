@@ -44,7 +44,6 @@ namespace MoreNote.Logic.Service
                 await formFile.CopyToAsync(stmMemory).ConfigureAwait(false);
                 byte[] imageBytes = stmMemory.ToArray();
                 return upyun.writeFile($"{uploadDirPath}{fileName}", imageBytes, true);
-              
             }
             else
             {

@@ -23,7 +23,7 @@ namespace MoreNote.Logic.Entity
         public Int64 Size { get; set; } // file  size (byte)
         public string Type { get; set; } // file  type ""=image "doc"=word
         public string Path { get; set; } // the file path
-       // public StorageTypeEnum StorageType { get; set; } //储存方式 本地？又拍云 对象储存？
+        public StorageTypeEnum StorageType { get; set; } //储存方式 本地？又拍云 对象储存？
 
         //0 public 1 protected 2 private
         //公开 所有人可以访问
