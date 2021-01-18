@@ -8,7 +8,7 @@ namespace MoreNote.Logic.Service.FileService
 {
     public interface IFileService
     {
-        
+        public void Remove(string path);
         
     }
 }

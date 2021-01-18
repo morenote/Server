@@ -89,7 +89,7 @@ namespace MoreNote.Logic.Service
             {
                 var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
                 return attachs;
-                //todo:// 权限控制
+                //todo:权限控制
             }
         }
 
@@ -140,6 +140,8 @@ namespace MoreNote.Logic.Service
         // Delete note to delete attas firstly
         public bool DeleteAllAttachs(long noteId, long userId)
         {
+           
+
             using (var dataContext = dependencyInjectionService.GetDataContext())
             {
                 var attachInfos = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
@@ -148,12 +150,21 @@ namespace MoreNote.Logic.Service
                     foreach (var attach in attachInfos)
                     {
                         DeleteAttach(attach.AttachId, userId);
+                        //todo:实现os删除，因为文件可能在对象储存上
+                        /**
+                         * 这里存在的问题就是morenote可能允许多种储存方式
+                         * 
+                         * 文件可能就会落在第三方对象储存服务商的对象储存上
+                         * 
+                         * 这里要判断附件的地址
+                         * 
+                         * 同时支持超大附件
+                         * */
                     }
                 }
                 return true;
 
                 //todo :需要实现此功能
-                return true;
             }
         }
 
