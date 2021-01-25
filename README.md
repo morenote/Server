@@ -11,6 +11,8 @@ github:https://github.com/hyfree/MoreNote
 
 gitee:https://gitee.com/hyfree_cn/MoreNote/
 
+[![sOgajg.jpg](https://s3.ax1x.com/2021/01/25/sOgajg.jpg)](https://imgchr.com/i/sOgajg)
+ 
 ## 概述
 
 ![MoreNote.NET Core](https://github.com/hyfree/MoreNote/workflows/MoreNote.NET%20Core/badge.svg?event=push)
