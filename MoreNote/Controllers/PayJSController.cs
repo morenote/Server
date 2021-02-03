@@ -53,9 +53,9 @@ namespace MoreNote.Controllers
 
             var responseMessage = pay.native(nativeRequestMessage);
             ViewBag.msg = responseMessage;
-            GoodOrder goodOrder = new GoodOrder()
+            CommodityOrder goodOrder = new CommodityOrder()
             {
-                GoodOrderId = id,
+                CommodityOrderId = id,
                 mchid = webSiteConfig.Payjs.PayJS_MCHID,
                 total_fee = nativeRequestMessage.total_fee,
                 out_trade_no = id.ToString(),

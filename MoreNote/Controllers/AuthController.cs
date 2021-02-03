@@ -91,7 +91,7 @@ namespace MoreNote.Controllers
                     {
                         foreach (var item in user.Jurisdiction)
                         {
-                            identity.AddClaim(new Claim(item.Type, item.Value));//授权 
+                            identity.AddClaim(new Claim(item.AuthorizationType, item.AuthorizationValue));//授权 
                         }
                     }
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties

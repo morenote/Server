@@ -96,7 +96,7 @@ namespace MoreNote.Logic.DB
         //public DbSet<RandomImage> WebReportInfo { get; set; }
 
         //支付功能
-        public DbSet<GoodOrder> GoodOrder { get; set; }
+        public DbSet<CommodityOrder> GoodOrder { get; set; }
         public DbSet<SpamInfo> SpamDB { get; set; }
 
         

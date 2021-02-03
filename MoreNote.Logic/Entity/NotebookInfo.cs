@@ -6,25 +6,39 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoreNote.Logic.Entity
 {
+    [Table("notebook")]
     public class Notebook
     {
         [Key]
+        [Column("notebook_id")]
         public long NotebookId { get; set; } // 须要设置bson:"_id" 不然mgo不会认为是主键
+        [Column("user_id")]
         public long UserId { get; set; }
+        [Column("parent_notebook_Id")]
         public long ParentNotebookId { get; set; } // 上级 
+        [Column("seq")]
         public int Seq { get; set; } // 排序 
+        [Column("title")]
         public string Title { get; set; } // 标题 
+        [Column("url_title")]
         public string UrlTitle { get; set; } // Url标题 
+        [Column("number_notes")]
         public int NumberNotes { get; set; } // 笔记数 
+        [Column("is_trash")]
         public bool IsTrash { get; set; } // 是否是trash, 默认是false
+        [Column("is_blog")]
         public bool IsBlog { get; set; } // 是否是Blog 
-
+        [Column("created_time")]
         public DateTime CreatedTime { get; set; }
+        [Column("updated_time")]
         public DateTime UpdatedTime { get; set; }
 
         // 2015/1/15, 更新序号
+        [Column("is_wx")]
         public bool IsWX { get; set; }//猜测 微信推送
+        [Column("usn")]
         public int Usn { get; set; } // UpdateSequenceNum 
+        [Column("is_deleted")]
         public bool IsDeleted { get; set; }
         //[Column("Subs", TypeName = "Notebook[]")]
         [NotMapped]

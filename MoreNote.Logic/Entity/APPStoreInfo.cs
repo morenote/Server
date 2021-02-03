@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System.Text;
 
@@ -19,6 +20,7 @@ namespace MoreNote.Logic.Entity
     {
         public AppInfo[] app_list { get; set; }
     }
+    [Table("app_info")]
     public class AppInfo
     {
         [Key]

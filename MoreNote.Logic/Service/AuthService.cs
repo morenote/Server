@@ -34,7 +34,7 @@ namespace MoreNote.Logic.Service
                         UserId = user.UserId,
                         Email = user.Email,
                         TokenStr = token,
-                        Type = 0,
+                        TokenType = 0,
                         CreatedTime = DateTime.Now
                     };
                     tokenSerivce.AddToken(myToken);
