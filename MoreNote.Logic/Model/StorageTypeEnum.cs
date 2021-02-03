@@ -1,4 +1,4 @@
-﻿namespace MoreNote.Logic.Entity
+﻿namespace MoreNote.Logic.Model
 {
     /// <summary>
     /// 文件储存方式
@@ -6,39 +6,38 @@
     /// </summary>
     public enum StorageTypeEnum
     {
-
-        
         /// <summary>
         /// 本地磁盘
         /// </summary>
-        LocalDisk = 100,
+        LocalDisk = 0x00,
         /// <summary>
         /// 又拍云 对象储存
         /// </summary>
-        UpYunOSS=200,
+        UpYunOSS=0x01,
         /// <summary>
         /// 阿里云对象储存
         /// </summary>
-        ALiYunOSS=201,
+        ALiYunOSS=0x02,
         /// <summary>
         /// 优刻得对象储存
         /// </summary>
-        UcloudOSS=202,
+        UcloudOSS=0x03,
         /// <summary>
         /// 七牛云对象储存
         /// </summary>
-        QiNiuOSS=203,
+        QiNiuOSS=0x04,
         /// <summary>
         /// 华为云对象储存
         /// </summary>
-        HuaWeiOSS=204,
+        HuaWeiOSS=0x05,
         /// <summary>
         /// FTP服务
         /// </summary>
-        FTP=300,
+        FTP=0x06,
         /// <summary>
         /// WebDAV服务
         /// </summary>
-        WebDAV=400,
+        WebDAV=0x07,
+
     }
 }

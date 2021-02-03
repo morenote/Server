@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoreNote.Logic.Entity
 {
@@ -39,18 +40,29 @@ namespace MoreNote.Logic.Entity
         public Dictionary<long,long[]> NOtebooks { get;set;}
 
     }
+    [Table("share_notebook")]
     public class ShareNotebook
     {
         [Key]
+        [Column("share_notebook_id")]
         public int ShareNotebookId { get; set; } // 必须要设置bson:"_id" 不然mgo不会认为是主键
+        [Column("user_id")]
         public long UserId { get; set; }
+        [Column("to_user_id")]
         public long ToUserId { get; set; }
+        [Column("to_group_id")]
         public long ToGroupId { get; set; } // 分享给的用户组 
+     
         public Group ToGroup { get; set; } // 仅仅为了显示, 不存储, 分组信息
+        [Column("notebook_id")]
         public long NotebookId { get; set; }
+        [Column("seq")]
         public int Seq { get; set; } // 排序 
+        [Column("perm")]
         public int Perm { get; set; } // 权限, 其下所有notes 0只读, 1可修改
+        [Column("created_time")]
         public DateTime CreatedTime { get; set; }
+        [Column("is_default")]
         public bool IsDefault { get; set; } //是否是默认共享notebook, perm seq=-9999999, NotebookId=null
 
     }
