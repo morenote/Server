@@ -17,6 +17,10 @@ namespace MoreNote.Logic.Entity
     [Table("authorization")]
     public class Authorization
     {
+        public Authorization()
+        {
+
+        }
         public Authorization(long authorizationId, string type, string value)
         {
             AuthorizationId = authorizationId;
@@ -35,7 +39,7 @@ namespace MoreNote.Logic.Entity
         
     }
 
-    [Table("user")]
+    [Table("user_info")]
     public class User
     {
         [Key]
@@ -55,9 +59,9 @@ namespace MoreNote.Logic.Entity
         public string Salt { get; set; }//MD5 盐
         [Column("google_authenticator_secret_key")]
         public string GoogleAuthenticatorSecretKey { get; set; }//谷歌身份验证密码
-        [Column("cost")]
+        [Column("pwd_cost")]
         public int Cost { get; set; }//加密强度--》迭代次数
-        [Column("role")]
+        [Column("user_role")]
         public string Role { get; set; }//角色 用户组
         [Column("jurisdiction")]
         public List<Authorization> Jurisdiction { get;set;} //授权 拥有的权限

@@ -53,7 +53,7 @@ namespace MoreNote.Logic.Service
             {
                 using (var dataContext = sc.GetDataContext())
                 {
-                    if (dataContext.File.Where(b => b.AlbumId == albumId && b.UserId == userId).Count() == 0)
+                    if (dataContext.NoteFile.Where(b => b.AlbumId == albumId && b.UserId == userId).Count() == 0)
                     {
                         return dataContext.Album.Where(a => a.AlbumId == albumId).Delete() > 0;
                     }

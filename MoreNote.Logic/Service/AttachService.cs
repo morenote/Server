@@ -117,7 +117,7 @@ namespace MoreNote.Logic.Service
         {
             using (var dataContext = dependencyInjectionService.GetDataContext())
             {
-                var image = dataContext.File.Where(file => file.FileId == fileId && file.UserId == userId);
+                var image = dataContext.NoteFile.Where(file => file.FileId == fileId && file.UserId == userId);
                 if (image != null)
                 {
                     var imageFile = image.FirstOrDefault();

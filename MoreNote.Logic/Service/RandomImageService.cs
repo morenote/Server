@@ -139,14 +139,14 @@ namespace MoreNote.Logic.Service
         {
             using (var dataContext = dependencyInjectionService.GetDataContext())
             {
-                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
+                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Count();
                 if (count < 1)
                 {
                     return null;
                 }
                 Random random = new Random();
                 int num = random.Next(0, count);
-                RandomImage result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Skip(num).FirstOrDefault();
+                RandomImage result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Skip(num).FirstOrDefault();
                 return result;
             }
         }
@@ -155,12 +155,12 @@ namespace MoreNote.Logic.Service
         {
             using (var dataContext = dependencyInjectionService.GetDataContext())
             {
-                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Count();
+                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Count();
                 if (count < size)
                 {
                     size = count;
                 }
-                List<RandomImage> result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.Delete == false && b.Block == false).Take(size).ToList<RandomImage>();
+                List<RandomImage> result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Take(size).ToList<RandomImage>();
                 return result;
             }
         }

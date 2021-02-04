@@ -33,8 +33,7 @@ namespace MoreNote.Logic.Entity
         public string Type { get; set; } // file  type ""=image "doc"=word
         [Column("path")]
         public string Path { get; set; } // the file path
-        [Column("storage_type")]
-        public StorageTypeEnum StorageType { get; set; } //储存方式 本地？又拍云 对象储存？
+       
 
         //0 public 1 protected 2 private
         //公开 所有人可以访问
@@ -55,5 +54,7 @@ namespace MoreNote.Logic.Entity
         public string SHA1 { get; set; }
         [Column("md5")]
         public string MD5 { get; set; }
+        [Column("storage_type")]
+        public StorageTypeEnum StorageType { get; set; } //储存方式 本地？又拍云 对象储存？
     }
 }

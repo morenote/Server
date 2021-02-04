@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using MoreNote.Logic.Model;
 using MoreNote.Logic.Service.FileService;
 
 namespace MoreNote.Logic.Entity
@@ -12,7 +13,7 @@ namespace MoreNote.Logic.Entity
     /// <summary>
     /// 附件
     /// </summary>
-    [Table("attach_Info")]
+    [Table("attach_info")]
     public class AttachInfo
     {
         [Key]
@@ -37,7 +38,8 @@ namespace MoreNote.Logic.Entity
                                          // public  StorageTypeEnum StorageType { get; set; }//附件储存方式
         [Column("created_time")]
         public DateTime CreatedTime{ get; set; }
-
+        [Column("storage_type")]
+        public StorageTypeEnum StorageType { get; set; } //储存方式 本地？又拍云 对象储存？
 
     }
 }

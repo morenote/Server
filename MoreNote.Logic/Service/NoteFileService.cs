@@ -95,7 +95,7 @@ namespace MoreNote.Logic.Service
         {
             	using(var dataContext = dependencyInjectionService.GetDataContext())
 		{
-                 dataContext.File.Add(noteFile);
+                 dataContext.NoteFile.Add(noteFile);
                 return dataContext.SaveChanges()>0;
 		
 		}
@@ -147,7 +147,7 @@ namespace MoreNote.Logic.Service
         {
           	using(var dataContext = dependencyInjectionService.GetDataContext())
 		{
-		   var result= dataContext.File.Where(b=>b.FileId==fileId);
+		   var result= dataContext.NoteFile.Where(b=>b.FileId==fileId);
                var file=(result==null?null:result.FirstOrDefault());
                return file;
 		

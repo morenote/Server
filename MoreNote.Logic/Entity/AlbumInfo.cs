@@ -1,4 +1,5 @@
 ﻿
+using MoreNote.Logic.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,5 +28,7 @@ namespace MoreNote.Logic.Entity
         public int SEQ { get; set; }
         [Column("created_time")]
         public DateTime CreatedTime { get; set; }
+       
+       
     }
 }

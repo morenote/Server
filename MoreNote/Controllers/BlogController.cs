@@ -81,7 +81,7 @@ namespace MoreNote.Controllers
                 AccessTime = DateTime.Now,
                 UnixTime = UnixTimeHelper.GetTimeStampInLong(),
                 TimeInterval = -1,
-                url = url
+                URL = url
             };
             await accessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
         }

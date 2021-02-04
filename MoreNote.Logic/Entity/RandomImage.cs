@@ -14,6 +14,10 @@ namespace MoreNote.Logic.Entity
         public long RandomImageId { get; set; }
         [Column("type_name")]
         public string TypeName { get; set; }
+        [Column("type_name_md5")]
+        public string TypeNameMD5 { get; set; }
+        [Column("type_name_sha1")]
+        public string TypeNameSHA1 { get; set; }
         [Column("file_name")]
         public string FileName { get; set; }
         [Column("file_name_md5")]
@@ -26,8 +30,8 @@ namespace MoreNote.Logic.Entity
         public bool Sex { get; set; }//标记这个图片含有色情信息
         [Column("block")]
         public bool Block { get; set; }//标记这个图片已经被拉黑
-        [Column("delete")]
-        public bool Delete { get; set; }//标记这个图片已经被拉黑
+        [Column("is_delete")]
+        public bool IsDelete { get; set; }//标记这个图片已经被拉黑
 
 
 

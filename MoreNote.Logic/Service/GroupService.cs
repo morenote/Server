@@ -25,12 +25,12 @@ namespace MoreNote.Logic.Service
             throw  new Exception();
         }
         // 得到用户的所有分组(包括下的所有用户)
-        public  Group[] GetGroupsAndUsers(long userId)
+        public  GroupTeam[] GetGroupsAndUsers(long userId)
         {
             throw new Exception();
         }
         // 仅仅得到所有分组
-        public  Group[] GetGroups(long userId)
+        public  GroupTeam[] GetGroups(long userId)
         {
             throw new Exception();
         }
@@ -42,12 +42,12 @@ namespace MoreNote.Logic.Service
 
         // 获取包含此用户的组对象数组
         // 获取该用户所属组, 和我的组
-        public  Group[] GetGroupsContainOf(long userId)
+        public  GroupTeam[] GetGroupsContainOf(long userId)
         {
             throw new Exception();
         }
         // 得到分组, shareService用
-        public  Group GetGroup(long userId,long groupId)
+        public  GroupTeam GetGroup(long userId,long groupId)
         {
             throw new Exception();
         }

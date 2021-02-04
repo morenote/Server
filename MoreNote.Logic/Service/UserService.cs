@@ -223,12 +223,13 @@ namespace MoreNote.Logic.Service
         }
         public  User GetUserByUserName(string Username)
         {
-           	using(var dataContext = dependencyInjectionService.GetDataContext())
+        using(var dataContext = dependencyInjectionService.GetDataContext())
 		{
 		
 		        var result = dataContext.User.Where(b => b.Username.Equals(Username.ToLower()));
                 return result == null ? null : result.FirstOrDefault();
 		}
+                
                 
 
             
