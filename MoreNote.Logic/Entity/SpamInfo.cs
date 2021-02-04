@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Entity
         [Key]
         [Column("spam_id")]
         public long SpamId { get; set; }
-        [Column("input")]
+        [Column("spam_input")]
         public string Input { get; set; }
         [Column("prediction")]
         public bool Prediction { get; set; }//机器识别结果
@@ -22,7 +22,7 @@ namespace MoreNote.Logic.Entity
         public bool ManualCheck { get; set; }//是否经过人工复核
         [Column("manual_result")]
         public bool ManualResult { get; set; }//人工识别结果
-        [Column("data")]
-        public DateTime Data { get; set; }//输入时间
+        [Column("creat_data")]
+        public DateTime CreatData { get; set; }//输入时间
     }
 }

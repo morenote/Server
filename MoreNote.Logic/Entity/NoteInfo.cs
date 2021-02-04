@@ -83,7 +83,7 @@ namespace MoreNote.Logic.Entity
     ///  剩余的NoteContent被识别为历史记录
     /// </para>
     /// </summary>
-    [Table("note")]
+    [Table("note_content")]
     public class NoteContent
     {
        

@@ -15,7 +15,7 @@ namespace MoreNote.Logic.Entity
         [Key]
         [Column("token_id")]
         public long TokenId { get; set; }
-        [Column("userId")]
+        [Column("user_id")]
         public long UserId { get; set; }
         [Column("email")]
         public string Email { get; set; }

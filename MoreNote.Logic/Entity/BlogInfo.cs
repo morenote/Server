@@ -140,7 +140,7 @@ namespace MoreNote.Logic.Entity
 
     }
     //// 单页
-    [Table("blog_stat")]
+    [Table("blog_single")]
     public class BlogSingle
     {
         [Key]

@@ -22,9 +22,9 @@ namespace MoreNote.Logic.Entity
         public string Version { get; set; }
         [Column("author")]
         public string Author { get; set; }
-        [Column("authorUrl")]
+        [Column("author_url")]
         public string AuthorUrl { get; set; }
-        [Column("path")]
+        [Column("theme_path")]
         public string Path { get; set; } // 文件夹路径, 
         [Column("info")]
         public string[] Info { get; set; }// 所有信息
@@ -34,7 +34,7 @@ namespace MoreNote.Logic.Entity
         public bool IsDefault { get; set; } // leanote默认主题, 如果用户修改了默认主题, 则先copy之. 也是admin用户的主题
         [Column("style")]
         public string Style { get; set; } //之前的, 只有default的用户才有blog_default, blog_daqi, blog_left_fixed
-        [Column("createdTime")]
+        [Column("created_time")]
         public DateTime CreatedTime { get; set; }
         [Column("updated_time")]
         public DateTime UpdatedTime { get; set; }
@@ -50,7 +50,7 @@ namespace MoreNote.Logic.Entity
         public long ThemeId { get; set; }
         [Column("title")]
         public string Title { get; set; }
-        [Column("url")]
+        [Column("friend_links_url")]
         public string Url { get; set; }
        
     }

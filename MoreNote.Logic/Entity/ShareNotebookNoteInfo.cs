@@ -53,7 +53,7 @@ namespace MoreNote.Logic.Entity
         [Column("to_group_id")]
         public long ToGroupId { get; set; } // 分享给的用户组 
      
-        public Group ToGroup { get; set; } // 仅仅为了显示, 不存储, 分组信息
+        public GroupTeam ToGroup { get; set; } // 仅仅为了显示, 不存储, 分组信息
         [Column("notebook_id")]
         public long NotebookId { get; set; }
         [Column("seq")]

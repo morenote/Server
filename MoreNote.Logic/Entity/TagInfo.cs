@@ -44,13 +44,19 @@ namespace MoreNote.Logic.Entity
         public bool IsDeleted { get; set; } // 删除位 
 
     }
+    [Table("tag_count")]
     public class TagCount
     {
-       
+        [Key]
+        [Column("tag_count_id")]
         public long TagCountId { get; set; }
+        [Column("user_id")]
         public long UserId { get; set; } // 谁的 
+        [Column("tag")]
         public string Tag { get; set; }
+        [Column("is_blog")]
         public bool IsBlog { get; set; } // 是否是博客的tag统计 
+        [Column("tag_count")]
         public int Count { get; set; } // 统计数量 
     }
 

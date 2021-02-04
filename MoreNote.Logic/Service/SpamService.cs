@@ -58,7 +58,7 @@ namespace MoreNote.Logic.Service
         {
            	using(var dataContext = dependencyInjectionService.GetDataContext())
 		{
-		dataContext.SpamDB.Add(spamInfo);
+		dataContext.SpamInfo.Add(spamInfo);
                 dataContext.SaveChanges();
 		
 		}

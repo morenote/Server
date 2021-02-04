@@ -150,8 +150,8 @@ namespace MoreNote.Controllers
                 AccessTime = DateTime.Now,
                 UnixTime = (long)UnixTimeHelper.GetTimeStampInInt32(),
                 TimeInterval = -1,
-                url = "/api/GetRandomImage",
-                RemoteIpAddress = remoteIpAddress,
+                URL = "/api/GetRandomImage",
+                RemoteIPAddress = remoteIpAddress,
                 RemotePort = remotePort
             };
             //访问日志
@@ -283,7 +283,7 @@ namespace MoreNote.Controllers
                         switch (message.type)
                         {
                             case UpyunType.delete:
-                                imagedb.Delete = true;
+                                imagedb.IsDelete = true;
                                 break;
 
                             case UpyunType.shield:
