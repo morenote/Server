@@ -40,7 +40,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:添加Tag
         public JsonResult AddTag(string token, string tag)
         {
-            NoteTag noteTag = tagService.AddOrUpdateTag(getUserIdByToken(token), tag);
+            NoteTag noteTag = tagService.AddOrUpdateTag(GetUserIdByToken(token), tag);
             if (noteTag == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetOptions());
@@ -53,7 +53,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:删除标签
         public IActionResult DeleteTag(string token, string tag, int usn)
         {
-            bool result = tagService.DeleteTagApi(getUserIdByToken(token), tag, usn, out int toUsn, out string msg);
+            bool result = tagService.DeleteTagApi(GetUserIdByToken(token), tag, usn, out int toUsn, out string msg);
             if (result)
             {
                 ReUpdate reUpdate = new ReUpdate()

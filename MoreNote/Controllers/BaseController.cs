@@ -70,12 +70,29 @@ namespace MoreNote.Controllers
             }
 
         }
-        public string GetUserId()
+ 
+        public long GetUserIdBySession()
         {
-            string userHex = HttpContext.Session.GetString("_UserId");
-            return userHex;
+            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
+            long userid_number = userid_hex.ToLongByHex();
+            return userid_number;
         }
-        public User GetUserInfo()
+        // todo:得到用户信息
+        public long GetUserIdByToken(string token)
+        {
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return 0;
+            }
+            else
+            {
+                User user = tokenSerivce.GetUserByToken(token);
+                long userid = (user == null ? 0 : user.UserId);
+                return userid;
+            }
+        }
+        public User GetUserBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
@@ -89,12 +106,16 @@ namespace MoreNote.Controllers
             return null;
 
         }
-        public IActionResult action()
+        public IActionResult Action()
         {
             return Content("error");
         }
-        //todo:得到token, 这个token是在AuthInterceptor设到Session中的
-        public string GetToken()
+        /// <summary>
+        /// 通过HttpContext获得token
+        /// todo:得到token, 这个token是在AuthInterceptor设到Session中的
+        /// </summary>
+        /// <returns></returns>
+        public string GetTokenByHttpContext()
         {
             /**
              *  软件从不假设某个IP或者使用者借助cookie获得永久的使用权
@@ -123,49 +144,10 @@ namespace MoreNote.Controllers
             }
 
         }
-        public long GetUserIdBySession()
-        {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
-            long userid_number = userid_hex.ToLongByHex();
-            return userid_number;
-        }
-        public User GetUserBySession()
-        {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
-            long userid_number = userid_hex.ToLongByHex();
-            User user = userService.GetUserByUserId(userid_number);
-            return user;
-        }
-        // todo:得到用户信息
-        public long getUserIdByToken(string token)
-        {
 
-            if (string.IsNullOrEmpty(token))
-            {
-                return 0;
-            }
-            else
-            {
-                User user = tokenSerivce.GetUserByToken(token);
-                long userid = (user == null ? 0 : user.UserId);
-                return userid;
-            }
-        }
-        public User getUserByToken(string token)
+        public long GetUserIdByToken()
         {
-            if (string.IsNullOrEmpty(token))
-            {
-                return null;
-            }
-            else
-            {
-                User user = tokenSerivce.GetUserByToken(token);
-                return user;
-            }
-        }
-        public long getUserIdByToken()
-        {
-            string token = GetToken();
+            string token = GetTokenByHttpContext();
             if (string.IsNullOrEmpty(token))
             {
                 string userid_hex = _accessor.HttpContext.Session.GetString("userId");
@@ -179,13 +161,8 @@ namespace MoreNote.Controllers
                 return userid;
             }
         }
-        public void SetUserIdToSession(long userId)
+        public User GetUserByToken(string token)
         {
-            _accessor.HttpContext.Session.SetString("userId", userId.ToHex24());
-        }
-        public User getUserByToken()
-        {
-            string token = GetToken();
             if (string.IsNullOrEmpty(token))
             {
                 return null;
@@ -196,6 +173,28 @@ namespace MoreNote.Controllers
                 return user;
             }
         }
+        public User GetUserByToken()
+        {
+            string token = GetTokenByHttpContext();
+            if (string.IsNullOrEmpty(token))
+            {
+                return null;
+            }
+            else
+            {
+                User user = tokenSerivce.GetUserByToken(token);
+                return user;
+            }
+        }
+
+
+      
+
+        public void SetUserIdToSession(long userId)
+        {
+            _accessor.HttpContext.Session.SetString("userId", userId.ToHex24());
+        }
+
 
         public long ConvertUserIdToLong()
         {
@@ -286,10 +285,7 @@ namespace MoreNote.Controllers
             }
         }
        
-        public long getUserId()
-        {
-            return 0;
-        }
+    
 
         public bool UploadImages(string name,long userId,long noteId, bool isAttach, out long serverFileId, out string msg)
         {

@@ -296,25 +296,29 @@ namespace MoreNote.Logic.Service
 
         public UserAndBlog[] ListLikedUsers(long noteId, bool isALL)
         {
+
             throw new Exception();
         }
 
         public bool IsILikeIt(long noteId, long UserId)
         {
+
             throw new Exception();
+
+
         }
 
         public bool IncReadNum(long noteId)
         {
             try
             {
-                	using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		    var result = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
-                result.ReadNum++;
-                return dataContext.SaveChanges() == 1;
+                using(var dataContext = dependencyInjectionService.GetDataContext())
+		        {
+		            var result = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+                        result.ReadNum++;
+                        return dataContext.SaveChanges() == 1;
 		
-		}
+		        }
             
             }
             catch (Exception)

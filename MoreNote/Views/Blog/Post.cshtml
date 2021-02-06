@@ -100,7 +100,7 @@
     @await Html.PartialAsync("Highlight")
 <script>
     //var siteUrl = "{{$.siteUrl}}"; // common.js需要
-    var siteUrl = @ViewBag.siteUrl; // common.js需要
+    var siteUrl = "@(ViewBag.siteUrl)"; // common.js需要
     // 以下 share_comment.js需要
     //var blogInfo={UserId: "{{$.blogInfo.UserId}}", OpenComment: {{$.blogInfo.OpenComment}}, CommentType: "{{$.blogInfo.CommentType}}"};
     //var noteId = "{{$.post.NoteId}}"; //
@@ -108,7 +108,7 @@
     //var commentNum = +"{{$.post.CommentNum}}";
 
     var blogInfo = { UserId: "@blogUser.UserId.ToHex24()ToHex24()", OpenComment: true , CommentType: "default"};
-    var noteId = "@note.NoteId.ToHex24()ToHex24()"; //
+    var noteId = "@note.NoteId.ToHex24()"; //
     var preLikeNum = +"1122";
     var commentNum = +"0";
 </script>
