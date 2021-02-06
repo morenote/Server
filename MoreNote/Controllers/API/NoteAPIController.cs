@@ -41,13 +41,13 @@ namespace MoreNote.Controllers.API.APIV1
         public JsonResult GetSyncNotes(int afterUsn, int maxEntry, string token)
         {
             if (maxEntry == 0) maxEntry = 100;
-            ApiNote[] apiNotes = noteService.GetSyncNotes(getUserIdByToken(token), afterUsn, maxEntry);
+            ApiNote[] apiNotes = noteService.GetSyncNotes(GetUserIdByToken(token), afterUsn, maxEntry);
             return Json(apiNotes, MyJsonConvert.GetOptions());
         }
         //todo:得到笔记本下的笔记
         public IActionResult GetNotes(string notebookId, string token)
         {
-            Note[] notes = noteService.ListNotes(getUserIdByToken(token), notebookId.ToLongByHex(), false);
+            Note[] notes = noteService.ListNotes(GetUserIdByToken(token), notebookId.ToLongByHex(), false);
             long myNotebookId = notebookId.ToLongByHex();
             return null;
         }
@@ -96,8 +96,8 @@ namespace MoreNote.Controllers.API.APIV1
                 Ok = false,
                 Msg = "GetNoteContent_is_error"
             };
-            Note note = noteService.GetNote(noteId.ToLongByHex(), getUserIdByToken(token));
-            NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), getUserIdByToken(token),false);
+            Note note = noteService.GetNote(noteId.ToLongByHex(), GetUserIdByToken(token));
+            NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token),false);
             if (noteContent==null||note==null)
             {
              
@@ -124,7 +124,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             //json 返回状态好乱呀 /(ㄒoㄒ)/~~
             Re re = Re.NewRe();
-            long tokenUserId = getUserIdByToken(token); ;
+            long tokenUserId = GetUserIdByToken(token); ;
             long myUserId = tokenUserId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))
             {
@@ -313,7 +313,7 @@ namespace MoreNote.Controllers.API.APIV1
             Note noteUpdate = new Note();
             var needUpdateNote = false;
             var re = new ReUpdate();
-            long tokenUserId = getUserIdByToken(token);
+            long tokenUserId = GetUserIdByToken(token);
             var noteId = noteOrContent.NoteId.ToLongByHex();
             //-------------校验参数合法性
             if (tokenUserId == 0)
@@ -491,7 +491,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:删除trash
         public JsonResult DeleteTrash(string noteId, int usn, string token)
         {
-            bool result = trashService.DeleteTrashApi(noteId.ToLongByHex(), getUserIdByToken(token), usn, out string msg, out int afterUsn);
+            bool result = trashService.DeleteTrashApi(noteId.ToLongByHex(), GetUserIdByToken(token), usn, out string msg, out int afterUsn);
             if (result)
             {
                 return Json(new ReUpdate()

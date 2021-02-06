@@ -172,7 +172,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{blogUserIdHex}")]
+      
         [Route("{controller=Blog}/{action=Index}/{blogUserIdHex?}")]
 
         //[Authorize(Roles = "Admin,SuperAdmin")]
@@ -379,8 +379,28 @@ namespace MoreNote.Controllers
             return Json(re, MyJsonConvert.GetOptions());
         }
 
-        public IActionResult GetLikesAndComments()
+        public IActionResult GetLikesAndComments(string noteId,string callback)
         {
+            long userId = GetUserIdBySession();
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            long noteIdNumber= noteId.ToLongByHex();
+            // 我也点过?
+            var isILikeIt=false;
+            if (userId != 0)
+            {
+                isILikeIt = blogService.IsILikeIt(noteIdNumber, userId);
+
+
+
+            }
+
+
+            Re re =new Re();
+            re.Ok=true;
+   
+
+
+
             string json = @"jsonpCallback({""Ok"":true,""Code"":0,""Msg"":"""",""Id"":"""",""List"":null,""Item"":true});";
             return new JavaScriptResult(json);
         }

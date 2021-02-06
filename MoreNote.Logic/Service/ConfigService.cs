@@ -38,7 +38,7 @@ namespace MoreNote.Logic.Service
         public  string GetSiteUrl()
         {
             //todo:修改这个GetSiteUrl
-            return @"https://www.morenote.top/";
+            return @"https://www.morenote.top";
 
         }
         public  bool updateGlobalConfig(long userid,string key,string value)
