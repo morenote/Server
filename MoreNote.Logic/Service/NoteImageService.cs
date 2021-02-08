@@ -8,8 +8,7 @@ namespace MoreNote.Logic.Service
 {
     public class NoteImageService
     {
-        private DependencyInjectionService dependencyInjectionService;
-
+     
         private DataContext dataContext;
 
         public NoteImageService(DataContext dataContext)
