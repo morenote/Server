@@ -22,10 +22,15 @@ namespace MoreNote.Controllers.API.APIV1
 
         public NoteService noteService;
       
-       public FileAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+       public FileAPIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor,
+           NoteService noteService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
        {
-         
-           this.noteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService))as NoteService;
+           this.noteService = noteService;
        }
 
         //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片

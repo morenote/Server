@@ -1,5 +1,6 @@
 ﻿using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
+using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
 using System.Linq;
@@ -10,23 +11,22 @@ namespace MoreNote.Logic.Service
 {
     public class TokenSerivce
     {
-        private DependencyInjectionService dependencyInjectionService;
+        DataContext dataContext;
 
-        public TokenSerivce(DependencyInjectionService dependencyInjectionService)
+        public TokenSerivce(DataContext dataContext)
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext = dataContext;
         }
 
         public bool AddToken(Token token)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+            
                 int a = 0;
 
                 var result = dataContext.Token.Add(token);
                 a = dataContext.SaveChanges();
                 return dataContext.SaveChanges() > 0;
-            }
+            
         }
 
         [Obsolete]
@@ -77,18 +77,16 @@ namespace MoreNote.Logic.Service
 
         public Token GetTokenByTokenStr(long userid, string str)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+          
                 var result = dataContext.Token
                            .Where(b => b.UserId.Equals(userid) && b.TokenStr.Equals(str)).FirstOrDefault();
                 return result;
-            }
+            
         }
 
         public User GetUserByToken(string token)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+           
                 var result = dataContext.Token
                       .Where(b => b.TokenStr.Equals(token)).FirstOrDefault();
                 if (result != null)
@@ -101,16 +99,15 @@ namespace MoreNote.Logic.Service
                 {
                     return null;
                 }
-            }
+            
         }
 
         public bool DeleteTokenByToken(string token)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+            
                 dataContext.Token.Where(a => a.TokenStr.Equals(token));
                 return dataContext.SaveChanges() > 0;
-            }
+            
         }
 
         // 生成token

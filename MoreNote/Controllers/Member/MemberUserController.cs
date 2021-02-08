@@ -15,7 +15,12 @@ namespace MoreNote.Controllers.Member
     [Route("/member/user/{action=Username}")]
     public class MemberUserController : BaseController
     {
-        public MemberUserController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public MemberUserController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
 
         }

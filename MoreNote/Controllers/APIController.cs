@@ -66,13 +66,23 @@ namespace MoreNote.Controllers
 
         private static  Random random = new Random();
 
-
-        public APIController(DependencyInjectionService dependencyInjectionService,DataContext dataContext) : base( dependencyInjectionService)
+        private AccessService accessService;
+        public APIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor,
+            AccessService accessService,
+            DataContext dataContext,
+            RandomImageService randomImageService
+           
+            ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.AccessService = dependencyInjectionService.GetAccessService();
+            this.AccessService = accessService;
             this.dataContext = dataContext;
-            randomImageService=dependencyInjectionService.ServiceProvider.GetRequiredService<RandomImageService>();
-            configFileService =dependencyInjectionService.ServiceProvider.GetRequiredService<ConfigFileService>();
+            this.randomImageService= randomImageService;
+            this.configFileService = configFileService;
             webcConfig = configFileService.GetWebConfig();
             upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername,
                 webcConfig.UpYunCDN.UpyunPassword);

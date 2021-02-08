@@ -16,10 +16,16 @@ namespace MoreNote.Controllers.API.APIV1
    {
        private NotebookService notebookService;
       
-        public NotebookAPIController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
+        public NotebookAPIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor,
+            NotebookService notebookService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
 
-            this.notebookService = dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService))as NotebookService;
+            this.notebookService = notebookService;
         }
 
         //获取同步的笔记本

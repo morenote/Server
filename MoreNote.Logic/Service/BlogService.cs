@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MoreNote.Common.ExtensionMethods;
+﻿using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Helper;
 using MoreNote.Common.Utils;
+using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 
 using System;
@@ -29,17 +29,20 @@ namespace MoreNote.Logic.Service
 
     public class BlogService
     {
-        private DependencyInjectionService dependencyInjectionService;
+        private DataContext dataContext;
+        public NoteService NoteService { get; set; }
+        public NoteContentService NoteContentService { get; set; }
+        public UserService UserService { get; set; }
+        public ConfigService ConfigService { get; set; }
 
-        public BlogService(DependencyInjectionService dependencyInjectionService)
+        public BlogService(DataContext dataContext)
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext = dataContext;
         }
 
         public BlogStat GetBlogStat(long noteId)
         {
-            NoteService noteService = dependencyInjectionService.ServiceProvider.GetRequiredService<NoteService>();
-            var note = noteService.GetBlogNote(noteId);
+            var note = NoteService.GetBlogNote(noteId);
             var stat = new BlogStat()
             {
                 NodeId = note.NoteId,
@@ -55,48 +58,33 @@ namespace MoreNote.Logic.Service
         /// </summary>
         public int CountTheNumberForBlogs(long userId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
-                return count;
-            }
+            var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
+            return count;
         }
 
         public int CountTheNumberForBlogTags(long userId, string tag)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
-                return count;
-            }
+            var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
+            return count;
         }
 
         public Note[] GetNotes(long userid)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var result =
+            var result =
                 dataContext.Note.Where(note => note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.UserId == userid).OrderByDescending(note => note.PublicTime).ToArray();
-                return result;
-            }
+            return result;
         }
 
         public int CountTheNumberForBlogsOfNoteBookId(long userId, long notebookId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.NotebookId == notebookId).Count();
-                return count;
-            }
+            var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.NotebookId == notebookId).Count();
+            return count;
         }
 
         public int CountTheNumberForBlogsOfTag(long userId, string tag)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
-                return count;
-            }
+            var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
+            return count;
         }
 
         public BlogItem GetBlogByIdAndUrlTitle(long userId, string noteIdOrUrlTitle)
@@ -107,24 +95,18 @@ namespace MoreNote.Logic.Service
             }
             else
             {
-                using (var dataContext = dependencyInjectionService.GetDataContext())
-                {
-                    var note = dataContext.Note.Where(b => b.UserId == userId && b.Title == noteIdOrUrlTitle
-                                  && b.IsBlog == true
-                                  && b.IsTrash == false
-                                  && b.IsDeleted == false).FirstOrDefault();
-                    return GetBlogItem(note);
-                }
+                var note = dataContext.Note.Where(b => b.UserId == userId && b.Title == noteIdOrUrlTitle
+                              && b.IsBlog == true
+                              && b.IsTrash == false
+                              && b.IsDeleted == false).FirstOrDefault();
+                return GetBlogItem(note);
             }
         }
 
         public BlogItem GetBlog(long noteId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var note = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
-                return GetBlogItem(note);
-            }
+            var note = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+            return GetBlogItem(note);
         }
 
         public BlogItem GetBlogItem(Note note)
@@ -133,12 +115,11 @@ namespace MoreNote.Logic.Service
             {
                 return new BlogItem();
             }
-            NoteContentService noteContentService=dependencyInjectionService.GetNoteContentService();
-            UserService userService=dependencyInjectionService.GetUserService();
+
             //内容
-            var noteContent = noteContentService.GetNoteContent(note.NoteId, note.UserId);
+            var noteContent = NoteContentService.GetNoteContent(note.NoteId, note.UserId);
             // 组装成blogItem
-            User user = userService.GetUserByUserId(note.UserId);
+            User user = UserService.GetUserByUserId(note.UserId);
             var blog = new BlogItem()
             {
                 Note = note,
@@ -152,11 +133,8 @@ namespace MoreNote.Logic.Service
 
         public Notebook[] ListBlogNotebooks(long userId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var noteBooks = dataContext.Notebook.Where(b => b.UserId == userId && b.IsBlog == true).ToArray();
-                return noteBooks;
-            }
+            var noteBooks = dataContext.Notebook.Where(b => b.UserId == userId && b.IsBlog == true).ToArray();
+            return noteBooks;
         }
 
         /// <summary>
@@ -174,8 +152,8 @@ namespace MoreNote.Logic.Service
         public void ListBlogs(long userId, long noteBookId, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem blogItem)
         {
             int count = 0;
-            NoteService noteService=dependencyInjectionService.GetNoteService();
-            var notes = noteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true, out count);
+
+            var notes = NoteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true, out count);
             if (notes == null || notes.Length == 0)
             {
                 pageObj = new Page();
@@ -255,11 +233,8 @@ namespace MoreNote.Logic.Service
 
         public UserBlog GetUserBlog(long userId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var result = dataContext.UserBlog.Where(b => b.UserId == userId).FirstOrDefault();
-                return result;
-            }
+            var result = dataContext.UserBlog.Where(b => b.UserId == userId).FirstOrDefault();
+            return result;
         }
 
         public bool UpdateUserBlog(UserBlog userBlog)
@@ -296,30 +271,21 @@ namespace MoreNote.Logic.Service
 
         public UserAndBlog[] ListLikedUsers(long noteId, bool isALL)
         {
-
             throw new Exception();
         }
 
         public bool IsILikeIt(long noteId, long UserId)
         {
-
             throw new Exception();
-
-
         }
 
         public bool IncReadNum(long noteId)
         {
             try
             {
-                using(var dataContext = dependencyInjectionService.GetDataContext())
-		        {
-		            var result = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
-                        result.ReadNum++;
-                        return dataContext.SaveChanges() == 1;
-		
-		        }
-            
+                var result = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+                result.ReadNum++;
+                return dataContext.SaveChanges() == 1;
             }
             catch (Exception)
             {
@@ -432,9 +398,8 @@ namespace MoreNote.Logic.Service
         public BlogUrls GetBlogUrls(UserBlog userBlog, User
              userInfo)
         {
-            ConfigService configService = dependencyInjectionService.ServiceProvider.GetRequiredService<ConfigService>();
             string indexUrl, postUrl, searchUrl, cateUrl, singleUrl, tagsUrl, archiveUrl, tagPostsUrl;
-            string blogUrl = configService.GetBlogUrl();
+            string blogUrl = ConfigService.GetBlogUrl();
             var userIdOrEmail = "";
             if (!string.IsNullOrEmpty(userInfo.Username))
             {
@@ -499,18 +464,15 @@ namespace MoreNote.Logic.Service
 
         public Cate[] GetCateArrayForBlog(long userId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var result = (from _note in dataContext.Note
-                              join _noteBook in dataContext.Notebook on _note.NotebookId equals _noteBook.NotebookId
-                              where _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
-                              select new Cate
-                              {
-                                  CateId = _note.NotebookId,
-                                  Title = _noteBook.Title
-                              }).DistinctBy(p => new { p.CateId }).OrderByDescending(b => b.Title).ToArray();
-                return result;
-            }
+            var result = (from _note in dataContext.Note
+                          join _noteBook in dataContext.Notebook on _note.NotebookId equals _noteBook.NotebookId
+                          where _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
+                          select new Cate
+                          {
+                              CateId = _note.NotebookId,
+                              Title = _noteBook.Title
+                          }).DistinctBy(p => new { p.CateId }).OrderByDescending(b => b.Title).ToArray();
+            return result;
         }
     }
 }

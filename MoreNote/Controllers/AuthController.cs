@@ -25,7 +25,12 @@ namespace MoreNote.Controllers
         private AuthService authService;
         private ConfigService configService;
 
-        public AuthController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public AuthController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService)) as AuthService;
             this.configService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigService))as ConfigService;

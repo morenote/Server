@@ -10,7 +10,12 @@ namespace MoreNote.Controllers
 {
     public class ErrorsController1 : BaseController
     {
-        public ErrorsController1(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public ErrorsController1(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            
 

@@ -39,7 +39,7 @@ namespace MoreNoteWorkerService
 
         private readonly Random random = new Random();
 
-        public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService)
+        public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger)
         {
             _logger = logger;
             randomImageService=dependencyInjectionService.ServiceProvider.GetRequiredService<RandomImageService>();

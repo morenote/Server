@@ -17,7 +17,12 @@ namespace MoreNote.Controllers.Member
     public class MemberIndexController : BaseController
     {
         private NoteService noteService;
-        public MemberIndexController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public MemberIndexController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             noteService=dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService)) as NoteService;
            

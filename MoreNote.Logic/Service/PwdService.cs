@@ -12,11 +12,11 @@ namespace MoreNote.Logic.Service
     
     public class PwdService
     {
-      
-        DependencyInjectionService dependencyInjectionService;
-        public PwdService(DependencyInjectionService dependencyInjectionService)
+
+        DataContext dataContext;
+        public PwdService(DataContext dataContext)
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext = dataContext;
           
         }
 
@@ -28,8 +28,7 @@ namespace MoreNote.Logic.Service
         // 用户存在, 生成code
         public  bool FindPwd(string email)
         {
-            	using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
+        
 		     var userid = dataContext.User
                     .Where(b => b.Email.Equals(email)).First();
                 if (userid == null)
@@ -37,11 +36,7 @@ namespace MoreNote.Logic.Service
                     return false;
                 }
                 return true;
-		
-		}
-           
-           
-            
+	
         }
         // 重置密码时
         // 修改密码

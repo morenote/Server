@@ -7,97 +7,97 @@ namespace MoreNote.Logic.Service
     /// <summary>
     /// 依赖注入服务
     /// </summary>
-    public class DependencyInjectionService
+     class DependencyInjectionService
     {
-        public IServiceProvider ServiceProvider { get; set; }
+        private IServiceProvider ServiceProvider { get; set; }
 
-        public DependencyInjectionService(IServiceProvider serviceProvider)
+        private DependencyInjectionService(IServiceProvider serviceProvider)
         {
             this.ServiceProvider = serviceProvider;
         }
 
-        public DataContext GetDataContext()
+        private DataContext GetDataContext()
         {
                 var scope = ServiceProvider.CreateScope();
                 var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
                 return dataContext;
         }
-        public IServiceScope GetServiceScope()
+        private IServiceScope GetServiceScope()
         {
             var scope = ServiceProvider.CreateScope();
             return scope;
         }
 
-        public UserService GetUserService()
+        private UserService GetUserService()
         {
             return ServiceProvider.GetRequiredService<UserService>();
         }
 
-        public NoteImageService GetNoteImageService()
+        private NoteImageService GetNoteImageService()
         {
             return ServiceProvider.GetRequiredService<NoteImageService>();
         }
 
-        public NoteContentService GetNoteContentService()
+        private NoteContentService GetNoteContentService()
         {
             return ServiceProvider.GetRequiredService<NoteContentService>();
         }
 
-        public AttachService GetAttachService()
+        private AttachService GetAttachService()
         {
             return ServiceProvider.GetRequiredService<AttachService>();
         }
 
-        public CommonService GetCommonService()
+        private CommonService GetCommonService()
         {
             return ServiceProvider.GetRequiredService<CommonService>();
         }
 
-        public InitServices GetInitServices()
+        private InitServices GetInitServices()
         {
             return ServiceProvider.GetRequiredService<InitServices>();
         }
 
-        public NotebookService GetNotebookService()
+        private NotebookService GetNotebookService()
         {
             return ServiceProvider.GetRequiredService<NotebookService>();
         }
 
-        public TagService GetTagService()
+        private TagService GetTagService()
         {
             return ServiceProvider.GetRequiredService<TagService>();
         }
 
-        public TokenSerivce GetTokenSerivce()
+        private TokenSerivce GetTokenSerivce()
         {
             return ServiceProvider.GetRequiredService<TokenSerivce>();
         }
 
-        public NoteService GetNoteService()
+        private NoteService GetNoteService()
         {
             return ServiceProvider.GetRequiredService<NoteService>();
         }
 
-        public BlogService GetBlogService()
+        private BlogService GetBlogService()
         {
             return ServiceProvider.GetRequiredService<BlogService>();
         }
 
-        public ConfigService GetConfigService()
+        private ConfigService GetConfigService()
         {
             return ServiceProvider.GetRequiredService<ConfigService>();
         }
 
-        public ConfigFileService GetConfigFileService()
+        private ConfigFileService GetConfigFileService()
         {
             return ServiceProvider.GetRequiredService<ConfigFileService>();
         }
 
-        public EmailService GetEmailService()
+        private EmailService GetEmailService()
         {
             return ServiceProvider.GetRequiredService<EmailService>();
         }
-        public AccessService GetAccessService()
+        private AccessService GetAccessService()
         {
             return ServiceProvider.GetRequiredService<AccessService>();;
         }

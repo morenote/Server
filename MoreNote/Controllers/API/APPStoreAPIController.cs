@@ -15,10 +15,17 @@ namespace MoreNote.Controllers.API.APIV1
     {
         private APPStoreInfoService APPStoreInfoService { get; set; }
         private AuthService authService;
-        public APPStoreAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public APPStoreAPIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor,
+            AuthService authService,
+            APPStoreInfoService aPPStoreInfoService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService))as AuthService;
-            this.APPStoreInfoService = dependencyInjectionService.ServiceProvider.GetService(typeof(APPStoreInfoService))as APPStoreInfoService;
+            this.authService = authService;
+            this.APPStoreInfoService = aPPStoreInfoService;
         }
 
         [Route("/api/1.0/app/[action]")]

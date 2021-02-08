@@ -11,92 +11,85 @@ namespace MoreNote.Logic.Service
 {
     public class NoteContentService
     {
-        private DependencyInjectionService dependencyInjectionService;
-
-        public NoteContentService(DependencyInjectionService dependencyInjectionService)
+       DataContext dataContext;
+        public NoteImageService NoteImageService { get;set;}
+        public NoteContentService(DataContext dataContext)
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext = dataContext;
         }
 
         public List<NoteContent> ListNoteContent()
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+            
                 var result = dataContext.NoteContent
                           .Where(b => b.IsBlog == true && b.IsHistory == false);
                 return result.ToList<NoteContent>();
-            }
+            
         }
 
         public List<NoteContent> ListNoteContent(bool IsHistory)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+          
                 var result = dataContext.NoteContent
                            .Where(b => b.IsBlog == true && b.IsHistory == IsHistory);
                 return result.ToList<NoteContent>();
-            }
+            
         }
 
         public NoteContent SelectNoteContent(long noteId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+            
                 var result = dataContext.NoteContent
                           .Where(b => b.NoteId == noteId && b.IsHistory == false).FirstOrDefault();
                 return result;
-            }
+            
         }
 
         public bool InsertNoteContent(NoteContent noteContent)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+            
                 var result = dataContext.NoteContent.Add(noteContent);
 
                 return dataContext.SaveChanges() > 0;
-            }
+            
         }
 
         public NoteContent GetNoteContent(long noteId, long userId, bool IsHistory)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+           
                 var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == IsHistory);
                 return result == null ? null : result.FirstOrDefault();
-            }
+            
         }
 
         [Obsolete("不推荐使用,使用GetValidNoteContent替代")]
         public NoteContent GetNoteContent(long noteId, long userId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+           
                 var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId);
                 return result == null ? null : result.FirstOrDefault();
-            }
+            
         }
 
         public NoteContent GetValidNoteContent(long noteId, long userId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+           
                 var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == false);
                 return result == null ? null : result.FirstOrDefault();
-            }
+            
         }
 
         // 添加笔记本内容
         // [ok]
         public NoteContent AddNoteContent(NoteContent noteContent)
         {
-            NoteImageService noteImageService = dependencyInjectionService.GetNoteImageService();
+            
             noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
             noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
             noteContent.UpdatedUserId = noteContent.UserId;
             InsertNoteContent(noteContent);
             // 更新笔记图片
-            noteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
+            NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;
         }
 
@@ -113,8 +106,7 @@ namespace MoreNote.Logic.Service
 
         public bool UpdateNoteContent(ApiNote apiNote, out string msg, out long contentId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+           
                 //更新 将其他笔记刷新
                 var noteId = apiNote.NoteId.ToLongByHex();
                 var note = dataContext.Note.Where(b => b.NoteId == noteId).First();
@@ -179,13 +171,12 @@ namespace MoreNote.Logic.Service
                 msg = "";
                 dataContext.SaveChanges();
                 return true;
-            }
+            
         }
 
         public bool DeleteByIdAndUserId(long noteId, long userId, bool Including_the_history)
         {
-         using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
+        
 		  if (Including_the_history)
             {
                 dataContext.NoteContent.Where(b => b.NoteId == noteId && b.UserId == userId).Delete();
@@ -195,7 +186,7 @@ namespace MoreNote.Logic.Service
                 dataContext.NoteContent.Where(b => b.NoteId == noteId && b.UserId == userId && b.IsHistory == false).Delete();
             }
 		
-		}
+		
           
 
             return true;

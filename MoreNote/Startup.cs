@@ -14,6 +14,7 @@ using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MoreNote.Filter.Global;
 using MoreNote.Logic.Service;
+using Autofac;
 
 namespace MoreNote
 {
@@ -113,42 +114,47 @@ namespace MoreNote
                 option.Filters.Add<InspectionInstallationFilter>();
             });
             
-            //依赖注入的对象
-            services.AddTransient(typeof(AccessService));
-            services.AddTransient(typeof(AlbumService));
-            services.AddTransient(typeof(APPStoreInfoService));
-            services.AddTransient(typeof(AttachService));
-            services.AddTransient(typeof(AuthService));
-            services.AddTransient(typeof(BlogService));
-            services.AddTransient(typeof(CommonService));
-            services.AddTransient(typeof(ConfigFileService));
-            services.AddTransient(typeof(ConfigService));
-            services.AddTransient(typeof(EmailService));
-            services.AddTransient(typeof(GoogleAuthenticatorService));
-            services.AddTransient(typeof(GroupService));
-            services.AddTransient(typeof(InitServices));
-            services.AddTransient(typeof(NotebookService));
-            services.AddTransient(typeof(NoteContentHistoryService));
-            services.AddTransient(typeof(NoteContentService));
-            services.AddTransient(typeof(NoteFileService));
-            services.AddTransient(typeof(NoteImageService));
-            services.AddTransient(typeof(NoteService));
-            services.AddTransient(typeof(PwdService));
-            services.AddTransient(typeof(RandomImageService));
-            services.AddTransient(typeof(SessionService));
-            services.AddTransient(typeof(ShareService));
-            services.AddTransient(typeof(SpamService));
-            services.AddTransient(typeof(SuggestionService));
-            services.AddTransient(typeof(TagService));
-            services.AddTransient(typeof(ThemeService));
-            services.AddTransient(typeof(TokenSerivce));
-            services.AddTransient(typeof(UpgradeService));
-            services.AddTransient(typeof(UserService));
-            services.AddTransient(typeof(UserService));
-            
-            services.AddSingleton(typeof(DependencyInjectionService));
+          
             
            // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
+        }
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            //依赖注入的对象
+            builder.RegisterType<AccessService>();
+            builder.RegisterType<AlbumService>();
+            builder.RegisterType<APPStoreInfoService>();
+            builder.RegisterType<AttachService>();
+            builder.RegisterType<AuthService>();
+            builder.RegisterType<BlogService>();
+            builder.RegisterType<CommonService>();
+            builder.RegisterType<ConfigFileService>();
+            builder.RegisterType<ConfigService>();
+            builder.RegisterType<EmailService>();
+            builder.RegisterType<GoogleAuthenticatorService>();
+            builder.RegisterType<GroupService>();
+            builder.RegisterType<InitServices>();
+            builder.RegisterType<NotebookService>();
+            builder.RegisterType<NoteContentHistoryService>();
+            builder.RegisterType<NoteContentService>();
+            builder.RegisterType<NoteFileService>();
+            builder.RegisterType<NoteImageService>();
+            builder.RegisterType<NoteService>();
+            builder.RegisterType<PwdService>();
+            builder.RegisterType<RandomImageService>();
+            builder.RegisterType<SessionService>();
+            builder.RegisterType<ShareService>();
+            builder.RegisterType<SpamService>();
+            builder.RegisterType<SuggestionService>();
+            builder.RegisterType<TagService>();
+            builder.RegisterType<ThemeService>();
+            builder.RegisterType<TokenSerivce>();
+            builder.RegisterType<UpgradeService>();
+            builder.RegisterType<UserService>();
+            builder.RegisterType<UserService>();
+
+            builder.RegisterType<DependencyInjectionService>();
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

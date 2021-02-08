@@ -10,20 +10,21 @@ namespace MoreNote.Logic.Service
 {
     public class SpamService
     {
-       DependencyInjectionService dependencyInjectionService;
-        public SpamService(DependencyInjectionService dependencyInjectionService)
+        private DataContext dataContext;
+        public ConfigFileService ConfigFileService { get; set; }
+
+        public SpamService(DataContext dataContext)
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext = dataContext;
         }
 
         private static ConsumeModel consumeModel = null;
 
         private static Object lockObj = new object();
 
-        private  ConsumeModel GetConsumeModel()
+        private ConsumeModel GetConsumeModel()
         {
-            ConfigFileService configFileService=dependencyInjectionService.GetConfigFileService();
-            WebSiteConfig webSiteConfig = configFileService.GetWebConfig();
+            WebSiteConfig webSiteConfig = ConfigFileService.GetWebConfig();
             if (consumeModel == null)
             {
                 lock (lockObj)
@@ -45,7 +46,7 @@ namespace MoreNote.Logic.Service
             }
         }
 
-        public  ModelOutput Predict(string input)
+        public ModelOutput Predict(string input)
         {
             lock (lockObj)
             {
@@ -54,17 +55,11 @@ namespace MoreNote.Logic.Service
                 return result;
             }
         }
-        public  void AddSpamInfo(SpamInfo spamInfo)
-        {
-           	using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		dataContext.SpamInfo.Add(spamInfo);
-                dataContext.SaveChanges();
-		
-		}
-                
-            
 
+        public void AddSpamInfo(SpamInfo spamInfo)
+        {
+            dataContext.SpamInfo.Add(spamInfo);
+            dataContext.SaveChanges();
         }
     }
 }

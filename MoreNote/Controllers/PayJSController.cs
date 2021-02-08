@@ -22,7 +22,12 @@ namespace MoreNote.Controllers
     {
         private DataContext dataContext;
         private ConfigFileService configFileService;
-        public PayJSController(DependencyInjectionService dependencyInjectionService,DataContext dataContext) : base(dependencyInjectionService)
+        public PayJSController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.dataContext = dataContext;
             configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;

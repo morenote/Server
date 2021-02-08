@@ -13,7 +13,12 @@ namespace MoreNote.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class APPController : BaseController
     {
-        public APPController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public APPController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            
 
