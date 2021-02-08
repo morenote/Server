@@ -153,7 +153,7 @@ namespace MoreNote
             builder.RegisterType<UserService>();
             builder.RegisterType<UserService>();
 
-            builder.RegisterType<DependencyInjectionService>();
+           
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -44,11 +44,11 @@ namespace MoreNoteWorkerService
        
         Random random = new Random();
        
-        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger)
+        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger, RandomImageService randomImageService, ConfigFileService configFileService)
         {
             _logger = logger;
-            randomImageService=dependencyInjectionService.ServiceProvider.GetService(typeof(RandomImageService)) as RandomImageService;
-            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            this.randomImageService= randomImageService;
+            this.configFileService= configFileService;
             config = configFileService.GetWebConfig();
             upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
         }

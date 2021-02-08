@@ -24,7 +24,7 @@ namespace MoreNote.Controllers
             , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            
-            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+           this.configFileService= configFileService;
             ;
         }
         public IActionResult Index()

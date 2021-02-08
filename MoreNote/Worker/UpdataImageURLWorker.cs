@@ -39,11 +39,11 @@ namespace MoreNoteWorkerService
 
         private readonly Random random = new Random();
 
-        public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger)
+        public UpdataImageURLWorker(ILogger<RandomImagesCrawlerWorker> logger, RandomImageService randomImageService, ConfigFileService configFileService)
         {
             _logger = logger;
-            randomImageService=dependencyInjectionService.ServiceProvider.GetRequiredService<RandomImageService>();
-            configFileService=dependencyInjectionService.ServiceProvider.GetRequiredService<ConfigFileService>();
+            this.randomImageService= randomImageService;
+            this.configFileService= configFileService;
             config = configFileService.GetWebConfig();
              size = config.PublicAPI.RandomImageSize;
         }

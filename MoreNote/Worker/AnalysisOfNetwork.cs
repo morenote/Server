@@ -26,11 +26,11 @@ namespace MoreNoteWorkerService
         private ConfigFileService configFileService;
   
 
-        public AnalysisOfNetwork(ILogger<RandomImagesCrawlerWorker> logger)
+        public AnalysisOfNetwork(ILogger<RandomImagesCrawlerWorker> logger, ConfigFileService configFileService)
         {
             _logger = logger;
             this.dataContext = dataContext;
-            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            this.configFileService= configFileService;
 
             webSiteConfig = configFileService.GetWebConfig();
         }

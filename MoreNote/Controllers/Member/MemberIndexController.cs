@@ -22,9 +22,9 @@ namespace MoreNote.Controllers.Member
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor, NoteService noteService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            noteService=dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService)) as NoteService;
+            this.noteService= noteService;
            
         }
 

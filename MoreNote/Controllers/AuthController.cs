@@ -30,10 +30,10 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor, AuthService authService, ConfigService configService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService)) as AuthService;
-            this.configService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigService))as ConfigService;
+            this.authService = authService;
+            this.configService = configService;
 
         }
         //public IActionResult Index()
