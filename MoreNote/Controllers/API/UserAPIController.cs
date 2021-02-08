@@ -18,7 +18,12 @@ namespace MoreNote.Controllers.API.APIV1
         private AuthService authService;
         private UserService userService;
         private TokenSerivce tokenSerivce;
-        public UserAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public UserAPIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService))as AuthService;
             this.userService = dependencyInjectionService.ServiceProvider.GetService(typeof(UserService))as UserService;

@@ -19,7 +19,12 @@ namespace MoreNote.Controllers
     public class SystemController : BaseController
     {
         private ConfigFileService configFileService;
-        public SystemController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
+        public SystemController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.configFileService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
 

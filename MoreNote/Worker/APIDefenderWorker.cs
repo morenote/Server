@@ -37,7 +37,7 @@ namespace MoreNoteWorkerService
 
         Random random = new Random();
 
-        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService)
+        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger)
         {
             _logger = logger;
             configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;

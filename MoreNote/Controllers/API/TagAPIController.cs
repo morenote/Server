@@ -12,7 +12,12 @@ namespace MoreNote.Controllers.API.APIV1
     {
         private TokenSerivce tokenSerivce;
         private TagService tagService;
-        public TagAPIController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
+        public TagAPIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            
             tokenSerivce=dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce))as TokenSerivce;

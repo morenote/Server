@@ -26,7 +26,12 @@ namespace MoreNote.Controllers.API.APIV1
     {
    
 
-        public BaseAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public BaseAPIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
           
         }

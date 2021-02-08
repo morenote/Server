@@ -26,7 +26,7 @@ namespace MoreNoteWorkerService
         private ConfigFileService configFileService;
   
 
-        public AnalysisOfNetwork(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService,DataContext dataContext)
+        public AnalysisOfNetwork(ILogger<RandomImagesCrawlerWorker> logger)
         {
             _logger = logger;
             this.dataContext = dataContext;

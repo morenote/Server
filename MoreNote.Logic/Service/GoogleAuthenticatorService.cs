@@ -1,35 +1,36 @@
 ﻿using Google.Authenticator;
 using MoreNote.Common.Utils;
+using MoreNote.Logic.DB;
 using System.Linq;
 
 namespace MoreNote.Logic.Service
 {
     public class GoogleAuthenticatorService
     {
-        private DependencyInjectionService dependencyInjectionService;
 
-        public GoogleAuthenticatorService(DependencyInjectionService dependencyInjectionService)
+
+        private DataContext dataContext;
+        public GoogleAuthenticatorService(DataContext dataContext)
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext=dataContext;
+         
         }
 
         public void SetSecretKey(long userId, string secretKey)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+           
                 var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
                 user.GoogleAuthenticatorSecretKey = secretKey;
                 dataContext.SaveChanges();
-            }
+            
         }
 
         public string GetSecretKey(long userId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
+           
                 var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
                 return user.GoogleAuthenticatorSecretKey;
-            }
+            
         }
 
         public string GenerateSecretKey()

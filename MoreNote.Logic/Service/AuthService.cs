@@ -3,31 +3,34 @@ using System.Formats.Asn1;
 using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.Utils;
 using MoreNote.Common.Utils;
+using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 
 namespace MoreNote.Logic.Service
 {
     public class AuthService
     {
-     
-          DependencyInjectionService dependencyInjectionService;
-        public AuthService(DependencyInjectionService dependencyInjectionService)
+
+        private DataContext dataContext;
+        public UserService UserService { get;set;}
+        public TokenSerivce TokenSerivce { get;set;}
+        public AuthService(DataContext dataContext)
         {
-           this.dependencyInjectionService=dependencyInjectionService;
+            this.dataContext=dataContext;
+          
         }
 
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
         {
-            UserService userService=dependencyInjectionService.GetUserService();
-            TokenSerivce tokenSerivce=dependencyInjectionService.GetTokenSerivce();
-            user = userService.GetUser(email);
+          
+            user = UserService.GetUser(email);
             if (user != null)
             {
                 string temp = SHAEncryptHelper.Hash256Encrypt(pwd + user.Salt);
                 if (temp.Equals(user.Pwd))
                 {
                     long tokenid = SnowFlakeNet.GenerateSnowFlakeID();
-                    var token=tokenSerivce.GenerateToken(tokenid);
+                    var token= TokenSerivce.GenerateToken(tokenid);
                     Token myToken = new Token
                     {
                         TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
@@ -37,7 +40,7 @@ namespace MoreNote.Logic.Service
                         TokenType = 0,
                         CreatedTime = DateTime.Now
                     };
-                    tokenSerivce.AddToken(myToken);
+                    TokenSerivce.AddToken(myToken);
                     tokenStr = myToken.TokenStr;
                     return true;
                 }
@@ -66,8 +69,8 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public  bool IsLogin(long userid,string tokenStr)
         {
-            var tokenSerivce=dependencyInjectionService.ServiceProvider.GetRequiredService<TokenSerivce>();
-            Token token = tokenSerivce.GetTokenByTokenStr(userid
+          
+            Token token = TokenSerivce.GetTokenByTokenStr(userid
                 , tokenStr);
             if (token!=null)
             {
@@ -107,8 +110,8 @@ namespace MoreNote.Logic.Service
                 Msg="参数错误";
                 return false;
             }
-            var userService=dependencyInjectionService.ServiceProvider.GetRequiredService<UserService>();
-            if (userService.IsExistsUser(email))
+          
+            if (UserService.IsExistsUser(email))
             {
                Msg= "userHasBeenRegistered-"+ email;
                 return false;
@@ -146,8 +149,8 @@ namespace MoreNote.Logic.Service
         }
         public  bool Register(User user)
         {
-            var userService=dependencyInjectionService.ServiceProvider.GetRequiredService<UserService>();
-            if (userService.AddUser(user))
+          
+            if (UserService.AddUser(user))
             {
                 return true;
             }

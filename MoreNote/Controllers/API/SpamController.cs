@@ -17,7 +17,12 @@ namespace MoreNote.Controllers.API
     public class SpamController : BaseAPIController
     {
         private SpamService spamService;
-        public SpamController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public SpamController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            spamService=dependencyInjectionService.ServiceProvider.GetService(typeof(SpamService))as SpamService;
            

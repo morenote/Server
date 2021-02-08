@@ -1,7 +1,7 @@
 ﻿using MoreNote.Common.Helper;
 using MoreNote.Common.Utils;
+using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.ExtensionMethods.DI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,49 +10,45 @@ namespace MoreNote.Logic.Service
 {
     public class TagService
     {
-        private DependencyInjectionService dependencyInjectionService;
+        private DataContext dataContext;
+        public NoteService NoteService { get; set; }
+        public UserService UserService { get; set; }
 
-        public TagService(DependencyInjectionService dependencyInjectionService)
+        public TagService(DataContext dataContext)
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext = dataContext;
         }
 
         public bool AddTags(long userId, string[] tags)
         {
-            using (var sc = dependencyInjectionService.GetServiceScope())
+            foreach (var itemTag in tags)
             {
-                using (var dataContext = sc.GetDataContext())
+                //解决item引起的bug
+                //todo:持续改进这个方法，改进与leanote的兼容性
+                if (itemTag != null)
                 {
-                    foreach (var itemTag in tags)
+                    var result = dataContext.Tag.Where(tag => tag.UserId == userId);
+                    if (result != null)
                     {
-                        //解决item引起的bug
-                        //todo:持续改进这个方法，改进与leanote的兼容性
-                        if (itemTag!=null)
+                        var userTags = result.FirstOrDefault();
+                        //这个地方区分大小写吗
+                        if (!userTags.Tags.Contains(itemTag))
                         {
-                            var result= dataContext.Tag.Where(tag => tag.UserId==userId);
-                            if (result!=null)
-                            {
-                                var userTags=result.FirstOrDefault();
-                                //这个地方区分大小写吗
-                                if (!userTags.Tags.Contains(itemTag))
-                                {
-                                    userTags.Tags.Add(itemTag);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Tag tag=new Tag()
-                            {
-                                UserId=userId,
-                                Tags=new List<string>()
-                            };
-                        tag.Tags.Add(itemTag);
+                            userTags.Tags.Add(itemTag);
                         }
                     }
-                    dataContext.SaveChanges();
+                }
+                else
+                {
+                    Tag tag = new Tag()
+                    {
+                        UserId = userId,
+                        Tags = new List<string>()
+                    };
+                    tag.Tags.Add(itemTag);
                 }
             }
+            dataContext.SaveChanges();
 
             return true;
         }
@@ -68,20 +64,18 @@ namespace MoreNote.Logic.Service
         // 万能
         public NoteTag AddOrUpdateTag(long userId, string tag)
         {
-            var noteService = dependencyInjectionService.GetNoteService();
-            var userService = dependencyInjectionService.GetUserService();
             NoteTag noteTag = GetTag(userId, tag);
             // 存在, 则更新之
             if (noteTag != null && noteTag.TagId != 0)
             {
                 // 统计note数
-                int count = noteService.CountNoteByTag(userId, tag);
+                int count = NoteService.CountNoteByTag(userId, tag);
                 noteTag.Count = count;
                 noteTag.UpdatedTime = DateTime.Now;
                 // 之前删除过的, 现在要添加回来了
                 if (noteTag.IsDeleted)
                 {
-                    noteTag.Usn = userService.IncrUsn(userId);
+                    noteTag.Usn = UserService.IncrUsn(userId);
                     noteTag.IsDeleted = false;
                     UpdateByIdAndUserId(noteTag.TagId, userId, noteTag);
                 }
@@ -97,7 +91,7 @@ namespace MoreNote.Logic.Service
                 UserId = userId,
                 CreatedTime = timeNow,
                 UpdatedTime = timeNow,
-                Usn = userService.IncrUsn(userId),
+                Usn = UserService.IncrUsn(userId),
                 IsDeleted = false
             };
             AddNoteTag(noteTag);
@@ -106,29 +100,22 @@ namespace MoreNote.Logic.Service
 
         public bool UpdateByIdAndUserId(long tagId, long userId, NoteTag noteTag)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var noteT = dataContext.NoteTag
-                           .Where(b => b.TagId == tagId
-                           && b.UserId == userId).FirstOrDefault();
-                noteT.Tag = noteTag.Tag;
-                noteT.Usn = noteTag.Usn;
-                noteT.Count = noteTag.Count;
-                noteT.UpdatedTime = noteTag.UpdatedTime;
-                noteT.IsDeleted = noteTag.IsDeleted;
-                return dataContext.SaveChanges() > 0;
-            }
+            var noteT = dataContext.NoteTag
+                       .Where(b => b.TagId == tagId
+                       && b.UserId == userId).FirstOrDefault();
+            noteT.Tag = noteTag.Tag;
+            noteT.Usn = noteTag.Usn;
+            noteT.Count = noteTag.Count;
+            noteT.UpdatedTime = noteTag.UpdatedTime;
+            noteT.IsDeleted = noteTag.IsDeleted;
+            return dataContext.SaveChanges() > 0;
         }
 
         // 得到标签, 按更新时间来排序
         public NoteTag[] GetTags(long userId)
         {
-            using (var sc = dependencyInjectionService.GetServiceScope())
-            using (var dataContext = sc.GetDataContext())
-            {
-                return dataContext.NoteTag.Where(tag => tag.UserId == userId && tag.IsDeleted == false)
-                      .OrderBy(tag => tag.UpdatedTime).ToArray();
-            }
+            return dataContext.NoteTag.Where(tag => tag.UserId == userId && tag.IsDeleted == false)
+                  .OrderBy(tag => tag.UpdatedTime).ToArray();
         }
 
         // 删除标签
@@ -157,18 +144,15 @@ namespace MoreNote.Logic.Service
                 return false;
             }
 
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                UserService userService = dependencyInjectionService.GetUserService();
-                var result = dataContext.NoteTag
-                     .Where(b => b.UserId == userId && b.Tag.Equals(tag
-                     )).FirstOrDefault();
-                result.IsDeleted = true;
-                toUsn = userService.IncrUsn(userId);
-                //todo:这里应该进行事务控制，失败的话应该回滚事务
-                msg = "success";
-                return dataContext.SaveChanges() > 0;
-            }
+          
+            var result = dataContext.NoteTag
+                 .Where(b => b.UserId == userId && b.Tag.Equals(tag
+                 )).FirstOrDefault();
+            result.IsDeleted = true;
+            toUsn = UserService.IncrUsn(userId);
+            //todo:这里应该进行事务控制，失败的话应该回滚事务
+            msg = "success";
+            return dataContext.SaveChanges() > 0;
         }
 
         // 重新统计标签的count
@@ -187,77 +171,63 @@ namespace MoreNote.Logic.Service
         // 同步用
         public NoteTag[] GeSyncTags(long userId, int afterUsn, int maxEntry)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var result = dataContext.NoteTag.
-                    Where(b => b.UserId == userId && b.Usn > afterUsn).Take(maxEntry);
-                return result.ToArray();
-            }
+            var result = dataContext.NoteTag.
+                Where(b => b.UserId == userId && b.Usn > afterUsn).Take(maxEntry);
+            return result.ToArray();
         }
 
         public NoteTag GetTag(long tagId)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
+            var result = dataContext.NoteTag
+                      .Where(b => b.TagId == tagId);
+            if (result == null)
             {
-                var result = dataContext.NoteTag
-                          .Where(b => b.TagId == tagId);
-                if (result == null)
-                {
-                    return null;
-                }
-                return result.FirstOrDefault();
+                return null;
             }
+            return result.FirstOrDefault();
         }
 
         public NoteTag GetTag(long userId, string tag)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
+            var result = dataContext.NoteTag
+                    .Where(b => b.UserId == userId && b.Tag.Equals(tag));
+            if (result == null)
             {
-                var result = dataContext.NoteTag
-                        .Where(b => b.UserId == userId && b.Tag.Equals(tag));
-                if (result == null)
-                {
-                    return null;
-                }
-                return result.FirstOrDefault();
+                return null;
             }
+            return result.FirstOrDefault();
         }
 
         public bool AddNoteTag(NoteTag noteTag)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
+            if (noteTag.TagId == 0)
             {
-                if (noteTag.TagId == 0)
-                {
-                    noteTag.TagId = SnowFlakeNet.GenerateSnowFlakeID();
-                }
-
-                var result = dataContext.NoteTag.Add(noteTag);
-                return dataContext.SaveChanges() > 0;
+                noteTag.TagId = SnowFlakeNet.GenerateSnowFlakeID();
             }
+
+            var result = dataContext.NoteTag.Add(noteTag);
+            return dataContext.SaveChanges() > 0;
         }
 
         public string[] GetBlogTags(long userid)
         {
             //todo:这里需要性能优化，获得blog标签
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                var result = dataContext.Note.Where(note => note.UserId == userid && note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.Tags != null && note.Tags.Length > 0).DistinctBy(p => new { p.Tags }).ToArray();
-                HashSet<string> hs = new HashSet<string>();
-                foreach (var item in result)
-                {
-                    if (item.Tags != null && item.Tags.Length > 0)
 
-                        foreach (var tag in item.Tags)
+            var result = dataContext.Note.Where(note => note.UserId == userid && note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.Tags != null && note.Tags.Length > 0).DistinctBy(p => new { p.Tags }).ToArray();
+            HashSet<string> hs = new HashSet<string>();
+            foreach (var item in result)
+            {
+                if (item.Tags != null && item.Tags.Length > 0)
+
+                    foreach (var tag in item.Tags)
+                    {
+                        if (tag != null && !hs.Contains(tag))
                         {
-                            if (tag != null && !hs.Contains(tag))
-                            {
-                                hs.Add(tag);
-                            }
+                            hs.Add(tag);
                         }
-                }
-                return hs.ToArray<string>();
+                    }
             }
+            return hs.ToArray<string>();
         }
     }
 }

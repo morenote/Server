@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
-using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
@@ -14,48 +13,57 @@ using UpYunLibrary;
 
 namespace MoreNote.Controllers
 {
-
     /**
      * 源代码基本是从GO代码直接复制过来的
-     * 
+     *
      * 只是简单的实现了API的功能
-     * 
+     *
      * 2020年01月27日
      * */
+
     public class BaseController : Controller
     {
         public int pageSize = 1000;
         public string defaultSortField = "UpdatedTime";
         public string leanoteUserId = "admin";// 不能更改
         protected IHttpContextAccessor _accessor;
+
         /// <summary>
         /// 网站配置
         /// </summary>
-        public  WebSiteConfig config ;
+        public WebSiteConfig config;
+
         /// <summary>
         /// 又拍云
         /// </summary>
-        public  UpYun upyun=null;
+        public UpYun upyun = null;
 
         public AttachService attachService;
         public TokenSerivce tokenSerivce;
         public NoteFileService noteFileService;
         public UserService userService;
         private ConfigFileService configFileService;
-        public BaseController(DependencyInjectionService dependencyInjectionService)
+
+        public BaseController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor)
         {
-            this.attachService = dependencyInjectionService.ServiceProvider.GetService(typeof(AttachService)) as AttachService;
-            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce)) as TokenSerivce;
-            this.noteFileService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteFileService)) as NoteFileService;
-            this.configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
-            this.userService=dependencyInjectionService.GetUserService();
-            _accessor = dependencyInjectionService.ServiceProvider.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
-            if (config!=null&&config.UpYunCDN!=null)
+            this.attachService = attachService;
+            this.tokenSerivce = tokenSerivce;
+            this.noteFileService = noteFileService;
+            this.configFileService = configFileService;
+            this.userService = userService;
+            _accessor = accessor;
+            if (config != null && config.UpYunCDN != null)
             {
                 upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
             }
             config = configFileService.GetWebConfig();
         }
+
         public bool HasLogined()
         {
             string userHex = HttpContext.Session.GetString("_UserId");
@@ -68,19 +76,18 @@ namespace MoreNote.Controllers
             {
                 return true;
             }
-
         }
- 
+
         public long GetUserIdBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
             long userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
+
         // todo:得到用户信息
         public long GetUserIdByToken(string token)
         {
-
             if (string.IsNullOrEmpty(token))
             {
                 return 0;
@@ -92,6 +99,7 @@ namespace MoreNote.Controllers
                 return userid;
             }
         }
+
         public User GetUserBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
@@ -99,17 +107,19 @@ namespace MoreNote.Controllers
             User user = userService.GetUserByUserId(userid_number);
             return user;
         }
+
         public string SetLocale()
         {
             //todo:SetLocale未完成
             var lnag = "zh-cn";
             return null;
-
         }
+
         public IActionResult Action()
         {
             return Content("error");
         }
+
         /// <summary>
         /// 通过HttpContext获得token
         /// todo:得到token, 这个token是在AuthInterceptor设到Session中的
@@ -120,16 +130,16 @@ namespace MoreNote.Controllers
             /**
              *  软件从不假设某个IP或者使用者借助cookie获得永久的使用权
              *  任何访问，必须显式的提供token证明
-             *  
+             *
              *  API服务不接受cookie中的信息，token总是显式提交的
-             * 
+             *
              **/
-            string token=null;
-            if (_accessor.HttpContext.Request.Form!=null)
+            string token = null;
+            if (_accessor.HttpContext.Request.Form != null)
             {
-                token= _accessor.HttpContext.Request.Form["token"];
+                token = _accessor.HttpContext.Request.Form["token"];
             }
-             
+
             if (string.IsNullOrEmpty(token))
             {
                 token = _accessor.HttpContext.Request.Query["token"];
@@ -142,7 +152,6 @@ namespace MoreNote.Controllers
             {
                 return token;
             }
-
         }
 
         public long GetUserIdByToken()
@@ -161,6 +170,7 @@ namespace MoreNote.Controllers
                 return userid;
             }
         }
+
         public User GetUserByToken(string token)
         {
             if (string.IsNullOrEmpty(token))
@@ -173,6 +183,7 @@ namespace MoreNote.Controllers
                 return user;
             }
         }
+
         public User GetUserByToken()
         {
             string token = GetTokenByHttpContext();
@@ -187,14 +198,10 @@ namespace MoreNote.Controllers
             }
         }
 
-
-      
-
         public void SetUserIdToSession(long userId)
         {
             _accessor.HttpContext.Session.SetString("userId", userId.ToHex24());
         }
-
 
         public long ConvertUserIdToLong()
         {
@@ -209,14 +216,15 @@ namespace MoreNote.Controllers
             }
             return hex.ToLongByHex();
         }
+
         // todo :上传附件
-        public bool UploadAttach(string name,long userId, long noteId, out string msg, out long serverFileId)
+        public bool UploadAttach(string name, long userId, long noteId, out string msg, out long serverFileId)
         {
             msg = "";
             serverFileId = 0;
 
             var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
-           
+
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
@@ -236,7 +244,7 @@ namespace MoreNote.Controllers
                 return false;
             }
             var httpFile = httpFiles[name];
-            var fileEXT = Path.GetExtension(httpFile.FileName).Replace(".","");
+            var fileEXT = Path.GetExtension(httpFile.FileName).Replace(".", "");
             if (!IsAllowAttachExt(fileEXT))
             {
                 msg = $"The_Attach_extension_{fileEXT}_is_blocked";
@@ -249,7 +257,7 @@ namespace MoreNote.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
+            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -257,24 +265,22 @@ namespace MoreNote.Controllers
                 AttachInfo attachInfo = new AttachInfo()
                 {
                     AttachId = diskFileId,
-                    UserId=userId,
+                    UserId = userId,
                     NoteId = noteId,
                     UploadUserId = userId,
                     Name = fileName,
                     Title = httpFile.FileName,
                     Size = httpFile.Length,
                     Path = uploadDirPath + fileName,
-                    Type=fileEXT.ToLower(),
-                  
+                    Type = fileEXT.ToLower(),
+
                     CreatedTime = DateTime.Now
                     //todo: 增加特性=图片管理
-
                 };
-                var AddResult = attachService.AddAttach(attachInfo, true,out string AttachMsg);
+                var AddResult = attachService.AddAttach(attachInfo, true, out string AttachMsg);
                 if (!AddResult)
                 {
                     msg = "添加数据库失败";
-
                 }
                 return AddResult;
             }
@@ -284,30 +290,28 @@ namespace MoreNote.Controllers
                 return false;
             }
         }
-       
-    
 
-        public bool UploadImages(string name,long userId,long noteId, bool isAttach, out long serverFileId, out string msg)
+        public bool UploadImages(string name, long userId, long noteId, bool isAttach, out long serverFileId, out string msg)
         {
             if (isAttach)
             {
-                return UploadAttach(name,userId, noteId, out msg, out serverFileId);
+                return UploadAttach(name, userId, noteId, out msg, out serverFileId);
             }
             msg = "";
             serverFileId = 0;
-          
+
             var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
-        
+
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
-            serverFileId=diskFileId;
+            serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             //检查是否登录
-            if (userId==0)
+            if (userId == 0)
             {
-                userId=GetUserIdBySession();
-                if (userId==0)
+                userId = GetUserIdBySession();
+                if (userId == 0)
                 {
-                    msg="NoLogin";
+                    msg = "NoLogin";
                     return false;
                 }
             }
@@ -320,65 +324,65 @@ namespace MoreNote.Controllers
             var fileEXT = Path.GetExtension(httpFile.FileName).Replace(".", "");
             if (!IsAllowImageExt(fileEXT))
             {
-                msg= $"The_image_extension_{fileEXT}_is_blocked";
+                msg = $"The_image_extension_{fileEXT}_is_blocked";
                 return false;
             }
-            var  fileName=diskFileId.ToHex()+"."+fileEXT;
+            var fileName = diskFileId.ToHex() + "." + fileEXT;
             //判断合法性
             if (httpFiles == null || httpFile.Length < 0)
             {
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun,httpFile, uploadDirPath, fileName);
+            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
                 //将结果保存在数据库
-                NoteFile noteFile=new NoteFile()
+                NoteFile noteFile = new NoteFile()
                 {
-                    FileId=diskFileId,
-                    UserId=userId,
-                    AlbumId=1,
-                    Name =fileName,
-                    Title=fileName,
-                    Path= uploadDirPath+ fileName,
-                    Size=httpFile.Length,
-                    CreatedTime=DateTime.Now
+                    FileId = diskFileId,
+                    UserId = userId,
+                    AlbumId = 1,
+                    Name = fileName,
+                    Title = fileName,
+                    Path = uploadDirPath + fileName,
+                    Size = httpFile.Length,
+                    CreatedTime = DateTime.Now
                     //todo: 增加特性=图片管理
-   
                 };
-                var AddResult=noteFileService.AddImage(noteFile,0,userId,true);
+                var AddResult = noteFileService.AddImage(noteFile, 0, userId, true);
                 if (!AddResult)
                 {
-                    msg="添加数据库失败";
-
+                    msg = "添加数据库失败";
                 }
                 return AddResult;
             }
             else
             {
-                msg="磁盘保存失败";
+                msg = "磁盘保存失败";
                 return false;
             }
         }
-        //上传图片 png jpg 
+
+        //上传图片 png jpg
         public bool UploadImage()
         {
             return false;
         }
+
         public void UploadVideo()
         {
-
         }
+
         public void UploadAudio()
         {
-
         }
+
         //检查上传图片后缀名
         private bool IsAllowImageExt(string ext)
         {
-            HashSet<string> exts=new HashSet<string>() { "bmp","jpg","jpeg","png","tif","gif","pcx","tga","exif","fpx","svg","psd","cdr","pcd","dxf","ufo","eps","ai","raw","WMF","webp"};
+            HashSet<string> exts = new HashSet<string>() { "bmp", "jpg", "jpeg", "png", "tif", "gif", "pcx", "tga", "exif", "fpx", "svg", "psd", "cdr", "pcd", "dxf", "ufo", "eps", "ai", "raw", "WMF", "webp" };
             if (exts.Contains(ext.ToLower()))
             {
                 return true;
@@ -388,6 +392,7 @@ namespace MoreNote.Controllers
                 return false;
             }
         }
+
         private bool IsAllowAttachExt(string ext)
         {
             //上传文件扩展名 白名单  后期会集中到一个类里面专门处理上传文件的问题
@@ -403,9 +408,7 @@ namespace MoreNote.Controllers
             {
                 return false;
             }
-
         }
-        
 
         public enum FileTyte
         {
@@ -415,8 +418,5 @@ namespace MoreNote.Controllers
              * */
             Video, Audio, Image, Binary, PlainText
         }
-
-
-
     }
 }

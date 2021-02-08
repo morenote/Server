@@ -44,7 +44,7 @@ namespace MoreNoteWorkerService
        
         Random random = new Random();
        
-        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger,DependencyInjectionService dependencyInjectionService)
+        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger)
         {
             _logger = logger;
             randomImageService=dependencyInjectionService.ServiceProvider.GetService(typeof(RandomImageService)) as RandomImageService;

@@ -14,7 +14,12 @@ namespace MoreNote.Controllers
     public class NoteBookController : BaseController
     {
         private NotebookService notebookService;
-        public NoteBookController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
+        public NoteBookController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.notebookService=dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService))as NotebookService;
             ;

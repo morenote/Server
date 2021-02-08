@@ -16,28 +16,41 @@ namespace MoreNote.Controllers
 {
     public class BlogController : BaseController
     {
-        private AccessService accessService ;
+        private AccessService accessService;
         private BlogService blogService;
         private ConfigService configService;
         private TagService tagService;
         private NotebookService notebookService;
         private NoteService noteService;
-        public BlogController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
+
+        public BlogController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor
+            , AccessService accessService
+            , ConfigService configService
+            , TagService tagService
+            , NoteService noteService
+            , NotebookService notebookService
+            , BlogService blogService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.accessService = dependencyInjectionService.GetAccessService();
-            this.blogService = dependencyInjectionService.ServiceProvider.GetService(typeof(BlogService))as BlogService;
-            this.configService = dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigService))as ConfigService;
-            this.tagService = dependencyInjectionService.ServiceProvider.GetService(typeof(TagService))as TagService;
-            this.notebookService = dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService))as NotebookService;
-            this.noteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService))as NoteService;
+            this.accessService = accessService;
+            this.blogService = blogService;
+            this.configService = configService;
+            this.tagService = tagService;
+            this.notebookService = notebookService;
+            this.noteService = noteService;
         }
-        private IActionResult render(string templateName,string themePath)
+
+        private IActionResult render(string templateName, string themePath)
         {
             var isPreview = false;
-            if (ViewBag.isPreview==null)
+            if (ViewBag.isPreview == null)
             {
                 var themePath2 = ViewBag.themePath;
-                if (themePath2==null)
+                if (themePath2 == null)
                 {
                     return E404();
                 }
@@ -48,17 +61,19 @@ namespace MoreNote.Controllers
                 ViewBag.themeInfo = ViewBag.themeInfoPreview;
             }
             //todo:RenderTemplateStr
-            return null; 
+            return null;
         }
+
         public void setPreviewUrl()
         {
-
         }
+
         private IActionResult E404()
         {
             ViewBag.title = "404";
             return NoFound();
         }
+
         private async Task InsertLogAsync(string url)
         {
             var headers = Request.Headers;
@@ -66,7 +81,6 @@ namespace MoreNote.Controllers
             foreach (var item in headers)
             {
                 stringBuilder.Append(item.Key + "---" + item.Value + "\r\n");
-                
             }
             string RealIP = headers["X-Forwarded-For"].ToString().Split(",")[0];
 
@@ -130,13 +144,14 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
-       /// <summary>
-       /// 分类 /cate/xxxxxxxx?notebookId=1212
-       /// </summary>
-       /// <param name="blogUserName"></param>
-       /// <param name="cateHex"></param>
-       /// <param name="page"></param>
-       /// <returns></returns>
+
+        /// <summary>
+        /// 分类 /cate/xxxxxxxx?notebookId=1212
+        /// </summary>
+        /// <param name="blogUserName"></param>
+        /// <param name="cateHex"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
 
         [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
         public IActionResult Cate(string blogUserName, string cateHex, int page)
@@ -153,8 +168,8 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
-            Notebook notebook=notebookService.GetNotebookById(notebookId);
-            ViewBag.notebook=notebook;
+            Notebook notebook = notebookService.GetNotebookById(notebookId);
+            ViewBag.notebook = notebook;
 
             ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId, notebookId);
             NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.UserId);
@@ -172,7 +187,6 @@ namespace MoreNote.Controllers
             return View();
         }
 
-      
         [Route("{controller=Blog}/{action=Index}/{blogUserIdHex?}")]
 
         //[Authorize(Roles = "Admin,SuperAdmin")]
@@ -236,7 +250,7 @@ namespace MoreNote.Controllers
         {
             //添加访问日志
             await InsertLogAsync($"Blog/Post/{blogUserName}/{noteIdHex}/").ConfigureAwait(false);
-           
+
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
@@ -251,7 +265,6 @@ namespace MoreNote.Controllers
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
 
-            
             NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId);
 
             noteService.AddReadNum(noteId);
@@ -379,27 +392,20 @@ namespace MoreNote.Controllers
             return Json(re, MyJsonConvert.GetOptions());
         }
 
-        public IActionResult GetLikesAndComments(string noteId,string callback)
+        public IActionResult GetLikesAndComments(string noteId, string callback)
         {
             long userId = GetUserIdBySession();
             Dictionary<string, object> result = new Dictionary<string, object>();
-            long noteIdNumber= noteId.ToLongByHex();
+            long noteIdNumber = noteId.ToLongByHex();
             // 我也点过?
-            var isILikeIt=false;
+            var isILikeIt = false;
             if (userId != 0)
             {
                 isILikeIt = blogService.IsILikeIt(noteIdNumber, userId);
-
-
-
             }
 
-
-            Re re =new Re();
-            re.Ok=true;
-   
-
-
+            Re re = new Re();
+            re.Ok = true;
 
             string json = @"jsonpCallback({""Ok"":true,""Code"":0,""Msg"":"""",""Id"":"""",""List"":null,""Item"":true});";
             return new JavaScriptResult(json);
@@ -432,7 +438,7 @@ namespace MoreNote.Controllers
             // 当前分类Id, 全设为""
             // 得到主题信息
             // var recentBlogs = BlogService.ListBlogs(userId, "", 1, 5, userBlog.SortField, userBlog.IsAsc);
-           
+
             return null;
         }
 
@@ -441,8 +447,9 @@ namespace MoreNote.Controllers
             BlogInfo blogInfo = blogService.GetBlogInfo(userBlog, userInfo);
             ViewBag.blogInfo = blogInfo;
         }
+
         // 各种地址设置
-        public void SetUrl(UserBlog userBlog,User user)
+        public void SetUrl(UserBlog userBlog, User user)
         {
             // 主页 http://leanote.com/blog/life or http://blog.leanote.com/life or http:// xxxx.leanote.com or aa.com
             // host := c.Request.Request.Host
@@ -471,27 +478,21 @@ namespace MoreNote.Controllers
             // 其它static js
             ViewBag.jQueryUrl = "/js/jquery-1.9.0.min.js";
 
-
             ViewBag.prettifyJsUrl = "/js/google-code-prettify/prettify.js";
 
             ViewBag.prettifyCssUrl = "/js/google-code-prettify/prettify.css";
 
-
             ViewBag.blogCommonJsUrl = "/public/blog/js/common.js";
-
 
             ViewBag.shareCommentCssUrl = "/public/blog/css/share_comment.css";
 
             ViewBag.shareCommentJsUrl = "/public/blog/js/share_comment.js";
 
-
             ViewBag.fontAwesomeUrl = "/css/font-awesome-4.2.0/css/font-awesome.css";
-
 
             ViewBag.bootstrapCssUrl = "/css/bootstrap.css";
 
             ViewBag.bootstrapJsUrl = "/js/bootstrap-min.js";
-
         }
     }
 }

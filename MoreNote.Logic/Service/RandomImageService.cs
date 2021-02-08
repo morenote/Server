@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Logic.DB;
+using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ namespace MoreNote.Logic.Service
 {
     public class RandomImageService
     {
-        private DependencyInjectionService dependencyInjectionService;
+        private DataContext dataContext;
 
-        public RandomImageService(DependencyInjectionService dependencyInjectionService)
+
+        public RandomImageService(DataContext dataContext)
+
         {
-            this.dependencyInjectionService = dependencyInjectionService;
+            this.dataContext = dataContext;
         }
 
         private static Dictionary<string, List<RandomImage>> randomImageList = null;
@@ -128,60 +131,44 @@ namespace MoreNote.Logic.Service
 
         public async System.Threading.Tasks.Task InsertImageAsync(RandomImage randomImage)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                dataContext.RandomImage.Add(randomImage);
-                await dataContext.SaveChangesAsync();
-            }
+            dataContext.RandomImage.Add(randomImage);
+            await dataContext.SaveChangesAsync();
         }
 
         public RandomImage GetRandomImage(string type)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
+            int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Count();
+            if (count < 1)
             {
-                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Count();
-                if (count < 1)
-                {
-                    return null;
-                }
-                Random random = new Random();
-                int num = random.Next(0, count);
-                RandomImage result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Skip(num).FirstOrDefault();
-                return result;
+                return null;
             }
+            Random random = new Random();
+            int num = random.Next(0, count);
+            RandomImage result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Skip(num).FirstOrDefault();
+            return result;
         }
 
         public List<RandomImage> GetRandomImages(string type, int size)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
+            int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Count();
+            if (count < size)
             {
-                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Count();
-                if (count < size)
-                {
-                    size = count;
-                }
-                List<RandomImage> result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Take(size).ToList<RandomImage>();
-                return result;
+                size = count;
             }
+            List<RandomImage> result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Take(size).ToList<RandomImage>();
+            return result;
         }
 
         public bool Exist(string type, string fileSHA1)
         {
-            using (var dataContext = dependencyInjectionService.GetDataContext())
-            {
-                int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.FileSHA1.Equals(fileSHA1)).Count();
-                return count > 0;
-            }
+            int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.FileSHA1.Equals(fileSHA1)).Count();
+            return count > 0;
         }
 
         public bool Exist(string fileSHA1)
         {
-            	using(var dataContext = dependencyInjectionService.GetDataContext())
-		{
-		 int count = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).Count();
+            int count = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).Count();
             return count > 0;
-		}
-           
         }
     }
 }

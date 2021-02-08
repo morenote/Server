@@ -13,7 +13,12 @@ namespace MoreNote.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public HomeController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            
 

@@ -21,14 +21,22 @@ namespace MoreNote.Controllers.API.APIV1
         private IHttpContextAccessor accessor;
      
 
-        public NoteAPIController(DependencyInjectionService dependencyInjectionService) : base(dependencyInjectionService)
+        public NoteAPIController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            , IHttpContextAccessor accessor,
+            NoteService noteService,
+            NoteContentService noteContentService,
+            TrashService trashService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.attachService = dependencyInjectionService.ServiceProvider.GetService(typeof(AttachService))as AttachService;
-            this.noteService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteService))as NoteService;
-            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce))as TokenSerivce;
-            this.noteContentService = dependencyInjectionService.ServiceProvider.GetService(typeof(NoteContentService))as NoteContentService;
-            this.trashService = dependencyInjectionService.ServiceProvider.GetService(typeof(TrashService))as TrashService;
-            this.accessor = dependencyInjectionService.ServiceProvider.GetService(typeof(IHttpContextAccessor))as IHttpContextAccessor;
+            this.attachService = attachService;
+            this.noteService = noteService;
+            this.tokenSerivce = tokenSerivce;
+            this.noteContentService = noteContentService;
+            this.trashService = trashService;
+            this.accessor = accessor;
         }
 
         //todo:获取同步的笔记

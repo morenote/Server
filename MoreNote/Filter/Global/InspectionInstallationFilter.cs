@@ -12,7 +12,7 @@ namespace MoreNote.Filter.Global
 {
     public class InspectionInstallationFilter : ActionFilterAttribute
     {
-        public InspectionInstallationFilter(DependencyInjectionService dependencyInjectionService)
+        public InspectionInstallationFilter()
         {
             configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
             config = configFileService.GetWebConfig();

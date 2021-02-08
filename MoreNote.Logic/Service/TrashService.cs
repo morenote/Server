@@ -1,15 +1,22 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Logic.DB;
+using MoreNote.Logic.Entity;
 using System;
 
 namespace MoreNote.Logic.Service
 {
     public class TrashService
     {
-       
-        DependencyInjectionService dependencyInjectionService;
-        public TrashService(DependencyInjectionService dependencyInjectionService)
+
+        DataContext dataContext;
+        public NoteService NoteService;
+
+        
+       public AttachService AttachService { get;set;}
+        public NoteContentService NoteContentService { get;set;}
+        public NotebookService NotebookService { get;set;}
+        public TrashService(DataContext dataContext)
         {
-          this.dependencyInjectionService = dependencyInjectionService;
+          this.dataContext = dataContext;
         }
         // 回收站
         // 可以移到noteSerice中
@@ -48,11 +55,8 @@ namespace MoreNote.Logic.Service
         //todo 删除废纸篓
         public  bool DeleteTrashApi(long noteId, long userId, int usn, out string msg, out int afterUsn)
         {
-            NoteService noteService=dependencyInjectionService.GetNoteService();
-            AttachService attachService=dependencyInjectionService.GetAttachService();
-            NoteContentService noteContentService=dependencyInjectionService.GetNoteContentService();
-            NotebookService notebookService=dependencyInjectionService.GetNotebookService();
-            Note note = noteService.GetNote(noteId, userId);
+            
+            Note note = NoteService.GetNote(noteId, userId);
             if (note==null)
             {
                 msg = "notExists";
@@ -70,18 +74,18 @@ namespace MoreNote.Logic.Service
             // 设置删除位
             //afterUsn = UserService.IncrUsn(userId);
             // delete note's attachs
-           var result= noteService.SetDeleteStatus(noteId,userId,out afterUsn);
+           var result= NoteService.SetDeleteStatus(noteId,userId,out afterUsn);
             if (!result)
             {
                 msg= "设置删除位错误";
                 afterUsn=0;
                 return false;
             }
-            attachService.DeleteAllAttachs(noteId, userId);
+            AttachService.DeleteAllAttachs(noteId, userId);
 
             // 删除content history           
-            noteContentService.DeleteByIdAndUserId(noteId, userId, true);
-            notebookService.ReCountNotebookNumberNotes(note.NotebookId);
+            NoteContentService.DeleteByIdAndUserId(noteId, userId, true);
+            NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
             msg = "";
             return true;
         }

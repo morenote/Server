@@ -18,14 +18,24 @@ namespace MoreNote.Controllers
     {
         private APPStoreInfoService APPStoreInfoService { get; set; }
         private AccessService AccessService { get; set; }
-        DataContext dataContext;
+        private DataContext dataContext;
    
-        public AdminController(DependencyInjectionService dependencyInjectionService) : base( dependencyInjectionService)
+        public AdminController(AttachService attachService
+            , TokenSerivce tokenSerivce
+            , NoteFileService noteFileService
+            , UserService userService
+            , ConfigFileService configFileService
+            
+            , IHttpContextAccessor accessor
+            ,APPStoreInfoService aPPStoreInfoService
+            , AccessService accessService,
+            DataContext dataContext) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.AccessService = dependencyInjectionService.ServiceProvider.GetService(typeof(AccessService))as AccessService;
-            this.dataContext = dependencyInjectionService.ServiceProvider.GetService(typeof(DataContext))as DataContext;
-         
-            this.APPStoreInfoService = dependencyInjectionService.ServiceProvider.GetService(typeof(APPStoreInfoService))as APPStoreInfoService;
+            this.AccessService = accessService;
+            this.dataContext=dataContext;
+
+
+            this.APPStoreInfoService = aPPStoreInfoService;
         }
 
 
