@@ -23,11 +23,11 @@ namespace MoreNote.Controllers.API.APIV1
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor, AuthService authService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.authService = dependencyInjectionService.ServiceProvider.GetService(typeof(AuthService))as AuthService;
-            this.userService = dependencyInjectionService.ServiceProvider.GetService(typeof(UserService))as UserService;
-            this.tokenSerivce = dependencyInjectionService.ServiceProvider.GetService(typeof(TokenSerivce))as TokenSerivce;
+            this.authService = authService;
+            this.userService = userService;
+            this.tokenSerivce = tokenSerivce;
 
         }
 

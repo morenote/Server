@@ -22,9 +22,10 @@ namespace MoreNote.Controllers.API
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor,
+            SpamService spamService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-           spamService=dependencyInjectionService.ServiceProvider.GetService(typeof(SpamService))as SpamService;
+          this.spamService= spamService;
            
 
         }

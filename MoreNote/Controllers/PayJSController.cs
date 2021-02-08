@@ -27,10 +27,10 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor, DataContext dataContext) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.dataContext = dataContext;
-            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
+            this.configFileService= configFileService;
             webSiteConfig = configFileService.GetWebConfig();
             pay = new Payjs(webSiteConfig.Payjs.PayJS_MCHID, webSiteConfig.Payjs.PayJS_Key);
 

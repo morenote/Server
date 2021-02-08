@@ -37,12 +37,11 @@ namespace MoreNoteWorkerService
 
         Random random = new Random();
 
-        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger)
+        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger, ConfigFileService configFileService)
         {
             _logger = logger;
-            configFileService=dependencyInjectionService.ServiceProvider.GetService(typeof(ConfigFileService))as ConfigFileService;
-            
-                config = configFileService.GetWebConfig();
+            this.configFileService= configFileService;
+            config = configFileService.GetWebConfig();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

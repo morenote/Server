@@ -19,9 +19,9 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor, NotebookService notebookService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-            this.notebookService=dependencyInjectionService.ServiceProvider.GetService(typeof(NotebookService))as NotebookService;
+            this.notebookService= notebookService;
             ;
 
 
