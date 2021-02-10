@@ -7,10 +7,14 @@ using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MoreNote.Common.Custom.MyTypeConverter;
+using MoreNote.Common.ModelBinder;
+using System.Text.Json;
 
 namespace MoreNote.Controllers
 {
@@ -392,24 +396,35 @@ namespace MoreNote.Controllers
             return Json(re, MyJsonConvert.GetOptions());
         }
 
-        public IActionResult GetLikesAndComments(string noteId, string callback)
+        public IActionResult GetLikesAndComments( [ModelBinder(typeof(Hex2LongModelBinder))]long? noteId, string callback)
         {
+
             long? userId = GetUserIdBySession();
             Dictionary<string, dynamic> result = new Dictionary<string, dynamic>();
-            long? noteIdNumber = noteId.ToLongByHex();
+          
             // 我也点过?
             var isILikeIt = false;
             if (userId !=null)
             {
-                isILikeIt = blogService.IsILikeIt(noteIdNumber, userId);
-
+                isILikeIt = blogService.IsILikeIt(noteId, userId);
+                var userAndBlog=userService.GetUserAndBlog(userId);
+                result.Add("visitUserInfo", userAndBlog);
             }
+            var page=this.GetPage();
+            // 点赞用户列表
+            bool ListLikedUsers=false;
+            var likedUsers=  blogService.ListLikedUsers(noteId,false,out ListLikedUsers);
+          
 
-            Re re = new Re();
-            re.Ok = true;
-
-            string json = @"jsonpCallback({""Ok"":true,""Code"":0,""Msg"":"""",""Id"":"""",""List"":null,""Item"":true});";
-            return new JavaScriptResult(json);
+            Re re = new Re()
+            {
+                Ok=true,
+                Item=result
+            };
+           
+            string json= JsonSerializer.Serialize(re, MyJsonConvert.GetSimpleOptions());
+            string jsonpCallback = $"jsonpCallback({json});";
+            return new JavaScriptResult(jsonpCallback);
         }
 
         public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo)

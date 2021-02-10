@@ -84,8 +84,18 @@ namespace MoreNote.Controllers
             long? userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
+        /// <summary>
+        ///  得到第几页
+        /// </summary>
+        /// <returns></returns>
+        public int GetPage()
+        {
+            //todo:GetPage
+            return 0;
 
-        // todo:得到用户信息
+        }
+
+    // todo:得到用户信息
         public long? GetUserIdByToken(string token)
         {
             if (string.IsNullOrEmpty(token))

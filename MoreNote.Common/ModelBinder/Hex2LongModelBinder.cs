@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Threading.Tasks;
-
 
 namespace MoreNote.Common.ModelBinder
 {
@@ -17,27 +14,27 @@ namespace MoreNote.Common.ModelBinder
         /// <returns></returns>
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            if (bindingContext.ModelType != typeof(long)) return Task.CompletedTask;
+            if (bindingContext.ModelType != typeof(long?)) return Task.CompletedTask;
             if (!bindingContext.BindingSource.CanAcceptDataFrom(BindingSource.Custom)) return Task.CompletedTask;
-            var formName = bindingContext.ModelName;
-            string stringValue = null;
-            try
+            var modelName = bindingContext.ModelName;
+            // Try to fetch the value of the argument by name
+            var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
+            if (valueProviderResult == ValueProviderResult.None)
             {
-                stringValue = bindingContext.HttpContext.Request.Form[formName];
-            }catch(Exception ex)
-            {
-
+                return Task.CompletedTask;
             }
-           
-            if (string.IsNullOrEmpty(stringValue))
-            {
-                 stringValue = bindingContext.HttpContext.Request.Query[formName];
-            }
-          
-            bindingContext.ModelState.SetModelValue(bindingContext.ModelName, stringValue, stringValue);
+            bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
 
-            // Attempt to parse the long?                
-            if (long.TryParse(s:stringValue,style:NumberStyles.HexNumber,null, out long valueAsLong))
+            var value = valueProviderResult.FirstValue;
+
+            // Check if the argument value is null or empty
+            if (string.IsNullOrEmpty(value))
+            {
+                return Task.CompletedTask;
+            }
+
+            // Attempt to parse the long?
+            if (long.TryParse(s: value, style: NumberStyles.HexNumber, null, out long valueAsLong))
             {
                 bindingContext.Result = ModelBindingResult.Success(valueAsLong);
             }

@@ -177,6 +177,7 @@ public class UserAndBlog
     public string BlogLogo{ get; set; }// 博客Logo
     [Column("blog_url")]
     public string BlogUrl{ get; set; } // 博客链接, 主页
+    public BlogUrls BlogUrls { get;set;}
 }
 
 

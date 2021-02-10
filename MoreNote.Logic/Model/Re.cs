@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Entity
         public string Msg { get; set; }
         public string Id { get; set; }
         public string List { get; set; }
-        public Dictionary<string,string> Item { get; set; }
+        public Dictionary<string,dynamic> Item { get; set; }
         public static  Re NewRe()
         {
             return new Re()
