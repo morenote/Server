@@ -14,9 +14,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("token_id")]
-        public long TokenId { get; set; }
+        public long? TokenId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("email")]
         public string Email { get; set; }
         //使用token来授权第三方应用使用你的笔记数据

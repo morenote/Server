@@ -11,11 +11,11 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("notebook_id")]
-        public long NotebookId { get; set; } // 须要设置bson:"_id" 不然mgo不会认为是主键
+        public long? NotebookId { get; set; } // 须要设置bson:"_id" 不然mgo不会认为是主键
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("parent_notebook_Id")]
-        public long ParentNotebookId { get; set; } // 上级 
+        public long? ParentNotebookId { get; set; } // 上级 
         [Column("seq")]
         public int Seq { get; set; } // 排序 
         [Column("title")]

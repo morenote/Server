@@ -17,7 +17,7 @@ namespace MoreNote.Logic.Entity
 
         [Key]
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("tags")]
         public List<string> Tags { get; set; }
 
@@ -27,9 +27,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("tag_id")]
-        public long TagId { get; set; }
+        public long? TagId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; } // 谁的 
+        public long? UserId { get; set; } // 谁的 
         [Column("tag")]
         public string Tag { get; set; } // UserId, Tag是唯一索引
         [Column("usn")]
@@ -49,9 +49,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("tag_count_id")]
-        public long TagCountId { get; set; }
+        public long? TagCountId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; } // 谁的 
+        public long? UserId { get; set; } // 谁的 
         [Column("tag")]
         public string Tag { get; set; }
         [Column("is_blog")]

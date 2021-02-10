@@ -12,13 +12,13 @@ namespace MoreNote.Common.Utils
         /// </summary>
         /// <param name="hex">16进制字符串</param>
         /// <returns> 转换后的数字 失败返回 0 </returns>
-        public static long HexToLong(string hex)
+        public static long? HexToLong(string hex)
         {
             if (string.IsNullOrEmpty(hex))
             {
                 return 0;
             }
-            long number = 0;
+            long? number = 0;
             try
             {
                 //return Convert.ToInt64(numberstr, 16);
@@ -37,7 +37,7 @@ namespace MoreNote.Common.Utils
                 return null;
 
             }
-            long number = 0;
+            long? number = 0;
             try
             {
                 //return Convert.ToInt64(numberstr, 16);

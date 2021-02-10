@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("commodity_id")]
-        public long CommodityId { get; set; }
+        public long? CommodityId { get; set; }
         /// <summary>
         /// 商品名称
         /// </summary>

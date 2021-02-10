@@ -30,7 +30,7 @@ namespace MoreNote.Logic.Service
             if (formFile.Length > 0)
             {
                 // string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
-                // long fileSize = formFile.Length; //获得文件大小，以字节为单位
+                // long? fileSize = formFile.Length; //获得文件大小，以字节为单位
 
                 if (!Directory.Exists(uploadDirPath))
                 {
@@ -53,7 +53,7 @@ namespace MoreNote.Logic.Service
             if (formFile.Length > 0)
             {
                 // string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
-                // long fileSize = formFile.Length; //获得文件大小，以字节为单位
+                // long? fileSize = formFile.Length; //获得文件大小，以字节为单位
 
                 if (!Directory.Exists(uploadDirPath))
                 {
@@ -74,7 +74,7 @@ namespace MoreNote.Logic.Service
 
         // add Image
 
-        public bool AddImage(NoteFile image, long albumId, long userId, bool needCheck)
+        public bool AddImage(NoteFile image, long? albumId, long? userId, bool needCheck)
         {
             image.CreatedTime = DateTime.Now;
             if (albumId != 0)
@@ -99,26 +99,26 @@ namespace MoreNote.Logic.Service
 
         // list images
         // if albumId == "" get default album images
-        public Page ListImagesWithPage(long userId, long albunId, string key, int pageNumber, int pageSize)
+        public Page ListImagesWithPage(long? userId, long? albunId, string key, int pageNumber, int pageSize)
         {
             throw new Exception();
         }
 
         // get all images names
         // for upgrade
-        public Dictionary<string, bool> GetAllImageNamesMap(long userId)
+        public Dictionary<string, bool> GetAllImageNamesMap(long? userId)
         {
             throw new Exception();
         }
 
         // delete image
-        public bool DeleteImage(long userId, long fileId)
+        public bool DeleteImage(long? userId, long? fileId)
         {
             throw new Exception();
         }
 
         // update image title
-        public bool UpdateImage(long userId, long fileId, string title)
+        public bool UpdateImage(long? userId, long? fileId, string title)
         {
             throw new Exception();
         }
@@ -129,7 +129,7 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到图片base64, 图片要在之前添加data:image/png;base64,
-        public string GetImageBase64(long userId, long fileId)
+        public string GetImageBase64(long? userId, long? fileId)
         {
             throw
                  new Exception();
@@ -138,12 +138,12 @@ namespace MoreNote.Logic.Service
         // 获取文件路径
         // 要判断是否具有权限
         // userId是否具有fileId的访问权限
-        public string GetFile(long userId, string fileId)
+        public string GetFile(long? userId, string fileId)
         {
             throw new Exception();
         }
 
-        public NoteFile GetFile(long fileId)
+        public NoteFile GetFile(long? fileId)
         {
             
                 var result = dataContext.NoteFile.Where(b => b.FileId == fileId);
@@ -154,13 +154,13 @@ namespace MoreNote.Logic.Service
 
         // 复制共享的笔记时, 复制其中的图片到我本地
         // 复制图片
-        public bool CopyImage(long userId, long fileId, long toUserId)
+        public bool CopyImage(long? userId, long? fileId, long? toUserId)
         {
             throw new Exception();
         }
 
         // 是否是我的文件
-        public bool IsMyFile(long userId, long fileId)
+        public bool IsMyFile(long? userId, long? fileId)
         {
             throw new Exception();
         }

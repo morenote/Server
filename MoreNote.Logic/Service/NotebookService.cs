@@ -18,7 +18,7 @@ namespace MoreNote.Logic.Service
             this.dataContext = dataContext;
         }
 
-        public Notebook GetNotebookById(long notebookId)
+        public Notebook GetNotebookById(long? notebookId)
         {
             var result = dataContext.Notebook.
                 Where(b => b.NotebookId == notebookId).FirstOrDefault();
@@ -66,7 +66,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public bool UpdateNotebookApi(long userId, long notebookId, string title, long parentNotebookId, int seq, int usn, out Notebook notebook)
+        public bool UpdateNotebookApi(long? userId, long? notebookId, string title, long? parentNotebookId, int seq, int usn, out Notebook notebook)
         {
            
                
@@ -87,7 +87,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public Notebook[] GetAll(long userid)
+        public Notebook[] GetAll(long? userid)
         {
            
                 var result = dataContext.Notebook
@@ -96,7 +96,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public Notebook[] GetNoteBookTree(long userid)
+        public Notebook[] GetNoteBookTree(long? userid)
         {
             Notebook[] notebooks = GetAll(userid);
             Notebook[] noteBookTrees = (from Notebook n in notebooks
@@ -109,7 +109,7 @@ namespace MoreNote.Logic.Service
             return noteBookTrees;
         }
 
-        private static List<Notebook> GetNoteBookTree(long noteid, ref Notebook[] notebooks)
+        private static List<Notebook> GetNoteBookTree(long? noteid, ref Notebook[] notebooks)
         {
             List<Notebook> noteBookTrees = (from Notebook n in notebooks
                                             where n.ParentNotebookId == noteid
@@ -121,7 +121,7 @@ namespace MoreNote.Logic.Service
             return noteBookTrees;
         }
 
-        public Notebook[] GeSyncNotebooks(long userid, int afterUsn, int maxEntry)
+        public Notebook[] GeSyncNotebooks(long? userid, int afterUsn, int maxEntry)
         {
           
                 var result = dataContext.Notebook.
@@ -143,17 +143,17 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public Notebook GetNotebook(long noteBookId, long userId)
+        public Notebook GetNotebook(long? noteBookId, long? userId)
         {
             throw new Exception();
         }
 
-        public Notebook GetNotebookByUserIdAndUrlTitle(long userId, string notebookIdOrUrl)
+        public Notebook GetNotebookByUserIdAndUrlTitle(long? userId, string notebookIdOrUrl)
         {
             throw new Exception();
         }
 
-        public SubNotebooks GetNotebooks(long userId)
+        public SubNotebooks GetNotebooks(long? userId)
         {
             throw new Exception();
         }
@@ -170,7 +170,7 @@ namespace MoreNote.Logic.Service
         }
 
         // 判断是否是我的notebook
-        public bool IsMyNotebook(long notebookId)
+        public bool IsMyNotebook(long? notebookId)
         {
             throw new Exception();
         }
@@ -185,33 +185,33 @@ namespace MoreNote.Logic.Service
 
         // 更新笔记本标题
         // [ok]
-        public bool UpdateNotebookTitle(long notebookId, long userId, string title)
+        public bool UpdateNotebookTitle(long? notebookId, long? userId, string title)
         {
             //在未优化的前提下，全部修改和局部修改的性能是一样的
             //可以直接执行原生SQL提高性能
             throw new Exception();
         }
 
-        public bool UpdateNotebook(long userId, long notebookId, object needUpdate)
+        public bool UpdateNotebook(long? userId, long? notebookId, object needUpdate)
         {
             throw new Exception();
         }
 
         // ToBlog or Not
-        public bool ToBlog(long userId, bool isBlog)
+        public bool ToBlog(long? userId, bool isBlog)
         {
             throw new Exception();
         }
 
         // 查看是否有子notebook
         // 先查看该notebookId下是否有notes, 没有则删除
-        public bool DeleteNotebook(long userId, long notebookId)
+        public bool DeleteNotebook(long? userId, long? notebookId)
         {
             throw new Exception();
         }
 
         // API调用, 删除笔记本, 不作笔记控制
-        public bool DeleteNotebookForce(long userId, long notebookId, int usn)
+        public bool DeleteNotebookForce(long? userId, long? notebookId, int usn)
         {
             
                 //var result = dataContext.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
@@ -224,13 +224,13 @@ namespace MoreNote.Logic.Service
         // 传入 notebookId => Seq
         // 为什么要传入userId, 防止修改其它用户的信息 (恶意)
         // [ok]
-        public bool SortNotebooks(long userId, Dictionary<string, int> notebookId2Seqs)
+        public bool SortNotebooks(long? userId, Dictionary<string, int> notebookId2Seqs)
         {
             throw new Exception();
         }
 
         // 排序和设置父
-        public bool DragNotebooks(long userId, long curNotebookId, long parentNotebookId, string[] siblings)
+        public bool DragNotebooks(long? userId, long? curNotebookId, long? parentNotebookId, string[] siblings)
         {
             throw new Exception();
         }

@@ -54,7 +54,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("user_blog_comment_id")]
-        public long UserBlogCommentId { get; set; }
+        public long? UserBlogCommentId { get; set; }
         [Column("can_comment")]
         public bool CanComment { get; set; } // 是否可以评论 
         [Column("comment_type")]
@@ -67,7 +67,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("user_blog_style_id")]
-        public long UserBlogStyleId { get; set; }
+        public long? UserBlogStyleId { get; set; }
         [Column("style")]
         public string Style { get; set; } // 风格 
         [Column("css")]
@@ -80,7 +80,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("user_id")]
-        public long UserId { get; set; } // 谁的 
+        public long? UserId { get; set; } // 谁的 
         [Column("logo")]
         public string Logo { get; set; } // 
         [Column("title")]
@@ -105,7 +105,7 @@ namespace MoreNote.Logic.Entity
         public string Css { get; set; } // 自定义css 
         [Column("theme_id")]
 
-        public long ThemeId { get; set; } // 主题Id 
+        public long? ThemeId { get; set; } // 主题Id 
         [Column("theme_path")]
         public string ThemePath { get; set; } // 储存值, 从Theme中获取, 相对路径 public/ 
 
@@ -130,7 +130,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("node_id")]
-        public long NodeId {get;set;}
+        public long? NodeId {get;set;}
         [Column("read_num")]
         public int ReadNum { get; set; } // 阅读次数 
         [Column("like_num")]
@@ -145,9 +145,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("single_id")]
-        public long SingleId { get; set; }
+        public long? SingleId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("title")]
         public string Title { get; set; }
         [Column("url_title")]
@@ -171,11 +171,11 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("like_id")]
-        public long LikeId { get; set; }
+        public long? LikeId { get; set; }
         [Column("note_id")]
-        public long NoteId { get; set; }
+        public long? NoteId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("created_time")]
         public DateTime CreatedTime { get; set; }
 
@@ -186,17 +186,17 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("comment_id")]
-        public long CommentId { get; set; }
+        public long? CommentId { get; set; }
         [Column("note_id")]
-        public long NoteId { get; set; }
+        public long? NoteId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; }// UserId回复ToUserId
+        public long? UserId { get; set; }// UserId回复ToUserId
         [Column("content")]
         public string Content { get; set; } // 评论内容
         [Column("too_comment_id")]
         public string ToCommentId { get; set; }// 对某条评论进行回复
         [Column("to_user_id")]
-        public long ToUserId { get; set; } // 为空表示直接评论, 不回空表示回复某人
+        public long? ToUserId { get; set; } // 为空表示直接评论, 不回空表示回复某人
         [Column("like_num")]
         public int LikeNum { get; set; }// 点赞次数, 评论也可以点赞
         [Column("like_user_ids")]
@@ -215,7 +215,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("blog_comment_public_id")]
-        public long BlogCommentPublicId { get; set; }
+        public long? BlogCommentPublicId { get; set; }
         [Column("blog_comment")]
         BlogComment BlogComment { get; set; }
         [Column("is_i_like_it")]
@@ -225,7 +225,7 @@ namespace MoreNote.Logic.Entity
     public struct BlogUrls
     {
         
-        public long BlogUrlsId { get; set; }
+        public long? BlogUrlsId { get; set; }
         public string IndexUrl { get; set; }
         public string CateUrl { get; set; }
         public string SearchUrl { get; set; }

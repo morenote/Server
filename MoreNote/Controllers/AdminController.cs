@@ -120,7 +120,7 @@ namespace MoreNote.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,
+        public async Task<IActionResult> Edit(long? id,
             [Bind("appid,appautor,appdetail,appname,apppackage,appdownurl,applogourl,appversion,imglist,appsize")]
             AppInfo appInfo)
         {
@@ -178,12 +178,12 @@ namespace MoreNote.Controllers
 
         // POST: Admin/Delete/5
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(long? id)
         {
             return NotFound();
         }
 
-        private bool AppInfoExists(long id)
+        private bool AppInfoExists(long? id)
         {
            
                 return dataContext.AppInfo.Any(e => e.appid == id);

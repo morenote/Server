@@ -33,11 +33,11 @@ namespace MoreNote.Controllers.API.APIV1
 
         //获取用户信息
 
-        public JsonResult Info(string token, [ModelBinder(BinderType = typeof(Hex2LongModelBinder))]long userId)
+        public JsonResult Info(string token, [ModelBinder(BinderType = typeof(Hex2LongModelBinder))]long? userId)
         {
-           // long myUserId =MyConvert.HexToLong(userId);
-            long myUserId = userId;
-            if (myUserId!=0)
+           // long? myUserId =MyConvert.HexToLong(userId);
+            long? myUserId = userId;
+            if (myUserId!=null)
             {
                 if (!authService.IsLogin(myUserId,token))
                 {

@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("user_id")]
-        public long UserId{ get; set; }
+        public long? UserId{ get; set; }
         [Column("username")]
         public string Username{ get; set; }
         [Column("user_logo")]
@@ -42,7 +42,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("note_id")]
-        public long NoteId{ get; set; }
+        public long? NoteId{ get; set; }
         [Column("title")]
         public string Title{ get; set; }
         [Column("url_title")]
@@ -89,7 +89,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("cate_id")]
-        public long CateId { get; set; }
+        public long? CateId { get; set; }
         [Column("parent_cate_id")]
         public string ParentCateId { get; set; }
         [Column("title")]

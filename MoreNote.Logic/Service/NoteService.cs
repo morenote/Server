@@ -51,7 +51,7 @@ namespace MoreNote.Logic.Service
         // fileService调用
         // 不能是已经删除了的, life bug, 客户端删除后, 竟然还能在web上打开
         //我也是？？？？
-        public Note GetNoteById(long NoteId)
+        public Note GetNoteById(long? NoteId)
         {
 
             var result = dataContext.Note
@@ -85,7 +85,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public NoteAndContent[] GetNoteAndContentForBlog(int pageIndex, long userId)
+        public NoteAndContent[] GetNoteAndContentForBlog(int pageIndex, long? userId)
         {
 
             var result = (from _note in dataContext.Note
@@ -100,7 +100,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long userId, string tag)
+        public NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long? userId, string tag)
         {
 
             var result = (from _note in dataContext.Note
@@ -115,7 +115,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex, long notebookId, long userId)
+        public NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex, long? notebookId, long? userId)
         {
 
             var result = (from _note in dataContext.Note
@@ -145,7 +145,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public NoteAndContent GetNoteAndContentForBlog(long noteId)
+        public NoteAndContent GetNoteAndContentForBlog(long? noteId)
         {
 
             {
@@ -162,7 +162,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public NoteAndContent GetNoteAndContent(long noteId)
+        public NoteAndContent GetNoteAndContent(long? noteId)
         {
 
             var result = (from _note in dataContext.Note
@@ -181,7 +181,7 @@ namespace MoreNote.Logic.Service
         /// 增加文章的阅读数量
         /// </summary>
         /// <param name="noteId"></param>
-        public void AddReadNum(long noteId)
+        public void AddReadNum(long? noteId)
         {
 
 
@@ -199,7 +199,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public bool SetDeleteStatus(long noteID, long userId, out int afterUsn)
+        public bool SetDeleteStatus(long? noteID, long? userId, out int afterUsn)
         {
 
 
@@ -218,7 +218,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public Note GetNote(long noteId, long userId, bool IsTrash, bool isDelete)
+        public Note GetNote(long? noteId, long? userId, bool IsTrash, bool isDelete)
         {
 
             var result = dataContext.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
@@ -226,7 +226,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public Note GetNote(long noteId, long userId)
+        public Note GetNote(long? noteId, long? userId)
         {
 
             var result = dataContext.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
@@ -237,7 +237,7 @@ namespace MoreNote.Logic.Service
 
         // 得到blog, blogService用
         // 不要传userId, 因为是公开的
-        public Note GetBlogNote(long noteId)
+        public Note GetBlogNote(long? noteId)
         {
             throw new Exception();
         }
@@ -251,7 +251,7 @@ namespace MoreNote.Logic.Service
         /// <param name="isDelete">是否删除</param>
         /// <param name="IsHistory">是否历史记录</param>
         /// <returns></returns>
-        public NoteAndContent GetNoteAndContent(long noteId, long userId, bool isTrach, bool isDelete, bool IsHistory)
+        public NoteAndContent GetNoteAndContent(long? noteId, long? userId, bool isTrach, bool isDelete, bool IsHistory)
         {
 
             Note note = GetNote(noteId, userId, isTrach, isDelete);
@@ -268,14 +268,14 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public void GetNoteAndContentBySrc(string url, long userId, out long noteId, out NoteAndContentSep noteAndContent)
+        public void GetNoteAndContentBySrc(string url, long? userId, out long? noteId, out NoteAndContentSep noteAndContent)
         {
             throw new Exception();
         }
 
         // 获取同步的笔记
         // > afterUsn的笔记
-        public ApiNote[] GetSyncNotes(long userid, int afterUsn, int maxEntry)
+        public ApiNote[] GetSyncNotes(long? userid, int afterUsn, int maxEntry)
         {
 
             var result = dataContext.Note.
@@ -296,13 +296,13 @@ namespace MoreNote.Logic.Service
 
                 //得到所有文件
 
-                long[] noteIds = new long[notes.Length];
+                long?[] noteIds = new long?[notes.Length];
                 for (int i = 0; i < notes.Length; i++)
                 {
                     noteIds[i] = notes[i].NoteId;
                 }
 
-                Dictionary<long, List<APINoteFile>> noteFilesMap = getFiles(noteIds);
+                Dictionary<long?, List<APINoteFile>> noteFilesMap = getFiles(noteIds);
                 for (int i = 0; i < notes.Length; i++)
                 {
                     APINoteFile[] aPINoteFiles = noteFilesMap.ContainsKey(notes[i].NoteId) ? noteFilesMap[notes[i].NoteId].ToArray() : null;
@@ -352,13 +352,13 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="noteIds"></param>
         /// <returns></returns>
-        public Dictionary<long, List<APINoteFile>> getFiles(long[] noteIds)
+        public Dictionary<long?, List<APINoteFile>> getFiles(long?[] noteIds)
         {
 
 
             var noteImages = NoteImageService.getImagesByNoteIds(noteIds);
             var noteAttachs = AttachService.GetAttachsByNoteIds(noteIds);
-            Dictionary<long, List<APINoteFile>> noteFilesMap = new Dictionary<long, List<APINoteFile>>(100);
+            Dictionary<long?, List<APINoteFile>> noteFilesMap = new Dictionary<long?, List<APINoteFile>>(100);
 
             //if (noteImages != null && noteImages.Length > 0)
             //{
@@ -433,7 +433,7 @@ namespace MoreNote.Logic.Service
         // 查images表, attachs表
         // [待测]
 
-        public NoteFile[] getFiles(long noteId)
+        public NoteFile[] getFiles(long? noteId)
         {
 
             var noteImages = NoteImageService.getImagesByNoteId(noteId);
@@ -446,8 +446,8 @@ namespace MoreNote.Logic.Service
 
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public Note[] ListNotes(long userId,
-        long notebookId,
+        public Note[] ListNotes(long? userId,
+        long? notebookId,
         bool isTrash
         )
         {
@@ -460,8 +460,8 @@ namespace MoreNote.Logic.Service
 
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public Note[] ListNotes(long userId,
-          long notebookId,
+        public Note[] ListNotes(long? userId,
+          long? notebookId,
           bool isTrash,
           int pageNumber,
           int pageSize,
@@ -513,7 +513,7 @@ namespace MoreNote.Logic.Service
 
         // 通过noteIds来查询
         // ShareService调用
-        public Note[] ListNotesByNoteIdsWithPageSort(long[] noteIds, long userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
+        public Note[] ListNotesByNoteIdsWithPageSort(long[] noteIds, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
         {
             throw new Exception();
         }
@@ -536,7 +536,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public NoteContent[] ListNoteContentByNoteIds(long noteIds)
+        public NoteContent[] ListNoteContentByNoteIds(long? noteIds)
         {
             throw new Exception();
         }
@@ -579,19 +579,19 @@ namespace MoreNote.Logic.Service
         }
 
         // 添加共享d笔记
-        public Note AddSharedNote(Note note, long muUserId)
+        public Note AddSharedNote(Note note, long? muUserId)
         {
             throw new Exception();
         }
 
         // 添加笔记和内容
         // 这里使用 info.NoteAndContent 接收?
-        public Note AddNoteAndContentForController(Note note, NoteContent noteContent, long updatedUserId)
+        public Note AddNoteAndContentForController(Note note, NoteContent noteContent, long? updatedUserId)
         {
             throw new Exception();
         }
 
-        public Note AddNoteAndContent(Note note, NoteContent noteContent, long myUserId)
+        public Note AddNoteAndContent(Note note, NoteContent noteContent, long? myUserId)
         {
 
             if (note.NoteId == 0)
@@ -615,14 +615,14 @@ namespace MoreNote.Logic.Service
             return note;
         }
 
-        public Note AddNoteAndContentApi(Note note, NoteContent noteContent, long myUserId)
+        public Note AddNoteAndContentApi(Note note, NoteContent noteContent, long? myUserId)
         {
             throw new Exception();
         }
 
         // 修改笔记
         // 这里没有判断usn
-        public bool UpdateNote(long updateUserId, long noteId, Note needUpdate, int usn, out int afterUsn, out string msg)
+        public bool UpdateNote(long? updateUserId, long? noteId, Note needUpdate, int usn, out int afterUsn, out string msg)
         {
 
             var oldNote = GetNoteById(needUpdate.NoteId);
@@ -695,7 +695,7 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="apiNote"></param>
         /// <returns></returns>
-        public bool UpdateNote(ref ApiNote apiNote, long updateUser, long contentId, bool verifyUsn, bool verifyOwner,
+        public bool UpdateNote(ref ApiNote apiNote, long? updateUser, long? contentId, bool verifyUsn, bool verifyOwner,
             out string msg, out int afterUsn)
         {
             var noteId = apiNote.NoteId.ToLongByHex();
@@ -846,20 +846,20 @@ namespace MoreNote.Logic.Service
         }
 
         // 当设置/取消了笔记为博客
-        public bool UpdateNoteContentIsBlog(long noteId, bool isBlog)
+        public bool UpdateNoteContentIsBlog(long? noteId, bool isBlog)
         {
             throw new Exception();
         }
 
         // 附件修改, 增加noteIncr
-        public int IncrNoteUsn(long noteId, long userId)
+        public int IncrNoteUsn(long? noteId, long? userId)
         {
             throw new Exception();
         }
 
         // 这里要判断权限, 如果userId != updatedUserId, 那么需要判断权限
         // [ok] TODO perm还没测 [del]
-        public bool UpdateNoteTitle(long userId, long updateUserId, long noteId, string title)
+        public bool UpdateNoteTitle(long? userId, long? updateUserId, long? noteId, string title)
         {
             throw new Exception();
         }
@@ -869,19 +869,19 @@ namespace MoreNote.Logic.Service
         // 通过content修改笔记的imageIds列表
         // src="http://localhost:9000/file/outputImage?fileId=541ae75499c37b6b79000005&noteId=541ae63c19807a4bb9000000"
         //哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈歇一会哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
-        public bool updateNoteImages(long noteId, string content)
+        public bool updateNoteImages(long? noteId, string content)
         {
             throw new Exception();
         }
 
         // 更新tags
         // [ok] [del]
-        public bool UpdateTags(long noteId, long userId, string[] tags)
+        public bool UpdateTags(long? noteId, long? userId, string[] tags)
         {
             throw new Exception();
         }
 
-        public bool ToBlog(long userId, long noteId, bool isBlog, bool isTop)
+        public bool ToBlog(long? userId, long? noteId, bool isBlog, bool isTop)
         {
             throw new Exception();
         }
@@ -890,7 +890,7 @@ namespace MoreNote.Logic.Service
         // trash, 正常的都可以用
         // 1. 要检查下notebookId是否是自己的
         // 2. 要判断之前是否是blog, 如果不是, 那么notebook是否是blog?
-        public Note MoveNote(long noteId, long notebookId, long userId)
+        public Note MoveNote(long? noteId, long? notebookId, long? userId)
         {
             throw new Exception();
         }
@@ -899,13 +899,13 @@ namespace MoreNote.Logic.Service
         // 否则, 如果notebookId的blog是true, 则改为true之
         // 返回blog状态
         // move, copy时用
-        public bool updateToNotebookBlog(long noteId, long notebookId, long userId)
+        public bool updateToNotebookBlog(long? noteId, long? notebookId, long? userId)
         {
             throw new Exception();
         }
 
         // 判断是否是blog
-        public bool IsBlog(long noteId)
+        public bool IsBlog(long? noteId)
         {
             throw new Exception();
         }
@@ -914,14 +914,14 @@ namespace MoreNote.Logic.Service
         // 正常的可以用
         // 先查, 再新建
         // 要检查下notebookId是否是自己的
-        public Note CopyNote(long noteId, long userId)
+        public Note CopyNote(long? noteId, long? userId)
         {
             throw new Exception();
         }
 
         // 复制别人的共享笔记给我
         // 将别人可用的图片转为我的图片, 复制图片
-        public Note CopySharedNote(long noteId, long fromUserId, long myUserId)
+        public Note CopySharedNote(long? noteId, long? fromUserId, long? myUserId)
         {
             throw new Exception();
         }
@@ -929,34 +929,34 @@ namespace MoreNote.Logic.Service
         // 通过noteId得到notebookId
         // shareService call
         // [ok]
-        public long GetNotebookId(long noteId)
+        public long? GetNotebookId(long? noteId)
         {
             throw new Exception();
         }
 
         //------------------
         // 搜索Note, 博客使用了
-        public Note[] SearchNote(string key, long userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
+        public Note[] SearchNote(string key, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
         {
             throw new Exception();
         }
 
         // 搜索noteContents, 补集pageSize个
-        public Note[] searchNoteFromContent(Note[] notes, long userId, string key, int pagSize, string sortField, bool isBlog)
+        public Note[] searchNoteFromContent(Note[] notes, long? userId, string key, int pagSize, string sortField, bool isBlog)
         {
             throw new Exception();
         }
 
         //----------------
         // tag搜索
-        public Note[] SearchNoteByTags(string[] tags, long userId, int pageNumber, int pageSize, string sortField, bool isAsc)
+        public Note[] SearchNoteByTags(string[] tags, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc)
         {
             throw new Exception();
         }
 
         //------------
         // 统计
-        public int CountNote(long userId)
+        public int CountNote(long? userId)
         {
 
             var result = dataContext.Note
@@ -965,7 +965,7 @@ namespace MoreNote.Logic.Service
 
         }
 
-        public int CountBlog(long usrId)
+        public int CountBlog(long? usrId)
         {
 
             var result = dataContext.Note
@@ -975,7 +975,7 @@ namespace MoreNote.Logic.Service
         }
 
         // 通过标签来查询
-        public int CountNoteByTag(long userId, string tag)
+        public int CountNoteByTag(long? userId, string tag)
         {
           
                 var result = dataContext.NoteTag
@@ -986,7 +986,7 @@ namespace MoreNote.Logic.Service
 
         // 删除tag
         // 返回所有note的Usn
-        public Dictionary<string, int> UpdateNoteToDeleteTag(long userId, string targetTag)
+        public Dictionary<string, int> UpdateNoteToDeleteTag(long? userId, string targetTag)
         {
             throw new Exception();
         }

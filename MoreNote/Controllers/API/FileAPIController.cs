@@ -87,7 +87,7 @@ namespace MoreNote.Controllers.API.APIV1
             UpYun upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
             upyun.secret = config.UpYunCDN.UpyunSecret; 
             string path = attachFile.Path;
-            long unixTimestamp = UnixTimeHelper.GetTimeStampInLong();
+            long? unixTimestamp = UnixTimeHelper.GetTimeStampInLong();
             unixTimestamp = unixTimestamp + 5;
             string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, path);
             return Redirect($"https://upyun.morenote.top{path}?_upt={_upt}");

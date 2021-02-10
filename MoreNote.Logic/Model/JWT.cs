@@ -21,7 +21,7 @@ namespace MoreNote.Logic.Model
         {
             return null;
         }
-        public  JWT GetJWT(long tokenId,string userNmae,long userId, string group, long exp= 31536000)
+        public  JWT GetJWT(long? tokenId,string userNmae,long? userId, string group, long? exp= 31536000)
         {
 
             JWT_Header header = new JWT_Header()
@@ -85,13 +85,13 @@ namespace MoreNote.Logic.Model
     }
     public class JWT_Payload
     {
-        public long tokenId { get; set; }
+        public long? tokenId { get; set; }
         public string iss { get; set; }
         public string username { get; set; }
-        public long userId { get; set; }
+        public long? userId { get; set; }
         public string group { get; set; }
-        public long startTime { get; set; }
-        public long exp { get; set; }
+        public long? startTime { get; set; }
+        public long? exp { get; set; }
         public string random { get; set; }
     }
 }

@@ -45,8 +45,8 @@ namespace MoreNote.Logic.Entity
     // 内容
     public class ApiNoteContent
     {
-       public long NoteId{get;set; }
-        public long UserId { get; set; }
+       public long? NoteId{get;set; }
+        public long? UserId { get; set; }
         public string Content { get; set; }
     }
     //----------
@@ -63,16 +63,16 @@ namespace MoreNote.Logic.Entity
     }
     public class ApiGetSyncState 
     {
-        public  long LastSyncTime { get; set; }//"上次同步时间"(暂时无用)} unix时间戳
+        public  long? LastSyncTime { get; set; }//"上次同步时间"(暂时无用)} unix时间戳
         public  int LastSyncUsn { get; set; }
     
     }
 
     public class ApiNotebook
     {
-        public long NotebookId { get; set; }
-        public long UserId{ get; set; }
-        public long ParentNotebookId{ get; set; }
+        public long? NotebookId { get; set; }
+        public long? UserId{ get; set; }
+        public long? ParentNotebookId{ get; set; }
         public int Seq{ get; set; }//顺序
         public string Title{ get; set; }
         public string UrlTitle{ get; set; }

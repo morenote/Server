@@ -17,7 +17,7 @@ namespace MoreNote.Logic.Service
         private const string path = @"Config\config.json";
         public EmailConfig emailConfig;
 
-        long adminUserId;
+        long? adminUserId;
         string siteUrl;
         string adminUserName;
         //全局
@@ -41,11 +41,11 @@ namespace MoreNote.Logic.Service
             return @"https://www.morenote.top";
 
         }
-        public  bool updateGlobalConfig(long userid,string key,string value)
+        public  bool updateGlobalConfig(long? userid,string key,string value)
         {
             throw new Exception();
         }
-        public  bool UpdateGlobalStringConfig(long userId,string key,string value)
+        public  bool UpdateGlobalStringConfig(long? userId,string key,string value)
         {
             throw new Exception();
         }
@@ -72,7 +72,7 @@ namespace MoreNote.Logic.Service
         }
         //-------
         // 修改共享笔记的配置
-        public  bool UpdateShareNoteConfig(long registerSharedUserId,int[] registerSharedNotebookPerms,int[] registerSharedNotePerms,long[] registerSharedNotebookIds,long[] registerSharedNoteIds,long[] registerCopyNoteIds)
+        public  bool UpdateShareNoteConfig(long? registerSharedUserId,int[] registerSharedNotebookPerms,int[] registerSharedNotePerms,long[] registerSharedNotebookIds,long[] registerSharedNoteIds,long[] registerCopyNoteIds)
         {
             throw new Exception();
         }
@@ -178,11 +178,11 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public  long GetUploadSize(string key)
+        public  long? GetUploadSize(string key)
         {
             throw  new Exception();
         }
-        public  long GetInt64(string key)
+        public  long? GetInt64(string key)
         {
             throw new Exception();
         }

@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("strategy_id")]
-        public long StrategyID{ get;set;}//策略ID
+        public long? StrategyID{ get;set;}//策略ID
         [Column("strategy_key")]
         public String StrategyKey{ get;set;}//策略授权密钥
         [Column("strategy_name")]

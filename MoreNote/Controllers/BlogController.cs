@@ -156,7 +156,7 @@ namespace MoreNote.Controllers
         [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
         public IActionResult Cate(string blogUserName, string cateHex, int page)
         {
-            long notebookId = cateHex.ToLongByHex();
+            long? notebookId = cateHex.ToLongByHex();
             User blogUser = ActionInitBlogUser(blogUserName);
             if (blogUser == null)
             {
@@ -238,7 +238,7 @@ namespace MoreNote.Controllers
         [Route("Blog/Post/{noteIdHex}/")]
         public IActionResult Post1(string noteIdHex)
         {
-            long noteId = noteIdHex.ToLongByHex();
+            long? noteId = noteIdHex.ToLongByHex();
             Note note = noteService.GetNoteById(noteId);
             User user = userService.GetUserByUserId(note.UserId);
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
@@ -257,7 +257,7 @@ namespace MoreNote.Controllers
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("查无此人");
             }
-            long noteId = noteIdHex.ToLongByHex();
+            long? noteId = noteIdHex.ToLongByHex();
             if (noteId == 0)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -386,7 +386,7 @@ namespace MoreNote.Controllers
         public IActionResult IncReadNum(string noteId)
         {
             Re re = new Re();
-            long noteNum = noteId.ToLongByHex();
+            long? noteNum = noteId.ToLongByHex();
             re.Ok = blogService.IncReadNum(noteNum);
 
             return Json(re, MyJsonConvert.GetOptions());
@@ -394,14 +394,15 @@ namespace MoreNote.Controllers
 
         public IActionResult GetLikesAndComments(string noteId, string callback)
         {
-            long userId = GetUserIdBySession();
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            long noteIdNumber = noteId.ToLongByHex();
+            long? userId = GetUserIdBySession();
+            Dictionary<string, dynamic> result = new Dictionary<string, dynamic>();
+            long? noteIdNumber = noteId.ToLongByHex();
             // 我也点过?
             var isILikeIt = false;
-            if (userId != 0)
+            if (userId !=null)
             {
                 isILikeIt = blogService.IsILikeIt(noteIdNumber, userId);
+
             }
 
             Re re = new Re();
@@ -411,7 +412,7 @@ namespace MoreNote.Controllers
             return new JavaScriptResult(json);
         }
 
-        public UserBlog BlogCommon(long userId, UserBlog userBlog, User userInfo)
+        public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo)
         {
             if (userInfo.UserId == 0)
             {

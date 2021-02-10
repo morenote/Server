@@ -91,7 +91,7 @@ namespace MoreNote.Controllers.PublicAPI
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> Edit(long id, [Bind("ResolutionLocationID,StrategyID,URL,Score,Weight,Speed")] ResolutionLocation resolutionLocation)
+        public async Task<IActionResult> Edit(long? id, [Bind("ResolutionLocationID,StrategyID,URL,Score,Weight,Speed")] ResolutionLocation resolutionLocation)
         {
             if (id != resolutionLocation.ResolutionLocationID)
             {
@@ -144,7 +144,7 @@ namespace MoreNote.Controllers.PublicAPI
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(long? id)
         {
             var resolutionLocation = await _context.ResolutionLocation.FindAsync(id).ConfigureAwait(false);
             _context.ResolutionLocation.Remove(resolutionLocation);
@@ -152,7 +152,7 @@ namespace MoreNote.Controllers.PublicAPI
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ResolutionLocationExists(long id)
+        private bool ResolutionLocationExists(long? id)
         {
             return _context.ResolutionLocation.Any(e => e.ResolutionLocationID == id);
         }

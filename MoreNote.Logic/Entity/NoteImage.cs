@@ -11,11 +11,11 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("note_image_id")]
-        public long NoteImageId { get; set; } // 必须要设置bson:"_id" 
+        public long? NoteImageId { get; set; } // 必须要设置bson:"_id" 
         [Column("note_id")]
-        public long NoteId { get; set; } // 笔记 
+        public long? NoteId { get; set; } // 笔记 
         [Column("image_id")]
-        public long ImageId { get; set; } // 图片fileId                             
+        public long? ImageId { get; set; } // 图片fileId                             
         /**
          * 自定义
          * 图片引用计数器

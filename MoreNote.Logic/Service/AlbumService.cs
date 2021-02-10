@@ -29,7 +29,7 @@ namespace MoreNote.Logic.Service
         }
 
         //get albums
-        public Album[] GetAlbums(long userId)
+        public Album[] GetAlbums(long? userId)
         {
 
             var result = dataContext.Album
@@ -40,7 +40,7 @@ namespace MoreNote.Logic.Service
 
         // delete album
         // presupposition: has no images under this ablum
-        public bool DeleteAlbum(long userId, long albumId)
+        public bool DeleteAlbum(long? userId, long? albumId)
         {
 
             if (dataContext.NoteFile.Where(b => b.AlbumId == albumId && b.UserId == userId).Count() == 0)
@@ -50,7 +50,7 @@ namespace MoreNote.Logic.Service
             return false;
         }
 
-        public bool UpdateAlbum(long albumId, long userId, string name)
+        public bool UpdateAlbum(long? albumId, long? userId, string name)
         {
 
             var result = dataContext.Album

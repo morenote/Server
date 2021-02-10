@@ -32,7 +32,7 @@ namespace MoreNote.Controllers
         }   
         public IActionResult GetNotebooks()
         {
-            long userid = 1208692382644703232;
+            long? userid = 1208692382644703232;
             Notebook[] noteBoooks = notebookService.GetNoteBookTree(userid);
             string json = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
             return Content(json);

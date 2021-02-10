@@ -11,15 +11,15 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("id")]
-        public long Id { get; set; } // 没有意义 
+        public long? Id { get; set; } // 没有意义 
         [Column("session_id")]
-        public long SessionId { get; set; } // SessionId 
+        public long? SessionId { get; set; } // SessionId 
         [Column("login_times")]
         public int LoginTimes { get; set; } // 登录错误时间 
         [Column("captcha")]
         public string Captcha { get; set; } // 验证码 
         [Column("user_id")]
-        public long UserId { get; set; } // API时有值UserId 
+        public long? UserId { get; set; } // API时有值UserId 
         [Column("created_time")]
         public DateTime CreatedTime { get; set; }
         [Column("updated_time")]

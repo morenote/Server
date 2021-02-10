@@ -12,9 +12,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("config_id")]
-        public long ConfigId { get; set; }
+        public long? ConfigId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("key")]
         public string Key { get; set; }
         [Column("value_str")]

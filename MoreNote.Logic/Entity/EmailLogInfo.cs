@@ -11,7 +11,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("log_id")]
-        public long LogId { get; set;}
+        public long? LogId { get; set;}
         [Column("email")]
         public string Email { get; set; } // 发送者 
         [Column("subject")]

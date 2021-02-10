@@ -12,11 +12,11 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("report_id")]
-        public long ReportId { get; set; }
+        public long? ReportId { get; set; }
         [Column("note_id")]
-        public long NoteId { get; set; }
+        public long? NoteId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; } // UserId回复ToUserId 
+        public long? UserId { get; set; } // UserId回复ToUserId 
         [Column("reason")]
         public string Reason { get; set; } // 评论内容 
         [Column("comment_id")]

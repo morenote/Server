@@ -11,7 +11,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("spam_id")]
-        public long SpamId { get; set; }
+        public long? SpamId { get; set; }
         [Column("spam_input")]
         public string Input { get; set; }
         [Column("prediction")]

@@ -112,7 +112,7 @@ namespace MoreNote.Logic.Service
             throw 
                 new Exception();
         }
-        public bool SendCommentEmail(Note note,BlogComment comment ,long userId,string content)
+        public bool SendCommentEmail(Note note,BlogComment comment ,long? userId,string content)
         {
             throw new Exception();
         }

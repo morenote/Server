@@ -10,7 +10,7 @@ namespace MoreNote.Logic.Entity
     public class Cate1
     {
 
-        public long CateId { get; set; }
-        public long CateName { get; set; }
+        public long? CateId { get; set; }
+        public long? CateName { get; set; }
     }
 }

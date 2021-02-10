@@ -13,9 +13,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("theme_id")]
-        public long ThemeId { get; set; } // 必须要设置bson:"_id" 
+        public long? ThemeId { get; set; } // 必须要设置bson:"_id" 
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("name")]
         public string Name { get; set; }
         [Column("version")]
@@ -45,9 +45,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("friend_links_id")]
-        public long FriendLinksId { get; set; }
+        public long? FriendLinksId { get; set; }
         [Column("theme_id")]
-        public long ThemeId { get; set; }
+        public long? ThemeId { get; set; }
         [Column("title")]
         public string Title { get; set; }
         [Column("friend_links_url")]

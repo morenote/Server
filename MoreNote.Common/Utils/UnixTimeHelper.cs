@@ -7,7 +7,7 @@ namespace MoreNote.Common.Utils
    public class UnixTimeHelper
     {
      
-        public static long GetTimeStampInLong()
+        public static long? GetTimeStampInLong()
         {
             return  DateTimeOffset.Now.ToUnixTimeSeconds();
         }
@@ -22,13 +22,13 @@ namespace MoreNote.Common.Utils
         /// <param name="oldTime"></param>
         /// <param name="validtime"></param>
         /// <returns></returns>
-        public static bool IsValid(long oldTime,long validtime)
+        public static bool IsValid(long? oldTime,long? validtime)
         {
-            long unixTimestamp = GetTimeStampInLong();
+            long? unixTimestamp = GetTimeStampInLong();
             bool valid = unixTimestamp < (oldTime + validtime);
             return valid;
         }
-        public static long GetTimeStampInLong(DateTime dateTime)
+        public static long? GetTimeStampInLong(DateTime dateTime)
         {
             return DateTimeOffset.Now.ToUnixTimeSeconds();
         }
@@ -42,7 +42,7 @@ namespace MoreNote.Common.Utils
         private static string LongDateTimeToDateTimeString(string longDateTime)
         {
             //用来格式化long类型时间的,声明的变量
-            long unixDate;
+            double unixDate;
             DateTime start;
             DateTime date;
             //ENd
@@ -58,7 +58,7 @@ namespace MoreNote.Common.Utils
         /// 获取时间戳 10位
         /// </summary> 
         /// <returns></returns> 
-        private static long GetTimeStampTen3()
+        private static long? GetTimeStampTen3()
         {
             return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
         }

@@ -16,13 +16,13 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("file_id")]
-        public long FileId { get; set; }
+        public long? FileId { get; set; }
         //如果 不进行FixContent处理，那么FileId=LocalFileId
-        //public long LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
+        //public long? LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("album_id")]
-        public long AlbumId { get; set; }
+        public long? AlbumId { get; set; }
         [Column("name")]
         public string Name { get; set; } // file name
         [Column("title")]
@@ -45,7 +45,7 @@ namespace MoreNote.Logic.Entity
         [Column("created_time")]
         public DateTime CreatedTime { get; set; }
         [Column("from_file_id")]
-        public long FromFileId { get; set; }//copy from fileId, for collaboration
+        public long? FromFileId { get; set; }//copy from fileId, for collaboration
 
         //自定义
         [Column("number_of_file_references")]

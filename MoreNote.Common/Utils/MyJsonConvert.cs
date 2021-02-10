@@ -46,16 +46,16 @@ namespace MoreNote.Common.Utils
             writer.WriteStringValue(value.ToLocalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz"));
         }
     }
-    public class UserIdConverter : JsonConverter<long>
+    public class UserIdConverter : JsonConverter<long?>
     {
-        public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override long? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             //return long.Parse(reader.GetString(), System.Globalization.NumberStyles.HexNumber);
             return reader.GetString().ToLongByHex();
         }
 
 
-        public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, long? value, JsonSerializerOptions options)
         {
             writer.WriteStringValue(value.ToHex24());
         }

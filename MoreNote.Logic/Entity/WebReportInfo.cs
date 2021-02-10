@@ -11,7 +11,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("report_id")]
-        public long ReportId { get; set; }
+        public long? ReportId { get; set; }
         [Column("web_site_name")]
         public string WebSiteName { get; set; }
         [Column("web_site_url")]

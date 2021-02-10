@@ -13,9 +13,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("group_team_id")]
-        public long GroupTeamId { get; set; } // 谁的 
+        public long? GroupTeamId { get; set; } // 谁的 
         [Column("user_id")]
-        public long UserId { get; set; } // 所有者Id 
+        public long? UserId { get; set; } // 所有者Id 
         [Column("title")]
         public string Title { get; set; } // 标题 
         [Column("user_count")]
@@ -32,11 +32,11 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("group_team_user_id")]
-        public long GroupTeamUserId { get; set; } // 谁的 
+        public long? GroupTeamUserId { get; set; } // 谁的 
         [Column("group_id")]
-        public long GroupId { get; set; } // 分组 
+        public long? GroupId { get; set; } // 分组 
         [Column("user_id")]
-        public long UserId { get; set; } //  用户 
+        public long? UserId { get; set; } //  用户 
         [Column("created_time")]
         public DateTime CreatedTime { get; set; }
 

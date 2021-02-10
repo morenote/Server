@@ -19,7 +19,7 @@ namespace MoreNote.Logic.Service
             this.dataContext = dataContext;
         }
 
-        public bool AddTags(long userId, string[] tags)
+        public bool AddTags(long? userId, string[] tags)
         {
             foreach (var itemTag in tags)
             {
@@ -62,7 +62,7 @@ namespace MoreNote.Logic.Service
         // 什么时候调用? 笔记添加Tag, 删除Tag时
         // 删除note时, 都可以调用
         // 万能
-        public NoteTag AddOrUpdateTag(long userId, string tag)
+        public NoteTag AddOrUpdateTag(long? userId, string tag)
         {
             NoteTag noteTag = GetTag(userId, tag);
             // 存在, 则更新之
@@ -98,7 +98,7 @@ namespace MoreNote.Logic.Service
             return noteTag;
         }
 
-        public bool UpdateByIdAndUserId(long tagId, long userId, NoteTag noteTag)
+        public bool UpdateByIdAndUserId(long? tagId, long? userId, NoteTag noteTag)
         {
             var noteT = dataContext.NoteTag
                        .Where(b => b.TagId == tagId
@@ -112,7 +112,7 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到标签, 按更新时间来排序
-        public NoteTag[] GetTags(long userId)
+        public NoteTag[] GetTags(long? userId)
         {
             return dataContext.NoteTag.Where(tag => tag.UserId == userId && tag.IsDeleted == false)
                   .OrderBy(tag => tag.UpdatedTime).ToArray();
@@ -121,14 +121,14 @@ namespace MoreNote.Logic.Service
         // 删除标签
         // 也删除所有的笔记含该标签的
         // 返回noteId => usn
-        public HashSet<string> DeleteTag(long userId, string tag)
+        public HashSet<string> DeleteTag(long? userId, string tag)
         {
             //todo:DeleteTag未实现
             throw new Exception();
         }
 
         // 删除标签, 供API调用
-        public bool DeleteTagApi(long userId, string tag, int usn, out int toUsn, out string msg)
+        public bool DeleteTagApi(long? userId, string tag, int usn, out int toUsn, out string msg)
         {
             NoteTag noteTag = GetTag(userId, tag);
             if (noteTag == null)
@@ -156,7 +156,7 @@ namespace MoreNote.Logic.Service
         }
 
         // 重新统计标签的count
-        public void reCountTagCount(long userId, string[] tags)
+        public void reCountTagCount(long? userId, string[] tags)
         {
             if (tags == null || tags.Length == 0)
             {
@@ -169,14 +169,14 @@ namespace MoreNote.Logic.Service
         }
 
         // 同步用
-        public NoteTag[] GeSyncTags(long userId, int afterUsn, int maxEntry)
+        public NoteTag[] GeSyncTags(long? userId, int afterUsn, int maxEntry)
         {
             var result = dataContext.NoteTag.
                 Where(b => b.UserId == userId && b.Usn > afterUsn).Take(maxEntry);
             return result.ToArray();
         }
 
-        public NoteTag GetTag(long tagId)
+        public NoteTag GetTag(long? tagId)
         {
             var result = dataContext.NoteTag
                       .Where(b => b.TagId == tagId);
@@ -187,7 +187,7 @@ namespace MoreNote.Logic.Service
             return result.FirstOrDefault();
         }
 
-        public NoteTag GetTag(long userId, string tag)
+        public NoteTag GetTag(long? userId, string tag)
         {
             var result = dataContext.NoteTag
                     .Where(b => b.UserId == userId && b.Tag.Equals(tag));
@@ -209,7 +209,7 @@ namespace MoreNote.Logic.Service
             return dataContext.SaveChanges() > 0;
         }
 
-        public string[] GetBlogTags(long userid)
+        public string[] GetBlogTags(long? userid)
         {
             //todo:这里需要性能优化，获得blog标签
 

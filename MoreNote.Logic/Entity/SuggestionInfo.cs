@@ -11,9 +11,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("addr")]
         public string Addr { get; set; }
 

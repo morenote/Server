@@ -36,7 +36,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public NoteContent SelectNoteContent(long noteId)
+        public NoteContent SelectNoteContent(long? noteId)
         {
             
                 var result = dataContext.NoteContent
@@ -54,7 +54,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public NoteContent GetNoteContent(long noteId, long userId, bool IsHistory)
+        public NoteContent GetNoteContent(long? noteId, long? userId, bool IsHistory)
         {
            
                 var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == IsHistory);
@@ -63,7 +63,7 @@ namespace MoreNote.Logic.Service
         }
 
         [Obsolete("不推荐使用,使用GetValidNoteContent替代")]
-        public NoteContent GetNoteContent(long noteId, long userId)
+        public NoteContent GetNoteContent(long? noteId, long? userId)
         {
            
                 var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId);
@@ -71,7 +71,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public NoteContent GetValidNoteContent(long noteId, long userId)
+        public NoteContent GetValidNoteContent(long? noteId, long? userId)
         {
            
                 var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == false);
@@ -97,14 +97,14 @@ namespace MoreNote.Logic.Service
         // [ok] TODO perm未测
         // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
         // TODO abstract这里生成
-        public bool UpdateNoteContent(long updateUserId, long noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime,
+        public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime,
             out string msg, out int afterContentUsn)
         {
             //todo: 需要完成函数UpdateNoteContent
             throw new Exception();
         }
 
-        public bool UpdateNoteContent(ApiNote apiNote, out string msg, out long contentId)
+        public bool UpdateNoteContent(ApiNote apiNote, out string msg, out long? contentId)
         {
            
                 //更新 将其他笔记刷新
@@ -174,7 +174,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public bool DeleteByIdAndUserId(long noteId, long userId, bool Including_the_history)
+        public bool DeleteByIdAndUserId(long? noteId, long? userId, bool Including_the_history)
         {
         
 		  if (Including_the_history)
@@ -192,7 +192,7 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
-        public bool Delete_HistoryByNoteIdAndUserId(long noteId, long userId)
+        public bool Delete_HistoryByNoteIdAndUserId(long? noteId, long? userId)
         {
             throw new Exception("此方法需要实现");
         }
