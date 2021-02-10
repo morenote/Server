@@ -172,9 +172,10 @@ namespace MoreNote.Logic.Service
         }
 
         // 返回info.UserAndBlog
-        public Dictionary<string, UserAndBlog> MapUserAndBlogByUserIds(long[] userIds)
+        public Dictionary<long?, UserAndBlog> MapUserAndBlogByUserIds(long?[] userIds)
         {
-            throw new Exception();
+            //todo: MapUserAndBlogByUserIds
+            return null;
         }
 
         // 得到用户信息+博客主页
@@ -202,6 +203,7 @@ namespace MoreNote.Logic.Service
         {
             var user = this.GetUserInfo(userId);
             var userBlog = BlogService.GetUserBlog(userId);
+
             var userAndBlog = new UserAndBlog()
             {
                 UserId = user.UserId,
