@@ -178,7 +178,7 @@ namespace MoreNote.Controllers
             switch (format)
             {
                 case "raw":
-                    if (webcConfig.PublicAPI.Token_anti_theft_chain)
+                    if (webcConfig.PublicAPI.CanTokenAntiTheftChain)
                     {
                         string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{typeMD5}/{randomImage.FileSHA1}{ext}");
                         return Redirect($"https://upyun.morenote.top/upload/{typeMD5}/{randomImage.FileSHA1}{ext}?_upt={_upt}");
@@ -231,7 +231,7 @@ namespace MoreNote.Controllers
             string ext = Path.GetExtension(randomImage.FileName);
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             string _upt1 = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileSHA1}{ext}");
-            if (webcConfig.PublicAPI.Token_anti_theft_chain)
+            if (webcConfig.PublicAPI.CanTokenAntiTheftChain)
             {
 
                 return $"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}?_upt={_upt1}";
