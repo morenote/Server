@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -56,7 +57,7 @@ namespace MoreNote.Controllers
             this.noteFileService = noteFileService;
             this.configFileService = configFileService;
             this.userService = userService;
-            _accessor = accessor;
+            this._accessor = accessor;
             if (config != null && config.UpYunCDN != null)
             {
                 upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
@@ -90,8 +91,14 @@ namespace MoreNote.Controllers
         /// <returns></returns>
         public int GetPage()
         {
-            //todo:GetPage
-            return 0;
+            var pageValue= Request.Query["page"];
+            if (StringValues.IsNullOrEmpty(pageValue))
+            {
+                return 1;
+            }
+            int value=1;
+            Int32.TryParse(pageValue,out value);
+            return value;
 
         }
 

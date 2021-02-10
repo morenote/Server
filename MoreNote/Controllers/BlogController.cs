@@ -411,10 +411,16 @@ namespace MoreNote.Controllers
                 result.Add("visitUserInfo", userAndBlog);
             }
             var page=this.GetPage();
+
+
+
             // 点赞用户列表
-            bool ListLikedUsers=false;
-            var likedUsers=  blogService.ListLikedUsers(noteId,false,out ListLikedUsers);
-          
+            bool hasMoreLikedUser = false;
+            var likedUsers=  blogService.ListLikedUsers(noteId,false,out hasMoreLikedUser);
+            result.Add("isILikeIt", isILikeIt);
+            result.Add("likedUsers", likedUsers);
+            result.Add("hasMoreLikedUser", hasMoreLikedUser);
+
 
             Re re = new Re()
             {

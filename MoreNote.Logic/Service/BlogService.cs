@@ -34,6 +34,7 @@ namespace MoreNote.Logic.Service
         public NoteContentService NoteContentService { get; set; }
         public UserService UserService { get; set; }
         public ConfigService ConfigService { get; set; }
+        public CommonService CommonService { get; set; }
 
         public BlogService(DataContext dataContext)
         {
@@ -268,6 +269,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
+
         /// <summary>
         /// 返回所有liked用户, bool是否还有
         /// </summary>
@@ -275,24 +277,69 @@ namespace MoreNote.Logic.Service
         /// <param name="isALL"></param>
         /// <param name="hasMoreLikedUser"></param>
         /// <returns></returns>
-        public UserAndBlog[] ListLikedUsers(long? noteId, bool isALL,out bool hasMoreLikedUser)
+        public UserAndBlog[] ListLikedUsers(long? noteId, bool isALL, out bool hasMoreLikedUser)
         {
-          var  pageSize= 5;//默认前5 
-            //todo:ListLikedUsers
-            hasMoreLikedUser=false;
-            return null;
+            var pageSize = 5;//默认前5
+            int skipNum;
+            string sortFieldR;
+            CommonService.parsePageAndSort(1, pageSize, "CreatedTime", false, out skipNum, out sortFieldR);
+            var result = dataContext.BlogLike.Where(b => b.NoteId == noteId).OrderBy(a=>a.CreatedTime);
+            if (result == null || !result.Any())
+            {
+                hasMoreLikedUser = false;
+                return null;
+            }
+            List<BlogLike> allResult = null;
+            var likes = result.ToList<BlogLike>();
+            // 总记录数
+            var count= likes.Count();
+            if (count<1)
+            {
+                hasMoreLikedUser=false;
+                return null;
+            }
 
+
+
+            if (isALL)
+            {
+                allResult = (from a in likes
+                             orderby a.CreatedTime ascending
+                             select a).Skip(skipNum).Take(pageSize).ToList<BlogLike>();
+            }
+            else
+            {
+                allResult = (from a in likes
+                             orderby a.CreatedTime ascending
+                             select a).ToList<BlogLike>();
+            }
+            // 得到所有userIds
+            List<long?> userIds=new List<long?>();
+            foreach (var like in likes)
+            {
+                userIds.Add(like.UserId);
+            }
+            // 得到用户信息
+            var userMap= UserService.MapUserAndBlogByUserIds(userIds.ToArray());
+            UserAndBlog[] users =new UserAndBlog[likes.Count];
+            for (int i = 0; i < likes.Count; i++)
+            {
+                users[i]=userMap[likes[i].UserId];
+            }
+
+            //todo:ListLikedUsers
+            hasMoreLikedUser =( count > pageSize);
+            return users;
         }
 
         public bool IsILikeIt(long? noteId, long? userId)
         {
-            if (noteId==null||userId == null)
+            if (noteId == null || userId == null)
             {
                 return false;
             }
-            bool result= dataContext.BlogLike.Where(u=>u.NoteId==noteId&&u.UserId==userId).Any();
+            bool result = dataContext.BlogLike.Where(u => u.NoteId == noteId && u.UserId == userId).Any();
             return result;
-           
         }
 
         public bool IncReadNum(long? noteId)
@@ -409,8 +456,7 @@ namespace MoreNote.Logic.Service
         public string GetUserBlogUrl(UserBlog userBlog, string userName)
         {
             //todo:GetUserBlogUrl
-            return "http://morenote.top/"+userName;
-           
+            return ConfigService.GetBlogUrl() + "/" + userName;
         }
 
         public BlogUrls GetBlogUrls(UserBlog userBlog, User

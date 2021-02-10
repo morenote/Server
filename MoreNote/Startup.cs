@@ -132,6 +132,7 @@ namespace MoreNote
                     blogService.NoteContentService = e.Context.Resolve<NoteContentService>();
                     blogService.UserService = e.Context.Resolve<UserService>();
                     blogService.ConfigService = e.Context.Resolve<ConfigService>();
+                    blogService.CommonService = e.Context.Resolve<CommonService>();
                 })
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<CommonService>();
