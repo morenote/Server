@@ -34,7 +34,7 @@ namespace MoreNote.Controllers
 
             // var files = Request.Form.Files;
 
-            long size = files.Sum(f => f.Length);
+            long? size = files.Sum(f => f.Length);
 
             //string webRootPath = _hostingEnvironment.WebRootPath;
 
@@ -49,7 +49,7 @@ namespace MoreNote.Controllers
                 {
                     string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
 
-                    long fileSize = formFile.Length; //获得文件大小，以字节为单位
+                    long? fileSize = formFile.Length; //获得文件大小，以字节为单位
 
                     string newFileName = System.Guid.NewGuid().ToString() + "." + fileExt; //随机生成新的文件名
 
@@ -81,7 +81,7 @@ namespace MoreNote.Controllers
         {
             var date = Request;
             var files = Request.Form.Files;
-            long size = files.Sum(f => f.Length);
+            long? size = files.Sum(f => f.Length);
             //string webRootPath = _hostingEnvironment.WebRootPath;
             //string contentRootPath = _hostingEnvironment.ContentRootPath;
             foreach (var formFile in files)
@@ -89,7 +89,7 @@ namespace MoreNote.Controllers
                 if (formFile.Length > 0)
                 {
                     string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
-                    long fileSize = formFile.Length; //获得文件大小，以字节为单位
+                    long? fileSize = formFile.Length; //获得文件大小，以字节为单位
                     string newFileName = System.Guid.NewGuid().ToString() + "." + fileExt; //随机生成新的文件名
                     var filePath = "upload/" + newFileName;
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -117,7 +117,7 @@ namespace MoreNote.Controllers
        // [HttpPost]
         private IActionResult UploadFiles(List<IFormFile> files)
         {
-            long size = 0;
+            long? size = 0;
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var file in files)
             {
@@ -151,7 +151,7 @@ namespace MoreNote.Controllers
        // [HttpPost]
         private JsonResult AjaxUploadFiles()
         {
-            long size = 0;
+            long? size = 0;
             var files = Request.Form.Files;
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var file in files)
@@ -189,7 +189,7 @@ namespace MoreNote.Controllers
             return null;
            /**
                 string newAvatar = string.Empty;
-                long size = files.Sum(f => f.Length);
+                long? size = files.Sum(f => f.Length);
                 var uploadResult = new EditorImageUploadResult();
                 foreach (var formFile in files)
 
@@ -203,7 +203,7 @@ namespace MoreNote.Controllers
                         string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
                                                                                //  string fileName = System.Guid.NewGuid().ToString("N");
 
-                        long fileSize = formFile.Length; //获得文件大小，以字节为单位
+                        long? fileSize = formFile.Length; //获得文件大小，以字节为单位
 
                         //string newFileName = System.Guid.NewGuid().ToString() + "." + fileExt; //随机生成新的文件名
                         //string newFileName = "123" + "." + fileExt; //随机生成新的文件名

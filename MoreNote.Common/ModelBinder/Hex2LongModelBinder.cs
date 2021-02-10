@@ -36,7 +36,7 @@ namespace MoreNote.Common.ModelBinder
           
             bindingContext.ModelState.SetModelValue(bindingContext.ModelName, stringValue, stringValue);
 
-            // Attempt to parse the long                
+            // Attempt to parse the long?                
             if (long.TryParse(s:stringValue,style:NumberStyles.HexNumber,null, out long valueAsLong))
             {
                 bindingContext.Result = ModelBindingResult.Success(valueAsLong);

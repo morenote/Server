@@ -78,15 +78,15 @@ namespace MoreNote.Controllers
             }
         }
 
-        public long GetUserIdBySession()
+        public long? GetUserIdBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
-            long userid_number = userid_hex.ToLongByHex();
+            long? userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
 
         // todo:得到用户信息
-        public long GetUserIdByToken(string token)
+        public long? GetUserIdByToken(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -95,7 +95,7 @@ namespace MoreNote.Controllers
             else
             {
                 User user = tokenSerivce.GetUserByToken(token);
-                long userid = (user == null ? 0 : user.UserId);
+                long? userid = (user == null ? 0 : user.UserId);
                 return userid;
             }
         }
@@ -103,7 +103,7 @@ namespace MoreNote.Controllers
         public User GetUserBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
-            long userid_number = userid_hex.ToLongByHex();
+            long? userid_number = userid_hex.ToLongByHex();
             User user = userService.GetUserByUserId(userid_number);
             return user;
         }
@@ -154,19 +154,19 @@ namespace MoreNote.Controllers
             }
         }
 
-        public long GetUserIdByToken()
+        public long? GetUserIdByToken()
         {
             string token = GetTokenByHttpContext();
             if (string.IsNullOrEmpty(token))
             {
                 string userid_hex = _accessor.HttpContext.Session.GetString("userId");
-                long userid_number = userid_hex.ToLongByHex();
+                long? userid_number = userid_hex.ToLongByHex();
                 return userid_number;
             }
             else
             {
                 User user = tokenSerivce.GetUserByToken(token);
-                long userid = (user == null ? 0 : user.UserId);
+                long? userid = (user == null ? 0 : user.UserId);
                 return userid;
             }
         }
@@ -198,12 +198,12 @@ namespace MoreNote.Controllers
             }
         }
 
-        public void SetUserIdToSession(long userId)
+        public void SetUserIdToSession(long? userId)
         {
             _accessor.HttpContext.Session.SetString("userId", userId.ToHex24());
         }
 
-        public long ConvertUserIdToLong()
+        public long? ConvertUserIdToLong()
         {
             string hex = _accessor.HttpContext.Request.Form["userId"];
             if (string.IsNullOrEmpty(hex))
@@ -218,7 +218,7 @@ namespace MoreNote.Controllers
         }
 
         // todo :上传附件
-        public bool UploadAttach(string name, long userId, long noteId, out string msg, out long serverFileId)
+        public bool UploadAttach(string name, long? userId, long? noteId, out string msg, out long? serverFileId)
         {
             msg = "";
             serverFileId = 0;
@@ -291,7 +291,7 @@ namespace MoreNote.Controllers
             }
         }
 
-        public bool UploadImages(string name, long userId, long noteId, bool isAttach, out long serverFileId, out string msg)
+        public bool UploadImages(string name, long? userId, long? noteId, bool isAttach, out long? serverFileId, out string msg)
         {
             if (isAttach)
             {

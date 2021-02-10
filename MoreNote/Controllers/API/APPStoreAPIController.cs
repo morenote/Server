@@ -56,8 +56,8 @@ namespace MoreNote.Controllers.API.APIV1
         }
         [Route("/api/1.0/app/[action]")]
         [HttpPost]
-        public IActionResult AddAPP(long appid,string appautor ,string appdetail,string appname,string apppackage,
-            string appdownurl,string applogourl,string appversion,string imglist,long appsize,bool agreement,string password)
+        public IActionResult AddAPP(long? appid,string appautor ,string appdetail,string appname,string apppackage,
+            string appdownurl,string applogourl,string appversion,string imglist,long? appsize,bool agreement,string password)
         {
             if (!password.Equals("9qMDpc4anxbckAFX47LIz7uaqpubicKSZMyd47RSbO3D7kgR51ui3V5dLFPDu7WS"))
             {

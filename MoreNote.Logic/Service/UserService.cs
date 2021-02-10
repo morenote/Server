@@ -26,7 +26,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public User GetUserByUserId(long userid)
+        public User GetUserByUserId(long? userid)
         {
            
                 var result = dataContext.User
@@ -41,7 +41,7 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="userid">用户id</param>
         /// <returns>自增后的usn</returns>
-        public int IncrUsn(long userid)
+        public int IncrUsn(long? userid)
         {
            
                 var user = dataContext.User
@@ -53,7 +53,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public int GetUsn(long userId)
+        public int GetUsn(long? userId)
         {
             throw new Exception();
         }
@@ -79,13 +79,13 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户名
-        public string GetUsername(long userId)
+        public string GetUsername(long? userId)
         {
             throw new Exception();
         }
 
         // 得到用户名
-        public string GetUsernameById(long userId)
+        public string GetUsernameById(long? userId)
         {
             throw new Exception();
         }
@@ -124,13 +124,13 @@ namespace MoreNote.Logic.Service
         }
 
         // 仅得到用户
-        public User GetUser(long userId)
+        public User GetUser(long? userId)
         {
             throw new Exception();
         }
 
         // 得到用户信息 userId
-        public User GetUserInfo(long userId)
+        public User GetUserInfo(long? userId)
         {
             
                 var result = dataContext.User
@@ -185,7 +185,7 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息+博客主页
-        public UserAndBlogUrl GetUserAndBlogUrl(long userId)
+        public UserAndBlogUrl GetUserAndBlogUrl(long? userId)
         {
             User user = GetUserInfo(userId);
      
@@ -202,7 +202,7 @@ namespace MoreNote.Logic.Service
 
         // 得到userAndBlog公开信息
 
-        public UserAndBlog GetUserAndBlog(long userId)
+        public UserAndBlog GetUserAndBlog(long? userId)
         {
             throw new Exception();
         }
@@ -228,38 +228,38 @@ namespace MoreNote.Logic.Service
         }
 
         // 更新username
-        public bool UpdateUsername(long userId, string username)
+        public bool UpdateUsername(long? userId, string username)
         {
             throw new Exception();
         }
 
         // 修改头像
-        public bool UpdateAvatar(long userId, string avatarPath)
+        public bool UpdateAvatar(long? userId, string avatarPath)
         {
             throw new Exception();
         }
 
         //----------------------
         // 已经登录了的用户修改密码
-        public bool UpdatePwd(long userId, string oldPwd, string pwd)
+        public bool UpdatePwd(long? userId, string oldPwd, string pwd)
         {
             throw new Exception();
         }
 
         // 管理员重置密码
-        public bool ResetPwd(long adminUserId, long userId, string pwd)
+        public bool ResetPwd(long? adminUserId, long? userId, string pwd)
         {
             throw new Exception();
         }
 
         // 修改主题
-        public bool UpdateTheme(long userId, string theme)
+        public bool UpdateTheme(long? userId, string theme)
         {
             throw new Exception();
         }
 
         // 帐户类型设置
-        public bool UpdateAccount(long userId, string accountType, DateTime accountStartTime, DateTime accountEndTime, int maxImageNum, int maxImageSize, int maxAttachNum, int maxAttachSize, int maxPerAttachSize)
+        public bool UpdateAccount(long? userId, string accountType, DateTime accountStartTime, DateTime accountEndTime, int maxImageNum, int maxImageSize, int maxAttachNum, int maxAttachSize, int maxPerAttachSize)
         {
             throw new Exception();
         }
@@ -285,13 +285,13 @@ namespace MoreNote.Logic.Service
         // 偏好设置
 
         // 宽度
-        public bool UpdateColumnWidth(long userId, int notebookWidth, int noteListWidth, int mdEditorWidth)
+        public bool UpdateColumnWidth(long? userId, int notebookWidth, int noteListWidth, int mdEditorWidth)
         {
             throw new Exception();
         }
 
         // 左侧是否隐藏
-        public bool UpdateLeftIsMin(long userId, bool leftIsMin)
+        public bool UpdateLeftIsMin(long? userId, bool leftIsMin)
         {
             throw new Exception();
         }

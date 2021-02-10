@@ -17,9 +17,9 @@ namespace MoreNote.Logic.Entity
         [Key]
         [Column("album_id")]
        // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public long  AlbumId { get; set; }
+        public long?  AlbumId { get; set; }
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("name")]
         public string Name { get; set; }// album name
         [Column("type")]

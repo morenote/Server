@@ -11,7 +11,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("random_image_id")]
-        public long RandomImageId { get; set; }
+        public long? RandomImageId { get; set; }
         [Column("type_name")]
         public string TypeName { get; set; }
         [Column("type_name_md5")]

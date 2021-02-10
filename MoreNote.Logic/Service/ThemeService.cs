@@ -13,7 +13,7 @@ namespace MoreNote.Logic.Service
             this.dataContext = dataContext;
         }
 
-        public FriendLinks[] GetURLs(long themeId)
+        public FriendLinks[] GetURLs(long? themeId)
         {
             var result = dataContext.FriendLinks.
                        Where(b => b.ThemeId.Equals(themeId));

@@ -24,7 +24,7 @@ namespace MoreNote.Logic.Entity
     public class AppInfo
     {
         [Key]
-        public long appid { get; set; }
+        public long? appid { get; set; }
         public string appautor { get; set; }
         public string appdetail { get; set; }
         public string appname { get; set; }
@@ -33,7 +33,7 @@ namespace MoreNote.Logic.Entity
         public string applogourl { get; set; }
         public string appversion { get; set; }
         public string[] imglist { get; set; }
-        public string appsize { get; set; }//多少字节 long 1345616451515
+        public string appsize { get; set; }//多少字节 long? 1345616451515
         public bool agreement;
     }
 }

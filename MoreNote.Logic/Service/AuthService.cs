@@ -29,7 +29,7 @@ namespace MoreNote.Logic.Service
                 string temp = SHAEncryptHelper.Hash256Encrypt(pwd + user.Salt);
                 if (temp.Equals(user.Pwd))
                 {
-                    long tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+                    long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
                     var token= TokenSerivce.GenerateToken(tokenid);
                     Token myToken = new Token
                     {
@@ -67,7 +67,7 @@ namespace MoreNote.Logic.Service
         /// <param name="userid"></param>
         /// <param name="tokenStr"></param>
         /// <returns></returns>
-        public  bool IsLogin(long userid,string tokenStr)
+        public  bool IsLogin(long? userid,string tokenStr)
         {
           
             Token token = TokenSerivce.GetTokenByTokenStr(userid
@@ -88,7 +88,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public  bool Register(string email,string pwd,long fromUserId)
+        public  bool Register(string email,string pwd,long? fromUserId)
         {
            return Register( email,  pwd,  fromUserId, out string Msg);
         }
@@ -103,7 +103,7 @@ namespace MoreNote.Logic.Service
         // 1. 添加用户
         // 2. 将leanote共享给我
         // [ok]
-        public  bool Register(string email, string pwd, long fromUserId,out string Msg)
+        public  bool Register(string email, string pwd, long? fromUserId,out string Msg)
         {
             if (string.IsNullOrEmpty(email)||string.IsNullOrEmpty(pwd)||pwd.Length<6)
             {

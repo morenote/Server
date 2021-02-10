@@ -11,17 +11,17 @@ namespace MoreNote.Logic.Service
         int maxSize =10;
         // 新建一个note, 不需要添加历史记录
         // 添加历史
-        public  void AddHistory(long noteId,long userId,EachHistory eachHistory)
+        public  void AddHistory(long? noteId,long? userId,EachHistory eachHistory)
         {
             throw new Exception();
         }
         // 新建历史
-        public  void newHistory(long noteId,long userId,EachHistory eachHistory)
+        public  void newHistory(long? noteId,long? userId,EachHistory eachHistory)
         {
             throw new Exception();
         }
         // 列表展示
-        public  EachHistory[] ListHistories(long noteId,long userId)
+        public  EachHistory[] ListHistories(long? noteId,long? userId)
         {
             throw  new Exception();
               

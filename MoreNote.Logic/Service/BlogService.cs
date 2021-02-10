@@ -40,7 +40,7 @@ namespace MoreNote.Logic.Service
             this.dataContext = dataContext;
         }
 
-        public BlogStat GetBlogStat(long noteId)
+        public BlogStat GetBlogStat(long? noteId)
         {
             var note = NoteService.GetBlogNote(noteId);
             var stat = new BlogStat()
@@ -56,38 +56,38 @@ namespace MoreNote.Logic.Service
         /// <summary>
         /// 统计网站上公开的Post的数量
         /// </summary>
-        public int CountTheNumberForBlogs(long userId)
+        public int CountTheNumberForBlogs(long? userId)
         {
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
             return count;
         }
 
-        public int CountTheNumberForBlogTags(long userId, string tag)
+        public int CountTheNumberForBlogTags(long? userId, string tag)
         {
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
             return count;
         }
 
-        public Note[] GetNotes(long userid)
+        public Note[] GetNotes(long? userid)
         {
             var result =
                 dataContext.Note.Where(note => note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.UserId == userid).OrderByDescending(note => note.PublicTime).ToArray();
             return result;
         }
 
-        public int CountTheNumberForBlogsOfNoteBookId(long userId, long notebookId)
+        public int CountTheNumberForBlogsOfNoteBookId(long? userId, long? notebookId)
         {
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.NotebookId == notebookId).Count();
             return count;
         }
 
-        public int CountTheNumberForBlogsOfTag(long userId, string tag)
+        public int CountTheNumberForBlogsOfTag(long? userId, string tag)
         {
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
             return count;
         }
 
-        public BlogItem GetBlogByIdAndUrlTitle(long userId, string noteIdOrUrlTitle)
+        public BlogItem GetBlogByIdAndUrlTitle(long? userId, string noteIdOrUrlTitle)
         {
             if (Util.IsObjectId(noteIdOrUrlTitle))
             {
@@ -103,7 +103,7 @@ namespace MoreNote.Logic.Service
             }
         }
 
-        public BlogItem GetBlog(long noteId)
+        public BlogItem GetBlog(long? noteId)
         {
             var note = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
             return GetBlogItem(note);
@@ -131,7 +131,7 @@ namespace MoreNote.Logic.Service
             return blog;
         }
 
-        public Notebook[] ListBlogNotebooks(long userId)
+        public Notebook[] ListBlogNotebooks(long? userId)
         {
             var noteBooks = dataContext.Notebook.Where(b => b.UserId == userId && b.IsBlog == true).ToArray();
             return noteBooks;
@@ -149,7 +149,7 @@ namespace MoreNote.Logic.Service
         /// <param name="isAsc"></param>
         /// <param name="pageObj"></param>
         /// <param name="blogItem"></param>
-        public void ListBlogs(long userId, long noteBookId, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem blogItem)
+        public void ListBlogs(long? userId, long? noteBookId, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem blogItem)
         {
             int count = 0;
 
@@ -183,23 +183,23 @@ namespace MoreNote.Logic.Service
             return blogInfo;
         }
 
-        public TagCount GetBlogTags(long userId)
+        public TagCount GetBlogTags(long? userId)
         {
             throw new Exception();
         }
 
-        public bool ReCountBlogTags(long userId)
+        public bool ReCountBlogTags(long? userId)
         {
             //todo 需要完成此功能
             return true;
         }
 
-        public Archive[] ListBlogsArchive(long userId, long noteBookId, int year, int month, string sortField, bool isAec)
+        public Archive[] ListBlogsArchive(long? userId, long? noteBookId, int year, int month, string sortField, bool isAec)
         {
             throw new Exception();
         }
 
-        public void SearchBlogByTags(string[] tags, long userId, int pageNumber, int pageSize, string sortField, bool isAsc, out Page pageInfo, BlogItem[] bolgs)
+        public void SearchBlogByTags(string[] tags, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc, out Page pageInfo, BlogItem[] bolgs)
         {
             throw new Exception();
         }
@@ -209,18 +209,18 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public void SearchBlog(string key, long userid, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem[] blogItems)
+        public void SearchBlog(string key, long? userid, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem[] blogItems)
         {
             throw new Exception();
         }
 
-        public Post PreNextBlog(long userid, string sortField, bool isAsc, long noteId, string baseTime)
+        public Post PreNextBlog(long? userid, string sortField, bool isAsc, long? noteId, string baseTime)
         {
             //what is baseTime???
             throw new Exception();
         }
 
-        public void ListAllBlogs(long userId, string tag, string keywords, bool
+        public void ListAllBlogs(long? userId, string tag, string keywords, bool
              isRecommend, int pageSize, string sorterField, bool isAsc)
         {
             throw new Exception();
@@ -231,7 +231,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public UserBlog GetUserBlog(long userId)
+        public UserBlog GetUserBlog(long? userId)
         {
             var result = dataContext.UserBlog.Where(b => b.UserId == userId).FirstOrDefault();
             return result;
@@ -242,12 +242,12 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public bool UpdateUserBlogBase(long userId, UserBlogBase userBlogBase)
+        public bool UpdateUserBlogBase(long? userId, UserBlogBase userBlogBase)
         {
             throw new Exception();
         }
 
-        public bool UpdateUserBlogPaging(long userId, int perPageSize, string sortField, bool isAsc)
+        public bool UpdateUserBlogPaging(long? userId, int perPageSize, string sortField, bool isAsc)
         {
             throw new Exception();
         }
@@ -264,22 +264,26 @@ namespace MoreNote.Logic.Service
 
         //---------------------
         // 后台管理
-        public bool SetRecommend(long noteIdm, bool isRecommend)
+        public bool SetRecommend(long? noteIdm, bool isRecommend)
         {
             throw new Exception();
         }
 
-        public UserAndBlog[] ListLikedUsers(long noteId, bool isALL)
+        public UserAndBlog[] ListLikedUsers(long? noteId, bool isALL)
         {
             throw new Exception();
         }
 
-        public bool IsILikeIt(long noteId, long UserId)
+        public bool IsILikeIt(long? noteId, long? UserId)
         {
+            if (true)
+            {
+
+            }
             throw new Exception();
         }
 
-        public bool IncReadNum(long noteId)
+        public bool IncReadNum(long? noteId)
         {
             try
             {
@@ -294,98 +298,98 @@ namespace MoreNote.Logic.Service
             }
         }
 
-        public bool LikeBlog(long noteId, long userId)
+        public bool LikeBlog(long? noteId, long? userId)
         {
             throw new Exception();
         }
 
-        public BlogComment Comment(long noteId, long toCommentId, long uerId, string connect)
+        public BlogComment Comment(long? noteId, long? toCommentId, long? uerId, string connect)
         {
             throw new Exception();
         }
 
-        public void sendEmail(Note note, BlogComment comment, long userId, string Content)
+        public void sendEmail(Note note, BlogComment comment, long? userId, string Content)
         {
             throw new Exception();
         }
 
-        public bool DeleteComment(long noteId, long CommentId, long userId)
+        public bool DeleteComment(long? noteId, long? CommentId, long? userId)
         {//实际上只提供评论的数据库Id就可以删除
             //Id是唯一的
             throw new Exception();
         }
 
-        public bool LikeComment(long commentId, long userId)
+        public bool LikeComment(long? commentId, long? userId)
         {
             throw new Exception();
         }
 
-        public bool ListComments(long userId, long noteId, int page, int pageSize, out Page pageObj, out BlogCommentPublic[] blogCommentPublics, out HashSet<string> vs)
+        public bool ListComments(long? userId, long? noteId, int page, int pageSize, out Page pageObj, out BlogCommentPublic[] blogCommentPublics, out HashSet<string> vs)
         {
             throw new Exception();
         }
 
-        public bool Report(long noteId, long commentId, string reason, long userId)
+        public bool Report(long? noteId, long? commentId, string reason, long? userId)
         {
             throw new Exception();
         }
 
-        public bool UpateCateIds(long uerId, long[] cateIds)
+        public bool UpateCateIds(long? uerId, long[] cateIds)
         {
             throw new Exception();
         }
 
-        public bool UpateCateUrlTitle(long userid, long cateId, string urlTitle)
+        public bool UpateCateUrlTitle(long? userid, long? cateId, string urlTitle)
         {
             throw new Exception();
         }
 
-        public bool UpateBlogUrlTitle(long userId, long noteId, string urltitle)
+        public bool UpateBlogUrlTitle(long? userId, long? noteId, string urltitle)
         {
             throw new Exception();
         }
 
-        public bool UpateBlogAbstract(long userId, long noteId, string desc, string abstractStr)
+        public bool UpateBlogAbstract(long? userId, long? noteId, string desc, string abstractStr)
         {
             throw new Exception();
         }
 
-        public HashSet<string> GetSingles(long userId)
+        public HashSet<string> GetSingles(long? userId)
         {
             throw new Exception();
         }
 
-        public BlogSingle GetSingle(long singleId)
+        public BlogSingle GetSingle(long? singleId)
         {
             throw new Exception();
         }
 
-        public BlogSingle GetSingleByUserIdAndUrlTitle(long userId, string singleIdOrUrlTitle)
+        public BlogSingle GetSingleByUserIdAndUrlTitle(long? userId, string singleIdOrUrlTitle)
         {
             throw new Exception();
         }
 
-        public bool updateBlogSingles(long userId, bool isDelete, bool isAdd, long singleId, string tiltle, string urlTitle)
+        public bool updateBlogSingles(long? userId, bool isDelete, bool isAdd, long? singleId, string tiltle, string urlTitle)
         {
             throw new Exception();
         }
 
-        public bool DeleteSingle(long userId, long singleId)
+        public bool DeleteSingle(long? userId, long? singleId)
         {
             throw new Exception();
         }
 
-        public bool UpdateSingleUrlTitle(long userID, long singleId, string urlTitle)
+        public bool UpdateSingleUrlTitle(long? userID, long? singleId, string urlTitle)
         {
             throw new Exception();
         }
 
-        public bool AddOrUpdateSingle(long userId, long singleId, string title, string content)
+        public bool AddOrUpdateSingle(long? userId, long? singleId, string title, string content)
         {
             throw new Exception();
         }
 
-        public bool SortSingles(long userId, long[] sinaleIds)
+        public bool SortSingles(long? userId, long[] sinaleIds)
         {
             throw new Exception();
         }
@@ -462,7 +466,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public Cate[] GetCateArrayForBlog(long userId)
+        public Cate[] GetCateArrayForBlog(long? userId)
         {
             var result = (from _note in dataContext.Note
                           join _noteBook in dataContext.Notebook on _note.NotebookId equals _noteBook.NotebookId

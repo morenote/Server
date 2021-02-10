@@ -40,7 +40,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:获取同步的笔记
-        //public JsonResult GetSyncNotes([ModelBinder(BinderType = typeof(Hex2LongModelBinder))]long userId,int afterUsn,int maxEntry,string token)
+        //public JsonResult GetSyncNotes([ModelBinder(BinderType = typeof(Hex2LongModelBinder))]long? userId,int afterUsn,int maxEntry,string token)
         //{
         //    if (maxEntry==0) maxEntry=100;
         //    ApiNote[] apiNotes=NoteService.GetSyncNotes(userId,afterUsn,maxEntry);
@@ -56,7 +56,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetNotes(string notebookId, string token)
         {
             Note[] notes = noteService.ListNotes(GetUserIdByToken(token), notebookId.ToLongByHex(), false);
-            long myNotebookId = notebookId.ToLongByHex();
+            long? myNotebookId = notebookId.ToLongByHex();
             return null;
         }
         //todo:得到trash
@@ -132,13 +132,13 @@ namespace MoreNote.Controllers.API.APIV1
 
             //json 返回状态好乱呀 /(ㄒoㄒ)/~~
             Re re = Re.NewRe();
-            long tokenUserId = GetUserIdByToken(token); ;
-            long myUserId = tokenUserId;
+            long? tokenUserId = GetUserIdByToken(token); ;
+            long? myUserId = tokenUserId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))
             {
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
-            long noteId = SnowFlakeNet.GenerateSnowFlakeID();
+            long? noteId = SnowFlakeNet.GenerateSnowFlakeID();
           
        
             if (noteOrContent.Title==null)
@@ -158,7 +158,7 @@ namespace MoreNote.Controllers.API.APIV1
                     {
                         if (!string.IsNullOrEmpty(file.LocalFileId))
                         {
-                            var result = UploadImages("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long serverFileId, out string msg);
+                            var result = UploadImages("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long? serverFileId, out string msg);
                             if (!result)
                             {
                                 if (string.IsNullOrEmpty(msg))
@@ -321,7 +321,7 @@ namespace MoreNote.Controllers.API.APIV1
             Note noteUpdate = new Note();
             var needUpdateNote = false;
             var re = new ReUpdate();
-            long tokenUserId = GetUserIdByToken(token);
+            long? tokenUserId = GetUserIdByToken(token);
             var noteId = noteOrContent.NoteId.ToLongByHex();
             //-------------校验参数合法性
             if (tokenUserId == 0)
@@ -372,7 +372,7 @@ namespace MoreNote.Controllers.API.APIV1
                     {
                         if (!string.IsNullOrEmpty(file.LocalFileId))
                         {
-                            var result = UploadImages("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long serverFileId, out string msg);
+                            var result = UploadImages("FileDatas[" + file.LocalFileId + "]", tokenUserId, noteId, file.IsAttach, out long? serverFileId, out string msg);
                             if (!result)
                             {
                                 if (string.IsNullOrEmpty(msg))
@@ -417,7 +417,7 @@ namespace MoreNote.Controllers.API.APIV1
             var afterContentUsn = 0;
             var contentOk = false;
             var contentMsg = "";
-            long contentId = 0;
+            long? contentId = 0;
             if (noteOrContent.Content != null)
             {
                 // 把fileId替换下

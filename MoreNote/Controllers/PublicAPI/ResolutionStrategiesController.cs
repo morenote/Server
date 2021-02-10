@@ -92,7 +92,7 @@ namespace MoreNote.Controllers.PublicAPI
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> Edit(long id, [Bind("StrategyID,StrategyKey,StrategyName,CheckTime")] ResolutionStrategy resolutionStrategy)
+        public async Task<IActionResult> Edit(long? id, [Bind("StrategyID,StrategyKey,StrategyName,CheckTime")] ResolutionStrategy resolutionStrategy)
         {
             if (id != resolutionStrategy.StrategyID)
             {
@@ -145,7 +145,7 @@ namespace MoreNote.Controllers.PublicAPI
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin,SuperAdmin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(long? id)
         {
             var resolutionStrategy = await _context.ResolutionStrategy.FindAsync(id).ConfigureAwait(false);
             _context.ResolutionStrategy.Remove(resolutionStrategy);
@@ -153,7 +153,7 @@ namespace MoreNote.Controllers.PublicAPI
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ResolutionStrategyExists(long id)
+        private bool ResolutionStrategyExists(long? id)
         {
             return _context.ResolutionStrategy.Any(e => e.StrategyID == id);
         }

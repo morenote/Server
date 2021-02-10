@@ -47,7 +47,7 @@ namespace MoreNote.Common.Utils
         /// 产生全局唯一的long类型ID
         /// </summary>
         /// <returns></returns>
-        public static  long GenerateSnowFlakeID()
+        public static  long? GenerateSnowFlakeID()
         {
          
             return   GetInstance().NextId();

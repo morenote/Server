@@ -19,7 +19,7 @@ namespace MoreNote.Logic.Service
         <li>Generate "UrlTitle" for all notebooks</li>
         <li>Generate "UrlTitle" for all singles</li>
         */
-        public  bool UpgradeBetaToBeta2(long userId)
+        public  bool UpgradeBetaToBeta2(long? userId)
         {
             throw new Exception();
         }
@@ -38,7 +38,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 升级为Api, beta.4
-        public  bool Api(long userId)
+        public  bool Api(long? userId)
         {
             throw new Exception();
 

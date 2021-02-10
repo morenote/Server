@@ -34,7 +34,7 @@ namespace MoreNote.Logic.Service
         {
             StringBuilder tokenBuilder = new StringBuilder();
 
-            long tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
             tokenBuilder.Append(tokenid.ToHex24());
             tokenBuilder.Append("@");
             tokenBuilder.Append(RandomTool.CreatRandomString(16));
@@ -50,18 +50,18 @@ namespace MoreNote.Logic.Service
         /// <param name="tokenId">tokenId</param>
         /// <param name="tokenByteSize">不可预测部分的byte长度</param>
         /// <returns></returns>
-        public string GenerateToken(long tokenId, int tokenByteSize = 16)
+        public string GenerateToken(long? tokenId, int tokenByteSize = 16)
         {
             if (tokenByteSize < 1)
             {
                 tokenByteSize = 1;
             }
-            //byte数组A 8字节 long tokenId
+            //byte数组A 8字节 long? tokenId
             //byte数组B tokenByteSize字节 随机生成 默认长度16
             //AB拼接 输出hex字符串
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
             {
-                byte[] numData = BitConverter.GetBytes(tokenId);
+                byte[] numData = BitConverter.GetBytes(tokenId.Value);
                 byte[] randomData = new byte[tokenByteSize];
                 rng.GetBytes(randomData);
 
@@ -75,7 +75,7 @@ namespace MoreNote.Logic.Service
             }
         }
 
-        public Token GetTokenByTokenStr(long userid, string str)
+        public Token GetTokenByTokenStr(long? userid, string str)
         {
           
                 var result = dataContext.Token
@@ -111,13 +111,13 @@ namespace MoreNote.Logic.Service
         }
 
         // 生成token
-        public string NewToken(long userId, string email, int tokenType)
+        public string NewToken(long? userId, string email, int tokenType)
         {
             throw new Exception();
         }
 
         // 删除token
-        public bool DeleteToken(long userId, int tokenType)
+        public bool DeleteToken(long? userId, int tokenType)
         {
             throw new Exception();
         }

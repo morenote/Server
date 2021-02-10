@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service
         {
           return SnowFlakeNet.GenerateSnowFlakeIDHex();
         }
-        public  string getUniqueUrlTitle(long userId,string urlTitle,string types,int padding)
+        public  string getUniqueUrlTitle(long? userId,string urlTitle,string types,int padding)
         {
             // 判断urlTitle是不是过长, 过长则截断, 300
             // 不然生成index有问题
@@ -42,14 +42,14 @@ namespace MoreNote.Logic.Service
         }
         // 截取id 24位变成12位
         // 先md5, 再取12位
-        public  string subIdHalf(long id)
+        public  string subIdHalf(long? id)
         {
             return id.ToHex24();
         }
         // types == note,notebook,single
         // id noteId, notebookId, singleId 当title没的时候才有用, 用它来替换
 
-        public  string GetUrTitle(long userId,string title,string type,long id)
+        public  string GetUrTitle(long? userId,string title,string type,long? id)
         {
             string urlTitle=title.Trim();
             if (string.IsNullOrEmpty(urlTitle))

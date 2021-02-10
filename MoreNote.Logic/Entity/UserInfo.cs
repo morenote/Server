@@ -21,7 +21,7 @@ namespace MoreNote.Logic.Entity
         {
 
         }
-        public Authorization(long authorizationId, string type, string value)
+        public Authorization(long? authorizationId, string type, string value)
         {
             AuthorizationId = authorizationId;
             AuthorizationType = type;
@@ -30,7 +30,7 @@ namespace MoreNote.Logic.Entity
 
         [Key]
         [Column("authorization_id")]
-        public long AuthorizationId { get; set; }
+        public long? AuthorizationId { get; set; }
         [Column("authorization_type")]
         public string AuthorizationType { get; set; }
         [Column("authorization_value")]
@@ -44,7 +44,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("email")]
         public string Email { get; set; }//全是小写
         [Column("verified")]
@@ -100,7 +100,7 @@ namespace MoreNote.Logic.Entity
         [Column("attach_size")]
         public int AttachSize{ get; set; }//附件大小
         [Column("from_user_id")]
-        public long FromUserId{ get; set; }//邀请的用户
+        public long? FromUserId{ get; set; }//邀请的用户
         [Column("account_type")]
         public int AccountType{ get; set; }// // normal(为空), premium
         [Column("account_start_time")]
@@ -130,7 +130,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("user_id")]
-        public long UserId{ get; set; }
+        public long? UserId{ get; set; }
         [Column("account_type")]
         public string AccountType{ get; set; } //normal(为空), premium
         [Column("account_start_time")]
@@ -164,7 +164,7 @@ public class UserAndBlog
     {
     [Key]
     [Column("user_id")]
-    public long UserId{ get; set; }// 必须要设置bson:"_id" 不然mgo不会认为是主键
+    public long? UserId{ get; set; }// 必须要设置bson:"_id" 不然mgo不会认为是主键
     [Column("email")]
     public string Email{ get; set; } // 全是小写
     [Column("username")]

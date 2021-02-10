@@ -11,7 +11,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("access_id")]
-        public long AccessId { get; set; }
+        public long? AccessId { get; set; }
         [Column("ip")]
         public string IP { get; set; }
         [Column("x_real_ip")]
@@ -25,9 +25,9 @@ namespace MoreNote.Logic.Entity
         [Column("access_time")]
         public DateTime AccessTime { get; set; }
         [Column("unix_time")]
-        public long UnixTime { get; set; }
+        public long? UnixTime { get; set; }
         [Column("time_interval")]
-        public long TimeInterval { get; set; }//距离上一次访问的时间间隔 如果没有上次 -1
+        public long? TimeInterval { get; set; }//距离上一次访问的时间间隔 如果没有上次 -1
         [Column("url")]
         public string URL { get; set; }
         [Column("remote_ip_address")]
@@ -41,7 +41,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("id")]
-        public long ID { get; set; }
+        public long? ID { get; set; }
         [Column("ip")]
         public string IP { get; set; }
     }
@@ -50,17 +50,17 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("file_id")]
-        public long FileId { get; set; }
+        public long? FileId { get; set; }
         //如果 不进行FixContent处理，那么FileId=LocalFileId
-        //public long LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
+        //public long? LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
         [Column("album_id")]
-        public long AlbumId { get; set; }
+        public long? AlbumId { get; set; }
         [Column("name")]
         public string Name { get; set; } // file name
         [Column("title")]
         public string Title { get; set; } // file  name or user defind for search
         [Column("size")]
-        public long Size { get; set; } // file  size (byte)
+        public long? Size { get; set; } // file  size (byte)
         [Column("type")]
         public string Type { get; set; } // file  type ""=image "doc"=word
         [Column("path")]

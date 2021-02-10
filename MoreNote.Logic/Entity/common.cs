@@ -11,7 +11,7 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("page_id")]
-        public long PageId { get; set; }
+        public long? PageId { get; set; }
         [Column("cur_page")]
         public int CurPage { get; set; } // 当前页码 
         [Column("total_page")]

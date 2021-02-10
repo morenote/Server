@@ -18,13 +18,13 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("attach_id")]
-        public long AttachId{ get; set; }
+        public long? AttachId{ get; set; }
         [Column("user_id")]
-        public long UserId { get;set;}
+        public long? UserId { get;set;}
         [Column("note_id")]
-        public long NoteId{ get; set; }
+        public long? NoteId{ get; set; }
         [Column("upload_user_id")]
-        public long UploadUserId{ get; set; } // 可以不是note owner, 协作者userId
+        public long? UploadUserId{ get; set; } // 可以不是note owner, 协作者userId
         [Column("name")]
         public string Name{ get; set; } // file name, MD5, such as 13232312.doc
         [Column("title")]

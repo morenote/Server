@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service
             attachInfo.CreatedTime = DateTime.Now;
             var ok = InsertAttach(attachInfo);
             var note = NoteService.GetNoteById(attachInfo.NoteId);
-            long userId = 0L;
+            long? userId = 0L;
             if (note.NoteId != 0)
             {
                 userId = note.UserId;
@@ -65,7 +65,7 @@ namespace MoreNote.Logic.Service
 
         // 更新笔记的附件个数
         // addNum 1或-1
-        public bool UpdateNoteAttachNum(long noteId, int addNUm)
+        public bool UpdateNoteAttachNum(long? noteId, int addNUm)
         {
                 Note note = dataContext.Note
                    .Where(b => b.NoteId == noteId).FirstOrDefault();
@@ -83,7 +83,7 @@ namespace MoreNote.Logic.Service
         }
 
         // list attachs
-        public AttachInfo[] ListAttachs(long noteId, long userId)
+        public AttachInfo[] ListAttachs(long? noteId, long? userId)
         {
            
                 var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
@@ -93,11 +93,11 @@ namespace MoreNote.Logic.Service
         }
 
         // api调用, 通过noteIds得到note's attachs, 通过noteId归类返回
-        public Dictionary<long, List<AttachInfo>> GetAttachsByNoteIds(long[] noteIds)
+        public Dictionary<long?, List<AttachInfo>> GetAttachsByNoteIds(long?[] noteIds)
         {
            
-                Dictionary<long, List<AttachInfo>> dic = new Dictionary<long, List<AttachInfo>>();
-                foreach (long id in noteIds)
+                Dictionary<long?, List<AttachInfo>> dic = new Dictionary<long?, List<AttachInfo>>();
+                foreach (long? id in noteIds)
                 {
                     var result = dataContext.AttachInfo.Where(b => noteIds.Contains(b.NoteId));
                     if (result != null)
@@ -111,7 +111,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public bool UpdateImageTitle(long userId, long fileId, string title)
+        public bool UpdateImageTitle(long? userId, long? fileId, string title)
         {
            
                 var image = dataContext.NoteFile.Where(file => file.FileId == fileId && file.UserId == userId);
@@ -124,7 +124,7 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public AttachInfo[] GetAttachsByNoteId(long noteId)
+        public AttachInfo[] GetAttachsByNoteId(long? noteId)
         {
            
                 var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId).ToArray();
@@ -134,7 +134,7 @@ namespace MoreNote.Logic.Service
         }
 
         // Delete note to delete attas firstly
-        public bool DeleteAllAttachs(long noteId, long userId)
+        public bool DeleteAllAttachs(long? noteId, long? userId)
         {
            
 
@@ -165,13 +165,13 @@ namespace MoreNote.Logic.Service
 
         // delete attach
         // 删除附件为什么要incrNoteUsn ? 因为可能没有内容要修改的
-        public bool DeleteAttach(long attachId, long userId)
+        public bool DeleteAttach(long? attachId, long? userId)
         {
             if (attachId != 0 && userId != 0)
             {
                 
                     var attach = dataContext.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).FirstOrDefault();
-                    long noteId = attach.NoteId;
+                    long? noteId = attach.NoteId;
                     string path = attach.Path;
                     dataContext.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).Delete();
                     UpdateNoteAttachNum(noteId, -1);
@@ -191,12 +191,12 @@ namespace MoreNote.Logic.Service
             File.Delete(path);
         }
 
-        public AttachInfo GetAttach(long attachId, long userId)
+        public AttachInfo GetAttach(long? attachId, long? userId)
         {
             throw new Exception();
         }
 
-        public AttachInfo GetAttach(long attachId)
+        public AttachInfo GetAttach(long? attachId)
         {
             
                 var result = dataContext.AttachInfo.Where(b => b.AttachId == attachId);
@@ -204,12 +204,12 @@ namespace MoreNote.Logic.Service
             
         }
 
-        public bool CopyAttachs(long noteId, long toNoteId)
+        public bool CopyAttachs(long? noteId, long? toNoteId)
         {
             throw new Exception();
         }
 
-        public bool UpdateOrDeleteAttachApi(long noteId, long userId, APINoteFile[] files)
+        public bool UpdateOrDeleteAttachApi(long? noteId, long? userId, APINoteFile[] files)
         {
             var attachs = ListAttachs(noteId, userId);
             HashSet<string> nowAttachs = new HashSet<string>(20);

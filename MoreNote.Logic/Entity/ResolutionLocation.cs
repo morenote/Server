@@ -14,9 +14,9 @@ namespace MoreNote.Logic.Entity
     {
         [Key]
         [Column("resolution_location_id")]
-        public long  ResolutionLocationID{get;set;}//解析线路ID
+        public long?  ResolutionLocationID{get;set;}//解析线路ID
         [Column("strategy_id")]
-        public long  StrategyID{get;set;}//解析线路ID
+        public long?  StrategyID{get;set;}//解析线路ID
         [Column("url")]
         public string  URL{get;set;}//线路地址
         [Column("score")]

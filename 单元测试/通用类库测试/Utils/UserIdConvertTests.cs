@@ -14,10 +14,10 @@ namespace MoreNote.Common.Utils.Tests
         public void ConvertStrToLongTest()
         {
 
-            long a = 1213656203658399745;
+            long? a = 1213656203658399745;
             string hex = a.ToHex24();
             Console.WriteLine(hex);
-            long b = hex.ToLongByHex();
+            long? b = hex.ToLongByHex();
             Console.WriteLine(b);//1213656226102120449
         }
     }

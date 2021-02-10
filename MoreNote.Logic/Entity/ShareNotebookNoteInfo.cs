@@ -30,12 +30,12 @@ namespace MoreNote.Logic.Entity
     }
     public class SharedNotebookAndNotes
     {
-        public long userId { get;set;}
+        public long? userId { get;set;}
       public Dictionary<long,EachSharedNotebookAndNotes> Shared { get;set;}
     }
     public class SharingNotebookAndNotes
     {
-        public long UserId { get;set;}
+        public long? UserId { get;set;}
         public Dictionary<long,long[]> Notes { get;set;}
         public Dictionary<long,long[]> NOtebooks { get;set;}
 
@@ -47,15 +47,15 @@ namespace MoreNote.Logic.Entity
         [Column("share_notebook_id")]
         public int ShareNotebookId { get; set; } // 必须要设置bson:"_id" 不然mgo不会认为是主键
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         [Column("to_user_id")]
-        public long ToUserId { get; set; }
+        public long? ToUserId { get; set; }
         [Column("to_group_id")]
-        public long ToGroupId { get; set; } // 分享给的用户组 
+        public long? ToGroupId { get; set; } // 分享给的用户组 
      
         public GroupTeam ToGroup { get; set; } // 仅仅为了显示, 不存储, 分组信息
         [Column("notebook_id")]
-        public long NotebookId { get; set; }
+        public long? NotebookId { get; set; }
         [Column("seq")]
         public int Seq { get; set; } // 排序 
         [Column("perm")]

@@ -52,8 +52,8 @@ namespace MoreNote.Controllers
         }
         public IActionResult getNoteContent(string noteId)
         {
-            long noteNumber = noteId.ToLongByHex();
-            long userNumber = GetUserIdBySession();
+            long? noteNumber = noteId.ToLongByHex();
+            long? userNumber = GetUserIdBySession();
             NoteContent noteContent = noteContentService.GetValidNoteContent(noteId.ToLongByHex(), GetUserIdBySession());
             return Json(noteContent, MyJsonConvert.GetOptions());
         }
