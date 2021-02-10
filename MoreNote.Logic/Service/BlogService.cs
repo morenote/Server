@@ -268,19 +268,31 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-
-        public UserAndBlog[] ListLikedUsers(long? noteId, bool isALL)
+        /// <summary>
+        /// 返回所有liked用户, bool是否还有
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="isALL"></param>
+        /// <param name="hasMoreLikedUser"></param>
+        /// <returns></returns>
+        public UserAndBlog[] ListLikedUsers(long? noteId, bool isALL,out bool hasMoreLikedUser)
         {
-            throw new Exception();
+          var  pageSize= 5;//默认前5 
+            //todo:ListLikedUsers
+            hasMoreLikedUser=false;
+            return null;
+
         }
 
-        public bool IsILikeIt(long? noteId, long? UserId)
+        public bool IsILikeIt(long? noteId, long? userId)
         {
-            if (true)
+            if (noteId==null||userId == null)
             {
-
+                return false;
             }
-            throw new Exception();
+            bool result= dataContext.BlogLike.Where(u=>u.NoteId==noteId&&u.UserId==userId).Any();
+            return result;
+           
         }
 
         public bool IncReadNum(long? noteId)
@@ -396,7 +408,9 @@ namespace MoreNote.Logic.Service
 
         public string GetUserBlogUrl(UserBlog userBlog, string userName)
         {
-            throw new Exception();
+            //todo:GetUserBlogUrl
+            return "http://morenote.top/"+userName;
+           
         }
 
         public BlogUrls GetBlogUrls(UserBlog userBlog, User

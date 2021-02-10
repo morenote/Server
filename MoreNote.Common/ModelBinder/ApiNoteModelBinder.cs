@@ -9,7 +9,6 @@ namespace MoreNote.Common.ModelBinder
     public class ApiNoteModelBinder: IModelBinder
     {
       
-     
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext == null)
