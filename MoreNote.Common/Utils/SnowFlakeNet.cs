@@ -49,7 +49,6 @@ namespace MoreNote.Common.Utils
         /// <returns></returns>
         public static  long? GenerateSnowFlakeID()
         {
-         
             return   GetInstance().NextId();
         }
         /// <summary>
