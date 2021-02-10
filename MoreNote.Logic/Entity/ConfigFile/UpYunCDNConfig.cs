@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Entity.ConfigFile
 {
-
+    /// <summary>
+    /// 又拍云设置
+    /// </summary>
     public   class UpYunCDNConfig
     {
         public string UpyunSecret { get; set; }

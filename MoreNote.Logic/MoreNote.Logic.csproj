@@ -53,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entity\Conifg\" />
     <Folder Include="Service\FileService\IMPL\" />
   </ItemGroup>
 

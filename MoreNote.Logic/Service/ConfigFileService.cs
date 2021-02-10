@@ -10,6 +10,13 @@ namespace MoreNote.Logic.Service
     /// </summary>
     public class ConfigFileService
     {
+     
+        private static string path = null;
+
+        private static WebSiteConfig config;
+
+        // 定义一个标识确保线程同步
+        private static readonly object locker = new object();
         public ConfigFileService()
         {
             if (config == null)
@@ -17,50 +24,35 @@ namespace MoreNote.Logic.Service
                 config = GetWebConfig();
             }
         }
-        private static string path = null;
-
-        private static WebSiteConfig config;
-
-        // 定义一个标识确保线程同步
-        private static readonly object locker = new object();
-
         public  static string GetConfigPath()
         {
             if (RuntimeEnvironment.IsWindows)
             {
-                return @"C:\morenote\WebSiteConfig.json";
+                return @"C:\morenote\config.json";
             }
             else
             {
-                return "/morenote/WebSiteConfig.json";
+                return "/morenote/config.json";
             }
         }
 
-        private static void InitWindowConfigDirectory()
-        {
-            if (!Directory.Exists(@"C:\morenote"))
-            {
-                Directory.CreateDirectory(@"C:\morenote");
-            }
-        }
+     
 
-        private static void InitLinuxConfigDirectory()
-        {
-            if (!Directory.Exists(@"/morenote"))
-            {
-                Directory.CreateDirectory(@"/morenote");
-            }
-        }
-
-        private static void InitConfig()
+        private static void InitTemplateConfig()
         {
             if (RuntimeEnvironment.IsWindows)
             {
-                InitWindowConfigDirectory();
+                if (!Directory.Exists(@"C:\morenote"))
+                {
+                    Directory.CreateDirectory(@"C:\morenote");
+                }
             }
             else
             {
-                InitLinuxConfigDirectory();
+                if (!Directory.Exists(@"/morenote"))
+                {
+                    Directory.CreateDirectory(@"/morenote");
+                }
             }
             WebSiteConfig webSiteConfig = new WebSiteConfig();
             string json = System.Text.Json.JsonSerializer.Serialize(webSiteConfig);
@@ -68,6 +60,7 @@ namespace MoreNote.Logic.Service
             File.WriteAllText(path, json);
          
         }
+       
 
 
         public   WebSiteConfig GetWebConfig()
@@ -81,7 +74,7 @@ namespace MoreNote.Logic.Service
                         path = GetConfigPath();
                         if (!File.Exists(path))
                         {
-                            InitConfig();
+                            InitTemplateConfig();
                         }
                         string json = File.ReadAllText(path);
                         config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);

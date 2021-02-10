@@ -12,9 +12,24 @@ namespace MoreNote.Logic.Entity.ConfigFile
     public class MachineLearningConfig
     {
         /// <summary>
+        /// 是否开启机器学习反垃圾评论
+        /// </summary>
+        public bool Can { get; set; }
+
+        /// <summary>
         /// 垃圾评论的机器学习模型文件的存放地址
         /// </summary>
         public string SpamModelPath { get; set; }
+     
+        public static MachineLearningConfig GenerateTemplate()
+        {
+            MachineLearningConfig machineLearningConfig=new MachineLearningConfig()
+            {
+                Can=false,
+                SpamModelPath= "垃圾评论的机器学习模型文件的存放地址"
 
+            };
+            return machineLearningConfig;
+        }
     }
 }
