@@ -2,6 +2,7 @@
 {
     public class WebSiteConfig
     {
+
         public bool IsAlreadyInstalled { get; set; }
         public MachineLearningConfig MachineLearning { get; set; }
         public PayJSConfig Payjs { get; set; }

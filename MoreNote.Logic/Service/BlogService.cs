@@ -382,9 +382,47 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-
-        public bool ListComments(long? userId, long? noteId, int page, int pageSize, out Page pageObj, out BlogCommentPublic[] blogCommentPublics, out HashSet<string> vs)
+        /// <summary>
+        /// 评论列表
+        /// userId主要是显示userId是否点过某评论的赞
+        ///  还要获取用户信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="noteId"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageObj"></param>
+        /// <param name="blogCommentPublics"></param>
+        /// <param name="userAndBlog"></param>
+        /// <returns></returns>
+        public bool ListComments(long? userId, long? noteId, int page, int pageSize, out Page pageObj, out BlogCommentPublic[] blogCommentPublics, out Dictionary<string,UserAndBlog> userAndBlog)
         {
+            var pageInfo=page;
+            var comments2=new List<BlogComment>();
+            CommonService.parsePageAndSort(page,pageSize,"CreatedTime",false,out int skipNum,out string sortFieldR);
+            var result=dataContext.BlogComment.Where(b=>b.NoteId==noteId);
+            // 总记录数
+            var count=result.Count();
+            comments2=(from a in result.ToList<BlogComment>()
+                      
+                      select a).Skip(skipNum).Take(pageSize).ToList<BlogComment>();
+
+            if (comments2.Count==0)
+            {
+                pageObj=null;
+                blogCommentPublics=null;
+                userAndBlog=null;
+                return false;
+
+            }
+            var comments=new  BlogCommentPublic[comments2.Count];
+            // 我是否点过赞呢?
+
+
+            // 得到用户信息
+
+           
+            // 得到用户信息
             throw new Exception();
         }
 
