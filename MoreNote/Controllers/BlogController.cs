@@ -410,17 +410,24 @@ namespace MoreNote.Controllers
                 var userAndBlog=userService.GetUserAndBlog(userId);
                 result.Add("visitUserInfo", userAndBlog);
             }
-            var page=this.GetPage();
+          
 
 
 
             // 点赞用户列表
             bool hasMoreLikedUser = false;
             var likedUsers=  blogService.ListLikedUsers(noteId,false,out hasMoreLikedUser);
+            // 评论
+            var page = this.GetPage();
+            blogService.ListComments(userId,noteId,page,15,out Page pageInfo,out BlogCommentPublic[] comments,out Dictionary<string,UserAndBlog> commentUserInfo);
+
+
             result.Add("isILikeIt", isILikeIt);
             result.Add("likedUsers", likedUsers);
             result.Add("hasMoreLikedUser", hasMoreLikedUser);
-
+            result.Add("pageInfo", pageInfo);
+            result.Add("comments", comments);
+            result.Add("commentUserInfo", commentUserInfo);
 
             Re re = new Re()
             {
