@@ -27,6 +27,11 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public int RandomImageFuseSize { get; set; }
         //随机图片API 随机程度
         public int RandomImageSize { get; set; }
+        /// <summary>
+        /// 更新时间
+        /// 每隔多长时间更新一次 单位 秒
+        /// </summary>
+        public int UpdateTime { get;set;}
         public static RandomImangeServiceConfig GenerateTemplate()
         {
             RandomImangeServiceConfig PublicAPIConfig=new RandomImangeServiceConfig()

@@ -31,9 +31,10 @@ namespace MoreNote.Logic.Entity
         [Column("block")]
         public bool Block { get; set; }//标记这个图片已经被拉黑
         [Column("is_delete")]
-        public bool IsDelete { get; set; }//标记这个图片已经被拉黑
-
-
-
+        public bool IsDelete { get; set; }//标记这个图片已经被删除
+        [Column("is_302")]
+        public bool Is302 { get;set;}//标记这个图片是否是302跳转图片
+        [Column("external_link")]
+        public string ExternalLink  { get;set;}//图片的外部地址，302跳转需要用到这个值
     }
 }
