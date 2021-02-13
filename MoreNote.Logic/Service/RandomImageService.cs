@@ -10,7 +10,6 @@ namespace MoreNote.Logic.Service
     {
         private DataContext dataContext;
 
-
         public RandomImageService(DataContext dataContext)
 
         {
@@ -137,14 +136,25 @@ namespace MoreNote.Logic.Service
 
         public RandomImage GetRandomImage(string type)
         {
-            int count = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Count();
+            int count = dataContext.RandomImage
+                .Where(b => b.TypeName.Equals(type) &&
+                            b.Sex == false &&
+                            b.IsDelete == false &&
+                            b.Block == false)
+                .Count();
             if (count < 1)
             {
                 return null;
             }
             Random random = new Random();
             int num = random.Next(0, count);
-            RandomImage result = dataContext.RandomImage.Where(b => b.TypeName.Equals(type) && b.Sex == false && b.IsDelete == false && b.Block == false).Skip(num).FirstOrDefault();
+            RandomImage result = dataContext.RandomImage
+                .Where(b => b.TypeName.Equals(type) &&
+                            b.Sex == false &&
+                            b.IsDelete == false &&
+                            b.Block == false)
+                .Skip(num)
+                .FirstOrDefault();
             return result;
         }
 

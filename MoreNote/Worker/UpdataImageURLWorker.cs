@@ -30,7 +30,10 @@ namespace MoreNoteWorkerService
         /// 网站配置
         /// </summary>
         private  readonly WebSiteConfig config;
-
+        /// <summary>
+        /// 每个系列的随机图片数量
+        /// </summary>
+        private readonly int _randomImageSize;
         private ConfigFileService configFileService;
         public UpdataImageURLWorker()
         {
@@ -45,54 +48,52 @@ namespace MoreNoteWorkerService
             this.randomImageService= randomImageService;
             this.configFileService= configFileService;
             config = configFileService.GetWebConfig();
-             size = config.PublicAPI.RandomImageSize;
+             _randomImageSize = config.PublicAPI.RandomImageSize;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            int delaySecondTime=configFileService.GetWebConfig().PublicAPI.UpdateTime;
+           
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
                     await UpdatImage().ConfigureAwait(false);
-                    int time = DateTime.Now.Hour;
-                    //每过60秒随机抓取一次
-                    //频率太高，站长会顺着网线过来打人
-                    await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromMilliseconds(delaySecondTime), stoppingToken).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogInformation(ex.Message, DateTimeOffset.Now);
-                    await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromMinutes(delaySecondTime), stoppingToken).ConfigureAwait(false);
                 }
             }
         }
 
-        private readonly int size;
+      
       
         private async Task UpdatImage()
         {
             var imageTypeList = randomImageService.GetImageTypeList();
             var randomImageList = randomImageService.GetRandomImageList();
+           
             for (int y = 0; y < imageTypeList.Count; y++)
             {
                
                 if (!randomImageList.ContainsKey(imageTypeList[y]))
                 {
-                    randomImageList.Add(imageTypeList[y], new List<RandomImage>(size));
+                    randomImageList.Add(imageTypeList[y], new List<RandomImage>(_randomImageSize));
                 }
-                else
-                {
-                    //randomImageList[imageTypeList[y]].Clear();
-                }
-                if (randomImageList[imageTypeList[y]].Count>=size)
+                
+                if (randomImageList[imageTypeList[y]].Count>=_randomImageSize)
                 {
                     RandomImage randomImage = randomImageService.GetRandomImage(imageTypeList[y]);
-                    randomImageList[imageTypeList[y]][random.Next(0,size)]=randomImage;
+                    randomImageList[imageTypeList[y]][random.Next(0, randomImageList.Count)]=randomImage;
                 }
                 else
                 {
-                    randomImageList[imageTypeList[y]] = randomImageService.GetRandomImages(imageTypeList[y], size);
+                    RandomImage randomImage = randomImageService.GetRandomImage(imageTypeList[y]);
+                    randomImageList[imageTypeList[y]].Add(randomImage);
                 }
                
             }

@@ -170,7 +170,7 @@ namespace MoreNote.Controllers
             upyun.secret = webcConfig.UpYunCDN.UpyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             Console.WriteLine("现在的时间="+unixTimestamp);
-            unixTimestamp += 60;
+            unixTimestamp += 15;
              Console.WriteLine("过期时间="+unixTimestamp);
 
             //开启token防盗链
