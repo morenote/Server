@@ -21,6 +21,7 @@ namespace MoreNote.Logic.Service
 
         public bool AddTags(long? userId, string[] tags)
         {
+            
             foreach (var itemTag in tags)
             {
                 //解决item引起的bug
