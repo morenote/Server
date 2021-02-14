@@ -832,7 +832,7 @@ namespace MoreNote.Logic.Service
             {
                 note.IsMarkdown = apiNote.IsMarkdown.GetValueOrDefault();
             }
-            note.UpdatedUserId = apiNote.UserId.ToLongByHex();
+            note.UpdatedUserId = updateUser;
 
             //更新用户元数据乐观锁
             afterUsn = UserService.IncrUsn(note.UserId);
