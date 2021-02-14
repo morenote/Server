@@ -28,7 +28,7 @@ namespace MoreNote.Logic.Service
                 if (itemTag != null)
                 {
                     var result = dataContext.Tag.Where(tag => tag.UserId == userId);
-                    if (result != null)
+                    if (result != null&& result.Any())
                     {
                         var userTags = result.FirstOrDefault();
                         //这个地方区分大小写吗
