@@ -40,7 +40,7 @@
 		<div>
 			<h1 id="logo"></h1>
 			<div id="boxForm">
-				<div id="boxHeader">网站初始化向导</div>
+				<div id="boxHeader">网站初安装向导</div>
                 <form>
                     <div class="alert alert-danger" id="loginMsg"></div>
                     @*<input id="from" type="hidden" value="{{.from}}" />*@
@@ -49,6 +49,10 @@
                     <div class="form-group">
                         <label class="control-label">请在这里粘贴配置文件</label>
 						<textarea  id="config"  class="form-control" rows="20"   name="json">@ViewBag.config</textarea>
+                    </div>
+					<div class="form-group">
+                        <label class="control-label">安装秘钥</label>
+						<input type="text"  id="InstallKey"  class="form-control" rows="1"   name="InstallKey" value="Cat /morenote/InstallKey"/>
                     </div>
                     
                     <div id="captchaContainer">

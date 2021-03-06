@@ -47,8 +47,6 @@ namespace MoreNote.Controllers.API.APIV1
         {
             try
             {
-             
-               
                 if (string.IsNullOrEmpty(fileId)) return Content("error");
                 var myFileId = fileId.ToLongByHex();
                 var noteFile = noteFileService.GetFile(myFileId);
@@ -60,7 +58,7 @@ namespace MoreNote.Controllers.API.APIV1
                 upyun.secret = config.UpYunCDN.UpyunSecret; 
                 string path = noteFile.Path;
                 int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
-                unixTimestamp += 5;
+                unixTimestamp += 15;
                 string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, path);
                 return Redirect($"https://upyun.morenote.top{path}?_upt={_upt}");
             }

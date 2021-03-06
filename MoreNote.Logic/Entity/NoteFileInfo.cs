@@ -44,6 +44,7 @@ namespace MoreNote.Logic.Entity
         public bool IsDefaultAlbum { get; set; }
         [Column("created_time")]
         public DateTime CreatedTime { get; set; }
+
         [Column("from_file_id")]
         public long? FromFileId { get; set; }//copy from fileId, for collaboration
 

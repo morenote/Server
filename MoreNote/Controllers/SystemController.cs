@@ -39,11 +39,8 @@ namespace MoreNote.Controllers
                 return Content($"请设置{path}的IsAlreadyInstalled变量为false");
             }
             ViewBag.config=string.Empty;
-            if (webSiteConfig!=null)
-            {
-                 string json=JsonSerializer.Serialize(webSiteConfig);
-                ViewBag.config=json;
-            }
+       
+
             ViewBag.Title = "网站初始化向导";
             ViewBag.msg = LanguageResource.GetMsg();
             return View();

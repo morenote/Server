@@ -58,11 +58,12 @@ namespace MoreNote.Controllers
             this.configFileService = configFileService;
             this.userService = userService;
             this._accessor = accessor;
+            config = configFileService.GetWebConfig();
             if (config != null && config.UpYunCDN != null)
             {
                 upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
             }
-            config = configFileService.GetWebConfig();
+           
         }
 
         public bool HasLogined()
