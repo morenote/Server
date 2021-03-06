@@ -59,13 +59,13 @@ namespace MoreNote
                 optionsBuilder.UseInternalServiceProvider(serviceProvider);
             });
             // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
-
-            //services.AddDistributedMemoryCache();
-            //使用Redis分布式缓存
-            services.AddDistributedRedisCache(options =>
-            {
-                options.Configuration = "localhost";
-            });
+            //使用分布式内存
+            services.AddDistributedMemoryCache();
+            ////使用Redis分布式缓存
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = "localhost";
+            //});
             //增加Session
             services.AddSession(options =>
             {
