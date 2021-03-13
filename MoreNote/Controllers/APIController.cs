@@ -321,7 +321,7 @@ namespace MoreNote.Controllers
                 catch (Exception ex)
                 {
                     Response.StatusCode = 404;
-                    return Content("false");
+                    return Content("false"+ex.Message);
                 }
             }
             Response.StatusCode = 200;
