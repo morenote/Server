@@ -24,20 +24,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Member\end.cshtml" />
-    <Content Remove="Views\Member\footer.cshtml" />
-    <Content Remove="Views\Member\top.cshtml" />
-    <Content Remove="wwwroot\blog\themes\MaterialDesign\js\file.ts" />
+    <Compile Remove="Views\Pic\**" />
+    <Content Remove="Views\Pic\**" />
+    <EmbeddedResource Remove="Views\Pic\**" />
+    <None Remove="Views\Pic\**" />
+    <TypeScriptCompile Remove="Views\Pic\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Views\Admin\admin-form.html" />
-    <None Remove="Views\Admin\admin-gallery.html" />
-    <None Remove="Views\Admin\admin-help.html" />
-    <None Remove="Views\Admin\admin-index.html" />
-    <None Remove="Views\Admin\admin-log.html" />
-    <None Remove="Views\Admin\admin-table.html" />
-    <None Remove="Views\Admin\admin-user.html" />
+    <Content Remove="wwwroot\blog\themes\MaterialDesign\js\file.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -132,6 +127,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
+    <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
   </ItemGroup>
 
@@ -139,37 +135,9 @@
     <None Update="sources.list">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\album.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\blog.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\markdown.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\member.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\msg.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\note.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\tinymce_editor.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Pic\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Member\end.cshtml" />
-    <None Include="Views\Member\footer.cshtml" />
-    <None Include="Views\Member\top.cshtml" />
     <None Include="wwwroot\blog\themes\MaterialDesign\js\activate-power-mode.js" />
     <None Include="wwwroot\blog\themes\MaterialDesign\js\aos.js" />
     <None Include="wwwroot\blog\themes\MaterialDesign\js\APlayer.min.js" />

@@ -131,33 +131,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
+    <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="sources.list">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\album.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\blog.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\markdown.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\member.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\msg.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\note.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Value\zh-cn\tinymce_editor.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
