@@ -9,7 +9,7 @@
         <div class="each-post">
             <div class="title">
                 @*<a href="{{$.postUrl}}/{{.UrlTitle}}" title="全文" target="_blank">*@
-                <a href="/Blog/Post/@blogUser.Username/@item.note.NoteId.ToHex24()" title="@(item.note.Title)" >
+                <a href="/Blog/Post/@blogUser.Username/@item.note.NoteId.ToHex()" title="@(item.note.Title)" >
                     @(item.note.Title)
                 </a>
             </div>
