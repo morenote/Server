@@ -1,0 +1,179 @@
+﻿@{
+    Layout = "";
+    Dictionary<string, string> blog = ViewBag.blog;
+    Theme theme = ViewBag.Theme;
+    FriendLinks[] fls = ViewBag.FriendLinks;
+    BlogSingle[] blogSingles = ViewBag.ViewBag;
+    Cate[] cates = ViewBag.CateArray;
+    User blogUser = ViewBag.blogUser;
+}
+<script>
+    AOS.init();
+</script>
+<div class="sidemenu sidebar responsive" id="navigation-sidemenu" hidden>
+    <figure class="sidemenu-hero effect-sarah">
+        @*<img class="sidemenu-hero-image" src="{{$.themeBaseUrl}}/images/{{$.themeInfo.BlogImg}}" style="width:100%;height:110px;">*@
+        <img class="sidemenu-hero-image" src="~/blog/themes/MaterialDesign/images/material.jpg" style="width:100%;height:110px;">
+        <figcaption>
+            <h2 class="title serif">@blog["Title"]</h2>
+            <p>{{$.blogInfo.SubTitle}}</p>
+        </figcaption>
+    </figure>
+    <ul class="menu">
+        <li ripple class="{{if $.curIsIndex}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
+            <a href="@Url.Action("Index")"><i class="fa fa-home"></i>主页</a>
+        </li>
+        <li class="divider"></li>
+        <li ripple id="navbarcatsli"><a href="javascript:void(0);"><i class="fa fa-list-ul"></i>分类</a></li>
+        <div id="navbarcates" style="display:none;">
+            <li class="divider"></li>
+            @foreach (var item in cates)
+            {
+                @*<li class="{{if eq .CateId $.curCateId}}active{{end}}">*@
+                <li class="">
+                    @*<a href="{{$.cateUrl}}/{{.UrlTitle}}"><i class="fa fa-link"></i>{{.Title}}</a>*@
+                    <a href="~/Blog/Cate/@(blogUser.Username)/@(item.CateId.ToHex24())"><i class="fa fa-link"></i>@item.Title</a>
+                </li>
+            }
+            <li class="divider"></li>
+        </div>
+        <li ripple class="{{if $.curIsTags}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
+            <a href="@Url.Action("Tags")"><i class="fa fa-file-text-o"></i>标签</a>
+        </li>
+        <li ripple class="{{if $.curIsArchive}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
+            <a href="@Url.Action("Archive")"><i class="fa fa-book"></i>归档</a>
+        </li>
+        <li class="divider"></li>
+        @*{{range $.singles}}
+            <li class="{{if eq $.curSingleId .SingleId}}active{{end}}">
+                <a href="{{$.singleUrl}}/{{.UrlTitle}}" style="overflow:auto;"><i class="fa fa-star-o"></i>{{.Title}}</a>
+            </li>
+            {{end}}*@
+        @if (blogSingles != null && blogSingles.Length > 0)
+            @foreach (BlogSingle blogSingles1 in blogSingles)
+            {
+                <a href="@(blogSingles1.UrlTitle)" style="overflow:auto;"><i class="fa fa-star-o"></i>@(blogSingles1.Title)</a>
+            }
+        <li ripple id="navbarfriendli"><a href="javascript:void(0);"><i class="fa fa-child"></i>友链</a></li>
+        <div id="navbarfriends" style="display:none;">
+            <li class="divider"></li>
+            @if (fls != null && fls.Length > 0)
+                @foreach (FriendLinks friendLinks in fls)
+                {
+                    <li><a href="@(friendLinks.Url)" target="_blank"><i class="fa fa-heart" style="font-size:14px;"></i>@(friendLinks.Title)</a></li>
+                }
+        </div>
+        <li class="divider"></li>
+        <form id="search" onsubmit="search(event);return false;">
+            <div class="text-input-container" id="search-area">
+                <i class="fa fa-search text-input-icon" style="cursor:pointer" onclick="search(event);return false;"></i>
+                <input type="text" class="text-input" placeholder="Search" id="searchInput" value="关键词" />
+            </div>
+        </form>
+    </ul>
+    <!--加载音乐播放器-->
+    <!--<link rel="stylesheet" href="{{$.themeBaseUrl}}/APlayer.min.css">-->
+    <!--   <div id="aplayer"></div>-->
+    <!--   <script src="{{$.themeBaseUrl}}/APlayer.min.js"></script>-->
+    <!--   <script>-->
+    <!--       const ap = new APlayer({-->
+    <!--       container: document.getElementById('aplayer'),-->
+    <!--       fixed: true,-->
+    <!--       audio: [{-->
+    <!--           name: 'name',-->
+    <!--           artist: 'artist',-->
+    <!--           url: 'url.mp3',-->
+    <!--           cover: 'cover.jpg',-->
+    <!--       }]-->
+    <!--   });-->
+    </script>
+    <!--加载完成-->
+<p id="bottomp" style="text-align:left;color:#bdbdbd;padding-left:20px">
+
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="color:#bdbdbd"> <img src="~/icp.png" />鲁ICP备19063639号-1</a><br />
+    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=37010202001926" style="color:#bdbdbd"><img src="~/beian.png" />鲁公网安备 37010202001926号</a><br />
+    <a target="_blank" href="https://github.com/hyfree/MoreNote" style="color:#bdbdbd;"><img src="~/images/github/github.svg" style="width:20px">自信的使用.net5构建</a><br>
+    @*<a href="https://github.com/leanote/leanote" style="cursor:pointer;color:#bdbdbd" target="_blank">Proudly powered by Leanote</a><br>*@
+    <a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" style="color:#bdbdbd"><img style="height:30px" src="~/upyun_logos/upyun_logo5.png">又拍云提供加速服务</a><br>
+    @*<a target="_blank" href="https://wangzhan.qianxin.com/" style="color:#bdbdbd"><img style="height:20px" src="~/images/CDN/360cdn.png">奇安信提供加速服务</a><br>*@
+    @*<a target="_blank" href="https://su.baidu.com/" style="color:#bdbdbd"><img style="height:20px" src="~/images/CDN/baidu-log.png">百度云提供加速服务</a><br>*@
+    @*<a target="_blank" href="https://defense.yunaq.com/jsl/" style="color:#bdbdbd"><img style="height:20px" src="~/images/CDN/jiasule2.png">加速乐提供加速服务</a><br>*@
+    @*<a target="_blank" href="https://www.cloudflare.com/" style="color:#bdbdbd"><img style="height:20px" src="~/images/CDN/logo-cloudflare-dark.svg">cloudflare提供加速服务</a><br>*@
+    <a target="_blank" href="http://mrbird.leanote.com" style="cursor:pointer;color:#bdbdbd">Theme by &copy; mrbird</a><br>
+    <span id="span"></span>
+    <script type="text/javascript">
+        function runtime() {
+            // 初始时间，日/月/年 时:分:秒
+       
+            var X = new Date("2019/12/18 9:31:44");
+            var Y = new Date();
+            var T = (Y.getTime() - X.getTime());
+            var M = 24 * 60 * 60 * 1000;
+            var a = T / M;
+            var A = Math.floor(a);
+            var b = (a - A) * 24;
+            var B = Math.floor(b);
+            var c = (b - B) * 60;
+            var C = Math.floor((b - B) * 60);
+            var D = Math.floor((c - C) * 60);
+            //信息写入到DIV中
+            //var span = document.getElementById("span");
+            span.innerHTML = "本站勉强运行: " + A + "天" + B + "小时" + C + "分" + D + "秒"
+        }
+        setInterval(runtime, 1000);
+    </script>
+</p>
+</div>
+<script>
+            $("#navbarcatsli").click(function(e){
+                $("#navbarcates").toggle(600);
+                $("#nav ul li:not(#navbarcatsli)").removeClass("active");
+                var catsli = $(this);
+                if(catsli.hasClass("active")){
+                    catsli.removeClass("active");
+                }else{
+                    catsli.addClass("active");
+                }
+            });
+            $("#navbarfriendli").click(function(){
+                $("#navbarfriends").toggle(600);
+                $("#nav ul li:not(#navbarfriendli)").removeClass("active");
+                var catsli = $(this);
+                if(catsli.hasClass("active")){
+                    catsli.removeClass("active");
+                }else{
+                    catsli.addClass("active");
+                }
+            });
+            function init() {
+                var sm = document.getElementById("navigation-sidemenu"),
+                smitems = sm.querySelectorAll(".menu > li:not(.divider) > a");
+                function clickHandler() {
+                    return function() {
+                        if (Responsive.device != "desktop") {
+                          //  SideMenu.hide(sm);
+                        }
+                        for (var ind = 0; ind < smitems.length; ind++) {
+                            smitems[ind].parentNode.className = "";
+                        }
+                        var navbgncol = 'color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}';
+                        this.parentNode.className = "selected "+navbgncol;
+                        // document.querySelector(".main-content").scrollTop = 0;
+                    };
+                }
+
+                for (var i = 0, len = smitems.length; i < len; i++) {
+                    smitems[i].addEventListener("click", clickHandler());
+                }
+            }
+            function DialogDemoCallback(button) {
+                var ourButton = (button.className.indexOf("dialog-confirm") > -1) ? "Accept" : "Decline";
+                alert(ourButton + " was pressed!");
+            }
+            window.addEventListener("DOMContentLoaded", function() {
+                var md = new Material();
+                init();
+            });
+</script>
+<!--显示社会主义核心价值观-->
+<script src="~/blog/themes/MaterialDesign/js/SocialistCoreValues.js"></script>
