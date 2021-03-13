@@ -22,16 +22,22 @@ namespace MoreNote.Common.ExtensionMethods
                 return null;
 
             }
-          
+
             //119993f42d821000
-            long result;
-            if (long.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result))
+            try
             {
+                long result = Convert.ToInt64(hex,16);
                 return result;
-            }else
+            }
+            catch (Exception ex)
             {
+                //todo:处理ex
+
                 return null;
             }
+         
+           
+           
             
         }
           public static long? ToLongByNumber(this string number)
