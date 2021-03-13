@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D0650109-B437-429D-8405-7C818EF73628}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.Blog", "Src\MoreNote.Blog\MoreNote.Blog.csproj", "{9787D2BA-541B-47A7-9151-46D3EFCE1C9A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.Web", "Src\MoreNote.Web\MoreNote.Web.csproj", "{6D60AAEA-F378-40AC-B2CE-7E223F9E4C7D}"
@@ -32,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpamClassificationMLTest", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpyunTest", "Test\UpyunOSSTest\UpyunTest.csproj", "{FECFFD37-676E-42E2-9620-6E9F1A9A8B14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreNote.Language", "Src\MoreNote.Language\MoreNote.Language.csproj", "{AB9B7459-342C-4979-A9A4-63C990A5752D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.Language", "Src\MoreNote.Language\MoreNote.Language.csproj", "{AB9B7459-342C-4979-A9A4-63C990A5752D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,7 +167,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D0650109-B437-429D-8405-7C818EF73628} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
 		{9787D2BA-541B-47A7-9151-46D3EFCE1C9A} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
 		{6D60AAEA-F378-40AC-B2CE-7E223F9E4C7D} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
 		{85393348-466B-4588-A3EE-59D1E5BFCC02} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}

@@ -228,12 +228,7 @@ namespace MoreNote
             app.UseCookiePolicy();
             //使用session 注册
             app.UseSession();
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
+
             app.UseHttpsRedirection();
             app.UseRouting();
 
@@ -244,7 +239,7 @@ namespace MoreNote
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Blog}/{action=Index}/{id?}");
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

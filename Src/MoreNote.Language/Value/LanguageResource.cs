@@ -15,6 +15,7 @@ namespace MoreNote.Value
         private static Dictionary<string ,string> msg = null;
         private static Dictionary<string ,string> note = null;
         private static Dictionary<string ,string> tinymce_editor = null;
+        private static char dsc=Path.DirectorySeparatorChar;
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
@@ -126,7 +127,10 @@ namespace MoreNote.Value
         }
         private static Dictionary<String,string> readConf(string name, LanguageType languageType)
         {
-          string[] vs=   System.IO.File.ReadAllLines($"Value{Path.DirectorySeparatorChar}zh-cn{Path.DirectorySeparatorChar}{name}");
+           // string path=Environment.CurrentDirectory+$"{dsc}Value{dsc}zh-cn{dsc}{name}";//工作目录{
+            string path= AppDomain.CurrentDomain.SetupInformation.ApplicationBase+$"{dsc}Value{dsc}zh-cn{dsc}{name}";//工作目录
+
+            string[] vs=   System.IO.File.ReadAllLines(path);
             Dictionary<string, string> dic = new Dictionary<string, string>(100);
             foreach (string str in vs)
             {

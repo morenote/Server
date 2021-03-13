@@ -127,7 +127,7 @@ namespace MoreNote.Controllers
         /// <param name="blogUserName"></param>
         /// <param name="archiveHex"></param>
         /// <returns></returns>
-        [Route("{controller=Blog}/{action=Index}/{blogUserName?}/{archiveHex?}")]
+        [Route("Blog/{action=Archive}/{blogUserName?}/{archiveHex?}")]
         public IActionResult Archive(string blogUserName, string archiveHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -157,7 +157,7 @@ namespace MoreNote.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
 
-        [Route("{controller=Blog}/{action=Cate}/{blogUserName?}/{cateHex?}/")]
+        [Route("Blog/{action=Cate}/{blogUserName?}/{cateHex?}/")]
         public IActionResult Cate(string blogUserName, string cateHex, int page)
         {
             long? notebookId = cateHex.ToLongByHex();
@@ -191,7 +191,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("{controller=Blog}/{action=Index}/{blogUserIdHex?}")]
+        [Route("Blog/{action=Index}/{blogUserIdHex?}")]
 
         //[Authorize(Roles = "Admin,SuperAdmin")]
         //[AllowAnonymous]
@@ -300,7 +300,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{keywords?}/")]
+        [Route("Blog/{action=Post}/{blogUserName?}/{keywords?}/")]
         public IActionResult Search(string blogUserName, string keywords)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -316,7 +316,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{SingleIdHex?}/")]
+        [Route("Blog/{action=Post}/{blogUserName?}/{SingleIdHex?}/")]
         public IActionResult Single(string blogUserName, string SingleIdHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -331,7 +331,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("{controller=Blog}/{action=Post}/{blogUserName?}/{tag?}/")]
+        [Route("Blog/{action=Post}/{blogUserName?}/{tag?}/")]
         public IActionResult Tags_Posts(string blogUserName, string tag, int page)
         {
             if (page < 1)
@@ -360,7 +360,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("{controller=Blog}/{action=Post}/{blogUserName?}/")]
+        [Route("Blog/{action=Post}/{blogUserName?}/")]
         public IActionResult Tags(string blogUserName)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
