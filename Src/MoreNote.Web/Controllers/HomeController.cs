@@ -24,7 +24,7 @@ namespace MoreNote.Controllers
         {
             //return Content("An API listing authors of docs.asp.net.");
             ViewBag.title = "leanote";
-            ViewBag.msg = LanguageResource.GetMsg();
+            SetLocale();
 
             return View();
         }

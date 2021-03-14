@@ -33,10 +33,8 @@ namespace MoreNote.Controllers
       
         public IActionResult Note()
         {
-            ViewBag.msg = LanguageResource.GetMsg();
-            ViewBag.member = LanguageResource.GetMember();
-            ViewBag.markdown = LanguageResource.GetMarkdown();
-            ViewBag.blog = LanguageResource.GetBlog();
+          
+           SetLocale();
             Dictionary<string, string> js = new Dictionary<string, string>();
             User user = GetUserBySession();
             Notebook[] noteBoooks = notebookService.GetNoteBookTree(user.UserId);
@@ -44,7 +42,7 @@ namespace MoreNote.Controllers
             //json  = System.IO.File.ReadAllText(@"E:\Project\JSON\notebook\GetNotebooks.json");
             //js.Add("notebooks", json);
             ViewBag.notebooks= JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
-            ViewBag.msg = LanguageResource.GetMsg();
+          SetLocale();
             ViewBag.js = js;
             ViewBag.userInfo = user;
             //return View("Note-dev");

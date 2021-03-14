@@ -34,9 +34,10 @@ namespace MoreNote.Controllers.Member
 
             User user = GetUserBySession();
             ViewBag.user = user;
-            ViewBag.msg = LanguageResource.GetMsg();
-            ViewBag.member = LanguageResource.GetMember();
+   
 
+
+            SetLocale();
             int countNote = noteService.CountNote(user.UserId);
             int countBlog = noteService.CountBlog(user.UserId);
 

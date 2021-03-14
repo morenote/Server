@@ -44,7 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05InternalService", "05Inte
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06Global", "06Global", "{72982F18-EE03-43DF-A9E8-D28BE7454421}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morenote.Framework", "Src\03Framework\Morenote.Framework\Morenote.Framework.csproj", "{110D6D02-76DC-43DA-9F64-9178109DE536}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Morenote.Framework", "Src\03Framework\Morenote.Framework\Morenote.Framework.csproj", "{110D6D02-76DC-43DA-9F64-9178109DE536}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

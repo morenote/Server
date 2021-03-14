@@ -31,8 +31,7 @@ namespace MoreNote.Controllers.Member
          
             User user = GetUserBySession();
             ViewBag.user = user;
-            ViewBag.msg = LanguageResource.GetMsg();
-            ViewBag.member = LanguageResource.GetMember();
+            SetLocale();
             ViewBag.title = "用户名";
             return View("Views/Member/user/Username.cshtml");
         }
@@ -42,8 +41,7 @@ namespace MoreNote.Controllers.Member
          
             User user = GetUserBySession();
             ViewBag.user = user;
-            ViewBag.msg = LanguageResource.GetMsg();
-            ViewBag.member = LanguageResource.GetMember();
+              SetLocale();
             ViewBag.title = "电子邮箱";
             return View("Views/Member/user/email.cshtml");
         }
@@ -52,8 +50,7 @@ namespace MoreNote.Controllers.Member
         {
             User user = GetUserBySession();
             ViewBag.user = user;
-            ViewBag.msg = LanguageResource.GetMsg();
-            ViewBag.member = LanguageResource.GetMember();
+            SetLocale();
             ViewBag.title = "密码";
             return View("Views/Member/user/password.cshtml");
         }
@@ -68,8 +65,7 @@ namespace MoreNote.Controllers.Member
           
             User user = GetUserBySession();
             ViewBag.user = user;
-            ViewBag.msg = LanguageResource.GetMsg();
-            ViewBag.member = LanguageResource.GetMember();
+             SetLocale();
             ViewBag.title = "头像";
             return View("Views/Member/user/avatar.cshtml");
         }

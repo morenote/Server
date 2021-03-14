@@ -42,7 +42,7 @@ namespace MoreNote.Controllers
        
 
             ViewBag.Title = "网站初始化向导";
-            ViewBag.msg = LanguageResource.GetMsg();
+             SetLocale();
             return View();
         } 
 

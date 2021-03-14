@@ -9,13 +9,13 @@ namespace MoreNote.Value
 {
     public  class LanguageResource
     {
-        private static Dictionary<string ,string> album = null;
-        private static Dictionary<string ,string> blog = null;
-        private static Dictionary<string ,string> markdown = null;
-        private static Dictionary<string ,string> member = null;
-        private static Dictionary<string ,string> msg = null;
-        private static Dictionary<string ,string> note = null;
-        private static Dictionary<string ,string> tinymce_editor = null;
+        private  Dictionary<string ,string> album = null;
+        private  Dictionary<string ,string> blog = null;
+        private  Dictionary<string ,string> markdown = null;
+        private  Dictionary<string ,string> member = null;
+        private  Dictionary<string ,string> msg = null;
+        private  Dictionary<string ,string> note = null;
+        private  Dictionary<string ,string> tinymce_editor = null;
 
 
         private static Dictionary<string,Dictionary<string,string>> Values=null;
@@ -25,7 +25,17 @@ namespace MoreNote.Value
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
-        public static Dictionary<string, string> GetAlbum()
+        /// <summary>
+        /// 区域 地区
+        /// </summary>
+        private string locale;
+        public LanguageResource(string locale)
+        {
+            this.locale=locale;
+
+        }
+
+        public  Dictionary<string, string> GetAlbum()
         {
             if (album == null)
             {
@@ -34,13 +44,13 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (album == null)
                     {
-                        album = readConf("album.conf", LanguageEnum.ZH_CN);
+                        album = ReadConf("album.conf");
                     }
                 }
             }
             return album;
         }
-        public static Dictionary<string, string> GetBlog()
+        public  Dictionary<string, string> GetBlog()
         {
             if (blog == null)
             {
@@ -49,14 +59,14 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (blog == null)
                     {
-                        blog = readConf("blog.conf", LanguageEnum.ZH_CN);
+                        blog = ReadConf("blog.conf");
                     }
                 }
             }
             return blog;
         }
 
-        public static Dictionary<string, string> GetMarkdown()
+        public  Dictionary<string, string> GetMarkdown()
         {
             if (markdown == null)
             {
@@ -65,13 +75,13 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (markdown == null)
                     {
-                        markdown = readConf("markdown.conf", LanguageEnum.ZH_CN);
+                        markdown = ReadConf("markdown.conf");
                     }
                 }
             }
             return markdown;
         }
-        public static Dictionary<string, string> GetMember()
+        public  Dictionary<string, string> GetMember()
         {
             if (member == null)
             {
@@ -80,13 +90,13 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (member == null)
                     {
-                        member = readConf("member.conf", LanguageEnum.ZH_CN);
+                        member = ReadConf("member.conf");
                     }
                 }
             }
             return member;
         }
-        public static Dictionary<string, string> GetMsg()
+        public  Dictionary<string, string> GetMsg()
         {
             if (msg == null)
             {
@@ -95,13 +105,13 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (msg == null)
                     {
-                        msg = readConf("msg.conf", LanguageEnum.ZH_CN);
+                        msg = ReadConf("msg.conf");
                     }
                 }
             }
             return msg;
         }
-        public static Dictionary<string, string> GetNote()
+        public  Dictionary<string, string> GetNote()
         {
             if (note == null)
             {
@@ -110,13 +120,13 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (note == null)
                     {
-                        note = readConf("note.conf", LanguageEnum.ZH_CN);
+                        note = ReadConf("note.conf");
                     }
                 }
             }
             return note;
         }
-        public static Dictionary<string, string> GetTinymce_editor()
+        public  Dictionary<string, string> GetTinymce_editor()
         {
             if (tinymce_editor == null)
             {
@@ -125,16 +135,16 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (tinymce_editor == null)
                     {
-                        tinymce_editor = readConf("tinymce_editor.conf", LanguageEnum.ZH_CN);
+                        tinymce_editor = ReadConf("tinymce_editor.conf");
                     }
                 }
             }
             return tinymce_editor;
         }
-        private static Dictionary<String,string> readConf(string name, LanguageEnum languageType)
+        private  Dictionary<String,string> ReadConf(string name)
         {
            // string path=Environment.CurrentDirectory+$"{dsc}Value{dsc}zh-cn{dsc}{name}";//工作目录{
-            string path= AppDomain.CurrentDomain.SetupInformation.ApplicationBase+$"{dsc}Value{dsc}zh-cn{dsc}{name}";//工作目录
+            string path= AppDomain.CurrentDomain.SetupInformation.ApplicationBase+$"{dsc}Value{dsc}{locale}{dsc}{name}";//工作目录
 
             string[] vs=   System.IO.File.ReadAllLines(path);
             Dictionary<string, string> dic = new Dictionary<string, string>(100);

@@ -45,7 +45,7 @@ namespace MoreNote.Controllers
        public IActionResult Login()
         {
             ViewBag.Title = "请登录";
-            ViewBag.msg = LanguageResource.GetMsg();
+            SetLocale();
             ConfigSetting configSetting = new ConfigSetting();
            
             ViewBag.ConfigSetting = configSetting;
@@ -129,8 +129,8 @@ namespace MoreNote.Controllers
 
             //return Content("An API listing authors of docs.asp.net.");
             ViewBag.title = "leanote";
-            Dictionary<string, string> msg = LanguageResource.GetMsg();
-            ViewBag.msg = msg;
+          SetLocale();
+           
 
             ViewBag.iu = iu;
             ViewBag.from = from;
