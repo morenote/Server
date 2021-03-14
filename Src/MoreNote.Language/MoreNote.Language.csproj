@@ -5,139 +5,139 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Value\de-de\album.conf">
+    <None Update="Value\de_de\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\de-de\blog.conf">
+    <None Update="Value\de_de\blog.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\de-de\markdown.conf">
+    <None Update="Value\de_de\markdown.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\de-de\member.conf">
+    <None Update="Value\de_de\member.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\de-de\msg.conf">
+    <None Update="Value\de_de\msg.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\de-de\tinymce_editor.conf">
+    <None Update="Value\de_de\tinymce_editor.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\en-us\album.conf">
+    <None Update="Value\en_us\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\en-us\blog.conf">
+    <None Update="Value\en_us\blog.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\en-us\markdown.conf">
+    <None Update="Value\en_us\markdown.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\en-us\member.conf">
+    <None Update="Value\en_us\member.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\en-us\msg.conf">
+    <None Update="Value\en_us\msg.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\en-us\tinymce_editor.conf">
+    <None Update="Value\en_us\tinymce_editor.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\es-co\album.conf">
+    <None Update="Value\es_co\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\es-co\blog.conf">
+    <None Update="Value\es_co\blog.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\es-co\markdown.conf">
+    <None Update="Value\es_co\markdown.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\es-co\member.conf">
+    <None Update="Value\es_co\member.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\es-co\msg.conf">
+    <None Update="Value\es_co\msg.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\es-co\note.conf">
+    <None Update="Value\es_co\note.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\es-co\tinymce_editor.conf">
+    <None Update="Value\es_co\tinymce_editor.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\fr-fr\album.conf">
+    <None Update="Value\fr_fr\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\fr-fr\blog.conf">
+    <None Update="Value\fr_fr\blog.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\fr-fr\markdown.conf">
+    <None Update="Value\fr_fr\markdown.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\fr-fr\member.conf">
+    <None Update="Value\fr_fr\member.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\fr-fr\msg.conf">
+    <None Update="Value\fr_fr\msg.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\fr-fr\tinymce_editor.conf">
+    <None Update="Value\fr_fr\tinymce_editor.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\pt-pt\album.conf">
+    <None Update="Value\pt_pt\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\pt-pt\blog.conf">
+    <None Update="Value\pt_pt\blog.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\pt-pt\markdown.conf">
+    <None Update="Value\pt_pt\markdown.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\pt-pt\member.conf">
+    <None Update="Value\pt_pt\member.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\pt-pt\msg.conf">
+    <None Update="Value\pt_pt\msg.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\pt-pt\tinymce_editor.conf">
+    <None Update="Value\pt_pt\tinymce_editor.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\album.conf">
+    <None Update="Value\zh_cn\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\blog.conf">
+    <None Update="Value\zh_cn\blog.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\markdown.conf">
+    <None Update="Value\zh_cn\markdown.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\member.conf">
+    <None Update="Value\zh_cn\member.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\msg.conf">
+    <None Update="Value\zh_cn\msg.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\note.conf">
+    <None Update="Value\zh_cn\note.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-cn\tinymce_editor.conf">
+    <None Update="Value\zh_cn\tinymce_editor.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-hk\album.conf">
+    <None Update="Value\zh_hk\album.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-hk\blog.conf">
+    <None Update="Value\zh_hk\blog.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-hk\markdown.conf">
+    <None Update="Value\zh_hk\markdown.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-hk\member.conf">
+    <None Update="Value\zh_hk\member.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-hk\msg.conf">
+    <None Update="Value\zh_hk\msg.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-hk\note.conf">
+    <None Update="Value\zh_hk\note.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Value\zh-hk\tinymce_editor.conf">
+    <None Update="Value\zh_hk\tinymce_editor.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

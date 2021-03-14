@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoreNote.Language.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Value
 {
-    public static class LanguageResource
+    public  class LanguageResource
     {
         private static Dictionary<string ,string> album = null;
         private static Dictionary<string ,string> blog = null;
@@ -15,7 +16,12 @@ namespace MoreNote.Value
         private static Dictionary<string ,string> msg = null;
         private static Dictionary<string ,string> note = null;
         private static Dictionary<string ,string> tinymce_editor = null;
+
+
+        private static Dictionary<string,Dictionary<string,string>> Values=null;
         private static char dsc=Path.DirectorySeparatorChar;
+
+
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
@@ -28,7 +34,7 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (album == null)
                     {
-                        album = readConf("album.conf", LanguageType.zh_cn);
+                        album = readConf("album.conf", LanguageEnum.ZH_CN);
                     }
                 }
             }
@@ -43,7 +49,7 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (blog == null)
                     {
-                        blog = readConf("blog.conf", LanguageType.zh_cn);
+                        blog = readConf("blog.conf", LanguageEnum.ZH_CN);
                     }
                 }
             }
@@ -59,7 +65,7 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (markdown == null)
                     {
-                        markdown = readConf("markdown.conf", LanguageType.zh_cn);
+                        markdown = readConf("markdown.conf", LanguageEnum.ZH_CN);
                     }
                 }
             }
@@ -74,7 +80,7 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (member == null)
                     {
-                        member = readConf("member.conf", LanguageType.zh_cn);
+                        member = readConf("member.conf", LanguageEnum.ZH_CN);
                     }
                 }
             }
@@ -89,7 +95,7 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (msg == null)
                     {
-                        msg = readConf("msg.conf", LanguageType.zh_cn);
+                        msg = readConf("msg.conf", LanguageEnum.ZH_CN);
                     }
                 }
             }
@@ -104,7 +110,7 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (note == null)
                     {
-                        note = readConf("note.conf", LanguageType.zh_cn);
+                        note = readConf("note.conf", LanguageEnum.ZH_CN);
                     }
                 }
             }
@@ -119,13 +125,13 @@ namespace MoreNote.Value
                     // 如果类的实例不存在则创建，否则直接返回
                     if (tinymce_editor == null)
                     {
-                        tinymce_editor = readConf("tinymce_editor.conf", LanguageType.zh_cn);
+                        tinymce_editor = readConf("tinymce_editor.conf", LanguageEnum.ZH_CN);
                     }
                 }
             }
             return tinymce_editor;
         }
-        private static Dictionary<String,string> readConf(string name, LanguageType languageType)
+        private static Dictionary<String,string> readConf(string name, LanguageEnum languageType)
         {
            // string path=Environment.CurrentDirectory+$"{dsc}Value{dsc}zh-cn{dsc}{name}";//工作目录{
             string path= AppDomain.CurrentDomain.SetupInformation.ApplicationBase+$"{dsc}Value{dsc}zh-cn{dsc}{name}";//工作目录
@@ -155,17 +161,7 @@ namespace MoreNote.Value
             }
             return dic;
         }
-        public enum LanguageType
-        {
-            de_de,
-            en_us,
-            es_co,
-            fr_fr,
-            pt_pt,
-            zh_cn,
-            zh_hk
-
-        }
+      
 
 
     }
