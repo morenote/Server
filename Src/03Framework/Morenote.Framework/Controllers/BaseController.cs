@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
+using MoreNote.Language;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
+using MoreNote.Value;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -248,6 +250,14 @@ namespace MoreNote.Framework.Controllers
              var lnag = "zh-cn";
 
              var locale =Request.Cookies["LEANOTE_LANG"];
+
+             var  languageResource=LanguageFactory.GetLanguageResource(locale);
+             ViewBag.msg = languageResource.GetMsg();
+
+             
+            ViewBag.member = languageResource.GetMember();
+            ViewBag.markdown = languageResource.GetMarkdown();
+            ViewBag.blog = languageResource.GetBlog();
 
 
             return null;

@@ -12,19 +12,19 @@ namespace MoreNote.Value.Tests
         [TestMethod()]
         public void GetMsgTest()
         {
-            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
-            var a= LanguageResource.GetMsg();
-            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
-            var b = LanguageResource.GetMsg();
-            if (b.ContainsKey("donate"))
-            {
+            //Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
+            //var a= LanguageResource.Msg();
+            //Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
+            //var b = LanguageResource.Msg();
+            //if (b.ContainsKey("donate"))
+            //{
 
-            }
-            else
-            {
-                Assert.Fail();
-            }
-            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
+            //}
+            //else
+            //{
+            //    Assert.Fail();
+            //}
+            //Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
           //  Assert.Fail();
         }
     }

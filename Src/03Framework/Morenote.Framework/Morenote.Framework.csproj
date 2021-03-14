@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\..\MoreNote.Logic\MoreNote.Logic.csproj" />
   </ItemGroup>
 
