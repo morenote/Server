@@ -1,6 +1,6 @@
-﻿@{ 
+﻿@{
     Layout = "";
-    Dictionary<string ,string> msg=ViewBag.msg;
+    Dictionary<string, string> msg = ViewBag.msg;
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -11,26 +11,23 @@
 <body class="lang-@msg["locale"]">
 
     @await Html.PartialAsync("_Nav")
-  
+
     <section>
         <div class="header">
             <h2>Leanote, @msg["moto"]</h2>
             <p>@msg["moto3"]</p>
             <p>@msg["moto2"]</p>
-
             <div>
                 <a class="btn btn-default btn-primary" href="@Url.Action("Register", "Auth")">@msg["register"]</a>
                 &nbsp;
                 &nbsp;
-        
 
-                        <a class="btn btn-default" href="@Url.Action("Login", "Auth")">@msg["login"]</a>
-              
+                <a class="btn btn-default" href="@Url.Action("Login", "Auth")">@msg["login"]</a>
+
                 &nbsp;
                 &nbsp;
 
-
-                        <a class="btn btn-default" href="/demo">@msg["try"]</a>
+                <a class="btn btn-default" href="/demo">@msg["try"]</a>
             </div>
         </div>
 

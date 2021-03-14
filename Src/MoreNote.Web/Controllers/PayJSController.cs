@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Utils;
+using MoreNote.Framework.Controllers;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;

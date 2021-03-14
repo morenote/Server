@@ -12,7 +12,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UpYunLibrary;
 
-namespace MoreNote.Controllers
+namespace MoreNote.Framework.Controllers
 {
     /**
      * 源代码基本是从GO代码直接复制过来的
@@ -24,25 +24,27 @@ namespace MoreNote.Controllers
 
     public class BaseController : Controller
     {
-        public int pageSize = 1000;
-        public string defaultSortField = "UpdatedTime";
-        public string leanoteUserId = "admin";// 不能更改
-        protected IHttpContextAccessor _accessor;
-
+        public AttachService attachService;
         /// <summary>
         /// 网站配置
         /// </summary>
         public WebSiteConfig config;
+
+        public string defaultSortField = "UpdatedTime";
+        public string leanoteUserId = "admin";
+        public NoteFileService noteFileService;
+        public int pageSize = 1000;
+        public TokenSerivce tokenSerivce;
 
         /// <summary>
         /// 又拍云
         /// </summary>
         public UpYun upyun = null;
 
-        public AttachService attachService;
-        public TokenSerivce tokenSerivce;
-        public NoteFileService noteFileService;
         public UserService userService;
+
+        // 不能更改
+        protected IHttpContextAccessor _accessor;
         private ConfigFileService configFileService;
 
         public BaseController(AttachService attachService
@@ -66,76 +68,49 @@ namespace MoreNote.Controllers
            
         }
 
-        public bool HasLogined()
+        public enum FileTyte
         {
-            string userHex = HttpContext.Session.GetString("_UserId");
-            if (string.IsNullOrEmpty(userHex))
-            {
-                //没登陆
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            /**
+             * 文件分类
+             * 视频 音频 图片 二进制 纯文本
+             * */
+            Video, Audio, Image, Binary, PlainText
         }
 
-        public long? GetUserIdBySession()
+        public IActionResult Action()
         {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
-            long? userid_number = userid_hex.ToLongByHex();
-            return userid_number;
+            return Content("error");
         }
+
+        public long? ConvertUserIdToLong()
+        {
+            string hex = _accessor.HttpContext.Request.Form["userId"];
+            if (string.IsNullOrEmpty(hex))
+            {
+                hex = _accessor.HttpContext.Request.Query["userId"];
+            }
+            if (string.IsNullOrEmpty(hex))
+            {
+                return 0;
+            }
+            return hex.ToLongByHex();
+        }
+
         /// <summary>
         ///  得到第几页
         /// </summary>
         /// <returns></returns>
         public int GetPage()
         {
-            var pageValue= Request.Query["page"];
+            var pageValue = Request.Query["page"];
             if (StringValues.IsNullOrEmpty(pageValue))
             {
                 return 1;
             }
-            int value=1;
-            Int32.TryParse(pageValue,out value);
+            int value = 1;
+            Int32.TryParse(pageValue, out value);
             return value;
 
-        }
-
-    // todo:得到用户信息
-        public long? GetUserIdByToken(string token)
-        {
-            if (string.IsNullOrEmpty(token))
-            {
-                return 0;
-            }
-            else
-            {
-                User user = tokenSerivce.GetUserByToken(token);
-                long? userid = (user == null ? 0 : user.UserId);
-                return userid;
-            }
-        }
-
-        public User GetUserBySession()
-        {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
-            long? userid_number = userid_hex.ToLongByHex();
-            User user = userService.GetUserByUserId(userid_number);
-            return user;
-        }
-
-        public string SetLocale()
-        {
-            //todo:SetLocale未完成
-            var lnag = "zh-cn";
-            return null;
-        }
-
-        public IActionResult Action()
-        {
-            return Content("error");
         }
 
         /// <summary>
@@ -171,22 +146,20 @@ namespace MoreNote.Controllers
                 return token;
             }
         }
-
-        public long? GetUserIdByToken()
+        public User SetUserInfo()
         {
-            string token = GetTokenByHttpContext();
-            if (string.IsNullOrEmpty(token))
-            {
-                string userid_hex = _accessor.HttpContext.Session.GetString("userId");
-                long? userid_number = userid_hex.ToLongByHex();
-                return userid_number;
-            }
-            else
-            {
-                User user = tokenSerivce.GetUserByToken(token);
-                long? userid = (user == null ? 0 : user.UserId);
-                return userid;
-            }
+            var userInfo=this.GetUserBySession();
+            ViewBag.userInfo=userInfo;
+            //todo:关于配置逻辑
+            return userInfo;
+        }
+
+        public User GetUserBySession()
+        {
+            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
+            long? userid_number = userid_hex.ToLongByHex();
+            User user = userService.GetUserByUserId(userid_number);
+            return user;
         }
 
         public User GetUserByToken(string token)
@@ -216,25 +189,73 @@ namespace MoreNote.Controllers
             }
         }
 
+        public long? GetUserIdBySession()
+        {
+            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
+            long? userid_number = userid_hex.ToLongByHex();
+            return userid_number;
+        }
+
+        // todo:得到用户信息
+        public long? GetUserIdByToken(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return 0;
+            }
+            else
+            {
+                User user = tokenSerivce.GetUserByToken(token);
+                long? userid = (user == null ? 0 : user.UserId);
+                return userid;
+            }
+        }
+
+        public long? GetUserIdByToken()
+        {
+            string token = GetTokenByHttpContext();
+            if (string.IsNullOrEmpty(token))
+            {
+                string userid_hex = _accessor.HttpContext.Session.GetString("userId");
+                long? userid_number = userid_hex.ToLongByHex();
+                return userid_number;
+            }
+            else
+            {
+                User user = tokenSerivce.GetUserByToken(token);
+                long? userid = (user == null ? 0 : user.UserId);
+                return userid;
+            }
+        }
+
+        public bool HasLogined()
+        {
+            string userHex = HttpContext.Session.GetString("_UserId");
+            if (string.IsNullOrEmpty(userHex))
+            {
+                //没登陆
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public string SetLocale()
+        {
+            //todo:SetLocale未完成
+
+             var lnag = "zh-cn";
+
+             var locale =Request.Cookies["LEANOTE_LANG"];
+
+
+            return null;
+        }
         public void SetUserIdToSession(long? userId)
         {
             _accessor.HttpContext.Session.SetString("userId", userId.ToHex24());
         }
-
-        public long? ConvertUserIdToLong()
-        {
-            string hex = _accessor.HttpContext.Request.Form["userId"];
-            if (string.IsNullOrEmpty(hex))
-            {
-                hex = _accessor.HttpContext.Request.Query["userId"];
-            }
-            if (string.IsNullOrEmpty(hex))
-            {
-                return 0;
-            }
-            return hex.ToLongByHex();
-        }
-
         // todo :上传附件
         public bool UploadAttach(string name, long? userId, long? noteId, out string msg, out long? serverFileId)
         {
@@ -307,6 +328,16 @@ namespace MoreNote.Controllers
                 msg = "磁盘保存失败";
                 return false;
             }
+        }
+
+        public void UploadAudio()
+        {
+        }
+
+        //上传图片 png jpg
+        public bool UploadImage()
+        {
+            return false;
         }
 
         public bool UploadImages(string name, long? userId, long? noteId, bool isAttach, out long? serverFileId, out string msg)
@@ -382,35 +413,9 @@ namespace MoreNote.Controllers
                 return false;
             }
         }
-
-        //上传图片 png jpg
-        public bool UploadImage()
-        {
-            return false;
-        }
-
         public void UploadVideo()
         {
         }
-
-        public void UploadAudio()
-        {
-        }
-
-        //检查上传图片后缀名
-        private bool IsAllowImageExt(string ext)
-        {
-            HashSet<string> exts = new HashSet<string>() { "bmp", "jpg", "jpeg", "png", "tif", "gif", "pcx", "tga", "exif", "fpx", "svg", "psd", "cdr", "pcd", "dxf", "ufo", "eps", "ai", "raw", "WMF", "webp" };
-            if (exts.Contains(ext.ToLower()))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private bool IsAllowAttachExt(string ext)
         {
             //上传文件扩展名 白名单  后期会集中到一个类里面专门处理上传文件的问题
@@ -428,13 +433,18 @@ namespace MoreNote.Controllers
             }
         }
 
-        public enum FileTyte
+        //检查上传图片后缀名
+        private bool IsAllowImageExt(string ext)
         {
-            /**
-             * 文件分类
-             * 视频 音频 图片 二进制 纯文本
-             * */
-            Video, Audio, Image, Binary, PlainText
+            HashSet<string> exts = new HashSet<string>() { "bmp", "jpg", "jpeg", "png", "tif", "gif", "pcx", "tga", "exif", "fpx", "svg", "psd", "cdr", "pcd", "dxf", "ufo", "eps", "ai", "raw", "WMF", "webp" };
+            if (exts.Contains(ext.ToLower()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

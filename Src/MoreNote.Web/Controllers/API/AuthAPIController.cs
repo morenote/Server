@@ -10,7 +10,7 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Auth/[action]")]
 
-    public class AuthAPIController : BaseAPIController
+    public class AuthAPIController : APIBaseController
     {
         private AuthService authService;
         public AuthAPIController(AttachService attachService

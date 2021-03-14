@@ -8,7 +8,7 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Tag/[action]")]
     // [ApiController]
-    public class TagAPIController : BaseAPIController
+    public class TagAPIController : APIBaseController
     {
         private TokenSerivce tokenSerivce;
         private TagService tagService;

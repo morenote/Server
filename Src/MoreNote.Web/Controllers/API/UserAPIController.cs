@@ -13,7 +13,7 @@ using MoreNote.Logic.Service;
 namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/User/[action]")]
-    public class UserAPIController : BaseAPIController
+    public class UserAPIController : APIBaseController
     {
         private AuthService authService;
         private UserService userService;

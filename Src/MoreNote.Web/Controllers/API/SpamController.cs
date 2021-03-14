@@ -14,7 +14,7 @@ using MoreNote.Logic.Service;
 namespace MoreNote.Controllers.API
 {
     [Route("api/Spam/[action]")]
-    public class SpamController : BaseAPIController
+    public class SpamController : APIBaseController
     {
         private SpamService spamService;
         public SpamController(AttachService attachService

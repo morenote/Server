@@ -14,7 +14,7 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/File/[action]")]
     //[ApiController]
-    public class FileAPIController : BaseAPIController
+    public class FileAPIController : APIBaseController
     {
 
 

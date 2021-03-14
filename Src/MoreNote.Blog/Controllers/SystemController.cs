@@ -12,6 +12,7 @@ using MoreNote.Logic.Entity.ConfigFile;
 using System.Text.Json;
 using System.IO;
 using MoreNote.Logic.Service;
+using MoreNote.Framework.Controllers;
 
 namespace MoreNote.Controllers
 {

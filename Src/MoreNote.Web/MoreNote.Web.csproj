@@ -133,6 +133,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\03Framework\Morenote.Framework\Morenote.Framework.csproj" />
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />

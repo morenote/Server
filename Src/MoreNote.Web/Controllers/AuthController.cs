@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MoreNote.Filter.Global;
 using MoreNote.Logic.Model;
+using MoreNote.Framework.Controllers;
 
 namespace MoreNote.Controllers
 {

@@ -11,7 +11,7 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Note/[action]")]
     // [ApiController]
-    public class NoteAPIController : BaseAPIController
+    public class NoteAPIController : APIBaseController
     {
         private AttachService attachService;
         private NoteService noteService;

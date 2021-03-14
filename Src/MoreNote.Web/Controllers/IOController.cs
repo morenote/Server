@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoreNote.Logic.Service;
+using MoreNote.Framework.Controllers;
 
 namespace MoreNote.Controllers
 {

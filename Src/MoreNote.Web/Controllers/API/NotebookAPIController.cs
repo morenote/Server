@@ -12,7 +12,7 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Notebook/[action]")]
    // [ApiController]
-    public class NotebookAPIController : BaseAPIController
+    public class NotebookAPIController : APIBaseController
    {
        private NotebookService notebookService;
       

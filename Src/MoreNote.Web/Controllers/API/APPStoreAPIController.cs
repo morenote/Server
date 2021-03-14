@@ -11,7 +11,7 @@ using MoreNote.Logic.Service;
 namespace MoreNote.Controllers.API.APIV1
 {
     [Route("API/APPStore/[action]")]
-    public class APPStoreAPIController : BaseAPIController
+    public class APPStoreAPIController : APIBaseController
     {
         private APPStoreInfoService APPStoreInfoService { get; set; }
         private AuthService authService;

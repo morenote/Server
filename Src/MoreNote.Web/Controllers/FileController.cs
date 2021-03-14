@@ -10,6 +10,7 @@ using MoreNote.Common.Utils;
 using Microsoft.AspNetCore.Authorization;
 using MoreNote.Logic.Service;
 using Microsoft.AspNetCore.Http;
+using MoreNote.Framework.Controllers;
 
 namespace MoreNote.Controllers
 {
