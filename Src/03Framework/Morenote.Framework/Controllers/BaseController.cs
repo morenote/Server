@@ -260,6 +260,15 @@ namespace MoreNote.Framework.Controllers
             ViewBag.blog = languageResource.GetBlog();
 
 
+
+            ViewBag.siteUrl ="/";
+            ViewBag.leaUrl = "/";
+            ViewBag.noteUrl = "/note/note";
+
+
+
+
+
             return null;
         }
         public void SetUserIdToSession(long? userId)
