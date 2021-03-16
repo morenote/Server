@@ -39,14 +39,16 @@
                 </li>
 
                 <li><a href="http://leanote.org" target="_blank" title="leanote.org" class="">leanote.org</a></li>
+                @if (ViewBag.userInfo != null)
+                {
 
-                {{if .userInfo.Email}}
-                <li id="loginBtns">
-                    @msg["hi"], {{.userInfo.Username}}
-                    <a href="{{$.noteUrl}}">@msg["myNote"]</a>
-                    <a href="/logout">@msg["logout"]</a>
-                </li>
-                {{end}}
+                    <li id="loginBtns">
+                        @msg["hi"], @ViewBag.userInfo.Username
+                        <a href="@ViewBag.noteUrl">@msg["myNote"]</a>
+                        <a href="/logout">@msg["logout"]</a>
+                    </li>
+                }
+               
             </ul>
         </div>
     </div>
