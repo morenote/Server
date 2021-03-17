@@ -27,7 +27,7 @@
 	<script type="text/x-jsrender" id="tCaptcha">
 		<div class="form-group">
 			<label class="control-label">@msg["captcha"]</label>
-			<input type="text" class="form-control" id="captcha" name="captcha">
+			<input type="text" class="form-control" id="captcha" name="captcha" autocomplete="off">
 			@*<a id="reloadCaptcha" title="@msg["reloadCaptcha"]" onclick="$('#captchaImage').attr('src', '/api/VerifyCode?random=' + ((new Date()).getTime()))"><img src="/captcha/get?random=@DateTime.Now.ToString("yyyyMMddHHmmssffff")" id="captchaImage" /></a>*@
 			<a id="reloadCaptcha" title="@msg["reloadCaptcha"]" onclick="$('#captchaImage').attr('src', '@Url.Action("VerifyCode","API")?random=' + Math.round(new Date().getTime()/1000))"><img src="@Url.Action("VerifyCode","API")?random=@DateTime.Now.ToString("yyyyMMddHHmmssffff")" id="captchaImage" /></a>
 		</div>
@@ -54,7 +54,7 @@
                         <label class="control-label">@msg["password"]</label>
                         <input type="password" class="form-control" id="pwd" name="pwd">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" hidden="hidden">
                         <label class="control-label">谷歌两步验证码</label>
                         <input type="text" class="form-control" id="timecode" name="timecode">
                     </div>

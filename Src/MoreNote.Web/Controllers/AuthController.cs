@@ -129,7 +129,7 @@ namespace MoreNote.Controllers
 
             //return Content("An API listing authors of docs.asp.net.");
             ViewBag.title = "leanote";
-          SetLocale();
+             SetLocale();
            
 
             ViewBag.iu = iu;
