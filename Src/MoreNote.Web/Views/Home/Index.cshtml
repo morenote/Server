@@ -18,16 +18,27 @@
             <p>@msg["moto3"]</p>
             <p>@msg["moto2"]</p>
             <div>
-                <a class="btn btn-default btn-primary" href="@Url.Action("Register", "Auth")">@msg["register"]</a>
+                @if (ViewBag.openRegister)
+                {
+                    <a class="btn btn-default btn-primary" href="@Url.Action("Register", "Auth")">@msg["register"]</a>
+
+                }
                 &nbsp;
                 &nbsp;
 
-                <a class="btn btn-default" href="@Url.Action("Login", "Auth")">@msg["login"]</a>
+                @if (ViewBag.userInfo == null)
+                {
+                    <a class="btn btn-default" href="@Url.Action("Login", "Auth")">@msg["login"]</a>
+                   
+                }
 
+                &nbsp
                 &nbsp;
-                &nbsp;
-
-                <a class="btn btn-default" href="/demo">@msg["try"]</a>
+                @if (ViewBag.openDemo)
+                {
+                     <a class="btn btn-default" href="/demo">@msg["try"]</a>
+                }
+               
             </div>
         </div>
 

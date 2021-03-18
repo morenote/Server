@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
-using MoreNote.Value;
 using System.Diagnostics;
 
 namespace MoreNote.Controllers
@@ -23,10 +22,14 @@ namespace MoreNote.Controllers
         public IActionResult Index()
         {
             //return Content("An API listing authors of docs.asp.net.");
-            ViewBag.title = "leanote";
+
             SetUserInfo();
+            ViewBag.title = "leanote";
+            ViewBag.openRegister = configFileService.GetWebConfig().SecurityConfig.OpenRegister;
+            ViewBag.openDemo = configFileService.GetWebConfig().SecurityConfig.OpenDemo;
+
             SetLocale();
-            
+
             return View();
         }
 

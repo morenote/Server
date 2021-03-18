@@ -11,8 +11,14 @@
         public ImageSpidersConfig Spiders { get; set; }
         public UpYunCDNConfig UpYunCDN { get; set; }
         public UpYunOSSConfig UpYunOSS { get; set; }
+
+        public SecurityConfig SecurityConfig{get;set;}=new SecurityConfig();
+        public APPConfig APPConfig{get;set;}=new APPConfig();
+        public GlobalConfig GlobalConfig{get;set;}=new GlobalConfig();
+
         public WebSiteConfig()
         {
+
 
         }
         public static WebSiteConfig GenerateTemplate()
