@@ -47,7 +47,7 @@ namespace MoreNote.Framework.Controllers
 
         // 不能更改
         protected IHttpContextAccessor _accessor;
-        private ConfigFileService configFileService;
+        protected ConfigFileService configFileService;
 
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce
