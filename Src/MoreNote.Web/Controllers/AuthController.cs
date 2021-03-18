@@ -141,7 +141,7 @@ namespace MoreNote.Controllers
 
         public JsonResult DoRegister(string email, string pwd, string iu)
         {
-            if (!configService.IsOpenRegister())
+            if (!configFileService.GetWebConfig().SecurityConfig.OpenRegister)
             {
                 return Json(new ApiRe()
                 {
