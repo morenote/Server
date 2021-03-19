@@ -25,7 +25,7 @@ namespace MoreNote.Controllers.Member
         {
 
         }
-        [Authorize(Roles = "Admin,SuperAdmin")]
+      //  [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Username()
         {
          
@@ -35,7 +35,7 @@ namespace MoreNote.Controllers.Member
             ViewBag.title = "用户名";
             return View("Views/Member/user/Username.cshtml");
         }
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        //[Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Email()
         {
          
@@ -45,7 +45,7 @@ namespace MoreNote.Controllers.Member
             ViewBag.title = "电子邮箱";
             return View("Views/Member/user/email.cshtml");
         }
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        //[Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Password()
         {
             User user = GetUserBySession();
@@ -54,12 +54,12 @@ namespace MoreNote.Controllers.Member
             ViewBag.title = "密码";
             return View("Views/Member/user/password.cshtml");
         }
-        [Authorize(Roles = "Admin,SuperAdmin")]
+       // [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Index()
         {
             return View();
         }
-        [Authorize(Roles = "Admin,SuperAdmin")]
+       // [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Avatar()
         {
           

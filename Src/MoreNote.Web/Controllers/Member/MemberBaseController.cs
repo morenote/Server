@@ -9,7 +9,7 @@ namespace MoreNote.Controllers.Member
 {
     public class MemberBaseController : Controller
     {
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [Authorize(Roles = "Admin,SuperAdmin,User")]
         public IActionResult Index()
         {
             return View();

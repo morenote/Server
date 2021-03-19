@@ -12,7 +12,7 @@ using System.Text.Json;
 
 namespace MoreNote.Controllers
 {
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    [Authorize(Roles = "Admin,SuperAdmin,User")]
     public class NoteController : BaseController
     {
         private NotebookService notebookService;
@@ -42,7 +42,7 @@ namespace MoreNote.Controllers
             //json  = System.IO.File.ReadAllText(@"E:\Project\JSON\notebook\GetNotebooks.json");
             //js.Add("notebooks", json);
             ViewBag.notebooks= JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
-          SetLocale();
+            SetLocale();
             ViewBag.js = js;
             ViewBag.userInfo = user;
             //return View("Note-dev");

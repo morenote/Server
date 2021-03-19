@@ -93,6 +93,7 @@ namespace MoreNote.Controllers
                     {
                         identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));//角色 用户组
                     }
+
                     if (user.Jurisdiction!=null&&user.Jurisdiction.Any())
                     {
                         foreach (var item in user.Jurisdiction)

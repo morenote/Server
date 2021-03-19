@@ -28,7 +28,7 @@ namespace MoreNote.Controllers.Member
            
         }
 
-        [Authorize(Roles = "Admin,SuperAdmin")]
+       // [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Index()
         {
 
