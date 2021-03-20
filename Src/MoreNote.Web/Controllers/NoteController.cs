@@ -30,8 +30,9 @@ namespace MoreNote.Controllers
             this.noteService = noteService;
             this.noteContentService = noteContentService;
         }
-      
-        public IActionResult Note()
+         [Route("{controller}/{action=NoteEditor}/{noteId?}/")]
+           [Authorize(Roles = "Admin,SuperAdmin,User")]
+        public IActionResult NoteEditor(string noteId)
         {
           
            SetLocale();
@@ -49,7 +50,7 @@ namespace MoreNote.Controllers
             return View();
 
         }
-        public IActionResult getNoteContent(string noteId)
+        public IActionResult GetNoteContent(string noteId)
         {
             long? noteNumber = noteId.ToLongByHex();
             long? userNumber = GetUserIdBySession();
