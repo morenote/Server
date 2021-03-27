@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.Filter.Global
+namespace Morenote.Framework.Filter.Global
 {
     public class InspectionInstallationFilter : ActionFilterAttribute
     {

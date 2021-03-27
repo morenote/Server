@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Morenote.Framework.Filter.Global;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -28,13 +29,14 @@ namespace MoreNote.Controllers.Member
            
         }
 
-       // [Authorize(Roles = "Admin,SuperAdmin")]
+       // [Authorize(Roles = "Admin,SuperAdmin")] CheckLoginFilter
+        [TypeFilter(typeof(CheckLoginFilter))]
         public IActionResult Index()
         {
 
             User user = GetUserBySession();
             ViewBag.user = user;
-   
+            
 
 
             SetLocale();

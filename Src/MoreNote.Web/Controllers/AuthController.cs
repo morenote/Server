@@ -14,9 +14,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MoreNote.Filter.Global;
+using Morenote.Framework.Filter.Global;
 using MoreNote.Logic.Model;
 using MoreNote.Framework.Controllers;
+using Morenote.Framework.Http;
 
 namespace MoreNote.Controllers
 {
@@ -108,8 +109,9 @@ namespace MoreNote.Controllers
                     }).ConfigureAwait(false);
 
                     //登录成功
-                    HttpContext.Session.SetString("_token", token);
-                    HttpContext.Session.SetString("_UserId", user.UserId.ToHex24());
+                    HttpContext.Session.SetString("Token", token);
+                    HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
+                    HttpContext.Session.SetBool("Verified",user.Verified);
                     Re re = new Re() { Ok = true };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }

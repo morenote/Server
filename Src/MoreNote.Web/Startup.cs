@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MoreNote.Filter.Global;
+using Morenote.Framework.Filter.Global;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
