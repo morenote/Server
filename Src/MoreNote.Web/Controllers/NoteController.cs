@@ -30,9 +30,9 @@ namespace MoreNote.Controllers
             this.noteService = noteService;
             this.noteContentService = noteContentService;
         }
-         [Route("{controller}/{action=NoteEditor}/{noteId?}/")]
+         [Route("{controller}/{action=Editor}/{noteId?}/")]
            [Authorize(Roles = "Admin,SuperAdmin,User")]
-        public IActionResult NoteEditor(string noteId)
+        public IActionResult Editor(string noteId)
         {
           
             this.SetLocale();//设置区域化信息
