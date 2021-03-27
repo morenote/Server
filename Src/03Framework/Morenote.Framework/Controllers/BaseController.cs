@@ -158,7 +158,7 @@ namespace MoreNote.Framework.Controllers
 
         public User GetUserBySession()
         {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
+            string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
             long? userid_number = userid_hex.ToLongByHex();
             User user = userService.GetUserByUserId(userid_number);
             return user;
@@ -193,7 +193,7 @@ namespace MoreNote.Framework.Controllers
 
         public long? GetUserIdBySession()
         {
-            string userid_hex = _accessor.HttpContext.Session.GetString("_UserId");
+            string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
             long? userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
@@ -218,7 +218,7 @@ namespace MoreNote.Framework.Controllers
             string token = GetTokenByHttpContext();
             if (string.IsNullOrEmpty(token))
             {
-                string userid_hex = _accessor.HttpContext.Session.GetString("userId");
+                string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
                 long? userid_number = userid_hex.ToLongByHex();
                 return userid_number;
             }
@@ -229,10 +229,23 @@ namespace MoreNote.Framework.Controllers
                 return userid;
             }
         }
+        public UserAndBlogUrl GetUserAndBlogUrl()
+        {
+           var userid=GetUserIdBySession();
+            if (userid==null)
+            {
+                return new UserAndBlogUrl();
+
+            }
+            else
+            {
+                return userService.GetUserAndBlogUrl(userid);
+            }
+        }
 
         public bool HasLogined()
         {
-            string userHex = HttpContext.Session.GetString("_UserId");
+            string userHex = HttpContext.Session.GetString("UserId");
             if (string.IsNullOrEmpty(userHex))
             {
                 //没登陆
@@ -273,7 +286,7 @@ namespace MoreNote.Framework.Controllers
         }
         public void SetUserIdToSession(long? userId)
         {
-            _accessor.HttpContext.Session.SetString("userId", userId.ToHex24());
+            _accessor.HttpContext.Session.SetString("UserId", userId.ToHex24());
         }
         // todo :上传附件
         public bool UploadAttach(string name, long? userId, long? noteId, out string msg, out long? serverFileId)

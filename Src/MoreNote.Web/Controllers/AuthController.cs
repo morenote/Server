@@ -139,8 +139,14 @@ namespace MoreNote.Controllers
 
             return View();
         }
-
-        public JsonResult DoRegister(string email, string pwd, string iu)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email">注册者的电子邮件</param>
+        /// <param name="pwd">注册者的口令</param>
+        /// <param name="iu"></param>
+        /// <returns></returns>
+        public JsonResult DoRegister(string email, string pwd, string iu,string captcha)
         {
             if (!configFileService.GetWebConfig().SecurityConfig.OpenRegister)
             {
@@ -150,7 +156,8 @@ namespace MoreNote.Controllers
                     Msg = "管理员已经将注册功能关闭"
                 }, MyJsonConvert.GetSimpleOptions());
             }
-            bool result = authService.Register(email, pwd,iu.ToLongByHex());
+            string errorMessage=string.Empty;
+            bool result = authService.Register(email, pwd,iu.ToLongByHex(),out errorMessage);
             if (result)
             {
                 return Json(new ApiRe()
@@ -164,7 +171,7 @@ namespace MoreNote.Controllers
                 return Json(new ApiRe()
                 {
                     Ok = false,
-                    Msg = "注册失败"
+                    Msg = $"注册失败:{errorMessage}"
                 }, MyJsonConvert.GetSimpleOptions());
             }
         }

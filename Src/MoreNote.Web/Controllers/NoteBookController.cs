@@ -24,12 +24,13 @@ namespace MoreNote.Controllers
             , IHttpContextAccessor accessor, NotebookService notebookService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.notebookService= notebookService;
-            ;
+            
 
 
         }
         public IActionResult Index()
         {
+
             return View();
         }   
         public IActionResult GetNotebooks()

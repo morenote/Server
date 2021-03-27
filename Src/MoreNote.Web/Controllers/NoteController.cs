@@ -35,7 +35,20 @@ namespace MoreNote.Controllers
         public IActionResult NoteEditor(string noteId)
         {
           
-           SetLocale();
+            this.SetLocale();//设置区域化信息
+            var userInfo=this.GetUserAndBlogUrl();//得到用户信息+博客主页
+            //判断用户ID是否已经登录
+            var userId=this.GetUserBySession();
+            if (userId==null)
+            {
+                return Redirect("/Auth/Login");
+            }
+            //是否已经开放注册功能
+            ViewBag.openRegister=configFileService.GetWebConfig().SecurityConfig.OpenRegister;
+            // 已登录了, 那么得到所有信息
+
+
+
             Dictionary<string, string> js = new Dictionary<string, string>();
             User user = GetUserBySession();
             Notebook[] noteBoooks = notebookService.GetNoteBookTree(user.UserId);
@@ -50,6 +63,9 @@ namespace MoreNote.Controllers
             return View();
 
         }
+
+    
+
         public IActionResult GetNoteContent(string noteId)
         {
             long? noteNumber = noteId.ToLongByHex();
