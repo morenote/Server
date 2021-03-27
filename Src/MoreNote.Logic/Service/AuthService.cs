@@ -133,6 +133,7 @@ namespace MoreNote.Logic.Service
                 Pwd = genPass,
                 Salt = salt,
                 FromUserId = fromUserId,
+                Role="User",
                 Usn = 1
             };
             if (Register(user))
