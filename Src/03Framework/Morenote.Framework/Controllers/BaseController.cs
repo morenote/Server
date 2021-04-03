@@ -160,6 +160,7 @@ namespace MoreNote.Framework.Controllers
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
             long? userid_number = userid_hex.ToLongByHex();
+            
             User user = userService.GetUserByUserId(userid_number);
             return user;
         }

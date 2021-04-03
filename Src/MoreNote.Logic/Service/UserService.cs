@@ -27,6 +27,11 @@ namespace MoreNote.Logic.Service
 
         public User GetUserByUserId(long? userid)
         {
+            if (userid==null)
+            {
+                return null;
+
+            }
             var result = dataContext.User
                      .Where(b => b.UserId.Equals(userid)).FirstOrDefault();
             return result;
