@@ -32,6 +32,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 默认=false
         /// </summary>
         public bool ShareYourData{get;set;}=false;
+        public string AdminUsername{ get;set;}="admin";
 
     }
 }

@@ -32,7 +32,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 得到共享给我的笔记本和用户(谁共享给了我)
-        public  User[] GetShareNotebooks(long? userId)
+        public  User[] GetShareNotebooks(long? userId,out Dictionary<string,ShareNotebooks> ShareNotebooksByUser)
         {
             throw new Exception();
         }
