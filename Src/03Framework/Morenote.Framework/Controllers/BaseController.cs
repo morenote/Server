@@ -272,7 +272,7 @@ namespace MoreNote.Framework.Controllers
             ViewBag.member = languageResource.GetMember();
             ViewBag.markdown = languageResource.GetMarkdown();
             ViewBag.blog = languageResource.GetBlog();
-
+            ViewBag.demonstrationOnly=configFileService.GetWebConfig().GlobalConfig.DemonstrationOnly;
 
 
             ViewBag.siteUrl ="/";

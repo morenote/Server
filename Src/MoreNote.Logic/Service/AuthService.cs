@@ -130,6 +130,7 @@ namespace MoreNote.Logic.Service
                 UserId = SnowFlakeNet.GenerateSnowFlakeID(),
                 Email = email,
                 Username = email,
+                Cost=1,//一次
                 Pwd = genPass,
                 Salt = salt,
                 FromUserId = fromUserId,

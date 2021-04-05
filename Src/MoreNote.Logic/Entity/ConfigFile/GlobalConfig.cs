@@ -8,6 +8,9 @@ namespace MoreNote.Logic.Entity.ConfigFile
 {
    public class GlobalConfig
     {
-
+        /// <summary>
+        /// 仅供演示用途警告
+        /// </summary>
+        public bool DemonstrationOnly{get;set;}
     }
 }

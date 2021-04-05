@@ -24,12 +24,7 @@
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
     "Docker": {
-      "commandName": "Executable",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "environmentVariables": {
-        "dns": " 8.8.8.8"
-      }
+      "commandName": "Docker"
     }
   }
 }

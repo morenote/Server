@@ -4,10 +4,12 @@
 	  <TargetFramework>net5.0</TargetFramework>
 	  <OutputType>Exe</OutputType>
 	  <UserSecretsId>d3b6d0b2-55da-4dd0-a053-3271a7026623</UserSecretsId>
-	  <AssemblyName>MoreNote.Web</AssemblyName>
+	  <AssemblyName>MoreNote</AssemblyName>
 	  <EnableNETAnalyzers>true</EnableNETAnalyzers>
 	  <AnalysisLevel>latest</AnalysisLevel>
 	  <StartupObject>MoreNote.Program</StartupObject>
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,6 +26,13 @@
     <NoWarn />
     <Optimize>false</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Pic\**" />
+    <Content Remove="Views\Pic\**" />
+    <EmbeddedResource Remove="Views\Pic\**" />
+    <None Remove="Views\Pic\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Views\Member\end.cshtml" />
@@ -85,11 +94,6 @@
 
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
 
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
@@ -143,10 +147,6 @@
     <None Update="sources.list">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Pic\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -259,8 +259,8 @@
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />
     <TypeScriptOutDir></TypeScriptOutDir>
