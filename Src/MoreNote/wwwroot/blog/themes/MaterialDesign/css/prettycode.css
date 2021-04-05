@@ -1,0 +1,168 @@
+pre {
+	background-color: #f8f8f8;
+}
+
+@media screen and (min-width: 1400px) {
+	pre.prettyprint  * {
+		font-family: 'consolas';
+		font-size: 15px;
+	}
+
+	code.prettyprint .com,pre.prettyprint .com {
+		line-height: 1.6;
+		color: #9C9C9C;
+		font-size: 15px;
+		font-family: 'Monaco', 'Menlo', 'Consolas', "Courier New", monospace;
+		font-style: normal;
+	}
+}
+
+@media screen and (max-width: 1399px) {
+	pre.prettyprint  * {
+		font-family: 'consolas';
+		font-size: 13px !important;
+	}
+
+	code.prettyprint .com,pre.prettyprint .com {
+		line-height: 1.6;
+		color: #9C9C9C;
+		font-size: 12px;
+		font-family: 'Monaco', 'Menlo', 'Consolas', "Courier New", monospace;
+		font-style: normal;
+	}
+}
+
+pre.prettyprint {
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+
+code.prettyprint,pre.prettyprint {
+	padding: 10px 0;
+	border: 0px solid #ededed;
+	margin-top: 7px;
+	border-radius: 1px;
+	display: block;
+}
+
+/*linenumbers*/
+code.prettyprint .linenums,pre.prettyprint .linenums {
+    /*
+    -webkit-box-shadow: inset 0px 0 0 #f7f7f9,inset 0px 0 0 #ececf0;
+    -moz-box-shadow: inset 0px 0 0 #f7f7f9,inset 0px 0 0 #ececf0;
+    box-shadow: inset 0px 0 0 #f7f7f9,inset 0px 0 0 #ececf0
+    */
+	;
+}
+
+code.prettyprint ol.linenums,pre.prettyprint ol.linenums {
+	padding: 0 0 0 4em;
+	margin: 0;
+}
+
+code.prettyprint ol.linenums li,pre.prettyprint ol.linenums li {
+	padding-left: 0;
+	padding-right: 1.5em;
+	color: #aaa;
+	line-height: 1.5em;
+}
+/*component*/
+
+/*number?light?literal?shuzhi?*/
+code.prettyprint .lit,pre.prettyprint .lit {
+	color: #42b983;
+}
+/*punctuation*/
+code.prettyprint .pun,pre.prettyprint .pun {
+	color: #aaa;
+}
+/**/
+code.prettyprint .opn,pre.prettyprint .opn {
+	color: #4c4;
+}
+/**/
+code.prettyprint .clo,pre.prettyprint .clo {
+	color: #4c4;
+}
+/*function*/
+code.prettyprint .fun,pre.prettyprint .fun {
+	color: #cc5;
+}
+/*string*/
+code.prettyprint .str,pre.prettyprint .str {
+	color: #c55;
+}
+/**/
+code.prettyprint .atv,pre.prettyprint .atv {
+	color: #c55;
+}
+/*keyword*/
+code.prettyprint .kwd,pre.prettyprint .kwd {
+	color: #c66;
+}
+/*tag*/
+code.prettyprint .tag,pre.prettyprint .tag {
+	color: #55c;
+}
+/*type?ziti?*/
+code.prettyprint .typ,pre.prettyprint .typ {
+	color: #55c;
+}
+/**/
+code.prettyprint .atn,pre.prettyprint .atn {
+	color: #00B494;
+}
+/**/
+code.prettyprint .dec,pre.prettyprint .dec {
+	color: #55c;
+}
+/*var*/
+code.prettyprint .var,pre.prettyprint .var {
+	color: #cc6;
+}
+/*plain?*/
+code.prettyprint .pln,pre.prettyprint .pln {
+	color: #446;
+}
+
+body.dark-theme pre {
+	background-color: #444;
+}
+
+body.dark-theme code.prettyprint .pln,body.dark-theme pre.prettyprint .pln {
+	color: #A38474;
+}
+
+body.dark-theme code.prettyprint .tag,body.dark-theme pre.prettyprint .tag {
+	color: #93A2CC;
+}
+
+body.dark-theme code.prettyprint .atv,body.dark-theme pre.prettyprint .atv {
+	color: #CC9393;
+}
+
+body.dark-theme code.prettyprint .atn,body.dark-theme pre.prettyprint .atn {
+	color: #659F65;
+}
+
+body.dark-theme code.prettyprint .lit,body.dark-theme pre.prettyprint .lit {
+	color: #DFC47D;
+}
+
+body.dark-theme code.prettyprint .dec,body.dark-theme pre.prettyprint .dec {
+	color: #98D0FF;
+}
+
+body.dark-theme code.prettyprint .kwd,body.dark-theme pre.prettyprint .kwd {
+	color: #F3D651;
+}
+
+body.dark-theme code.prettyprint .typ,body.dark-theme pre.prettyprint .typ {
+	color: #9393CC;
+}
+body.dark-theme code.prettyprint .str,body.dark-theme pre.prettyprint .str {
+	color: #CC9393;
+}

@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "";
+    Dictionary<string, string> blog = ViewBag.blog;
+}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="morenote,morenote.top,www.morenote.top,云笔记,更多笔记,morenote云笔记">
+        <meta name="description" content="morenote是基于leanote的.net core发行版,使用.net Core技术构建笔记托管服务，并运行在Linux上,提供与leanote一致的API表现，并且原则上最大限度的支持leanote的笔记文件的编码格式。">
+        <meta name="author" content="mrbird">
+        <link rel="Shortcut icon" href="~/blog/themes/MaterialDesign/images/leaf.png">
+        <!-- js -->
+        <script src="~/blog/themes/MaterialDesign/js/jquery-1.11.0.min.js"></script>
+        <script src="~/blog/themes/MaterialDesign/js/material.js"></script>
+        <script src="~/blog/themes/MaterialDesign/js/aos.js"></script>
+        <script src="~/blog/themes/MaterialDesign/js/sweetalert.min.js"></script>
+        <script>
+            var _hmt = _hmt || [];
+            (function () {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?069b8e2e8fbf33d6e6c63fb28a00882f";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        <title>
+            @blog["Title"]
+            @*{{if $.curIsIndex}}
+            {{$.blogInfo.Title}}
+            {{else if $.curIsCate}}
+            分类-{{$.curCateTitle}}
+            {{else if $.curIsSearch}}
+            搜索-{{$.keywords}}
+            {{else if $.curIsTags}}
+            我的标签
+            {{else if $.curIsTagPosts}}
+            标签-{{$.curTag}}
+            {{else if $.curIsPost}}
+            {{$.post.Title}}
+            {{else if $.curIsSingle}}
+            {{$.single.Title}}
+            {{else if $.curIsArchive}}
+            归档
+            {{end}}*@
+
+        </title>
+        <!-- css -->
+        <link href="~/css/font-awesome-4.2.0/css/font-awesome-min.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/style.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/material.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/component.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/picture.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/aos.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/prettycode.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/bootstrap.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/sweetalert.css" rel="stylesheet">
+        <link href="~/blog/themes/MaterialDesign/css/share_comment.css" rel="stylesheet">
+        <style>
+            .html {
+                filter: grayscale(100%);
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                -ms-filter: grayscale(100%);
+                /*-o-filter: grayscale(100%);*/
+                filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+            }
+        </style>
+    </head>
