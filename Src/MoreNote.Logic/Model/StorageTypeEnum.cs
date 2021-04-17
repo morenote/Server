@@ -30,14 +30,19 @@
         /// 华为云对象储存
         /// </summary>
         HuaWeiOSS=0x05,
+         /// <summary>
+        /// 腾讯云对象储存
+        /// </summary>
+        TencentOSS=0x06,
         /// <summary>
         /// FTP服务
         /// </summary>
-        FTP=0x06,
+        FTP=0x10,
         /// <summary>
         /// WebDAV服务
         /// </summary>
-        WebDAV=0x07,
+        WebDAV=0x11,
+       
 
     }
 }

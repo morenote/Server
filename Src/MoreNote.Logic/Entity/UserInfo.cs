@@ -55,8 +55,10 @@ namespace MoreNote.Logic.Entity
         public string UsernameRaw { get; set; }//// 可能有大小写
         [Column("pwd")]
         public string Pwd { get; set; }
+        [Column("hash_algorithm")]
+        public string HashAlgorithm{get;set;}// 哈希算法 sha256  sha512  HMAC算法 hmac-sha256 hmac-sha512 慢哈希算法 Argon2 bcrypt scrypt  PBKDF2 
         [Column("salt")]
-        public string Salt { get; set; }//MD5 盐
+        public string Salt { get; set; }//MD5 盐 盐的长度默认是32字节 
         [Column("google_authenticator_secret_key")]
         public string GoogleAuthenticatorSecretKey { get; set; }//谷歌身份验证密码
         [Column("pwd_cost")]
