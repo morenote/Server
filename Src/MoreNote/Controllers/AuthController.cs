@@ -59,7 +59,7 @@ namespace MoreNote.Controllers
             string verifyCode = HttpContext.Session.GetString("VerifyCode");
             int time = HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
             int valid = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
-            if (valid != 1 || !UnixTimeHelper.IsValid(time, 15))
+            if (valid != 1 || !UnixTimeHelper.IsValid(time, 60))//验证码的保质期是60秒
             {
                 Re re = new Re() { Ok = false, Msg = "验证码过期或失效" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
