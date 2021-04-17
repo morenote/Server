@@ -66,7 +66,7 @@ namespace MoreNote.Controllers
             string json = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
             //json  = System.IO.File.ReadAllText(@"E:\Project\JSON\notebook\GetNotebooks.json");
             //js.Add("notebooks", json);
-            ViewBag.notebooks = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
+            ViewBag.notebooks = JsonSerializer.Serialize(notebooks, MyJsonConvert.GetOptions());
             SetLocale();
             ViewBag.js = js;
             ViewBag.userInfo = user;
@@ -74,7 +74,7 @@ namespace MoreNote.Controllers
             ViewBag.isAdmin=configFileService.GetWebConfig().SecurityConfig.AdminUsername.Equals(user.Username);
             
             ViewBag.userInfo=user;
-            ViewBag.notebooks=noteBoooks;
+           
             
 
 

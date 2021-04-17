@@ -51,7 +51,7 @@ namespace MoreNote.Logic.Entity
         public NoteBookTree()
         {
             this.Subs = new List<NoteBookTree>();
-
+            
         }
 
         // 定义的显示类型转换,返回一个 MyClassA 类型的对象	
@@ -61,10 +61,10 @@ namespace MoreNote.Logic.Entity
     {
         public Notebook[] Notebooks { get; set; }
     }
-    public class Notebooks
+    public struct Notebooks
     {
         public Notebook notebook { get; set; }
-        SubNotebooks subNotebooks;
+        SubNotebooks SubNotebooks{get;set;}
     }
     // SubNotebook sort
 

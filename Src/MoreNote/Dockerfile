@@ -1,7 +1,7 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 # docker pull mcr.microsoft.com/dotnet/sdk:5.0
 # mcr.microsoft.com/dotnet/aspnet:5.0
-FROM mcr.microsoft.com/dotnet/aspnet:5.0  AS base
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim  AS base
 WORKDIR /app
 EXPOSE 80
 # use mirrors.aliyun.com/debian
@@ -11,13 +11,7 @@ RUN  mv /etc/apt/sources.list /etc/apt/sources.list.bak &&cp sources.list /etc/a
 RUN  apt-get autoclean&&apt-get update&&apt-get upgrade&& apt-get -u dist-upgrade&&dpkg --configure -a&&apt-get -f install&&apt-get install -y libgdiplus &&ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
 
 
-
-
-
-
-
-
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /code
 #Ìæ»»Èí¼þÔ´
 COPY ["Src/MoreNote/sources.list","/app/sources.list"]

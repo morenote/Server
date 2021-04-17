@@ -117,7 +117,7 @@ namespace MoreNote.Logic.Service
                 return false;
             }
             //产生一个盐用于保存密码
-            string salt= RandomTool.CreatSafeSalt();
+            string salt= RandomTool.CreatSafeSalt(32);
             //对用户密码做哈希运算
             string genPass= SHAEncryptHelper.Hash256Encrypt(pwd+salt);
             if (string.IsNullOrEmpty(genPass))

@@ -136,7 +136,7 @@ namespace MoreNote
                 })
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<CommonService>();
-            builder.RegisterType<ConfigFileService>();
+            builder.RegisterType<ConfigFileService>().SingleInstance();//单例模式
             builder.RegisterType<ConfigService>();
             builder.RegisterType<EmailService>();
             builder.RegisterType<GoogleAuthenticatorService>();
