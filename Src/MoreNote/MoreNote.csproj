@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="config\log4net.config" />
     <Content Remove="Views\Member\end.cshtml" />
     <Content Remove="Views\Member\footer.cshtml" />
     <Content Remove="Views\Member\top.cshtml" />
@@ -60,6 +61,8 @@
     <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.1.0" />
     
     <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.1.0" />
+    
+    <PackageReference Include="log4net" Version="2.0.12" />
     
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     
@@ -93,6 +96,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
 
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
+
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="5.0.1" />
 
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 
@@ -150,6 +155,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="config\log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Views\Member\end.cshtml" />
     <None Include="Views\Member\footer.cshtml" />
     <None Include="Views\Member\top.cshtml" />
