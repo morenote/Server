@@ -47,9 +47,17 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 将普通的notebooks添加perm及shareNotebook信息
-     //todo 未完成
+        //todo 未完成
 
 
+        // updatedUserId是否有查看userId noteId的权限?
+        // userId是所有者
+        public bool HasReadPerm(long? userId,long? updatedUserId,long? noteId)
+        {
+            return false;
+            //var q=this.getOrQ(updatedUserId); // (toUserId == "xxx" || ToGroupId in (1, 2,3))
+
+        }
 
     }
 }

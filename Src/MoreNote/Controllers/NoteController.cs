@@ -32,9 +32,9 @@ namespace MoreNote.Controllers
             this.noteContentService = noteContentService;
         }
 
-        [Route("Note/{action=Editor}/{noteId?}/")]
+        [Route("Note/{action=Editor}/{noteIdHex?}/")]
         [Authorize(Roles = "Admin,SuperAdmin,User")]
-        public IActionResult Editor(string noteId)
+        public IActionResult Editor(string noteIdHex)
         {
             this.SetLocale();//设置区域化信息
             var userInfo = this.GetUserAndBlogUrl();//得到用户信息+博客主页
@@ -48,11 +48,66 @@ namespace MoreNote.Controllers
             ViewBag.openRegister = configFileService.GetWebConfig().SecurityConfig.OpenRegister;
             // 已登录了, 那么得到所有信息
             var notebooks=notebookService.GetNotebooks(userId);
-           
+           //获得共享的笔记
+
+
 
             // 还需要按时间排序(DESC)得到notes
             List<Note> notes=new List<Note>();
             NoteContent noteContent=null;
+
+            if (!notebooks.IsNullOrNothing())
+            {
+                // noteId是否存在
+		        // 是否传入了正确的noteId
+              var   hasRightNoteId = false;
+
+                long? noteId=noteIdHex.ToLongByHex();
+                if (noteIdHex!=null)
+                {
+                    //说明ID本身是有效的
+                    var note=noteService.GetNoteById(noteId);
+                    if (note!=null)
+                    {
+                        var noteOwner=note.UserId;
+                        noteContent=noteContentService.GetNoteContent(noteId,noteOwner,false);
+                        hasRightNoteId=true;
+
+                        ViewBag.curNoteId=noteId;
+                        ViewBag.curNotebookId=note.NotebookId.ToHex24();
+
+                        // 打开的是共享的笔记, 那么判断是否是共享给我的默认笔记
+                        if (noteOwner!=GetUserIdBySession())
+                        {
+                            if (shareService.HasReadPerm(noteOwner,GetUserIdBySession(),noteId))
+                            {
+                                ViewBag.curSharedNoteNotebookId=note.NotebookId.ToHex24();
+                                ViewBag.curSharedUserId=noteOwner;
+                            }
+                            else
+                            {
+                                hasRightNoteId = false;
+                            }
+
+                        }
+                        else
+                        {
+                            int  count=0;
+                             notes=  noteService.ListNotes(this.GetUserIdBySession(),note.NotebookId,false,GetPage(),50,"defaultSortField",false,false,out count);
+
+                        }
+
+
+
+                    }
+
+                }
+
+            }
+
+
+
+
                
 
 

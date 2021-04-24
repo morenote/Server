@@ -89,7 +89,7 @@ namespace MoreNote.Controllers
                     var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                     identity.AddClaim(new Claim(ClaimTypes.Sid, user.UserId.ToString()));
                     identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
-                    identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
+                 
                     if (!string.IsNullOrEmpty(user.Role))
                     {
                         identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));//角色 用户组

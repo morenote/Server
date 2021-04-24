@@ -10,10 +10,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
     {
         /// <summary>
         /// 秘钥值 用于敏感操作
-        /// 软件启动后，总是会刷新这个秘钥值
+        /// 软件启动后，会读取这个口令
+        /// Secret为空的话，就无法执行操作 默认为空
         /// 在进行某些敏感操作的时候，系统会询问你的秘钥值 比如重置admin管理员的密码
-        /// 因为服务器端不会保存你的密码
-        /// 所以如果你遗忘你的密码 那些受加密算法保护的笔记数据将无法被解密 全部丢失
+        /// 你的密码重置后，在服务器端保存的加密数据无法恢复
         /// </summary>
         public string Secret{get;set;}
         /// <summary>
@@ -33,6 +33,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </summary>
         public bool ShareYourData{get;set;}=false;
         public string AdminUsername{ get;set;}="admin";
+        /// <summary>
+        /// 将log放置在哪里
+        /// </summary>
+        public string LogFolder{ get;set;}
 
     }
 }

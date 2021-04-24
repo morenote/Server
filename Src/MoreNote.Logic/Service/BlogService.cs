@@ -155,7 +155,7 @@ namespace MoreNote.Logic.Service
             int count = 0;
 
             var notes = NoteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true, out count);
-            if (notes == null || notes.Length == 0)
+            if (notes == null || notes.Count == 0)
             {
                 pageObj = new Page();
                 blogItem = null;

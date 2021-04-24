@@ -460,7 +460,7 @@ namespace MoreNote.Logic.Service
 
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public Note[] ListNotes(long? userId,
+        public List<Note> ListNotes(long? userId,
           long? notebookId,
           bool isTrash,
           int pageNumber,
@@ -475,8 +475,6 @@ namespace MoreNote.Logic.Service
             CommonService.parsePageAndSort(pageNumber, pageSize, sortField, isAsc, out skipNum, out sortFieldR);
 
             // 不是trash的
-
-
 
             //todo:不支持排序
             Note[] result = null;
@@ -501,12 +499,11 @@ namespace MoreNote.Logic.Service
                     dataContext.Note
                 .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize);
                     break;
-
                 default:
                     break;
             }
             count = result.Count();
-            return result.ToArray();
+            return result.ToList<Note>();
 
 
         }
