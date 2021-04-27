@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
@@ -18,18 +20,20 @@ namespace MoreNote.Controllers
         private NoteContentService noteContentService;
         private NoteService noteService;
         private ShareService shareService;
-
+        IWebHostEnvironment env;
         public NoteController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             ,ShareService shareService
             , ConfigFileService configFileService
+            ,IWebHostEnvironment env
             , IHttpContextAccessor accessor, NotebookService notebookService, NoteService noteService, NoteContentService noteContentService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.notebookService = notebookService;
             this.noteService = noteService;
             this.noteContentService = noteContentService;
+            this.env=env;
         }
 
         [Route("Note/{action=Editor}/{noteIdHex?}/")]
@@ -129,13 +133,20 @@ namespace MoreNote.Controllers
             ViewBag.isAdmin=configFileService.GetWebConfig().SecurityConfig.AdminUsername.Equals(user.Username);
             
             ViewBag.userInfo=user;
-           
+
+
+
+
+            if (env.IsDevelopment())
+            {
+                return View("Editor-dev");
+            }
+            else
+            {
+                 return View();
+            }
             
-
-
-
-            //return View("Note-dev");
-            return View();
+           
         }
 
         public IActionResult GetNoteContent(string noteId)

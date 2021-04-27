@@ -7,6 +7,16 @@
     Dictionary<string, string> blog = ViewBag.blog;
     User userInfo = ViewBag.userInfo;
     bool isAdmin = true;
+    var logo = string.Empty;
+    if (string.IsNullOrEmpty(userInfo.Logo))
+    {
+        logo = "/images/blog/default_avatar.png";
+    }
+    else
+    {
+        logo = userInfo.Logo;
+
+    }
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -30,14 +40,14 @@
     <!-- context-menu -->
     <link rel="stylesheet" href="/js/contextmenu/css/contextmenu-min.css?id=1" type="text/css" />
     <script>
-var hash = location.hash;
-//if(hash.indexOf("writing") >= 0) {
-//	var files = '<link rel="stylesheet" href="/css/theme/writting-overwrite.css?id=3" type="text/css" id="themeLink" />';
-//} else {
-//	var files ='<link rel="stylesheet" href="/css/theme/{{if .userInfo.Theme}}{{.userInfo.Theme}}{{else}}default{{end}}.css?id=7" type="text/css" id="themeLink" />';
-//}
-        var files = '<link rel="stylesheet" href="/css/theme/writting-overwrite.css?id=3" type="text/css" id="themeLink" />';
-document.write(files);
+        var hash = location.hash;
+        //if(hash.indexOf("writing") >= 0) {
+        //	var files = '<link rel="stylesheet" href="/css/theme/writting-overwrite.css?id=3" type="text/css" id="themeLink" />';
+        //} else {
+        //	var files ='<link rel="stylesheet" href="/css/theme/{{if .userInfo.Theme}}{{.userInfo.Theme}}{{else}}default{{end}}.css?id=7" type="text/css" id="themeLink" />';
+        //}
+                var files = '<link rel="stylesheet" href="/css/theme/writting-overwrite.css?id=3" type="text/css" id="themeLink" />';
+        document.write(files);
     </script>
     <!-- For Develop writting mod -->
     <script>
@@ -46,7 +56,7 @@ document.write(files);
         }
     </script>
 </head>
-<body class="leanote-plugin lang-zh-cn">
+<body class="leanote-plugin lang-@ViewBag.locale">
     <div id="page">
         <div id="pageInner">
             <!-- 头部 -->
@@ -131,7 +141,7 @@ document.write(files);
                 <div class="pull-right" id="myProfile">
                     <div class="dropdown">
                         <a class="dropdown-toggle profile-img" title="@userInfo.Username" data-toggle="dropdown">
-                            @* <img alt="@userInfo.Username" title="@userInfo.Username" src="{{if .userInfo.Logo}}{{.userInfo.Logo}}{{else}}/images/blog/default_avatar.png{{end}}" id="myAvatar" />*@
+                            <img alt="@userInfo.Username" title="@userInfo.Username" src="@logo" id="myAvatar" />
                             <span class="username">
                                 @userInfo.Username
                             </span>
