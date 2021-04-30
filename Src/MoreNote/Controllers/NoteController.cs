@@ -133,10 +133,7 @@ namespace MoreNote.Controllers
             ViewBag.isAdmin=configFileService.GetWebConfig().SecurityConfig.AdminUsername.Equals(user.Username);
             
             ViewBag.userInfo=user;
-
-
-
-
+           
             if (env.IsDevelopment())
             {
                 return View("Editor-dev");

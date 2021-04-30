@@ -12,6 +12,10 @@
             </button>
             <a class="navbar-brand" href="/index" id="logo">
                 <img src="/images/logo/leanote_black.png" class="hide" title="leanote, @msg["moto"]" />
+                @if (ViewBag.demonstrationOnly)
+                {
+                    <span>仅供演示用途</span>
+                }
             </a>
         </div>
 
