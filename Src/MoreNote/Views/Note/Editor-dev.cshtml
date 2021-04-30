@@ -6,6 +6,7 @@
     Dictionary<string, string> markdown = ViewBag.markdown;
     Dictionary<string, string> blog = ViewBag.blog;
     User userInfo = ViewBag.userInfo;
+    bool isAdmin = true;
     var logo=string.Empty;
     if (string.IsNullOrEmpty(userInfo.Logo))
     {
@@ -16,8 +17,6 @@
         logo=userInfo.Logo;
 
     }
-
-    bool isAdmin = true;
 }
 <!DOCTYPE html>
 <html lang="zh">
