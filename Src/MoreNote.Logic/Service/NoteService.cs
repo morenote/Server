@@ -568,8 +568,10 @@ namespace MoreNote.Logic.Service
             AddNote(note);
 
             // tag1
-            TagService.AddTags(note.UserId, note.Tags);
-
+            if ( note.Tags!=null)
+            {
+                TagService.AddTags(note.UserId, note.Tags);
+            }
             // recount notebooks' notes number
             NotebookService.ReCountNotebookNumberNotes(notebookId);
             return note;
