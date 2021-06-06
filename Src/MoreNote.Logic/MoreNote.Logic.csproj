@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entity\Conifg\**" />
+    <EmbeddedResource Remove="Entity\Conifg\**" />
+    <None Remove="Entity\Conifg\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="DB\Class1.cs" />
     <Compile Remove="Entity\ArticleEntity.cs" />
@@ -48,7 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity\Conifg\" />
     <Folder Include="Service\FileService\IMPL\" />
   </ItemGroup>
 

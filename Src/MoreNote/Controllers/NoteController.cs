@@ -49,7 +49,7 @@ namespace MoreNote.Controllers
             Notebook[] noteBoooks = notebookService.GetNoteBookTree(user.UserId);
 
             //是否已经开放注册功能
-            ViewBag.openRegister = configFileService.GetWebConfig().SecurityConfig.OpenRegister;
+            ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;
             // 已登录了, 那么得到所有信息
             var notebooks=notebookService.GetNotebooks(userId);
            //获得共享的笔记
@@ -108,19 +108,8 @@ namespace MoreNote.Controllers
                 }
 
             }
-
-
-
-
-               
-
-
-
-
             Dictionary<string, string> js = new Dictionary<string, string>();
-          
-            
-
+         
 
             string json = JsonSerializer.Serialize(noteBoooks, MyJsonConvert.GetOptions());
             //json  = System.IO.File.ReadAllText(@"E:\Project\JSON\notebook\GetNotebooks.json");
@@ -130,7 +119,7 @@ namespace MoreNote.Controllers
             ViewBag.js = js;
             ViewBag.userInfo = user;
             //页面的值
-            ViewBag.isAdmin=configFileService.GetWebConfig().SecurityConfig.AdminUsername.Equals(user.Username);
+            ViewBag.isAdmin=configFileService.WebConfig.SecurityConfig.AdminUsername.Equals(user.Username);
             
             ViewBag.userInfo=user;
            

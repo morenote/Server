@@ -150,7 +150,7 @@ namespace MoreNote.Controllers
         /// <returns></returns>
         public JsonResult DoRegister(string email, string pwd, string iu,string captcha)
         {
-            if (!configFileService.GetWebConfig().SecurityConfig.OpenRegister)
+            if (!configFileService.WebConfig.SecurityConfig.OpenRegister)
             {
                 return Json(new ApiRe()
                 {

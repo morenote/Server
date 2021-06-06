@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,10 +20,11 @@ namespace MoreNote.Logic.Service
         private const string DEFAULT_ALBUM_ID = "52d3e8ac99c37b7f0d000001";
 
         private DataContext dataContext;
-
-        public NoteFileService(DataContext dataContext)
+        ConfigFileService ConfigFileService;
+        public NoteFileService(DataContext dataContext, ConfigFileService ConfigFileService)
         {
             this.dataContext = dataContext;
+            this.ConfigFileService=ConfigFileService;
         }
 
         public async Task<bool> SaveUploadFileOnUPYunAsync(UpYun upyun, IFormFile formFile, string uploadDirPath, string fileName)
@@ -48,18 +50,21 @@ namespace MoreNote.Logic.Service
             }
         }
 
-        public async Task<bool> SaveUploadFileOnDiskAsync(IFormFile formFile, string uploadDirPath, string fileName)
+        public async Task<bool> SaveUploadFileOnDiskAsync(IFormFile formFile, string saveUploadDirPath, string fileName)
         {
+
+           
+
             if (formFile.Length > 0)
             {
                 // string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
                 // long? fileSize = formFile.Length; //获得文件大小，以字节为单位
 
-                if (!Directory.Exists(uploadDirPath))
+                if (!Directory.Exists(saveUploadDirPath))
                 {
-                    Directory.CreateDirectory(uploadDirPath);
+                    Directory.CreateDirectory(saveUploadDirPath);
                 }
-                var filePath = uploadDirPath + fileName;
+                var filePath = saveUploadDirPath + fileName;
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await formFile.CopyToAsync(stream).ConfigureAwait(false);

@@ -85,7 +85,7 @@ namespace MoreNote.Controllers
             this.dataContext = dataContext;
             this.randomImageService= randomImageService;
             this.configFileService = configFileService;
-            webcConfig = configFileService.GetWebConfig();
+            webcConfig = configFileService.WebConfig;
             upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername,
                 webcConfig.UpYunCDN.UpyunPassword);
            _randomImageFuseSize=  webcConfig.PublicAPI.RandomImageFuseSize;

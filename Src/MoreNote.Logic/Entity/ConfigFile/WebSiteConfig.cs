@@ -2,7 +2,6 @@
 {
     public class WebSiteConfig
     {
-
         public bool IsAlreadyInstalled { get; set; }
         public MachineLearningConfig MachineLearning { get; set; }
         public PayJSConfig Payjs { get; set; }
@@ -15,7 +14,7 @@
         public SecurityConfig SecurityConfig{get;set;}=new SecurityConfig();
         public APPConfig APPConfig{get;set;}=new APPConfig();
         public GlobalConfig GlobalConfig{get;set;}=new GlobalConfig();
-
+        public FileConfig FileConfig { get;set;}=new FileConfig();
         public WebSiteConfig()
         {
 

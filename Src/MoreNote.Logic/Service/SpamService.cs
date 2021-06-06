@@ -24,7 +24,7 @@ namespace MoreNote.Logic.Service
 
         private ConsumeModel GetConsumeModel()
         {
-            WebSiteConfig webSiteConfig = ConfigFileService.GetWebConfig();
+            WebSiteConfig webSiteConfig = ConfigFileService.WebConfig;
             if (consumeModel == null)
             {
                 lock (lockObj)

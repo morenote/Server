@@ -30,7 +30,7 @@ namespace MoreNote
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigFileService configFileService = new ConfigFileService();
-            config = configFileService.GetWebConfig();
+            config = configFileService.WebConfig;
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -136,7 +136,7 @@ namespace MoreNote
                 })
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<CommonService>();
-            builder.RegisterType<ConfigFileService>().SingleInstance();//单例模式
+            builder.RegisterType<ConfigFileService>().SingleInstance();//单例模式 配置文件服务
             builder.RegisterType<ConfigService>();
             builder.RegisterType<EmailService>();
             builder.RegisterType<GoogleAuthenticatorService>();

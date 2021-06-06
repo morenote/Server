@@ -33,7 +33,7 @@ namespace MoreNote.Controllers
         [SkipInspectionInstallationFilter]
         public IActionResult Install()
         {
-            WebSiteConfig webSiteConfig=configFileService.GetWebConfig();
+            WebSiteConfig webSiteConfig=configFileService.WebConfig;
             if(webSiteConfig!=null&&webSiteConfig.IsAlreadyInstalled)
             {
                   string path=RuntimeEnvironment.IsWindows?@"C:\morenote\WebSiteConfig.json":"/morenote/WebSiteConfig.json";
@@ -50,7 +50,7 @@ namespace MoreNote.Controllers
          [SkipInspectionInstallationFilter]
         public IActionResult DoInstall(string captcha,string config)
         {
-            WebSiteConfig localWebSiteConfig=configFileService.GetWebConfig();
+            WebSiteConfig localWebSiteConfig=configFileService.WebConfig;
             string path=RuntimeEnvironment.IsWindows?@"C:\morenote\WebSiteConfig.json":"/morenote/WebSiteConfig.json";
             if(localWebSiteConfig!=null&&localWebSiteConfig.IsAlreadyInstalled)
             {

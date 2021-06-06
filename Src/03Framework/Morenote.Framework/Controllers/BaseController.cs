@@ -62,7 +62,7 @@ namespace MoreNote.Framework.Controllers
             this.configFileService = configFileService;
             this.userService = userService;
             this._accessor = accessor;
-            config = configFileService.GetWebConfig();
+            config = configFileService.WebConfig;
             if (config != null && config.UpYunCDN != null)
             {
                 upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
@@ -272,7 +272,7 @@ namespace MoreNote.Framework.Controllers
             ViewBag.member = languageResource.GetMember();
             ViewBag.markdown = languageResource.GetMarkdown();
             ViewBag.blog = languageResource.GetBlog();
-            ViewBag.demonstrationOnly=configFileService.GetWebConfig().GlobalConfig.DemonstrationOnly;
+            ViewBag.demonstrationOnly=configFileService.WebConfig.GlobalConfig.DemonstrationOnly;
 
 
             ViewBag.siteUrl ="/";
@@ -294,8 +294,30 @@ namespace MoreNote.Framework.Controllers
         {
             msg = "";
             serverFileId = 0;
-
-            var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
+            FileConfig config=configFileService.WebConfig.FileConfig;
+            string uploadDirPath =null;
+            if (RuntimeEnvironment.Islinux)
+            {
+                if (string.IsNullOrEmpty(config.SaveFolder))
+                {
+                    uploadDirPath = $"/morenote/user/{userId.ToHex()}/upload/attach/{DateTime.Now.ToString("yyyy_MM")}/";
+                }
+                else
+                {
+                    uploadDirPath= config.SaveFolder + $"/morenote/user/{userId.ToHex()}/upload/attach/{DateTime.Now.ToString("yyyy_MM")}/";
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(config.SaveFolder))
+                {
+                    uploadDirPath = $@"C:\morenote\files\user\{userId.ToHex()}\upload\attach\{DateTime.Now.ToString("yyyy_MM")}\";
+                }
+                else
+                {
+                    uploadDirPath = config.SaveFolder + $@"\files\user\{userId.ToHex()}\upload\attach\{DateTime.Now.ToString("yyyy_MM")}\";
+                }
+            }
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
@@ -329,7 +351,8 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
+            //Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
+            Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -381,8 +404,33 @@ namespace MoreNote.Framework.Controllers
             }
             msg = "";
             serverFileId = 0;
+            FileConfig config = configFileService.WebConfig.FileConfig;
+            string uploadDirPath = null;
+            if (RuntimeEnvironment.Islinux)
+            {
+                if (string.IsNullOrEmpty(config.SaveFolder))
+                {
+                    uploadDirPath = $"/morenote/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
+                }
+                else
+                {
+                    uploadDirPath = config.SaveFolder + $"/morenote/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
+                }
 
-            var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(config.SaveFolder))
+                {
+                    uploadDirPath = $@"C:\morenote\files\user\{userId.ToHex()}\upload\images\{DateTime.Now.ToString("yyyy_MM")}\";
+                }
+                else
+                {
+                    uploadDirPath = config.SaveFolder + $@"\files\user\{userId.ToHex()}\upload\images\{DateTime.Now.ToString("yyyy_MM")}\";
+                }
+
+            }
+           
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
@@ -416,7 +464,7 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
+            Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
