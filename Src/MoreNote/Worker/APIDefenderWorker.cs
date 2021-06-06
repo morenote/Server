@@ -41,7 +41,7 @@ namespace MoreNoteWorkerService
         {
             _logger = logger;
             this.configFileService= configFileService;
-            config = configFileService.GetWebConfig();
+            config = configFileService.WebConfig;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

@@ -35,7 +35,7 @@ namespace MoreNote.Controllers
         [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult UploadUPyun()
         {
-            var webConfig = configFileService.GetWebConfig();
+            var webConfig = configFileService.WebConfig;
             var options = new UPYunOSSOptions();
             options.bucket = webConfig.UpYunOSS.Bucket;
             options.save_key = "/{year}/{mon}/{day}/{filemd5}{.suffix}";

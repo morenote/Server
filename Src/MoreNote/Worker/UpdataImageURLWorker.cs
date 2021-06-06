@@ -45,13 +45,13 @@ namespace MoreNoteWorkerService
             _logger = logger;
             this.randomImageService = randomImageService;
             this.configFileService = configFileService;
-            config = configFileService.GetWebConfig();
+            config = configFileService.WebConfig;
             _randomImageSize = config.PublicAPI.RandomImageSize;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            int delaySecondTime = configFileService.GetWebConfig().PublicAPI.UpdateTime;
+            int delaySecondTime = configFileService.WebConfig.PublicAPI.UpdateTime;
 
             while (!stoppingToken.IsCancellationRequested)
             {

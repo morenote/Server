@@ -48,7 +48,7 @@ namespace MoreNoteWorkerService
             _logger = logger;
             this.randomImageService= randomImageService;
             this.configFileService= configFileService;
-            config = configFileService.GetWebConfig();
+            config = configFileService.WebConfig;
             upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
         }
 

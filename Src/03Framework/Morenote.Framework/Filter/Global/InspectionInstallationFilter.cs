@@ -15,7 +15,7 @@ namespace Morenote.Framework.Filter.Global
         public InspectionInstallationFilter(ConfigFileService configFileService)
         {
             this.configFileService= configFileService;
-            config = configFileService.GetWebConfig();
+            config = configFileService.WebConfig;
 
         }
         public bool Disable { get; set; }

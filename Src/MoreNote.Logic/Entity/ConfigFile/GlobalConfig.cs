@@ -20,6 +20,8 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 网站如何保存图片和附件
         /// </summary>
         public StorageTypeEnum StorageTypeEnum{get;set;}=StorageTypeEnum.LocalDisk;
+
+        
   
     }
 }

@@ -53,6 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Gulpfile.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     
     <PackageReference Include="Autofac" Version="6.1.0" />
     
@@ -261,7 +265,7 @@
     <None Include="wwwroot\upyun_logos\upyun_logo8.svg" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

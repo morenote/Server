@@ -13,19 +13,56 @@ namespace MoreNote.Logic.Service
     {
         private string path = null;
 
-        private WebSiteConfig Config { get; set; }
+        private WebSiteConfig _config { get; set; }
 
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
         public ConfigFileService()
         {
-            if (Config == null)
+            if (_config == null)
             {
-                Config = GetWebConfig();
+                this._config = WebConfig;
             }
         }
 
+        /// <summary>
+        /// 从配置文件中重新加载配置文件，但是某些功能仍然需要重启程序后生效
+        /// </summary>
+        public void Reload()
+        {
+            lock (locker)
+            {
+                path = GetConfigPath();
+                if (!File.Exists(path))
+                {
+                    InitTemplateConfig();
+                }
+                string json = File.ReadAllText(path);
+                this._config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
+            }
+        }
+
+        /// <summary>
+        /// 保存所作的修改到配置文件
+        /// </summary>
+        public void Save()
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,//优质打印 无压缩
+            };
+            string json = System.Text.Json.JsonSerializer.Serialize(this._config, options);
+
+            File.WriteAllText(GetConfigPath(), json);
+        }
+
+        /// <summary>
+        /// 获取配置文件路径
+        /// linux=/morenote/config.json
+        /// window=C:\morenote\config.json
+        /// </summary>
+        /// <returns></returns>
         public static string GetConfigPath()
         {
             if (RuntimeEnvironment.IsWindows)
@@ -67,38 +104,28 @@ namespace MoreNote.Logic.Service
             File.WriteAllText(path, json);
         }
 
-        public WebSiteConfig GetWebConfig()
+        public WebSiteConfig WebConfig
         {
-            if (Config == null)
+            get
             {
-                lock (locker)
+                if (_config == null)
                 {
-                    if (Config == null)
+                    lock (locker)
                     {
-                        path = GetConfigPath();
-                        if (!File.Exists(path))
+                        if (_config == null)
                         {
-                            InitTemplateConfig();
+                            path = GetConfigPath();
+                            if (!File.Exists(path))
+                            {
+                                InitTemplateConfig();
+                            }
+                            string json = File.ReadAllText(path);
+                            _config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
                         }
-                        string json = File.ReadAllText(path);
-                        Config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
                     }
                 }
-            }
 
-            return Config;
-        }
-
-        public void Save()
-        {
-            lock (locker)
-            {
-                if (Config == null)
-                {
-                    return;
-                }
-                string json = System.Text.Json.JsonSerializer.Serialize(Config);
-                File.WriteAllText(path, json);
+                return _config;
             }
         }
 
@@ -112,7 +139,7 @@ namespace MoreNote.Logic.Service
                 }
                 string json = System.Text.Json.JsonSerializer.Serialize(tempConfig);
                 File.WriteAllText(onePath, json);
-                Config = tempConfig;
+                _config = tempConfig;
             }
         }
     }

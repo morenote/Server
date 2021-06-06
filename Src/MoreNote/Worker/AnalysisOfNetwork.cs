@@ -32,7 +32,7 @@ namespace MoreNoteWorkerService
             this.dataContext = dataContext;
             this.configFileService= configFileService;
 
-            webSiteConfig = configFileService.GetWebConfig();
+            webSiteConfig = configFileService.WebConfig;
         }
 
         /// <summary>
