@@ -1,3 +1,4 @@
+/// <binding AfterBuild='default' />
 var gulp = require('gulp');
 var clean = require('gulp-clean');
 var uglify = require('gulp-uglify');
@@ -214,7 +215,7 @@ function minifycss() {
         .pipe(minifycss())
         .pipe(gulp.dest(base + '/md/themes'));
 
-     gulp.src(base + '/js/contextmenu/css/contextmenu.css')
+    return gulp.src(base + '/js/contextmenu/css/contextmenu.css')
         .pipe(rename({ suffix: '-min' }))
         .pipe(minifycss())
         .pipe(gulp.dest(base + '/js/contextmenu/css'));
@@ -227,6 +228,8 @@ function minifycss() {
 
 exports.concat = gulp.series(concatDepJs, concatAppJs,concatMarkdownJsV2);
 exports.html = gulp.series(devToProHtml);
-exports.minifycss = minifycss;
+//exports.minifycss = minifycss;
 exports.default = gulp.series(concat, plugins, minifycss, concatAlbumJs);
+
+
 

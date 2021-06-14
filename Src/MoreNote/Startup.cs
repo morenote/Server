@@ -71,7 +71,7 @@ namespace MoreNote
             {
                 // Set a short timeout for easy testing.
                 options.Cookie.Name = "SessionID";
-                options.IdleTimeout = TimeSpan.FromMinutes(10);//过期时间
+                options.IdleTimeout = TimeSpan.FromHours(10);//过期时间
                 options.Cookie.HttpOnly = true;//设为HttpOnly 阻止js脚本读取
             });
             //这样可以将HttpContext注入到控制器中。
