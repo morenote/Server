@@ -1,4 +1,4 @@
-/// <binding AfterBuild='default' />
+/// <binding />
 var gulp = require('gulp');
 var clean = require('gulp-clean');
 var uglify = require('gulp-uglify');
@@ -194,7 +194,7 @@ function concatCss() {
         .pipe(concat('all.css'))
         .pipe(gulp.dest(markdownMin));
 }
-function minifycss() {
+function minicss() {
     gulp.src(base + '/css/bootstrap.css')
         .pipe(rename({ suffix: '-min' }))
         .pipe(minifycss())
@@ -229,7 +229,8 @@ function minifycss() {
 exports.concat = gulp.series(concatDepJs, concatAppJs,concatMarkdownJsV2);
 exports.html = gulp.series(devToProHtml);
 //exports.minifycss = minifycss;
-exports.default = gulp.series(concat, plugins, minifycss, concatAlbumJs);
+exports.default = gulp.series(concatDepJs, concatAppJs, concatMarkdownJsV2, plugins, minicss, concatAlbumJs);
+
 
 
 
