@@ -16,7 +16,23 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 默认的语言
         /// </summary>
         public string DefaultLanguage="en-us";
-
-
+        /// <summary>
+        /// 网站域名
+        /// </summary>
+        public string SiteUrl { get;set;}
+        /// <summary>
+        /// 使用什么类型的数据库
+        /// sqlserver mysql mongdb sqlite
+        /// </summary>
+        public string DB { get;set;}= "postgresql";
+        /// <summary>
+        /// 开发模式
+        /// 另外可以通过设置环境变量设置
+        /// </summary>
+        public bool Dev { get;set;}
+        /// <summary>
+        /// 用户上传/附件/主题文件夹
+        /// </summary>
+        public string FileFolder { get;set;}
     }
 }

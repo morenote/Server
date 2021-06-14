@@ -123,16 +123,12 @@ namespace MoreNote.Controllers
             
             ViewBag.userInfo=user;
            
-            if (env.IsDevelopment())
-            {
-                return View("Editor-dev");
-            }
-            else
-            {
-                 return View();
-            }
-            
-           
+            ViewBag.IsDevelopment= config.APPConfig.Dev;
+            ViewBag.OpenRegister=config.SecurityConfig.OpenRegister;
+
+            return View();
+
+
         }
 
         public IActionResult GetNoteContent(string noteId)
