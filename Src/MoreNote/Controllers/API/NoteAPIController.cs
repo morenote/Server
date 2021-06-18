@@ -203,7 +203,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 if (noteOrContent.Tags.Length>0&&noteOrContent.Tags[0]==null)
                 {
-                     noteOrContent.Tags= Array.Empty<string>();
+                    noteOrContent.Tags= Array.Empty<string>();
                     //noteOrContent.Tags= new string[] { ""};
                 }
 
@@ -377,6 +377,7 @@ namespace MoreNote.Controllers.API.APIV1
                             {
                                 if (string.IsNullOrEmpty(msg))
                                 {
+                                   
                                     re.Msg = "fileUploadError";
                                 }
                                 if (!string.Equals(msg, "notImage", System.StringComparison.OrdinalIgnoreCase))
