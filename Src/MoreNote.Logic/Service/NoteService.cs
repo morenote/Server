@@ -721,6 +721,11 @@ namespace MoreNote.Logic.Service
             if (apiNote.Tags != null)
             {
                 note.Tags = apiNote.Tags;
+                if (apiNote.Tags.Length==0||apiNote.Tags[0]==null)
+                {
+                    note.Tags= Array.Empty<string>();
+                }
+                
 
                 TagService.AddTags(note.UserId, note.Tags);
                 BlogService.ReCountBlogTags(note.UserId);
