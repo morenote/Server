@@ -152,9 +152,9 @@ namespace MoreNote.Logic.Service
         /// <param name="blogItem"></param>
         public void ListBlogs(long? userId, long? noteBookId, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem blogItem)
         {
-            int count = 0;
+            
 
-            var notes = NoteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true, out count);
+            var notes = NoteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true);
             if (notes == null || notes.Count == 0)
             {
                 pageObj = new Page();

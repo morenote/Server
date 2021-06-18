@@ -2,9 +2,10 @@
 using System.Formats.Asn1;
 using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.Utils;
-using MoreNote.Common.Utils;
+
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Service.PasswordSecurity;
 
 namespace MoreNote.Logic.Service
 {
@@ -14,10 +15,12 @@ namespace MoreNote.Logic.Service
         private DataContext dataContext;
         public UserService UserService { get;set;}
         public TokenSerivce TokenSerivce { get;set;}
-        public AuthService(DataContext dataContext)
+        private IPasswordStore passwordStore { get;set;}
+        public AuthService(DataContext dataContext, IPasswordStore passwordStore)
         {
             this.dataContext=dataContext;
-          
+            this.passwordStore=passwordStore;
+            
         }
 
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
@@ -26,6 +29,7 @@ namespace MoreNote.Logic.Service
             user = UserService.GetUser(email);
             if (user != null)
             {
+                
                 string temp = SHAEncryptHelper.Hash256Encrypt(pwd + user.Salt);
                 if (temp.Equals(user.Pwd))
                 {
@@ -130,7 +134,7 @@ namespace MoreNote.Logic.Service
                 UserId = SnowFlakeNet.GenerateSnowFlakeID(),
                 Email = email,
                 Username = email,
-                Cost=1,//一次
+                Pwd_Cost=1,//一次
                 Pwd = genPass,
                 Salt = salt,
                 FromUserId = fromUserId,

@@ -62,7 +62,7 @@ namespace MoreNote.Logic.Entity
         [Column("google_authenticator_secret_key")]
         public string GoogleAuthenticatorSecretKey { get; set; }//谷歌身份验证密码
         [Column("pwd_cost")]
-        public int Cost { get; set; }//加密强度--》迭代次数
+        public int Pwd_Cost { get; set; }//加密强度--》迭代次数
         [Column("user_role")]
         public string Role { get; set; }//角色 用户组
         [Column("jurisdiction")]

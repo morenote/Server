@@ -5,11 +5,15 @@
     Dictionary<string, string> js = ViewBag.js;
     Dictionary<string, string> markdown = ViewBag.markdown;
     Dictionary<string, string> blog = ViewBag.blog;
+    List<Notebook> notebooks=ViewBag.notebooks;
     User userInfo = ViewBag.userInfo;
+    NoteTag[] tags=ViewBag.tags;
     bool isAdmin = true;
     bool OpenRegister=ViewBag.OpenRegister;
     bool IsDevelopment=ViewBag.IsDevelopment;
+    List<Note> notes=ViewBag.notes;
     var logo = string.Empty;
+    WebSiteConfig config=ViewBag.config;
     if (string.IsNullOrEmpty(userInfo.Logo))
     {
         logo = "/images/blog/default_avatar.png";
@@ -908,22 +912,22 @@ var tagsJson = {{.tags|jsonJs}};
 var GlobalConfigs = {{.globalConfigs|jsonJs}};
 var tinyMCEPreInit = {base: '/tinymce', suffix: '.min'};*@
 var LEA = {};
-LEA.locale = "@msg["locale"]";
-var UrlPrefix = 'http:\/\/127.0.0.1:5914';
-        var UserInfo = { "UserId":"10fc1cfeba021000","Email":"1757696115@qq.com","Verified":true,"Username":"hyfree","UsernameRaw":"hyfree","CreatedTime":"2018-08-26T11:01:09.356+08:00","Logo":"https://leanote.com/public/upload/569/5b8217f5ab64414f2f0005a3/images/logo/f5abfbaa4af795fa6ec9d5afca94c9ca.png","Theme":"simple","NotebookWidth":303,"NoteListWidth":374,"MdEditorWidth":621,"LeftIsMin":false,"ThirdUserId":"","ThirdUsername":"","ThirdType":0,"WXUnionId":"oORVzuIKgb2u1eTgMfl7ZvZocmYw","WXMPOpenId":"","FromUserId":"","NoteCnt":0,"Usn":2728,"FullSyncBefore":"0001-01-01T00:00:00Z","IsOrg":false,"BlogUrl":"http://blog.leanote.com/hyfree","PostUrl":"http://blog.leanote.com/post/hyfree"};
-var notebooks =@Html.Raw(@ViewBag.notebooks);
-var shareNotebooks = null;
+        LEA.locale ="@msg["locale"]";
+        var UrlPrefix = "@config.APPConfig.SiteUrl";
+        var UserInfo = @Html.Raw(userInfo.ToJsonForLeanote());
+        var notebooks =@Html.Raw(notebooks.ToJsonForLeanote());
+var shareNotebooks = [];
 var sharedUserInfos = [];
         var curNoteId = '119e541f60021000';
 var curNotebookId = '';
 var curSharedNoteNotebookId = '';
-var curSharedUserId = '';
-var notes = [{"NoteId":"5c6cd023ab644176a20014c7","UserId":"5b8217f5ab64414f2f0005a3","CreatedUserId":"","NotebookId":"5c13bf120e54c80c98000000","Title":"ASP.NET Core 入门教程 7、ASP.NET Core MVC 分部视图入门","Desc":"一、前言1、本教程主要内容ASP.NET Core MVC (Razor)分部视图简介ASP.NET Core MVC (Razor)分部视图基础教程ASP.NET Core MVC (Razor)强类型分部视图教程2、本教程环境信息软件/环境说明操作系统Windows 10SDK2.1.401ASP.NET Core2.1.3IDEVisual Studio Code 1.30浏览器Chrome 70本篇代码以下代码进行调整：https://github.com/ken-io/asp.net-core-tutorial/tree/master/chapter-06 3、准备工作VS Code","Src":"","ImgSrc":"https://leanote.com/api/file/getImage?fileId=5c6cd023ab644176a20014c9","Tags":["asp.net core"],"IsTrash":false,"IsBlog":true,"UrlTitle":"ASP.NET-Core-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B-7%E3%80%81ASP.NET-Core-MVC-%E5%88%86%E9%83%A8%E8%A7%86%E5%9B%BE%E5%85%A5%E9%97%A8","IsRecommend":false,"IsTop":false,"HasSelfDefined":false,"ReadNum":175,"LikeNum":0,"CommentNum":0,"IsMarkdown":false,"AttachNum":0,"CreatedTime":"2019-02-20T11:57:20+08:00","UpdatedTime":"2019-12-21T08:37:10.415+08:00","RecommendTime":"0001-01-01T00:00:00Z","PublicTime":"2019-02-20T11:57:20+08:00","UpdatedUserId":"5b8217f5ab64414f2f0005a3","Usn":2728,"IsDeleted":false,"IsPublicShare":false}];
-var latestNotes = [];
+        var curSharedUserId = '';
+        var notes = @Html.Raw(notes.ToJsonForLeanote());
+        var latestNotes = [];
 var noteContentJson = [];
-var tagsJson = [];
-var GlobalConfigs = [];
-var tinyMCEPreInit ={base: 'https:\/\/qn-cdn.leanote.top\/leanote/tinymce_4.1.9/js/tinymce', suffix: '.min'};
+        var tagsJson = @Html.Raw(tags.ToJsonForLeanote());
+        var GlobalConfigs = [];
+var tinyMCEPreInit ={base: '/tinymce', suffix: '.min'};
     </script>
     @if (!IsDevelopment)
     {
