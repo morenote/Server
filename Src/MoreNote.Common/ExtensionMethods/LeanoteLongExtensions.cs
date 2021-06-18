@@ -9,11 +9,26 @@ namespace MoreNote.Common.ExtensionMethods
         {
             return number.Value.ToString("x");
         }
+        public static string ToHexForLeanote(this long? number)
+        {
+            if (number == null)
+            {
+                return string.Empty;
+            }
+            return number.Value.ToString("x");
+        }
 
         public static string ToHex24(this long? number)
         {
-            return "00000000"+number.Value.ToString("x");
-            
+            return "00000000" + number.Value.ToString("x");
+        }
+        public static string ToHex24ForLeanote(this long? number)
+        {
+            if (number==null)
+            {
+                return string.Empty;
+            }
+            return "00000000" + number.Value.ToString("x");
         }
         public static long? ToLongByHex(this string hex)
         {

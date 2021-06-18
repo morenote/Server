@@ -54,6 +54,7 @@ namespace MoreNote.Logic.Service
         // userId是所有者
         public bool HasReadPerm(long? userId,long? updatedUserId,long? noteId)
         {
+            //todo:共享笔记
             return false;
             //var q=this.getOrQ(updatedUserId); // (toUserId == "xxx" || ToGroupId in (1, 2,3))
 

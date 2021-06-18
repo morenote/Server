@@ -112,6 +112,11 @@ namespace MoreNote.Common.Utils
         {
             return MD5Encrypt(password, 32);
         }
+        /// <summary>
+        /// Sha256加密
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static string Hash256Encrypt(string password)
         {
             var sha256 = new System.Security.Cryptography.SHA256CryptoServiceProvider();
@@ -124,6 +129,7 @@ namespace MoreNote.Common.Utils
             }
             return tmp.ToString();
         }
+        
         public static string Hash1Encrypt(string password)
         {
             var sha256 = new System.Security.Cryptography.SHA1CryptoServiceProvider();

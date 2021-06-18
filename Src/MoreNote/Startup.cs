@@ -11,6 +11,7 @@ using Morenote.Framework.Filter.Global;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.PasswordSecurity;
 using System;
 
 namespace MoreNote
@@ -208,6 +209,8 @@ namespace MoreNote
             })
             .InstancePerLifetimeScope()
             .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+            builder.RegisterType<Sha256PasswordStore>()
+                .As<IPasswordStore>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

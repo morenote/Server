@@ -14,10 +14,9 @@ namespace MoreNote.Logic.Service
 {
     public class NoteService
     {
-
         private DataContext dataContext;
 
-        public ConfigService ConfigService{get;set;}
+        public ConfigService ConfigService { get; set; }
         public BlogService BlogService { get; set; }
         public NoteImageService NoteImageService { get; set; }
         public AttachService AttachService { get; set; }
@@ -30,22 +29,15 @@ namespace MoreNote.Logic.Service
         public TagService TagService { get; set; }
         public NoteContentService NoteContentService { get; set; }
 
-
-
-
         public NoteService(DataContext dataContext)
         {
-
             this.dataContext = dataContext;
         }
 
-
         public bool AddNote(Note note)
         {
-
             var result = dataContext.Note.Add(note);
             return dataContext.SaveChanges() > 0;
-
         }
 
         // fileService调用
@@ -53,26 +45,21 @@ namespace MoreNote.Logic.Service
         //我也是？？？？
         public Note GetNoteById(long? NoteId)
         {
-
             var result = dataContext.Note
                 .Where(b => b.NoteId == NoteId).FirstOrDefault();
             return result;
-
         }
 
         public Note SelectNoteByTag(String Tag)
         {
-
             var result = dataContext.Note
                  .Where(b => b.Tags.Contains(Tag)).FirstOrDefault();
 
             return result;
-
         }
 
         public NoteAndContent[] GetNoteAndContent(bool isBlog, int pageIndex)
         {
-
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _note.IsBlog == isBlog && _content.IsBlog == true && _content.IsHistory == false
@@ -82,12 +69,10 @@ namespace MoreNote.Logic.Service
                               noteContent = _content
                           }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
             return result;
-
         }
 
         public NoteAndContent[] GetNoteAndContentForBlog(int pageIndex, long? userId)
         {
-
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
@@ -97,12 +82,10 @@ namespace MoreNote.Logic.Service
                               noteContent = _content
                           }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
             return result;
-
         }
 
         public NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long? userId, string tag)
         {
-
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId && _note.Tags.Contains(tag)
@@ -112,12 +95,10 @@ namespace MoreNote.Logic.Service
                               noteContent = _content
                           }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
             return result;
-
         }
 
         public NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex, long? notebookId, long? userId)
         {
-
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.NotebookId == notebookId && _note.UserId == userId
@@ -127,12 +108,10 @@ namespace MoreNote.Logic.Service
                               noteContent = _content
                           }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
             return result;
-
         }
 
         public NoteAndContent[] GetNoteAndContentForBlogOfTag(int pageIndex, string tag)
         {
-
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.Tags.Contains(tag)
@@ -142,12 +121,10 @@ namespace MoreNote.Logic.Service
                               noteContent = _content
                           }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
             return result;
-
         }
 
         public NoteAndContent GetNoteAndContentForBlog(long? noteId)
         {
-
             {
                 var result = (from _note in dataContext.Note
                               join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
@@ -159,12 +136,10 @@ namespace MoreNote.Logic.Service
                               }).FirstOrDefault();
                 return result;
             }
-
         }
 
         public NoteAndContent GetNoteAndContent(long? noteId)
         {
-
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _note.NoteId == noteId && _content.IsHistory == false
@@ -174,7 +149,6 @@ namespace MoreNote.Logic.Service
                               noteContent = _content
                           }).FirstOrDefault();
             return result;
-
         }
 
         /// <summary>
@@ -183,8 +157,6 @@ namespace MoreNote.Logic.Service
         /// <param name="noteId"></param>
         public void AddReadNum(long? noteId)
         {
-
-
             var result = dataContext.Note.Where(b => b.NoteId == noteId);
             if (result != null)
             {
@@ -195,14 +167,10 @@ namespace MoreNote.Logic.Service
                 }
             }
             dataContext.SaveChanges();
-
-
         }
 
         public bool SetDeleteStatus(long? noteID, long? userId, out int afterUsn)
         {
-
-
             var result = dataContext.Note.Where(b => b.NoteId == noteID && b.UserId == userId);
             if (result == null)
             {
@@ -215,24 +183,19 @@ namespace MoreNote.Logic.Service
             afterUsn = UserService.IncrUsn(userId);
             note.Usn = afterUsn;
             return dataContext.SaveChanges() > 0;
-
         }
 
         public Note GetNote(long? noteId, long? userId, bool IsTrash, bool isDelete)
         {
-
             var result = dataContext.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
             return result == null ? null : result.FirstOrDefault();
-
         }
 
         public Note GetNote(long? noteId, long? userId)
         {
-
             var result = dataContext.Note.Where(b => b.UserId == userId && b.NoteId == noteId);
 
             return result == null ? null : result.FirstOrDefault();
-
         }
 
         // 得到blog, blogService用
@@ -253,7 +216,6 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public NoteAndContent GetNoteAndContent(long? noteId, long? userId, bool isTrach, bool isDelete, bool IsHistory)
         {
-
             Note note = GetNote(noteId, userId, isTrach, isDelete);
             NoteContent noteContent = NoteContentService.GetNoteContent(noteId, userId, IsHistory);
             return new NoteAndContent()
@@ -277,11 +239,9 @@ namespace MoreNote.Logic.Service
         // > afterUsn的笔记
         public ApiNote[] GetSyncNotes(long? userid, int afterUsn, int maxEntry)
         {
-
             var result = dataContext.Note.
                         Where(b => b.UserId == userid && b.Usn > afterUsn).Take(maxEntry);
             return ToApiNotes(result.ToArray());
-
         }
 
         // note与apiNote的转换
@@ -354,8 +314,6 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public Dictionary<long?, List<APINoteFile>> getFiles(long?[] noteIds)
         {
-
-
             var noteImages = NoteImageService.getImagesByNoteIds(noteIds);
             var noteAttachs = AttachService.GetAttachsByNoteIds(noteIds);
             Dictionary<long?, List<APINoteFile>> noteFilesMap = new Dictionary<long?, List<APINoteFile>>(100);
@@ -435,7 +393,6 @@ namespace MoreNote.Logic.Service
 
         public NoteFile[] getFiles(long? noteId)
         {
-
             var noteImages = NoteImageService.getImagesByNoteId(noteId);
             var noteAttachs = AttachService.GetAttachsByNoteId(noteId);
 
@@ -451,11 +408,9 @@ namespace MoreNote.Logic.Service
         bool isTrash
         )
         {
-
             var result = dataContext.Note
                 .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash);
             return result.ToArray();
-
         }
 
         // 列出note, 排序规则, 还有分页
@@ -467,7 +422,7 @@ namespace MoreNote.Logic.Service
           int pageSize,
           string sortField,
           bool isAsc,
-          bool isBlog, out int count)
+          bool isBlog)
         {
             int skipNum;
             string sortFieldR;
@@ -477,35 +432,43 @@ namespace MoreNote.Logic.Service
             // 不是trash的
 
             //todo:不支持排序
-            Note[] result = null;
+            List<Note> result = null;
             switch (sortField)
             {
                 case "UpdatedTime":
-                    dataContext.Note
-           .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize);
+                    result = dataContext.Note
+           .Where(b =>b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "PublicTime":
-                    dataContext.Note
-           .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize);
+                    result = dataContext.Note
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "CreatedTime":
-                    dataContext.Note
-           .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize);
+                    result = dataContext.Note
+           .Where(b =>b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "Title":
-                    dataContext.Note
-                .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize);
+                    result = dataContext.Note
+                .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
+
                 default:
+                    result = dataContext.Note
+           .Where(b =>  b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
             }
-            count = result.Count();
+            if (notebookId!=null)
+            {
+                result=(from note in result
+                       where note.NotebookId==notebookId
+                       select note).ToList<Note>();
+
+            }
+
             return result.ToList<Note>();
-
-
         }
 
         // 通过noteIds来查询
@@ -559,7 +522,6 @@ namespace MoreNote.Logic.Service
             // api会传IsBlog, web不会传
             if (!fromAPI)
             {
-
                 note.IsBlog = NotebookService.IsBlog(notebookId);
             }
 
@@ -568,7 +530,7 @@ namespace MoreNote.Logic.Service
             AddNote(note);
 
             // tag1
-            if ( note.Tags!=null)
+            if (note.Tags != null)
             {
                 TagService.AddTags(note.UserId, note.Tags);
             }
@@ -592,7 +554,6 @@ namespace MoreNote.Logic.Service
 
         public Note AddNoteAndContent(Note note, NoteContent noteContent, long? myUserId)
         {
-
             if (note.NoteId == 0)
             {
                 note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
@@ -623,7 +584,6 @@ namespace MoreNote.Logic.Service
         // 这里没有判断usn
         public bool UpdateNote(long? updateUserId, long? noteId, Note needUpdate, int usn, out int afterUsn, out string msg)
         {
-
             var oldNote = GetNoteById(needUpdate.NoteId);
 
             //updateUser 必须是笔记的原主人
@@ -712,10 +672,6 @@ namespace MoreNote.Logic.Service
                 msg = "noteId_is_note_long_Number";
                 return false;
             }
-
-
-
-
 
             var result = dataContext.Note.Where(b => b.NoteId == noteId && b.UserId == updateUser);
             if (result == null)
@@ -841,7 +797,6 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
             msg = "success";
             return true;
-
         }
 
         // 当设置/取消了笔记为博客
@@ -957,30 +912,24 @@ namespace MoreNote.Logic.Service
         // 统计
         public int CountNote(long? userId)
         {
-
             var result = dataContext.Note
                 .Where(b => b.UserId == userId && b.IsDeleted == false && b.IsTrash == false).Count();
             return result;
-
         }
 
         public int CountBlog(long? usrId)
         {
-
             var result = dataContext.Note
                 .Where(b => b.UserId == usrId && b.IsDeleted == false && b.IsTrash == false && b.IsBlog == true).Count();
             return result;
-
         }
 
         // 通过标签来查询
         public int CountNoteByTag(long? userId, string tag)
         {
-          
-                var result = dataContext.NoteTag
-                    .Where(b => b.UserId == userId && b.Tag.Equals(tag)).Count();
-                return result;
-            
+            var result = dataContext.NoteTag
+                .Where(b => b.UserId == userId && b.Tag.Equals(tag)).Count();
+            return result;
         }
 
         // 删除tag
@@ -1005,7 +954,6 @@ namespace MoreNote.Logic.Service
         // 性能更好, 5倍的差距
         public string FixContent(string content, bool isMarkdown)
         {
-           
             //开发是不可能开发的，只能靠复制粘贴这个样子
             //todo:需要实现个方法FixContent
             string baseUrl = ConfigService.GetSiteUrl();
