@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "";
     Dictionary<string, string> msg = ViewBag.msg;
+    User user=ViewBag.userInfo;
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -20,30 +21,40 @@
             <div>
                 @if (ViewBag.openRegister)
                 {
-                    <a class="btn btn-default btn-primary" href="@Url.Action("Register", "Auth")">@msg["register"]</a>
+                    <a class="btn btn-default btn-primary" href="@Url.Action("Register", "Auth")">@msg["register"]</a>@Html.Raw(" &nbsp; &nbsp;");
+
 
                 }
-                &nbsp;
-                &nbsp;
+
 
 
                 @if (ViewBag.userInfo == null)
                 {
-                    <a class="btn btn-default" href="@Url.Action("Login", "Auth")">@msg["login"]</a>
+                    <a class="btn btn-default" href="@Url.Action("Login", "Auth")">@msg["login"]</a>@Html.Raw(" &nbsp; &nbsp;");
 
                 }
+                @if (ViewBag.userInfo != null)
+                {
+                    <a class="btn btn-default" href="@Url.Action("Editor","Note")">@msg["note"]</a> @Html.Raw(" &nbsp; &nbsp;");
+                    <a class="btn btn-default" href="@Url.Action("index", "member")">@msg["admin"]</a> @Html.Raw(" &nbsp; &nbsp;");
+                }
 
-                &nbsp;
-                &nbsp;
+
                 @if (ViewBag.openDemo)
                 {
-                    <a class="btn btn-default" href="/demo">@msg["try"]</a>
+                    <a class="btn btn-default" href="/demo">@msg["try"]</a>@Html.Raw(" &nbsp; &nbsp;");
                 }
-                &nbsp;
-                &nbsp;
-                <a class="btn btn-default btn-primary" href="/Blog">@msg["blog"]</a>
-                &nbsp;
-                &nbsp;
+                @if (ViewBag.userInfo != null)
+                {
+                    <a class="btn btn-default btn-primary" href="/Blog/Index/@user.Username">@msg["blog"]</a>@Html.Raw(" &nbsp; &nbsp;");
+                }
+                else
+                {
+                    <a class="btn btn-default btn-primary" href="/Blog">@msg["blog"]</a>@Html.Raw(" &nbsp; &nbsp;");
+
+                }
+
+
 
             </div>
         </div>
