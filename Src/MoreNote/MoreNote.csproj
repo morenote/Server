@@ -10,6 +10,7 @@
 	  <StartupObject>MoreNote.Program</StartupObject>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	  <DockerfileContext>..\..</DockerfileContext>
+	  <TypeScriptToolsVersion>4.2</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -40,6 +41,7 @@
     <Content Remove="Views\Member\footer.cshtml" />
     <Content Remove="Views\Member\top.cshtml" />
     <Content Remove="wwwroot\blog\themes\MaterialDesign\js\file.ts" />
+    <Content Remove="wwwroot\js\demo\demo.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -265,14 +267,18 @@
     <None Include="wwwroot\upyun_logos\upyun_logo8.svg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\js\demo\demo.ts" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />
     <TypeScriptOutDir></TypeScriptOutDir>
