@@ -187,5 +187,20 @@ namespace MoreNote.Controllers
             //string json = JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
             return Json(notes, MyJsonConvert.GetOptions());
         }
+        /// <summary>
+        /// 设置/取消Blog; 置顶
+        /// </summary>
+        /// <param name="noteIds">笔记的名称</param>
+        /// <param name="isBlog">是否设置成博客</param>
+        /// <param name="isTop">是否置顶</param>
+        /// <returns></returns>
+        public JsonResult SetNote2Blog(string[] noteIds,bool isBlog,bool isTop)
+        {
+            foreach (var item in noteIds)
+            {
+                noteService.ToBlog(GetUserIdBySession(),item.ToLongByHex(),isBlog,isTop);
+            }
+            return Json(true);
+        }
     }
 }

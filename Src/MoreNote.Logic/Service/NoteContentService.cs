@@ -196,5 +196,17 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception("此方法需要实现");
         }
+        // 当设置/取消了笔记为博客
+        public bool UpdateNoteContentIsBlog(long? noteId, long? userid, bool isBlog)
+        {
+             var noteContent=   dataContext.NoteContent.Where(b=>b.NoteId==noteId&&b.UserId==userid).FirstOrDefault();
+            if (noteContent==null)
+            {
+                return false;
+            }
+            noteContent.IsBlog=isBlog;
+            return dataContext.SaveChanges()>0;
+
+        }
     }
 }

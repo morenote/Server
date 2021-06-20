@@ -596,6 +596,7 @@ namespace MoreNote.Logic.Service
                 afterUsn = 0;
                 return false;
             }
+            var userId=note.UserId;
             if (note.UserId != updateUserId)
             {
                 //当前版本仅支持个人使用 不支持多租户共享编辑或分享笔记
@@ -624,7 +625,7 @@ namespace MoreNote.Logic.Service
             // 也要修改noteContents的IsBlog
             if (needUpdate.IsBlog != oldNote.IsBlog)
             {
-                UpdateNoteContentIsBlog(noteId, needUpdate.IsBlog);
+                NoteContentService.UpdateNoteContentIsBlog(noteId,note.UserId, needUpdate.IsBlog);
                 if (!oldNote.IsBlog)
                 {
                     needUpdate.PublicTime = needUpdate.UpdatedTime;
@@ -804,11 +805,7 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
-        // 当设置/取消了笔记为博客
-        public bool UpdateNoteContentIsBlog(long? noteId, bool isBlog)
-        {
-            throw new Exception();
-        }
+ 
 
         // 附件修改, 增加noteIncr
         public int IncrNoteUsn(long? noteId, long? userId)
@@ -842,7 +839,36 @@ namespace MoreNote.Logic.Service
 
         public bool ToBlog(long? userId, long? noteId, bool isBlog, bool isTop)
         {
-            throw new Exception();
+            if (isTop)
+            {
+                isBlog=true;
+            }
+            if (!isBlog)
+            {
+                isTop=false;
+            }
+            var note= dataContext.Note.Where(b=>b.UserId==userId&&b.NoteId==noteId).FirstOrDefault();
+            if (note==null)
+            {
+                return false;
+
+            }
+            note.IsBlog=isBlog;
+            note.IsTop=isTop;
+            if (isBlog)
+            {
+                note.PublicTime=DateTime.Now;
+            }
+            else
+            {
+                note.HasSelfDefined=false;
+            }
+            note.Usn=UserService.IncrUsn(userId);
+            var ok= dataContext.SaveChanges()>0;
+            // 重新计算tags
+            NoteContentService.UpdateNoteContentIsBlog(noteId,userId,isBlog);
+            BlogService.ReCountBlogTags(userId);
+            return ok;
         }
 
         // 移动note

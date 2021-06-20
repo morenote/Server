@@ -44,6 +44,18 @@ namespace MoreNote.Logic.Entity
         public bool IsDeleted { get; set; } // 删除位 
 
     }
+    /// <summary>
+    /// Note和tag的 多对多映射表
+    /// </summary>
+    public class NoteTagMap
+    {
+        public long? MapId { get;set;}
+        
+        public long? NoteId { get;set;}
+
+        public long? NoteTagId { get;set;}
+    }
+
     [Table("tag_count")]
     public class TagCount
     {

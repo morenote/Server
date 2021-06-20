@@ -72,6 +72,8 @@
     
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
+    
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
