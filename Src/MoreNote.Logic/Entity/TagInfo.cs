@@ -42,18 +42,30 @@ namespace MoreNote.Logic.Entity
         public DateTime UpdatedTime { get; set; }
         [Column("is_deleted")]
         public bool IsDeleted { get; set; } // 删除位 
+        public bool IsBlog { get;set; }// 是否是博客的tag统计 
 
     }
     /// <summary>
     /// Note和tag的 多对多映射表
     /// </summary>
+    [Table("note_tag_map")]
     public class NoteTagMap
     {
-        public long? MapId { get;set;}
-        
+        /// <summary>
+        ///  映射表ID
+        /// </summary>
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("note_tag_map_id")]
+        public long? NoteTagMapId { get;set;}
+        [Column("note_id")]
         public long? NoteId { get;set;}
-
+        [Column("note_tag_id")]
         public long? NoteTagId { get;set;}
+       
+
+
+
     }
 
     [Table("tag_count")]
@@ -69,7 +81,7 @@ namespace MoreNote.Logic.Entity
         [Column("is_blog")]
         public bool IsBlog { get; set; } // 是否是博客的tag统计 
         [Column("tag_count")]
-        public int Count { get; set; } // 统计数量 
+        public int Count { get; set; } // 统计数量
     }
 
 }

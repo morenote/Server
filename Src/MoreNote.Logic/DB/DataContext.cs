@@ -84,9 +84,12 @@ namespace MoreNote.Logic.DB
         public DbSet<ReportInfo> ReportInfo { get; set; }
         public DbSet<Session> Session { get; set; }
         public DbSet<Suggestion> Suggestion { get; set; }
+        /**************Tag DB****************/
         public DbSet<Tag> Tag { get; set; }
         public DbSet<NoteTag> NoteTag { get; set; }
         public DbSet<TagCount> TagCount { get; set; }
+        public DbSet<NoteTagMap> NoteTagMap { get;set;}
+
         public DbSet<Theme> Theme { get; set; }
         public DbSet<FriendLinks> FriendLinks { get; set; }
         public DbSet<Token> Token { get; set; }

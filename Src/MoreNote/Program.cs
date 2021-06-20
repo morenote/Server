@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MoreNote.Common.Utils;
+using MoreNote.Logic.Service;
+using System.Linq;
 
 namespace MoreNote
 {
@@ -9,9 +12,18 @@ namespace MoreNote
     {
         public static void Main(string[] args)
         {
+            InitSecret();//初始化安全密钥
             CreateHostBuilder(args).Build().Run();
         }
 
+        private static void InitSecret()
+        {
+            //每次启动程序都会重新初始化Secret
+            ConfigFileService configFileService = new ConfigFileService();
+            configFileService.WebConfig.SecurityConfig.Secret = RandomTool.CreatSafeRandomBase64(32);
+            configFileService.Save();
+            System.Console.WriteLine("安全密钥已经初始化成功");
+        }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
