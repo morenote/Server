@@ -41,7 +41,7 @@
             <a href="@Url.Action("Tags")"><i class="fa fa-file-text-o"></i>标签</a>
         </li>
         <li ripple class="{{if $.curIsArchive}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-            <a href="@Url.Action("Archive")"><i class="fa fa-book"></i>归档</a>
+            <a href="~/Blog/Archive/@(blogUser.Username)/"><i class="fa fa-book"></i>归档</a>
         </li>
         <li class="divider"></li>
         @*{{range $.singles}}

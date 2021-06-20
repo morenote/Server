@@ -188,7 +188,8 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-
+        // 重新计算博客的标签
+        // 在设置设置/取消为博客时调用
         public bool ReCountBlogTags(long? userId)
         {
             //todo 需要完成此功能
