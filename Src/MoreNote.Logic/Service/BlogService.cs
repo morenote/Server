@@ -192,7 +192,17 @@ namespace MoreNote.Logic.Service
         // 在设置设置/取消为博客时调用
         public bool ReCountBlogTags(long? userId)
         {
-            //todo 需要完成此功能
+            //todo 需要完成此功能 感觉性能很差劲
+            var notes=dataContext.Note.Where(b=>b.UserId==userId&&b.IsTrash==false&&b.IsDeleted==false&&b.IsBlog==true);
+            if (notes==null||!notes.Any())
+            {
+                dataContext.TagCount.Where(b=>b.UserId==null&&b.IsBlog==true).DeleteFromQuery();
+                dataContext.SaveChanges();
+            }
+            else
+            {
+
+            }
             return true;
         }
 

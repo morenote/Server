@@ -56,8 +56,10 @@ namespace MoreNote
             services.AddEntityFrameworkNpgsql();
             services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
             {
-                optionsBuilder.UseNpgsql(connection);
+                
+                optionsBuilder.UseNpgsql(connection,b=>b.MigrationsAssembly("MoreNote.Logic"));
                 optionsBuilder.UseInternalServiceProvider(serviceProvider);
+                
             });
             // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
             //使用分布式内存

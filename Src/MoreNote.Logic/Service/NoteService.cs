@@ -836,13 +836,23 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-
+       
+        /// <summary>
+        /// 设置笔记成为博客和置顶
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="noteId"></param>
+        /// <param name="isBlog"></param>
+        /// <param name="isTop"></param>
+        /// <returns></returns>
         public bool ToBlog(long? userId, long? noteId, bool isBlog, bool isTop)
         {
+            //如果置顶，必须设置成博客
             if (isTop)
             {
                 isBlog=true;
             }
+            //如果不是博客，就无需置顶
             if (!isBlog)
             {
                 isTop=false;
@@ -851,7 +861,6 @@ namespace MoreNote.Logic.Service
             if (note==null)
             {
                 return false;
-
             }
             note.IsBlog=isBlog;
             note.IsTop=isTop;

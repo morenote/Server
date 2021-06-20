@@ -9,11 +9,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
     public class SecurityConfig
     {
         /// <summary>
-        /// 秘钥值 用于敏感操作
-        /// 软件启动后，会读取这个口令
-        /// Secret为空的话，就无法执行操作 默认为空
-        /// 在进行某些敏感操作的时候，系统会询问你的秘钥值 比如重置admin管理员的密码
-        /// 你的密码重置后，在服务器端保存的加密数据无法恢复
+        /// 密钥 用于敏感操作
+        /// 每次软件启动后，会使用随机密钥填充这个值
+        /// 在进行某些敏感操作的时候，系统会询问你的密钥 比如重置admin管理员的密码
+        /// 但是务必注意的是：你的密码重置后，服务器端保存的加密数据是无法恢复
         /// </summary>
         public string Secret{get;set;}
         /// <summary>
@@ -46,5 +45,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 也就是保持登录的有效期
         /// </summary>
         public int SessionExpires { get;set;}
+        /// <summary>
+        /// 网站紧急维护模式
+        /// 当需要重置管理员密码的时候，需要打开紧急维护模式
+        /// </summary>
+        public bool MaintenanceMode { get;set;}=false;
     }
 }
