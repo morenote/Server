@@ -42,6 +42,7 @@ namespace MoreNote.Logic.Entity
         public DateTime UpdatedTime { get; set; }
         [Column("is_deleted")]
         public bool IsDeleted { get; set; } // 删除位 
+        [Column("is_blog")]
         public bool IsBlog { get;set; }// 是否是博客的tag统计 
 
     }
@@ -62,7 +63,8 @@ namespace MoreNote.Logic.Entity
         public long? NoteId { get;set;}
         [Column("note_tag_id")]
         public long? NoteTagId { get;set;}
-       
+        [Column("is_blog")]
+        public bool IsBlog { get; set; }// 是否是博客的tag统计 
 
 
 
