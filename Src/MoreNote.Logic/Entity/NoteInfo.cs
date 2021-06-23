@@ -144,7 +144,7 @@ namespace MoreNote.Logic.Entity
 
     public class NoteOrContent
     {
-        
+      
         public long? NotebookId { get; set; }
         public long? NoteId { get; set; }
         public long? UserId { get; set; }
@@ -156,11 +156,11 @@ namespace MoreNote.Logic.Entity
     
         public string Content { get; set; }
         public string Abstract { get; set; }
-        public bool IsNew { get; set; }
-        public bool IsMarkdown { get; set; }
+        public bool? IsNew { get; set; }
+        public bool? IsMarkdown { get; set; }
 
         public long? FromUserId { get; set; }//// 为共享而新建
-        public bool IsBlog { get; set; }//是否是blog, 更新note不需要修改, 添加note时才有可能用到, 此时需要判断notebook是否设为Blog
+        public bool? IsBlog { get; set; }//是否是blog, 更新note不需要修改, 添加note时才有可能用到, 此时需要判断notebook是否设为Blog
     }
     // 分开的
     public class NoteAndContentSep
@@ -169,5 +169,6 @@ namespace MoreNote.Logic.Entity
         public Note NoteInfo{ get; set; }
         public NoteContent NoteContentInfo{ get; set; }
     }
+
 
 }

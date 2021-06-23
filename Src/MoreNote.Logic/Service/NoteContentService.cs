@@ -97,6 +97,12 @@ namespace MoreNote.Logic.Service
         // [ok] TODO perm未测
         // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
         // TODO abstract这里生成
+        public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime)
+        {
+            string message;
+            int afterContentUsn;
+            return  UpdateNoteContent(updateUserId, noteId,content,abstractStr,hasBeforeUpdateNote,usn,updateTime,out message,out afterContentUsn);
+        }
         public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime,
             out string msg, out int afterContentUsn)
         {

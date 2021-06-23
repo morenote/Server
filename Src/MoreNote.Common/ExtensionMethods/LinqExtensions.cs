@@ -25,6 +25,22 @@ namespace MoreNote.Common.ExtensionMethods
             }
             return !source.Any();
         }
-
+        /// <summary>
+        /// string is not null or empty
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsValid(this string value) 
+        {
+                return  !string.IsNullOrEmpty(value);
+        }
+        public static bool IsValid(this bool? value)
+        {
+            if (value==null)
+            {
+                return false;
+            }
+            return value.Value;
+        }
     }
 }

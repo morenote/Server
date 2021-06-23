@@ -549,18 +549,19 @@ namespace MoreNote.Logic.Service
         // 这里使用 info.NoteAndContent 接收?
         public Note AddNoteAndContentForController(Note note, NoteContent noteContent, long? updatedUserId)
         {
-            throw new Exception();
+            //todo:实现AddNoteAndContentForController
+            return AddNoteAndContent(note,noteContent,updatedUserId);
         }
 
         public Note AddNoteAndContent(Note note, NoteContent noteContent, long? myUserId)
         {
-            if (note.NoteId == 0)
+            if (note.NoteId == null)
             {
                 note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
             }
             noteContent.NoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
             noteContent.NoteId = note.NoteId;
-            if (note.UserId != 0 && note.UserId != myUserId)
+            if (note.UserId != null && note.UserId != myUserId)
             {
                 note = AddSharedNote(note, myUserId);
             }
@@ -582,6 +583,12 @@ namespace MoreNote.Logic.Service
 
         // 修改笔记
         // 这里没有判断usn
+        public bool UpdateNote(long? updateUserId, long? noteId, Note needUpdate, int usn)
+        {
+            string message;
+            int afterUsn;
+            return UpdateNote(updateUserId, noteId, needUpdate,usn,out afterUsn,out message);
+        }
         public bool UpdateNote(long? updateUserId, long? noteId, Note needUpdate, int usn, out int afterUsn, out string msg)
         {
             var oldNote = GetNoteById(needUpdate.NoteId);
@@ -599,7 +606,7 @@ namespace MoreNote.Logic.Service
             var userId=note.UserId;
             if (note.UserId != updateUserId)
             {
-                //当前版本仅支持个人使用 不支持多租户共享编辑或分享笔记
+                //todo:当前版本仅支持个人使用 不支持多租户共享编辑或分享笔记
                 msg = "noAuth";
                 afterUsn = 0;
                 return false;
