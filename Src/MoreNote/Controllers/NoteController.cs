@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.ModelBinder;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -202,5 +204,73 @@ namespace MoreNote.Controllers
             }
             return Json(true);
         }
+        // 这里不能用json, 要用post
+        public JsonResult UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
+        {
+            var userid= GetUserIdBySession();
+            // 新添加note
+            if (noteOrContent.IsNew.IsValid())
+            {
+                var userId = GetUserIdBySession();
+                // 为共享新建?
+                if (noteOrContent.FromUserId != null)
+                {
+                    userId=noteOrContent.FromUserId;
+                }
+             
+                //todo:IsBlog.Value 缺陷 空指针异常
+                var note =new Note()
+                {
+                    UserId=userId,
+                    NoteId=noteOrContent.NoteId,
+                    NotebookId=noteOrContent.NotebookId,
+                    Title=noteOrContent.Title,
+                    Src=noteOrContent.Src,
+                    Tags=noteOrContent.Tags.ToTagsArray(),
+                    Desc=noteOrContent.Desc,
+                    ImgSrc=noteOrContent.ImgSrc,
+                    IsBlog=noteOrContent.IsBlog.GetValueOrDefault(),
+                    IsMarkdown =noteOrContent.IsMarkdown.GetValueOrDefault()
+                };
+                var noteContent=new NoteContent()
+                {
+                    UserId=userId,
+                    IsBlog=note.IsBlog,
+                    Content=noteOrContent.Content,
+                    Abstract=noteOrContent.Abstract
+                };
+                note=noteService.AddNoteAndContentForController(note,noteContent, userid);
+                return Json(note,MyJsonConvert.GetOptions());
+            }
+            var noteUpdate=new Note();
+            var needUpdateNote=false;
+            if (noteOrContent.Desc.IsValid())
+            {
+                needUpdateNote=true;
+                noteUpdate.Desc=noteOrContent.Desc;
+            }
+            if (noteOrContent.ImgSrc.IsValid())
+            {
+                needUpdateNote = true;
+                noteUpdate.ImgSrc = noteOrContent.ImgSrc;
+            }
+            if (noteOrContent.Tags.IsValid())
+            {
+                needUpdateNote = true;
+                noteUpdate.Tags = noteOrContent.Tags.ToTagsArray();
+            }
+          
+            // web端不控制
+            if (needUpdateNote)
+            {
+                noteService.UpdateNote(userid, noteOrContent.NotebookId, noteUpdate, -1);
+            }
+            if (noteOrContent.Content.IsValid())
+            {
+                noteContentService.UpdateNoteContent(userid,noteOrContent.NoteId, noteOrContent.Content, noteOrContent.Abstract,needUpdateNote,-1,DateTime.Now);
+            }
+            return Json(true);
+        }
+
     }
 }

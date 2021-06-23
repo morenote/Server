@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace MoreNote.Common.ExtensionMethods
 {
-    public static class LeanoteLongExtensions
+    public static class TypeConverterExtensions
     {
         public static string ToHex(this long? number)
         {
@@ -55,7 +55,7 @@ namespace MoreNote.Common.ExtensionMethods
            
             
         }
-          public static long? ToLongByNumber(this string number)
+        public static long? ToLongByNumber(this string number)
         {   
             //if (hex.Length == 24)
             //{
@@ -72,5 +72,44 @@ namespace MoreNote.Common.ExtensionMethods
             }
            
         }
+        public static bool? ToBool(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+            bool result=false;
+            bool myBool= Boolean.TryParse(value,out result);
+            if (!result)
+            {
+                return false;
+            }
+            else
+            {
+                return myBool;
+            }
+        
+        }
+
+        public static string[] ToTagsArray(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return Array.Empty<string>();
+            }
+            try
+            {
+                return value.Split(",");
+            }
+            catch (Exception)
+            {
+
+                return Array.Empty<string>();
+            }
+        }
+
+    
+
     }
+
 }
