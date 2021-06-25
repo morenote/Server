@@ -50,6 +50,7 @@ namespace MoreNote.Controllers
         public IActionResult Editor(string noteIdHex)
         {
             this.SetLocale();//设置区域化信息
+            //todo:存在一个问题，可能导出用户敏感信息
             var userInfo = this.GetUserAndBlogUrl();//得到用户信息+博客主页
             //判断用户ID是否已经登录
             var user = this.GetUserBySession();
