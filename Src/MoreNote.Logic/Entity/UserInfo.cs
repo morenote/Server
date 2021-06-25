@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace MoreNote.Logic.Entity
 {
@@ -54,14 +55,19 @@ namespace MoreNote.Logic.Entity
         [Column("username_raw")]
         public string UsernameRaw { get; set; }//// 可能有大小写
         [Column("pwd")]
+        [JsonIgnore]
         public string Pwd { get; set; }
         [Column("hash_algorithm")]
+        [JsonIgnore]
         public string HashAlgorithm{get;set;}// 哈希算法 sha256  sha512  HMAC算法 hmac-sha256 hmac-sha512 慢哈希算法 Argon2 bcrypt scrypt  PBKDF2 
         [Column("salt")]
+        [JsonIgnore]
         public string Salt { get; set; }//MD5 盐 盐的长度默认是32字节 
         [Column("google_authenticator_secret_key")]
+        [JsonIgnore]
         public string GoogleAuthenticatorSecretKey { get; set; }//谷歌身份验证密码
         [Column("pwd_cost")]
+        [JsonIgnore]
         public int Pwd_Cost { get; set; }//加密强度--》迭代次数
         [Column("user_role")]
         public string Role { get; set; }//角色 用户组
