@@ -7,7 +7,7 @@
     public enum StorageTypeEnum
     {
         /// <summary>
-        /// 本地磁盘
+        /// 本地磁盘（自己实现的低性能方法）
         /// </summary>
         LocalDisk = 0x00,
         /// <summary>
@@ -42,7 +42,10 @@
         /// WebDAV服务
         /// </summary>
         WebDAV=0x11,
-       
+        /// <summary>
+        /// Minio对象储存
+        /// </summary>
+        Minio = 0x12
 
     }
 }

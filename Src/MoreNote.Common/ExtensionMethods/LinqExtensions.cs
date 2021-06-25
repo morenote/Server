@@ -34,7 +34,7 @@ namespace MoreNote.Common.ExtensionMethods
         {
                 return  !string.IsNullOrEmpty(value);
         }
-        public static bool IsValid(this bool? value)
+        public static bool IsValidTrue(this bool? value)
         {
             if (value==null)
             {

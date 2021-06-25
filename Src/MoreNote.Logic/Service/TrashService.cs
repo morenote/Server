@@ -8,15 +8,16 @@ namespace MoreNote.Logic.Service
     {
 
         DataContext dataContext;
-        public NoteService NoteService;
+        public NoteService noteService;
 
         
        public AttachService AttachService { get;set;}
         public NoteContentService NoteContentService { get;set;}
         public NotebookService NotebookService { get;set;}
-        public TrashService(DataContext dataContext)
+        public TrashService(DataContext dataContext,NoteService noteService)
         {
           this.dataContext = dataContext;
+            this.noteService=noteService;
         }
         // 回收站
         // 可以移到noteSerice中
@@ -34,11 +35,19 @@ namespace MoreNote.Logic.Service
         // 有trashService
         public  bool DeleteNote(long? noteId, long? userId)
         {
-            throw new Exception();
+            
+            var note =noteService.GetNote(noteId,userId);
+            if (note.IsTrash)
+            {
+                return this.DeleteTrash(noteId,userId);
+            }
+          return  noteService.SetDeleteStatus(noteId,userId);
+            //todo:支持共享笔记删除
+
         }
         // 删除别人共享给我的笔记
         // 先判断我是否有权限, 笔记是否是我创建的
-        public  bool DeleteSharedNote(long? noteId, long? myUserId)
+        public  bool DeleteSharedNote(long? noteId, long? userId)
         {
             throw new Exception();
         }
@@ -56,7 +65,7 @@ namespace MoreNote.Logic.Service
         public  bool DeleteTrashApi(long? noteId, long? userId, int usn, out string msg, out int afterUsn)
         {
             
-            Note note = NoteService.GetNote(noteId, userId);
+            Note note = noteService.GetNote(noteId, userId);
             if (note==null)
             {
                 msg = "notExists";
@@ -74,7 +83,7 @@ namespace MoreNote.Logic.Service
             // 设置删除位
             //afterUsn = UserService.IncrUsn(userId);
             // delete note's attachs
-           var result= NoteService.SetDeleteStatus(noteId,userId,out afterUsn);
+           var result= noteService.SetDeleteStatus(noteId,userId,out afterUsn);
             if (!result)
             {
                 msg= "设置删除位错误";

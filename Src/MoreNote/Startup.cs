@@ -155,6 +155,7 @@ namespace MoreNote
             {
                 var instance = e.Instance;
                 instance.NoteImageService = e.Context.Resolve<NoteImageService>();
+                instance.NoteService=e.Context.Resolve<NoteService>();
             });
             builder.RegisterType<NoteFileService>();
             builder.RegisterType<NoteImageService>();
@@ -197,7 +198,7 @@ namespace MoreNote
             builder.RegisterType<TrashService>().OnActivated(e =>
             {
                 var instance = e.Instance;
-                instance.NoteService = e.Context.Resolve<NoteService>();
+                instance.noteService = e.Context.Resolve<NoteService>();
                 instance.AttachService = e.Context.Resolve<AttachService>();
                 instance.NoteContentService = e.Context.Resolve<NoteContentService>();
                 instance.NotebookService = e.Context.Resolve<NotebookService>();

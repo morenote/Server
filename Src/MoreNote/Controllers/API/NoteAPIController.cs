@@ -108,13 +108,16 @@ namespace MoreNote.Controllers.API.APIV1
             NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token),false);
             if (noteContent==null||note==null)
             {
-             
                 return Json(falseRe, MyJsonConvert.GetOptions());
 
             }
             if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
             {
                 noteContent.Content = noteService.FixContent(noteContent.Content, note.IsMarkdown);
+            }
+            else
+            {
+                noteContent.Content= "<p>Content is IsNullOrEmpty<>";
             }
             ApiNoteContent apiNote = new ApiNoteContent()
             {

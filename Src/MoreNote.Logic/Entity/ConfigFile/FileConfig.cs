@@ -12,6 +12,6 @@ namespace MoreNote.Logic.Entity.ConfigFile
   public  class FileConfig
     {
         public string SaveFolder { get;set;}
-
+        public string FileStorage { get; set; }
     }
 }
