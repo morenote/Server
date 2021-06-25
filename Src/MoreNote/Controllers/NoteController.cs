@@ -25,6 +25,7 @@ namespace MoreNote.Controllers
         private ShareService shareService;
         private TagService tagService;
         IWebHostEnvironment env;
+        private TrashService trashService;
         public NoteController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -33,6 +34,7 @@ namespace MoreNote.Controllers
             , ConfigFileService configFileService
             ,IWebHostEnvironment env
             ,TagService tagService
+            ,TrashService trashService
             , IHttpContextAccessor accessor, NotebookService notebookService, NoteService noteService, NoteContentService noteContentService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.notebookService = notebookService;
@@ -40,6 +42,7 @@ namespace MoreNote.Controllers
             this.noteContentService = noteContentService;
             this.env=env;
             this.tagService=tagService;
+            this.trashService=trashService;
         }
 
         [Route("Note/{action=Editor}/{noteIdHex?}/")]
@@ -180,12 +183,22 @@ namespace MoreNote.Controllers
             long? noteNumber = noteId.ToLongByHex();
             long? userNumber = GetUserIdBySession();
             NoteContent noteContent = noteContentService.GetValidNoteContent(noteId.ToLongByHex(), GetUserIdBySession());
+            ApiRe falseRe = new ApiRe()
+            {
+                Ok = false,
+                Msg = "GetNoteContent_is_error"
+            };
+            if (noteContent == null )
+            {
+                return Json(falseRe, MyJsonConvert.GetOptions());
+
+            }
             return Json(noteContent, MyJsonConvert.GetOptions());
         }
 
         public JsonResult ListNotes(string notebookId)
         {
-            Note[] notes = noteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(), false);
+            Note[] notes = noteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(),false,false);
             //string json = JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
             return Json(notes, MyJsonConvert.GetOptions());
         }
@@ -208,8 +221,9 @@ namespace MoreNote.Controllers
         public JsonResult UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
         {
             var userid= GetUserIdBySession();
+            var old=noteService.GetNoteById(noteOrContent.NoteId);
             // 新添加note
-            if (noteOrContent.IsNew.IsValid())
+            if (noteOrContent.IsNew.IsValidTrue()&& old==null)
             {
                 var userId = GetUserIdBySession();
                 // 为共享新建?
@@ -272,5 +286,23 @@ namespace MoreNote.Controllers
             return Json(true);
         }
 
+        public JsonResult DeleteNote(string[] noteIds,bool isShared)
+        {
+            if (!isShared)
+            {
+                foreach (var item in noteIds)
+                {
+                    trashService.DeleteNote(item.ToLongByHex(),GetUserIdBySession());
+                }
+                return Json(true);
+            }
+      
+            foreach (var item in noteIds)
+            {
+                trashService.DeleteSharedNote(item.ToLongByHex(),GetUserIdBySession());
+
+            }
+            return Json(true);
+        }
     }
 }

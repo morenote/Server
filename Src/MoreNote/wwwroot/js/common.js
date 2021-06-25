@@ -718,7 +718,10 @@ function enterBlur(parent, children) {
 
 // 生成mongodb ObjectId
 function getObjectId() {
-	return ObjectId();
+	var tempSnowflake = new Snowflake(1n, 1n, 0n);
+	var tempId = tempSnowflake.nextId();
+	return tempId.toString(16);
+	//return ObjectId();
 }
 
 //-----------------------------------------

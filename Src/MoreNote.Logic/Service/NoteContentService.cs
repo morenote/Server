@@ -12,7 +12,8 @@ namespace MoreNote.Logic.Service
     public class NoteContentService
     {
        DataContext dataContext;
-        public NoteImageService NoteImageService { get;set;}
+        public NoteImageService NoteImageService { get;set;}//属性注入
+        public NoteService NoteService { get;set;}//属性注入
         public NoteContentService(DataContext dataContext)
         {
             this.dataContext = dataContext;
@@ -97,17 +98,54 @@ namespace MoreNote.Logic.Service
         // [ok] TODO perm未测
         // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
         // TODO abstract这里生成
-        public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime)
+  
+        public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime
+       )
         {
-            string message;
-            int afterContentUsn;
-            return  UpdateNoteContent(updateUserId, noteId,content,abstractStr,hasBeforeUpdateNote,usn,updateTime,out message,out afterContentUsn);
-        }
-        public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime,
-            out string msg, out int afterContentUsn)
-        {
+            var note=NoteService.GetNoteById(noteId);
+            if (note==null||note.NoteId==null)
+            {
+               
+                return false;
+            }
+            var userId=note.UserId;
+            if (userId!=note.UserId)
+            {
+                throw new Exception("不支持共享笔记");
+            }
+            var updatedTime=DateTime.Now;
+            var noteContext = dataContext.NoteContent
+                          .Where(b => b.NoteId == noteId && b.IsHistory == false)
+                          .FirstOrDefault();
+            if (noteContext!=null)
+            {
+
+                noteContext.IsHistory = true;
+                dataContext.SaveChanges();
+            }
+           
+
+            
+
+            var insertNoteConext=new NoteContent()
+            {
+                NoteContentId=SnowFlakeNet.GenerateSnowFlakeID(),
+                NoteId=noteId,
+                UserId=userId,
+                IsBlog=noteContext.IsBlog,
+                Content=content,
+                Abstract=abstractStr,
+                CreatedTime=noteContext.CreatedTime,
+                UpdatedTime=updatedTime,
+                UpdatedUserId=userId,
+                IsHistory=false
+            };
+            InsertNoteContent(insertNoteConext);
+
+          
+
             //todo: 需要完成函数UpdateNoteContent
-            throw new Exception();
+            return true;
         }
 
         public bool UpdateNoteContent(ApiNote apiNote, out string msg, out long? contentId)
