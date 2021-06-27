@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.FileService
 {
-    public interface IFileService
+    /// <summary>
+    /// 文件储存抽象接口
+    /// </summary>
+    public interface IFileStorageService
     {
         public void Remove(string path);
-        
+           
     }
 }

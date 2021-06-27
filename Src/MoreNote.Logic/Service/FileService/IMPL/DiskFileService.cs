@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.FileService.IMPL
 {
-    public class DiskFileService : IFileService
+    public class DiskFileService : IFileStorageService
     {
         /// <summary>
         /// 被删除文件的相对路径
