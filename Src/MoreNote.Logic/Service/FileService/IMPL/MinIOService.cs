@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.FileService.IMPL
 {
-    public class UpyunFileService : IFileStorageService
+    /// <summary>
+    /// MINIO储存服务
+    /// </summary>
+    public class MinIOService
     {
-        public void Remove(string path)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

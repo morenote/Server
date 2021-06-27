@@ -55,10 +55,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Service\FileService\IMPL\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
   </ItemGroup>
 
