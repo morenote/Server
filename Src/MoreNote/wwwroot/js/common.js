@@ -720,7 +720,7 @@ function enterBlur(parent, children) {
 function getObjectId() {
 	var tempSnowflake = new Snowflake(1n, 1n, 0n);
 	var tempId = tempSnowflake.nextId();
-	return tempId.toString(16);
+	return "00000000"+tempId.toString(16);
 	//return ObjectId();
 }
 
