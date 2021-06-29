@@ -80,7 +80,7 @@ namespace MoreNote.Controllers
         public JsonResult UpdateNotebookTitle(string notebookId,string title)
         {
             var result=notebookService.UpdateNotebookTitle(notebookId.ToLongByHex(),GetUserIdBySession(),title);
-            return Json(result,, MyJsonConvert.GetSimpleOptions());
+            return Json(result, MyJsonConvert.GetSimpleOptions());
         }
         /// <summary>
         /// 笔记本拖放
