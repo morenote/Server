@@ -11,5 +11,7 @@ namespace MoreNote.Logic.Service.FileService.IMPL
     /// </summary>
     public class MinIOService
     {
+
+
     }
 }
