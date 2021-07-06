@@ -29,6 +29,7 @@ namespace MoreNote.Logic.Service
         public TagService TagService { get; set; }
         public NoteContentService NoteContentService { get; set; }
 
+        public ShareService ShareService { get;set;}
         public NoteService(DataContext dataContext)
         {
             this.dataContext = dataContext;
@@ -618,27 +619,28 @@ namespace MoreNote.Logic.Service
 
         public bool UpdateNote(long? updateUserId, long? noteId, Note needUpdate, int usn, out int afterUsn, out string msg)
         {
-            var oldNote = GetNoteById(needUpdate.NoteId);
+            var oldNote = GetNoteById(noteId);
 
             //updateUser 必须是笔记的原主人
 
             //todo:需要完成函数NoteService.UpdateNote
-            var note = GetNoteById(noteId);
-            if (note == null)
+            
+            if (oldNote == null)
             {
                 msg = "notExists";
                 afterUsn = 0;
                 return false;
             }
-            var userId = note.UserId;
-            if (note.UserId != updateUserId)
+            var userId = oldNote.UserId;
+            if (oldNote.UserId != updateUserId)
             {
                 //todo:当前版本仅支持个人使用 不支持多租户共享编辑或分享笔记
                 msg = "noAuth";
                 afterUsn = 0;
                 return false;
             }
-            if (note.IsBlog && note.HasSelfDefined)
+            // 是否已自定义
+            if (oldNote.IsBlog && oldNote.HasSelfDefined)
             {
                 needUpdate.ImgSrc = "";
                 needUpdate.Desc = "";
@@ -659,21 +661,54 @@ namespace MoreNote.Logic.Service
             // 也要修改noteContents的IsBlog
             if (needUpdate.IsBlog != oldNote.IsBlog)
             {
-                NoteContentService.UpdateNoteContentIsBlog(noteId, note.UserId, needUpdate.IsBlog);
+                NoteContentService.UpdateNoteContentIsBlog(noteId, oldNote.UserId, needUpdate.IsBlog);
                 if (!oldNote.IsBlog)
                 {
                     needUpdate.PublicTime = needUpdate.UpdatedTime;
                 }
                 needRecountTags = true;
             }
-
+            var newNote = dataContext.Note.Where(b => b.NoteId == noteId && b.UserId == userId).FirstOrDefault();
             // 添加tag2
             // TODO 这个tag去掉, 添加tag另外添加, 不要这个
-            if (true)
+            if (!needUpdate.Tags.IsNullOrNothing())
             {
+                newNote.Tags = needUpdate.Tags;
+                TagService.AddTags(userId,needUpdate.Tags);
+                if (oldNote.IsBlog)
+                {
+                    BlogService.ReCountBlogTags(userId);
+                }
             }
+          
+            if (needUpdate.Desc.IsValid())
+            {
+                newNote.Desc = needUpdate.Desc;
+            }
+            if (needUpdate.Title.IsValid())
+            {
+                newNote.Title = needUpdate.Title;
+            }
+            if (needUpdate.ImgSrc.IsValid())
+            {
+                newNote.ImgSrc = needUpdate.ImgSrc;
+            }
+           
 
-            throw new Exception();
+                dataContext.SaveChanges();
+            // 重新获取之
+            oldNote = GetNoteById(noteId);
+            var notebookId=needUpdate.NotebookId;
+            if (notebookId!=null)
+            {
+                NotebookService.ReCountNotebookNumberNotes(oldNote.NotebookId);
+                NotebookService.ReCountNotebookNumberNotes(notebookId);
+            }
+        
+            msg=string.Empty;
+            afterUsn=usn;
+            return true;
+
         }
 
         private static bool UpdateNote(Note note)

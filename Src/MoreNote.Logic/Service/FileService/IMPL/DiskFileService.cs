@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.FileService.IMPL
 {
+    /// <summary>
+    /// 本地文件
+    /// </summary>
     public class DiskFileService : IFileStorageService
     {
         /// <summary>

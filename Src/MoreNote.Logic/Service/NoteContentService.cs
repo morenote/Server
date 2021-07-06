@@ -97,7 +97,7 @@ namespace MoreNote.Logic.Service
         // 修改笔记本内容
         // [ok] TODO perm未测
         // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
-        // TODO abstract这里生成
+        // TODO abstract这里生成0
   
         public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime
        )
@@ -109,9 +109,10 @@ namespace MoreNote.Logic.Service
                 return false;
             }
             var userId=note.UserId;
-            if (userId!=note.UserId)
+            if (userId!= updateUserId)
             {
-                throw new Exception("不支持共享笔记");
+               // throw new Exception("不支持共享笔记");
+               return false;   
             }
             var updatedTime=DateTime.Now;
             var noteContext = dataContext.NoteContent
@@ -123,27 +124,22 @@ namespace MoreNote.Logic.Service
                 noteContext.IsHistory = true;
                 dataContext.SaveChanges();
             }
-           
 
-            
 
-            var insertNoteConext=new NoteContent()
+            var insertNoteConext = new NoteContent()
             {
-                NoteContentId=SnowFlakeNet.GenerateSnowFlakeID(),
-                NoteId=noteId,
-                UserId=userId,
-                IsBlog=noteContext.IsBlog,
-                Content=content,
-                Abstract=abstractStr,
-                CreatedTime=noteContext.CreatedTime,
-                UpdatedTime=updatedTime,
-                UpdatedUserId=userId,
-                IsHistory=false
+                NoteContentId = SnowFlakeNet.GenerateSnowFlakeID(),
+                NoteId = noteId,
+                UserId = userId,
+                IsBlog = noteContext == null?noteContext.IsBlog:false,
+                Content = content,
+                Abstract = abstractStr,
+                CreatedTime = noteContext==null?noteContext.CreatedTime:DateTime.Now,
+                UpdatedTime = updatedTime,
+                UpdatedUserId = userId,
+                IsHistory = false
             };
             InsertNoteContent(insertNoteConext);
-
-          
-
             //todo: 需要完成函数UpdateNoteContent
             return true;
         }

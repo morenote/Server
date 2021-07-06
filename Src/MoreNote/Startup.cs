@@ -174,6 +174,7 @@ namespace MoreNote
                     instance.NotebookService = e.Context.Resolve<NotebookService>();
                     instance.TagService = e.Context.Resolve<TagService>();
                     instance.NoteContentService = e.Context.Resolve<NoteContentService>();
+                    instance.ShareService = e.Context.Resolve<ShareService>();
                 })
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);

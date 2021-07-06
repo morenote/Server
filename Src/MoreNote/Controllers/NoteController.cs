@@ -259,11 +259,20 @@ namespace MoreNote.Controllers
             }
             var noteUpdate=new Note();
             var needUpdateNote=false;
+
+
             if (noteOrContent.Desc.IsValid())
             {
                 needUpdateNote=true;
                 noteUpdate.Desc=noteOrContent.Desc;
             }
+            if (noteOrContent.Title.IsValid())
+            {
+
+                needUpdateNote = true;
+                noteUpdate.Title = noteOrContent.Title;
+            }
+
             if (noteOrContent.ImgSrc.IsValid())
             {
                 needUpdateNote = true;
@@ -278,8 +287,9 @@ namespace MoreNote.Controllers
             // web端不控制
             if (needUpdateNote)
             {
-                noteService.UpdateNote(userid, noteOrContent.NotebookId, noteUpdate, -1);
+                noteService.UpdateNote(userid, noteOrContent.NoteId, noteUpdate, -1);
             }
+
             if (noteOrContent.Content.IsValid())
             {
                 noteContentService.UpdateNoteContent(userid,noteOrContent.NoteId, noteOrContent.Content, noteOrContent.Abstract,needUpdateNote,-1,DateTime.Now);
