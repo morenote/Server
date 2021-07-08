@@ -57,9 +57,15 @@ namespace MoreNote.Logic.Entity
         [Column("pwd")]
         [JsonIgnore]
         public string Pwd { get; set; }
+        /// <summary>
+        /// 加密用户登录口令使用的哈希算法
+        /// <para>
+        /// 哈希算法 sha256  sha512  HMAC算法 hmac-sha256 hmac-sha512 慢哈希算法 Argon2 bcrypt scrypt   pbkdf2
+        /// </para>
+        /// </summary>
         [Column("hash_algorithm")]
         [JsonIgnore]
-        public string HashAlgorithm{get;set;}// 哈希算法 sha256  sha512  HMAC算法 hmac-sha256 hmac-sha512 慢哈希算法 Argon2 bcrypt scrypt  PBKDF2 
+        public string HashAlgorithm{get;set;}
         [Column("salt")]
         [JsonIgnore]
         public string Salt { get; set; }//MD5 盐 盐的长度默认是32字节 
