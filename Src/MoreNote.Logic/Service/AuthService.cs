@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Formats.Asn1;
 using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.Utils;
@@ -16,11 +17,12 @@ namespace MoreNote.Logic.Service
         public UserService UserService { get;set;}
         public TokenSerivce TokenSerivce { get;set;}
         private IPasswordStore passwordStore { get;set;}
-        public AuthService(DataContext dataContext, IPasswordStore passwordStore)
+        public NotebookService NotebookService { get;set;}
+        public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService)
         {
             this.dataContext=dataContext;
             this.passwordStore=passwordStore;
-            
+            this.NotebookService=notebookService;
         }
 
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
@@ -129,6 +131,7 @@ namespace MoreNote.Logic.Service
                 Msg="密码处理过程出现错误";
                 return false;
             }
+            //生成一个新用户
             User user = new User()
             {
                 UserId = SnowFlakeNet.GenerateSnowFlakeID(),
@@ -136,9 +139,15 @@ namespace MoreNote.Logic.Service
                 Username = email,
                 Pwd_Cost=1,//一次
                 Pwd = genPass,
+                HashAlgorithm= "sha256",
                 Salt = salt,
                 FromUserId = fromUserId,
                 Role="User",
+                NotebookWidth=160,
+                NoteListWidth=384,
+                MdEditorWidth=621,
+                LeftIsMin=false,
+                Verified=false,
                 Usn = 1
             };
             if (Register(user))
@@ -158,6 +167,23 @@ namespace MoreNote.Logic.Service
           
             if (UserService.AddUser(user))
             {
+                var list=new List<string>(4){ "life", "study", "work", "tutorial" };
+                foreach (var item in list)
+                {
+                    // 添加笔记本, 生活, 学习, 工作
+                    var userId = user.UserId;
+                    var notebook = new Notebook()
+                    {
+                        NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
+                        Seq = -1,
+                        UserId = userId,
+                        CreatedTime = DateTime.Now,
+                        Title=item,
+                        ParentNotebookId=null,
+                    };
+                    NotebookService.AddNotebook(notebook);
+                }
+               
                 return true;
             }
             else

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoreNote.Logic.Service.SMS.IMPL
+namespace MoreNote.Logic.Service.SMS.IMPL.Upyun
 {
     /// <summary>
-    /// 又拍云短信息服务
+    /// 短信息服务
     /// </summary>
-    public class UpyunSMS_Service:ISMS_Service
+    public  class UpyunShortMessageService: ISMS_Service
     {
 
-        
     }
 }
