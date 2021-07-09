@@ -39,7 +39,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
                 Iterations=iterations,//轮数
                 MemorySize= MemorySize //内存
             };
-            return argon2.GetBytes(16);
+            return argon2.GetBytes(32);
         }
 
         public bool VerifyPassword(byte[] encryData,byte[] pass , byte[] salt, int iterations)
