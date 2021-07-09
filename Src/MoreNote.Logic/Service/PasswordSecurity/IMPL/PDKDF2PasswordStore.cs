@@ -23,7 +23,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
         {
             Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(pass, salt, iterations);
             byte[] hash= pbkdf2.GetBytes(HASH_SIZE);
-            return SecurityUtil.ComparePassword(hash,encryData);
+            return SecurityUtil.SafeCompareByteArray(hash,encryData);
         }
     }
 }

@@ -13,16 +13,26 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
     public class PasswordStoreTests
     {
         string hex= "000102030405060708090A0B0C0D0E0F";
+        string password= "12345678";
         
         [TestMethod()]
         public void BCryptPasswordStoreTest()
         {
              var salt = HexUtil.StringToByteArray(hex);
              IPasswordStore passwordStore=new BCryptPasswordStore();
-             var enc= passwordStore.Encryption(Encoding.UTF8.GetBytes("12345"), salt, 8);
+             var enc= passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 9);
              var text=HexUtil.ByteArrayToString(enc);
              Console.WriteLine(text);
+        }
 
+        [TestMethod()]
+        public void Argon2PasswordStoreTest()
+        {
+            var salt = HexUtil.StringToByteArray(hex);
+            IPasswordStore passwordStore = new Argon2PasswordStore();
+            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 8);
+            var text = HexUtil.ByteArrayToString(enc);
+            Console.WriteLine(text);
         }
 
         [TestMethod()]
@@ -30,7 +40,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
         {
             var salt = HexUtil.StringToByteArray(hex);
             IPasswordStore passwordStore = new PDKDF2PasswordStore();
-            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes("12345"), salt, 1000*40);
+            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*80);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
 
@@ -41,7 +51,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
         {
             var salt = HexUtil.StringToByteArray(hex);
             IPasswordStore passwordStore = new Sha256PasswordStore();
-            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes("12345"), salt, 1000*80);
+            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*160);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
 

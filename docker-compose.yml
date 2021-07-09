@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  morenote:
+    image: ${DOCKER_REGISTRY-}morenote
+    build:
+      context: .
+      dockerfile: Src/MoreNote/Dockerfile

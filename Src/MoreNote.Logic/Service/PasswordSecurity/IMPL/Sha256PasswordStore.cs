@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
         public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
         {
            var hash=Encryption(pass,salt,iterations);
-           return SecurityUtil.ComparePassword(hash,encryData);
+           return SecurityUtil.SafeCompareByteArray(hash,encryData);
         }
         private byte[] Sum(byte[] s1,byte[] s2)
         {
