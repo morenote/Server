@@ -258,6 +258,10 @@ namespace MoreNote.Framework.Controllers
                 return true;
             }
         }
+        /// <summary>
+        /// 设置区域性信息
+        /// </summary>
+        /// <returns></returns>
         public string SetLocale()
         {
             //todo:SetLocale未完成

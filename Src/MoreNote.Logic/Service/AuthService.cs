@@ -18,6 +18,8 @@ namespace MoreNote.Logic.Service
         public TokenSerivce TokenSerivce { get;set;}
         private IPasswordStore passwordStore { get;set;}
         public NotebookService NotebookService { get;set;}
+
+        
         public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService)
         {
             this.dataContext=dataContext;
@@ -123,7 +125,7 @@ namespace MoreNote.Logic.Service
                 return false;
             }
             //产生一个盐用于保存密码
-            string salt= RandomTool.CreatSafeSalt(32);
+            string salt= RandomTool.CreatSafeSalt(16);
             //对用户密码做哈希运算
             string genPass= SHAEncryptHelper.Hash256Encrypt(pwd+salt);
             if (string.IsNullOrEmpty(genPass))
@@ -137,7 +139,7 @@ namespace MoreNote.Logic.Service
                 UserId = SnowFlakeNet.GenerateSnowFlakeID(),
                 Email = email,
                 Username = email,
-                Pwd_Cost=1,//一次
+                Pwd_Cost=1,//加密强度=1
                 Pwd = genPass,
                 HashAlgorithm= "sha256",
                 Salt = salt,
@@ -183,7 +185,17 @@ namespace MoreNote.Logic.Service
                     };
                     NotebookService.AddNotebook(notebook);
                 }
-               
+                //用户博客信息
+                var user_blog=new UserBlog()
+                {
+                    UserId=user.UserId,
+                    CanComment=true,
+                    CommentType="leanote",
+                    ThemeId=null,
+                    IsAsc=true,
+                };
+                //增加博客用户信息
+                UserService.AddBlogUser(user_blog);
                 return true;
             }
             else

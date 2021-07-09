@@ -33,7 +33,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
            var hash=Encryption(pass,salt,iterations);
            return SecurityUtil.ComparePassword(hash,encryData);
         }
-        public byte[] Sum(byte[] s1,byte[] s2)
+        private byte[] Sum(byte[] s1,byte[] s2)
         {
             byte[] result=new byte[s1.Length+ s2.Length];
             Array.Copy(s1,0,result,0,s1.Length);
