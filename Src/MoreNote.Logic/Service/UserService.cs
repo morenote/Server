@@ -27,10 +27,9 @@ namespace MoreNote.Logic.Service
 
         public User GetUserByUserId(long? userid)
         {
-            if (userid==null)
+            if (userid == null)
             {
                 return null;
-
             }
             var result = dataContext.User
                      .Where(b => b.UserId.Equals(userid)).FirstOrDefault();
@@ -58,8 +57,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public bool AddUser(User
-             user)
+        public bool AddUser(User user)
         {
             if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
             user.CreatedTime = DateTime.Now;
@@ -69,7 +67,12 @@ namespace MoreNote.Logic.Service
             dataContext.User.Add(user);
             return dataContext.SaveChanges() > 0;
         }
-
+        public bool AddBlogUser(UserBlog user)
+        {
+            if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
+            dataContext.UserBlog.Add(user);
+            return dataContext.SaveChanges() > 0;
+        }
         // 通过email得到userId
         public string GetUserId(string email)
         {
