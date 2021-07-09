@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoreNote.Common.Utils;
+using System;
 using System.Globalization;
 
 namespace MoreNote.Common.ExtensionMethods
@@ -9,6 +10,25 @@ namespace MoreNote.Common.ExtensionMethods
         {
             return number.Value.ToString("x");
         }
+
+        public static string ByteArrayToHex(this byte[] data)
+        {
+            return HexUtil.ByteArrayToString(data);
+        }
+        public static byte[] HexToByteArray(this string hex)
+        {
+            return HexUtil.StringToByteArray(hex);
+        }
+
+        public static string ByteArrayToBase64(this byte[] data)
+        {
+          return  Convert.ToBase64String(data);
+        }
+        public static byte[] Base64ToByteArray(this string data)
+        {
+            return Convert.FromBase64String(data);
+        }
+
         public static string ToHexForLeanote(this long? number)
         {
             if (number == null)

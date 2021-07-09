@@ -8,7 +8,7 @@ namespace MoreNote.Common.Utils
 {
     public  class SecurityUtil
     {
-        public static bool ComparePassword(byte[] a1,byte[] a2)
+        public static bool SafeCompareByteArray( byte[] a1,byte[] a2)
         {
             if (a1==null||a2==null||a2.Length!=a2.Length)
             {

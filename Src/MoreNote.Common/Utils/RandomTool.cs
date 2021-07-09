@@ -71,6 +71,21 @@ namespace MoreNote.Common.Utils
             return  random.Next();
         }
         /// <summary>
+        /// 生成一个不可预测的盐,字节数组,默认256位
+        /// </summary>
+        /// <param name="saltLength">盐的长度x byte</param>
+        /// <returns></returns>
+        public static byte[] CreatSafeSaltByteArray(int saltLength = 32)
+        {
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] tokenData = new byte[saltLength];
+                rng.GetBytes(tokenData);
+                
+                return tokenData;
+            }
+        }
+        /// <summary>
         /// 生成一个不可预测的盐,默认256位
         /// </summary>
         /// <param name="saltLength">盐的长度x byte</param>
@@ -85,6 +100,7 @@ namespace MoreNote.Common.Utils
                 return token;
             }
         }
+
 
     }
 }

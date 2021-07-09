@@ -11,6 +11,8 @@ namespace MoreNote.Logic.Service.PasswordSecurity
     /// </summary>
      public interface IPasswordStore
     {
+    
+
         /// <summary>
         /// 加密口令,必须单向的
         /// </summary>

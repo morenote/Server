@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Formats.Asn1;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.PasswordSecurity;
 
 namespace MoreNote.Logic.Service
@@ -18,33 +21,34 @@ namespace MoreNote.Logic.Service
         public TokenSerivce TokenSerivce { get;set;}
         private IPasswordStore passwordStore { get;set;}
         public NotebookService NotebookService { get;set;}
-
+        private WebSiteConfig config;
         
-        public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService)
+        public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService,ConfigFileService configFileService)
         {
             this.dataContext=dataContext;
             this.passwordStore=passwordStore;
             this.NotebookService=notebookService;
+            this.config= configFileService.WebConfig;
         }
 
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
         {
-          
+           
+            var passwordStore = PasswordStoreFactory.Instance(config.SecurityConfig);
             user = UserService.GetUser(email);
             if (user != null)
             {
-                
-                string temp = SHAEncryptHelper.Hash256Encrypt(pwd + user.Salt);
-                if (temp.Equals(user.Pwd))
+                var result = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.Pwd_Cost);
+                if (result)
                 {
                     long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
-                    var token= TokenSerivce.GenerateToken(tokenid);
+                    var tokenContext= TokenSerivce.GenerateToken(tokenid);
                     Token myToken = new Token
                     {
                         TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
                         UserId = user.UserId,
                         Email = user.Email,
-                        TokenStr = token,
+                        TokenStr = tokenContext,
                         TokenType = 0,
                         CreatedTime = DateTime.Now
                     };
@@ -125,9 +129,10 @@ namespace MoreNote.Logic.Service
                 return false;
             }
             //产生一个盐用于保存密码
-            string salt= RandomTool.CreatSafeSalt(16);
+            var salt= RandomTool.CreatSafeSaltByteArray(16);
+            var passwordStore=PasswordStoreFactory.Instance(config.SecurityConfig);
             //对用户密码做哈希运算
-            string genPass= SHAEncryptHelper.Hash256Encrypt(pwd+salt);
+            string genPass= passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd),salt,config.SecurityConfig.Pwd_Cost).ByteArrayToBase64();
             if (string.IsNullOrEmpty(genPass))
             {
                 Msg="密码处理过程出现错误";
@@ -139,10 +144,10 @@ namespace MoreNote.Logic.Service
                 UserId = SnowFlakeNet.GenerateSnowFlakeID(),
                 Email = email,
                 Username = email,
-                Pwd_Cost=1,//加密强度=1
+                Pwd_Cost=config.SecurityConfig.Pwd_Cost,//加密强度=1
                 Pwd = genPass,
-                HashAlgorithm= "sha256",
-                Salt = salt,
+                HashAlgorithm= config.SecurityConfig.HashAlgorithm,
+                Salt = salt.ByteArrayToBase64(),
                 FromUserId = fromUserId,
                 Role="User",
                 NotebookWidth=160,

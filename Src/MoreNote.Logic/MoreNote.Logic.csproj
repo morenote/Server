@@ -33,6 +33,7 @@
     <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
     <PackageReference Include="github.hyfree.SpamClassificationML.Model" Version="1.1.0" />
     <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.1.0" />
+    <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">

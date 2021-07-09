@@ -50,5 +50,25 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 当需要重置管理员密码的时候，需要打开紧急维护模式
         /// </summary>
         public bool MaintenanceMode { get;set;}=false;
+        /// <summary>
+        /// 密码加密算法
+        /// </summary>
+        public string HashAlgorithm { get;set;}= "argon2";
+        /// <summary>
+        /// 密码加密时的迭代次数
+        /// 迭代次数越大，计算越困难
+        /// </summary>
+        public int Pwd_Cost { get;set;}= 8;
+        /// <summary>
+        /// 密码加密时的cpu线程限制 仅适用于Argon2id
+        /// cpu核心x2
+        /// </summary>
+        public int PasswordStoreDegreeOfParallelism=8;
+        /// <summary>
+        /// 密码加密时的内存限制 仅适用于Argon2id
+        /// 内存越大，计算越困难
+        /// </summary>
+        public int PasswordStoreMemorySize=1024*2;
+
     }
 }
