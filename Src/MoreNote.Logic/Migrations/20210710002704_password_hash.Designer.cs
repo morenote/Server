@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.DB;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210710002704_password_hash")]
+    partial class password_hash
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1602,6 +1604,10 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_time");
 
+                    b.Property<int>("DegreeOfParallelism")
+                        .HasColumnType("integer")
+                        .HasColumnName("degree_of_parallelism");
+
                     b.Property<string>("Email")
                         .HasColumnType("text")
                         .HasColumnName("email");
@@ -1617,6 +1623,14 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("GoogleAuthenticatorSecretKey")
                         .HasColumnType("text")
                         .HasColumnName("google_authenticator_secret_key");
+
+                    b.Property<string>("HashAlgorithm")
+                        .HasColumnType("text")
+                        .HasColumnName("hash_algorithm");
+
+                    b.Property<int>("HashIterations")
+                        .HasColumnType("integer")
+                        .HasColumnName("hash_iterations");
 
                     b.Property<int>("ImageNum")
                         .HasColumnType("integer")
@@ -1658,6 +1672,10 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("md_editor_width");
 
+                    b.Property<int>("MemorySize")
+                        .HasColumnType("integer")
+                        .HasColumnName("memory_size");
+
                     b.Property<int>("NoteListWidth")
                         .HasColumnType("integer")
                         .HasColumnName("note_list_width");
@@ -1665,22 +1683,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<int>("NotebookWidth")
                         .HasColumnType("integer")
                         .HasColumnName("notebook_width");
-
-                    b.Property<int>("PasswordDegreeOfParallelism")
-                        .HasColumnType("integer")
-                        .HasColumnName("password_degree_of_parallelism");
-
-                    b.Property<string>("PasswordHashAlgorithm")
-                        .HasColumnType("text")
-                        .HasColumnName("password_hash_algorithm");
-
-                    b.Property<int>("PasswordHashIterations")
-                        .HasColumnType("integer")
-                        .HasColumnName("password_hash_iterations");
-
-                    b.Property<int>("PasswordMemorySize")
-                        .HasColumnType("integer")
-                        .HasColumnName("password_memory_size");
 
                     b.Property<string>("Pwd")
                         .HasColumnType("text")

@@ -34,11 +34,12 @@ namespace MoreNote.Logic.Service
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
         {
            
-            var passwordStore = PasswordStoreFactory.Instance(config.SecurityConfig);
+            
             user = UserService.GetUser(email);
+            var passwordStore = PasswordStoreFactory.Instance(user);
             if (user != null)
             {
-                var result = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.Pwd_Cost);
+                var result = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
                 if (result)
                 {
                     long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
@@ -132,7 +133,7 @@ namespace MoreNote.Logic.Service
             var salt= RandomTool.CreatSafeSaltByteArray(16);
             var passwordStore=PasswordStoreFactory.Instance(config.SecurityConfig);
             //对用户密码做哈希运算
-            string genPass= passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd),salt,config.SecurityConfig.Pwd_Cost).ByteArrayToBase64();
+            string genPass= passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd),salt,config.SecurityConfig.PasswordHashIterations).ByteArrayToBase64();
             if (string.IsNullOrEmpty(genPass))
             {
                 Msg="密码处理过程出现错误";
@@ -144,9 +145,11 @@ namespace MoreNote.Logic.Service
                 UserId = SnowFlakeNet.GenerateSnowFlakeID(),
                 Email = email,
                 Username = email,
-                Pwd_Cost=config.SecurityConfig.Pwd_Cost,//加密强度=1
+                PasswordHashIterations=config.SecurityConfig.PasswordHashIterations,//加密强度=1
+                PasswordDegreeOfParallelism= config.SecurityConfig.PasswordStoreDegreeOfParallelism,
+                PasswordMemorySize=config.SecurityConfig.PasswordStoreMemorySize,
                 Pwd = genPass,
-                HashAlgorithm= config.SecurityConfig.HashAlgorithm,
+                PasswordHashAlgorithm = config.SecurityConfig.PasswordHashAlgorithm,
                 Salt = salt.ByteArrayToBase64(),
                 FromUserId = fromUserId,
                 Role="User",

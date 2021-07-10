@@ -53,12 +53,12 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// <summary>
         /// 密码加密算法
         /// </summary>
-        public string HashAlgorithm { get;set;}= "argon2";
+        public string PasswordHashAlgorithm { get;set;}= "argon2";
         /// <summary>
         /// 密码加密时的迭代次数
         /// 迭代次数越大，计算越困难
         /// </summary>
-        public int Pwd_Cost { get;set;}= 8;
+        public int PasswordHashIterations { get;set;}= 8;
         /// <summary>
         /// 密码加密时的cpu线程限制 仅适用于Argon2id
         /// cpu核心x2

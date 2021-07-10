@@ -63,18 +63,36 @@ namespace MoreNote.Logic.Entity
         /// 哈希算法 sha256  sha512  HMAC算法 hmac-sha256 hmac-sha512 慢哈希算法 Argon2 bcrypt scrypt   pbkdf2
         /// </para>
         /// </summary>
-        [Column("hash_algorithm")]
+        [Column("password_hash_algorithm")]
         [JsonIgnore]
-        public string HashAlgorithm{get;set;}
+        public string PasswordHashAlgorithm {get;set;}
+        /// <summary>
+        /// 哈希加密迭代次数
+        /// </summary>
+        [Column("password_hash_iterations")]
+        [JsonIgnore]
+        public int PasswordHashIterations { get; set; }
+        /// <summary>
+        /// 哈希加密时CPU线程限制
+        /// </summary>
+        [Column("password_degree_of_parallelism")]
+        [JsonIgnore]
+        public int PasswordDegreeOfParallelism { get; set; }
+        /// <summary>
+        /// 哈希加密时内存限制
+        /// </summary>
+        [Column("password_memory_size")]
+        [JsonIgnore]
+        public int PasswordMemorySize { get; set; }
+
         [Column("salt")]
         [JsonIgnore]
         public string Salt { get; set; }//MD5 盐 盐的长度默认是32字节 
         [Column("google_authenticator_secret_key")]
         [JsonIgnore]
         public string GoogleAuthenticatorSecretKey { get; set; }//谷歌身份验证密码
-        [Column("pwd_cost")]
-        [JsonIgnore]
-        public int Pwd_Cost { get; set; }//加密强度--》迭代次数
+       
+
         [Column("user_role")]
         public string Role { get; set; }//角色 用户组
         [Column("jurisdiction")]
