@@ -6,3 +6,5 @@ services:
     build:
       context: .
       dockerfile: Src/MoreNote/Dockerfile
+    volumes:
+      - "C:\\morenote:/morenote"
