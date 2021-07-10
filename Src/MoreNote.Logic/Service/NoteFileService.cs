@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.FileStoreService;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,10 +23,33 @@ namespace MoreNote.Logic.Service
 
         private DataContext dataContext;
         ConfigFileService ConfigFileService;
+        FileStoreConfig storeConfig;
+        WebSiteConfig webSiteConfig;
         public NoteFileService(DataContext dataContext, ConfigFileService ConfigFileService)
         {
             this.dataContext = dataContext;
             this.ConfigFileService=ConfigFileService;
+            this.storeConfig= ConfigFileService.WebConfig.FileStoreConfig;
+            this.webSiteConfig= ConfigFileService.WebConfig;
+        }
+
+        public async Task<bool> SaveFile(string objectId, IFormFile formFile,string contentType)
+        {
+            try
+            {
+                var fileStore = FileStoreServiceFactory.Instance(webSiteConfig);
+                using (Stream stream = formFile.OpenReadStream())
+                {
+                   await fileStore.PutObjectAsync(objectId, stream,stream.Length, contentType);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+               
+            }
+           
         }
 
         public async Task<bool> SaveUploadFileOnUPYunAsync(UpYun upyun, IFormFile formFile, string uploadDirPath, string fileName)

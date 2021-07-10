@@ -49,7 +49,7 @@ namespace MoreNoteWorkerService
             this.randomImageService= randomImageService;
             this.configFileService= configFileService;
             config = configFileService.WebConfig;
-            upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
+            upyun = new UpYun(config.UpyunConfig.UpyunBucket, config.UpyunConfig.UpyunUsername, config.UpyunConfig.UpyunPassword);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

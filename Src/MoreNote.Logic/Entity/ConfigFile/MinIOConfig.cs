@@ -11,8 +11,16 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// <summary>
         /// MinIo的访问URL
         /// </summary>
-        public string URL { get;set;}
+        public string Endpoint { get;set;}
+
+        public bool WithSSL { get;set;}
+        public string BucketName { get;set;}
+
+
         public string MINIO_ACCESS_KEY { get;set;}
         public string MINIO_SECRET_KEY { get;set;}
+        
+
+
     }
 }
