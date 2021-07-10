@@ -284,10 +284,6 @@ namespace MoreNote.Framework.Controllers
             ViewBag.leaUrl = "/";
             ViewBag.noteUrl = "/note/note";
 
-
-
-
-
             return null;
         }
         public void SetUserIdToSession(long? userId)
