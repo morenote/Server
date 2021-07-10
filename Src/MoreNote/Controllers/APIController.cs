@@ -86,8 +86,8 @@ namespace MoreNote.Controllers
             this.randomImageService= randomImageService;
             this.configFileService = configFileService;
             webcConfig = configFileService.WebConfig;
-            upyun = new UpYun(webcConfig.UpYunCDN.UpyunBucket, webcConfig.UpYunCDN.UpyunUsername,
-                webcConfig.UpYunCDN.UpyunPassword);
+            upyun = new UpYun(webcConfig.UpyunConfig.UpyunBucket, webcConfig.UpyunConfig.UpyunUsername,
+                webcConfig.UpyunConfig.UpyunPassword);
            _randomImageFuseSize=  webcConfig.PublicAPI.RandomImageFuseSize;
             size = webcConfig.PublicAPI.RandomImageSize;
         }
@@ -169,7 +169,7 @@ namespace MoreNote.Controllers
             //访问日志
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             string typeMD5 = randomImage.TypeNameMD5;
-            upyun.secret = webcConfig.UpYunCDN.UpyunSecret; ;
+            upyun.secret = webcConfig.UpyunConfig.UpyunSecret; ;
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
             Console.WriteLine("现在的时间="+unixTimestamp);
             unixTimestamp += 15;

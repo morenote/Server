@@ -64,9 +64,9 @@ namespace MoreNote.Framework.Controllers
             this.userService = userService;
             this._accessor = accessor;
             config = configFileService.WebConfig;
-            if (config != null && config.UpYunCDN != null)
+            if (config != null && config.UpyunConfig != null)
             {
-                upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
+                upyun = new UpYun(config.UpyunConfig.UpyunBucket, config.UpyunConfig.UpyunUsername, config.UpyunConfig.UpyunPassword);
             }
            
         }
@@ -295,7 +295,7 @@ namespace MoreNote.Framework.Controllers
         {
             msg = "";
             serverFileId = 0;
-            FileConfig config=configFileService.WebConfig.FileConfig;
+            FileStoreConfig config=configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath =null;
             if (RuntimeEnvironment.Islinux)
             {
@@ -352,8 +352,8 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            //Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
-            Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
+            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
+            //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
             bool result = task.Result;
             if (result)
             {
@@ -369,7 +369,6 @@ namespace MoreNote.Framework.Controllers
                     Size = httpFile.Length,
                     Path = uploadDirPath + fileName,
                     Type = fileEXT.ToLower(),
-
                     CreatedTime = DateTime.Now
                     //todo: 增加特性=图片管理
                 };
@@ -405,7 +404,7 @@ namespace MoreNote.Framework.Controllers
             }
             msg = "";
             serverFileId = 0;
-            FileConfig config = configFileService.WebConfig.FileConfig;
+            FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
             if (RuntimeEnvironment.Islinux)
             {
@@ -465,8 +464,9 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
-            bool result = task.Result;
+            //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
+            bool result = noteFileService.SaveFile(fileName, httpFile, "application/octet-stream").Result;
+
             if (result)
             {
                 //将结果保存在数据库
