@@ -32,6 +32,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 每隔多长时间更新一次 单位 秒
         /// </summary>
         public int UpdateTime { get;set;}
+        public string BucketName { get;set;}
         public static RandomImangeServiceConfig GenerateTemplate()
         {
             RandomImangeServiceConfig PublicAPIConfig=new RandomImangeServiceConfig()

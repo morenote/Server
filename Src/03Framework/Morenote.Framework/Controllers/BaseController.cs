@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Primitives;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
@@ -39,10 +40,7 @@ namespace MoreNote.Framework.Controllers
         public TokenSerivce tokenSerivce;
      
 
-        /// <summary>
-        /// 又拍云
-        /// </summary>
-        public UpYun upyun = null;
+   
 
         public UserService userService;
 
@@ -64,10 +62,7 @@ namespace MoreNote.Framework.Controllers
             this.userService = userService;
             this._accessor = accessor;
             config = configFileService.WebConfig;
-            if (config != null && config.UpyunConfig != null)
-            {
-                upyun = new UpYun(config.UpyunConfig.UpyunBucket, config.UpyunConfig.UpyunUsername, config.UpyunConfig.UpyunPassword);
-            }
+            
            
         }
 
@@ -352,9 +347,9 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
+           // Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
             //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
-            bool result = task.Result;
+            bool result = false;
             if (result)
             {
                 //将结果保存在数据库
@@ -465,7 +460,10 @@ namespace MoreNote.Framework.Controllers
             }
             //将文件保存在磁盘
             //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
-            bool result = noteFileService.SaveFile(fileName, httpFile, "application/octet-stream").Result;
+            var ext=Path.GetExtension(fileName);
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[ext];
+            bool result = noteFileService.SaveFile(fileName, httpFile, memi).Result;
 
             if (result)
             {

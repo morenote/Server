@@ -86,7 +86,6 @@ namespace MoreNote.Controllers.API.APIV1
                 var memi = provider.Mappings[fileExt];
                 MemoryStream stmMemory = new MemoryStream();
                
-
                 return File(data, memi);
 
                 //return File(stream, noteFile.Name);
