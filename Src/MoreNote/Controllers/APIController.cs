@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.StaticFiles;
 using Morenote.Framework.Filter.Global;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
@@ -11,7 +10,7 @@ using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
-
+using MoreNote.Logic.Service.FileService.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,8 +19,6 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-
-using UpYunLibrary;
 using UpYunLibrary.ContentRecognition;
 
 namespace MoreNote.Controllers
@@ -32,12 +29,11 @@ namespace MoreNote.Controllers
         private RandomImageService randomImageService;
         private DataContext dataContext;
         private ConfigFileService configFileService;
-    
 
         /// <summary>
         /// 保险丝
         /// </summary>
-        private  readonly int _randomImageFuseSize;
+        private readonly int _randomImageFuseSize;
 
         /// <summary>
         /// 保险丝计数器
@@ -46,11 +42,11 @@ namespace MoreNote.Controllers
         private static int _fuseCount = 0;
 
         private static readonly object _fuseObj = new object();
-        
+
         /// <summary>
         /// 随机数组的大小
         /// </summary>
-        private  int  size;
+        private int size;
 
         /// <summary>
         /// 随即图片初始化的时间
@@ -61,14 +57,14 @@ namespace MoreNote.Controllers
 
         //目录分隔符
         private static readonly char dsc = Path.DirectorySeparatorChar;
-          //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-        private static  WebSiteConfig webcConfig;
 
-        private static  UpYun upyun ;
+        //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
+        private static WebSiteConfig webcConfig;
 
-        private static  Random random = new Random();
+        private static Random random = new Random();
 
         private AccessService accessService;
+
         public APIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -78,32 +74,42 @@ namespace MoreNote.Controllers
             AccessService accessService,
             DataContext dataContext,
             RandomImageService randomImageService
-           
+
             ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.AccessService = accessService;
             this.dataContext = dataContext;
-            this.randomImageService= randomImageService;
+            this.randomImageService = randomImageService;
             this.configFileService = configFileService;
             webcConfig = configFileService.WebConfig;
-            upyun = new UpYun(webcConfig.UpyunConfig.UpyunBucket, webcConfig.UpyunConfig.UpyunUsername,
-                webcConfig.UpyunConfig.UpyunPassword);
-           _randomImageFuseSize=  webcConfig.PublicAPI.RandomImageFuseSize;
+
+            _randomImageFuseSize = webcConfig.PublicAPI.RandomImageFuseSize;
             size = webcConfig.PublicAPI.RandomImageSize;
         }
-      
-        
 
-
-      
-        class RandomImageResult
+        private class RandomImageResult
         {
             public int Error { get; set; }
-            public  int Result { get; set; }
-            public  int Count { get; set; }
-            public  List<string> Images { get; set; }
+            public int Result { get; set; }
+            public int Count { get; set; }
+            public List<string> Images { get; set; }
         }
-        public async Task<IActionResult> GetRandomImage(string type,string format ="raw",int jsonSize=1)
+
+        [Route("api/minioImages/random-images/{objectName}")]
+        public async Task<IActionResult> MinIOImagesAsync(string objectName)
+        {
+            MinIOFileStoreService minio = new MinIOFileStoreService(webcConfig.PublicAPI.BucketName, webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);
+            string fileExt = Path.GetExtension(objectName);
+
+            var data = await minio.GetObjecByteArraytAsync(objectName);
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[fileExt];
+            MemoryStream stmMemory = new MemoryStream();
+
+            return File(data, memi);
+        }
+
+        public async Task<IActionResult> GetRandomImage(string type, string format = "raw", int jsonSize = 1)
         {
             var randomImageList = randomImageService.GetRandomImageList();
             lock (_fuseObj)
@@ -169,61 +175,53 @@ namespace MoreNote.Controllers
             //访问日志
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             string typeMD5 = randomImage.TypeNameMD5;
-            upyun.secret = webcConfig.UpyunConfig.UpyunSecret; ;
+
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
-            Console.WriteLine("现在的时间="+unixTimestamp);
+            Console.WriteLine("现在的时间=" + unixTimestamp);
             unixTimestamp += 15;
-             Console.WriteLine("过期时间="+unixTimestamp);
+            Console.WriteLine("过期时间=" + unixTimestamp);
 
             //开启token防盗链
 
             switch (format)
             {
                 case "raw":
-                    if (webcConfig.PublicAPI.CanTokenAntiTheftChain)
-                    {
-                        string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{typeMD5}/{randomImage.FileSHA1}{ext}");
-                        return Redirect($"https://upyun.morenote.top/upload/{typeMD5}/{randomImage.FileSHA1}{ext}?_upt={_upt}");
-                    }
-                    else
-                    {
-                        return Redirect($"https://upyun.morenote.top/upload/{typeMD5}/{randomImage.FileSHA1}{ext}");
-                    }
+                    return Redirect($"{webcConfig.APPConfig.SiteUrl}/api/minioImages/random-images/{randomImage.RandomImageId.ToHex() + Path.GetExtension(randomImage.FileName)}");
+
                 case "json":
-                    if (jsonSize<0)
+                    if (jsonSize < 0)
                     {
                         jsonSize = 1;
                     }
 
-                    if (jsonSize>20)
+                    if (jsonSize > 20)
                     {
                         jsonSize = 20;
                     }
-                    List<string> images=new List<string>();
+                    List<string> images = new List<string>();
 
                     for (int i = 0; i < jsonSize; i++)
                     {
-                        string img=GetOneURL( type);
+                        string img = GetOneURL(type);
                         images.Add(img);
                     }
-                    
-                    RandomImageResult randomImageResult=new RandomImageResult()
+
+                    RandomImageResult randomImageResult = new RandomImageResult()
                     {
                         Error = 0,
                         Result = 200,
                         Count = images.Count,
-                        Images =images
+                        Images = images
                     };
                     return Json(randomImageResult, Common.Utils.MyJsonConvert.GetSimpleOptions());
+
                 default:
                     Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     return Content("format=??");
-
             }
-            
         }
 
-        private  string GetOneURL(string type)
+        private string GetOneURL(string type)
         {
             var randomImageList = randomImageService.GetRandomImageList();
             RandomImage randomImage = null;
@@ -232,43 +230,35 @@ namespace MoreNote.Controllers
 
             string ext = Path.GetExtension(randomImage.FileName);
             int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
-            string _upt1 = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, $"/upload/{type}/{randomImage.FileSHA1}{ext}");
-            if (webcConfig.PublicAPI.CanTokenAntiTheftChain)
-            {
 
-                return $"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}?_upt={_upt1}";
-            }
-            else
-            {
-                return $"https://upyun.morenote.top/upload/{type}/{randomImage.FileSHA1}{ext}";
-            }
+            return $"{webcConfig.APPConfig.SiteUrl}/api/minioImages/random-images/{randomImage.RandomImageId.ToHex() + Path.GetExtension(randomImage.FileName)}";
         }
 
         public IActionResult ResolutionStrategy(String StrategyID)
         {
             if (string.IsNullOrEmpty(StrategyID))
             {
-                    Response.StatusCode=404;
-                    return Content("StrategyID does not exist");
+                Response.StatusCode = 404;
+                return Content("StrategyID does not exist");
             }
-           
-                try
-                {
-                     var rl=dataContext.ResolutionLocation.Where(b=>b.StrategyID.Equals(StrategyID.ToLongByNumber())).OrderBy(e=>e.Score).FirstOrDefault();
-                     return Redirect(rl.URL);
-                }
-                catch (Exception)
-                {
-                    Response.StatusCode=404;
-                    return Content("StrategyID does not exist"); 
-                }
-            
+
+            try
+            {
+                var rl = dataContext.ResolutionLocation.Where(b => b.StrategyID.Equals(StrategyID.ToLongByNumber())).OrderBy(e => e.Score).FirstOrDefault();
+                return Redirect(rl.URL);
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 404;
+                return Content("StrategyID does not exist");
+            }
         }
+
         public IActionResult GetRandomImageFuseSize()
         {
             return Content(_fuseCount.ToString());
-
         }
+
         [HttpPost]
         public async Task<IActionResult> UpYunImageServiceHook()
         {
@@ -285,45 +275,44 @@ namespace MoreNote.Controllers
                     }
                     string fileSHA1 = Path.GetFileNameWithoutExtension(message.uri);
 
-                   
-                        RandomImage imagedb = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
-                        if (imagedb == null)
-                        {
-                            Response.StatusCode = (int)HttpStatusCode.NotFound;
-                            return Content("未找到");
-                        }
-                        switch (message.type)
-                        {
-                            case UpyunType.delete:
-                                imagedb.IsDelete = true;
-                                break;
+                    RandomImage imagedb = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
+                    if (imagedb == null)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        return Content("未找到");
+                    }
+                    switch (message.type)
+                    {
+                        case UpyunType.delete:
+                            imagedb.IsDelete = true;
+                            break;
 
-                            case UpyunType.shield:
-                                imagedb.Block = true;
-                                break;
+                        case UpyunType.shield:
+                            imagedb.Block = true;
+                            break;
 
-                            case UpyunType.cancel_shield:
-                                imagedb.Block = false;
-                                break;
+                        case UpyunType.cancel_shield:
+                            imagedb.Block = false;
+                            break;
 
-                            case UpyunType.forbidden:
-                                imagedb.Block = true;
-                                break;
+                        case UpyunType.forbidden:
+                            imagedb.Block = true;
+                            break;
 
-                            case UpyunType.cancel_forbidden:
-                                imagedb.Block = false;
-                                break;
+                        case UpyunType.cancel_forbidden:
+                            imagedb.Block = false;
+                            break;
 
-                            default:
-                                break;
-                        }
-                        dataContext.SaveChanges();
+                        default:
+                            break;
+                    }
+                    dataContext.SaveChanges();
                     // Do something
                 }
                 catch (Exception ex)
                 {
                     Response.StatusCode = 404;
-                    return Content("false"+ex.Message);
+                    return Content("false" + ex.Message);
                 }
             }
             Response.StatusCode = 200;
@@ -375,12 +364,11 @@ namespace MoreNote.Controllers
             }
             catch (Exception e)
             {
-                var buffer=ASCIIEncoding.ASCII.GetBytes(e.Message);
+                var buffer = ASCIIEncoding.ASCII.GetBytes(e.Message);
                 await Response.Body.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                 Console.WriteLine(e.Message);
                 return;
             }
-           
         }
     }
 }

@@ -19,7 +19,9 @@ namespace MoreNote.Logic.Entity.ConfigFile
 
         public string MINIO_ACCESS_KEY { get;set;}
         public string MINIO_SECRET_KEY { get;set;}
-        
+        public int BrowserDownloadExpiresInt { get;set;}=3600;
+
+
 
 
     }
