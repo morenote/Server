@@ -21,7 +21,8 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </summary>
         public StorageTypeEnum StorageTypeEnum{get;set;}=StorageTypeEnum.LocalDisk;
 
-        
-  
+    
+
+
     }
 }

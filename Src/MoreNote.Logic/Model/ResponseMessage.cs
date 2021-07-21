@@ -6,17 +6,17 @@ using System.ComponentModel.DataAnnotations;
 namespace MoreNote.Logic.Entity
 {
     // controller ajax返回
-    public class Re
+    public class ResponseMessage
     {
         public bool Ok { get; set; }
         public int Code { get; set; }
         public string Msg { get; set; }
         public string Id { get; set; }
         public string List { get; set; }
-        public Dictionary<string,dynamic> Item { get; set; }
-        public static  Re NewRe()
+        public dynamic Item { get; set; }
+        public static  ResponseMessage NewRe()
         {
-            return new Re()
+            return new ResponseMessage()
             {
                 Ok=false
             };

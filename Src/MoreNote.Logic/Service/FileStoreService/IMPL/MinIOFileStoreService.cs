@@ -14,13 +14,13 @@ namespace MoreNote.Logic.Service.FileService.IMPL
     public class MinIOFileStoreService : IFileStorageService
     {
         private MinioClient minioClient;
-        private string BucketName;
+   
 
         private int presignedGetObjectAsyncExpiresInt;
 
         public MinIOFileStoreService(WebSiteConfig siteConfig)
         {
-            this.BucketName = siteConfig.MinIOConfig.BucketName;
+         
             this.presignedGetObjectAsyncExpiresInt = siteConfig.FileStoreConfig.BrowserDownloadExpiresInt;
             minioClient = new MinioClient(siteConfig.MinIOConfig.Endpoint, siteConfig.MinIOConfig.MINIO_ACCESS_KEY, siteConfig.MinIOConfig.MINIO_SECRET_KEY);
             if (siteConfig.MinIOConfig.WithSSL)
@@ -31,16 +31,18 @@ namespace MoreNote.Logic.Service.FileService.IMPL
         public MinIOFileStoreService(MinIOConfig minIOConfig)
         {
             
+         
             this.presignedGetObjectAsyncExpiresInt = minIOConfig.BrowserDownloadExpiresInt;
             minioClient = new MinioClient(minIOConfig.Endpoint, minIOConfig.MINIO_ACCESS_KEY, minIOConfig.MINIO_SECRET_KEY);
+
             if (minIOConfig.WithSSL)
             {
                 minioClient.WithSSL();
             }
         }
-        public MinIOFileStoreService(string BucketName, string Endpoint, string MINIO_ACCESS_KEY,string MINIO_SECRET_KEY, bool WithSSL,int presignedGetObjectAsyncExpiresInt)
+        public MinIOFileStoreService( string Endpoint, string MINIO_ACCESS_KEY,string MINIO_SECRET_KEY, bool WithSSL,int presignedGetObjectAsyncExpiresInt)
         {
-            this.BucketName=BucketName;
+            
             this.presignedGetObjectAsyncExpiresInt = presignedGetObjectAsyncExpiresInt;
             minioClient = new MinioClient(Endpoint, MINIO_ACCESS_KEY, MINIO_SECRET_KEY);
             if (WithSSL)
@@ -50,33 +52,33 @@ namespace MoreNote.Logic.Service.FileService.IMPL
         }
 
 
-        public async Task PutObjectAsync(string objectName, Stream data, long size, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
+        public async Task PutObjectAsync(string bucketName, string objectName, Stream data, long size, string contentType, Dictionary<string, string> metaData = null)
         {
-            await minioClient.PutObjectAsync(BucketName, objectName, data, size, contentType, metaData);
+            await minioClient.PutObjectAsync(bucketName, objectName, data, size, contentType, metaData);
         }
 
-        public async Task PutObjectAsync(string objectName, string fileName, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
+        public async Task PutObjectAsync(string bucketName, string objectName, string fileName, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
         {
-            await minioClient.PutObjectAsync(BucketName, objectName, fileName, contentType, metaData);
+            await minioClient.PutObjectAsync(bucketName, objectName, fileName, contentType, metaData);
         }
 
-        public async Task<string> PresignedGetObjectAsync(string objectName, Dictionary<string, string> reqParams = null)
+        public async Task<string> PresignedGetObjectAsync(string bucketName, string objectName, Dictionary<string, string> reqParams = null)
         {
-            String url = await minioClient.PresignedPutObjectAsync(BucketName, objectName, presignedGetObjectAsyncExpiresInt);
+            String url = await minioClient.PresignedGetObjectAsync(bucketName, objectName, presignedGetObjectAsyncExpiresInt);
             return url;
         }
 
-        public async Task GetObjectAsync(string objectName, Action<Stream> callback)
+        public async Task GetObjectAsync(string bucketName, string objectName, Action<Stream> callback)
         {
             // Get input stream to have content of 'my-objectname' from 'my-bucketname'
-            await minioClient.GetObjectAsync(BucketName, objectName, callback);
+            await minioClient.GetObjectAsync(bucketName, objectName, callback);
         }
 
-        public async Task<Stream> GetObjectAsync(string objectName)
+        public async Task<Stream> GetObjectAsync(string bucketName, string objectName)
         {
             // Get input stream to have content of 'my-objectname' from 'my-bucketname'
             Stream stream = null;
-            await minioClient.GetObjectAsync(BucketName, objectName, (call) => { stream = call; });
+            await minioClient.GetObjectAsync(bucketName, objectName, (call) => { stream = call; });
             while (stream == null)
             {
                 Thread.Yield();
@@ -84,13 +86,13 @@ namespace MoreNote.Logic.Service.FileService.IMPL
             return stream;
         }
 
-        public async Task<byte[]> GetObjecByteArraytAsync(string objectName)
+        public async Task<byte[]> GetObjecByteArraytAsync(string bucketName, string objectName)
         {
             // Get input stream to have content of 'my-objectname' from 'my-bucketname'
             byte[] data = null;
             Semaphore sem = new Semaphore(1, 1);
             sem.WaitOne(5000);
-            await minioClient.GetObjectAsync(BucketName,
+            await minioClient.GetObjectAsync(bucketName,
 
                 objectName,  (callStream) =>
                 {

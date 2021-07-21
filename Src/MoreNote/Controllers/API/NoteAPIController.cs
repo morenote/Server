@@ -134,7 +134,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
 
             //json 返回状态好乱呀 /(ㄒoㄒ)/~~
-            Re re = Re.NewRe();
+            ResponseMessage re = ResponseMessage.NewRe();
             long? tokenUserId = GetUserIdByToken(token); ;
             long? myUserId = tokenUserId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))

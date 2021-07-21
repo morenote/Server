@@ -390,7 +390,7 @@ namespace MoreNote.Controllers
 
         public IActionResult IncReadNum(string noteId)
         {
-            Re re = new Re();
+            ResponseMessage re = new ResponseMessage();
             long? noteNum = noteId.ToLongByHex();
             re.Ok = blogService.IncReadNum(noteNum);
 
@@ -430,7 +430,7 @@ namespace MoreNote.Controllers
             result.Add("comments", comments);
             result.Add("commentUserInfo", commentUserInfo);
 
-            Re re = new Re()
+            ResponseMessage re = new ResponseMessage()
             {
                 Ok=true,
                 Item=result

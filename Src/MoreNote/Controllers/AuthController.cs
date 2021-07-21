@@ -61,27 +61,27 @@ namespace MoreNote.Controllers
             int valid = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
             if (valid != 1 || !UnixTimeHelper.IsValid(time, 60))//验证码的保质期是60秒
             {
-                Re re = new Re() { Ok = false, Msg = "验证码过期或失效" };
+                ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "验证码过期或失效" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             //销毁验证码的标志
             HttpContext.Session.SetInt32("VerifyCodeValid", 0);
             if (string.IsNullOrEmpty(verifyCode) || string.IsNullOrEmpty(captcha))
             {
-                Re re = new Re() { Ok = false, Msg = "错误参数" };
+                ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "错误参数" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             else
             {
                 if (captcha.Equals("0")||!captcha.ToLower().Equals(verifyCode))
                 {
-                    Re re = new Re() { Ok = false, Msg = "验证码错误" };
+                    ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "验证码错误" };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }
                 if (!authService.LoginByPWD(email, pwd, out string token, out User user))
                 {
                     //登录失败
-                    Re re = new Re() { Ok = false, Msg = "wrongUsernameOrPassword" };
+                    ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "wrongUsernameOrPassword" };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }
                 else
@@ -112,7 +112,7 @@ namespace MoreNote.Controllers
                     HttpContext.Session.SetString("Token", token);
                     HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
                     HttpContext.Session.SetBool("Verified",user.Verified);
-                    Re re = new Re() { Ok = true };
+                    ResponseMessage re = new ResponseMessage() { Ok = true };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }
             }
