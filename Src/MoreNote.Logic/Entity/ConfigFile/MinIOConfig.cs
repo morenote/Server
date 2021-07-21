@@ -12,9 +12,12 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// MinIo的访问URL
         /// </summary>
         public string Endpoint { get;set;}
+        public bool WithSSL { get; set; }
+        public string CDNEndpoint { get;set;}
+        public bool CDNWithSSL { get;set;}
 
-        public bool WithSSL { get;set;}
-        public string BucketName { get;set;}
+        public string NoteFileBucketName { get;set;}
+        public string RandomImagesBucketName { get;set;}
 
 
         public string MINIO_ACCESS_KEY { get;set;}

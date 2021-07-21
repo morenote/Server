@@ -49,7 +49,7 @@ namespace MoreNote.Controllers
         {
             var msg = string.Empty;
             var result = notebookService.DeleteNotebook(GetUserIdBySession(), notebookId.ToLongByHex(), out msg);
-            return Json(new Re() { Ok = result, Msg = msg },MyJsonConvert.GetSimpleOptions());
+            return Json(new ResponseMessage() { Ok = result, Msg = msg },MyJsonConvert.GetSimpleOptions());
         }
         /// <summary>
         /// 添加笔记本

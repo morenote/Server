@@ -26,5 +26,8 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 存储服务生成上传凭证的失效时间 秒
         /// </summary>
         public int BrowserUploadExpiresInt { get; set; }=3600;
+        public int UploadAvatarMaxSizeMB { get; set; } = 10;
+        public long UploadBlogLogoMaxSizeMB { get; set; } = 10;
+        public long UploadImageMaxSizeMB { get; set; } = 20;
     }
 }

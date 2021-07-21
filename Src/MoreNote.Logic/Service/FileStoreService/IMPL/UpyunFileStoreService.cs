@@ -18,37 +18,37 @@ namespace MoreNote.Logic.Service.FileService.IMPL
 
         }
 
-        public Task<byte[]> GetObjecByteArraytAsync(string objectName)
+        public Task<byte[]> GetObjecByteArraytAsync(string bucketName, string objectName)
         {
             throw new NotImplementedException();
         }
 
-        public Task GetObjectAsync(string objectName, Action<Stream> callback)
+        public Task GetObjectAsync(string bucketName, string objectName, Action<Stream> callback)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Stream> GetObjectAsync(string objectName)
+        public Task<Stream> GetObjectAsync(string bucketName, string objectName)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> PresignedGetObjectAsync(string objectName, Dictionary<string, string> reqParams = null)
+        public Task<string> PresignedGetObjectAsync(string bucketName, string objectName, Dictionary<string, string> reqParams = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task PutObjectAsync(Stream data, string objectName, string fileName, string contentType, Dictionary<string, string> metaData)
+        public Task PutObjectAsync(string bucketName, Stream data, string objectName, string fileName, string contentType, Dictionary<string, string> metaData)
         {
             throw new NotImplementedException();
         }
 
-        public Task PutObjectAsync(string objectName, string fileName, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
+        public Task PutObjectAsync(string bucketName, string objectName, string fileName, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task PutObjectAsync(string objectName, Stream data, long size, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
+        public Task PutObjectAsync(string bucketName, string objectName, Stream data, long size, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
         {
             throw new NotImplementedException();
         }

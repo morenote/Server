@@ -291,29 +291,7 @@ namespace MoreNote.Framework.Controllers
             msg = "";
             serverFileId = 0;
             FileStoreConfig config=configFileService.WebConfig.FileStoreConfig;
-            string uploadDirPath =null;
-            if (RuntimeEnvironment.Islinux)
-            {
-                if (string.IsNullOrEmpty(config.SaveFolder))
-                {
-                    uploadDirPath = $"/morenote/user/{userId.ToHex()}/upload/attach/{DateTime.Now.ToString("yyyy_MM")}/";
-                }
-                else
-                {
-                    uploadDirPath= config.SaveFolder + $"/morenote/user/{userId.ToHex()}/upload/attach/{DateTime.Now.ToString("yyyy_MM")}/";
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(config.SaveFolder))
-                {
-                    uploadDirPath = $@"C:\morenote\files\user\{userId.ToHex()}\upload\attach\{DateTime.Now.ToString("yyyy_MM")}\";
-                }
-                else
-                {
-                    uploadDirPath = config.SaveFolder + $@"\files\user\{userId.ToHex()}\upload\attach\{DateTime.Now.ToString("yyyy_MM")}\";
-                }
-            }
+
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
@@ -347,9 +325,16 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-           // Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
+            // Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
             //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
-            bool result = false;
+
+            var ext = Path.GetExtension(fileName);
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[ext];
+            var nowTime = DateTime.Now;
+            var objectName = $"{userId.ToHex()}/attachments/{ nowTime.ToString("yyyy")}/{nowTime.ToString("MM")}/{diskFileId.ToHex()}{ext}";
+            bool result = noteFileService.SaveFile(objectName, httpFile, memi).Result;
+            
             if (result)
             {
                 //将结果保存在数据库
@@ -362,7 +347,7 @@ namespace MoreNote.Framework.Controllers
                     Name = fileName,
                     Title = httpFile.FileName,
                     Size = httpFile.Length,
-                    Path = uploadDirPath + fileName,
+                    Path =  fileName,
                     Type = fileEXT.ToLower(),
                     CreatedTime = DateTime.Now
                     //todo: 增加特性=图片管理
@@ -390,7 +375,17 @@ namespace MoreNote.Framework.Controllers
         {
             return false;
         }
-
+        /// <summary>
+        /// 获取文件MEMI
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <returns></returns>
+        public  string GetMemi(string ext)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[ext];
+            return memi;
+        }
         public bool UploadImages(string name, long? userId, long? noteId, bool isAttach, out long? serverFileId, out string msg)
         {
             if (isAttach)
@@ -401,30 +396,7 @@ namespace MoreNote.Framework.Controllers
             serverFileId = 0;
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
-            if (RuntimeEnvironment.Islinux)
-            {
-                if (string.IsNullOrEmpty(config.SaveFolder))
-                {
-                    uploadDirPath = $"/morenote/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
-                }
-                else
-                {
-                    uploadDirPath = config.SaveFolder + $"/morenote/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
-                }
-
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(config.SaveFolder))
-                {
-                    uploadDirPath = $@"C:\morenote\files\user\{userId.ToHex()}\upload\images\{DateTime.Now.ToString("yyyy_MM")}\";
-                }
-                else
-                {
-                    uploadDirPath = config.SaveFolder + $@"\files\user\{userId.ToHex()}\upload\images\{DateTime.Now.ToString("yyyy_MM")}\";
-                }
-
-            }
+    
            
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
@@ -447,6 +419,7 @@ namespace MoreNote.Framework.Controllers
             }
             var httpFile = httpFiles[name];
             var fileEXT = Path.GetExtension(httpFile.FileName).Replace(".", "");
+            var ext= Path.GetExtension(httpFile.FileName);
             if (!IsAllowImageExt(fileEXT))
             {
                 msg = $"The_image_extension_{fileEXT}_is_blocked";
@@ -460,10 +433,12 @@ namespace MoreNote.Framework.Controllers
             }
             //将文件保存在磁盘
             //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
-            var ext=Path.GetExtension(fileName);
+           
             var provider = new FileExtensionContentTypeProvider();
             var memi = provider.Mappings[ext];
-            bool result = noteFileService.SaveFile(fileName, httpFile, memi).Result;
+            var nowTime = DateTime.Now;
+            var objectName= $"{userId.ToHex()}/images/{ nowTime.ToString("yyyy")}/{nowTime.ToString("MM")}/{diskFileId.ToHex()}{ext}";
+            bool result = noteFileService.SaveFile(objectName, httpFile, memi).Result;
 
             if (result)
             {
@@ -477,7 +452,7 @@ namespace MoreNote.Framework.Controllers
                     Title = fileName,
                     Path = uploadDirPath + fileName,
                     Size = httpFile.Length,
-                    CreatedTime = DateTime.Now
+                    CreatedTime = nowTime
                     //todo: 增加特性=图片管理
                 };
                 var AddResult = noteFileService.AddImage(noteFile, 0, userId, true);

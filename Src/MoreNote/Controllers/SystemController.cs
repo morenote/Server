@@ -54,7 +54,7 @@ namespace MoreNote.Controllers
             string path=RuntimeEnvironment.IsWindows?@"C:\morenote\WebSiteConfig.json":"/morenote/WebSiteConfig.json";
             if(localWebSiteConfig!=null&&localWebSiteConfig.IsAlreadyInstalled)
             {
-                 Re re = new Re() { Ok = false, Msg = $"请设置{path}的IsAlreadyInstalled变量为false" };
+                 ResponseMessage re = new ResponseMessage() { Ok = false, Msg = $"请设置{path}的IsAlreadyInstalled变量为false" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             string verifyCode = HttpContext.Session.GetString("VerifyCode");
@@ -63,28 +63,28 @@ namespace MoreNote.Controllers
             int valid = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
             if (valid != 1 || !UnixTimeHelper.IsValid(time, 2000))
             {
-                Re re = new Re() { Ok = false, Msg = "验证码过期或失效" };
+                ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "验证码过期或失效" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             //销毁验证码的标志
             HttpContext.Session.SetInt32("VerifyCodeValid", 0);
             if (string.IsNullOrEmpty(verifyCode) || string.IsNullOrEmpty(captcha)||verifyCodeValid==null||verifyCodeValid==0)
             {
-                Re re = new Re() { Ok = false, Msg = "错误参数" };
+                ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "错误参数" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             else
-            {       Re re = new Re() { Ok = true };
+            {       ResponseMessage re = new ResponseMessage() { Ok = true };
                     WebSiteConfig webSiteConfig=JsonSerializer.Deserialize<WebSiteConfig>(config);
                     //检查配置文件
                     if (webSiteConfig.PostgreSql==null)
                     {
-                          re = new Re() { Ok = false, Msg = "PostgreSql错误参数" };
+                          re = new ResponseMessage() { Ok = false, Msg = "PostgreSql错误参数" };
                          return Json(re, MyJsonConvert.GetSimpleOptions());
                     }
                     configFileService.Save(webSiteConfig,ConfigFileService.GetConfigPath());
                     //登录成功
-                    re = new Re() { Ok = true };
+                    re = new ResponseMessage() { Ok = true };
                     return Json(re, MyJsonConvert.GetSimpleOptions());
             }
         }

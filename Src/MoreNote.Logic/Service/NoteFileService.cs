@@ -33,14 +33,14 @@ namespace MoreNote.Logic.Service
             this.webSiteConfig= ConfigFileService.WebConfig;
         }
 
-        public async Task<bool> SaveFile(string objectId, IFormFile formFile,string contentType)
+        public async Task<bool> SaveFile(string objectName, IFormFile formFile,string contentType)
         {
             try
             {
                 var fileStore = FileStoreServiceFactory.Instance(webSiteConfig);
                 using (Stream stream = formFile.OpenReadStream())
                 {
-                   await fileStore.PutObjectAsync(objectId, stream,stream.Length, contentType);
+                   await fileStore.PutObjectAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName, stream,stream.Length, contentType);
                 }
                 return true;
             }

@@ -95,16 +95,16 @@ namespace MoreNote.Controllers
             public List<string> Images { get; set; }
         }
 
-        [Route("api/minioImages/random-images/{objectName}")]
-        public async Task<IActionResult> MinIOImagesAsync(string objectName)
+        [Route("api/random-images/{typeMd5}/{fileName}")]
+        public async Task<IActionResult> MinIOImagesAsync(string typeMd5, string fileName)
         {
-            MinIOFileStoreService minio = new MinIOFileStoreService(webcConfig.PublicAPI.BucketName, webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);
-            string fileExt = Path.GetExtension(objectName);
-
-            var data = await minio.GetObjecByteArraytAsync(objectName);
+            MinIOFileStoreService minio = new MinIOFileStoreService( webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);
+            string fileExt = Path.GetExtension(fileName);
+            var objectName =$"{typeMd5}/{fileName}";
+            var data = await minio.GetObjecByteArraytAsync(webcConfig.MinIOConfig.RandomImagesBucketName, objectName);
             var provider = new FileExtensionContentTypeProvider();
             var memi = provider.Mappings[fileExt];
-            MemoryStream stmMemory = new MemoryStream();
+           
 
             return File(data, memi);
         }
@@ -186,7 +186,7 @@ namespace MoreNote.Controllers
             switch (format)
             {
                 case "raw":
-                    return Redirect($"{webcConfig.APPConfig.SiteUrl}/api/minioImages/random-images/{randomImage.RandomImageId.ToHex() + Path.GetExtension(randomImage.FileName)}");
+                    return Redirect($"{webcConfig.APPConfig.SiteUrl}/api/random-images/{randomImage.TypeNameMD5}/{randomImage.RandomImageId.ToHex() + ext}");
 
                 case "json":
                     if (jsonSize < 0)
@@ -229,9 +229,9 @@ namespace MoreNote.Controllers
             randomImage = randomImageList[type][index];
 
             string ext = Path.GetExtension(randomImage.FileName);
-            int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
+          
 
-            return $"{webcConfig.APPConfig.SiteUrl}/api/minioImages/random-images/{randomImage.RandomImageId.ToHex() + Path.GetExtension(randomImage.FileName)}";
+            return $"{webcConfig.APPConfig.SiteUrl}/api/random-images/{randomImage.TypeNameMD5}/{randomImage.RandomImageId.ToHex() + ext}";
         }
 
         public IActionResult ResolutionStrategy(String StrategyID)
