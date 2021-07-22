@@ -32,7 +32,7 @@ namespace MoreNote.Logic.Service
             var ok = InsertAttach(attachInfo);
             var note = NoteService.GetNoteById(attachInfo.NoteId);
             long? userId = 0L;
-            if (note.NoteId != 0)
+            if (note.NoteId !=null)
             {
                 userId = note.UserId;
             }

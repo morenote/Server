@@ -27,7 +27,8 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </summary>
         public int BrowserUploadExpiresInt { get; set; }=3600;
         public int UploadAvatarMaxSizeMB { get; set; } = 10;
-        public long UploadBlogLogoMaxSizeMB { get; set; } = 10;
-        public long UploadImageMaxSizeMB { get; set; } = 20;
+        public int UploadBlogLogoMaxSizeMB { get; set; } = 10;
+        public int UploadImageMaxSizeMB { get; set; } = 20;
+        public int UploadAttachMaxSizeMB { get;set;}=500;
     }
 }

@@ -10,10 +10,12 @@ using MoreNote.Logic.Service.FileStoreService;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UpYunLibrary.OSS;
 
 namespace MoreNote.Controllers
 {
+    
     public class FileController : BaseController
     {
         private ConfigFileService configFileService;
@@ -51,10 +53,10 @@ namespace MoreNote.Controllers
             ViewBag.signature = signature;
             return View();
         }
-        public IActionResult PasteImage(string noteId)
+        public async Task<IActionResult> PasteImage(string noteId)
         {
             var id=noteId.ToLongByHex();
-            var re=uploadImage("pasteImage",null);
+            var re=await uploadImage("pasteImage",null);
             if (id!=null)
             {
                 var userid=GetUserIdBySession();
@@ -78,7 +80,7 @@ namespace MoreNote.Controllers
         }
 
 
-        private ResponseMessage uploadImage(string from, long? albumId)
+        private async System.Threading.Tasks.Task<ResponseMessage> uploadImage(string from, long? albumId)
         {
             var fileUrlPath = string.Empty;
             long? fileId = SnowFlakeNet.GenerateSnowFlakeID();
@@ -161,9 +163,9 @@ namespace MoreNote.Controllers
             //写入对象储存
             filename = fileId.ToHex() + ext;
             var objectName=$"{fileUrlPath}/{filename}";
-            var fileStore= FileStoreServiceFactory.Instance(config);
+           
             var memi=GetMemi(ext);
-            fileStore.PutObjectAsync(config.MinIOConfig.NoteFileBucketName,objectName,httpFile.OpenReadStream(),httpFile.Length,memi);
+            bool result = await noteFileService.SaveFile(objectName, httpFile, memi);
             //File对象
             var fileInfo=new NoteFile()
             {
@@ -178,7 +180,7 @@ namespace MoreNote.Controllers
                 CreatedTime=nowTime
                 
             };
-            var result= noteFileService.AddImage(fileInfo,albumId,userid, from == "" || from == "pasteImage");
+             result= noteFileService.AddImage(fileInfo,albumId,userid, from == "" || from == "pasteImage");
             re.Ok=result;
             re.Item=fileInfo;
 

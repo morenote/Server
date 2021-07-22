@@ -876,7 +876,12 @@ namespace MoreNote.Logic.Service
         // 附件修改, 增加noteIncr
         public int IncrNoteUsn(long? noteId, long? userId)
         {
-            throw new Exception();
+            var afterUsn=UserService.IncrUsn(userId);
+            dataContext.Note.Where(b=>b.NoteId==noteId&&b.UserId==userId).Update(c=>new Note(){ UpdatedTime=DateTime.Now,Usn=afterUsn});
+            dataContext.SaveChanges();
+            return afterUsn;
+
+
         }
 
         // 这里要判断权限, 如果userId != updatedUserId, 那么需要判断权限
