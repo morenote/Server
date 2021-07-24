@@ -33,6 +33,11 @@ namespace MoreNote.Logic.Service.FileService.IMPL
             throw new NotImplementedException();
         }
 
+        public Task GetObjectAsync(string bucketName, string objectName, string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<string> PresignedGetObjectAsync(string bucketName, string objectName, Dictionary<string, string> reqParams = null)
         {
             throw new NotImplementedException();

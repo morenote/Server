@@ -111,6 +111,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+
+    <PackageReference Include="SharpZipLib" Version="1.3.2" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="5.1.29" />
   </ItemGroup>

@@ -5,6 +5,11 @@ namespace MoreNote.Common.Utils
 {
     public class HyHtmlHelper
     {
+        /// <summary>
+        /// 过滤HTML成普通字符串
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
         public static string Filter(string html)
         {
             html = html.Replace("<", "&lt;");

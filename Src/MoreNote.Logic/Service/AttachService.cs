@@ -7,6 +7,7 @@ using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.FileStoreService;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -194,11 +195,16 @@ namespace MoreNote.Logic.Service
         //todo： 考虑该函数的删除文件的安全性，是否存在注入的风险
         private async Task DeleteAttachOnDiskAsync(string path)
         {
-            var fileStore=FileStoreServiceFactory.Instance(config);
-            await fileStore.RemoveObjectAsync(config.MinIOConfig.NoteFileBucketName,path);
-
-
-            File.Delete(path);
+            try
+            {
+                var fileStore = FileStoreServiceFactory.Instance(config);
+                await fileStore.RemoveObjectAsync(config.MinIOConfig.NoteFileBucketName, path);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.StackTrace);
+                throw;
+            }
         }
 
         public async Task<AttachInfo> GetAttachAsync(long? attachId, long? userId)

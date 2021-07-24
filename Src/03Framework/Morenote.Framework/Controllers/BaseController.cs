@@ -382,10 +382,29 @@ namespace MoreNote.Framework.Controllers
         /// <returns></returns>
         public  string GetMemi(string ext)
         {
-            var provider = new FileExtensionContentTypeProvider();
-            var memi = provider.Mappings[ext];
-            return memi;
+            try
+            {
+                var provider = new FileExtensionContentTypeProvider();
+                if (provider.Mappings.ContainsKey(ext))
+                {
+                    var memi = provider.Mappings[ext];
+                    return memi;
+                }
+                else
+                {
+                    return "application/octet-stream";
+                }
+               
+
+            }
+            catch (Exception)
+            {
+                return "application/octet-stream";
+                throw;
+            }
+            
         }
+
         public bool UploadImages(string name, long? userId, long? noteId, bool isAttach, out long? serverFileId, out string msg)
         {
             if (isAttach)
