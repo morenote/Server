@@ -47,5 +47,6 @@ namespace MoreNote.Logic.Service.FileService
         public abstract Task<Stream> GetObjectAsync(string bucketName, string objectName);
 
         public abstract Task<byte[]> GetObjecByteArraytAsync(string bucketName, string objectName);
+        public abstract  Task RemoveObjectAsync(string bucketName, string objectName);
     }
 }

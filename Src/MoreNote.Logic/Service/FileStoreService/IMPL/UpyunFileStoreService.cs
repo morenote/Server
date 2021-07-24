@@ -52,5 +52,10 @@ namespace MoreNote.Logic.Service.FileService.IMPL
         {
             throw new NotImplementedException();
         }
+
+        public Task RemoveObjectAsync(string bucketName, string objectName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

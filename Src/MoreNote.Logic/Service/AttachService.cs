@@ -3,10 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.FileStoreService;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
@@ -15,11 +18,14 @@ namespace MoreNote.Logic.Service
     {
         private DataContext dataContext;
         public NoteService NoteService { get;set;}
+        private WebSiteConfig config;
         
-        public AttachService(DataContext dataContext)
+        public AttachService(DataContext dataContext,ConfigFileService configFileService)
         {
             this.dataContext=dataContext;
-           
+            this.config=configFileService.WebConfig;
+
+
         }
 
         //add attach
@@ -83,13 +89,13 @@ namespace MoreNote.Logic.Service
         }
 
         // list attachs
-        public AttachInfo[] ListAttachs(long? noteId, long? userId)
+        public async Task<AttachInfo[]> ListAttachsAsync(long? noteId, long? userId)
         {
            
-                var attachs = dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArray();
+                var attachs =await dataContext.AttachInfo.Where(b => b.NoteId == noteId && b.UserId == userId).ToArrayAsync();
                 return attachs;
-                //todo:权限控制
-            
+            //todo:权限控制 这里, 优化权限控制
+
         }
 
         // api调用, 通过noteIds得到note's attachs, 通过noteId归类返回
@@ -134,7 +140,7 @@ namespace MoreNote.Logic.Service
         }
 
         // Delete note to delete attas firstly
-        public bool DeleteAllAttachs(long? noteId, long? userId)
+        public async Task<bool> DeleteAllAttachsAsync(long? noteId, long? userId)
         {
            
 
@@ -144,7 +150,7 @@ namespace MoreNote.Logic.Service
                 {
                     foreach (var attach in attachInfos)
                     {
-                        DeleteAttach(attach.AttachId, userId);
+                       await  DeleteAttachAsync(attach.AttachId, userId);
                         //todo:实现os删除，因为文件可能在对象储存上
                         /**
                          * 这里存在的问题就是morenote可能允许多种储存方式
@@ -165,7 +171,7 @@ namespace MoreNote.Logic.Service
 
         // delete attach
         // 删除附件为什么要incrNoteUsn ? 因为可能没有内容要修改的
-        public bool DeleteAttach(long? attachId, long? userId)
+        public async Task<bool> DeleteAttachAsync(long? attachId, long? userId)
         {
             if (attachId != 0 && userId != 0)
             {
@@ -175,7 +181,7 @@ namespace MoreNote.Logic.Service
                     string path = attach.Path;
                     dataContext.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).Delete();
                     UpdateNoteAttachNum(noteId, -1);
-                    DeleteAttachOnDisk(path);
+                    await  DeleteAttachOnDiskAsync(path);
                     return true;
                 
             }
@@ -186,14 +192,20 @@ namespace MoreNote.Logic.Service
         }
 
         //todo： 考虑该函数的删除文件的安全性，是否存在注入的风险
-        private static void DeleteAttachOnDisk(string path)
+        private async Task DeleteAttachOnDiskAsync(string path)
         {
+            var fileStore=FileStoreServiceFactory.Instance(config);
+            await fileStore.RemoveObjectAsync(config.MinIOConfig.NoteFileBucketName,path);
+
+
             File.Delete(path);
         }
 
-        public AttachInfo GetAttach(long? attachId, long? userId)
+        public async Task<AttachInfo> GetAttachAsync(long? attachId, long? userId)
         {
-            throw new Exception();
+          var attach=dataContext.AttachInfo.Where(b=>b.AttachId==attachId&&b.UserId==userId);
+            AttachInfo attachInfo = await attach.FirstOrDefaultAsync();
+            return attachInfo;
         }
 
         public AttachInfo GetAttach(long? attachId)
@@ -209,9 +221,9 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public bool UpdateOrDeleteAttachApi(long? noteId, long? userId, APINoteFile[] files)
+        public async Task<bool> UpdateOrDeleteAttachApiAsync(long? noteId, long? userId, APINoteFile[] files)
         {
-            var attachs = ListAttachs(noteId, userId);
+            var attachs =await ListAttachsAsync(noteId, userId);
             HashSet<string> nowAttachs = new HashSet<string>(20);
             foreach (var file in files)
             {
@@ -227,7 +239,7 @@ namespace MoreNote.Logic.Service
                 {
                     // 需要删除的
                     // TODO 权限验证去掉
-                    DeleteAttach(attach.AttachId, userId);
+                    DeleteAttachAsync(attach.AttachId, userId);
                 }
             }
             return true;

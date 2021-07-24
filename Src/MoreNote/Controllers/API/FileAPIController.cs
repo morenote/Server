@@ -84,11 +84,10 @@ namespace MoreNote.Controllers.API.APIV1
                 var fileService = FileStoreServiceFactory.Instance(webSiteConfig);
                
                 var objectName= $"{noteFile.UserId.ToHex()}/images/{noteFile.CreatedTime.ToString("yyyy")}/{noteFile.CreatedTime.ToString("MM")}/{noteFile.FileId.ToHex()}{Path.GetExtension(noteFile.Name)}";
-                var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
                 var provider = new FileExtensionContentTypeProvider();
                 var memi = provider.Mappings[fileExt];
-              
-               
+                var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
+
                 return File(data, memi);
 
                
