@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Common.Utils
 {
+    /// <summary>
+    /// 安全相关
+    /// </summary>
     public  class SecurityUtil
     {
         public static bool SafeCompareByteArray( byte[] a1,byte[] a2)
@@ -23,6 +26,7 @@ namespace MoreNote.Common.Utils
             }
             return result == 0;
         }
+      
 
     }
 }

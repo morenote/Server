@@ -47,6 +47,15 @@ namespace MoreNote.Logic.Service.FileService
         public abstract Task<Stream> GetObjectAsync(string bucketName, string objectName);
 
         public abstract Task<byte[]> GetObjecByteArraytAsync(string bucketName, string objectName);
+        /// <summary>
+        /// 下载文件到本地
+        /// </summary>
+        /// <param name="bucketName"></param>
+        /// <param name="objectName"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+
+        public  Task GetObjectAsync(String bucketName, String objectName, String fileName);
         public abstract  Task RemoveObjectAsync(string bucketName, string objectName);
     }
 }

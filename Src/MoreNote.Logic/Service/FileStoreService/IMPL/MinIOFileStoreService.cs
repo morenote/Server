@@ -90,7 +90,18 @@ namespace MoreNote.Logic.Service.FileService.IMPL
             sem.WaitOne();
             return memory;
         }
+        /// <summary>
+        /// 下载文件到本地
+        /// </summary>
+        /// <param name="bucketName"></param>
+        /// <param name="objectName"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public async Task GetObjectAsync(String bucketName, String objectName, String fileName)
+        {
+            await minioClient.GetObjectAsync(bucketName,objectName,fileName);
 
+        }
         public async Task<byte[]> GetObjecByteArraytAsync(string bucketName, string objectName)
         {
             // Get input stream to have content of 'my-objectname' from 'my-bucketname'

@@ -11,7 +11,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
     /// </summary>
   public  class FileStoreConfig
     {
-        public string SaveFolder { get;set;}=null;
+        /// <summary>
+        /// 主要文件夹
+        /// </summary>
+        public string MainFolder { get;set;}="/morenote";
         /// <summary>
         /// 使用什么作为存储服务
         /// 目前支持 minio upyun disk
@@ -26,9 +29,25 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 存储服务生成上传凭证的失效时间 秒
         /// </summary>
         public int BrowserUploadExpiresInt { get; set; }=3600;
-        public int UploadAvatarMaxSizeMB { get; set; } = 10;
-        public int UploadBlogLogoMaxSizeMB { get; set; } = 10;
+        /// <summary>
+        /// 用户头像最大大小MB
+        /// </summary>
+        public int UploadAvatarMaxSizeMB { get; set; } = 20;
+        /// <summary>
+        /// 用户BlogLogo限制MB
+        /// </summary>
+        public int UploadBlogLogoMaxSizeMB { get; set; } = 20;
+        /// <summary>
+        /// 用户图片限制MB
+        /// </summary>
         public int UploadImageMaxSizeMB { get; set; } = 20;
+        /// <summary>
+        /// 用户附件限制MB
+        /// </summary>
         public int UploadAttachMaxSizeMB { get;set;}=500;
+        /// <summary>
+        /// 临时文件夹(临时文件和缓存文件)
+        /// </summary>
+        public string TempFolder { get;set;}= "/var/tmp";
     }
 }
