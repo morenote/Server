@@ -415,7 +415,7 @@ namespace MoreNote.Controllers.API.APIV1
             // 附件问题, 根据Files, 有些要删除的, 只留下这些
             if (noteOrContent.Files != null)
             {
-                attachService.UpdateOrDeleteAttachApi(noteId, tokenUserId, noteOrContent.Files);
+                attachService.UpdateOrDeleteAttachApiAsync(noteId, tokenUserId, noteOrContent.Files);
             }
             //-------------更新笔记内容
             var afterContentUsn = 0;

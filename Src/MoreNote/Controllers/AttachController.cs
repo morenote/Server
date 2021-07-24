@@ -13,12 +13,15 @@ using MoreNote.Common.Utils;
 using Microsoft.AspNetCore.StaticFiles;
 using System.IO;
 using Morenote.Framework.Filter.Global;
+using MoreNote.Logic.Service.FileStoreService;
+using MoreNote.Common.ExtensionMethods;
+using System.Text;
 
 namespace MoreNote.Controllers
 {
 
 
-   
+ 
     public class AttachController : BaseController
     {
 
@@ -36,6 +39,7 @@ namespace MoreNote.Controllers
             this.noteService = noteService;
         }
         [Route("Attach/UploadAttach")]
+        //上传附件
         public async Task<IActionResult> UploadAttach(string noteId)
         {
            // var xxx= _accessor.HttpContext.Request.Form["noteId"];
@@ -125,6 +129,67 @@ namespace MoreNote.Controllers
             return Json(re,MyJsonConvert.GetOptions());
 
         }
+        //删除附件
+        public async Task<IActionResult> DeleteAttach(string attachId)
+        {
+            var attachIdLong = attachId.ToLongByHex();
+           var result= await attachService.DeleteAttachAsync(attachIdLong,GetUserIdBySession());
+            var response=new ResponseMessage()
+            {
+                Ok=result,
+                Msg=string.Empty
+            };
+            return Json(response,MyJsonConvert.GetOptions());
+        }
+        //获取某个笔记的附件列表
+        public async Task<IActionResult> GetAttachs(string noteId)
+        {
+            var response=new ResponseMessage()
+            {
+                Ok=true,
+                List=await attachService.ListAttachsAsync(noteId.ToLongByHex(),GetUserIdBySession())
+            };
+            return Json(response, MyJsonConvert.GetOptions());
+
+        }
+        //下载附件
+        public async Task<IActionResult> Download(string attachId)
+        {
+            //todo:bug 要使用流式下载，减少下载时候的内存消耗
+            var attach=await attachService.GetAttachAsync(attachId.ToLongByHex(),GetUserIdBySession());
+            var memi= "application/octet-stream";
+            var fileService = FileStoreServiceFactory.Instance(config);
+            var data = await fileService.GetObjecByteArraytAsync(config.MinIOConfig.NoteFileBucketName, attach.Path);
+
+            return File(data, memi,attach.Title);
+
+        }
+        //下载全部的附件get all attachs by noteId
+        public async Task<IActionResult> DownloadAll(string noteId)
+        {
+            var note=noteService.GetNoteById(noteId.ToLongByHex());
+            if (note==null)
+            {
+                return Content("");
+            }
+            // 得到文件列表
+            var attachs= await attachService.ListAttachsAsync(noteId.ToLongByHex(),GetUserIdBySession());
+            if (attachs.IsNullOrNothing())
+            {
+                return Content("");
+            }
+            var sb=new StringBuilder();
+            foreach (var attach in attachs)
+            {
+                sb.Append(attach.AttachId);
+            }
+            string sha256=SHAEncryptHelper.Hash1Encrypt(sb.ToString());
+            
+           
+
+            return Content(sha256);
+        }
+        
 
     }
 }

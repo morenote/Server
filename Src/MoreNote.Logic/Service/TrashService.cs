@@ -90,7 +90,7 @@ namespace MoreNote.Logic.Service
                 afterUsn=0;
                 return false;
             }
-            AttachService.DeleteAllAttachs(noteId, userId);
+            AttachService.DeleteAllAttachsAsync(noteId, userId);
 
             // 删除content history           
             NoteContentService.DeleteByIdAndUserId(noteId, userId, true);

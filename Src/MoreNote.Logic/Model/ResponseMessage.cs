@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Entity
         public int Code { get; set; }
         public string Msg { get; set; }
         public string Id { get; set; }
-        public string List { get; set; }
+        public dynamic List { get; set; }
         public dynamic Item { get; set; }
         public static  ResponseMessage NewRe()
         {

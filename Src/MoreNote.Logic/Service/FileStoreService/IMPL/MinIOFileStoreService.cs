@@ -77,13 +77,18 @@ namespace MoreNote.Logic.Service.FileService.IMPL
         public async Task<Stream> GetObjectAsync(string bucketName, string objectName)
         {
             // Get input stream to have content of 'my-objectname' from 'my-bucketname'
-            Stream stream = null;
-            await minioClient.GetObjectAsync(bucketName, objectName, (call) => { stream = call; });
-            while (stream == null)
-            {
-                Thread.Yield();
-            }
-            return stream;
+           MemoryStream memory = new MemoryStream();
+            Semaphore sem = new Semaphore(0, 1);
+           
+            await minioClient.GetObjectAsync(bucketName,objectName,  (callStream) =>
+                {
+                    
+
+                      callStream.CopyTo(memory);
+                    sem.Release();
+                });
+            sem.WaitOne();
+            return memory;
         }
 
         public async Task<byte[]> GetObjecByteArraytAsync(string bucketName, string objectName)
@@ -104,6 +109,10 @@ namespace MoreNote.Logic.Service.FileService.IMPL
             sem.WaitOne(5000);
            
             return data;
+        }
+        public async Task RemoveObjectAsync(string bucketName,string objectName)
+        {
+           await minioClient.RemoveObjectAsync(bucketName,objectName);
         }
     }
 }
