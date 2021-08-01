@@ -420,9 +420,7 @@ namespace MoreNote.Logic.Service
 
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public Note[] ListNotes(long? userId,
-        long? notebookId,
-        bool isTrash
+        public Note[] ListNotes(long? userId, long? notebookId,bool isTrash
         )
         {
             var result = dataContext.Note
@@ -430,6 +428,7 @@ namespace MoreNote.Logic.Service
             return result.ToArray();
         }
 
+    
         public Note[] ListNotes(long? userId, long? notebookId, bool isDeleted, bool isTrash)
         {
             var result = dataContext.Note
@@ -446,7 +445,7 @@ namespace MoreNote.Logic.Service
           int pageSize,
           string sortField,
           bool isAsc,
-          bool isBlog)
+          bool? isBlog)
         {
             int skipNum;
             string sortFieldR;
@@ -461,29 +460,38 @@ namespace MoreNote.Logic.Service
             {
                 case "UpdatedTime":
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "PublicTime":
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "CreatedTime":
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "Title":
                     result = dataContext.Note
-                .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize).ToList<Note>();
+                .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 default:
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false && b.IsBlog == isBlog).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
             }
+
+            if (isBlog!=null)
+            {
+
+                result = (from note in result
+                          where note.IsBlog == isBlog
+                          select note).ToList<Note>();
+            }
+
             if (notebookId != null)
             {
                 result = (from note in result
