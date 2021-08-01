@@ -76,7 +76,7 @@ namespace MoreNote.Controllers
                 var hasRightNoteId = false;
 
                 long? noteId = noteIdHex.ToLongByHex();
-                if (noteIdHex != null)
+                if (noteId != null)
                 {
                     //说明ID本身是有效的
                     var note = noteService.GetNoteById(noteId);
