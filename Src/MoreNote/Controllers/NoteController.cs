@@ -150,7 +150,7 @@ namespace MoreNote.Controllers
             //页面的值
             ViewBag.isAdmin = configFileService.WebConfig.SecurityConfig.AdminUsername.Equals(user.Username);
 
-            ViewBag.userInfo = user;
+            ViewBag.userInfo = userInfo;
 
             ViewBag.OpenRegister = config.SecurityConfig.OpenRegister;
 

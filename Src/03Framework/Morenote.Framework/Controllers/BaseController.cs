@@ -265,7 +265,15 @@ namespace MoreNote.Framework.Controllers
 
              var locale =Request.Cookies["LEANOTE_LANG"];
 
+            if (string.IsNullOrEmpty(locale))
+            {
+                locale=lnag;
+            }
+            
+
+
              var  languageResource=LanguageFactory.GetLanguageResource(locale);
+
              ViewBag.msg = languageResource.GetMsg();
 
              
@@ -275,7 +283,11 @@ namespace MoreNote.Framework.Controllers
             ViewBag.demonstrationOnly=configFileService.WebConfig.GlobalConfig.DemonstrationOnly;
 
 
+            ViewBag.locale=locale;
             ViewBag.siteUrl ="/";
+
+
+            ViewBag.blogUrl="";
             ViewBag.leaUrl = "/";
             ViewBag.noteUrl = "/note/note";
 
