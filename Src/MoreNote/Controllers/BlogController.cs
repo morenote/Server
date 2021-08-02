@@ -210,7 +210,7 @@ namespace MoreNote.Controllers
             User blogUser = null;
             if (string.IsNullOrEmpty(blogUserIdHex))
             {
-              return RedirectToAction("NoFound");
+              return Content("查无此人");
               
             }
             else
@@ -223,7 +223,7 @@ namespace MoreNote.Controllers
                 blogUser = userService.GetUserByUserName(blogUserIdHex);
                 if (blogUser == null)
                 {
-                    return Content("查无此人");
+                   return Content("查无此人");
                 }
             }
             ViewBag.blogUser = blogUser;
@@ -301,8 +301,26 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
             return View();
         }
+        
+        [Route("Blog/Tags/{blogUserName?}/")]
+        public IActionResult Tags(string blogUserName)
+        {
+            User blogUser = ActionInitBlogUser(blogUserName);
+            if (blogUser == null)
+            {
+                return Content("查无此人");
+            }
+            Dictionary<string, string> blog = new Dictionary<string, string>();
+            string[] tags = tagService.GetBlogTags(blogUser.UserId);
+            ViewBag.tags = tags;
+            ViewBag.blogUser = blogUser;
+            blog.Add("Title", "标签云");
+            blog.Add("keywords", "关键字");
+            ViewBag.blog = blog;
+            return View();
+        }
 
-        [Route("Blog/Post/{blogUserName?}/{keywords?}/")]
+        [Route("Blog/Search/{blogUserName?}/{keywords?}/")]
         public IActionResult Search(string blogUserName, string keywords)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -318,7 +336,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Post/{blogUserName?}/{SingleIdHex?}/")]
+        [Route("Blog/Single/{blogUserName?}/{SingleIdHex?}/")]
         public IActionResult Single(string blogUserName, string SingleIdHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -333,7 +351,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Post/{blogUserName?}/{tag?}/")]
+        [Route("Blog/Tags/{blogUserName?}/{tag?}/")]
         public IActionResult Tags_Posts(string blogUserName, string tag, int page)
         {
             if (page < 1)
@@ -362,24 +380,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Post/{blogUserName?}/")]
-        public IActionResult Tags(string blogUserName)
-        {
-            User blogUser = ActionInitBlogUser(blogUserName);
-            if (blogUser == null)
-            {
-                return Content("查无此人");
-            }
-            Dictionary<string, string> blog = new Dictionary<string, string>();
-            string[] tags = tagService.GetBlogTags(blogUser.UserId);
-            ViewBag.tags = tags;
-            ViewBag.blogUser = blogUser;
-            blog.Add("Title", "标签云");
-            blog.Add("keywords", "关键字");
-            ViewBag.blog = blog;
-            return View();
-        }
-
+         [Route("Blog/NoFound")]
         public IActionResult NoFound()
         {
             Dictionary<string, string> blog = new Dictionary<string, string>();

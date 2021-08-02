@@ -2,10 +2,10 @@
 <html lang="zh-CN">
 @await Html.PartialAsync("Header")
 <body ondragstart="return false;" class="dark-theme">
-   
+    @await Html.PartialAsync("BodyTempLate")
     <div class="main-content" data-aos="fade-left" data-aos-duration="400">
 
-        <div class="toolbar header bg-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}} color-white">
+        <div class="toolbar header bg-blue-300 color-white">
             <button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="fa fa-bars"></i></button>
             <label class="toolbar-label">error page</label>
             <span class="float-right" id="switch-container">
@@ -21,7 +21,7 @@
             <div id="errorposts">
                 <div class="errorpost">
                     <div class="errorpage">
-                        <img src="{{$.themeBaseUrl}}/images/404.png">
+                        <img src="/blog/themes/MaterialDesign/images/404.png">
                     </div>
                     <div class="errormsg">
                         Sorry, We can't find this page.
