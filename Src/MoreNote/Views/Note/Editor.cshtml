@@ -14,13 +14,13 @@
     List<Note> notes=ViewBag.notes;
     var logo = string.Empty;
     WebSiteConfig config=ViewBag.config;
-    if (string.IsNullOrEmpty(userInfo.user.Logo))
+    if (string.IsNullOrEmpty(userInfo.User.Logo))
     {
         logo = "/images/blog/default_avatar.png";
     }
     else
     {
-        logo = userInfo.user.Logo;
+        logo = userInfo.User.Logo;
 
     }
 }
@@ -147,10 +147,10 @@
 
                 <div class="pull-right" id="myProfile">
                     <div class="dropdown">
-                        <a class="dropdown-toggle profile-img" title="@userInfo.user.Username" data-toggle="dropdown">
-                            <img alt="@userInfo.user.Username" title="@userInfo.user.Username" src="@logo" id="myAvatar" />
+                        <a class="dropdown-toggle profile-img" title="@userInfo.User.Username" data-toggle="dropdown">
+                            <img alt="@userInfo.User.Username" title="@userInfo.User.Username" src="@logo" id="myAvatar" />
                             <span class="username">
-                                @userInfo.user.Username
+                                @userInfo.User.Username
                             </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -178,7 +178,7 @@
                             </li>
 
                             <li role="presentation" class="my-link">
-                                <a target="_blank" href="@userInfo。">
+                                <a target="_blank" href="@userInfo.BlogUrl">
                                     <i class="fa fa-bold"></i>
                                     @msg["myBlog"]
                                 </a>
@@ -218,14 +218,14 @@
                 </div>
 
                 <div class="pull-right top-nav writting-hide" id="myBlog">
-                    <a target="_blank" href="{{$.wqdq}}/{{.userInfo.Username}}">
+                    <a target="_blank" href="@userInfo.BlogUrl/@userInfo.User.Username">
                         @msg["myBlog"]
                     </a>
                 </div>
                 <div class="pull-right toggle-editor-mode top-nav" id="toggleEditorMode">
                     <a href="#writing"><span>@msg["writingMode"]</span></a>
                 </div>
-                @if (userInfo.user.Email.Equals("demo@leanote.com") && OpenRegister)
+                @if (userInfo.User.Email.Equals("demo@leanote.com") && OpenRegister)
                 {
                     <div class="pull-right top-nav" id="demoRegister">
                         <span>
@@ -914,7 +914,7 @@ var tinyMCEPreInit = {base: '/tinymce', suffix: '.min'};*@
 var LEA = {};
         LEA.locale ="@msg["locale"]";
         var UrlPrefix = "@config.APPConfig.SiteUrl";
-        var UserInfo = @Html.Raw(userInfo.ToJsonForLeanote());
+        var UserInfo = @Html.Raw(userInfo.User.ToJsonForLeanote());
         var notebooks =@Html.Raw(notebooks.ToJsonForLeanote());
         var shareNotebooks = [];
         var sharedUserInfos = [];

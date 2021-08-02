@@ -185,7 +185,7 @@ namespace MoreNote.Logic.Entity
     public class UserAndBlogUrl
     {
 
-        public User user { get; set; }
+        public User User { get; set; }
         public string BlogUrl{ get; set; }
         public string PostUrl{ get; set; }
     }
