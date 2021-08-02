@@ -195,7 +195,7 @@ namespace MoreNote.Logic.Service
             BlogUrls blogUrls = BlogService.GetBlogUrls(userBlog, user);
             UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
             {
-                user = user,
+                User = user,
                 BlogUrl = blogUrls.IndexUrl,
                 PostUrl = blogUrls.PostUrl,
             };
