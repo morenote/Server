@@ -19,7 +19,12 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// <summary>
         /// 网站域名
         /// </summary>
-        public string SiteUrl { get;set;}
+        public string SiteUrl { get;set;}="/";
+        public string blogUrl { get;set;}="/blog";
+        public string leaUrl { get;set;}="";
+        public string noteUrl { get;set;}="/note/note";
+
+
         /// <summary>
         /// 使用什么类型的数据库
         /// sqlserver mysql mongdb sqlite

@@ -65,7 +65,6 @@ namespace MoreNote.Logic.Entity
     {
         public  long? LastSyncTime { get; set; }//"上次同步时间"(暂时无用)} unix时间戳
         public  int LastSyncUsn { get; set; }
-    
     }
 
     public class ApiNotebook

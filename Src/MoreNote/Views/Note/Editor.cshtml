@@ -6,7 +6,7 @@
     Dictionary<string, string> markdown = ViewBag.markdown;
     Dictionary<string, string> blog = ViewBag.blog;
     List<Notebook> notebooks=ViewBag.notebooks;
-    User userInfo = ViewBag.userInfo;
+    UserAndBlogUrl userInfo = ViewBag.userInfo;
     NoteTag[] tags=ViewBag.tags;
     bool isAdmin = true;
     bool OpenRegister=ViewBag.OpenRegister;
@@ -14,13 +14,13 @@
     List<Note> notes=ViewBag.notes;
     var logo = string.Empty;
     WebSiteConfig config=ViewBag.config;
-    if (string.IsNullOrEmpty(userInfo.Logo))
+    if (string.IsNullOrEmpty(userInfo.user.Logo))
     {
         logo = "/images/blog/default_avatar.png";
     }
     else
     {
-        logo = userInfo.Logo;
+        logo = userInfo.user.Logo;
 
     }
 }
@@ -147,10 +147,10 @@
 
                 <div class="pull-right" id="myProfile">
                     <div class="dropdown">
-                        <a class="dropdown-toggle profile-img" title="@userInfo.Username" data-toggle="dropdown">
-                            <img alt="@userInfo.Username" title="@userInfo.Username" src="@logo" id="myAvatar" />
+                        <a class="dropdown-toggle profile-img" title="@userInfo.user.Username" data-toggle="dropdown">
+                            <img alt="@userInfo.user.Username" title="@userInfo.user.Username" src="@logo" id="myAvatar" />
                             <span class="username">
-                                @userInfo.Username
+                                @userInfo.user.Username
                             </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -178,7 +178,7 @@
                             </li>
 
                             <li role="presentation" class="my-link">
-                                <a target="_blank" href="{{$.userInfo.BlogUrl}}">
+                                <a target="_blank" href="@userInfo。">
                                     <i class="fa fa-bold"></i>
                                     @msg["myBlog"]
                                 </a>
@@ -218,14 +218,14 @@
                 </div>
 
                 <div class="pull-right top-nav writting-hide" id="myBlog">
-                    <a target="_blank" href="{{$.blogUrl}}/{{.userInfo.Username}}">
+                    <a target="_blank" href="{{$.wqdq}}/{{.userInfo.Username}}">
                         @msg["myBlog"]
                     </a>
                 </div>
                 <div class="pull-right toggle-editor-mode top-nav" id="toggleEditorMode">
                     <a href="#writing"><span>@msg["writingMode"]</span></a>
                 </div>
-                @if (userInfo.Email.Equals("demo@leanote.com") && OpenRegister)
+                @if (userInfo.user.Email.Equals("demo@leanote.com") && OpenRegister)
                 {
                     <div class="pull-right top-nav" id="demoRegister">
                         <span>
@@ -994,8 +994,6 @@ var tinyMCEPreInit ={base: '/tinymce', suffix: '.min'};
         <!-- /dev -->
 
         <script src="/js/plugins/main.js"></script>
-
-
     }
 
 </body>

@@ -128,7 +128,7 @@ namespace MoreNote.Controllers
         /// <param name="blogUserName"></param>
         /// <param name="archiveHex"></param>
         /// <returns></returns>
-        [Route("Blog/{action=Archive}/{blogUserName?}/{archiveHex?}")]
+        [Route("Blog/Archive/{blogUserName?}/{archiveHex?}")]
         public IActionResult Archive(string blogUserName, string archiveHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -192,11 +192,13 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{action=Index}/{blogUserIdHex?}")]
+        [Route("Blog/Index/{blogUserIdHex}")]
+        [Route("Blog/{blogUserIdHex}")]
 
         //[Authorize(Roles = "Admin,SuperAdmin")]
         //[AllowAnonymous]
         //[Authorize(Policy = "EmployeeOnly")]
+
         public IActionResult Index(string blogUserIdHex, int page)
         {
             if (page < 1)
@@ -208,9 +210,8 @@ namespace MoreNote.Controllers
             User blogUser = null;
             if (string.IsNullOrEmpty(blogUserIdHex))
             {
-                //默认账号
-                string blogUserName = "hyfree";
-                blogUser = userService.GetUserByUserName(blogUserName);
+              return RedirectToAction("NoFound");
+              
             }
             else
             {
