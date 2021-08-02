@@ -21,7 +21,7 @@
     </figure>
     <ul class="menu">
         <li ripple class="{{if $.curIsIndex}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-            <a href="@Url.Action("Index")"><i class="fa fa-home"></i>主页</a>
+            <a href="@ViewBag.indexUrl"><i class="fa fa-home"></i>主页</a>
         </li>
         <li class="divider"></li>
         <li ripple id="navbarcatsli"><a href="javascript:void(0);"><i class="fa fa-list-ul"></i>分类</a></li>

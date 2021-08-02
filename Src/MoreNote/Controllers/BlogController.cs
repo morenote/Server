@@ -211,7 +211,6 @@ namespace MoreNote.Controllers
             if (string.IsNullOrEmpty(blogUserIdHex))
             {
               return Content("查无此人");
-              
             }
             else
             {
@@ -237,6 +236,8 @@ namespace MoreNote.Controllers
             blog.Add("Title", "moreote云笔记");
             blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
+
+            BlogCommon(blogUser);
 
             return View();
         }
@@ -317,6 +318,8 @@ namespace MoreNote.Controllers
             blog.Add("Title", "标签云");
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
+
+             BlogCommon(blogUser);
             return View();
         }
 
@@ -333,6 +336,7 @@ namespace MoreNote.Controllers
             blog.Add("Title", "标题");
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
+             BlogCommon(blogUser);
             return View();
         }
 
@@ -348,10 +352,11 @@ namespace MoreNote.Controllers
             blog.Add("Title", "标题");
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
+             BlogCommon(blogUser);
             return View();
         }
 
-        [Route("Blog/Tags/{blogUserName?}/{tag?}/")]
+        [Route("Blog/Tags_Posts/{blogUserName?}/{tag?}/")]
         public IActionResult Tags_Posts(string blogUserName, string tag, int page)
         {
             if (page < 1)
@@ -377,6 +382,7 @@ namespace MoreNote.Controllers
             blog.Add("Title", "标签检索");
             blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
+             BlogCommon(blogUser);
             return View();
         }
 
@@ -442,6 +448,12 @@ namespace MoreNote.Controllers
             string jsonpCallback = $"jsonpCallback({json});";
             return new JavaScriptResult(jsonpCallback);
         }
+
+         public UserBlog BlogCommon(User userInfo)
+        {
+             UserBlog userBlog = blogService.GetUserBlog(userInfo.UserId);
+             return  BlogCommon(userInfo.UserId,  userBlog,  userInfo);
+        } 
 
         public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo)
         {
