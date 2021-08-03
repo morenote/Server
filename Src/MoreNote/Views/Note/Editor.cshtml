@@ -5,6 +5,8 @@
     Dictionary<string, string> js = ViewBag.js;
     Dictionary<string, string> markdown = ViewBag.markdown;
     Dictionary<string, string> blog = ViewBag.blog;
+    Dictionary<string, string> leaMsg = ViewBag.noteconf;
+    Dictionary<string, string> tinymce_editor = ViewBag.tinymce_editor;
     List<Notebook> notebooks=ViewBag.notebooks;
     UserAndBlogUrl userInfo = ViewBag.userInfo;
     NoteTag[] tags=ViewBag.tags;
@@ -391,52 +393,52 @@
                                         <li role="presentation">
                                             <a data-view="snippet" class="view-style view-snippet" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "Snippet View"}}
+                                                @leaMsg["Snippet View"]
                                             </a>
                                         </li>
                                         <li role="presentation">
                                             <a data-view="list" class="view-style view-list" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "List View"}}
+                                                @leaMsg["List View"]
                                             </a>
                                         </li>
                                         <li role="presentation" class="divider"></li>
                                         <li role="presentation">
                                             <a data-sorter="dateGenerateImagedASC" class="sorter-style sorter-dateGenerateImagedASC" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "Date GenerateImaged"}} <i class="fa fa-sort-alpha-asc"></i>
+                                                @leaMsg["Date Created"] <i class="fa fa-sort-alpha-asc"></i>
                                             </a>
                                         </li>
                                         <li role="presentation">
                                             <a data-sorter="dateGenerateImagedDESC" class="sorter-style sorter-dateGenerateImagedDESC" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "Date GenerateImaged"}} <i class="fa fa-sort-alpha-desc"></i>
+                                                 @leaMsg["Date Created"]<i class="fa fa-sort-alpha-desc"></i>
                                             </a>
                                         </li>
                                         <li role="presentation" class="divider"></li>
                                         <li role="presentation">
                                             <a data-sorter="dateUpdatedASC" class="sorter-style sorter-dateUpdatedASC" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "Date Updated"}} <i class="fa fa-sort-alpha-asc"></i>
+                                                @leaMsg["Date Updated"] <i class="fa fa-sort-alpha-asc"></i>
                                             </a>
                                         </li>
                                         <li role="presentation">
                                             <a data-sorter="dateUpdatedDESC" class="sorter-style sorter-dateUpdatedDESC checked" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "Date Updated"}} <i class="fa fa-sort-alpha-desc"></i>
+                                                @leaMsg["Date Updated"] <i class="fa fa-sort-alpha-desc"></i>
                                             </a>
                                         </li>
                                         <li role="presentation" class="divider"></li>
                                         <li role="presentation">
                                             <a data-sorter="titleASC" class="sorter-style sorter-titleASC" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "Title"}} <i class="fa fa-sort-alpha-asc"></i>
+                                                @tinymce_editor["Title"] <i class="fa fa-sort-alpha-asc"></i>
                                             </a>
                                         </li>
                                         <li role="presentation">
                                             <a data-sorter="titleDESC" class="sorter-style sorter-titleDESC" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                {{leaMsg . "Title"}} <i class="fa fa-sort-alpha-desc"></i>
+                                                @tinymce_editor["Title"] <i class="fa fa-sort-alpha-desc"></i>
                                             </a>
                                         </li>
                                     </ul>
@@ -482,7 +484,7 @@
                             <!-- z-index: 99 -->
                             <div class="batch-ctn" id="batchCtn"></div>
                             <div class="batch-info">
-                                {{leaMsg . "<span></span> notes selected"}}
+                                @msg["<span></span> notes selected"]
                                 <p><i class="fa fa-cog"></i></p>
                             </div>
                         </div>
@@ -526,7 +528,7 @@
                                 <ul class="pull-right" id="editorTool">
                                     <li>
                                         <a class="ios7-a " id="editBtn"
-                                           data-toggle="dropdown" title="ctrl/cmd+e {{leaMsg . "Toggle Modify with Readonly"}}">
+                                           data-toggle="dropdown" title="ctrl/cmd+e @msg["Toggle Modify with Readonly"]">
                                             <span class="fa"></span>
                                         </a>
                                     </li>
@@ -760,15 +762,14 @@
                                     aria-hidden="true">
                                 &times;
                             </button>
-                            <h4 class="modal-title">{{leaMsg . "Image"}}</h4>
+                            <h4 class="modal-title">@tinymce_editor["Image"]</h4>
                         </div>
                         <div class="modal-body" style="padding-top: 0; padding-bottom: 0">
                             <iframe name="mdImageManager" style="width: 100%; height: 350px" scrolling="no" id="leauiIfrForMD" src="" frameborder="0"></iframe>
                         </div>
                         <div class="modal-footer">
                             <a href="#" class="btn btn-default"
-                               data-dismiss="modal">{{leaMsg . "Cancel"}}</a> <a href="#"
-                                                                                 class="btn btn-primary action-insert-image" data-dismiss="modal">{{leaMsg . "Insert Image"}}</a>
+                               data-dismiss="modal">@tinymce_editor["Cancel"]</a> <a href="#" class="btn btn-primary action-insert-image" data-dismiss="modal">@tinymce_editor["Insert Image"]</a>
                         </div>
                     </div>
                 </div>
