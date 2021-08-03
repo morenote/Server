@@ -280,6 +280,8 @@ namespace MoreNote.Framework.Controllers
             ViewBag.member = languageResource.GetMember();
             ViewBag.markdown = languageResource.GetMarkdown();
             ViewBag.blog = languageResource.GetBlog();
+            ViewBag.noteconf = languageResource.GetNote();
+            ViewBag.tinymce_editor = languageResource.GetTinymce_editor();
             ViewBag.demonstrationOnly=configFileService.WebConfig.GlobalConfig.DemonstrationOnly;
 
 
