@@ -44,7 +44,7 @@ namespace MoreNote.Controllers.API.APIV1
                     ApiRe apiRe = new ApiRe()
                     {
                         Ok = false,
-                        Msg = "Not logged in",
+                        Msg = "NOTLOGIN",
                     };
                     return Json(apiRe, MyJsonConvert.GetOptions());
                 }
@@ -104,7 +104,7 @@ namespace MoreNote.Controllers.API.APIV1
                     ApiRe apiRe = new ApiRe()
                     {
                         Ok = false,
-                        Msg = "Not logged in",
+                        Msg = "NOTLOGIN",
                     };
                     string json = JsonSerializer.Serialize(apiRe, MyJsonConvert.GetSimpleOptions());
 
