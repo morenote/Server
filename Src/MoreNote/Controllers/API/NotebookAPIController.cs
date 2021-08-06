@@ -1,21 +1,19 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using System.Collections.Generic;
-using MoreNote.Logic.DB;
 
 namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Notebook/[action]")]
-   // [ApiController]
+    // [ApiController]
     public class NotebookAPIController : APIBaseController
-   {
-       private NotebookService notebookService;
-      
+    {
+        private NotebookService notebookService;
+
         public NotebookAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -24,13 +22,12 @@ namespace MoreNote.Controllers.API.APIV1
             , IHttpContextAccessor accessor,
             NotebookService notebookService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-
             this.notebookService = notebookService;
         }
 
         //获取同步的笔记本
         //[HttpPost]
-        public JsonResult GetSyncNotebooks( string token,int afterUsn,int maxEntry)
+        public JsonResult GetSyncNotebooks(string token, int afterUsn, int maxEntry)
         {
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
@@ -38,30 +35,33 @@ namespace MoreNote.Controllers.API.APIV1
                 ApiRe apiRe = new ApiRe()
                 {
                     Ok = false,
-                    Msg = "Not logged in",
+                    Msg = "NOTLOGIN",
                 };
-              
+
                 return Json(apiRe, MyJsonConvert.GetOptions());
             }
+            if (maxEntry == 0)
+            {
+                maxEntry = 100;
+            }
             Notebook[] notebook = notebookService.GeSyncNotebooks(user.UserId, afterUsn, maxEntry);
-                return Json(notebook, MyJsonConvert.GetOptions());
+            return Json(notebook, MyJsonConvert.GetOptions());
         }
-        
+
         public ApiNotebook[] fixNotebooks(Notebook[] notebooks)
         {
             ApiNotebook[] apiNotebooks = null;
-            if (notebooks!=null)
+            if (notebooks != null)
             {
-                apiNotebooks= new ApiNotebook[notebooks.Length];
+                apiNotebooks = new ApiNotebook[notebooks.Length];
                 for (int i = 0; i < notebooks.Length; i++)
                 {
                     apiNotebooks[i] = fixNotebook(notebooks[i]);
                 }
-
             }
             return apiNotebooks;
-
         }
+
         public ApiNotebook fixNotebook(Notebook notebook)
         {
             return new ApiNotebook()
@@ -79,6 +79,7 @@ namespace MoreNote.Controllers.API.APIV1
                 IsDeleted = notebook.IsDeleted,
             };
         }
+
         //得到用户的所有笔记本
         public IActionResult GetNotebooks(string token)
         {
@@ -88,7 +89,7 @@ namespace MoreNote.Controllers.API.APIV1
                 ApiRe apiRe = new ApiRe()
                 {
                     Ok = false,
-                    Msg = "Not logged in",
+                    Msg = "NOTLOGIN",
                 };
 
                 return Json(apiRe, MyJsonConvert.GetOptions());
@@ -99,12 +100,12 @@ namespace MoreNote.Controllers.API.APIV1
                 ApiNotebook[] apiNotebooks = fixNotebooks(notebooks);
                 return Json(apiNotebooks, MyJsonConvert.GetOptions());
             }
-       
+
             return null;
         }
 
         //添加notebook
-        public IActionResult AddNotebook(string token, string title,string parentNotebookId,int seq)
+        public IActionResult AddNotebook(string token, string title, string parentNotebookId, int seq)
         {
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
@@ -112,7 +113,7 @@ namespace MoreNote.Controllers.API.APIV1
                 ApiRe apiRe = new ApiRe()
                 {
                     Ok = false,
-                    Msg = "Not logged in",
+                    Msg = "NOTLOGIN",
                 };
 
                 return Json(apiRe, MyJsonConvert.GetOptions());
@@ -126,13 +127,11 @@ namespace MoreNote.Controllers.API.APIV1
                     Seq = seq,
                     UserId = user.UserId,
                     ParentNotebookId = parentNotebookId.ToLongByHex()
-                    
                 };
-                if (notebookService.AddNotebook( ref notebook))
+                if (notebookService.AddNotebook(ref notebook))
                 {
-
                     ApiNotebook apiNotebook = fixNotebook(notebook);
-              
+
                     return Json(apiNotebook, MyJsonConvert.GetOptions());
                 }
                 else
@@ -144,14 +143,12 @@ namespace MoreNote.Controllers.API.APIV1
                     };
 
                     return Json(apiRe, MyJsonConvert.GetOptions());
-
                 }
             }
-            
         }
 
         //修改笔记
-        public IActionResult UpdateNotebook(string token, string notebookId,string title,string parentNotebookId, int seq ,int usn)
+        public IActionResult UpdateNotebook(string token, string notebookId, string title, string parentNotebookId, int seq, int usn)
         {
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
@@ -159,7 +156,7 @@ namespace MoreNote.Controllers.API.APIV1
                 ApiRe apiRe = new ApiRe()
                 {
                     Ok = false,
-                    Msg = "Not logged in",
+                    Msg = "NOTLOGIN",
                 };
 
                 return Json(apiRe, MyJsonConvert.GetOptions());
@@ -167,9 +164,8 @@ namespace MoreNote.Controllers.API.APIV1
             else
             {
                 Notebook notebook;
-                if (notebookService.UpdateNotebookApi(user.UserId,notebookId.ToLongByHex(),title, parentNotebookId.ToLongByHex(), seq,usn,out notebook))
+                if (notebookService.UpdateNotebookApi(user.UserId, notebookId.ToLongByHex(), title, parentNotebookId.ToLongByHex(), seq, usn, out notebook))
                 {
-
                     ApiNotebook apiNotebook = fixNotebook(notebook);
 
                     return Json(apiNotebook, MyJsonConvert.GetOptions());
@@ -183,21 +179,20 @@ namespace MoreNote.Controllers.API.APIV1
                     };
 
                     return Json(apiRe, MyJsonConvert.GetOptions());
-
                 }
             }
         }
-        //todo:删除笔记本
-        public IActionResult DeleteNotebook(string token,string notebookId,int usn)
-        {
 
+        //todo:删除笔记本
+        public IActionResult DeleteNotebook(string token, string notebookId, int usn)
+        {
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
                 ApiRe apiRe = new ApiRe()
                 {
                     Ok = false,
-                    Msg = "Not logged in",
+                    Msg = "NOTLOGIN",
                 };
 
                 return Json(apiRe, MyJsonConvert.GetOptions());
@@ -219,8 +214,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Msg = "conflict",
                 };
                 return Json(apiRe, MyJsonConvert.GetOptions());
-
-            }   
+            }
         }
     }
 }
