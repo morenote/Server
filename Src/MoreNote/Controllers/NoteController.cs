@@ -16,6 +16,7 @@ using System.Text.Json;
 namespace MoreNote.Controllers
 {
     [Authorize(Roles = "Admin,SuperAdmin,User")]
+    
     public class NoteController : BaseController
     {
         private NotebookService notebookService;
@@ -45,7 +46,7 @@ namespace MoreNote.Controllers
             this.trashService = trashService;
         }
 
-        [Route("Note/{action=Editor}/{noteIdHex?}/")]
+        [Route("Note/{noteIdHex?}/")]
         [Authorize(Roles = "Admin,SuperAdmin,User")]
         public IActionResult Editor(string noteIdHex)
         {
@@ -156,7 +157,7 @@ namespace MoreNote.Controllers
 
             return View();
         }
-
+        [Route("Note/GetNoteContent")]
         public IActionResult GetNoteContent(string noteId)
         {
             long? noteNumber = noteId.ToLongByHex();
@@ -173,7 +174,7 @@ namespace MoreNote.Controllers
             }
             return Json(noteContent, MyJsonConvert.GetOptions());
         }
-
+        [Route("Note/ListNotes")]
         public JsonResult ListNotes(string notebookId)
         {
             Note[] notes = noteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(), false, false);
@@ -188,6 +189,7 @@ namespace MoreNote.Controllers
         /// <param name="isBlog">是否设置成博客</param>
         /// <param name="isTop">是否置顶</param>
         /// <returns></returns>
+        [Route("Note/SetNote2Blog")]
         public JsonResult SetNote2Blog(string[] noteIds, bool isBlog, bool isTop)
         {
             foreach (var item in noteIds)
@@ -198,6 +200,7 @@ namespace MoreNote.Controllers
         }
 
         // 这里不能用json, 要用post
+        [Route("Note/UpdateNoteOrContent")]
         public JsonResult UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
         {
             var userid = GetUserIdBySession();
@@ -273,7 +276,7 @@ namespace MoreNote.Controllers
             }
             return Json(true);
         }
-
+        [Route("Note/DeleteNote")]
         public JsonResult DeleteNote(string[] noteIds, bool isShared)
         {
             if (!isShared)

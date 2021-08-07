@@ -955,7 +955,7 @@ var Pjax = {
 		var me = this;
 		var noteId = noteInfo.NoteId;
 		var title = noteInfo.Title;
-		var url = '/note/editor/' + noteId;
+		var url = '/note/' + noteId;
 		if (location.href.indexOf('?online') > 0) {
 			url += '?online=' + /online=([0-9])/.exec(location.href)[1];
 		}
