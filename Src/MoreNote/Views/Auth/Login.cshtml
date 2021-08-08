@@ -141,9 +141,10 @@ $(function() {
 				location.href = from;
 			} else {
 				if(e.Item && $.trim($("#captchaContainer").text()) == "") {
-					$("#captchaContainer").html($("#tCaptcha").html());
+					
 					needCaptcha = true
 				}
+                $("#captchaContainer").html($("#tCaptcha").html());
 
 				showMsg(e.Msg);
 			}
