@@ -661,6 +661,7 @@ namespace MoreNote.Logic.Service
                 needUpdate.UpdatedTime = DateTime.Now;
             }
             afterUsn = UserService.IncrUsn(updateUserId);
+
             needUpdate.Usn = afterUsn;
 
             var needRecountTags = false;
@@ -677,6 +678,7 @@ namespace MoreNote.Logic.Service
                 needRecountTags = true;
             }
             var newNote = dataContext.Note.Where(b => b.NoteId == noteId && b.UserId == userId).FirstOrDefault();
+            newNote.Usn=afterUsn;
             // 添加tag2
             // TODO 这个tag去掉, 添加tag另外添加, 不要这个
             if (!needUpdate.Tags.IsNullOrNothing())
@@ -701,9 +703,10 @@ namespace MoreNote.Logic.Service
             {
                 newNote.ImgSrc = needUpdate.ImgSrc;
             }
+
            
 
-                dataContext.SaveChanges();
+            dataContext.SaveChanges();
             // 重新获取之
             oldNote = GetNoteById(noteId);
             var notebookId=needUpdate.NotebookId;
