@@ -187,19 +187,22 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息+博客主页
-        public UserAndBlogUrl GetUserAndBlogUrl(long? userId)
+        public User GetUserAndBlogUrl(long? userId)
         {
             User user = GetUserInfo(userId);
 
             UserBlog userBlog = BlogService.GetUserBlog(userId);
             BlogUrls blogUrls = BlogService.GetBlogUrls(userBlog, user);
-            UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
-            {
-                User = user,
-                BlogUrl = blogUrls.IndexUrl,
-                PostUrl = blogUrls.PostUrl,
-            };
-            return userAndBlogUrl;
+            //UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
+            //{
+            //    User = user,
+            //    BlogUrl = blogUrls.IndexUrl,
+            //    PostUrl = blogUrls.PostUrl,
+            //};
+            user.BlogUrl=blogUrls.IndexUrl;
+            user.PostUrl=blogUrls.PostUrl;
+
+            return user;
         }
 
         /// <summary>

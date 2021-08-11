@@ -17,6 +17,7 @@ namespace MoreNote.Logic.Service
         private const string path = @"Config\config.json";
         public EmailConfig emailConfig;
 
+        public WebSiteConfig config;
         long? adminUserId;
         string siteUrl;
         string adminUserName;
@@ -27,7 +28,10 @@ namespace MoreNote.Logic.Service
         Dictionary<string, string> GlobalMapConfigs;
         Dictionary<string, string> GlobalArrMapConfigs;
 
-
+        public ConfigService(ConfigFileService configFileService)
+        {
+            config=configFileService.WebConfig;
+        }
        
 
         // appStart时 将全局的配置从数据库中得到作为全局
@@ -134,7 +138,7 @@ namespace MoreNote.Logic.Service
         //blog
         public  string GetBlogDomain()
         {
-            return "/blog";
+            return config.APPConfig.BlogUrl;
         }
         public  string GetBlogUrl()
         {
