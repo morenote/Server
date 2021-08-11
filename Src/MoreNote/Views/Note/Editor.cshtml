@@ -8,7 +8,7 @@
     Dictionary<string, string> leaMsg = ViewBag.noteconf;
     Dictionary<string, string> tinymce_editor = ViewBag.tinymce_editor;
     List<Notebook> notebooks=ViewBag.notebooks;
-    UserAndBlogUrl userInfo = ViewBag.userInfo;
+    User userInfo = ViewBag.userInfo;
     NoteTag[] tags=ViewBag.tags;
     bool isAdmin = true;
     bool OpenRegister=ViewBag.OpenRegister;
@@ -16,13 +16,13 @@
     List<Note> notes=ViewBag.notes;
     var logo = string.Empty;
     WebSiteConfig config=ViewBag.config;
-    if (string.IsNullOrEmpty(userInfo.User.Logo))
+    if (string.IsNullOrEmpty(userInfo.Logo))
     {
         logo = "/images/blog/default_avatar.png";
     }
     else
     {
-        logo = userInfo.User.Logo;
+        logo = userInfo.Logo;
 
     }
 }
@@ -149,10 +149,10 @@
 
                 <div class="pull-right" id="myProfile">
                     <div class="dropdown">
-                        <a class="dropdown-toggle profile-img" title="@userInfo.User.Username" data-toggle="dropdown">
-                            <img alt="@userInfo.User.Username" title="@userInfo.User.Username" src="@logo" id="myAvatar" />
+                        <a class="dropdown-toggle profile-img" title="@userInfo.Username" data-toggle="dropdown">
+                            <img alt="@userInfo.Username" title="@userInfo.Username" src="@logo" id="myAvatar" />
                             <span class="username">
-                                @userInfo.User.Username
+                                @userInfo.Username
                             </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -220,14 +220,14 @@
                 </div>
 
                 <div class="pull-right top-nav writting-hide" id="myBlog">
-                    <a target="_blank" href="@userInfo.BlogUrl/@userInfo.User.Username">
+                    <a target="_blank" href="@userInfo.BlogUrl/@userInfo.Username">
                         @msg["myBlog"]
                     </a>
                 </div>
                 <div class="pull-right toggle-editor-mode top-nav" id="toggleEditorMode">
                     <a href="#writing"><span>@msg["writingMode"]</span></a>
                 </div>
-                @if (userInfo.User.Email.Equals("demo@leanote.com") && OpenRegister)
+                @if (userInfo.Email.Equals("demo@leanote.com") && OpenRegister)
                 {
                     <div class="pull-right top-nav" id="demoRegister">
                         <span>
@@ -912,10 +912,10 @@ var noteContentJson = {{.noteContentJson|jsonJs}};
 var tagsJson = {{.tags|jsonJs}};
 var GlobalConfigs = {{.globalConfigs|jsonJs}};
 var tinyMCEPreInit = {base: '/tinymce', suffix: '.min'};*@
-var LEA = {};
+        var LEA = {};
         LEA.locale ="@msg["locale"]";
         var UrlPrefix = "@config.APPConfig.SiteUrl";
-        var UserInfo = @Html.Raw(userInfo.User.ToJsonForLeanote());
+        var UserInfo = @Html.Raw(userInfo.ToJsonForLeanote());
         var notebooks =@Html.Raw(notebooks.ToJsonForLeanote());
         var shareNotebooks = [];
         var sharedUserInfos = [];
@@ -925,10 +925,10 @@ var LEA = {};
         var curSharedUserId = '';
         var notes = @Html.Raw(notes.ToJsonForLeanote());
         var latestNotes = [];
-var noteContentJson = [];
+        var noteContentJson = [];
         var tagsJson = @Html.Raw(tags.ToJsonForLeanote());
         var GlobalConfigs = [];
-var tinyMCEPreInit ={base: '/tinymce', suffix: '.min'};
+        var tinyMCEPreInit ={base: '/tinymce', suffix: '.min'};
     </script>
     @if (!IsDevelopment)
     {

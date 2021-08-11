@@ -656,10 +656,8 @@ namespace MoreNote.Logic.Service
             needUpdate.UserId = updateUserId;
 
             // 可以将时间传过来
-            if (needUpdate.UpdatedTime == null)
-            {
-                needUpdate.UpdatedTime = DateTime.Now;
-            }
+            needUpdate.UpdatedTime = DateTime.Now;
+            
             afterUsn = UserService.IncrUsn(updateUserId);
 
             needUpdate.Usn = afterUsn;

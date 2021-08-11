@@ -226,12 +226,12 @@ namespace MoreNote.Framework.Controllers
                 return userid;
             }
         }
-        public UserAndBlogUrl GetUserAndBlogUrl()
+        public User GetUserAndBlogUrl()
         {
            var userid=GetUserIdBySession();
             if (userid==null)
             {
-                return new UserAndBlogUrl();
+                return new User();
 
             }
             else

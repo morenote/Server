@@ -156,6 +156,10 @@ namespace MoreNote.Logic.Entity
         public int Usn{ get; set; }//UpdateSequenceNum , 全局的
         [Column("full_sync_before")]
         public DateTime FullSyncBefore{ get; set; }//需要全量同步的时间, 如果 > 客户端的LastSyncTime, 则需要全量更新
+        [NotMapped]
+        public string BlogUrl{ get; set; }
+        [NotMapped]
+        public string PostUrl{ get; set; }
     }
     [Table("user_account")]
     public class UserAccount
@@ -180,15 +184,15 @@ namespace MoreNote.Logic.Entity
         public int MaxAttachSize{ get; set; }   // 图片大小
         [Column("max_per_attach_size")]
         public int MaxPerAttachSize{ get; set; }// 单个附件大小
+       
     }
 }    // note主页需要
-    public class UserAndBlogUrl
-    {
-
-        public User User { get; set; }
-        public string BlogUrl{ get; set; }
-        public string PostUrl{ get; set; }
-    }
+    //public class UserAndBlogUrl
+    //{
+    //    public User User { get; set; }
+    //    public string BlogUrl{ get; set; }
+    //    public string PostUrl{ get; set; }
+    //}
 
 // 用户与博客信息结合, 公开
 [Table("user_and_blog")]

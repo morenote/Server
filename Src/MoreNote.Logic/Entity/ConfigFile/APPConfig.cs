@@ -20,9 +20,9 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 网站域名
         /// </summary>
         public string SiteUrl { get;set;}="/";
-        public string blogUrl { get;set;}="/blog";
-        public string leaUrl { get;set;}="";
-        public string noteUrl { get;set;}="/note/note";
+        public string BlogUrl { get;set;}="/blog";
+        public string LeaUrl { get;set;}="";
+        public string NoteUrl { get;set;}="/note/note";
 
 
         /// <summary>
