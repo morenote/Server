@@ -29,7 +29,8 @@ namespace MoreNote.Logic.Service
         public TagService TagService { get; set; }
         public NoteContentService NoteContentService { get; set; }
 
-        public ShareService ShareService { get;set;}
+        public ShareService ShareService { get; set; }
+
         public NoteService(DataContext dataContext)
         {
             this.dataContext = dataContext;
@@ -76,7 +77,7 @@ namespace MoreNote.Logic.Service
         {
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
-                          where _note.IsBlog == true  && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
+                          where _note.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
                           select new NoteAndContent
                           {
                               note = _note,
@@ -170,22 +171,21 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
         }
 
-
         public bool SetDeleteStatus(long? noteID, long? userId)
         {
             var result = dataContext.Note.Where(b => b.NoteId == noteID && b.UserId == userId);
             if (result == null)
             {
-                
                 return false;
             }
             var note = result.FirstOrDefault();
             note.IsTrash = true;
             note.IsDeleted = true;
-            var  afterUsn = UserService.IncrUsn(userId);
+            var afterUsn = UserService.IncrUsn(userId);
             note.Usn = afterUsn;
             return dataContext.SaveChanges() > 0;
         }
+
         public bool SetDeleteStatus(long? noteID, long? userId, out int afterUsn)
         {
             var result = dataContext.Note.Where(b => b.NoteId == noteID && b.UserId == userId);
@@ -420,7 +420,7 @@ namespace MoreNote.Logic.Service
 
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
-        public Note[] ListNotes(long? userId, long? notebookId,bool isTrash
+        public Note[] ListNotes(long? userId, long? notebookId, bool isTrash
         )
         {
             var result = dataContext.Note
@@ -428,7 +428,6 @@ namespace MoreNote.Logic.Service
             return result.ToArray();
         }
 
-    
         public Note[] ListNotes(long? userId, long? notebookId, bool isDeleted, bool isTrash)
         {
             var result = dataContext.Note
@@ -460,33 +459,32 @@ namespace MoreNote.Logic.Service
             {
                 case "UpdatedTime":
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "PublicTime":
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "CreatedTime":
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 case "Title":
                     result = dataContext.Note
-                .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize).ToList<Note>();
+                .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
 
                 default:
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false ).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
             }
 
-            if (isBlog!=null)
+            if (isBlog != null)
             {
-
                 result = (from note in result
                           where note.IsBlog == isBlog
                           select note).ToList<Note>();
@@ -545,8 +543,11 @@ namespace MoreNote.Logic.Service
             // 关于创建时间, 可能是客户端发来, 此时判断时间是否有
             note.CreatedTime = Tools.FixUrlTime(note.CreatedTime);
             note.UpdatedTime = Tools.FixUrlTime(note.UpdatedTime);
-
-            note.UrlTitle = InitServices.GetUrTitle(note.UserId, note.Title, "note", note.NoteId);
+            if (note.UrlTitle==null)
+            {
+                note.UrlTitle=note.NoteId.ToHex();
+            }
+            //note.UrlTitle = InitServices.GetUrTitle(note.UserId, note.Title, "note", note.NoteId);
             note.Usn = UserService.IncrUsn(note.UserId);
             long? notebookId = note.NotebookId;
 
@@ -589,7 +590,7 @@ namespace MoreNote.Logic.Service
             {
                 note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
             }
-            if (noteContent.NoteContentId==null)
+            if (noteContent.NoteContentId == null)
             {
                 noteContent.NoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
             }
@@ -632,7 +633,7 @@ namespace MoreNote.Logic.Service
             //updateUser 必须是笔记的原主人
 
             //todo:需要完成函数NoteService.UpdateNote
-            
+
             if (oldNote == null)
             {
                 msg = "notExists";
@@ -657,7 +658,7 @@ namespace MoreNote.Logic.Service
 
             // 可以将时间传过来
             needUpdate.UpdatedTime = DateTime.Now;
-            
+
             afterUsn = UserService.IncrUsn(updateUserId);
 
             needUpdate.Usn = afterUsn;
@@ -676,19 +677,19 @@ namespace MoreNote.Logic.Service
                 needRecountTags = true;
             }
             var newNote = dataContext.Note.Where(b => b.NoteId == noteId && b.UserId == userId).FirstOrDefault();
-            newNote.Usn=afterUsn;
+            newNote.Usn = afterUsn;
             // 添加tag2
             // TODO 这个tag去掉, 添加tag另外添加, 不要这个
             if (!needUpdate.Tags.IsNullOrNothing())
             {
                 newNote.Tags = needUpdate.Tags;
-                TagService.AddTags(userId,needUpdate.Tags);
+                TagService.AddTags(userId, needUpdate.Tags);
                 if (oldNote.IsBlog)
                 {
                     BlogService.ReCountBlogTags(userId);
                 }
             }
-          
+
             if (needUpdate.Desc.IsValid())
             {
                 newNote.Desc = needUpdate.Desc;
@@ -702,22 +703,19 @@ namespace MoreNote.Logic.Service
                 newNote.ImgSrc = needUpdate.ImgSrc;
             }
 
-           
-
             dataContext.SaveChanges();
             // 重新获取之
             oldNote = GetNoteById(noteId);
-            var notebookId=needUpdate.NotebookId;
-            if (notebookId!=null)
+            var notebookId = needUpdate.NotebookId;
+            if (notebookId != null)
             {
                 NotebookService.ReCountNotebookNumberNotes(oldNote.NotebookId);
                 NotebookService.ReCountNotebookNumberNotes(notebookId);
             }
-        
-            msg=string.Empty;
-            afterUsn=usn;
-            return true;
 
+            msg = string.Empty;
+            afterUsn = usn;
+            return true;
         }
 
         private static bool UpdateNote(Note note)
@@ -885,12 +883,10 @@ namespace MoreNote.Logic.Service
         // 附件修改, 增加noteIncr
         public int IncrNoteUsn(long? noteId, long? userId)
         {
-            var afterUsn=UserService.IncrUsn(userId);
-            dataContext.Note.Where(b=>b.NoteId==noteId&&b.UserId==userId).Update(c=>new Note(){ UpdatedTime=DateTime.Now,Usn=afterUsn});
+            var afterUsn = UserService.IncrUsn(userId);
+            dataContext.Note.Where(b => b.NoteId == noteId && b.UserId == userId).Update(c => new Note() { UpdatedTime = DateTime.Now, Usn = afterUsn });
             dataContext.SaveChanges();
             return afterUsn;
-
-
         }
 
         // 这里要判断权限, 如果userId != updatedUserId, 那么需要判断权限
@@ -1070,14 +1066,20 @@ namespace MoreNote.Logic.Service
             throw new Exception("废弃");
         }
 
+
+         public string FixContent(string content, bool isMarkdown)
+        {
+            var baseUrl =ConfigService.config.APPConfig.SiteUrl;
+            return FixContent(content,isMarkdown,baseUrl);
+        }
         // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
         // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
         // 性能更好, 5倍的差距
-        public string FixContent(string content, bool isMarkdown)
+        public string FixContent(string content, bool isMarkdown, string baseUrl )
         {
             //开发是不可能开发的，只能靠复制粘贴这个样子
-            //todo:需要实现个方法FixContent
-            string baseUrl = ConfigService.GetSiteUrl();
+            //todo:需要实现FixContent
+            // string baseUrl = ConfigService.GetSiteUrl();
             string baseUrlPattern = baseUrl;
 
             // 避免https的url
@@ -1091,7 +1093,7 @@ namespace MoreNote.Logic.Service
             }
             baseUrlPattern = "(?:" + baseUrlPattern + ")*";
 
-            Dictionary<string, string>[] patterns = new Dictionary<string, string>[]
+            var patterns = new Dictionary<string, string>[]
             {
                 new Dictionary<string, string>()
                 {
@@ -1114,27 +1116,75 @@ namespace MoreNote.Logic.Service
             {
                 if (!isMarkdown)
                 {
-                    // 富文本处理
+
+                    Regex reg=null;
+                    Regex reg2=null;
+
+                     // 富文本处理
 
                     // <img src="http://leanote.com/file/outputImage?fileId=5503537b38f4111dcb0000d1">
                     // <a href="http://leanote.com/attach/download?attachId=5504243a38f4111dcb00017d"></a>
+
                     if (eachPattern["src"].Equals("src"))
                     {
-                        //https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/substitutions-in-regular-expressions
-                        Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                        string pattern = @"\p{Sc}*(\s?\d+[.,]?\d*)\p{Sc}*";
-                        string replacement = "$1";
-                        string input = "$16.32 12.19 £16.29 €18.29  €18,29";
-                        Regex.Replace(input, pattern, replacement);
-                        //todo: yo
+                        reg = new Regex("<img(?:[^>]+?)(?:" + eachPattern["src"] + "=['\"]*" + baseUrlPattern + eachPattern["middle"] + "\\?" + eachPattern["param"] + "=(?:[a-z0-9A-Z]{24})[\"']*)[^>]*>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        reg2 = new Regex("<img(?:[^>]+?)(" + eachPattern["src"] + "=['\"]*" + baseUrlPattern + eachPattern["middle"] + "\\?" + eachPattern["param"] + "=([a-z0-9A-Z]{24})[\"']*)[^>]*>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
                     }
+                    else
+                    {
+                         reg = new Regex("<a(?:[^>]+?)(?:" + eachPattern["src"] + "=['\"]*" + baseUrlPattern + eachPattern["middle"] + "\\?" + eachPattern["param"] + "=(?:[a-z0-9A-Z]{24})[\"']*)[^>]*>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        reg2 = new Regex("<a(?:[^>]+?)(" + eachPattern["src"] + "=['\"]*" + baseUrlPattern + eachPattern["middle"] + "\\?" + eachPattern["param"] + "=([a-z0-9A-Z]{24})[\"']*)[^>]*>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+                    }
+                    content = reg.Replace(content, (math) =>
+                    {
+                        //Console.WriteLine("markdown表达式1=" + math.Value);
+                            if (math.Success)
+                            {
+                                var eachFind = reg2.Match(math.Value);
+                                Console.WriteLine(eachFind.Groups.Count);
+                                Console.WriteLine(eachFind.Groups[0]);
+                                Console.WriteLine(eachFind.Groups[1]);
+                                Console.WriteLine(eachFind.Groups[2]);
+                                var src=eachPattern["src"]+"=\""+baseUrl+"/api/file/"+eachPattern["to"]+eachFind.Groups[2]+"\"";
+                                var output= math.Value.Replace(eachFind.Groups[1].Value,src);
+                                
+                             return output;
+                            }
+                           return math.Value;
+                    });
                 }
                 else
                 {
+                    var pre = "!";                       // 默认图片
+                    if (eachPattern["src"].Equals("href"))
+                    { // 是attach
+                        pre = "";
+                    }
                     // markdown处理
                     // ![](http://leanote.com/file/outputImage?fileId=5503537b38f4111dcb0000d1)
                     // [selection 2.html](http://leanote.com/attach/download?attachId=5504262638f4111dcb00017f)
                     // [all.tar.gz](http://leanote.com/attach/downloadAll?noteId=5503b57d59f81b4eb4000000)
+                    Regex regImageMarkdown = new Regex($@"{pre}\[(?:[^]]*?)\]\({baseUrlPattern}{eachPattern["middle"]}\?{eachPattern["param"]}=(?:[a-z0-9A-Z]{{24}})\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex regImageMarkdown2 = new Regex($@"{pre}\[([^]]*?)\]\({baseUrlPattern}{eachPattern["middle"]}\?{eachPattern["param"] }=([a-z0-9A-Z]{{24}})\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Console.WriteLine($@"{pre}\[(?:[^]]*?)\]\({baseUrlPattern}{eachPattern["middle"]}\?{eachPattern["param"]}=(?:[a-z0-9A-Z]{24})\)");
+                    content = regImageMarkdown.Replace(content, (math) =>
+                    {
+                        //Console.WriteLine("markdown表达式1=" + math.Value);
+                            if (regImageMarkdown2.IsMatch(math.Value))
+                            {
+                                var eachFind = regImageMarkdown2.Match(math.Value);
+                                Console.WriteLine(eachFind.Groups.Count);
+                                Console.WriteLine(eachFind.Groups[0]);
+                                Console.WriteLine(eachFind.Groups[1]);
+                                Console.WriteLine(eachFind.Groups[2]);
+                             return pre+"["+eachFind.Groups[1]+"]("+baseUrl+"/api/file/"+eachPattern["to"]+eachFind.Groups[2]+")";
+                            }
+                           return math.Value;
+                    });
+
+                  
                 }
             }
             return content;

@@ -40,7 +40,7 @@ namespace MoreNote.Logic.Service.FileService.IMPL.Tests
             var fileStream= File.OpenRead(@"C:\Users\huany\Pictures\130x130.jpg");
             var len=fileStream.Length;
 
-            fileStore.PutObjectAsync("test", "/my/13a03c863d021000.png", fileStream, len).Wait();
+           // fileStore.PutObjectAsync("test", "/my/13a03c863d021000.png", fileStream, len).Wait();
         
 
         }
