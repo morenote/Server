@@ -39,19 +39,19 @@ namespace MoreNote.Logic.Service.Tests
             //            item.Content = regexImage.Replace(item.Content, "${1}" + "00000000"+"${2}");
             //            Console.WriteLine(item.Content);
             //        }
-                       
+
             //        //处理附件链接
             //        Regex regexFuJian = new Regex(@"(https*://[^/]*?/api/file/getAttach\?fileId=)([a-zA-Z0-9]{16})aaaaaaaa");
             //        if (regexFuJian.IsMatch(item.Content))
             //        {
             //            item.Content = regexFuJian.Replace(item.Content,  "${1}" + "00000000"+"${2}");
             //        }
-                        
+
             //    }
             //    dataContext.SaveChanges();
-               
+
             //}
-    
+
         }
 
         [TestMethod()]
@@ -83,7 +83,7 @@ namespace MoreNote.Logic.Service.Tests
         public void SelectNoteTestByTag()
         {
 
-       
+
         }
 
         [TestMethod()]
@@ -94,7 +94,37 @@ namespace MoreNote.Logic.Service.Tests
             //var result=NoteService.UpdateNote(note);
             //Console.WriteLine(result);
 
+
+        }
+
+        [TestMethod()]
+        public void FixMarkDownxContentTest()
+        {
+           string context="![title](/api/file/getImage?fileId=13c8329167421000)";
+           NoteService noteService=new NoteService(null);
+           var result=  noteService.FixContent(context,true,@"https://localhost:44392");
+           Console.WriteLine("");
+           Console.WriteLine(result);
+        }
+        [TestMethod()]
+        public void FixContentTest2()
+        {
+           string context="<img src=\"http://leanote.com/file/outputImage?fileId=5503537b38f4111dcb0000d1\">";
+         
+           NoteService noteService=new NoteService(null);
+           var result=  noteService.FixContent(context,false,@"https://localhost:44392");
+           Console.WriteLine("");
+           Console.WriteLine(result);
+        }
+            [TestMethod()]
+        public void FixContentTest3()
+        {
            
+           string context="<p><img src=\"/api/file/getImage?fileId=611502cf05dadb007a000002\"></p>";
+           NoteService noteService=new NoteService(null);
+           var result=  noteService.FixContent(context,false,@"https://localhost:44392");
+           Console.WriteLine("");
+           Console.WriteLine(result);
         }
     }
 

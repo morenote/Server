@@ -90,7 +90,7 @@ namespace MoreNote.Controllers
            
             var re = new ResponseMessage()
             {
-                Id = fileId.ToHex(),
+                Id = fileId.ToHex24(),
                 Code = resultCode,
                 Msg = resultMsg,
                 Ok = Ok

@@ -20,7 +20,7 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void SaveTest()
         {
-            ConfigService configService = new ConfigService();
+            ConfigService configService = new ConfigService(null);
             if (configService.emailConfig == null)
             {
                 configService.emailConfig = new ConfigService.EmailConfig();

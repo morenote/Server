@@ -228,7 +228,7 @@ function minicss() {
 
 exports.concat = gulp.series(concatDepJs, concatAppJs,concatMarkdownJsV2);
 exports.html = gulp.series(devToProHtml);
-//exports.minifycss = minifycss;
+
 exports.default = gulp.series(concatDepJs, concatAppJs, concatMarkdownJsV2, plugins, minicss, concatAlbumJs);
 
 

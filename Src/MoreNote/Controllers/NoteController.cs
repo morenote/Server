@@ -204,9 +204,9 @@ namespace MoreNote.Controllers
         public JsonResult UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
         {
             var userid = GetUserIdBySession();
-            var old = noteService.GetNoteById(noteOrContent.NoteId);
+            var oldNote = noteService.GetNoteById(noteOrContent.NoteId);
             // 新添加note
-            if (noteOrContent.IsNew.IsValidTrue() && old == null)
+            if (noteOrContent.IsNew.IsValidTrue() && oldNote == null)
             {
                 var userId = GetUserIdBySession();
                 // 为共享新建?
