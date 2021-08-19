@@ -10,6 +10,7 @@ namespace MoreNote.Common.ExtensionMethods
 {
     public static class JsonExtensions
     {
+    
         public  static string ToJsonForLeanote<T>(this T t)
         {
             string json = JsonSerializer.Serialize(t, MyJsonConvert.GetOptions());
@@ -20,5 +21,11 @@ namespace MoreNote.Common.ExtensionMethods
             string json = JsonSerializer.Serialize(t, MyJsonConvert.GetSimpleOptions());
             return json;
         }
+        public static string ToJsonForDic(this Dictionary<string,long> t)
+        {
+            string json = JsonSerializer.Serialize(t, MyJsonConvert.GetSimpleOptions());
+            return json;
+        }
+
     }
 }

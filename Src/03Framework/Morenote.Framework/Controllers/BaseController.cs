@@ -194,7 +194,10 @@ namespace MoreNote.Framework.Controllers
             long? userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
-
+        public void UpdateSession(string key,string value)
+        {
+            _accessor.HttpContext.Session.SetString(key,value);
+        }
         // todo:得到用户信息
         public long? GetUserIdByToken(string token)
         {
@@ -254,6 +257,23 @@ namespace MoreNote.Framework.Controllers
             }
         }
         /// <summary>
+        /// 获得国际化语言资源文件
+        /// </summary>
+        /// <returns></returns>
+        public LanguageResource GetLanguageResource()
+        {
+            var lnag = "zh-cn";
+
+            var locale = Request.Cookies["LEANOTE_LANG"];
+
+            if (string.IsNullOrEmpty(locale))
+            {
+                locale = lnag;
+            }
+            var languageResource = LanguageFactory.GetLanguageResource(locale);
+            return languageResource;
+        }
+        /// <summary>
         /// 设置区域性信息
         /// </summary>
         /// <returns></returns>
@@ -286,12 +306,10 @@ namespace MoreNote.Framework.Controllers
 
 
             ViewBag.locale=locale;
-            ViewBag.siteUrl ="/";
-
-
-            ViewBag.blogUrl="";
-            ViewBag.leaUrl = "/";
-            ViewBag.noteUrl = "/note/note";
+            ViewBag.siteUrl = config.APPConfig.SiteUrl;
+            ViewBag.blogUrl=config.APPConfig.BlogUrl;
+            ViewBag.leaUrl = config.APPConfig.LeaUrl;
+            ViewBag.noteUrl = config.APPConfig.NoteUrl;
 
             return null;
         }

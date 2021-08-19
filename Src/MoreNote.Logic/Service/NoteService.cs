@@ -489,7 +489,6 @@ namespace MoreNote.Logic.Service
                           where note.IsBlog == isBlog
                           select note).ToList<Note>();
             }
-
             if (notebookId != null)
             {
                 result = (from note in result

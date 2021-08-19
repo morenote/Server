@@ -14,7 +14,7 @@ using UpYunLibrary;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-    [Route("api/File/[action]")]
+    
     //[ApiController]
     public class FileAPIController : APIBaseController
     {
@@ -38,15 +38,37 @@ namespace MoreNote.Controllers.API.APIV1
 
         //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片
         //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
-        [Route("api/File/GetImageForWeb/{fileId}")]
+        [Route("api/File/Images/{fileId}")]
         public Task<IActionResult> GetImageForWeb(string fileId)
         {
             return GetImage(fileId);
         }
 
+        /// <summary>
+        /// 获取用户头像
+        /// </summary>
+        /// <param name="userIdHex"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        [Route("api/File/Avatars/{userIdHex}/{filename}")]
+        public async Task<IActionResult> GetAvatar(string userIdHex ,string filename)
+        {
+            var fileUrlPath = $"{userIdHex}/images/logo";
+            var objectName = $"{fileUrlPath}/{filename}";
+            var provider = new FileExtensionContentTypeProvider();
+
+            string fileExt = Path.GetExtension(filename);
+            var memi = provider.Mappings[fileExt];
+            var fileService = FileStoreServiceFactory.Instance(webSiteConfig);
+            var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
+
+            return File(data, memi);
+        }
+
+
         //todo: 输出image 需要get参数
         //api/File/GetImage?fileId=xxxx
-      
+
         public async Task<IActionResult> GetImage(string fileId)
         {
             //try

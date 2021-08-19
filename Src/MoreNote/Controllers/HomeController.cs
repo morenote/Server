@@ -9,6 +9,7 @@ namespace MoreNote.Controllers
 {
     public class HomeController : BaseController
     {
+        public TagService TagService { get;set;}
         public HomeController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -22,7 +23,14 @@ namespace MoreNote.Controllers
         public IActionResult Index()
         {
             //return Content("An API listing authors of docs.asp.net.");
-
+            if (TagService==null)
+            {
+                System.Console.WriteLine("null");
+            }
+            else
+            {
+                System.Console.WriteLine("not null");
+            }
             SetUserInfo();
             ViewBag.title = "leanote";
             ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;
