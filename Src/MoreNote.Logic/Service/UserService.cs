@@ -256,7 +256,10 @@ namespace MoreNote.Logic.Service
         // 修改头像
         public bool UpdateAvatar(long? userId, string avatarPath)
         {
-            throw new Exception();
+            var user= dataContext.User.Where(b=>b.UserId==userId).FirstOrDefault();
+            user.Logo=avatarPath;
+            dataContext.SaveChanges();
+            return true;
         }
 
         //----------------------

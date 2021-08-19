@@ -14,15 +14,19 @@ using MoreNote.Value;
 namespace MoreNote.Controllers.Member
 {
     [Route("/member/user/{action=Username}")]
+    [Authorize(Roles = "Admin,SuperAdmin,User")]
     public class MemberUserController : BaseController
     {
+        public ConfigService ConfigService { get;set;}
         public MemberUserController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
+            , ConfigService configService
             , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
+            this.ConfigService=configService;
 
         }
       //  [Authorize(Roles = "Admin,SuperAdmin")]
@@ -65,8 +69,11 @@ namespace MoreNote.Controllers.Member
           
             User user = GetUserBySession();
             ViewBag.user = user;
-             SetLocale();
-            ViewBag.title = "头像";
+            SetLocale();
+            
+            ViewBag.title= GetLanguageResource().GetMember()["Avatar"];
+            ViewBag.globalConfigs= ConfigService.GetGlobalConfigForUser();
+
             return View("Views/Member/user/avatar.cshtml");
         }
     }

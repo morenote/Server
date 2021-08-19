@@ -79,6 +79,24 @@ namespace MoreNote.Controllers
 
         }
 
+        public async Task<IActionResult> UploadAvatar()
+        {
+            var re=await uploadImage("logo",null);
+
+            if (re.Ok)
+            {
+                re.Ok=userService.UpdateAvatar(GetUserIdBySession(),re.Id);
+                if (re.Ok)
+                {
+                    UpdateSession("Logo",re.Id);
+                }
+            }
+
+            return Json(re,MyJsonConvert.GetSimpleOptions());
+
+
+        }
+
 
         private async System.Threading.Tasks.Task<ResponseMessage> uploadImage(string from, long? albumId)
         {
@@ -180,9 +198,11 @@ namespace MoreNote.Controllers
                 CreatedTime=nowTime
                 
             };
-             result= noteFileService.AddImage(fileInfo,albumId,userid, from == "" || from == "pasteImage");
+            result= noteFileService.AddImage(fileInfo,albumId,userid, from == "" || from == "pasteImage");
             re.Ok=result;
             re.Item=fileInfo;
+
+            re.Id=@$"/api/File/Avatars/{userid.ToHex()}/{filename}";
 
             return re;
         }

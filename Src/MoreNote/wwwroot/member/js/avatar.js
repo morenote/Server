@@ -88,7 +88,7 @@ define('avatar', ['fileupload'], function(){
             if (data.result.Ok == true) {
                 data.context.html("");
                 var re = data.result;
-                $("#avatar").attr("src", UrlPrefix + "/" + re.Id);
+                $("#avatar").attr("src", UrlPrefix  + re.Id);
             } else {
                 var re = data.result;
                 data.context.html("");

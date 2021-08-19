@@ -10,7 +10,7 @@
 	  <StartupObject>MoreNote.Program</StartupObject>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	  <DockerfileContext>..\..</DockerfileContext>
-	  <TypeScriptToolsVersion>4.2</TypeScriptToolsVersion>
+	  <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 	  <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
