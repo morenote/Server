@@ -35,8 +35,9 @@ namespace MoreNote.Controllers.Member
          
             User user = GetUserBySession();
             ViewBag.user = user;
+            SetUserInfo();
             SetLocale();
-            ViewBag.title = "用户名";
+            ViewBag.title = GetLanguageResource().GetMember()["Username"];
             return View("Views/Member/user/Username.cshtml");
         }
         //[Authorize(Roles = "Admin,SuperAdmin")]
@@ -70,7 +71,6 @@ namespace MoreNote.Controllers.Member
             User user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
-            
             ViewBag.title= GetLanguageResource().GetMember()["Avatar"];
             ViewBag.globalConfigs= ConfigService.GetGlobalConfigForUser();
 

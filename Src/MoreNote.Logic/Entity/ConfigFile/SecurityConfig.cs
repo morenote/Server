@@ -36,6 +36,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 程序首次初始化时 admin是超级管理员
         /// </summary>
         public string AdminUsername{ get;set;}="admin";
+        public string DemoUsername { get; set; } = "demo";
         /// <summary>
         /// 将log放置在哪里
         /// </summary>
