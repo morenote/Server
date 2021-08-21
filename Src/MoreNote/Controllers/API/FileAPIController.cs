@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -60,9 +61,19 @@ namespace MoreNote.Controllers.API.APIV1
             string fileExt = Path.GetExtension(filename);
             var memi = provider.Mappings[fileExt];
             var fileService = FileStoreServiceFactory.Instance(webSiteConfig);
-            var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
+            try
+            {
+                var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
+                return File(data, memi);
+            }
+            catch (Exception ex)
+            {
 
-            return File(data, memi);
+                Response.StatusCode=(int)HttpStatusCode.NotFound;
+                return Content("NotFound");
+            }
+            
+           
         }
 
 

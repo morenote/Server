@@ -1,4 +1,5 @@
-﻿using MoreNote.Common.Utils;
+﻿using MoreNote.Common.HySystem;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
 using System;
@@ -67,6 +68,44 @@ namespace MoreNote.Logic.Service
             dataContext.User.Add(user);
             return dataContext.SaveChanges() > 0;
         }
+
+        public bool VD(string username)
+        {
+            //验证是否包含特殊符号
+            bool result= HyString.IsNumAndEnCh(username);
+            if (!result)
+            {
+                return result;
+            }
+            //验证长度
+            if (username.Length<4)
+            {
+                return result;
+
+            }
+            //验证名称冲突
+            var count= dataContext.User.Where(b=>b.Username.Equals(username.ToLower())).Count();
+            if (count!=0)
+            {
+                return false;
+
+            }
+            //验证黑名单
+            HashSet<String> blacklist=new HashSet<string>();
+            blacklist.Add("admin");
+            blacklist.Add("demo");
+            blacklist.Add("root");
+            
+
+
+            result=blacklist.Contains(username.ToLower());
+           
+            return !result;
+
+
+
+        }
+
         public bool AddBlogUser(UserBlog user)
         {
             if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
@@ -250,7 +289,15 @@ namespace MoreNote.Logic.Service
         // 更新username
         public bool UpdateUsername(long? userId, string username)
         {
-            throw new Exception();
+           var user=dataContext.User.Where(b=>b.UserId==userId).FirstOrDefault();
+            if (user==null)
+            {
+                return false;
+            }
+            user.UsernameRaw=username;
+            user.Username=username;
+            return  dataContext.SaveChanges()>0;
+
         }
 
         // 修改头像
