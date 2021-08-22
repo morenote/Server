@@ -46,7 +46,8 @@ namespace MoreNote.Controllers.Member
          
             User user = GetUserBySession();
             ViewBag.user = user;
-              SetLocale();
+            SetLocale();
+            SetUserInfo();
             ViewBag.title = "电子邮箱";
             return View("Views/Member/user/email.cshtml");
         }
