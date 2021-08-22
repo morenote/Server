@@ -23,7 +23,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
         public byte[] Encryption(byte[] pass, byte[] salt,int iterations);
 
         /// <summary>
-        /// 确定输入密码是否正确
+        /// 验证提供的口令是否与提供的哈希匹配
         /// </summary>
         /// <param name="pass">密码</param>
         /// <param name="encryData">加密数据</param>

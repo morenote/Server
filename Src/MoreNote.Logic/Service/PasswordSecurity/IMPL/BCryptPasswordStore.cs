@@ -21,11 +21,14 @@ namespace MoreNote.Logic.Service.PasswordSecurity
             if (iterations < 4 || iterations > 31)
                 throw new ArgumentException("Bad number of rounds", "logRounds");
             return  BCryptHlper.HashPassword(pass,salt,iterations);
+
+
+
         }
 
         public bool VerifyPassword(byte[] encryData,byte[] pass , byte[] salt, int iterations)
         {
-         
+           
             return BCryptHlper.Verify(encryData,pass,salt,iterations);
         }
     }
