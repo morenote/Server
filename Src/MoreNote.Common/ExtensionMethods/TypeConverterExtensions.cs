@@ -1,6 +1,7 @@
 ﻿using MoreNote.Common.Utils;
 using System;
 using System.Globalization;
+using System.Text;
 
 namespace MoreNote.Common.ExtensionMethods
 {
@@ -27,6 +28,15 @@ namespace MoreNote.Common.ExtensionMethods
         public static byte[] Base64ToByteArray(this string data)
         {
             return Convert.FromBase64String(data);
+        }
+
+        public static byte[] ToByteArrayByUtf8(this string data)
+        {
+            return Encoding.UTF8.GetBytes(data);
+        }
+        public static string ToStringByUtf8(this byte[] data)
+        {
+            return Encoding.UTF8.GetString(data);
         }
 
         public static string ToHexForLeanote(this long? number)
