@@ -90,12 +90,12 @@ namespace MoreNote.Logic.Service
         {
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
-                          where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId && _note.Tags.Contains(tag)
+                          where _note.IsBlog == true  && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId && _note.Tags.Contains(tag)
                           select new NoteAndContent
                           {
                               note = _note,
                               noteContent = _content
-                          }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
+                          }).OrderByDescending(b => b.note.Title).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
             return result;
         }
 
