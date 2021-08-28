@@ -60,12 +60,17 @@ namespace MoreNote.Common.ExtensionMethods
             }
             return "00000000" + number.Value.ToString("x");
         }
+        public static string ToHex24ForLeanote(this long number)
+        {
+            return "00000000" + number.ToString("x");
+        }
+
+
         public static long? ToLongByHex(this string hex)
         {
             if (string.IsNullOrEmpty(hex))
             {
                 return null;
-
             }
 
             //119993f42d821000
@@ -79,11 +84,7 @@ namespace MoreNote.Common.ExtensionMethods
                 //todo:处理ex
 
                 return null;
-            }
-         
-           
-           
-            
+            }  
         }
         public static long? ToLongByNumber(this string number)
         {   
