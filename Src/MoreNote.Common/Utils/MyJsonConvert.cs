@@ -59,6 +59,7 @@ namespace MoreNote.Common.Utils
 
         public override void Write(Utf8JsonWriter writer, long? value, JsonSerializerOptions options)
         {
+
             if (value==null)
             {
                 writer.WriteStringValue(string.Empty);
