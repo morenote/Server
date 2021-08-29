@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
+
 namespace MoreNote.Logic.Entity
 {
     /// <summary>
@@ -12,8 +13,9 @@ namespace MoreNote.Logic.Entity
     [Table("access_records")]
     public class AccessRecords
     {
-        [Key] [Column("access_id")] public long? AccessId { get; set; }
-
+        [Key] [Column("access_id")] 
+        public long? AccessId { get; set; }
+        
         [Column("ip")]
         public string IP { get; set; }
         [Column("x_real_ip")]
