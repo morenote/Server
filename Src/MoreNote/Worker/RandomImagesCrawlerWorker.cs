@@ -136,7 +136,7 @@ namespace MoreNoteWorkerService
             //上传到又拍云
             if (!randomImageService.Exist(type, fileSHA1))
             {
-                upyun.writeFile($"/upload/{SHAEncryptHelper.MD5Encrypt(type)}/{fileSHA1}{Path.GetExtension(name)}", imageBytes, true);
+                upyun.WriteFile($"/upload/{SHAEncryptHelper.MD5Encrypt(type)}/{fileSHA1}{Path.GetExtension(name)}", imageBytes, true);
                 RandomImage randomImage = new RandomImage()
                 {
                     RandomImageId = SnowFlakeNet.GenerateSnowFlakeID(),
