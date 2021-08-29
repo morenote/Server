@@ -67,7 +67,7 @@ namespace MoreNote.Logic.Service
                 MemoryStream stmMemory = new MemoryStream();
                 await formFile.CopyToAsync(stmMemory).ConfigureAwait(false);
                 byte[] imageBytes = stmMemory.ToArray();
-                return upyun.writeFile($"{uploadDirPath}{fileName}", imageBytes, true);
+                return upyun.WriteFile($"{uploadDirPath}{fileName}", imageBytes, true);
             }
             else
             {
