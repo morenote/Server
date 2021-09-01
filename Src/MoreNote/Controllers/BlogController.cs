@@ -323,20 +323,47 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Search/{blogUserName?}/{keywords?}/")]
-        public IActionResult Search(string blogUserName, string keywords)
+        [Route("Blog/Search/{blogUserIdHex?}/{keywords?}/")]
+        public IActionResult Search(string blogUserIdHex, string keywords, int page)
         {
-            User blogUser = ActionInitBlogUser(blogUserName);
+            if (page < 1)
+            {
+                //页码
+                page = 1;
+            }
+            ViewBag.page = page;
+            User blogUser = null;
+            if (string.IsNullOrEmpty(blogUserIdHex))
+            {
+              return Content("查无此人");
+            }
+            else
+            {
+                blogUser = userService.GetUserByUserId(blogUserIdHex.ToLongByHex());
+            }
+
             if (blogUser == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return Content("查无此人");
+                blogUser = userService.GetUserByUserName(blogUserIdHex);
+                if (blogUser == null)
+                {
+                   return Content("查无此人");
+                }
             }
+            ViewBag.blogUser = blogUser;
+           
+            ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.UserId);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.UserId);
+            ViewBag.noteAndContent = noteAndContent;
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
+
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            blog.Add("Title", "标题");
-            blog.Add("keywords", "关键字");
+            blog.Add("Title", "moreote云笔记");
+            blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
-             BlogCommon(blogUser);
+
+            BlogCommon(blogUser);
+
             return View();
         }
 

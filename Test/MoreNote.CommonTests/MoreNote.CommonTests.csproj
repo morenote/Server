@@ -21,4 +21,10 @@
 
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="html.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

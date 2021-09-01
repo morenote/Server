@@ -4,6 +4,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Masuit.LuceneEFCore.SearchEngine;
+using NpgsqlTypes;
 
 namespace MoreNote.Logic.Entity
 {
@@ -23,6 +24,8 @@ namespace MoreNote.Logic.Entity
         public long? NotebookId { get; set; }
         [Column("title")]
         public string Title { get; set; }//标题
+        [Column("title_vector")]
+        public NpgsqlTsVector TitleVector { get; set; }
         [Column("desc")]
         public string Desc { get; set; }//描述, 非html
         [Column("src")]
@@ -101,6 +104,9 @@ namespace MoreNote.Logic.Entity
         public bool IsBlog { get; set; } // 为了搜索博客 
         [Column("content")]
         public string Content { get; set; }//内容
+        [Column("content_vector")]
+        public NpgsqlTsVector ContentVector { get; set; }
+
 
         //public string WebContent{ get;set;}//为web页面优化的内容
         [Column("abstract")]

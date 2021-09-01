@@ -1,8 +1,9 @@
-﻿using MoreNote.Common.ExtensionMethods;
+﻿using Microsoft.EntityFrameworkCore;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
-
+using MoreNote.Logic.Service.Segmenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1008,13 +1009,22 @@ namespace MoreNote.Logic.Service
         // 搜索Note, 博客使用了
         public Note[] SearchNote(string key, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
         {
-            throw new Exception();
+
+            JiebaSegmenterService jiebaSegmenterService=new JiebaSegmenterService();
+            var query=jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+            var list= dataContext.Note.Where(b=>b.UserId==userId
+                                    &&b.IsTrash==false
+                                    &&b.IsDeleted==false
+                                    &&b.IsBlog==isBlog
+                                    &&b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b=>b.Title);
+            return list.ToArray();
+            
         }
 
         // 搜索noteContents, 补集pageSize个
         public Note[] searchNoteFromContent(Note[] notes, long? userId, string key, int pagSize, string sortField, bool isBlog)
         {
-            throw new Exception();
+              throw new Exception();
         }
 
         //----------------

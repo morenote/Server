@@ -23,7 +23,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public string BlogUrl { get;set;}="/blog";
         public string LeaUrl { get;set;}="";
         public string NoteUrl { get;set;}="/note/note";
-
+        public dynamic SearchUrl { get; set; }="/";
 
         /// <summary>
         /// 使用什么类型的数据库
@@ -39,5 +39,6 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 用户上传/附件/主题文件夹
         /// </summary>
         public string FileFolder { get;set;}
+        
     }
 }
