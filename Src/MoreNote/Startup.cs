@@ -12,6 +12,7 @@ using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.PasswordSecurity;
+using MoreNote.Logic.Service.Segmenter;
 using System;
 
 namespace MoreNote
@@ -215,6 +216,8 @@ namespace MoreNote
             .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<Sha256PasswordStore>()
                 .As<IPasswordStore>();
+                   builder.RegisterType<JiebaSegmenterService>()
+                .As<JiebaSegmenterService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -218,12 +218,50 @@ namespace MoreNote.Logic.Service
 
         public BlogItem[] notes2BlogItems(Note[] notes)
         {
-            throw new Exception();
-        }
+           var noteIds=(from note in notes
+                       select note.NoteId).ToArray();
+           var noteContents=NoteContentService.DictionaryNoteContentByNoteIds(noteIds);
 
-        public void SearchBlog(string key, long? userid, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem[] blogItems)
+           var blogs=new List<BlogItem>();
+
+            foreach (var note in notes)
+            {
+                var blogItem=new BlogItem()
+                {
+                    Note=note,
+                    Abstract=noteContents[note.NoteId]?.Abstract,
+                    Content=noteContents[note.NoteId]?.Content,
+                    HasMore=true
+                   
+                };
+                blogs.Add(blogItem);
+
+            }
+            return blogs.ToArray();
+            
+           
+
+        }
+        /// <summary>
+        /// 搜索博客
+        /// </summary>
+        /// <param name="key">关键词</param>
+        /// <param name="userid"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortField"></param>
+        /// <param name="isAsc"></param>
+        /// <param name="pageObj"></param>
+        /// <param name="blogItems"></param>
+        public BlogItem[] SearchBlog(string key, long? userid, int page, int pageSize, string sortField, bool isAsc)
         {
-            throw new Exception();
+            
+            var notes=NoteService.SearchNote(key,userid,page,pageSize,sortField,isAsc,true);
+            if (notes==null||!notes.Any())
+            {
+                return null;
+            }
+            return null;
         }
 
         public Post PreNextBlog(long? userid, string sortField, bool isAsc, long? noteId, string baseTime)

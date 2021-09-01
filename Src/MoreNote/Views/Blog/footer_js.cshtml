@@ -4,9 +4,9 @@
 function search(e) {
 	var keywords = $("#searchInput").val();
 	if(!keywords) {
-		location.href = "{{$.searchUrl}}";
+        location.href = "@ViewBag.searchUrl";
 	} else {
-        var tpl = '<form style="display: none" action="@Url.Action("Search")" method="get">';
+        var tpl = '<form style="display: none" action="@ViewBag.searchUrl" method="get">';
         tpl += '<input name="keywords" value="' + keywords + '" />';
         tpl += "</form";
         var $tpl = $(tpl);

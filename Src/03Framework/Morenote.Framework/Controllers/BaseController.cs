@@ -318,6 +318,7 @@ namespace MoreNote.Framework.Controllers
             ViewBag.blogUrl=config.APPConfig.BlogUrl;
             ViewBag.leaUrl = config.APPConfig.LeaUrl;
             ViewBag.noteUrl = config.APPConfig.NoteUrl;
+           
 
             return null;
         }
