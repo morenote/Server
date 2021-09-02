@@ -31,10 +31,11 @@ namespace MoreNote.Logic.Service
         public NoteContentService NoteContentService { get; set; }
 
         public ShareService ShareService { get; set; }
-
-        public NoteService(DataContext dataContext)
+        JiebaSegmenterService jieba{get;set;} 
+        public NoteService(DataContext dataContext,JiebaSegmenterService jieba)
         {
             this.dataContext = dataContext;
+            this.jieba=jieba;
         }
 
         public bool AddNote(Note note)
@@ -86,7 +87,24 @@ namespace MoreNote.Logic.Service
                           }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).ToArray();
             return result;
         }
-
+        public NoteAndContent[] SearchNoteAndContentForBlog(int pageIndex, long? userId,string keywords)
+        {
+            var query = jieba.GetSerachNpgsqlTsQuery(keywords);
+            var result = (from _note in dataContext.Note
+                          join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
+                          where _note.UserId == userId
+                                &&_note.TitleVector.Matches(query) 
+                                && _note.IsBlog == true 
+                                && _content.IsHistory == false 
+                                && _note.IsTrash == false 
+                                && _note.IsDeleted == false 
+                          select new NoteAndContent
+                          {
+                              note = _note,
+                              noteContent = _content
+                          }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).ToArray();
+            return result;
+        }
         public NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long? userId, string tag)
         {
             var result = (from _note in dataContext.Note

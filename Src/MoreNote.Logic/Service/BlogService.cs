@@ -1,9 +1,10 @@
-﻿using MoreNote.Common.ExtensionMethods;
+﻿using Microsoft.EntityFrameworkCore;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Helper;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
-
+using MoreNote.Logic.Service.Segmenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +36,11 @@ namespace MoreNote.Logic.Service
         public UserService UserService { get; set; }
         public ConfigService ConfigService { get; set; }
         public CommonService CommonService { get; set; }
-
-        public BlogService(DataContext dataContext)
+        JiebaSegmenterService jieba{get;set;}
+        public BlogService(DataContext dataContext,JiebaSegmenterService jieba)
         {
             this.dataContext = dataContext;
+            this.jieba=jieba;
         }
 
         public BlogStat GetBlogStat(long? noteId)
@@ -62,7 +64,16 @@ namespace MoreNote.Logic.Service
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
             return count;
         }
-
+        public int CountTheNumberForSearch(long? userId,string keyword)
+        {
+           var query = jieba.GetSerachNpgsqlTsQuery(keyword);
+           var count = dataContext.Note.Where( b =>b.UserId == userId
+                                                        && b.IsBlog == true 
+                                                        && b.IsDeleted == false 
+                                                        && b.IsTrash == false
+                                                        &&b.TitleVector.Matches(query)).Count();
+            return count;
+        }
         public int CountTheNumberForBlogTags(long? userId, string tag)
         {
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
@@ -96,7 +107,8 @@ namespace MoreNote.Logic.Service
             }
             else
             {
-                var note = dataContext.Note.Where(b => b.UserId == userId && b.Title == noteIdOrUrlTitle
+                var note = dataContext.Note.Where(b => b.UserId == userId 
+                              && b.Title == noteIdOrUrlTitle
                               && b.IsBlog == true
                               && b.IsTrash == false
                               && b.IsDeleted == false).FirstOrDefault();
