@@ -1,4 +1,5 @@
 ﻿using JiebaNet.Segmenter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoreNote.Logic.DB;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-    //[Authorize(Roles = "Admin,SuperAdmin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class SearchEngineController : Controller
     {
         private DataContext dataContext;

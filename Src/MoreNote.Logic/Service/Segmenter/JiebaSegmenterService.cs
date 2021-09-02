@@ -29,8 +29,9 @@ namespace MoreNote.Logic.Service.Segmenter
                 {
                     if (item.Length > 1)
                     {
-                        cutList.Add(item);
+                        cutList.Add(item.ToUpper());
                     }
+
                 }
                 string str = string.Join(" ", cutList);
                 vector = NpgsqlTsVector.Parse(str);
@@ -68,11 +69,12 @@ namespace MoreNote.Logic.Service.Segmenter
                 {
                     if (item.Length > 1)
                     {
-                        cutList.Add(item);
+                        cutList.Add(item.ToUpper());
                     }
                 }
-                string str = string.Join(" ", cutList);
+                string str = string.Join(" & ", cutList);
                 vector = NpgsqlTsQuery.Parse(str);
+                
             }
             catch (Exception ex)
             {

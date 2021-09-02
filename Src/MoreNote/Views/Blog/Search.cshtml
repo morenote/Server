@@ -7,7 +7,7 @@
       
         <div class="toolbar header bg-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}} color-white">
             <button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="fa fa-bars"></i></button>
-            <label class="toolbar-label">搜索 - {{.keywords}}</label>
+            <label class="toolbar-label">搜索 - @ViewBag.keywords</label>
             <span class="float-right" id="switch-container">
                 <div class="switch">
                     <input type="checkbox" id="dark-theme-switch" onchange="Theme.setTheme(this.checked ? 'dark' : 'light')" />

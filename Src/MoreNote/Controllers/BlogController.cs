@@ -352,10 +352,13 @@ namespace MoreNote.Controllers
             }
             ViewBag.blogUser = blogUser;
            
-            ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.UserId);
-            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.UserId);
+            ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.UserId,keywords);
+            NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.UserId,keywords);
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.keywords=keywords;
+
+
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "moreote云笔记");
