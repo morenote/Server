@@ -16,6 +16,7 @@ using MoreNote.Common.Custom.MyTypeConverter;
 using MoreNote.Common.ModelBinder;
 using System.Text.Json;
 using MoreNote.Framework.Controllers;
+using System.Diagnostics;
 
 namespace MoreNote.Controllers
 {
@@ -201,6 +202,8 @@ namespace MoreNote.Controllers
 
         public IActionResult Index(string blogUserIdHex, int page)
         {
+            Stopwatch stopwatch=new Stopwatch();
+            stopwatch.Start();
             if (page < 1)
             {
                 //页码
@@ -238,7 +241,9 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
 
             BlogCommon(blogUser);
-
+            stopwatch.Stop();
+            ViewBag.elapsed=stopwatch.ElapsedMilliseconds;
+            Response.Headers.Add("elapsed",stopwatch.ElapsedMilliseconds.ToString());
             return View();
         }
 
@@ -326,6 +331,8 @@ namespace MoreNote.Controllers
         [Route("Blog/Search/{blogUserIdHex?}/{keywords?}/")]
         public IActionResult Search(string blogUserIdHex, string keywords, int page)
         {
+             Stopwatch stopwatch=new Stopwatch();
+            stopwatch.Start();
             if (page < 1)
             {
                 //页码
@@ -366,7 +373,9 @@ namespace MoreNote.Controllers
             ViewBag.blog = blog;
 
             BlogCommon(blogUser);
-
+            stopwatch.Stop();
+            ViewBag.elapsed=stopwatch.ElapsedMilliseconds;
+            Response.Headers.Add("elapsed",stopwatch.ElapsedMilliseconds.ToString());
             return View();
         }
 

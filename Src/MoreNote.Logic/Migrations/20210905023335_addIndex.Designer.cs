@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.DB;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210905023335_addIndex")]
+    partial class addIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,8 +76,6 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnName("x_real_ip");
 
                     b.HasKey("AccessId");
-
-                    b.HasIndex("IP", "X_Real_IP", "X_Forwarded_For", "AccessTime", "URL");
 
                     b.ToTable("access_records");
                 });
@@ -1750,8 +1750,6 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnName("verified");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("Email", "Verified", "Username", "UsernameRaw", "Role", "ThirdUserId", "FromUserId");
 
                     b.ToTable("user_info");
                 });

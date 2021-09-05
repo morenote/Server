@@ -975,28 +975,71 @@ namespace MoreNote.Logic.Service
             return ok;
         }
 
-        // 移动note
+        // 移动note【未完全实现】
         // trash, 正常的都可以用
         // 1. 要检查下notebookId是否是自己的
         // 2. 要判断之前是否是blog, 如果不是, 那么notebook是否是blog?
-        public Note MoveNote(long? noteId, long? notebookId, long? userId)
+        public Note MoveNote(long? userId,long? noteId, long? notebookId)
         {
-            throw new Exception();
+            //先判断笔记是否是自己的或者共享的
+            var note=dataContext.Note.Where(b=>b.UserId==userId&&b.NoteId==noteId).FirstOrDefault();
+            var preNotebookId=note.NotebookId;
+            if (note==null)
+            {
+                return null;
+            }
+            //更新笔记的笔记本id
+            note.NotebookId=notebookId;
+            //更新blog状态
+            this.updateToNotebookBlog(noteId,notebookId,userId);
+            // recount notebooks' notes number
+            NotebookService.ReCountNotebookNumberNotes(notebookId);
+            // 之前不是trash才统计, trash本不在统计中的
+            if (!note.IsTrash&&notebookId!=preNotebookId)
+            {
+                NotebookService.ReCountNotebookNumberNotes(preNotebookId);
+            }
+            return note;
+
         }
 
         // 如果自己的blog状态是true, 不用改变,
         // 否则, 如果notebookId的blog是true, 则改为true之
         // 返回blog状态
         // move, copy时用
-        public bool updateToNotebookBlog(long? noteId, long? notebookId, long? userId)
+        public bool updateToNotebookBlog( long? userId, long? notebookId,long? noteId)
         {
-            throw new Exception();
+
+            if (IsBlog(noteId))
+            {
+                return true;
+            }
+            if (NotebookService.IsBlog(notebookId))
+            {
+                var note=dataContext.Note.Where(b=>b.NoteId==noteId).FirstOrDefault();
+                if (note==null)
+                {
+                    return true;
+                }
+                note.IsBlog=true;
+                note.PublicTime=DateTime.Now;
+                dataContext.SaveChanges();
+                return true;
+            }
+            return false;
+
+
         }
 
         // 判断是否是blog
         public bool IsBlog(long? noteId)
         {
-            throw new Exception();
+          var note=dataContext.Note.Where(b=>b.NoteId==noteId).FirstOrDefault();
+            if (note==null)
+            {
+                return false;
+            }
+            return note.IsBlog;
         }
 
         // 复制note

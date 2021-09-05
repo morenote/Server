@@ -294,5 +294,18 @@ namespace MoreNote.Controllers
             }
             return Json(true);
         }
+        [Route("Note/moveNote")]
+        public IActionResult moveNote(string[] noteIds,string notebookId)
+        {
+            var userId=GetUserIdBySession();
+            foreach (var noteId in noteIds)
+            {
+                noteService.MoveNote(userId,noteId.ToLongByHex(),notebookId.ToLongByHex());
+
+            }
+            return Json(true);
+
+        }
+
     }
 }

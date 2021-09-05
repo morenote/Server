@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MoreNote.Logic.Entity;
 
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,8 @@ namespace MoreNote.Logic.Entity
         
     }
 
-    [Table("user_info")]
+    [Table("user_info"),Index(nameof(Email),nameof(Verified),nameof(Username),nameof(UsernameRaw),nameof(Role)
+        ,nameof(ThirdUserId),nameof(FromUserId))]
     public class User
     {
         [Key]
