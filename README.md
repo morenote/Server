@@ -124,13 +124,17 @@ dotnet run
 
 主要开发： hyfree
 
-#### 特别感谢
-- .NetCore(微软出品的C#)
+#### 站在巨人的肩上
+- .NetCore(微软出品的跨平台开发语言)
 - AmazeUI(前端UI框架)
 - JQuery(JavaScript脚本库)
 - Supervisor(Linux进程守护程序) 
 - Redis(高性能缓存服务)
 - PostgreSQL(高性能数据库)
 - WangEditer(Web富文本编辑器)
-- Leanote(笔记服务)
+- Textbus(优秀的富文本编辑器)
+- Vditor(markdown编辑器)
+- Masuit.LuceneEFCore.SearchEngine(基于EntityFrameworkCore和Lucene.NET实现的全文检索搜索引擎)
+- Masuit.MyBlogs(高性能低占用的博客系统)
+- Leanote(Go语言实现的云笔记服务)
 
