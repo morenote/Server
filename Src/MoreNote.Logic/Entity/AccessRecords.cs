@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ namespace MoreNote.Logic.Entity
     /// <summary>
     /// 访问记录
     /// </summary>
-    [Table("access_records")]
+    [Table("access_records"),Index(nameof(IP),nameof(X_Real_IP),nameof(X_Forwarded_For),nameof(AccessTime),nameof(URL))]
     public class AccessRecords
     {
         [Key] [Column("access_id")] 

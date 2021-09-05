@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Masuit.LuceneEFCore.SearchEngine;
 using NpgsqlTypes;
+using Microsoft.EntityFrameworkCore;
 
 namespace MoreNote.Logic.Entity
 {
-    [Table("note")]
+    [Table("note"),Index(nameof(UserId),nameof(IsBlog),nameof(IsDeleted))]
     public class Note
     {
         // // 必须要设置bson:"_id" 不然mgo不会认为是主键
@@ -89,7 +90,7 @@ namespace MoreNote.Logic.Entity
     ///  剩余的NoteContent被识别为历史记录
     /// </para>
     /// </summary>
-    [Table("note_content")]
+    [Table("note_content"),Index(nameof(NoteId),nameof(UserId),nameof(IsHistory))]
     public class NoteContent
     {
         [Key]
