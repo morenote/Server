@@ -36,6 +36,9 @@ namespace MoreNote.Framework.Controllers
         public string defaultSortField = "UpdatedTime";
         public string leanoteUserId = "admin";
         public NoteFileService noteFileService;
+        /// <summary>
+        /// 默认1000
+        /// </summary>
         public int pageSize = 1000;
         public TokenSerivce tokenSerivce;
      

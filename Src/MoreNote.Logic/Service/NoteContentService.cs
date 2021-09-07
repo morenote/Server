@@ -2,6 +2,7 @@
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Service.Segmenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace MoreNote.Logic.Service
         private DataContext dataContext;
         public NoteImageService NoteImageService { get; set; }//属性注入
         public NoteService NoteService { get; set; }//属性注入
+        JiebaSegmenterService jieba;
 
-        public NoteContentService(DataContext dataContext)
+        public NoteContentService(DataContext dataContext,JiebaSegmenterService jiebaSegmenter)
         {
             this.dataContext = dataContext;
+            this.jieba=jiebaSegmenter;
         }
 
         public List<NoteContent> ListNoteContent()
@@ -74,10 +77,15 @@ namespace MoreNote.Logic.Service
             noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
             noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
             noteContent.UpdatedUserId = noteContent.UserId;
+            UpdataVector(ref  noteContent);
             InsertNoteContent(noteContent);
             // 更新笔记图片
             NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;
+        }
+        private void UpdataVector(ref NoteContent noteContent)
+        {
+            noteContent.ContentVector=jieba.GetNpgsqlTsVector(noteContent.Content);
         }
 
         // 修改笔记本内容
@@ -122,6 +130,7 @@ namespace MoreNote.Logic.Service
                 UpdatedUserId = userId,
                 IsHistory = false
             };
+            UpdataVector(ref insertNoteConext);
             InsertNoteContent(insertNoteConext);
             //todo: 需要完成函数UpdateNoteContent
             return true;
@@ -153,6 +162,7 @@ namespace MoreNote.Logic.Service
                     IsHistory = noteContent.IsHistory,
                 };
                 contentNew.IsHistory = false;
+
                 if (apiNote.IsBlog != null)
                 {
                     contentNew.IsBlog = apiNote.IsBlog.GetValueOrDefault();
@@ -169,6 +179,7 @@ namespace MoreNote.Logic.Service
                 {
                     contentNew.UpdatedTime = apiNote.UpdatedTime;
                 }
+                UpdataVector(ref contentNew);
                 dataContext.NoteContent.Add(contentNew);
                 msg = "";
                 return dataContext.SaveChanges() > 0;

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Masuit.LuceneEFCore.SearchEngine;
 using NpgsqlTypes;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace MoreNote.Logic.Entity
 {
@@ -25,7 +26,7 @@ namespace MoreNote.Logic.Entity
         public long? NotebookId { get; set; }
         [Column("title")]
         public string Title { get; set; }//标题
-        [Column("title_vector")]
+        [Column("title_vector"),JsonIgnore]
         public NpgsqlTsVector TitleVector { get; set; }
         [Column("desc")]
         public string Desc { get; set; }//描述, 非html
@@ -105,7 +106,7 @@ namespace MoreNote.Logic.Entity
         public bool IsBlog { get; set; } // 为了搜索博客 
         [Column("content")]
         public string Content { get; set; }//内容
-        [Column("content_vector")]
+        [Column("content_vector"),JsonIgnore]
         public NpgsqlTsVector ContentVector { get; set; }
 
 

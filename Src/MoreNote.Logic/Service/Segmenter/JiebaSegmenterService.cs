@@ -14,6 +14,7 @@ namespace MoreNote.Logic.Service.Segmenter
         public NpgsqlTsVector GetNpgsqlTsVector(string content)
         {
             NpgsqlTsVector vector;
+        
             try
             {
                 var segmenter = new JiebaSegmenter();

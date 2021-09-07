@@ -577,6 +577,8 @@ namespace MoreNote.Logic.Service
 
             //	if note.IsBlog {
             note.PublicTime = note.UpdatedTime;
+            UpdateVector(ref note);
+            
             AddNote(note);
             // tag1
             if (note.Tags != null)
@@ -623,7 +625,7 @@ namespace MoreNote.Logic.Service
                 note = AddNote(note, false);
             }
 
-            if (note.NoteId != 0)
+            if (note.NoteId != null)
             {
                 NoteContentService.AddNoteContent(noteContent);
             }
@@ -720,7 +722,7 @@ namespace MoreNote.Logic.Service
             {
                 newNote.ImgSrc = needUpdate.ImgSrc;
             }
-
+            UpdateVector(ref newNote);
             dataContext.SaveChanges();
             // 重新获取之
             oldNote = GetNoteById(noteId);
@@ -887,10 +889,11 @@ namespace MoreNote.Logic.Service
                 note.IsMarkdown = apiNote.IsMarkdown.GetValueOrDefault();
             }
             note.UpdatedUserId = updateUser;
-
+            
+            UpdateVector(ref note);
             //更新用户元数据乐观锁
             afterUsn = UserService.IncrUsn(note.UserId);
-
+            
             //更新笔记元数据乐观锁
             note.Usn = afterUsn;
             dataContext.SaveChanges();
@@ -898,6 +901,10 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
+        private void UpdateVector(ref Note note)
+        {
+            note.TitleVector=jieba.GetNpgsqlTsVector(note.Title);
+        }
         // 附件修改, 增加noteIncr
         public int IncrNoteUsn(long? noteId, long? userId)
         {
@@ -1081,6 +1088,18 @@ namespace MoreNote.Logic.Service
             return list.ToArray();
             
         }
+        public Note[] SearchNote(string key, long? userId, int pageNumber, int pageSize)
+        {
+
+            JiebaSegmenterService jiebaSegmenterService=new JiebaSegmenterService();
+            var query=jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+            var list= dataContext.Note.Where(b=>b.UserId==userId
+                                    &&b.IsTrash==false
+                                    &&b.IsDeleted==false
+                                    &&b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b=>b.Title);
+            return list.ToArray();
+            
+        }
 
         // 搜索noteContents, 补集pageSize个
         public Note[] searchNoteFromContent(Note[] notes, long? userId, string key, int pagSize, string sortField, bool isBlog)
@@ -1093,6 +1112,15 @@ namespace MoreNote.Logic.Service
         public Note[] SearchNoteByTags(string[] tags, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc)
         {
             throw new Exception();
+        }
+          public Note[] SearchNoteByTag(string tag, long? userId, int pageNumber, int pageSize)
+        {
+            var list = dataContext.Note.Where(b => b.UserId == userId
+                                    && b.IsTrash == false
+                                    && b.IsDeleted == false
+                                    && b.Tags.Contains(tag)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
+            return list.ToArray();
+          
         }
 
         //------------
