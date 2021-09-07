@@ -306,6 +306,26 @@ namespace MoreNote.Controllers
             return Json(true);
 
         }
-
+         [Route("Note/SearchNote")]
+        public IActionResult SearchNote(string key)
+        {
+            var userId=this.GetUserIdBySession();
+             var notes=  noteService.SearchNote(key,userId,GetPage(),pageSize);
+            return Json(notes,MyJsonConvert.GetOptions());
+        }
+        /// <summary>
+        /// 通过tags搜索
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [Route("Note/SearchNoteByTags")]
+        public IActionResult SearchNoteByTags(string tags)
+        {
+            var query= Request.Query["tags[]"];
+            var userId=this.GetUserIdBySession();
+             var notes=  noteService.SearchNoteByTag(query,userId,GetPage(),pageSize);
+            return Json(notes,MyJsonConvert.GetOptions());
+          
+        }
     }
 }
