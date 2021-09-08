@@ -202,7 +202,7 @@ namespace MoreNote.Controllers
             re.Ok=result;
             re.Item=fileInfo;
 
-            re.Id=@$"/api/File/Avatars/{userid.ToHex()}/{filename}";
+            //re.Id=@$"/api/File/Avatars/{userid.ToHex()}/{filename}";
 
             return re;
         }
