@@ -13,6 +13,7 @@ using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
+using MoreNote.Middleware.TimeMonitor;
 using System;
 
 namespace MoreNote
@@ -232,19 +233,19 @@ namespace MoreNote
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+             //监控接口耗时情况
+            app.UseTimeMonitorMiddleware();
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             //使用session 注册
             app.UseSession();
-
             app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

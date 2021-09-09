@@ -154,7 +154,7 @@ namespace MoreNote.Logic.Service
         }
 
         /// <summary>
-        /// 递归生成目录树
+        /// 递归生成目录树（排序方式=>title）
         /// </summary>
         /// <param name="userNotebooks"></param>
         /// <param name="result"></param>
@@ -163,7 +163,7 @@ namespace MoreNote.Logic.Service
             List<Notebook> temp = userNotebooks.FindAll((n1) => n1.ParentNotebookId == notebookId);
             if (needSort)
             {
-                temp.Sort((n1, n2) => n1.NotebookId.CompareTo(n2.NotebookId));
+                temp.Sort((n1, n2) => n1.Title.CompareTo(n2.Title));
             }
 
             if (temp.IsNullOrNothing())
@@ -191,7 +191,7 @@ namespace MoreNote.Logic.Service
         public List<Notebook> GetNotebooks(long? userId)
         {
             List<Notebook> userNotebooks = new List<Notebook>();
-            userNotebooks = dataContext.Notebook.Where(b => b.IsDeleted == false && b.UserId == userId).ToList<Notebook>();
+            userNotebooks = dataContext.Notebook.Where(b =>b.UserId == userId&& b.IsDeleted == false ).OrderBy(b=>b.Title).ToList<Notebook>();
             if (userNotebooks == null)
             {
                 return null;
