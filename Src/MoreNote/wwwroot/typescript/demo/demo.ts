@@ -1,4 +1,5 @@
-﻿class Startup {
+﻿/**设置 */
+class Startup {
     /**
      *ddd 
      */

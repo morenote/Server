@@ -4,8 +4,7 @@
 		"noEmitOnError": true,
 
 		"sourceMap": true,
-		"target": "es5",
-		"module": "AMD"
+		"target": "es5"
 
 	},
 	"include": ["./wwwroot/typescript"],
