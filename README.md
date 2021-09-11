@@ -1,3 +1,5 @@
+
+
 # MoreNote
 
 > MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net发行版  
@@ -11,21 +13,16 @@ github:https://github.com/hyfree/MoreNote
 
 gitee:https://gitee.com/hyfree_cn/MoreNote/
 
- 
+
 ## 概述
 
 ![MoreNote.NET Core](https://github.com/hyfree/MoreNote/workflows/MoreNote.NET%20Core/badge.svg?event=push)
 
-使用.net构建云笔记托管服务，并运行在Linux上。
-
-
-原则上尽量提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。
-
-相对而言，MoreNote提供了更多的控制选项和更差劲的性能和安全表现👏。
+morenote是使用.Net构建的跨平台笔记托管服务，可以运行在Linux和window平台。morenote是基于leanote开发的，提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。相对而言，MoreNote提供了更多的控制选项和更差劲的性能和安全表现👏。
 
 ## 项目目标
 
-构建一个开源的可以值得信赖的开源笔记托管系统
+构建一个开源的可以值得信赖的开源笔记托管服务
 
 ## 使用前警告
 
@@ -45,22 +42,21 @@ gitee:https://gitee.com/hyfree_cn/MoreNote/
 
 ## 项目状态
 
-代码基本是fork的leanote的项目代码，目前整体项目完成度小于5%。
+代码基本是fork的leanote的项目代码，目前整体项目完成度小于20%。
 
-目前已经copy了关于leanote桌面端API的相关代码。
-
-V 0.0.1的设计目标仅仅是是实现leanote 2.6.1的相关功能，不考虑是否完全OK。
+V 0.0.1的设计目标仅仅是是实现leanote 2.6.1的大部分功能。
 
 
-|  版本   | Dev版  | 测试版|发布版|兼容版本|
-|  ----    | ----  |---- |---- | --- |
-| V 0.0.1  |进行中⏳ |  没有😒|   没有😒|leanote 2.6.1🤦‍♂️|
+|  版本   | Dev版  | 测试版|发布版|兼容版本|备注|
+|  ----    | ----  |---- |---- | --- | --- |
+| V 0.0.1  |进行中⏳ |  没有😒|   没有😒|leanote 2.6.1🤦‍♂️|不支持共享笔记，不支持博客模板|
 
-## 开发进度
+## 开发进度表
 
-- [x] 当前版本已经兼容 leanote的桌面端的部分API
-- [ ] 当前版本已经兼容 leanote的移动端
-- [ ] 当前版本支持网页编辑器
+[任务表]: Tasks.md
+
+
+
 ## 最近计划表
 - [ ] 针对于博客图片的格式化处理，使图片URL对外输出的时候伪静态，以便CDN可以更好的发挥作用
 - [ ] 数据全量备份、数据增量备份、数据取回、数据导出、数据迁移
