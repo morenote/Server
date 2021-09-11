@@ -42,7 +42,7 @@
     <Content Remove="Views\Member\footer.cshtml" />
     <Content Remove="Views\Member\top.cshtml" />
     <Content Remove="wwwroot\blog\themes\MaterialDesign\js\file.ts" />
-    <Content Remove="wwwroot\js\demo\demo.ts" />
+    <Content Remove="wwwroot\typescript\demo\demo.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -275,13 +275,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\demo\demo.ts" />
+    <TypeScriptCompile Include="wwwroot\typescript\demo\demo.ts" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" tsconfig_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptTarget>ES2015</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>

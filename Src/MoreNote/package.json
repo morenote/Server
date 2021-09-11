@@ -19,7 +19,9 @@
   "author": "hyfree (https://github.com/hyfree)",
   "main": "Gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w"
   },
   "license": "ISC",
   "dependencies": {
