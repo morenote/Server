@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Primitives;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
@@ -35,13 +36,14 @@ namespace MoreNote.Framework.Controllers
         public string defaultSortField = "UpdatedTime";
         public string leanoteUserId = "admin";
         public NoteFileService noteFileService;
+        /// <summary>
+        /// 默认1000
+        /// </summary>
         public int pageSize = 1000;
         public TokenSerivce tokenSerivce;
+     
 
-        /// <summary>
-        /// 又拍云
-        /// </summary>
-        public UpYun upyun = null;
+   
 
         public UserService userService;
 
@@ -62,11 +64,8 @@ namespace MoreNote.Framework.Controllers
             this.configFileService = configFileService;
             this.userService = userService;
             this._accessor = accessor;
-            config = configFileService.GetWebConfig();
-            if (config != null && config.UpYunCDN != null)
-            {
-                upyun = new UpYun(config.UpYunCDN.UpyunBucket, config.UpYunCDN.UpyunUsername, config.UpYunCDN.UpyunPassword);
-            }
+            config = configFileService.WebConfig;
+            
            
         }
 
@@ -153,6 +152,14 @@ namespace MoreNote.Framework.Controllers
             var userInfo=this.GetUserBySession();
             ViewBag.userInfo=userInfo;
             //todo:关于配置逻辑
+            if (userInfo!=null&&userInfo.Username.Equals(config.SecurityConfig.AdminUsername))
+            {
+                ViewBag.isAdmin=true;
+            }
+            else
+            {
+                ViewBag.isAdmin = false;
+            }
             return userInfo;
         }
 
@@ -160,6 +167,7 @@ namespace MoreNote.Framework.Controllers
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
             long? userid_number = userid_hex.ToLongByHex();
+            
             User user = userService.GetUserByUserId(userid_number);
             return user;
         }
@@ -197,7 +205,10 @@ namespace MoreNote.Framework.Controllers
             long? userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
-
+        public void UpdateSession(string key,string value)
+        {
+            _accessor.HttpContext.Session.SetString(key,value);
+        }
         // todo:得到用户信息
         public long? GetUserIdByToken(string token)
         {
@@ -229,12 +240,12 @@ namespace MoreNote.Framework.Controllers
                 return userid;
             }
         }
-        public UserAndBlogUrl GetUserAndBlogUrl()
+        public User GetUserAndBlogUrl()
         {
            var userid=GetUserIdBySession();
             if (userid==null)
             {
-                return new UserAndBlogUrl();
+                return new User();
 
             }
             else
@@ -256,6 +267,27 @@ namespace MoreNote.Framework.Controllers
                 return true;
             }
         }
+        /// <summary>
+        /// 获得国际化语言资源文件
+        /// </summary>
+        /// <returns></returns>
+        public LanguageResource GetLanguageResource()
+        {
+            var lnag = "zh-cn";
+
+            var locale = Request.Cookies["LEANOTE_LANG"];
+
+            if (string.IsNullOrEmpty(locale))
+            {
+                locale = lnag;
+            }
+            var languageResource = LanguageFactory.GetLanguageResource(locale);
+            return languageResource;
+        }
+        /// <summary>
+        /// 设置区域性信息
+        /// </summary>
+        /// <returns></returns>
         public string SetLocale()
         {
             //todo:SetLocale未完成
@@ -264,23 +296,32 @@ namespace MoreNote.Framework.Controllers
 
              var locale =Request.Cookies["LEANOTE_LANG"];
 
+            if (string.IsNullOrEmpty(locale))
+            {
+                locale=lnag;
+            }
+            
+
+
              var  languageResource=LanguageFactory.GetLanguageResource(locale);
+
              ViewBag.msg = languageResource.GetMsg();
 
              
             ViewBag.member = languageResource.GetMember();
             ViewBag.markdown = languageResource.GetMarkdown();
             ViewBag.blog = languageResource.GetBlog();
+            ViewBag.noteconf = languageResource.GetNote();
+            ViewBag.tinymce_editor = languageResource.GetTinymce_editor();
+            ViewBag.demonstrationOnly=configFileService.WebConfig.GlobalConfig.DemonstrationOnly;
 
 
-
-            ViewBag.siteUrl ="/";
-            ViewBag.leaUrl = "/";
-            ViewBag.noteUrl = "/note/note";
-
-
-
-
+            ViewBag.locale=locale;
+            ViewBag.siteUrl = config.APPConfig.SiteUrl;
+            ViewBag.blogUrl=config.APPConfig.BlogUrl;
+            ViewBag.leaUrl = config.APPConfig.LeaUrl;
+            ViewBag.noteUrl = config.APPConfig.NoteUrl;
+           
 
             return null;
         }
@@ -293,8 +334,8 @@ namespace MoreNote.Framework.Controllers
         {
             msg = "";
             serverFileId = 0;
+            FileStoreConfig config=configFileService.WebConfig.FileStoreConfig;
 
-            var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
@@ -328,8 +369,16 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
-            bool result = task.Result;
+            // Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
+            //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
+
+            var ext = Path.GetExtension(fileName);
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[ext];
+            var nowTime = DateTime.Now;
+            var objectName = $"{userId.ToHex()}/attachments/{ nowTime.ToString("yyyy")}/{nowTime.ToString("MM")}/{diskFileId.ToHex()}{ext}";
+            bool result = noteFileService.SaveFile(objectName, httpFile, memi).Result;
+            
             if (result)
             {
                 //将结果保存在数据库
@@ -342,9 +391,8 @@ namespace MoreNote.Framework.Controllers
                     Name = fileName,
                     Title = httpFile.FileName,
                     Size = httpFile.Length,
-                    Path = uploadDirPath + fileName,
+                    Path =  fileName,
                     Type = fileEXT.ToLower(),
-
                     CreatedTime = DateTime.Now
                     //todo: 增加特性=图片管理
                 };
@@ -371,6 +419,35 @@ namespace MoreNote.Framework.Controllers
         {
             return false;
         }
+        /// <summary>
+        /// 获取文件MEMI
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <returns></returns>
+        public  string GetMemi(string ext)
+        {
+            try
+            {
+                var provider = new FileExtensionContentTypeProvider();
+                if (provider.Mappings.ContainsKey(ext))
+                {
+                    var memi = provider.Mappings[ext];
+                    return memi;
+                }
+                else
+                {
+                    return "application/octet-stream";
+                }
+               
+
+            }
+            catch (Exception)
+            {
+                return "application/octet-stream";
+                throw;
+            }
+            
+        }
 
         public bool UploadImages(string name, long? userId, long? noteId, bool isAttach, out long? serverFileId, out string msg)
         {
@@ -380,8 +457,10 @@ namespace MoreNote.Framework.Controllers
             }
             msg = "";
             serverFileId = 0;
-
-            var uploadDirPath = $"/user/{userId.ToHex()}/upload/images/{DateTime.Now.ToString("yyyy_MM")}/";
+            FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
+            string uploadDirPath = null;
+    
+           
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
             serverFileId = diskFileId;
@@ -403,6 +482,7 @@ namespace MoreNote.Framework.Controllers
             }
             var httpFile = httpFiles[name];
             var fileEXT = Path.GetExtension(httpFile.FileName).Replace(".", "");
+            var ext= Path.GetExtension(httpFile.FileName);
             if (!IsAllowImageExt(fileEXT))
             {
                 msg = $"The_image_extension_{fileEXT}_is_blocked";
@@ -415,8 +495,14 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
             //将文件保存在磁盘
-            Task<bool> task = noteFileService.SaveUploadFileOnUPYunAsync(upyun, httpFile, uploadDirPath, fileName);
-            bool result = task.Result;
+            //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
+           
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[ext];
+            var nowTime = DateTime.Now;
+            var objectName= $"{userId.ToHex()}/images/{ nowTime.ToString("yyyy")}/{nowTime.ToString("MM")}/{diskFileId.ToHex()}{ext}";
+            bool result = noteFileService.SaveFile(objectName, httpFile, memi).Result;
+
             if (result)
             {
                 //将结果保存在数据库
@@ -429,7 +515,7 @@ namespace MoreNote.Framework.Controllers
                     Title = fileName,
                     Path = uploadDirPath + fileName,
                     Size = httpFile.Length,
-                    CreatedTime = DateTime.Now
+                    CreatedTime = nowTime
                     //todo: 增加特性=图片管理
                 };
                 var AddResult = noteFileService.AddImage(noteFile, 0, userId, true);

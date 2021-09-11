@@ -16,6 +16,7 @@ namespace MoreNote.Common.Utils
             {
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             };
+
             options.Converters.Add(new DateTimeConverter());
             options.Converters.Add(new UserIdConverter());
             return options;
@@ -48,6 +49,7 @@ namespace MoreNote.Common.Utils
     }
     public class UserIdConverter : JsonConverter<long?>
     {
+        public override bool HandleNull => true;
         public override long? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             //return long.Parse(reader.GetString(), System.Globalization.NumberStyles.HexNumber);
@@ -57,7 +59,17 @@ namespace MoreNote.Common.Utils
 
         public override void Write(Utf8JsonWriter writer, long? value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToHex24());
+
+            if (value==null)
+            {
+                writer.WriteStringValue(string.Empty);
+            }
+            else
+            {
+                writer.WriteStringValue(value.ToHex24ForLeanote());
+
+            }
+           
         }
 
     }

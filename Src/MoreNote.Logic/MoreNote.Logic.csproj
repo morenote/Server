@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entity\Conifg\**" />
+    <EmbeddedResource Remove="Entity\Conifg\**" />
+    <None Remove="Entity\Conifg\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="DB\Class1.cs" />
     <Compile Remove="Entity\ArticleEntity.cs" />
@@ -23,33 +29,33 @@
 
   <ItemGroup>
 	  <!--谷歌两步验证-->
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="github.hyfree.Bcrypt.NetCore" Version="1.0.1" />
     <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
+    <PackageReference Include="github.hyfree.Masuit.LuceneEFCore.SearchEngine_Long" Version="1.1.4.1" />
     <PackageReference Include="github.hyfree.SpamClassificationML.Model" Version="1.1.0" />
-    <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
+    <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.2.0" />
+    <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+    <PackageReference Include="Minio" Version="3.1.13" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="2.0.0-preview1" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0-alpha.2" />
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="5.1.8" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.1" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="5.2.8" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Entity\Conifg\" />
-    <Folder Include="Service\FileService\IMPL\" />
   </ItemGroup>
 
   <ItemGroup>

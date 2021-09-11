@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 /MoreNote/upload/10fc1cfeba021000
+# js压缩文件
+/Src/MoreNote/wwwroot/js/app.min.js
+/Src/MoreNote/wwwroot/js/dep.min.js
+/Src/MoreNote/wwwroot/js/markdown-v2.min.js

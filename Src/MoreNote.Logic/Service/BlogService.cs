@@ -1,9 +1,10 @@
-﻿using MoreNote.Common.ExtensionMethods;
+﻿using Microsoft.EntityFrameworkCore;
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Helper;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
-
+using MoreNote.Logic.Service.Segmenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +36,11 @@ namespace MoreNote.Logic.Service
         public UserService UserService { get; set; }
         public ConfigService ConfigService { get; set; }
         public CommonService CommonService { get; set; }
-
-        public BlogService(DataContext dataContext)
+        JiebaSegmenterService jieba{get;set;}
+        public BlogService(DataContext dataContext,JiebaSegmenterService jieba)
         {
             this.dataContext = dataContext;
+            this.jieba=jieba;
         }
 
         public BlogStat GetBlogStat(long? noteId)
@@ -62,7 +64,16 @@ namespace MoreNote.Logic.Service
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
             return count;
         }
-
+        public int CountTheNumberForSearch(long? userId,string keyword)
+        {
+           var query = jieba.GetSerachNpgsqlTsQuery(keyword);
+           var count = dataContext.Note.Where( b =>b.UserId == userId
+                                                        && b.IsBlog == true 
+                                                        && b.IsDeleted == false 
+                                                        && b.IsTrash == false
+                                                        &&b.TitleVector.Matches(query)).Count();
+            return count;
+        }
         public int CountTheNumberForBlogTags(long? userId, string tag)
         {
             var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId && b.Tags.Contains(tag)).Count();
@@ -96,7 +107,8 @@ namespace MoreNote.Logic.Service
             }
             else
             {
-                var note = dataContext.Note.Where(b => b.UserId == userId && b.Title == noteIdOrUrlTitle
+                var note = dataContext.Note.Where(b => b.UserId == userId 
+                              && b.Title == noteIdOrUrlTitle
                               && b.IsBlog == true
                               && b.IsTrash == false
                               && b.IsDeleted == false).FirstOrDefault();
@@ -152,10 +164,10 @@ namespace MoreNote.Logic.Service
         /// <param name="blogItem"></param>
         public void ListBlogs(long? userId, long? noteBookId, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem blogItem)
         {
-            int count = 0;
+            
 
-            var notes = NoteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true, out count);
-            if (notes == null || notes.Length == 0)
+            var notes = NoteService.ListNotes(userId, noteBookId, false, page, pageSize, sortField, isAsc, true);
+            if (notes == null || notes.Count == 0)
             {
                 pageObj = new Page();
                 blogItem = null;
@@ -188,10 +200,21 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-
+        // 重新计算博客的标签
+        // 在设置设置/取消为博客时调用
         public bool ReCountBlogTags(long? userId)
         {
-            //todo 需要完成此功能
+            //todo 需要完成此功能 感觉性能很差劲
+            var notes=dataContext.Note.Where(b=>b.UserId==userId&&b.IsTrash==false&&b.IsDeleted==false&&b.IsBlog==true);
+            if (notes==null||!notes.Any())
+            {
+                dataContext.TagCount.Where(b=>b.UserId==null&&b.IsBlog==true).DeleteFromQuery();
+                dataContext.SaveChanges();
+            }
+            else
+            {
+
+            }
             return true;
         }
 
@@ -207,12 +230,50 @@ namespace MoreNote.Logic.Service
 
         public BlogItem[] notes2BlogItems(Note[] notes)
         {
-            throw new Exception();
-        }
+           var noteIds=(from note in notes
+                       select note.NoteId).ToArray();
+           var noteContents=NoteContentService.DictionaryNoteContentByNoteIds(noteIds);
 
-        public void SearchBlog(string key, long? userid, int page, int pageSize, string sortField, bool isAsc, out Page pageObj, out BlogItem[] blogItems)
+           var blogs=new List<BlogItem>();
+
+            foreach (var note in notes)
+            {
+                var blogItem=new BlogItem()
+                {
+                    Note=note,
+                    Abstract=noteContents[note.NoteId]?.Abstract,
+                    Content=noteContents[note.NoteId]?.Content,
+                    HasMore=true
+                   
+                };
+                blogs.Add(blogItem);
+
+            }
+            return blogs.ToArray();
+            
+           
+
+        }
+        /// <summary>
+        /// 搜索博客
+        /// </summary>
+        /// <param name="key">关键词</param>
+        /// <param name="userid"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortField"></param>
+        /// <param name="isAsc"></param>
+        /// <param name="pageObj"></param>
+        /// <param name="blogItems"></param>
+        public BlogItem[] SearchBlog(string key, long? userid, int page, int pageSize, string sortField, bool isAsc)
         {
-            throw new Exception();
+            
+            var notes=NoteService.SearchNote(key,userid,page,pageSize,sortField,isAsc,true);
+            if (notes==null||!notes.Any())
+            {
+                return null;
+            }
+            return null;
         }
 
         public Post PreNextBlog(long? userid, string sortField, bool isAsc, long? noteId, string baseTime)

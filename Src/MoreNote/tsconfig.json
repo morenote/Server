@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"noImplicitAny": true,
+		"noEmitOnError": true,
+
+		"sourceMap": true,
+		"target": "es5",
+		"module": "AMD"
+
+	},
+	"include": ["./wwwroot/typescript"],
+
+	"compileOnSave": true
+}

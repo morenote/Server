@@ -1,17 +1,22 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
+
 namespace MoreNote.Logic.Entity
 {
-    [Table("access_records")]
+    /// <summary>
+    /// 访问记录
+    /// </summary>
+    [Table("access_records"),Index(nameof(IP),nameof(X_Real_IP),nameof(X_Forwarded_For),nameof(AccessTime),nameof(URL))]
     public class AccessRecords
     {
-        [Key]
-        [Column("access_id")]
+        [Key] [Column("access_id")] 
         public long? AccessId { get; set; }
+        
         [Column("ip")]
         public string IP { get; set; }
         [Column("x_real_ip")]
@@ -36,6 +41,9 @@ namespace MoreNote.Logic.Entity
         public string RemotePort { get; set; }
    
     }
+    /// <summary>
+    /// 白名单
+    /// </summary>
     [Table("black_list")]
     public class Blacklist
     {
@@ -45,6 +53,7 @@ namespace MoreNote.Logic.Entity
         [Column("ip")]
         public string IP { get; set; }
     }
+
     [Table("backgroud_image_file")]
     public class BackgroudImageFile
     {

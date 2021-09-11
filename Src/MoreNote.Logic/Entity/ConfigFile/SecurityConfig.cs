@@ -9,11 +9,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
     public class SecurityConfig
     {
         /// <summary>
-        /// 秘钥值 用于敏感操作
-        /// 软件启动后，总是会刷新这个秘钥值
-        /// 在进行某些敏感操作的时候，系统会询问你的秘钥值 比如重置admin管理员的密码
-        /// 因为服务器端不会保存你的密码
-        /// 所以如果你遗忘你的密码 那些受加密算法保护的笔记数据将无法被解密 全部丢失
+        /// 密钥 用于敏感操作
+        /// 每次软件启动后，会使用随机密钥填充这个值
+        /// 在进行某些敏感操作的时候，系统会询问你的密钥 比如重置admin管理员的密码
+        /// 但是务必注意的是：你的密码重置后，服务器端保存的加密数据是无法恢复
         /// </summary>
         public string Secret{get;set;}
         /// <summary>
@@ -32,6 +31,45 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 默认=false
         /// </summary>
         public bool ShareYourData{get;set;}=false;
+        /// <summary>
+        /// 指定某个用户成为超级管理员
+        /// 程序首次初始化时 admin是超级管理员
+        /// </summary>
+        public string AdminUsername{ get;set;}="admin";
+        public string DemoUsername { get; set; } = "demo";
+        /// <summary>
+        /// 将log放置在哪里
+        /// </summary>
+        public string LogFolder{ get;set;}
+        /// <summary>
+        /// Session有效期
+        /// 也就是保持登录的有效期
+        /// </summary>
+        public int SessionExpires { get;set;}
+        /// <summary>
+        /// 网站紧急维护模式
+        /// 当需要重置管理员密码的时候，需要打开紧急维护模式
+        /// </summary>
+        public bool MaintenanceMode { get;set;}=false;
+        /// <summary>
+        /// 密码加密算法
+        /// </summary>
+        public string PasswordHashAlgorithm { get;set;}= "argon2";
+        /// <summary>
+        /// 密码加密时的迭代次数
+        /// 迭代次数越大，计算越困难
+        /// </summary>
+        public int PasswordHashIterations { get;set;}= 8;
+        /// <summary>
+        /// 密码加密时的cpu线程限制 仅适用于Argon2id
+        /// cpu核心x2
+        /// </summary>
+        public int PasswordStoreDegreeOfParallelism=8;
+        /// <summary>
+        /// 密码加密时的内存限制 仅适用于Argon2id
+        /// 内存越大，计算越困难
+        /// </summary>
+        public int PasswordStoreMemorySize=1024*2;
 
     }
 }

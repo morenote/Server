@@ -69,6 +69,9 @@ namespace MoreNote.Logic.Entity
     public class ShareNotebooks
     {
 
+
+
+
     }
 
 }

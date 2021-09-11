@@ -11,7 +11,7 @@ namespace MoreNote.Common.Utils
    public class RandomTool
     {
         /// <summary>
-        /// 生产随机字符串
+        /// 生产不安全随机字符串
         /// </summary>
         /// <param name="VcodeNum">随机字符串的长度</param>
         /// <returns>返回一个随机字符串</returns>
@@ -43,7 +43,7 @@ namespace MoreNote.Common.Utils
             }
             return code;
         }
-        public static string CreatSafeNum(int ByteLength = 32)
+        public static string CreatSafeRandomBase64(int ByteLength = 32)
         {
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
             {
@@ -54,10 +54,36 @@ namespace MoreNote.Common.Utils
                 return token;
             }
         }
+        public static string CreatSafeRandomHex(int ByteLength = 32)
+        {
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+
+                byte[] tokenData = new byte[ByteLength];
+                rng.GetBytes(tokenData);
+                string token = Convert.ToHexString(tokenData);
+                return token;
+            }
+        }
         public static int CreatUnSafeNumber()
         {
             Random random = new Random();
             return  random.Next();
+        }
+        /// <summary>
+        /// 生成一个不可预测的盐,字节数组,默认256位
+        /// </summary>
+        /// <param name="saltLength">盐的长度x byte</param>
+        /// <returns></returns>
+        public static byte[] CreatSafeSaltByteArray(int saltLength = 32)
+        {
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] tokenData = new byte[saltLength];
+                rng.GetBytes(tokenData);
+                
+                return tokenData;
+            }
         }
         /// <summary>
         /// 生成一个不可预测的盐,默认256位
@@ -74,6 +100,7 @@ namespace MoreNote.Common.Utils
                 return token;
             }
         }
+
 
     }
 }
