@@ -216,7 +216,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 UserId = tokenUserId,
                 NoteId = noteId,
-                CreatedUserId=noteId,
+                CreatedUserId=tokenUserId,
                 UpdatedUserId=noteId,
                 NotebookId = noteOrContent.NotebookId.ToLongByHex(),
                 Title = noteOrContent.Title,

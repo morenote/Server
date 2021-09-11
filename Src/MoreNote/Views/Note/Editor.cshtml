@@ -16,6 +16,14 @@
     List<Note> notes=ViewBag.notes;
     var logo = string.Empty;
     WebSiteConfig config=ViewBag.config;
+    NoteContent noteContentJson = ViewBag.noteContentJson;
+
+    List <Note> latestNotes = ViewBag.latestNotes;
+    if (latestNotes == null)
+    {
+        latestNotes=new List<Note>();
+
+    }
     if (string.IsNullOrEmpty(userInfo.Logo))
     {
         logo = "/images/blog/default_avatar.png";
@@ -895,24 +903,7 @@
         </div>
     </div>
     <script>
-@*var LEA = {sPath: ''};
-LEA.locale = "@msg["locale"]";
-var UrlPrefix = '{{.siteUrl}}';
-var UserInfo = {{.userInfo|jsonJs}};
-var notebooks = {{.notebooks|jsonJs}};
-var shareNotebooks = {{.shareNotebooks|jsonJs}};
-var sharedUserInfos = {{.sharedUserInfos|jsonJs}};
-var curNoteId = '{{.curNoteId}}';
-var curNotebookId = '{{.curNotebookId}}';
-var curSharedNoteNotebookId = '{{.curSharedNoteNotebookId}}';
-var curSharedUserId = '{{.curSharedUserId}}';
-var notes = {{.notes|jsonJs}};
-var latestNotes = {{if .latestNotes}}{{.latestNotes|jsonJs}}{{else}}[]{{end}};
-var noteContentJson = {{.noteContentJson|jsonJs}};
-var tagsJson = {{.tags|jsonJs}};
-var GlobalConfigs = {{.globalConfigs|jsonJs}};
-var tinyMCEPreInit = {base: '/tinymce', suffix: '.min'};*@
-        var LEA = {};
+        var LEA = { sPath: '' };
         LEA.locale ="@msg["locale"]";
         var UrlPrefix = "@config.APPConfig.SiteUrl";
         var UserInfo = @Html.Raw(userInfo.ToJsonForLeanote());
@@ -924,8 +915,8 @@ var tinyMCEPreInit = {base: '/tinymce', suffix: '.min'};*@
         var curSharedNoteNotebookId = '';
         var curSharedUserId = '';
         var notes = @Html.Raw(notes.ToJsonForLeanote());
-        var latestNotes = [];
-        var noteContentJson = [];
+        var latestNotes =@Html.Raw(latestNotes.ToJsonForLeanote());
+        var noteContentJson = @Html.Raw(noteContentJson.ToJsonForLeanote());
         var tagsJson = @Html.Raw(tags.ToJsonForLeanote());
         var GlobalConfigs = [];
         var tinyMCEPreInit ={base: '/tinymce', suffix: '.min'};

@@ -91,6 +91,7 @@ namespace MoreNote.Controllers
                         ViewBag.curNotebookId = note.NotebookId.ToHex24();
 
                         // 打开的是共享的笔记, 那么判断是否是共享给我的默认笔记
+                        
                         if (noteOwner != GetUserIdBySession())
                         {
                             if (shareService.HasReadPerm(noteOwner, GetUserIdBySession(), noteId))
@@ -108,18 +109,19 @@ namespace MoreNote.Controllers
                             notes = noteService.ListNotes(this.GetUserIdBySession(), note.NotebookId, false, GetPage(), 50, defaultSortField, false, null);
                             // 如果指定了某笔记, 则该笔记放在首位
 
-                            notes.Insert(0, note);
+                            
                         }
                     }
                     //获得最近的笔记
                     int count2 = 0;
-                    var latestNotes = noteService.ListNotes(userId, null, false, GetPage(), 50, defaultSortField, false, null);
+                    var latestNotes = noteService.ListNotes(userId, false, GetPage(), 50, defaultSortField, false, null);
+                    ViewBag.latestNotes=latestNotes;
                 }
                 // 没有传入笔记
                 // 那么得到最新笔记
                 if (!hasRightNoteId)
                 {
-                    notes = noteService.ListNotes(userId, null, false, GetPage(), 50, defaultSortField, false, null);
+                    notes = noteService.ListNotes(userId, false, GetPage(), 50, defaultSortField, false, null);
                     if (notes.Any())
                     {
                         noteContent = noteContentService.GetValidNoteContent(notes[0].NoteId, userId);

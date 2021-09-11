@@ -233,8 +233,7 @@ namespace MoreNote
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-             //监控接口耗时情况
-            app.UseTimeMonitorMiddleware();
+         
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -245,7 +244,9 @@ namespace MoreNote
 
             app.UseAuthentication();
             app.UseAuthorization();
-           
+               //监控接口耗时情况
+            app.UseTimeMonitorMiddleware();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

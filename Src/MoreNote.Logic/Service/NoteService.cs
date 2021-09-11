@@ -465,12 +465,71 @@ namespace MoreNote.Logic.Service
           bool isAsc,
           bool? isBlog)
         {
+            if (notebookId==null)
+            {
+                throw new ArgumentException ("notebookId不能为空");
+            }
             int skipNum;
             string sortFieldR;
 
             CommonService.parsePageAndSort(pageNumber, pageSize, sortField, isAsc, out skipNum, out sortFieldR);
 
-            // 不是trash的
+            //todo:不支持排序
+            List<Note> result = null;
+            switch (sortField)
+            {
+                case "UpdatedTime":
+                    result = dataContext.Note
+           .Where(b => b.UserId == userId&&b.NotebookId==notebookId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+                    break;
+
+                case "PublicTime":
+                    result = dataContext.Note
+           .Where(b => b.UserId == userId&&b.NotebookId==notebookId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.PublicTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+                    break;
+
+                case "CreatedTime":
+                    result = dataContext.Note
+           .Where(b => b.UserId == userId&&b.NotebookId==notebookId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.CreatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+                    break;
+
+                case "Title":
+                    result = dataContext.Note
+                .Where(b => b.UserId == userId&&b.NotebookId==notebookId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.Title).Skip(skipNum).Take(pageSize).ToList<Note>();
+                    break;
+
+                default:
+                    result = dataContext.Note
+           .Where(b => b.UserId == userId&&b.NotebookId==notebookId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+                    break;
+            }
+
+            if (isBlog != null)
+            {
+                result = (from note in result
+                          where note.IsBlog == isBlog
+                          select note).ToList<Note>();
+            }
+    
+
+            return result.ToList<Note>();
+        }
+          // 列出note, 排序规则, 还有分页
+        // CreatedTime, UpdatedTime, title 来排序
+        public List<Note> ListNotes(long? userId,
+       
+          bool isTrash,
+          int pageNumber,
+          int pageSize,
+          string sortField,
+          bool isAsc,
+          bool? isBlog)
+        {
+          
+            int skipNum;
+            string sortFieldR;
+
+            CommonService.parsePageAndSort(pageNumber, pageSize, sortField, isAsc, out skipNum, out sortFieldR);
 
             //todo:不支持排序
             List<Note> result = null;
@@ -498,7 +557,7 @@ namespace MoreNote.Logic.Service
 
                 default:
                     result = dataContext.Note
-           .Where(b => b.UserId == userId && b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
+           .Where(b => b.UserId == userId&& b.IsTrash == isTrash && b.IsDeleted == false).OrderBy(s => s.UpdatedTime).Skip(skipNum).Take(pageSize).ToList<Note>();
                     break;
             }
 
@@ -508,12 +567,7 @@ namespace MoreNote.Logic.Service
                           where note.IsBlog == isBlog
                           select note).ToList<Note>();
             }
-            if (notebookId != null)
-            {
-                result = (from note in result
-                          where note.NotebookId == notebookId
-                          select note).ToList<Note>();
-            }
+    
 
             return result.ToList<Note>();
         }
