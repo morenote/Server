@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+@await Html.PartialAsync("Header")
+<body ondragstart="return false;" class="dark-theme">
+    @await Html.PartialAsync("BodyTempLate")
+    <div class="main-content" data-aos="fade-left" data-aos-duration="400">
+
+        <div class="toolbar header bg-blue-300 color-white">
+            <button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="fa fa-bars"></i></button>
+            <label class="toolbar-label">error page</label>
+            <span class="float-right" id="switch-container">
+                <div class="switch">
+                    <input type="checkbox" id="dark-theme-switch" onchange="Theme.setTheme(this.checked ? 'dark' : 'light')" />
+                    <label for="dark-theme-switch"></label>
+                    <label class="form-control-label">Dark</label>
+                </div>
+            </span>
+        </div>
+        <div id="postsContainer">
+
+            <div id="errorposts">
+                <div class="errorpost">
+                    <div class="errorpage">
+                        <img src="/blog/themes/MaterialDesign/images/404.png">
+                    </div>
+                    <div class="errormsg">
+                        Sorry, We can't find this page.
+                    </div>
+                </div>
+            </div>
+        </div>
+        @await Html.PartialAsync("footer_js")
+</body>
+</html>

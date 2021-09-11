@@ -37,7 +37,7 @@ namespace MoreNote.Logic.Model
                 group = group,
                 startTime = UnixTimeHelper.GetTimeStampInLong(),
                 exp =exp ,
-                random = RandomTool.CreatSafeNum(8)
+                random = RandomTool.CreatSafeRandomBase64(8)
             };
             StringBuilder message = new StringBuilder();
             message.Append(header.alg);

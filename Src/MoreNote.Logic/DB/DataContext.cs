@@ -1,25 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Service;
 
 namespace MoreNote.Logic.DB
 {
     public class DataContext : DbContext
     {
-        // protected  void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //public DataContext()
+        //{
+
+
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    base.OnConfiguring(optionsBuilder);
         //    //测试服务器
-        //    //var connection = "Host=127.0.0.1.5;Port=5432;Database=dbname; User ID=userid;Password=password;";
-        //   // var postgres = Environment.GetEnvironmentVariable("postgres");
-        //   //ConfigFileService configFileService=new ConfigFileService();
-        //   // var postgres = configFileService.GetWebConfig();
-        //   // optionsBuilder.UseNpgsql(postgres.PostgreSql.Connection);
+        //    ConfigFileService configFileService = new ConfigFileService();
+        //    var postgres = configFileService.WebConfig;
+        //    optionsBuilder.UseNpgsql(postgres.PostgreSql.Connection);
 
         //}
         public DataContext(DbContextOptions<DataContext> options)
           : base(options)
         {
+
         }
+       
+     
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -76,9 +84,12 @@ namespace MoreNote.Logic.DB
         public DbSet<ReportInfo> ReportInfo { get; set; }
         public DbSet<Session> Session { get; set; }
         public DbSet<Suggestion> Suggestion { get; set; }
+        /**************Tag DB****************/
         public DbSet<Tag> Tag { get; set; }
         public DbSet<NoteTag> NoteTag { get; set; }
         public DbSet<TagCount> TagCount { get; set; }
+        public DbSet<NoteTagMap> NoteTagMap { get;set;}
+
         public DbSet<Theme> Theme { get; set; }
         public DbSet<FriendLinks> FriendLinks { get; set; }
         public DbSet<Token> Token { get; set; }

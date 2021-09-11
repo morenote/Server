@@ -2,6 +2,7 @@
 using MoreNote.Logic.Entity.ConfigFile;
 
 using System.IO;
+using System.Text.Json;
 
 namespace MoreNote.Logic.Service
 {
@@ -10,21 +11,59 @@ namespace MoreNote.Logic.Service
     /// </summary>
     public class ConfigFileService
     {
-     
-        private static string path = null;
+        private string path = null;
 
-        private static WebSiteConfig config;
+        private WebSiteConfig _config { get; set; }
 
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
+
         public ConfigFileService()
         {
-            if (config == null)
+            if (_config == null)
             {
-                config = GetWebConfig();
+                this._config = WebConfig;
             }
         }
-        public  static string GetConfigPath()
+
+        /// <summary>
+        /// 从配置文件中重新加载配置文件，但是某些功能仍然需要重启程序后生效
+        /// </summary>
+        public void Reload()
+        {
+            lock (locker)
+            {
+                path = GetConfigPath();
+                if (!File.Exists(path))
+                {
+                    InitTemplateConfig();
+                }
+                string json = File.ReadAllText(path);
+                this._config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
+            }
+        }
+
+        /// <summary>
+        /// 保存所作的修改到配置文件
+        /// </summary>
+        public void Save()
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,//优质打印 无压缩
+            };
+            string json = System.Text.Json.JsonSerializer.Serialize(this._config, options);
+
+            File.WriteAllText(GetConfigPath(), json);
+        }
+
+        /// <summary>
+        /// 获取配置文件路径
+        /// linux=/morenote/config.json
+        /// window=C:\morenote\config.json
+        /// </summary>
+        /// <returns></returns>
+        public static string GetConfigPath()
         {
             if (RuntimeEnvironment.IsWindows)
             {
@@ -36,9 +75,10 @@ namespace MoreNote.Logic.Service
             }
         }
 
-     
-
-        private static void InitTemplateConfig()
+        /// <summary>
+        /// 初始化模板
+        /// </summary>
+        private void InitTemplateConfig()
         {
             if (RuntimeEnvironment.IsWindows)
             {
@@ -55,55 +95,52 @@ namespace MoreNote.Logic.Service
                 }
             }
             WebSiteConfig webSiteConfig = new WebSiteConfig();
-            string json = System.Text.Json.JsonSerializer.Serialize(webSiteConfig);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,//优质打印 无压缩
+            };
+            string json = System.Text.Json.JsonSerializer.Serialize(webSiteConfig, options);
             File.Create(path).Close();
             File.WriteAllText(path, json);
-         
         }
-       
 
-
-        public   WebSiteConfig GetWebConfig()
+        public WebSiteConfig WebConfig
         {
-            if (config == null)
+            get
             {
-                lock (locker)
+                if (_config == null)
                 {
-                    if (config == null)
+                    lock (locker)
                     {
-                        path = GetConfigPath();
-                        if (!File.Exists(path))
+                        if (_config == null)
                         {
-                            InitTemplateConfig();
+                            path = GetConfigPath();
+                            if (!File.Exists(path))
+                            {
+                                InitTemplateConfig();
+                            }
+                            string json = File.ReadAllText(path);
+                            _config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
                         }
-                        string json = File.ReadAllText(path);
-                        config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
                     }
                 }
-            }
 
-            return config;
+                return _config;
+            }
         }
 
-        public  void Save()
+        public void Save(WebSiteConfig tempConfig, string onePath)
         {
-            if (config == null)
+            lock (locker)
             {
-                throw new System.Exception("config==null,无法将config持久化保存。");
+                if (tempConfig == null)
+                {
+                    return;
+                }
+                string json = System.Text.Json.JsonSerializer.Serialize(tempConfig);
+                File.WriteAllText(onePath, json);
+                _config = tempConfig;
             }
-            string json = System.Text.Json.JsonSerializer.Serialize(config);
-            File.WriteAllText(path, json);
-        }
-
-        public  void Save(WebSiteConfig tempConfig, string onePath)
-        {
-            if (tempConfig == null)
-            {
-                throw new System.Exception("config==null,无法将config持久化保存。");
-            }
-            string json = System.Text.Json.JsonSerializer.Serialize(tempConfig);
-            File.WriteAllText(onePath, json);
-            config=tempConfig;
         }
     }
 }

@@ -1,164 +1,196 @@
-﻿using System;
-using System.Collections;
+﻿using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Entity.File;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
-using MoreNote.Logic.Entity.ConfigFile;
 
 namespace MoreNote.Logic.Service
 {
-   
     public class ConfigService
     {
-       
         private static ConfigService _configService;
         private static object _lockObject = new object();
         private const string path = @"Config\config.json";
         public EmailConfig emailConfig;
 
-        long? adminUserId;
-        string siteUrl;
-        string adminUserName;
+        public WebSiteConfig config;
+        private long? adminUserId;
+        private string siteUrl;
+        private string adminUserName;
+
         //全局
-        Dictionary<string, string> GlobalAllConfigs;
-        Dictionary<string, string> GlobalStringConfigs;
-        Dictionary<string, string[]> GlobalArrayConfigs;
-        Dictionary<string, string> GlobalMapConfigs;
-        Dictionary<string, string> GlobalArrMapConfigs;
+        private Dictionary<string, string> GlobalAllConfigs;
 
+        private Dictionary<string, string> GlobalStringConfigs;
+        private Dictionary<string, string[]> GlobalArrayConfigs;
+        private Dictionary<string, string> GlobalMapConfigs;
+        private Dictionary<string, string> GlobalArrMapConfigs;
 
-       
+        public ConfigService(ConfigFileService configFileService)
+        {
+            config = configFileService.WebConfig;
+        }
 
         // appStart时 将全局的配置从数据库中得到作为全局
-        public  bool InitGlobalConfigs()
+        public bool InitGlobalConfigs()
         {
             throw new Exception();
         }
-        public  string GetSiteUrl()
+
+        public string GetSiteUrl()
         {
             //todo:修改这个GetSiteUrl
             return @"https://www.morenote.top";
+        }
 
-        }
-        public  bool updateGlobalConfig(long? userid,string key,string value)
+        public bool updateGlobalConfig(long? userid, string key, string value)
         {
             throw new Exception();
         }
-        public  bool UpdateGlobalStringConfig(long? userId,string key,string value)
+
+        public bool UpdateGlobalStringConfig(long? userId, string key, string value)
         {
             throw new Exception();
         }
+
         //获取全局配置, 博客平台使用
-        public  string GetGlobalStringConfig(string key)
+        public string GetGlobalStringConfig(string key)
         {
             throw new Exception();
         }
-        public  string[] GetGlobalArrayConfig(string key)
+
+        public string[] GetGlobalArrayConfig(string key)
         {
             throw new Exception();
         }
-        public  HashSet<string> GetGlobalMapConfig(string key)
+
+        public HashSet<string> GetGlobalMapConfig(string key)
         {
             throw new Exception();
         }
-        public  HashSet<string>[] GetGlobalArrMapConfig(string key)
+
+        public HashSet<string>[] GetGlobalArrMapConfig(string key)
         {
             throw new Exception();
         }
-        public  bool IsOpenRegister()
+
+        public bool IsOpenRegister()
         {
             return true;
         }
+
         //-------
         // 修改共享笔记的配置
-        public  bool UpdateShareNoteConfig(long? registerSharedUserId,int[] registerSharedNotebookPerms,int[] registerSharedNotePerms,long[] registerSharedNotebookIds,long[] registerSharedNoteIds,long[] registerCopyNoteIds)
+        public bool UpdateShareNoteConfig(long? registerSharedUserId, int[] registerSharedNotebookPerms, int[] registerSharedNotePerms, long[] registerSharedNotebookIds, long[] registerSharedNoteIds, long[] registerCopyNoteIds)
         {
             throw new Exception();
         }
-        public  bool AddBackup(string path,string remark)
+
+        public bool AddBackup(string path, string remark)
         {
             throw new Exception();
         }
-        public  string getBackupDirname()
+
+        public string getBackupDirname()
         {
             throw new Exception();
         }
-        public  bool Backup(string remark)
+
+        public bool Backup(string remark)
         {
             throw new Exception();
         }
-        public  bool Restore(string createTime)
+
+        public bool Restore(string createTime)
         {
             throw new Exception();
         }
-        public  bool DeleteBackup(string createdTime)
+
+        public bool DeleteBackup(string createdTime)
         {
             throw new Exception();
         }
-        public  bool UpdateBackupRemark(string createdTime,string remark)
+
+        public bool UpdateBackupRemark(string createdTime, string remark)
         {
             throw new Exception();
         }
-        public  Dictionary<string,string> GetBackup(string createdTime)
+
+        public Dictionary<string, string> GetBackup(string createdTime)
         {
             throw new Exception();
         }
+
         //--------------
         // sub domain
-        string defaultDomain;
-        string schema= @"http://";
-        string port;
-        public  void init()
+        private string defaultDomain;
+
+        private string schema = @"http://";
+        private string port;
+
+        public void init()
         {
             throw new Exception();
         }
-        public  string GetSchema()
+
+        public string GetSchema()
         {
-            throw  new Exception();
+            throw new Exception();
         }
+
         // 默认
-        public  string GetDefaultDomain()
+        public string GetDefaultDomain()
         {
             throw new Exception();
         }
-        // note 
-        public  string GetNoteDomain()
+
+        // note
+        public string GetNoteDomain()
         {
             throw new Exception();
         }
-        public  string GetNoteUrl()
+
+        public string GetNoteUrl()
         {
             throw new Exception();
         }
+
         //blog
-        public  string GetBlogDomain()
+        public string GetBlogDomain()
         {
-            return "/blog";
+            return config.APPConfig.BlogUrl;
         }
-        public  string GetBlogUrl()
+
+        public string GetBlogUrl()
         {
             return GetBlogDomain();
         }
+
         //lea
-        public  string GetLeaDomain()
+        public string GetLeaDomain()
         {
             throw new Exception();
         }
-        public  string GetLeaUrl()
+
+        public string GetLeaUrl()
         {
             throw new Exception();
         }
-        public  string GetUserUrl(string domain)
+
+        public string GetUserUrl(string domain)
         {
-            throw 
+            throw
                  new Exception();
         }
-        public  string GetUserSubUrl(string subDomain)
+
+        public string GetUserSubUrl(string subDomain)
         {
-            throw 
+            throw
                  new Exception();
         }
+
         // 是否允许自定义域名
         public bool AllowCustomDomain()
         {
@@ -168,56 +200,71 @@ namespace MoreNote.Logic.Service
             //同时，且仅有一个域名
             //不支持多域名
             throw new Exception();
+        }
 
-        }
-        public  bool IsGoodCustomDomain(string domain)
+        public bool IsGoodCustomDomain(string domain)
         {
             throw new Exception();
         }
-        public  bool IsGoodSubDomain(string domain)
+
+        public bool IsGoodSubDomain(string domain)
         {
             throw new Exception();
         }
-        public  long? GetUploadSize(string key)
-        {
-            throw  new Exception();
-        }
-        public  long? GetInt64(string key)
+
+        public long? GetUploadSize(string key)
         {
             throw new Exception();
         }
-        public  int GetInt32(string key)
+
+        public long? GetInt64(string key)
         {
             throw new Exception();
         }
-        public  Dictionary<string ,long> GetUploadSizeLimit()
+
+        public int GetInt32(string key)
         {
             throw new Exception();
         }
+
+        public UploadSizeLimit GetUploadSizeLimit()
+        {
+            UploadSizeLimit uploadSizeLimit=new UploadSizeLimit()
+            {
+                uploadImageSize= this.config.FileStoreConfig.UploadImageMaxSizeMB,
+                uploadBlogLogoSize= this.config.FileStoreConfig.UploadBlogLogoMaxSizeMB,
+                uploadAttachSize = this.config.FileStoreConfig.UploadAttachMaxSizeMB,
+                uploadAvatarSize = this.config.FileStoreConfig.UploadAvatarMaxSizeMB
+
+            };
+            return uploadSizeLimit;
+        }
+
         // 为用户得到全局的配置
         // NoteController调用
-        public  Dictionary<string,object> GetGlobalConfigForUser()
+        public UploadSizeLimit GetGlobalConfigForUser()
         {
-            throw new Exception();
+            var UploadSizeLimit = GetUploadSizeLimit();
+            return UploadSizeLimit;
         }
+
         //主页是否是管理员的博客页
-        public  bool HomePageIsAdminsBlog()
+        public bool HomePageIsAdminsBlog()
         {
             throw new Exception();
         }
+
         public string GetVersion()
         {
             return "0.0.1";
         }
+
         public string GetLeanoteVersion()
         {
             //morenote 0.0.1版本是基于leanote 2.6.1版本的.net core发行版
             //0.0.1计划实现2.6.1的全部API的部分
             return "2.6.1";
         }
-
-
-
 
         public class EmailConfig
         {
@@ -228,7 +275,8 @@ namespace MoreNote.Logic.Service
             public string userName { get; set; }
             public string password { get; set; }
         }
-        public  ConfigService GetConfigService()
+
+        public ConfigService GetConfigService()
         {
             lock (_lockObject)
             {
@@ -250,17 +298,12 @@ namespace MoreNote.Logic.Service
                     catch (Exception e)
                     {
                         return null;
-
                     }
-
-
                 }
-
             }
-
-
         }
-        public  void Save(ConfigService configService)
+
+        public void Save(ConfigService configService)
         {
             lock (_lockObject)
             {
@@ -275,13 +318,7 @@ namespace MoreNote.Logic.Service
                     streamWriter.Flush();
                 }
                 _configService = configService;
-
             }
-
         }
-
-
-
-
     }
 }

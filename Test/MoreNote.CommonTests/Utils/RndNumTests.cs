@@ -20,7 +20,7 @@ namespace MoreNote.Common.Utils.Tests
         [TestMethod()]
         public void CreatSafeNumTest()
         {
-            string safe = RandomTool.CreatSafeNum();
+            string safe = RandomTool.CreatSafeRandomBase64();
             Console.WriteLine(safe);
 
         }

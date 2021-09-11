@@ -1,10 +1,12 @@
-﻿using MoreNote.Logic.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MoreNote.Logic.Entity;
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace MoreNote.Logic.Entity
 {
@@ -39,7 +41,8 @@ namespace MoreNote.Logic.Entity
         
     }
 
-    [Table("user_info")]
+    [Table("user_info"),Index(nameof(Email),nameof(Verified),nameof(Username),nameof(UsernameRaw),nameof(Role)
+        ,nameof(ThirdUserId),nameof(FromUserId))]
     public class User
     {
         [Key]
@@ -54,13 +57,44 @@ namespace MoreNote.Logic.Entity
         [Column("username_raw")]
         public string UsernameRaw { get; set; }//// 可能有大小写
         [Column("pwd")]
+        [JsonIgnore]
         public string Pwd { get; set; }
+        /// <summary>
+        /// 加密用户登录口令使用的哈希算法
+        /// <para>
+        /// 哈希算法 sha256  sha512  HMAC算法 hmac-sha256 hmac-sha512 慢哈希算法 Argon2 bcrypt scrypt   pbkdf2
+        /// </para>
+        /// </summary>
+        [Column("password_hash_algorithm")]
+        [JsonIgnore]
+        public string PasswordHashAlgorithm {get;set;}
+        /// <summary>
+        /// 哈希加密迭代次数
+        /// </summary>
+        [Column("password_hash_iterations")]
+        [JsonIgnore]
+        public int PasswordHashIterations { get; set; }
+        /// <summary>
+        /// 哈希加密时CPU线程限制
+        /// </summary>
+        [Column("password_degree_of_parallelism")]
+        [JsonIgnore]
+        public int PasswordDegreeOfParallelism { get; set; }
+        /// <summary>
+        /// 哈希加密时内存限制
+        /// </summary>
+        [Column("password_memory_size")]
+        [JsonIgnore]
+        public int PasswordMemorySize { get; set; }
+
         [Column("salt")]
-        public string Salt { get; set; }//MD5 盐
+        [JsonIgnore]
+        public string Salt { get; set; }//MD5 盐 盐的长度默认是32字节 
         [Column("google_authenticator_secret_key")]
+        [JsonIgnore]
         public string GoogleAuthenticatorSecretKey { get; set; }//谷歌身份验证密码
-        [Column("pwd_cost")]
-        public int Cost { get; set; }//加密强度--》迭代次数
+       
+
         [Column("user_role")]
         public string Role { get; set; }//角色 用户组
         [Column("jurisdiction")]
@@ -124,6 +158,10 @@ namespace MoreNote.Logic.Entity
         public int Usn{ get; set; }//UpdateSequenceNum , 全局的
         [Column("full_sync_before")]
         public DateTime FullSyncBefore{ get; set; }//需要全量同步的时间, 如果 > 客户端的LastSyncTime, 则需要全量更新
+        [Column("blog_url")]
+        public string BlogUrl{ get; set; }
+        [Column("post_url")]
+        public string PostUrl{ get; set; }
     }
     [Table("user_account")]
     public class UserAccount
@@ -148,15 +186,15 @@ namespace MoreNote.Logic.Entity
         public int MaxAttachSize{ get; set; }   // 图片大小
         [Column("max_per_attach_size")]
         public int MaxPerAttachSize{ get; set; }// 单个附件大小
+       
     }
 }    // note主页需要
-    public class UserAndBlogUrl
-    {
-
-        public User user { get; set; }
-        public string BlogUrl{ get; set; }
-        public string PostUrl{ get; set; }
-    }
+    //public class UserAndBlogUrl
+    //{
+    //    public User User { get; set; }
+    //    public string BlogUrl{ get; set; }
+    //    public string PostUrl{ get; set; }
+    //}
 
 // 用户与博客信息结合, 公开
 [Table("user_and_blog")]

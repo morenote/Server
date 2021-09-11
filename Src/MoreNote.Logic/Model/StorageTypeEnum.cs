@@ -7,7 +7,7 @@
     public enum StorageTypeEnum
     {
         /// <summary>
-        /// 本地磁盘
+        /// 本地磁盘（自己实现的低性能方法）
         /// </summary>
         LocalDisk = 0x00,
         /// <summary>
@@ -30,14 +30,22 @@
         /// 华为云对象储存
         /// </summary>
         HuaWeiOSS=0x05,
+         /// <summary>
+        /// 腾讯云对象储存
+        /// </summary>
+        TencentOSS=0x06,
         /// <summary>
         /// FTP服务
         /// </summary>
-        FTP=0x06,
+        FTP=0x10,
         /// <summary>
         /// WebDAV服务
         /// </summary>
-        WebDAV=0x07,
+        WebDAV=0x11,
+        /// <summary>
+        /// Minio对象储存
+        /// </summary>
+        Minio = 0x12
 
     }
 }

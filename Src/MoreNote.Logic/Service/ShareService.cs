@@ -32,7 +32,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 得到共享给我的笔记本和用户(谁共享给了我)
-        public  User[] GetShareNotebooks(long? userId)
+        public  User[] GetShareNotebooks(long? userId,out Dictionary<string,ShareNotebooks> ShareNotebooksByUser)
         {
             throw new Exception();
         }
@@ -47,9 +47,18 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 将普通的notebooks添加perm及shareNotebook信息
-     //todo 未完成
+        //todo 未完成
 
 
+        // updatedUserId是否有查看userId noteId的权限?
+        // userId是所有者
+        public bool HasReadPerm(long? userId,long? updatedUserId,long? noteId)
+        {
+            //todo:共享笔记
+            return false;
+            //var q=this.getOrQ(updatedUserId); // (toUserId == "xxx" || ToGroupId in (1, 2,3))
+
+        }
 
     }
 }

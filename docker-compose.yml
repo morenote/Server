@@ -1,0 +1,9 @@
+# yaml 配置实例
+version: '1'
+
+services:
+  morenote:
+    image: ${DOCKER_REGISTRY-}morenote
+    build:
+      context: .
+      dockerfile: Src/MoreNote/Dockerfile

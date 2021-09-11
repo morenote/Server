@@ -1,6 +1,10 @@
-﻿using MoreNote.Common.Utils;
+﻿using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.HySystem;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.DB;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.PasswordSecurity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +16,12 @@ namespace MoreNote.Logic.Service
         private DataContext dataContext;
         public BlogService BlogService { get; set; }
         public EmailService EmailService { get; set; }
+        public WebSiteConfig Config { get;set;}
 
-        public UserService(DataContext dataContext)
+        public UserService(DataContext dataContext,ConfigFileService configFileService)
         {
             this.dataContext = dataContext;
+            this.Config=configFileService.WebConfig;
         }
 
         public User GetUser(string email)
@@ -27,6 +33,10 @@ namespace MoreNote.Logic.Service
 
         public User GetUserByUserId(long? userid)
         {
+            if (userid == null)
+            {
+                return null;
+            }
             var result = dataContext.User
                      .Where(b => b.UserId.Equals(userid)).FirstOrDefault();
             return result;
@@ -53,8 +63,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public bool AddUser(User
-             user)
+        public bool AddUser(User user)
         {
             if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
             user.CreatedTime = DateTime.Now;
@@ -65,6 +74,74 @@ namespace MoreNote.Logic.Service
             return dataContext.SaveChanges() > 0;
         }
 
+        public bool VDUserName(string username)
+        {
+            //验证是否包含特殊符号
+            bool result= HyString.IsNumAndEnCh(username);
+            if (!result)
+            {
+                return result;
+            }
+            //验证长度
+            if (username.Length<4)
+            {
+                return result;
+
+            }
+            //验证名称冲突
+            var count= dataContext.User.Where(b=>b.Username.Equals(username.ToLower())).Count();
+            if (count!=0)
+            {
+                return false;
+
+            }
+            //验证黑名单
+            HashSet<String> blacklist=new HashSet<string>();
+            blacklist.Add("admin");
+            blacklist.Add("demo");
+            blacklist.Add("root");
+            
+
+
+            result=blacklist.Contains(username.ToLower());
+           
+            return !result;
+
+
+
+        }
+
+        public bool VDPassWord(string password,long? userId,out string error)
+        {
+            error=string.Empty;
+            if (string.IsNullOrEmpty(password))
+            {
+                error= "Invalid password ";
+                return false;
+
+            }
+            if (password.Length<6)
+            {
+                error= "Password length is too short , must be greater than or equal to 6 ";
+                return false;
+            }
+            if (password.Length>32)
+            {
+
+                error = "Password is too long  , must be less than 32 characters ";
+                return false;
+            }
+            //验证合法性
+            return true;
+           
+
+        }
+        public bool AddBlogUser(UserBlog user)
+        {
+            if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
+            dataContext.UserBlog.Add(user);
+            return dataContext.SaveChanges() > 0;
+        }
         // 通过email得到userId
         public string GetUserId(string email)
         {
@@ -179,19 +256,22 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息+博客主页
-        public UserAndBlogUrl GetUserAndBlogUrl(long? userId)
+        public User GetUserAndBlogUrl(long? userId)
         {
             User user = GetUserInfo(userId);
 
             UserBlog userBlog = BlogService.GetUserBlog(userId);
             BlogUrls blogUrls = BlogService.GetBlogUrls(userBlog, user);
-            UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
-            {
-                user = user,
-                BlogUrl = blogUrls.IndexUrl,
-                PostUrl = blogUrls.PostUrl,
-            };
-            return userAndBlogUrl;
+            //UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
+            //{
+            //    User = user,
+            //    BlogUrl = blogUrls.IndexUrl,
+            //    PostUrl = blogUrls.PostUrl,
+            //};
+            user.BlogUrl=blogUrls.IndexUrl;
+            user.PostUrl=blogUrls.PostUrl;
+
+            return user;
         }
 
         /// <summary>
@@ -239,20 +319,56 @@ namespace MoreNote.Logic.Service
         // 更新username
         public bool UpdateUsername(long? userId, string username)
         {
-            throw new Exception();
+           var user=dataContext.User.Where(b=>b.UserId==userId).FirstOrDefault();
+            if (user==null)
+            {
+                return false;
+            }
+            user.UsernameRaw=username;
+            user.Username=username;
+            return  dataContext.SaveChanges()>0;
+
         }
 
         // 修改头像
         public bool UpdateAvatar(long? userId, string avatarPath)
         {
-            throw new Exception();
+            var user= dataContext.User.Where(b=>b.UserId==userId).FirstOrDefault();
+            user.Logo=avatarPath;
+            dataContext.SaveChanges();
+            return true;
         }
 
         //----------------------
         // 已经登录了的用户修改密码
         public bool UpdatePwd(long? userId, string oldPwd, string pwd)
         {
-            throw new Exception();
+
+
+            var user = dataContext.User.Where(b => b.UserId == userId).First();
+       
+
+            IPasswordStore passwordStore = PasswordStoreFactory.Instance(user);
+            //验证旧密码
+            var vd = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), oldPwd.ToByteArrayByUtf8(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
+            if (!vd)
+            {
+                return vd;
+            }
+            //产生新的盐
+            var salt = RandomTool.CreatSafeSaltByteArray(16);
+
+            passwordStore=PasswordStoreFactory.Instance(Config.SecurityConfig);
+            //更新用户生成密码哈希的安全策略
+            user.PasswordDegreeOfParallelism=Config.SecurityConfig.PasswordStoreDegreeOfParallelism;
+            user.PasswordHashAlgorithm=Config.SecurityConfig.PasswordHashAlgorithm;
+            user.PasswordHashIterations = Config.SecurityConfig.PasswordHashIterations;
+            user.PasswordMemorySize = Config.SecurityConfig.PasswordStoreMemorySize;
+            //更新盐
+            user.Salt=salt.ByteArrayToBase64();
+            //生成新的密码哈希
+            user.Pwd=passwordStore.Encryption(pwd.ToByteArrayByUtf8(),salt,user.PasswordHashIterations).ByteArrayToBase64();
+            return dataContext.SaveChanges()>0;
         }
 
         // 管理员重置密码

@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Masuit.LuceneEFCore.SearchEngine;
+using NpgsqlTypes;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace MoreNote.Logic.Entity
 {
-    [Table("note")]
+    [Table("note"),Index(nameof(UserId),nameof(IsBlog),nameof(IsDeleted))]
     public class Note
     {
-        [Key]
-        [Column("note_id")]
-        public long? NoteId { get; set; }// // 必须要设置bson:"_id" 不然mgo不会认为是主键
+        // // 必须要设置bson:"_id" 不然mgo不会认为是主键
+        [Key] 
+        [Column("note_id")] 
+        public long? NoteId{ get; set; }
+        
         [Column("user_id")]
         public long? UserId { get; set; }//  // 谁的
         [Column("created_user_id")]
@@ -20,6 +26,8 @@ namespace MoreNote.Logic.Entity
         public long? NotebookId { get; set; }
         [Column("title")]
         public string Title { get; set; }//标题
+        [Column("title_vector"),JsonIgnore]
+        public NpgsqlTsVector TitleVector { get; set; }
         [Column("desc")]
         public string Desc { get; set; }//描述, 非html
         [Column("src")]
@@ -83,14 +91,13 @@ namespace MoreNote.Logic.Entity
     ///  剩余的NoteContent被识别为历史记录
     /// </para>
     /// </summary>
-    [Table("note_content")]
+    [Table("note_content"),Index(nameof(NoteId),nameof(UserId),nameof(IsHistory))]
     public class NoteContent
     {
-       
         [Key]
         [Column("note_content_id")]
         //[JsonConverter(typeof(string))] //解决序列化时被转成数值的问题
-        public long? NoteContentId { get;set;}//主键
+        public long? NoteContentId {get;set;}
         [Column("note_id")]
         public long? NoteId { get; set; }
         [Column("user_id")]
@@ -99,6 +106,9 @@ namespace MoreNote.Logic.Entity
         public bool IsBlog { get; set; } // 为了搜索博客 
         [Column("content")]
         public string Content { get; set; }//内容
+        [Column("content_vector"),JsonIgnore]
+        public NpgsqlTsVector ContentVector { get; set; }
+
 
         //public string WebContent{ get;set;}//为web页面优化的内容
         [Column("abstract")]
@@ -144,7 +154,7 @@ namespace MoreNote.Logic.Entity
 
     public class NoteOrContent
     {
-        
+      
         public long? NotebookId { get; set; }
         public long? NoteId { get; set; }
         public long? UserId { get; set; }
@@ -156,11 +166,11 @@ namespace MoreNote.Logic.Entity
     
         public string Content { get; set; }
         public string Abstract { get; set; }
-        public bool IsNew { get; set; }
-        public bool IsMarkdown { get; set; }
+        public bool? IsNew { get; set; }
+        public bool? IsMarkdown { get; set; }
 
         public long? FromUserId { get; set; }//// 为共享而新建
-        public bool IsBlog { get; set; }//是否是blog, 更新note不需要修改, 添加note时才有可能用到, 此时需要判断notebook是否设为Blog
+        public bool? IsBlog { get; set; }//是否是blog, 更新note不需要修改, 添加note时才有可能用到, 此时需要判断notebook是否设为Blog
     }
     // 分开的
     public class NoteAndContentSep
@@ -169,5 +179,6 @@ namespace MoreNote.Logic.Entity
         public Note NoteInfo{ get; set; }
         public NoteContent NoteContentInfo{ get; set; }
     }
+
 
 }
