@@ -54,7 +54,7 @@
     "isarray": "^1.0.0",
     "kind-of": "^6.0.3",
     "liftoff": "^0.12.1",
-    "lodash": "^1.0.2",
+    "lodash": "^4.17.21",
     "lru-cache": "^2.7.3",
     "minimize": "^1.8.1",
     "mkdirp": "^0.5.5",
