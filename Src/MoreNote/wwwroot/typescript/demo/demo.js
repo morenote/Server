@@ -1,17 +1,16 @@
 /**设置 */
-var Startup = /** @class */ (function () {
-    function Startup() {
+class Startup {
+    constructor() {
         /**
          *ddd
          */
         this.isDone = false;
     }
-    Startup.main = function () {
-        var startup = new Startup();
+    static main() {
+        let startup = new Startup();
         startup.isDone = false;
         return 1;
-    };
-    return Startup;
-}());
+    }
+}
 Startup.main();
 //# sourceMappingURL=demo.js.map
