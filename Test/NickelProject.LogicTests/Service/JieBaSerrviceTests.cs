@@ -15,7 +15,7 @@ namespace MoreNote.LogicTests.Service
         public void JiebaSegmenterTest()
         {
             var segmenter = new JiebaSegmenter();
-            string message="基于前缀词典实现高效的词图扫描，生成句子中汉字所有可能成词情况所构成的有向无环图";
+            string message="多线程";
             var segments = segmenter.Cut(message, cutAll: true);
             Console.WriteLine("【全模式】：{0}", string.Join("/ ", segments));
 
