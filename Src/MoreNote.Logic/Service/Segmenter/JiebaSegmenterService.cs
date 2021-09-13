@@ -73,7 +73,7 @@ namespace MoreNote.Logic.Service.Segmenter
             if (keyword.Contains("|"))
             {
                 string[] keys=keyword.Split('|');
-                return GetSerachNpgsqlTsQuery_And(keys);
+                return GetSerachNpgsqlTsQuery_Or(keys);
             }
 
 
