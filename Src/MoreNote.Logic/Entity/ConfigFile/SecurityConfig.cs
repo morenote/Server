@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Entity.ConfigFile
@@ -10,7 +11,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
     {
         /// <summary>
         /// 密钥 用于敏感操作
-        /// 每次软件启动后，会使用随机密钥填充这个值
+        /// 每次软件启动后可能使用随机密钥填充这个值
         /// 在进行某些敏感操作的时候，系统会询问你的密钥 比如重置admin管理员的密码
         /// 但是务必注意的是：你的密码重置后，服务器端保存的加密数据是无法恢复
         /// </summary>
@@ -69,7 +70,11 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 密码加密时的内存限制 仅适用于Argon2id
         /// 内存越大，计算越困难
         /// </summary>
-        public int PasswordStoreMemorySize=1024*2;
-
+        public int PasswordStoreMemorySize{ get;set;} =1024*2;
+        /// <summary>
+        /// 是否启用人机校验 验证码
+        /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public NeedVerificationCode NeedVerificationCode{get;set;}=NeedVerificationCode.ON;
     }
 }
