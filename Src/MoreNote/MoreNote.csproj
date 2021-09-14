@@ -44,6 +44,7 @@
     <Content Remove="Views\admin\footer.cshtml" />
     <Content Remove="Views\admin\header.cshtml" />
     <Content Remove="Views\admin\nav.cshtml" />
+    <Content Remove="Views\admin\top.cshtml" />
     <Content Remove="Views\Member\end.cshtml" />
     <Content Remove="Views\Member\footer.cshtml" />
     <Content Remove="Views\Member\top.cshtml" />
@@ -183,6 +184,7 @@
     <None Include="Views\admin\footer.cshtml" />
     <None Include="Views\admin\header.cshtml" />
     <None Include="Views\admin\nav.cshtml" />
+    <None Include="Views\admin\top.cshtml" />
     <None Include="Views\Member\end.cshtml" />
     <None Include="Views\Member\footer.cshtml" />
     <None Include="Views\Member\top.cshtml" />

@@ -87,7 +87,7 @@
 
 	<script>
 $(function() {
-	var needCaptcha = true;
+	var needCaptcha = @ViewBag.needCaptcha;
 
 	if(needCaptcha){
 		$("#captchaContainer").html($("#tCaptcha").html());

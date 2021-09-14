@@ -65,8 +65,38 @@ namespace MoreNote.Framework.Controllers
             this.userService = userService;
             this._accessor = accessor;
             config = configFileService.WebConfig;
-            
-           
+        }
+        /// <summary>
+        /// 检查验证码
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckVerifyCode(string captcha, out string message)
+        {
+            string verifyCode = HttpContext.Session.GetString("VerifyCode");
+            int time = HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
+            int valid = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
+            if (valid != 1 || !UnixTimeHelper.IsValid(time, 60))//验证码的保质期是60秒
+            {
+                message="验证码过期或失效";
+                return false;
+            }
+            //销毁验证码的标志
+            HttpContext.Session.SetInt32("VerifyCodeValid", 0);
+            if (string.IsNullOrEmpty(verifyCode) || string.IsNullOrEmpty(captcha))
+            {
+                message="错误参数";
+                return false;
+            }
+            else
+            {
+                if (captcha.Equals("0")||!captcha.ToLower().Equals(verifyCode))
+                {
+                    message="验证码错误";
+                    return false;
+                }
+            }
+            message="";
+            return true;
         }
 
         public enum FileTyte
