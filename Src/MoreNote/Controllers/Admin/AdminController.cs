@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MoreNote.Framework.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;
@@ -8,17 +8,21 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.Admin
 {
-    public class AdminBaseController : BaseController
+    public class AdminController : AdminBaseController
     {
-        public AdminBaseController(AttachService attachService
+        public AdminController(AttachService attachService
               , TokenSerivce tokenSerivce
               , NoteFileService noteFileService
               , UserService userService
               , ConfigFileService configFileService
-              , IHttpContextAccessor accessor
-              
+                    , IHttpContextAccessor accessor
               ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
+        }
+
+        public IActionResult Index()
+        {
+            return View("Views/admin/index.cshtml");
         }
     }
 }
