@@ -40,7 +40,10 @@ namespace MoreNote.Controllers
         //{
         //    return View();
         //}
-
+        /// <summary>
+        /// 登录 页面
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Login()
         {
             ViewBag.Title = "请登录";

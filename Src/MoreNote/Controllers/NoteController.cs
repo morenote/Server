@@ -68,7 +68,7 @@ namespace MoreNote.Controllers
 
             // 还需要按时间排序(DESC)得到notes
             List<Note> notes = new List<Note>();
-            NoteContent noteContent = null;
+            NoteContent noteContent = new NoteContent();
 
             if (!notebooks.IsNullOrNothing())
             {

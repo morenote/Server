@@ -228,7 +228,10 @@ namespace MoreNote.Controllers
                 }
             }
             ViewBag.blogUser = blogUser;
-
+            if (!blogUser.Verified)
+            {
+                  return Content("用户未实名认证");
+            }
             ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.UserId);
             NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.UserId);
             ViewBag.noteAndContent = noteAndContent;
@@ -272,6 +275,7 @@ namespace MoreNote.Controllers
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("未找到");
             }
+       
             Dictionary<string, string> blog = new Dictionary<string, string>();
 
             NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId);
@@ -294,7 +298,10 @@ namespace MoreNote.Controllers
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Content("这篇文章已经被取消分享");
             }
-
+            if (!blogUser.Verified)
+            {
+                  return Content("用户未实名认证");
+            }
             UserBlog userBlog = blogService.GetUserBlog(blogUser.UserId);
             BlogCommon(blogUser.UserId, userBlog, blogUser);
             ViewBag.noteAndContent = noteAndContent;
