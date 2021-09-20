@@ -38,11 +38,18 @@
 
   <ItemGroup>
     <Content Remove="config\log4net.config" />
-    <Content Remove="Views\admin\blog\list.cshtml" />
+    <Content Remove="Views\admin\blog\page.cshtml" />
     <Content Remove="Views\admin\button.cshtml" />
     <Content Remove="Views\admin\end.cshtml" />
     <Content Remove="Views\admin\footer.cshtml" />
     <Content Remove="Views\admin\header.cshtml" />
+    <Content Remove="Views\admin\setting\demo.cshtml" />
+    <Content Remove="Views\admin\setting\export_pdf.cshtml" />
+    <Content Remove="Views\admin\setting\home_page.cshtml" />
+    <Content Remove="Views\admin\setting\open_register.cshtml" />
+    <Content Remove="Views\admin\setting\share_note.cshtml" />
+    <Content Remove="Views\admin\setting\site_url.cshtml" />
+    <Content Remove="Views\admin\setting\upload.cshtml" />
     <Content Remove="Views\admin\top.cshtml" />
     <Content Remove="Views\Member\end.cshtml" />
     <Content Remove="Views\Member\footer.cshtml" />
@@ -158,6 +165,27 @@
     <Content Update="Pages\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\admin\email\emailDialog.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\admin\email\list.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\admin\email\page.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\admin\email\send.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\admin\email\sendToUsers.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\admin\email\set.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\admin\email\template.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -177,11 +205,18 @@
     <None Include="config\log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Views\admin\blog\list.cshtml" />
+    <None Include="Views\admin\blog\page.cshtml" />
     <None Include="Views\admin\button.cshtml" />
     <None Include="Views\admin\end.cshtml" />
     <None Include="Views\admin\footer.cshtml" />
     <None Include="Views\admin\header.cshtml" />
+    <None Include="Views\admin\setting\demo.cshtml" />
+    <None Include="Views\admin\setting\export_pdf.cshtml" />
+    <None Include="Views\admin\setting\home_page.cshtml" />
+    <None Include="Views\admin\setting\open_register.cshtml" />
+    <None Include="Views\admin\setting\share_note.cshtml" />
+    <None Include="Views\admin\setting\site_url.cshtml" />
+    <None Include="Views\admin\setting\upload.cshtml" />
     <None Include="Views\admin\top.cshtml" />
     <None Include="Views\Member\end.cshtml" />
     <None Include="Views\Member\footer.cshtml" />

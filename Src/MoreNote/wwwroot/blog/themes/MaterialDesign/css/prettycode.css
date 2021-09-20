@@ -131,6 +131,10 @@ code.prettyprint .pln,pre.prettyprint .pln {
 body.dark-theme pre {
 	background-color: #444;
 }
+body.dark-theme code {
+	color: #CC9393;
+	background-color: #444;
+}
 
 body.dark-theme code.prettyprint .pln,body.dark-theme pre.prettyprint .pln {
 	color: #A38474;
