@@ -164,6 +164,16 @@ namespace MoreNote.Common.HySystem
             Regex regex = new Regex(pattern);
             return regex.IsMatch(input);
         }
+        /// <summary>
+        /// 检查邮箱格式
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public static bool isEmail(string email)
+        {
+             return Regex.IsMatch(email, @"^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$");
+              
+        }
 
     
     }

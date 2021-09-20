@@ -118,6 +118,8 @@ namespace MoreNote.Logic.Service
         // [ok]
         public  bool Register(string email, string pwd, long? fromUserId,out string Msg)
         {
+            email=email.ToLower();//邮箱保存时全部使用小写形式
+
             if (string.IsNullOrEmpty(email)||string.IsNullOrEmpty(pwd)||pwd.Length<6)
             {
                 Msg="参数错误";
