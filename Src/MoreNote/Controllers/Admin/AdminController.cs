@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.Admin
 {
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class AdminController : AdminBaseController
     {
         private NoteService noteService;
