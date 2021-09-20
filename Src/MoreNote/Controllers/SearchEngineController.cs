@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-    //[Authorize(Roles = "Admin,SuperAdmin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class SearchEngineController : Controller
     {
         private DataContext dataContext;

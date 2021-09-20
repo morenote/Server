@@ -14,6 +14,7 @@ using MoreNote.Value;
 
 namespace MoreNote.Controllers.Member
 {
+    [Authorize(Roles = "Admin,SuperAdmin,User")]
     [Route("Member/{action=Index}")]
     public class MemberIndexController : BaseController
     {
