@@ -6,12 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoreNote.Logic.Entity
 {
-    [Table("page")]
+
+    //分页数据
     public class Page
     {
-        [Key]
-        [Column("page_id")]
-        public long? PageId { get; set; }
+      
         [Column("cur_page")]
         public int CurPage { get; set; } // 当前页码 
         [Column("total_page")]
@@ -21,5 +20,30 @@ namespace MoreNote.Logic.Entity
         [Column("count")]
         public int Count { get; set; } // 总记录数 
 
+        public List<dynamic> List{ get;set;}
+
+        public static Page Instance(int page,int perPageSize,int count, List<dynamic> list)
+        {
+
+         
+            var totalPage=0;
+
+            if (count>0)
+            {
+                totalPage=count/perPageSize;
+
+            }
+            return new Page()
+            {
+                CurPage=page,
+                TotalPage=totalPage,
+                PerPageSize=perPageSize,
+                Count=count,
+                List=list
+
+
+            };
+
+        }
     }
 }

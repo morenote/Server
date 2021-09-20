@@ -67,7 +67,7 @@ namespace MoreNote.Logic.DB
         public DbSet<BlogComment> BlogComment { get; set; }
         public DbSet<BlogCommentPublic> BlogCommentPublic { get; set; }
 
-        public DbSet<Page> Page { get; set; }
+        
         public DbSet<Config> Config { get; set; }
 
         public DbSet<EmailLog> EmailLog { get; set; }

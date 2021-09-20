@@ -38,7 +38,7 @@ namespace MoreNote.Controllers
                 re.Msg = "Unable to obtain user information through Session ";
                 return Json(re, MyJsonConvert.GetOptions());
             }
-            
+            var message=string.Empty;
             User user=GetUserBySession();
             if (user == null)
             {
@@ -51,10 +51,10 @@ namespace MoreNote.Controllers
                 return Json(re, MyJsonConvert.GetOptions());
 
             }
-            if (userService.VDUserName(username))
+            if (userService.VDUserName(username,out message))
             {
                 re.Ok=userService.UpdateUsername(user.UserId,username);
-             
+                re.Msg=message;
                 return Json(re, MyJsonConvert.GetOptions());
             }
             else
