@@ -113,7 +113,7 @@ namespace MoreNote.Controllers.API.APIV1
                 ApiGetSyncState apiGetSyncState = new ApiGetSyncState()
                 {
                     LastSyncUsn = user.Usn,
-                    LastSyncTime = UnixTimeHelper.GetTimeStampInLong(DateTime.Now)
+                    LastSyncTime = UnixTimeUtil.GetTimeStampInLong(DateTime.Now)
                 };
             
                 return  Json(apiGetSyncState,MyJsonConvert.GetSimpleOptions());

@@ -99,7 +99,7 @@ namespace MoreNote.Controllers
                 Referrer = headers["Referer"],
                 RequestHeader = stringBuilder.ToString(),
                 AccessTime = DateTime.Now,
-                UnixTime = UnixTimeHelper.GetTimeStampInLong(),
+                UnixTime = UnixTimeUtil.GetTimeStampInLong(),
                 TimeInterval = -1,
                 URL = url
             };

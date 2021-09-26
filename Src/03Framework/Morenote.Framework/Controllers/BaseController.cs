@@ -75,7 +75,7 @@ namespace MoreNote.Framework.Controllers
             string verifyCode = HttpContext.Session.GetString("VerifyCode");
             int time = HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
             int valid = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
-            if (valid != 1 || !UnixTimeHelper.IsValid(time, 60))//验证码的保质期是60秒
+            if (valid != 1 || !UnixTimeUtil.IsValid(time, 60))//验证码的保质期是60秒
             {
                 message="验证码过期或失效";
                 return false;

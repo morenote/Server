@@ -36,7 +36,14 @@ namespace MoreNote.Logic.Service
            
             
             user = UserService.GetUser(email);
+            if (user==null)
+            {
+                tokenStr=null;
+                user=null;
+                return false;
+            }
             var passwordStore = PasswordStoreFactory.Instance(user);
+
             if (user != null)
             {
                 var result = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.PasswordHashIterations);

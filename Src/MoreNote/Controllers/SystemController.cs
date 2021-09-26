@@ -61,7 +61,7 @@ namespace MoreNote.Controllers
             int? verifyCodeValid= HttpContext.Session.GetInt32("VerifyCodeValid");
             int time = HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
             int valid = HttpContext.Session.GetInt32("VerifyCodeValid").GetValueOrDefault(0);
-            if (valid != 1 || !UnixTimeHelper.IsValid(time, 2000))
+            if (valid != 1 || !UnixTimeUtil.IsValid(time, 2000))
             {
                 ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "验证码过期或失效" };
                 return Json(re, MyJsonConvert.GetSimpleOptions());

@@ -166,7 +166,7 @@ namespace MoreNote.Controllers
                 Referrer = headers["Referer"],
                 RequestHeader = stringBuilder.ToString(),
                 AccessTime = DateTime.Now,
-                UnixTime = (long)UnixTimeHelper.GetTimeStampInInt32(),
+                UnixTime = (long)UnixTimeUtil.GetTimeStampInInt32(),
                 TimeInterval = -1,
                 URL = "/api/GetRandomImage",
                 RemoteIPAddress = remoteIpAddress,
@@ -176,7 +176,7 @@ namespace MoreNote.Controllers
             await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
             string typeMD5 = randomImage.TypeNameMD5;
 
-            int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
+            int unixTimestamp = UnixTimeUtil.GetTimeStampInInt32();
             Console.WriteLine("现在的时间=" + unixTimestamp);
             unixTimestamp += 15;
             Console.WriteLine("过期时间=" + unixTimestamp);
@@ -349,7 +349,7 @@ namespace MoreNote.Controllers
                     HttpContext.Session.SetInt32("VerifyCodeValid", 1);
 
                     //验证码生成时间。
-                    HttpContext.Session.SetInt32("VerifyCodeTime", UnixTimeHelper.GetTimeStampInInt32());
+                    HttpContext.Session.SetInt32("VerifyCodeTime", UnixTimeUtil.GetTimeStampInInt32());
 
                     //string sessionID = Request.Cookies["SessionID"];
                     //RedisManager.SetString(sessionID, code);
