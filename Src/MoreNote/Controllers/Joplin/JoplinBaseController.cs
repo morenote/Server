@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.Joplin
 {
+    /// <summary>
+    /// 基础类
+    /// </summary>
     public class JoplinBaseController:BaseController
     {
          public JoplinBaseController(AttachService attachService
