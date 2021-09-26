@@ -35,7 +35,7 @@ namespace MoreNote.Logic.Model
                 username = userNmae,
                 userId = userId,
                 group = group,
-                startTime = UnixTimeHelper.GetTimeStampInLong(),
+                startTime = UnixTimeUtil.GetTimeStampInLong(),
                 exp =exp ,
                 random = RandomTool.CreatSafeRandomBase64(8)
             };

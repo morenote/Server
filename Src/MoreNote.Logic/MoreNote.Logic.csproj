@@ -5,21 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entity\Conifg\**" />
-    <EmbeddedResource Remove="Entity\Conifg\**" />
-    <None Remove="Entity\Conifg\**" />
+    <Compile Remove="Models\Entity\Conifg\**" />
+    <EmbeddedResource Remove="Models\Entity\Conifg\**" />
+    <None Remove="Models\Entity\Conifg\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="DB\Class1.cs" />
-    <Compile Remove="Entity\ArticleEntity.cs" />
-    <Compile Remove="Entity\AuthorEntity.cs" />
-    <Compile Remove="Entity\ChapterEntity.cs" />
-    <Compile Remove="Entity\EditorImageUploadResult.cs" />
-    <Compile Remove="Entity\PageStatus.cs" />
-    <Compile Remove="Entity\PayEntity.cs" />
-    <Compile Remove="Entity\UserEntity.cs" />
+    <Compile Remove="Models\Entity\ArticleEntity.cs" />
+    <Compile Remove="Models\Entity\AuthorEntity.cs" />
+    <Compile Remove="Models\Entity\ChapterEntity.cs" />
+    <Compile Remove="Models\Entity\EditorImageUploadResult.cs" />
+    <Compile Remove="Models\Entity\PageStatus.cs" />
+    <Compile Remove="Models\Entity\PayEntity.cs" />
+    <Compile Remove="Models\Entity\UserEntity.cs" />
     <Compile Remove="Service\ArticleManager.cs" />
     <Compile Remove="Service\AuthorManager.cs" />
     <Compile Remove="Service\ChapterManager.cs" />
@@ -60,6 +60,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Entity\Joplin\" />
   </ItemGroup>
 
 </Project>

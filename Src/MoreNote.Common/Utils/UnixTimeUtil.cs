@@ -4,13 +4,18 @@ using System.Text;
 
 namespace MoreNote.Common.Utils
 {
-   public class UnixTimeHelper
+   public class UnixTimeUtil
     {
      
         public static long? GetTimeStampInLong()
         {
             return  DateTimeOffset.Now.ToUnixTimeSeconds();
         }
+           public static long  GetUnixTimeMillisecondsInLong()
+        {
+            return  DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        }
+
         public static int GetTimeStampInInt32()
         {  
             
