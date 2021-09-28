@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.Joplin
 {
-    public class ApiController : JoplinBaseController
+    public class JoplinApiController : JoplinBaseController
     {
         private AuthService AuthService { get; set; }
 
-        public ApiController(AttachService attachService
+        public JoplinApiController(AttachService attachService
           , TokenSerivce tokenSerivce
           , NoteFileService noteFileService
           , UserService userService
@@ -29,7 +29,13 @@ namespace MoreNote.Controllers.Joplin
             this.AuthService = authService;
         }
 
-       
+        [Route("/api/items/root:/info.json:/content")]
+        [HttpGet]
+        public IActionResult GetInfoJson()
+        {
+            JoplinServerInfo joplinServerInfo=new JoplinServerInfo();
+            return Json(joplinServerInfo,MyJsonConvert.GetSimpleOptions());
+        }
 
         [Route("/api/items/root:/{**what}")]
         [HttpGet]
