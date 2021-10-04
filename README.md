@@ -2,7 +2,7 @@
 
 # MoreNote
 
-> MoreNote is a .net software based on [leanote](https://github.com/leanote/leanote) 
+> MoreNote is a .net software based on leanote.  
 > Free. Cross-platform. Open source.  
 > A developer platform for building all  apps.  
 > But  Who cares?
