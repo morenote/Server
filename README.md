@@ -1,4 +1,4 @@
-[中文]: README_Chinese.md
+[中文](./README_Chinese.md)
 
 # MoreNote
 
@@ -12,6 +12,10 @@ Demo website ：<a href="https://www.morenote.top/" target="_blank">Morenote  
 github:https://github.com/hyfree/MoreNote
 
 gitee:https://gitee.com/hyfree_cn/MoreNote/
+
+
+
+
 
 
 ## Overview 
