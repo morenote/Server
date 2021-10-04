@@ -12,17 +12,19 @@ namespace MoreNote
     {
         public static void Main(string[] args)
         {
-            InitSecret();//初始化安全密钥
+            //InitSecret();//初始化安全密钥
             CreateHostBuilder(args).Build().Run();
         }
-
+        /// <summary>
+        /// 初始化安全秘钥
+        /// </summary>
         private static void InitSecret()
         {
             //每次启动程序都会重新初始化Secret
             ConfigFileService configFileService = new ConfigFileService();
             configFileService.WebConfig.SecurityConfig.Secret = RandomTool.CreatSafeRandomBase64(32);
             configFileService.Save();
-            System.Console.WriteLine("安全密钥已经初始化成功");
+            System.Console.WriteLine("InitSecret Success");
         }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

@@ -207,6 +207,7 @@ namespace MoreNote
                 instance.NotebookService = e.Context.Resolve<NotebookService>();
             });
             builder.RegisterType<UpgradeService>();
+          
             builder.RegisterType<UserService>().OnActivated(e =>
             {
                 var instance = e.Instance;
@@ -219,6 +220,9 @@ namespace MoreNote
                 .As<IPasswordStore>();
                    builder.RegisterType<JiebaSegmenterService>()
                 .As<JiebaSegmenterService>();
+            //过滤器
+            builder.RegisterType<CheckLoginFilter>();
+            builder.RegisterType<CheckTokenFilter>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

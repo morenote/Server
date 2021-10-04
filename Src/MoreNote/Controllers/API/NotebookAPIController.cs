@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Morenote.Framework.Filter.Global;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -10,6 +11,7 @@ namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Notebook/[action]")]
     // [ApiController]
+    [ServiceFilter(typeof(CheckTokenFilter))]
     public class NotebookAPIController : APIBaseController
     {
         private NotebookService notebookService;

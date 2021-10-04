@@ -1,6 +1,7 @@
 ﻿@{
-	 Dictionary<string ,string> msg=ViewBag.msg;
-	ConfigSetting configSetting = ViewBag.ConfigSetting;
+    Dictionary<string ,string> msg=ViewBag.msg;
+    ConfigSetting configSetting = ViewBag.ConfigSetting;
+    bool quickLogin=ViewBag.quickLogin;
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -68,6 +69,12 @@
                     {
                         <a id="loginBtnDemo" href="/demo" class="btn btn-default btn-block">@msg["try"]</a>
                     }
+                    @if (quickLogin)
+                    {
+                        <a href="/Auth/QuickLogin" class="btn btn-default btn-block">Quick Login By Cookie</a>
+                    }
+
+
                 </form>
 			</div>
 		</div>
