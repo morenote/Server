@@ -13,6 +13,7 @@ using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace MoreNote.Controllers
         private AuthService authService;
         private ConfigService configService;
         public WebSiteConfig config;
-
+       
         public AuthController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -34,8 +35,26 @@ namespace MoreNote.Controllers
             this.authService = authService;
             this.configService = configService;
             this.config = configService.config;
+           
         }
-
+        public IActionResult QuickLogin()
+        {
+            var token=Request.Cookies["token"];
+            var user=tokenSerivce.GetUserByToken(token);
+            if (user!=null&&tokenSerivce.VerifyToken(token))
+            {
+                HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
+                HttpContext.Session.SetBool("Verified", user.Verified); 
+                 HttpContext.Session.SetString("token",token); 
+                HttpContext.Response.Cookies.Append("token",token,new CookieOptions(){ HttpOnly=true,MaxAge=TimeSpan.FromDays(7)});
+            }
+            else
+            {
+                HttpContext.Response.StatusCode=(int)HttpStatusCode.Forbidden;
+                return Content("Authentication failed, please login with password or clear cookie");
+            }
+            return Redirect("/member");
+        } 
         //public IActionResult Index()
         //{
         //    return View();
@@ -49,7 +68,7 @@ namespace MoreNote.Controllers
             ViewBag.Title = "请登录";
             SetLocale();
             ConfigSetting configSetting = new ConfigSetting();
-
+            ViewBag.quickLogin=Request.Cookies["token"]!=null;
             ViewBag.ConfigSetting = configSetting;
             //是否需要验证码服务
             ViewBag.needCaptcha = this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.ON?"true":"false";
@@ -100,11 +119,15 @@ namespace MoreNote.Controllers
                     IsPersistent = true,
                     ExpiresUtc = DateTime.Now.AddDays(1)
                 }).ConfigureAwait(false);
+                //var token=   tokenSerivce.GenerateToken();
 
                 //登录成功
-                HttpContext.Session.SetString("Token", token);
+                HttpContext.Session.SetString("token", token);
                 HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
                 HttpContext.Session.SetBool("Verified", user.Verified);
+
+                HttpContext.Response.Cookies.Append("token",token,new CookieOptions(){ HttpOnly=true,MaxAge=TimeSpan.FromDays(7)});
+
                 ResponseMessage re = new ResponseMessage() { Ok = true };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }

@@ -50,7 +50,7 @@ namespace MoreNote.Logic.Service
                 if (result)
                 {
                     long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
-                    var tokenContext= TokenSerivce.GenerateToken(tokenid);
+                    var tokenContext= TokenSerivce.GenerateTokenContext(tokenid);
                     Token myToken = new Token
                     {
                         TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
@@ -79,8 +79,17 @@ namespace MoreNote.Logic.Service
         }
         public  bool LoginByToken(string email, string token)
         {
-            return true;
+
+            return false;
         }
+        public  bool LoginByToken( string token)
+        {
+
+            var user=TokenSerivce.GetUserByToken(token);
+            return false;
+        }
+
+      
         /// <summary>
         /// 通过Token判断用户是否登录
         /// </summary>
@@ -90,8 +99,7 @@ namespace MoreNote.Logic.Service
         public  bool IsLogin(long? userid,string tokenStr)
         {
           
-            Token token = TokenSerivce.GetTokenByTokenStr(userid
-                , tokenStr);
+            Token token = TokenSerivce.GetTokenByTokenStr(tokenStr);
             if (token!=null)
             {
                 return true;
