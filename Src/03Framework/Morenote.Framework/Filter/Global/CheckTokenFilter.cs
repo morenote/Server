@@ -5,6 +5,7 @@ using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,10 +46,12 @@ namespace Morenote.Framework.Filter.Global
                 token = context.HttpContext.Session.GetString("token");
             }
 
-            if (string.IsNullOrEmpty(token)||!tokenSerivce.VerifyToken(token))
+            if (string.IsNullOrEmpty(token) || !tokenSerivce.VerifyToken(token))
             {
                 context.HttpContext.Session.Remove("token");
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 context.Result = new RedirectResult("/Auth/Login");
+
                 return;
             }
         }
