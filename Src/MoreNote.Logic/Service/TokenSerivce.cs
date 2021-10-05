@@ -77,6 +77,7 @@ namespace MoreNote.Logic.Service
                 var secret = this.config.SecurityConfig.Secret;
 
                 var hmac = SecurityUtil.SignHamc256(token, secret);
+                hmac=Base64Util.ToBase64String(hmac);
                 token = token + "@" + hmac;
 
                 Console.WriteLine();
@@ -111,7 +112,10 @@ namespace MoreNote.Logic.Service
             {
                 return false;
             }
-            return SecurityUtil.VerifyHamc256(sp[0], config.SecurityConfig.Secret,sp[1]);
+            var message=sp[0];
+            var hmac=Base64Util.UnBase64String(sp[1]);
+            var secret= config.SecurityConfig.Secret;
+            return SecurityUtil.VerifyHamc256(message, secret,hmac);
         }
 
         public User GetUserByToken(string token)
