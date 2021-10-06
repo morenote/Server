@@ -129,6 +129,22 @@ function concatMarkdownJsV2() {
         .pipe(concat('markdown-v2.min.js'))
         .pipe(gulp.dest(base + '/js'));
 }
+function concatVditor() {
+    var jss = [
+        'js/require.js',
+        'md/main-v2.min.js',
+    ];
+
+    for (var i in jss) {
+        jss[i] = base + '/' + jss[i];
+    }
+
+    return gulp
+        .src(jss)
+        .pipe(uglify()) // 压缩
+        .pipe(concat('markdown-v2.min.js'))
+        .pipe(gulp.dest(base + '/js'));
+}
 // note-dev.html -> note.html, 替换css, js
 // TODO 加?t=2323232, 强制浏览器更新, 一般只需要把app.min.js
 function devToProHtml() {

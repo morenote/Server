@@ -45,7 +45,7 @@
     <meta name="keywords" content="leanote,leanote.com,蚂蚁笔记">
     <meta name="description" content="Leanote, 蚂蚁笔记,@msg["moto"]">
     <title>Leanote, @msg["moto"]</title>
-    
+
     <link href="/css/bootstrap-min.css" rel="stylesheet" />
     <!-- 先加载, 没有样式, 宽度不定 -->
     <link rel="stylesheet" href="/css/tinymce/skin.min.css" rel="stylesheet" />
@@ -72,6 +72,18 @@
 
         }
     </script>
+    <!--引入vditor-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+    <link href="/css/editor/vditor/vditor.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script>
+    <script src="/js/app/vditor.js"></script>
+    <!--引入textbus-->
+
+    <link href="https://textbus.tanboui.com/static/textbus.min.css" rel="stylesheet">
+    <link href="/css/editor/textbus/textbus.css" rel="stylesheet" />
+    <script src="https://textbus.tanboui.com/static/textbus.min.js"></script>
+    <script src="/js/app/textbus.js"></script>
+
 </head>
 <body class="leanote-plugin lang-@ViewBag.locale">
     <div id="page">
@@ -420,7 +432,7 @@
                                         <li role="presentation">
                                             <a data-sorter="dateGenerateImagedDESC" class="sorter-style sorter-dateGenerateImagedDESC" role="menuitem">
                                                 <i class="fa fa-check"></i>
-                                                 @leaMsg["Date Created"]<i class="fa fa-sort-alpha-desc"></i>
+                                                @leaMsg["Date Created"]<i class="fa fa-sort-alpha-desc"></i>
                                             </a>
                                         </li>
                                         <li role="presentation" class="divider"></li>
@@ -502,10 +514,10 @@
                             <div id="tool" class="clearfix">
                                 <!-- tag可以参考 mac的文件tag, 预定义一些颜色, 用户也可以自己输入-->
                                 <!--
-                                <div class="pull-left" id="noteTitleDiv">
-                                    <input name="noteTitle" id="noteTitle" value="" placeholder="无标题">
-                                </div>
-                                -->
+                <div class="pull-left" id="noteTitleDiv">
+                    <input name="noteTitle" id="noteTitle" value="" placeholder="无标题">
+                </div>
+                -->
 
                                 <div class="pull-left" id="tag">
                                     <div id="tags" style="display: inline-block; line-height: 25px;">
@@ -684,23 +696,23 @@
                                             </ul>
 
                                             <!--
-                                             <ul class="nav pull-right right-buttons">
-                                                 <li class="offline-status hide">
-                                                     <div class="text-danger">
-                                                         <i class="icon-attention-circled"></i>offline
-                                                     </div>
-                                                 </li>
-                                                 <li class="extension-buttons"></li>
-                                             </ul>
-                                             <ul class="nav pull-right title-container">
-                                                 <li><div class="working-indicator"></div></li>
-                                                 <li><a class="btn btn-success file-title-navbar" href="#"
-                                                     title="Rename document"> </a></li>
-                                                 <li><div class="input-file-title-container"><input type="text"
-                                                     class="col-sm-4 form-control hide input-file-title"
-                                                     placeholder="Document title" /></div></li>
-                                             </ul>
-                                             -->
+                             <ul class="nav pull-right right-buttons">
+                                 <li class="offline-status hide">
+                                     <div class="text-danger">
+                                         <i class="icon-attention-circled"></i>offline
+                                     </div>
+                                 </li>
+                                 <li class="extension-buttons"></li>
+                             </ul>
+                             <ul class="nav pull-right title-container">
+                                 <li><div class="working-indicator"></div></li>
+                                 <li><a class="btn btn-success file-title-navbar" href="#"
+                                     title="Rename document"> </a></li>
+                                 <li><div class="input-file-title-container"><input type="text"
+                                     class="col-sm-4 form-control hide input-file-title"
+                                     placeholder="Document title" /></div></li>
+                             </ul>
+                             -->
                                         </div>
                                     </div>
                                     <div class="editorBg"></div>
@@ -738,25 +750,27 @@
                         </div>
 
                         <!--
-                        <div id="wmd-button-bar" id="mdBar"></div>
-                        <div class="editorBg"></div>
+        <div id="wmd-button-bar" id="mdBar"></div>
+        <div class="editorBg"></div>
 
-                        <div class="clearfix" id="mdEditorPreview">
-                            <div id="left-column">
-                                <div id="wmd-panel-editor" class="wmd-panel-editor">
-                                    <textarea class="wmd-input theme" id="wmd-input" spellcheck="false" tabindex="3"></textarea>
-                                </div>
-                            </div>
-                            <div id="mdSplitter"></div>
-                            <div id="right-column">
-                                <div id="wmd-panel-preview" class="wmd-panel-preview preview-container">
-                                    <div id="wmd-preview" class="wmd-preview"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <textarea id="md-section-helper"></textarea>
-                        -->
+        <div class="clearfix" id="mdEditorPreview">
+            <div id="left-column">
+                <div id="wmd-panel-editor" class="wmd-panel-editor">
+                    <textarea class="wmd-input theme" id="wmd-input" spellcheck="false" tabindex="3"></textarea>
+                </div>
+            </div>
+            <div id="mdSplitter"></div>
+            <div id="right-column">
+                <div id="wmd-panel-preview" class="wmd-panel-preview preview-container">
+                    <div id="wmd-preview" class="wmd-preview"></div>
+                </div>
+            </div>
+        </div>
+        <textarea id="md-section-helper"></textarea>
+        -->
                     </div>
+                    <div id="vditor"></div>
+                    <div id="textbus"></div>
                 </div>
             </div>
 
@@ -933,6 +947,7 @@
 
         <script>
             initPage();
+            initVditor();
             // 当tinymce.dev.js时, 请注释require
             window.require = {
                 baseUrl: '/',
@@ -973,6 +988,8 @@
         <!-- pro_app_js -->
         <script>
             initPage();
+            initVditor();
+            initTextbus();
             // 当tinymce.dev.js时, 请注释require
             window.require = {
                 baseUrl: '/',

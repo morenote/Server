@@ -1,0 +1,8 @@
+#vditor {
+    position: absolute;
+    z-index: 0;
+    top: 66px;
+    bottom: 0px;
+    right: 0;
+    left: 5px;
+  }

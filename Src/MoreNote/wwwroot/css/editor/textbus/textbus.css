@@ -1,0 +1,17 @@
+#textbus {
+    position: absolute;
+    z-index: 0;
+    top: 66px;
+    bottom: 0px;
+    right: 0;
+    left: 5px;
+  }
+  .textbus-container{
+    position: absolute;
+
+    top: 0px;
+    bottom: 0px;
+    right: 0;
+    left: 0px;
+    height: auto;
+  }
