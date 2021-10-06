@@ -9,7 +9,6 @@
     "gulp-inject": "",
     "gulp-minify-html": "^1.0",
     "gulp-minify-css": "^1.0",
-
     "gulp-rename": "^1.0",
     "gulp-replace": "",
     "gulp-sequence": "",
@@ -83,6 +82,7 @@
     "uglify-js": "^2.6.4",
     "union-value": "^2.0.1",
     "unique-stream": "^1.0.0",
+    "vditor": "^3.8.7",
     "vinyl": "^2.2.1",
     "vinyl-fs": "^0.3.14",
     "xtend": "^2.1.2",
