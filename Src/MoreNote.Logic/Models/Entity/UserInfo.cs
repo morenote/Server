@@ -162,6 +162,12 @@ namespace MoreNote.Logic.Entity
         public string BlogUrl{ get; set; }
         [Column("post_url")]
         public string PostUrl{ get; set; }
+        //编辑器偏好
+        [Column("markdown_option")]
+        public string MarkdownEditorOption{ get; set; }="ace";//富文本编辑器选项
+        [Column("rich_text_option")]
+        public string RichTextEditorOption{ get; set; }="tinymce";//markdown编辑器选项
+
     }
     [Table("user_account")]
     public class UserAccount

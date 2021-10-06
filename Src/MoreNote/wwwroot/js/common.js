@@ -28,9 +28,7 @@ var MarkdownEditor;
 var ScrollLink;
 var MD;
 
-let markdownEditorMode = 'vditor';// 可选 ace vditor 
 
-let richTextMode = 'textbus'; //可选 tinymce textbus
 
 //-------------
 // 全局事件机制
@@ -359,8 +357,8 @@ function switchEditor(isMarkdown) {
 	$("#textbus").css("z-index", 0).hide();
 
 	$("#mdEditor").css("z-index", 0).hide();
-	$("#vditor").css("z-index", 0);
-
+	$("#vditor").css("z-index", -1);
+	$("#vditor").css("visibility","hidden");
 
 
 	LEA.isM = isMarkdown;
@@ -369,7 +367,7 @@ function switchEditor(isMarkdown) {
 	if (!isMarkdown) {
 		//选择富文本模式
 
-		if (richTextMode == 'tinymce') {
+		if (RichTextEditorOption == 'tinymce') {
 			$("#editor").css("z-index", 3).show();
 			// 刚开始没有
 			$("#leanoteNav").show();
@@ -377,19 +375,20 @@ function switchEditor(isMarkdown) {
 			$("#textbus").css("z-index", 3).show();
 		}
 
-		if (markdownEditorMode == 'ace') {
-			$("#mdEditor").css("z-index", 1);
+		if (markdownEditorOption == 'ace') {
+			$("#mdEditor").css("z-index", 0);
 		} else {
-			$("#vditor").css("z-index", 1);
+			$("#vditor").css("z-index", 0);
 		}
 		
 	} else {
 
-		if (markdownEditorMode == 'ace') {
+		if (markdownEditorOption == 'ace') {
 			$("#mdEditor").css("z-index", 3).show();
 
 		} else {
-			$("#vditor").css("z-index", 3).show();
+			$("#vditor").css("z-index", 3);
+			$("#vditor").css("visibility","visible");
 		}
 		$("#leanoteNav").hide();
 
@@ -421,7 +420,7 @@ function setEditorContent(content, isMarkdown, preview, callback) {
 		*/
 		// $("#editorContent").html(content);
 		// 不能先setHtml, 因为在tinymce的setContent前要获取之前的content, destory ACE
-		if (richTextMode == 'tinymce') {
+		if (RichTextEditorOption == 'tinymce') {
 			if (typeof tinymce != "undefined" && tinymce.activeEditor) {
 				var editor = tinymce.activeEditor;
 				editor.setContent(content);
@@ -460,7 +459,7 @@ function setEditorContent(content, isMarkdown, preview, callback) {
 				}
 			}
 		*/
-		if (markdownEditorMode == 'ace') {
+		if (markdownEditorOption == 'ace') {
 			if (MD) {
 				MD.setContent(content);
 				MD.clearUndo && MD.clearUndo();
@@ -507,7 +506,7 @@ function getEditorContent(isMarkdown) {
 function _getEditorContent(isMarkdown) {
 
 	if (!isMarkdown) {
-		if (richTextMode == 'tinymce') {
+		if (RichTextEditorOption == 'tinymce') {
 			var editor = tinymce.activeEditor;
 			if (editor) {
 				var content = $(editor.getBody()).clone();
@@ -573,7 +572,7 @@ function _getEditorContent(isMarkdown) {
 		}
 
 	} else {
-		if (markdownEditorMode == 'ace') {
+		if (markdownEditorOption == 'ace') {
 			// return [$("#wmd-input").val(), $("#wmd-preview").html()]
 			return [MD.getContent(), '<div>' + $("#preview-contents").html() + '</div>']
 		}else{

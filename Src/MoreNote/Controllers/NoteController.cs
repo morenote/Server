@@ -156,7 +156,9 @@ namespace MoreNote.Controllers
             ViewBag.userInfo = userInfo;
 
             ViewBag.OpenRegister = config.SecurityConfig.OpenRegister;
-
+            //编辑器偏好
+            ViewBag.MarkdownEditorOption=userInfo.MarkdownEditorOption;
+            ViewBag.RichTextEditorOption=userInfo.RichTextEditorOption;
             return View();
         }
         [Route("Note/GetNoteContent")]

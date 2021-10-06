@@ -934,6 +934,10 @@
         var tagsJson = @Html.Raw(tags.ToJsonForLeanote());
         var GlobalConfigs = [];
         var tinyMCEPreInit ={base: '/tinymce', suffix: '.min'};
+
+        let markdownEditorOption = '@ViewBag.MarkdownEditorOption';// 可选 ace、vditor
+
+        let RichTextEditorOption ='@ViewBag.RichTextEditorOption'; //可选 tinymce、textbus
     </script>
     @if (!IsDevelopment)
     {
