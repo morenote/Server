@@ -78,8 +78,8 @@ function initVditor(){
         upload: {
           accept: 'image/*,.mp3, .wav, .rar',
           token: 'test',
-          url: '/api/upload/editor',
-          linkToImgUrl: '/api/upload/fetch',
+          url: '/api/vditor/upload',
+          linkToImgUrl: '/api/vditor/fetch',
           filename (name) {
             return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
               replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
