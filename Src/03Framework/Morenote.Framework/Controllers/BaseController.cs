@@ -730,7 +730,6 @@ namespace MoreNote.Framework.Controllers
                     if (!AddResult)
                     {
                         msg = "添加数据库失败";
-                      
                         return null;
                     }
                     else
@@ -759,18 +758,16 @@ namespace MoreNote.Framework.Controllers
             //建立请求
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             //添加Referer信息
-            request.Headers.Add(HttpRequestHeader.Referer, "http://www.bz08.cn/");
+            request.Headers.Add(HttpRequestHeader.Referer, "http://www.baidu.com/");
             //伪装成谷歌浏览器
             //request.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
             request.Headers.Add(HttpRequestHeader.UserAgent, "Power By www.morenote.top");
-            //添加cookie认证信息
-            Cookie cookie = new Cookie("PHPSESSID", "s9gajue8h7plf7n5ab8fehiuoq");
-            cookie.Domain = "api.r10086.com";
+         
             if (request.CookieContainer == null)
             {
                 request.CookieContainer = new CookieContainer();
             }
-            request.CookieContainer.Add(cookie);
+           
             //发送请求获取Http响应
             HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync().ConfigureAwait(false);
             //HttpWebResponse response = (HttpWebResponse)(await request.GetResponseAsync().ConfigureAwait(false));
@@ -779,7 +776,6 @@ namespace MoreNote.Framework.Controllers
             Console.WriteLine(originalString);
             //获取响应流
             Stream receiveStream = response.GetResponseStream();
-
             //获取响应流的长度
             int length = (int)response.ContentLength;
             //读取到内存

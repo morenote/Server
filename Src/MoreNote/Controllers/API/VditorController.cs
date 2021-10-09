@@ -50,15 +50,22 @@ namespace MoreNote.Controllers.API
 
             //请求
             //var fetchFileRequest = JsonSerializer.Deserialize<FetchFileRequest>(json);
-            //下载文件 
+            //判断下载路径
             if (fetchFileRequest.url.StartsWith("/api"))
             {
                 fetchFileRequest.url=config.APPConfig.SiteUrl+fetchFileRequest.url;
             }
+            //下载文件 
             var fileModel = await DownLoadFile(fetchFileRequest.url);
             string msg = string.Empty;
             //保存到本地
             var resultURL = UploadImagesOrAttach(ref fileModel, out msg);
+
+            if (string.IsNullOrEmpty(resultURL))
+            {
+                resultURL=fetchFileRequest.url;
+
+            }
             //返回的消息体
             var fetchResponse = new FetchFileResponse()
             {
