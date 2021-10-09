@@ -24,7 +24,7 @@ namespace MoreNote.Controllers
         private AuthService authService;
         private ConfigService configService;
         public WebSiteConfig config;
-       
+
         public AuthController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -35,26 +35,27 @@ namespace MoreNote.Controllers
             this.authService = authService;
             this.configService = configService;
             this.config = configService.config;
-           
         }
+
         public IActionResult QuickLogin()
         {
-            var token=Request.Cookies["token"];
-            var user=tokenSerivce.GetUserByToken(token);
-            if (user!=null&&tokenSerivce.VerifyToken(token))
+            var token = Request.Cookies["token"];
+            var user = tokenSerivce.GetUserByToken(token);
+            if (user != null && tokenSerivce.VerifyToken(token))
             {
                 HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
-                HttpContext.Session.SetBool("Verified", user.Verified); 
-                 HttpContext.Session.SetString("token",token); 
-                HttpContext.Response.Cookies.Append("token",token,new CookieOptions(){ HttpOnly=true,MaxAge=TimeSpan.FromDays(7)});
+                HttpContext.Session.SetBool("Verified", user.Verified);
+                HttpContext.Session.SetString("token", token);
+                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(7) });
             }
             else
             {
-                HttpContext.Response.StatusCode=(int)HttpStatusCode.Forbidden;
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return Content("Authentication failed, please login with password or clear cookie");
             }
             return Redirect("/member");
-        } 
+        }
+
         //public IActionResult Index()
         //{
         //    return View();
@@ -68,10 +69,10 @@ namespace MoreNote.Controllers
             ViewBag.Title = "请登录";
             SetLocale();
             ConfigSetting configSetting = new ConfigSetting();
-            ViewBag.quickLogin=Request.Cookies["token"]!=null;
+            ViewBag.quickLogin = Request.Cookies["token"] != null;
             ViewBag.ConfigSetting = configSetting;
             //是否需要验证码服务
-            ViewBag.needCaptcha = this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.ON?"true":"false";
+            ViewBag.needCaptcha = this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.ON ? "true" : "false";
             return View();
         }
 
@@ -126,7 +127,7 @@ namespace MoreNote.Controllers
                 HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
                 HttpContext.Session.SetBool("Verified", user.Verified);
 
-                HttpContext.Response.Cookies.Append("token",token,new CookieOptions(){ HttpOnly=true,MaxAge=TimeSpan.FromDays(7)});
+                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(7) });
 
                 ResponseMessage re = new ResponseMessage() { Ok = true };
                 return Json(re, MyJsonConvert.GetSimpleOptions());
@@ -191,6 +192,18 @@ namespace MoreNote.Controllers
                     Msg = $"注册失败:{errorMessage}"
                 }, MyJsonConvert.GetSimpleOptions());
             }
+        }
+        /// <summary>
+        /// 登出并删除登录信息
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("UserId");
+            HttpContext.Session.Remove("Verified");
+            HttpContext.Session.Remove("token");
+            HttpContext.Response.Cookies.Delete("token");
+            return Redirect("/member");
         }
     }
 }
