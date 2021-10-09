@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace MoreNote.Logic.Entity
 {
-    [Table("random_image")]
+    [Table("random_image"),Index(nameof(RandomImageId),nameof(TypeName),nameof(Sex),nameof(IsDelete),nameof(Block),nameof(FileSHA1))]
     public class RandomImage
     {
         [Key]

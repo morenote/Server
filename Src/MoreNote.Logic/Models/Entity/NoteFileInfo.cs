@@ -5,13 +5,14 @@ using System.ComponentModel.DataAnnotations;
 using MoreNote.Logic.Service.FileService;
 using MoreNote.Logic.Model;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace MoreNote.Logic.Entity
 {
     /// <summary>
     /// 对应Leanote的File
     /// </summary>
-    [Table("note_file")]
+    [Table("note_file"),Index(nameof(FileId),nameof(UserId),nameof(SHA1))]
     public class NoteFile
     {
         [Key]
