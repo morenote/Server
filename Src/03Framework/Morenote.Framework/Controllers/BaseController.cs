@@ -678,6 +678,16 @@ namespace MoreNote.Framework.Controllers
                 return null;
             }
 
+            if (string.IsNullOrEmpty(fileModel.fileName)||fileModel.fileName.IndexOf(".")==-1)
+            {
+                fileModel.fileName="unknow.jpg";
+            }
+            if (fileModel.data==null||fileModel.data.Length==0)
+            {
+                return null;
+
+            }
+
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
@@ -763,10 +773,10 @@ namespace MoreNote.Framework.Controllers
                 //建立请求
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 //添加Referer信息
-                request.Headers.Add(HttpRequestHeader.Referer, "http://www.baidu.com/");
+                request.Headers.Add(HttpRequestHeader.Referer, url);
                 //伪装成谷歌浏览器
-                //request.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
-                request.Headers.Add(HttpRequestHeader.UserAgent, "Power By www.morenote.top");
+                request.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
+                //request.Headers.Add(HttpRequestHeader.UserAgent, "Power By www.morenote.top");
 
                 if (request.CookieContainer == null)
                 {
