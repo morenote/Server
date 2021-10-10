@@ -663,6 +663,11 @@ namespace MoreNote.Framework.Controllers
 
         public string UploadImagesOrAttach(ref FileModel fileModel, out string msg)
         {
+            if (fileModel == null)
+            {
+                msg = "fileModel=null";
+                return null;
+            }
             //检查哈登录
             msg = string.Empty;
             long? userId;
@@ -677,8 +682,6 @@ namespace MoreNote.Framework.Controllers
             string uploadDirPath = null;
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
-
-          
 
             string uploadType = "images";//images  attachments
             string datafileName = fileModel.fileName;
@@ -696,10 +699,10 @@ namespace MoreNote.Framework.Controllers
             }
             else
             {
-               return null;
+                return null;
             }
             var fileName = diskFileId.ToHex() + "." + fileEXT;
-               string resultURL=string.Empty;//最终返回URL
+            string resultURL = string.Empty;//最终返回URL
             //将文件保存在磁盘
             //Task<bool> task = noteFileService.SaveUploadFileOnDiskAsync(httpFile, uploadDirPath, fileName);
             try
@@ -710,7 +713,6 @@ namespace MoreNote.Framework.Controllers
                 var objectName = $"{userId.ToHex()}/{uploadType}/{ nowTime.ToString("yyyy")}/{nowTime.ToString("MM")}/{diskFileId.ToHex()}{ext}";
                 bool result = noteFileService.SaveFile(objectName, fileModel.data, memi).Result;
 
-             
                 if (result)
                 {
                     //将结果保存在数据库
@@ -734,19 +736,19 @@ namespace MoreNote.Framework.Controllers
                     }
                     else
                     {
-                       resultURL="/api/file/getImage?fileId=" + diskFileId.ToHex24();
+                        resultURL = "/api/file/getImage?fileId=" + diskFileId.ToHex24();
                     }
                 }
                 else
                 {
                     msg = "磁盘保存失败";
-                  
+
                     return null;
                 }
             }
             catch (Exception ex)
             {
-               msg=ex.Message;
+                msg = ex.Message;
                 return null;
             }
             msg = "success";
@@ -755,52 +757,61 @@ namespace MoreNote.Framework.Controllers
 
         public async Task<FileModel> DownLoadFile(string url)
         {
-            //建立请求
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            //添加Referer信息
-            request.Headers.Add(HttpRequestHeader.Referer, "http://www.baidu.com/");
-            //伪装成谷歌浏览器
-            //request.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
-            request.Headers.Add(HttpRequestHeader.UserAgent, "Power By www.morenote.top");
-         
-            if (request.CookieContainer == null)
+            try
             {
-                request.CookieContainer = new CookieContainer();
+               
+                //建立请求
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                //添加Referer信息
+                request.Headers.Add(HttpRequestHeader.Referer, "http://www.baidu.com/");
+                //伪装成谷歌浏览器
+                //request.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
+                request.Headers.Add(HttpRequestHeader.UserAgent, "Power By www.morenote.top");
+
+                if (request.CookieContainer == null)
+                {
+                    request.CookieContainer = new CookieContainer();
+                }
+
+                //发送请求获取Http响应
+                HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync().ConfigureAwait(false);
+                //HttpWebResponse response = (HttpWebResponse)(await request.GetResponseAsync().ConfigureAwait(false));
+
+                var originalString = response.ResponseUri.OriginalString;
+                Console.WriteLine(originalString);
+                //获取响应流
+                Stream receiveStream = response.GetResponseStream();
+                //获取响应流的长度
+                int length = (int)response.ContentLength;
+                //读取到内存
+                MemoryStream stmMemory = new MemoryStream();
+                byte[] buffer1 = new byte[length];
+                int i;
+                //将字节逐个放入到Byte 中
+                while ((i = await receiveStream.ReadAsync(buffer1, 0, buffer1.Length).ConfigureAwait(false)) > 0)
+                {
+                    stmMemory.Write(buffer1, 0, i);
+                }
+                //写入磁盘
+                string name = System.IO.Path.GetFileName(originalString);
+                byte[] imageBytes = stmMemory.ToArray();
+
+                stmMemory.Close();
+                receiveStream.Close();
+                response.Close();
+                var fileModel = new FileModel
+                {
+                    fileName = name,
+                    data = imageBytes
+                };
+
+                return fileModel;
             }
-           
-            //发送请求获取Http响应
-            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync().ConfigureAwait(false);
-            //HttpWebResponse response = (HttpWebResponse)(await request.GetResponseAsync().ConfigureAwait(false));
-
-            var originalString = response.ResponseUri.OriginalString;
-            Console.WriteLine(originalString);
-            //获取响应流
-            Stream receiveStream = response.GetResponseStream();
-            //获取响应流的长度
-            int length = (int)response.ContentLength;
-            //读取到内存
-            MemoryStream stmMemory = new MemoryStream();
-            byte[] buffer1 = new byte[length];
-            int i;
-            //将字节逐个放入到Byte 中
-            while ((i = await receiveStream.ReadAsync(buffer1, 0, buffer1.Length).ConfigureAwait(false)) > 0)
+            catch (Exception ex)
             {
-                stmMemory.Write(buffer1, 0, i);
+
+                return null;
             }
-            //写入磁盘
-            string name = System.IO.Path.GetFileName(originalString);
-            byte[] imageBytes = stmMemory.ToArray();
-
-            stmMemory.Close();
-            receiveStream.Close();
-            response.Close();
-            var fileModel = new FileModel
-            {
-                fileName = name,
-                data = imageBytes
-            };
-
-            return fileModel;
         }
 
         public bool IsAllowAttachExt(string ext)
