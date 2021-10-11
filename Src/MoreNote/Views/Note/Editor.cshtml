@@ -84,6 +84,9 @@
     <script src="https://textbus.tanboui.com/static/textbus.min.js"></script>
     <script src="/js/app/textbus.js"></script>
 
+
+
+
 </head>
 <body class="leanote-plugin lang-@ViewBag.locale">
     <div id="page">
@@ -514,10 +517,10 @@
                             <div id="tool" class="clearfix">
                                 <!-- tag可以参考 mac的文件tag, 预定义一些颜色, 用户也可以自己输入-->
                                 <!--
-                <div class="pull-left" id="noteTitleDiv">
-                    <input name="noteTitle" id="noteTitle" value="" placeholder="无标题">
-                </div>
-                -->
+                                <div class="pull-left" id="noteTitleDiv">
+                                    <input name="noteTitle" id="noteTitle" value="" placeholder="无标题">
+                                </div>
+                                -->
 
                                 <div class="pull-left" id="tag">
                                     <div id="tags" style="display: inline-block; line-height: 25px;">
@@ -696,23 +699,23 @@
                                             </ul>
 
                                             <!--
-                             <ul class="nav pull-right right-buttons">
-                                 <li class="offline-status hide">
-                                     <div class="text-danger">
-                                         <i class="icon-attention-circled"></i>offline
-                                     </div>
-                                 </li>
-                                 <li class="extension-buttons"></li>
-                             </ul>
-                             <ul class="nav pull-right title-container">
-                                 <li><div class="working-indicator"></div></li>
-                                 <li><a class="btn btn-success file-title-navbar" href="#"
-                                     title="Rename document"> </a></li>
-                                 <li><div class="input-file-title-container"><input type="text"
-                                     class="col-sm-4 form-control hide input-file-title"
-                                     placeholder="Document title" /></div></li>
-                             </ul>
-                             -->
+                                            <ul class="nav pull-right right-buttons">
+                                                <li class="offline-status hide">
+                                                    <div class="text-danger">
+                                                        <i class="icon-attention-circled"></i>offline
+                                                    </div>
+                                                </li>
+                                                <li class="extension-buttons"></li>
+                                            </ul>
+                                            <ul class="nav pull-right title-container">
+                                                <li><div class="working-indicator"></div></li>
+                                                <li><a class="btn btn-success file-title-navbar" href="#"
+                                                    title="Rename document"> </a></li>
+                                                <li><div class="input-file-title-container"><input type="text"
+                                                    class="col-sm-4 form-control hide input-file-title"
+                                                    placeholder="Document title" /></div></li>
+                                            </ul>
+                                            -->
                                         </div>
                                     </div>
                                     <div class="editorBg"></div>
@@ -750,24 +753,24 @@
                         </div>
 
                         <!--
-        <div id="wmd-button-bar" id="mdBar"></div>
-        <div class="editorBg"></div>
+                        <div id="wmd-button-bar" id="mdBar"></div>
+                        <div class="editorBg"></div>
 
-        <div class="clearfix" id="mdEditorPreview">
-            <div id="left-column">
-                <div id="wmd-panel-editor" class="wmd-panel-editor">
-                    <textarea class="wmd-input theme" id="wmd-input" spellcheck="false" tabindex="3"></textarea>
-                </div>
-            </div>
-            <div id="mdSplitter"></div>
-            <div id="right-column">
-                <div id="wmd-panel-preview" class="wmd-panel-preview preview-container">
-                    <div id="wmd-preview" class="wmd-preview"></div>
-                </div>
-            </div>
-        </div>
-        <textarea id="md-section-helper"></textarea>
-        -->
+                        <div class="clearfix" id="mdEditorPreview">
+                            <div id="left-column">
+                                <div id="wmd-panel-editor" class="wmd-panel-editor">
+                                    <textarea class="wmd-input theme" id="wmd-input" spellcheck="false" tabindex="3"></textarea>
+                                </div>
+                            </div>
+                            <div id="mdSplitter"></div>
+                            <div id="right-column">
+                                <div id="wmd-panel-preview" class="wmd-panel-preview preview-container">
+                                    <div id="wmd-preview" class="wmd-preview"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <textarea id="md-section-helper"></textarea>
+                        -->
                     </div>
                     <div id="vditor"></div>
                     <div id="textbus"></div>
@@ -948,7 +951,8 @@
         <script src="/libs/ace/ace.js"></script>
         <script src="/js/app.min.js"></script>
 
-
+        <!--引入bootbox-->
+        <script src="/js/bootbox.all.min.js"></script>
         <script>
             initPage();
             initVditor();
@@ -959,6 +963,7 @@
         </script>
         <script src="/js/markdown-v2.min.js"></script>
         <script src="/js/plugins/main.min.js"></script>
+
 
     }
     else
@@ -971,7 +976,10 @@
         <script src="/js/jquery-1.9.0.min.js"></script>
         <script src="/js/jquery.ztree.all-3.5.js"></script>
         <script src="/js/object_id.js"></script>
-     
+
+        <!--引入bootbox-->
+        <script src="/js/bootbox.all.min.js"></script>
+
         <!-- /dev -->
 
         <script src="/tinymce/tinymce.js"></script>
@@ -1004,10 +1012,14 @@
         <!-- dev -->
         <script src="/js/require.js"></script>
         <script src="/md/main-v2.min.js"></script>
-        <!-- /dev -->
+        <!-- dev -->
 
         <script src="/js/plugins/main.js"></script>
+
+
     }
+
+
 
 </body>
 </html>

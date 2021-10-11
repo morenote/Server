@@ -1514,6 +1514,33 @@ Note._setBlog = function (target, isBlog) {
         }
     });
 };
+Note.setAccessPassword = function (target) {
+    var me = Note;
+    // 批量操作
+    var noteIds;
+    if (Note.inBatch) {
+        noteIds = me.getBatchNoteIds();
+    }
+    else {
+        noteIds = [$(target).attr("noteId")];
+    }
+    bootbox.prompt({ 
+        size: "small",
+        inputType: 'password',
+        title: "Please enter the access password",
+        callback: function(result){ 
+            ajaxPost("/note/SetAccessPassword ", { noteIds: noteIds, password: result }, function (ret) {
+                if (ret) {
+                    bootbox.alert("The access password is set successfully")
+                }else{
+                    bootbox.alert("Failed to set access password")
+                }
+            });
+        }
+    });
+   
+};
+
 
 // 设置notebook的blog状态
 // 当修改notebook是否是blog时调用
@@ -1862,6 +1889,7 @@ Note.initContextmenu = function () {
             { type: "splitLine" },
             { text: getMsg("publicAsBlog"), alias: 'set2Blog', faIcon: "fa-bold", action: Note.setNote2Blog },
             { text: getMsg("cancelPublic"), alias: 'unset2Blog', faIcon: "fa-undo", action: Note.unsetNote2Blog },
+            { text:'SetAccessPassword ', alias: 'setAccessPassword', faIcon: "fa-lock", action: Note.setAccessPassword },
             { type: "splitLine" },
             // { text: "分享到社区", alias: 'html2Image', icon: "", action: Note.html2Image},
             { text: getMsg("exportPdf"), alias: 'exportPDF', faIcon: "fa-file-pdf-o", action: Note.exportPDF },

@@ -172,6 +172,35 @@ namespace MoreNote.Logic.Service
             return result;
         }
 
+        public bool SetAccessPassword(long? userId,long? noteId , string password)
+        {
+           
+            var note=dataContext.Note.Where(b=>b.UserId==userId&&b.NoteId==noteId).FirstOrDefault();
+            if (note==null)
+            {
+                return  false;
+            }
+            note.AccessPassword=SHAEncryptHelper.Hash256Encrypt(password+userId+noteId);
+            dataContext.SaveChanges();
+            return true;
+        }
+        public bool VerifyAccessPassword(long? userId,long? noteId , string password,string hash)
+        {
+           
+            var passwordhash =SHAEncryptHelper.Hash256Encrypt(password+userId+noteId);
+
+            if (passwordhash.Equals(hash))
+            {
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
         /// <summary>
         /// 增加文章的阅读数量
         /// </summary>
