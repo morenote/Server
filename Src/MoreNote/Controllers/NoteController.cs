@@ -202,7 +202,16 @@ namespace MoreNote.Controllers
             }
             return Json(true);
         }
+        [Route("Note/SetAccessPassword")]
+        public JsonResult SetAccessPassword(string[] noteIds, string password)
+        {
 
+            foreach (var nodeId in noteIds)
+            {
+                noteService.SetAccessPassword(GetUserIdBySession(), nodeId.ToLongByHex(), password);
+            }
+            return Json(true);
+        }
         // 这里不能用json, 要用post
         [Route("Note/UpdateNoteOrContent")]
         public JsonResult UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)

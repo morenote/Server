@@ -81,6 +81,9 @@ namespace MoreNote.Logic.Entity
         public bool IsPublicShare { get; set; }
         [Column("content_id")]
         public long? ContentId { get; set; }//当前笔记的笔记内容 
+        [Column("access_password")]
+        public string AccessPassword  { get; set; }//当前笔记的访问密码
+
 
 
     }
