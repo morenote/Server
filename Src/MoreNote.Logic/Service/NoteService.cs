@@ -180,7 +180,15 @@ namespace MoreNote.Logic.Service
             {
                 return  false;
             }
-            note.AccessPassword=SHAEncryptHelper.Hash256Encrypt(password+userId+noteId);
+            if (string.IsNullOrEmpty(password))
+            {
+                 note.AccessPassword=null;
+            }
+            else
+            {
+                 note.AccessPassword=SHAEncryptHelper.Hash256Encrypt(password+userId+noteId);
+            }
+           
             dataContext.SaveChanges();
             return true;
         }
