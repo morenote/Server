@@ -176,6 +176,7 @@ namespace MoreNote.Controllers
 
             ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId, notebookId);
             NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.UserId);
+            SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
 
             if (blogUser == null)
@@ -230,6 +231,8 @@ namespace MoreNote.Controllers
             }
             ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.UserId);
             NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.UserId);
+            SetAccessPassword(noteAndContent);
+
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
 
@@ -286,11 +289,11 @@ namespace MoreNote.Controllers
                 }
                 else
                 {
-                    var authorization = Request.Headers["Authorization"].ToString().Replace("Basic","");
+                    var authorization = Request.Headers["Authorization"].ToString().Replace("Basic", "");
                     var basic = Base64Util.UnBase64String(authorization);
-                    var sp=basic.Split(":");
-                    var user=sp[0];
-                    var password=sp[1];
+                    var sp = basic.Split(":");
+                    var user = sp[0];
+                    var password = sp[1];
                     if (!noteService.VerifyAccessPassword(noteAndContent.note.UserId, noteId, password, noteAndContent.note.AccessPassword))
                     {
                         Response.StatusCode = 401;
@@ -299,7 +302,6 @@ namespace MoreNote.Controllers
                     }
                     else
                     {
-
                     }
                 }
             }
@@ -387,6 +389,7 @@ namespace MoreNote.Controllers
 
             ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.UserId, keywords);
             NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.UserId, keywords);
+            SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
             ViewBag.keywords = keywords;
@@ -398,6 +401,18 @@ namespace MoreNote.Controllers
 
             BlogCommon(blogUser);
             return View();
+        }
+        private void SetAccessPassword(NoteAndContent[] noteAndContent)
+        {
+              foreach (var item in noteAndContent)
+            {
+                if (!string.IsNullOrEmpty(item.note.AccessPassword))
+                {
+                    
+                    item.noteContent.Abstract = "No Reading Permission: Need AccessPassword";
+                }
+            }
+
         }
 
         [Route("Blog/Single/{blogUserName?}/{SingleIdHex?}/")]
@@ -435,6 +450,8 @@ namespace MoreNote.Controllers
 
             ViewBag.postCount = blogService.CountTheNumberForBlogTags(blogUser.UserId, tag);
             NoteAndContent[] noteAndContent = noteService.GetNoteAndContentByTag(page, blogUser.UserId, tag);
+           
+            SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
             ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
 
