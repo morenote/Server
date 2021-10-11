@@ -102,7 +102,7 @@ namespace MoreNote.Logic.Service
         public Notebook[] GetAll(long? userid)
         {
             var result = dataContext.Notebook
-                   .Where(b => b.UserId == userid).ToArray<Notebook>();
+                   .Where(b => b.UserId == userid).OrderBy(b=>b.Title).ToArray<Notebook>();
             return result;
         }
 
@@ -134,7 +134,7 @@ namespace MoreNote.Logic.Service
         public Notebook[] GeSyncNotebooks(long? userid, int afterUsn, int maxEntry)
         {
             var result = dataContext.Notebook.
-                    Where(b => b.UserId == userid && b.Usn > afterUsn).Take(maxEntry);
+                    Where(b => b.UserId == userid && b.Usn > afterUsn).OrderBy(b=>b.Title).Take(maxEntry);
             return result.ToArray();
         }
 
