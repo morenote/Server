@@ -34,7 +34,7 @@ namespace MoreNote.Controllers.API.APIV1
         //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
         [Route("api/File/Images/{fileId}")]
         public Task<IActionResult> GetImageForWeb(string fileId)
-        { 
+        {
             return GetImage(fileId);
         }
 
@@ -68,7 +68,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo: 输出image 需要get参数
         //api/File/GetImage?fileId=xxxx
-         [Route("api/File/GetImage")]
+        [Route("api/File/GetImage")]
         public async Task<IActionResult> GetImage(string fileId)
         {
             //try
@@ -125,17 +125,20 @@ namespace MoreNote.Controllers.API.APIV1
         {
             return Redirect($"https://upyun.morenote.top/404.jpg");
         }
+
         [Route("api/File/GetAttach")]
         //todo:下载附件
         public async Task<IActionResult> GetAttach(string fileId)
         {
             //todo:bug 要使用流式下载，减少下载时候的内存消耗
-            var attach=await attachService.GetAttachAsync(fileId.ToLongByHex(),GetUserIdBySession());
-            var memi= "application/octet-stream";
+            var attach = await attachService.GetAttachAsync(fileId.ToLongByHex(), GetUserIdBySession());
+
             var fileService = FileStoreServiceFactory.Instance(config);
             var data = await fileService.GetObjecByteArraytAsync(config.MinIOConfig.NoteFileBucketName, attach.Path);
-
-            return File(data, memi,attach.Title);
+            var provider = new FileExtensionContentTypeProvider();
+            string fileExt = Path.GetExtension(attach.Name);
+            var memi = provider.Mappings[fileExt];
+            return File(data, memi, attach.Title);
         }
 
         //todo:下载所有附件
