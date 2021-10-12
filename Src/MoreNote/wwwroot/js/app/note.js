@@ -1976,11 +1976,23 @@ Note.initContextmenu = function () {
     Note.contextmenu = $("#noteItemList .item-my").contextmenu(noteListMenu);
 };
 
+function copyHandle(content){
+    let copy = (e)=>{
+        e.preventDefault()
+        e.clipboardData.setData('text/plain',content)
+        alert('复制成功')
+        document.removeEventListener('copy',copy)
+    }
+    document.addEventListener('copy',copy)
+    document.execCommand("Copy");
+  }
+
 // 附件
 // 笔记的附件需要ajax获取
 // 建一张附件表? attachId, noteId, 其它信息
 // note里有attach_nums字段记录个数
 // [ok]
+
 var Attach = {
     loadedNoteAttachs: {}, // noteId => [attch1Info, attach2Info...] // 按笔记
     attachsMap: {}, // attachId => attachInfo
@@ -2031,10 +2043,22 @@ var Attach = {
             var src = UrlPrefix + "/api/file/getAttach?fileId=" + attachId;
             Note.toggleWriteable();
             if (LEA.isMarkdownEditor() && MD) {
-                MD.insertLink(src, attach.Title);
+                if(markdownEditorOption=="ace"){
+                    MD.insertLink(src, attach.Title);
+                } else{
+                    vditor.insertValue("["+attach.Title+"]("+src+")")
+                }
+               
             } else {
                 // tinymce.activeEditor.selection.moveToBookmark(self._bookmark);
-                tinymce.activeEditor.insertContent('<a target="_blank" href="' + src + '">' + attach.Title + '</a>');
+                if(RichTextEditorOption=="tinymce"){
+                    tinymce.activeEditor.insertContent('<a target="_blank" href="' + src + '">' + attach.Title + '</a>');
+                }else{
+                    let textcopy='<a target="_blank" href="' + src + '">' + attach.Title + '</a>';
+                    copyHandle(textcopy)
+                    
+                }
+                
             }
         });
 
