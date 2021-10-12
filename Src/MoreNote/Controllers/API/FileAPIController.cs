@@ -125,31 +125,17 @@ namespace MoreNote.Controllers.API.APIV1
         {
             return Redirect($"https://upyun.morenote.top/404.jpg");
         }
-
+        [Route("api/File/GetAttach")]
         //todo:下载附件
         public async Task<IActionResult> GetAttach(string fileId)
         {
-            if (string.IsNullOrEmpty(fileId)) return Content("error");
-            if (fileId.Length == 24) fileId = fileId.Substring(0, 16);
-            var attachFile = attachService.GetAttach(fileId.ToLongByHex());
-            if (attachFile == null) return Content("NoFoundAttach");
+            //todo:bug 要使用流式下载，减少下载时候的内存消耗
+            var attach=await attachService.GetAttachAsync(fileId.ToLongByHex(),GetUserIdBySession());
+            var memi= "application/octet-stream";
+            var fileService = FileStoreServiceFactory.Instance(config);
+            var data = await fileService.GetObjecByteArraytAsync(config.MinIOConfig.NoteFileBucketName, attach.Path);
 
-            if (string.IsNullOrEmpty(fileId)) return Content("error");
-            var myFileId = fileId.ToLongByHex();
-            var attachInfo = attachService.GetAttach(myFileId);
-            if (attachInfo == null)
-                //return Content("NoFoundImage");
-                return NoFoundImage();
-            //获取操作对象
-            string fileExt = Path.GetExtension(attachInfo.Name);
-            var fileService = FileStoreServiceFactory.Instance(webSiteConfig);
-
-            var objectName = $"{attachInfo.UserId.ToHex()}/images/{attachInfo.CreatedTime.ToString("yyyy")}/{attachInfo.CreatedTime.ToString("MM")}/{attachInfo.AttachId.ToHex()}{Path.GetExtension(attachInfo.Name)}";
-            var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
-            var provider = new FileExtensionContentTypeProvider();
-            var memi = provider.Mappings[fileExt];
-
-            return File(data, memi);
+            return File(data, memi,attach.Title);
         }
 
         //todo:下载所有附件
