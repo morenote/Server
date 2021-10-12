@@ -11,5 +11,6 @@ namespace MoreNote.Logic.Models.DTO.Vditor.Upload
         public string error{get;set;}
         public  string fileName{ get;set;}
         public byte[] data{ get;set;}
+       
     }
 }
