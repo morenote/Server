@@ -404,12 +404,15 @@ namespace MoreNote.Controllers
         }
         private void SetAccessPassword(NoteAndContent[] noteAndContent)
         {
+            var languageResource=this.GetLanguageResource();
+            var msg=languageResource.GetMsg();
+            var needAccessPassword=msg["needAccessPassword"];
+
               foreach (var item in noteAndContent)
             {
                 if (!string.IsNullOrEmpty(item.note.AccessPassword))
                 {
-                    
-                    item.noteContent.Abstract = "No Reading Permission: Need AccessPassword";
+                    item.noteContent.Abstract = needAccessPassword;
                 }
             }
 
