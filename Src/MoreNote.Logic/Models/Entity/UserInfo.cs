@@ -96,7 +96,7 @@ namespace MoreNote.Logic.Entity
        
 
         [Column("user_role")]
-        public string Role { get; set; }//角色 用户组
+        public string Role { get; set; }//角色 用户组  Admin,SuperAdmin,User
         [Column("jurisdiction")]
         public List<Authorization> Jurisdiction { get;set;} //授权 拥有的权限
 
@@ -167,6 +167,15 @@ namespace MoreNote.Logic.Entity
         public string MarkdownEditorOption{ get; set; }="ace";//富文本编辑器选项
         [Column("rich_text_option")]
         public string RichTextEditorOption{ get; set; }="tinymce";//markdown编辑器选项
+
+        public bool IsAdmin()
+        {
+            return this.Role.ToLower().Equals("admin");
+        }
+        public bool IsSuperAdmin()
+        {
+            return this.Role.ToLower().Equals("superadmin");
+        }
 
     }
     [Table("user_account")]

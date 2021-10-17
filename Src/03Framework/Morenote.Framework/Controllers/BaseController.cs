@@ -185,14 +185,19 @@ namespace MoreNote.Framework.Controllers
             var userInfo = this.GetUserBySession();
             ViewBag.userInfo = userInfo;
             //todo:关于配置逻辑
-            if (userInfo != null && userInfo.Username.Equals(config.SecurityConfig.AdminUsername))
+            if (userInfo != null )
             {
-                ViewBag.isAdmin = true;
+                ViewBag.isAdmin = userInfo.IsAdmin();
+                ViewBag.IsSuperAdmin = userInfo.IsSuperAdmin();
+
             }
             else
             {
                 ViewBag.isAdmin = false;
+                ViewBag.IsSuperAdmin = false;
             }
+
+
             return userInfo;
         }
 

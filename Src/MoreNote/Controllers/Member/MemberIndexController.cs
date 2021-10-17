@@ -41,6 +41,7 @@ namespace MoreNote.Controllers.Member
 
 
             SetLocale();
+            SetUserInfo();
             int countNote = noteService.CountNote(user.UserId);
             int countBlog = noteService.CountBlog(user.UserId);
 
