@@ -57,6 +57,7 @@ namespace MoreNote.Controllers.Member
             User user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
+             SetUserInfo();
             ViewBag.title = "密码";
             return View("Views/Member/user/password.cshtml");
         }
@@ -72,6 +73,7 @@ namespace MoreNote.Controllers.Member
             User user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
+             SetUserInfo();
             ViewBag.title= GetLanguageResource().GetMember()["Avatar"];
             ViewBag.globalConfigs= ConfigService.GetGlobalConfigForUser();
 

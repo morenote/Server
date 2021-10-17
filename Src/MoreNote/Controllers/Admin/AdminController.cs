@@ -33,7 +33,7 @@ namespace MoreNote.Controllers.Admin
             ViewBag.user = user;
 
             SetLocale();
-
+            SetUserInfo();
             var countUser=userService.CountUser();
             int countNote = noteService.CountNote(user.UserId);
             int countBlog = noteService.CountBlog(user.UserId);
@@ -45,6 +45,13 @@ namespace MoreNote.Controllers.Admin
             //return View("Views/Home/About.cshtml");
 
             return View("Views/admin/index.cshtml");
+        }
+         [Route("admin/fileManager")]
+        public ActionResult FileManager()
+        {
+            SetUserInfo();
+            //todo:CSRF防御攻击
+            return View("Views/admin/fileManager.cshtml");
         }
     }
 }

@@ -3,7 +3,8 @@
     Dictionary<string, string> msg = ViewBag.msg;
     Dictionary<string, string> member = ViewBag.member;
     User user = ViewBag.user;
-  
+    bool isAdmin=ViewBag.isAdmin;
+    bool IsSuperAdmin = ViewBag.IsSuperAdmin;
 }
 <!DOCTYPE html>
 <html lang="zh-cn" class="app">
@@ -40,16 +41,25 @@
                     </a>
                 </li>
                 <li class="hidden-xs">
-
                     <a target="_blank" href="/blog/@user.Username" class="dk">
                         @msg["myBlog"]
                     </a>
                 </li>
+                @if (isAdmin||IsSuperAdmin)
+                {
+                    <li class="hidden-xs">
+                        <a target="_blank" href="/admin/index" class="dk">
+                            @msg["admin"]
+                        </a>
+                    </li>
+                }
+
                 <li class="hidden-xs">
                     <a href="/auth/logout" class="dk">
                         @msg["logout"]
                     </a>
                 </li>
+
                 <li class="hidden-xs">
                     @{
                         string logo = user.Logo;
