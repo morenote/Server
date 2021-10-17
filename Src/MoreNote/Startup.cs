@@ -20,20 +20,26 @@ namespace MoreNote
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        private WebSiteConfig config;
+          private WebSiteConfig config;
+         private readonly IWebHostEnvironment _env;
 
         public IConfiguration Configuration { get; }
+
+
+        public Startup(IConfiguration configuration,IWebHostEnvironment env)
+        {
+            Configuration = configuration;
+            this._env=env;
+            ConfigFileService configFileService = new ConfigFileService();
+            config = configFileService.WebConfig;
+        }
+
+      
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigFileService configFileService = new ConfigFileService();
-            config = configFileService.WebConfig;
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -110,6 +116,12 @@ namespace MoreNote
             {
                 option.Filters.Add<InspectionInstallationFilter>();
             });
+             services.AddBundling()
+                     .UseDefaults(_env)
+                     .UseNUglify()
+                     .EnableMinification()
+                     .EnableChangeDetection()
+                     .EnableCacheHeader(TimeSpan.FromHours(1));
 
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }

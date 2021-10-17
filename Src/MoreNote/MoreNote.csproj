@@ -78,11 +78,33 @@
     
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     
+    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="4.1.2" />
+    
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    
+    <PackageReference Include="CacheManager.Serialization.Json" Version="1.2.0" />
+    
+    <PackageReference Include="CacheManager.StackExchange.Redis" Version="1.2.0" />
+    
+    <PackageReference Include="CLRStats" Version="1.0.0" />
+    
+    <PackageReference Include="CSRedisCore" Version="3.6.6" />
+    
     <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.1.0" />
     
     <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.2.0" />
     
+    <PackageReference Include="Hangfire" Version="1.7.25" />
+    
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+    
+    <PackageReference Include="htmldiff.net-core" Version="1.3.6" />
+    
+    <PackageReference Include="IP2Region" Version="1.2.0" />
+    
     <PackageReference Include="jieba.NET" Version="0.42.2" />
+    
+    <PackageReference Include="Karambolo.AspNetCore.Bundling.NUglify" Version="3.5.0" />
     
     <PackageReference Include="log4net" Version="2.0.12" />
     
@@ -291,6 +313,71 @@
     <None Include="wwwroot\libs\plupload\lib\plupload-2.1.2\js\plupload.full.min.js" />
     <None Include="wwwroot\libs\plupload\lib\plupload-2.1.2\js\plupload.min.js" />
     <None Include="wwwroot\libs\plupload\lib\plupload-2.1.2\readme.md" />
+    <None Include="wwwroot\masuit\Assets\layui\layui.all.js" />
+    <None Include="wwwroot\masuit\Assets\layui\layui.js" />
+    <None Include="wwwroot\masuit\Assets\lazyload.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\attachment\attachment.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\background\background.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\emotion\emotion.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\help\help.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\image\image.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\internal.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\scrawl\scrawl.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\searchreplace\searchreplace.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\spechars\spechars.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\table\edittable.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\template\config.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\dialogs\template\template.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\lang\zh-cn\zh-cn.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\codemirror\codemirror.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\jquery-1.10.2.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\bundle.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shAutoloader.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushAppleScript.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushAS3.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushBash.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushColdFusion.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushCpp.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushCSharp.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushCss.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushDelphi.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushDiff.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushErlang.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushGroovy.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushJava.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushJavaFX.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushJScript.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushPerl.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushPhp.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushPlain.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushPowerShell.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushPython.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushRuby.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushSass.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushScala.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushSql.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushVb.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shBrushXml.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shCore.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\scripts\shLegacy.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\src\shAutoloader.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\src\shCore.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\SyntaxHighlighter\src\shLegacy.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\webuploader\webuploader.custom.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\webuploader\webuploader.flashonly.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\webuploader\webuploader.html5only.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\webuploader\webuploader.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\webuploader\webuploader.withoutimage.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\xss.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\zeroclipboard\ZeroClipboard.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\zeroclipboard\ZeroClipboard.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\third-party\zeroclipboard\ZeroClipboard.swf" />
+    <None Include="wwwroot\masuit\Assets\UEditor\ueditor.all.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\ueditor.config.admin.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\ueditor.config.admin.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\ueditor.config.front.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\ueditor.config.front.min.js" />
+    <None Include="wwwroot\masuit\Assets\UEditor\ueditor.parse.js" />
     <None Include="wwwroot\static\js\site.js" />
     <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
