@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Masuit.Tools.Core.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -122,6 +123,11 @@ namespace MoreNote
                      .EnableMinification()
                      .EnableChangeDetection()
                      .EnableCacheHeader(TimeSpan.FromHours(1));
+
+            services.AddSevenZipCompressor();
+            services.AddResumeFileResult();
+            
+
 
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
@@ -260,8 +266,8 @@ namespace MoreNote
 
             app.UseAuthentication();
             app.UseAuthorization();
-               //监控接口耗时情况
-            app.UseTimeMonitorMiddleware();
+            //监控接口耗时情况
+            //app.UseTimeMonitorMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

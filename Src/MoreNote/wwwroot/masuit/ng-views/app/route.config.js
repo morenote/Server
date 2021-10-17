@@ -4,8 +4,8 @@ myApp.config([
     function($stateProvider, $urlRouterProvider, $locationProvider) {
         $locationProvider.hashPrefix('');
         $urlRouterProvider.otherwise("/home");
-        var vpath = "/ng-views/views";
-        var cpath = "/ng-views/controllers";
+        var vpath = "/masuit/ng-views/views";
+        var cpath = "/masuit/ng-views/controllers";
         $stateProvider.state("dashboard", {
             url: "/home",
             templateUrl: vpath + "/dashboard.html",

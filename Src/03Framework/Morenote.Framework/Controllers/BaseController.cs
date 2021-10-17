@@ -859,5 +859,23 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
         }
+          /// <summary>
+        /// 返回结果json
+        /// </summary>
+        /// <param name="data">响应数据</param>
+        /// <param name="success">响应状态</param>
+        /// <param name="message">响应消息</param>
+        /// <param name="isLogin">登录状态</param>
+        /// <returns></returns>
+        public ActionResult ResultData(object data, bool success = true, string message = "", bool isLogin = true)
+        {
+            return Ok(new
+            {
+                IsLogin = isLogin,
+                Success = success,
+                Message = message,
+                Data = data
+            });
+        }
     }
 }
