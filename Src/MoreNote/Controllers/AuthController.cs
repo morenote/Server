@@ -55,6 +55,7 @@ namespace MoreNote.Controllers
             }
             return Redirect("/member");
         }
+   
 
         //public IActionResult Index()
         //{
