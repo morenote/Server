@@ -68,7 +68,17 @@ namespace MoreNote.Framework.Controllers
             this._accessor = accessor;
             config = configFileService.WebConfig;
         }
-
+        
+        public string GetAntiCSRFToken()
+        {
+            var token= HttpContext.Session.GetString("AntiCSRFToken");
+            if (string.IsNullOrEmpty(token))
+            {
+                token=RandomTool.CreatSafeRandomHex(16);
+                HttpContext.Session.SetString("AntiCSRFToken",token);
+            }
+            return token;
+        }
         /// <summary>
         /// 检查验证码
         /// </summary>

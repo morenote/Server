@@ -11,7 +11,7 @@ namespace MoreNote.Common.Utils
    public class RandomTool
     {
         /// <summary>
-        /// 生产不安全随机字符串
+        /// 生产不安全随机字符串A-Za-z
         /// </summary>
         /// <param name="VcodeNum">随机字符串的长度</param>
         /// <returns>返回一个随机字符串</returns>
@@ -43,6 +43,11 @@ namespace MoreNote.Common.Utils
             }
             return code;
         }
+        /// <summary>
+        /// 产生Base64形式的安全随机数
+        /// </summary>
+        /// <param name="ByteLength"></param>
+        /// <returns></returns>
         public static string CreatSafeRandomBase64(int ByteLength = 32)
         {
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
@@ -54,6 +59,11 @@ namespace MoreNote.Common.Utils
                 return token;
             }
         }
+        /// <summary>
+        /// 产生Hex形式的安全随机数
+        /// </summary>
+        /// <param name="ByteLength">字节长度</param>
+        /// <returns></returns>
         public static string CreatSafeRandomHex(int ByteLength = 32)
         {
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
@@ -65,6 +75,10 @@ namespace MoreNote.Common.Utils
                 return token;
             }
         }
+        /// <summary>
+        /// 产生不安全的随机整数
+        /// </summary>
+        /// <returns></returns>
         public static int CreatUnSafeNumber()
         {
             Random random = new Random();
