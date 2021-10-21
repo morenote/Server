@@ -66,6 +66,7 @@ namespace MoreNote.Logic.Entity
         public bool IsDefault { get; set; } //是否是默认共享notebook, perm seq=-9999999, NotebookId=null
 
     }
+
     public class ShareNotebooks
     {
 
