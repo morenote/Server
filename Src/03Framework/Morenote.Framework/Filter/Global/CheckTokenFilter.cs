@@ -49,8 +49,8 @@ namespace Morenote.Framework.Filter.Global
             if (string.IsNullOrEmpty(token) || !tokenSerivce.VerifyToken(token))
             {
                 context.HttpContext.Session.Remove("token");
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                context.Result = new RedirectResult("/Auth/Login");
+               
+                context.Result = new StatusCodeResult(403);
 
                 return;
             }
