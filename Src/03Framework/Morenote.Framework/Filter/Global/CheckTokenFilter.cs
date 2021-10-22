@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using MoreNote.Common.Utils;
+using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;
@@ -49,8 +51,14 @@ namespace Morenote.Framework.Filter.Global
             if (string.IsNullOrEmpty(token) || !tokenSerivce.VerifyToken(token))
             {
                 context.HttpContext.Session.Remove("token");
-               
-                context.Result = new StatusCodeResult(403);
+                //context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                ApiRe apiRe = new ApiRe()
+                {
+                    Ok = false,
+                    Msg = "NOTLOGIN",
+                };
+                //return Json(apiRe, MyJsonConvert.GetOptions());
+                context.Result = new JsonResult(apiRe,MyJsonConvert.GetSimpleOptions() );
 
                 return;
             }
