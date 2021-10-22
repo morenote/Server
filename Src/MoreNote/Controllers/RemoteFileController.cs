@@ -130,16 +130,17 @@ namespace Masuit.MyBlogs.Core.Controllers
         }
 
         /// <summary>
-        /// 上传文件
+        /// 上传文件 最大512MB
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [RequestSizeLimit(536870912L)]
         public async Task<ActionResult> Upload(string destination)
         {
             try
             {
-                var form = await Request.ReadFormAsync();
-                foreach (var httpfile in form.Files)
+             
+                foreach (var httpfile in Request.Form.Files)
                 {
                     string path = Path.Combine(destination, httpfile.FileName);
                     await using var fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
