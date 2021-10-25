@@ -62,8 +62,4 @@
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Entity\Joplin\" />
-  </ItemGroup>
-
 </Project>

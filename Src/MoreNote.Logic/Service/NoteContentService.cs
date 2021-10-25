@@ -83,6 +83,10 @@ namespace MoreNote.Logic.Service
             NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;
         }
+        /// <summary>
+        /// 更新全文检索向量
+        /// </summary>
+        /// <param name="noteContent"></param>
         private void UpdataVector(ref NoteContent noteContent)
         {
             noteContent.ContentVector=jieba.GetNpgsqlTsVector(noteContent.Content);
