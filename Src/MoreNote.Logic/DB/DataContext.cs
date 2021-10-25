@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 
 namespace MoreNote.Logic.DB

@@ -6,23 +6,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 
-namespace MoreNote.Logic.Entity
+namespace MoreNote.Logic.Models.Entity.Leanote
 {
     /// <summary>
     /// 访问记录
     /// </summary>
-    [Table("access_records"),Index(nameof(IP),nameof(X_Real_IP),nameof(X_Forwarded_For),nameof(AccessTime),nameof(URL))]
+    [Table("access_records"), Index(nameof(IP), nameof(X_Real_IP), nameof(X_Forwarded_For), nameof(AccessTime), nameof(URL))]
     public class AccessRecords
     {
-        [Key] [Column("access_id")] 
+        [Key]
+        [Column("access_id")]
         public long? AccessId { get; set; }
-        
+
         [Column("ip")]
         public string IP { get; set; }
         [Column("x_real_ip")]
         public string X_Real_IP { get; set; }
         [Column("x_forwarded_for")]
-        public string X_Forwarded_For{get;set;}
+        public string X_Forwarded_For { get; set; }
         [Column("referrer")]
         public string Referrer { get; set; }//来源 从哪个网站来的
         [Column("request_header")]
@@ -39,7 +40,7 @@ namespace MoreNote.Logic.Entity
         public string RemoteIPAddress { get; set; }
         [Column("remote_port")]
         public string RemotePort { get; set; }
-   
+
     }
     /// <summary>
     /// 白名单
