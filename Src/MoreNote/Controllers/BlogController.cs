@@ -6,6 +6,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Model;
+using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;

@@ -202,7 +202,7 @@ namespace MoreNote.Logic.Service
                     var notebook = new Notebook()
                     {
                         NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
-                        Seq = -1,
+                        Seq = 0,
                         UserId = userId,
                         CreatedTime = DateTime.Now,
                         Title=item,

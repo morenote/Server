@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Logic.DB;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.ExtensionMethods.DI;
+using MoreNote.Logic.Models.Entity.Leanote;
 using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service
