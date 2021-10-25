@@ -1258,6 +1258,10 @@ namespace MoreNote.Logic.Service
 
          public string FixContent(string content, bool isMarkdown)
         {
+            if (string.IsNullOrEmpty(content))
+            {
+                return string.Empty;
+            }
             var baseUrl =ConfigService.config.APPConfig.SiteUrl;
             return FixContent(content,isMarkdown,baseUrl);
         }

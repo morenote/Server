@@ -319,13 +319,31 @@ namespace MoreNote.Controllers
             return Json(true);
 
         }
+        /// <summary>
+        /// 搜索笔记
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
          [Route("Note/SearchNote")]
         public IActionResult SearchNote(string key)
         {
+            /**
+             * 默认：title搜索
+             * 关键词&关键词：title搜索
+             * 关键词|关键词：title搜索
+             * title:仅搜索标题中的关键词的笔记
+             * body：仅搜索文章中的关键词的笔记
+             * tag:仅搜索tag列表的关键词的笔记
+             * time>YYYMMDD 2021/10/24 搜索指定日期后的笔记
+             * time<YYYMMDD 2021/10/24 搜索指定日期前的笔记
+             * time<YYYMMDD 2021/10/24 搜索指定日期的笔记
+             * file：搜索包含制定附件名称的笔记
+             * */
             var userId=this.GetUserIdBySession();
              var notes=  noteService.SearchNote(key,userId,GetPage(),pageSize);
             return Json(notes,MyJsonConvert.GetOptions());
         }
+
         /// <summary>
         /// 通过tags搜索
         /// </summary>
