@@ -134,7 +134,7 @@ namespace MoreNote.Logic.Service
         public Notebook[] GeSyncNotebooks(long? userid, int afterUsn, int maxEntry)
         {
             var result = dataContext.Notebook.
-                    Where(b => b.UserId == userid && b.Usn > afterUsn).OrderBy(b=>b.Title).Take(maxEntry);
+                    Where(b => b.UserId == userid && b.Usn > afterUsn).OrderBy(b=>b.Usn).Take(maxEntry);
             return result.ToArray();
         }
 

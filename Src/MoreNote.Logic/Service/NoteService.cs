@@ -313,7 +313,7 @@ namespace MoreNote.Logic.Service
         public ApiNote[] GetSyncNotes(long? userid, int afterUsn, int maxEntry)
         {
             var result = dataContext.Note.
-                        Where(b => b.UserId == userid && b.Usn > afterUsn).Take(maxEntry);
+                        Where(b => b.UserId == userid && b.Usn > afterUsn).OrderBy(b=>b.Usn).Take(maxEntry);
             return ToApiNotes(result.ToArray());
         }
 
