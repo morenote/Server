@@ -61,6 +61,17 @@ namespace MoreNote.Controllers.Member
             ViewBag.title = "密码";
             return View("Views/Member/user/password.cshtml");
         }
+         public IActionResult Editor()
+        {
+            User user = GetUserBySession();
+            ViewBag.user = user;
+            SetLocale();
+            SetUserInfo();
+            ViewBag.md=user.MarkdownEditorOption;
+            ViewBag.rt=user.RichTextEditorOption;
+            ViewBag.title = "Select Editor Preferences";
+            return View("Views/Member/user/editor.cshtml");
+        }
        // [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Index()
         {
@@ -70,6 +81,7 @@ namespace MoreNote.Controllers.Member
         public IActionResult Avatar()
         {
           
+
             User user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
