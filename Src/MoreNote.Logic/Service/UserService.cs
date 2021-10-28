@@ -151,6 +151,19 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
+        public bool SetEditorPreferences(long? userId,string mdOption, string rtOption)
+        {
+            var user=dataContext.User.Where(b=>b.UserId==userId).FirstOrDefault();
+            if (user==null)
+            {
+                return false;
+            }
+            user.MarkdownEditorOption=mdOption;
+            user.RichTextEditorOption=rtOption;
+            dataContext.SaveChanges();
+            return true;
+        }
+
         public bool AddBlogUser(UserBlog user)
         {
             if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();

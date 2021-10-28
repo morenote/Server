@@ -21,7 +21,6 @@ namespace MoreNote.Controllers.API.APIV1
         private NoteContentService noteContentService;
         private TrashService trashService;
         private IHttpContextAccessor accessor;
-     
 
         public NoteAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
@@ -54,6 +53,7 @@ namespace MoreNote.Controllers.API.APIV1
             ApiNote[] apiNotes = noteService.GetSyncNotes(GetUserIdByToken(token), afterUsn, maxEntry);
             return Json(apiNotes, MyJsonConvert.GetOptions());
         }
+
         //todo:得到笔记本下的笔记
         public IActionResult GetNotes(string notebookId, string token)
         {
@@ -61,41 +61,51 @@ namespace MoreNote.Controllers.API.APIV1
             long? myNotebookId = notebookId.ToLongByHex();
             return null;
         }
+
         //todo:得到trash
         public IActionResult GetTrashNotes()
         {
             return null;
         }
+
         //todo:获取笔记
         public IActionResult GetNote()
         {
             return null;
         }
+
         //todo:得到note和内容
         public IActionResult GetNoteAndContent(string token, string noteId)
         {
-
             User tokenUser = tokenSerivce.GetUserByToken(token);
             if (tokenUser == null)
             {
                 return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
             }
-            NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId.ToLongByHex(), tokenUser.UserId, false,false,false);
-            ApiNote[] apiNotes = noteService.ToApiNotes(new Note[] { noteAndContent.note });
-            ApiNote apiNote = apiNotes[0];
-            apiNote.Content =noteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.IsMarkdown);
-            apiNote.Desc = noteAndContent.note.Desc;
-            apiNote.Abstract = noteAndContent.noteContent.Abstract;
-            if (noteAndContent == null)
+            try
             {
-                return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
-            }
-            else
-            {
-                return Json(apiNote, MyJsonConvert.GetOptions());
-            }
+                NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId.ToLongByHex(), tokenUser.UserId, false, false, false);
 
+                ApiNote[] apiNotes = noteService.ToApiNotes(new Note[] { noteAndContent.note });
+                ApiNote apiNote = apiNotes[0];
+                apiNote.Content = noteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.IsMarkdown);
+                apiNote.Desc = noteAndContent.note.Desc;
+                apiNote.Abstract = noteAndContent.noteContent.Abstract;
+                if (noteAndContent == null)
+                {
+                    return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
+                }
+                else
+                {
+                    return Json(apiNote, MyJsonConvert.GetOptions());
+                }
+            }
+            catch (Exception ex)
+            {
+               return Json(new ApiRe() { Ok = false, Msg = ex.Message }, MyJsonConvert.GetOptions());
+            }
         }
+
         //todo:格式化URL
 
         //todo:得到内容
@@ -107,11 +117,10 @@ namespace MoreNote.Controllers.API.APIV1
                 Msg = "GetNoteContent_is_error"
             };
             Note note = noteService.GetNote(noteId.ToLongByHex(), GetUserIdByToken(token));
-            NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token),false);
-            if (noteContent==null||note==null)
+            NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token), false);
+            if (noteContent == null || note == null)
             {
                 return Json(falseRe, MyJsonConvert.GetOptions());
-
             }
             if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
             {
@@ -119,7 +128,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             else
             {
-                noteContent.Content= "<p>Content is IsNullOrEmpty<>";
+                noteContent.Content = "<p>Content is IsNullOrEmpty<>";
             }
             ApiNoteContent apiNote = new ApiNoteContent()
             {
@@ -127,14 +136,13 @@ namespace MoreNote.Controllers.API.APIV1
                 UserId = note.UserId,
                 Content = noteContent.Content
             };
-           
-            return Json(apiNote, MyJsonConvert.GetOptions());
 
+            return Json(apiNote, MyJsonConvert.GetOptions());
         }
+
         //todo:添加笔记
         public JsonResult AddNote(ApiNote noteOrContent, string token)
         {
-
             //json 返回状态好乱呀 /(ㄒoㄒ)/~~
             ResponseMessage re = ResponseMessage.NewRe();
             long? tokenUserId = GetUserIdByToken(token); ;
@@ -144,11 +152,10 @@ namespace MoreNote.Controllers.API.APIV1
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
             long? noteId = SnowFlakeNet.GenerateSnowFlakeID();
-          
-       
-            if (noteOrContent.Title==null)
+
+            if (noteOrContent.Title == null)
             {
-                noteOrContent.Title="无标题";
+                noteOrContent.Title = "无标题";
             }
 
             // TODO 先上传图片/附件, 如果不成功, 则返回false
@@ -199,27 +206,26 @@ namespace MoreNote.Controllers.API.APIV1
                     }
                 }
             }
-            else{
-                
+            else
+            {
             }
             //-------------替换笔记内容中的文件ID
             FixPostNotecontent(ref noteOrContent);
-            if (noteOrContent.Tags!=null)
+            if (noteOrContent.Tags != null)
             {
-                if (noteOrContent.Tags.Length>0&&noteOrContent.Tags[0]==null)
+                if (noteOrContent.Tags.Length > 0 && noteOrContent.Tags[0] == null)
                 {
-                    noteOrContent.Tags= Array.Empty<string>();
+                    noteOrContent.Tags = Array.Empty<string>();
                     //noteOrContent.Tags= new string[] { ""};
                 }
-
             }
             //-------------新增笔记对象
             Note note = new Note()
             {
                 UserId = tokenUserId,
                 NoteId = noteId,
-                CreatedUserId=tokenUserId,
-                UpdatedUserId=noteId,
+                CreatedUserId = tokenUserId,
+                UpdatedUserId = noteId,
                 NotebookId = noteOrContent.NotebookId.ToLongByHex(),
                 Title = noteOrContent.Title,
                 Tags = noteOrContent.Tags,
@@ -244,48 +250,41 @@ namespace MoreNote.Controllers.API.APIV1
                 CreatedTime = noteOrContent.CreatedTime,
                 UpdatedTime = noteOrContent.UpdatedTime,
                 IsHistory = false
-
             };
             //-------------得到Desc, abstract
             if (string.IsNullOrEmpty(noteOrContent.Abstract))
             {
-
                 if (noteOrContent.IsMarkdown.GetValueOrDefault())
                 {
-                   // note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
+                    // note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
                     noteContent.Abstract = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
-
                 }
                 else
                 {
                     //note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
                     noteContent.Abstract = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
                 }
-               
             }
             else
             {
                 note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Abstract, 200);
             }
-            if (noteOrContent.Desc==null)
+            if (noteOrContent.Desc == null)
             {
                 if (noteOrContent.IsMarkdown.GetValueOrDefault())
                 {
                     note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
-                    
-
                 }
                 else
                 {
                     note.Desc = MyHtmlHelper.SubHTMLToRaw(noteOrContent.Content, 200);
-                   
                 }
             }
             else
             {
                 note.Desc = noteOrContent.Desc;
             }
-            
+
             note = noteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
             if (note == null || note.NoteId == 0)
@@ -299,7 +298,7 @@ namespace MoreNote.Controllers.API.APIV1
             //-------------API返回客户端信息
             noteOrContent.NoteId = noteId.ToHex24();
             noteOrContent.UserId = tokenUserId.ToHex24();
-            noteOrContent. Title = note.Title;
+            noteOrContent.Title = note.Title;
             noteOrContent.Tags = note.Tags;
             noteOrContent.IsMarkdown = note.IsMarkdown;
             noteOrContent.IsBlog = note.IsBlog;
@@ -320,6 +319,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             return Json(noteOrContent, MyJsonConvert.GetOptions());
         }
+
         //todo:更新笔记
         public JsonResult UpdateNote(ApiNote noteOrContent, string token)
         {
@@ -334,7 +334,6 @@ namespace MoreNote.Controllers.API.APIV1
                 re.Msg = "NOlogin";
                 re.Ok = false;
                 return Json(re, MyJsonConvert.GetSimpleOptions());
-
             }
 
             if (string.IsNullOrEmpty(noteOrContent.NoteId))
@@ -346,14 +345,13 @@ namespace MoreNote.Controllers.API.APIV1
 
             if (noteOrContent.Usn < 1)
             {
-
                 re.Msg = "usnNotExists";
                 re.Ok = false;
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
             var note = noteService.GetNote(noteId, tokenUserId);
-            var noteContent = noteContentService.GetNoteContent(note.NoteId, tokenUserId,false);
+            var noteContent = noteContentService.GetNoteContent(note.NoteId, tokenUserId, false);
             if (note == null || note.NoteId == 0)
             {
                 re.Msg = "notExists";
@@ -382,7 +380,6 @@ namespace MoreNote.Controllers.API.APIV1
                             {
                                 if (string.IsNullOrEmpty(msg))
                                 {
-                                   
                                     re.Msg = "fileUploadError";
                                 }
                                 if (!string.Equals(msg, "notImage", System.StringComparison.OrdinalIgnoreCase))
@@ -395,7 +392,6 @@ namespace MoreNote.Controllers.API.APIV1
                                 // 建立映射
                                 file.FileId = serverFileId.ToHex24();
                                 noteOrContent.Files[i] = file;
-
                             }
                         }
                         else
@@ -480,16 +476,16 @@ namespace MoreNote.Controllers.API.APIV1
             //处理结果
             //-------------API返回客户端信息
             note = noteService.GetNote(noteId, tokenUserId);
-           // noteOrContent.NoteId = noteId.ToHex24();
-           // noteOrContent.UserId = tokenUserId.ToHex24();
-          //  noteOrContent.Title = note.Title;
-           // noteOrContent.Tags = note.Tags;
-           // noteOrContent.IsMarkdown = note.IsMarkdown;
-           // noteOrContent.IsBlog = note.IsBlog;
+            // noteOrContent.NoteId = noteId.ToHex24();
+            // noteOrContent.UserId = tokenUserId.ToHex24();
+            //  noteOrContent.Title = note.Title;
+            // noteOrContent.Tags = note.Tags;
+            // noteOrContent.IsMarkdown = note.IsMarkdown;
+            // noteOrContent.IsBlog = note.IsBlog;
             //noteOrContent.IsTrash = note.IsTrash;
             //noteOrContent.IsDeleted = note.IsDeleted;
             //noteOrContent.IsTrash = note.IsTrash;
-           
+
             //noteOrContent.Usn = note.Usn;
             //noteOrContent.CreatedTime = note.CreatedTime;
             //noteOrContent.UpdatedTime = note.UpdatedTime;
@@ -498,10 +494,11 @@ namespace MoreNote.Controllers.API.APIV1
             noteOrContent.Content = "";
             noteOrContent.Usn = afterNoteUsn;
             noteOrContent.UpdatedTime = DateTime.Now;
-            noteOrContent.IsDeleted=false;
+            noteOrContent.IsDeleted = false;
             noteOrContent.UserId = tokenUserId.ToHex24();
             return Json(noteOrContent, MyJsonConvert.GetOptions());
         }
+
         //todo:删除trash
         public JsonResult DeleteTrash(string noteId, int usn, string token)
         {
@@ -510,10 +507,10 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return Json(new ReUpdate()
                 {
-                    Ok=true,
-                    Msg="",
-                    Usn=afterUsn
-                },MyJsonConvert.GetOptions());
+                    Ok = true,
+                    Msg = "",
+                    Usn = afterUsn
+                }, MyJsonConvert.GetOptions());
             }
             else
             {
@@ -525,11 +522,13 @@ namespace MoreNote.Controllers.API.APIV1
                 }, MyJsonConvert.GetOptions());
             }
         }
+
         //todo:导出成PDF
         public IActionResult ExportPdf()
         {
             return null;
         }
+
         // content里的image, attach链接是
         // https://leanote.com/api/file/getImage?fileId=xx
         // https://leanote.com/api/file/getAttach?fileId=xx
@@ -546,7 +545,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 foreach (var file in files)
                 {
-                    if (file.FileId!=null&&file.LocalFileId!=null)
+                    if (file.FileId != null && file.LocalFileId != null)
                     {
                         if (!file.IsAttach)
                         {
@@ -563,13 +562,11 @@ namespace MoreNote.Controllers.API.APIV1
                             Regex regex = new Regex(@"(https*://[^/]*?/api/file/getAttach\?fileId=)" + file.LocalFileId);
                             if (regex.IsMatch(noteOrContent.Content))
                             {
-                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" +file.FileId);
+                                noteOrContent.Content = regex.Replace(noteOrContent.Content, "${1}" + file.FileId);
                             }
                         }
-
                     }
                 }
-
             }
         }
     }
