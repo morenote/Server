@@ -38,6 +38,12 @@ namespace MoreNote.Controllers
                 re.Msg = "Unable to obtain user information through Session ";
                 return Json(re, MyJsonConvert.GetOptions());
             }
+            if (username.Length>16)
+            {
+                re.Msg = "Name string length>16";
+                return Json(re, MyJsonConvert.GetOptions());
+
+            }
             var message=string.Empty;
             User user=GetUserBySession();
             if (user == null)
