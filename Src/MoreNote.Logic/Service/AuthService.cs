@@ -156,12 +156,14 @@ namespace MoreNote.Logic.Service
                 Msg="密码处理过程出现错误";
                 return false;
             }
+            var userId=SnowFlakeNet.GenerateSnowFlakeID();
             //生成一个新用户
             User user = new User()
             {
-                UserId = SnowFlakeNet.GenerateSnowFlakeID(),
+                UserId = userId,
                 Email = email,
-                Username = email,
+                Username = userId.ToHex(),
+                UsernameRaw = userId.ToHex(),
                 PasswordHashIterations=config.SecurityConfig.PasswordHashIterations,//加密强度=1
                 PasswordDegreeOfParallelism= config.SecurityConfig.PasswordStoreDegreeOfParallelism,
                 PasswordMemorySize=config.SecurityConfig.PasswordStoreMemorySize,
