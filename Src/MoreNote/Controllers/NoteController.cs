@@ -16,7 +16,6 @@ using System.Text.Json;
 namespace MoreNote.Controllers
 {
     [Authorize(Roles = "Admin,SuperAdmin,User")]
-    
     public class NoteController : BaseController
     {
         private NotebookService notebookService;
@@ -91,7 +90,7 @@ namespace MoreNote.Controllers
                         ViewBag.curNotebookId = note.NotebookId.ToHex24();
 
                         // 打开的是共享的笔记, 那么判断是否是共享给我的默认笔记
-                        
+
                         if (noteOwner != GetUserIdBySession())
                         {
                             if (shareService.HasReadPerm(noteOwner, GetUserIdBySession(), noteId))
@@ -108,14 +107,12 @@ namespace MoreNote.Controllers
                         {
                             notes = noteService.ListNotes(this.GetUserIdBySession(), note.NotebookId, false, GetPage(), 50, defaultSortField, false, null);
                             // 如果指定了某笔记, 则该笔记放在首位
-
-                            
                         }
                     }
                     //获得最近的笔记
                     int count2 = 0;
                     var latestNotes = noteService.ListNotes(userId, false, GetPage(), 50, defaultSortField, false, null);
-                    ViewBag.latestNotes=latestNotes;
+                    ViewBag.latestNotes = latestNotes;
                 }
                 // 没有传入笔记
                 // 那么得到最新笔记
@@ -139,14 +136,13 @@ namespace MoreNote.Controllers
 
             ViewBag.notes = notes;
             ViewBag.noteContentJson = noteContent;
-            ViewBag.noteContent = noteContent==null?null:noteContent.Content;
+            ViewBag.noteContent = noteContent == null ? null : noteContent.Content;
 
             ViewBag.tags = tagService.GetTags(userId);
             ViewBag.config = config;
 
             Dictionary<string, string> js = new Dictionary<string, string>();
 
-            
             SetLocale();
             ViewBag.js = js;
 
@@ -157,10 +153,11 @@ namespace MoreNote.Controllers
 
             ViewBag.OpenRegister = config.SecurityConfig.OpenRegister;
             //编辑器偏好
-            ViewBag.MarkdownEditorOption=userInfo.MarkdownEditorOption;
-            ViewBag.RichTextEditorOption=userInfo.RichTextEditorOption;
+            ViewBag.MarkdownEditorOption = userInfo.MarkdownEditorOption;
+            ViewBag.RichTextEditorOption = userInfo.RichTextEditorOption;
             return View();
         }
+
         [Route("Note/GetNoteContent")]
         public IActionResult GetNoteContent(string noteId)
         {
@@ -178,6 +175,7 @@ namespace MoreNote.Controllers
             }
             return Json(noteContent, MyJsonConvert.GetOptions());
         }
+
         [Route("Note/ListNotes")]
         public JsonResult ListNotes(string notebookId)
         {
@@ -202,16 +200,17 @@ namespace MoreNote.Controllers
             }
             return Json(true);
         }
+
         [Route("Note/SetAccessPassword")]
         public JsonResult SetAccessPassword(string[] noteIds, string password)
         {
-
             foreach (var nodeId in noteIds)
             {
                 noteService.SetAccessPassword(GetUserIdBySession(), nodeId.ToLongByHex(), password);
             }
             return Json(true);
         }
+
         // 这里不能用json, 要用post
         [Route("Note/UpdateNoteOrContent")]
         public JsonResult UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
@@ -289,6 +288,7 @@ namespace MoreNote.Controllers
             }
             return Json(true);
         }
+
         [Route("Note/DeleteNote")]
         public JsonResult DeleteNote(string[] noteIds, bool isShared)
         {
@@ -307,24 +307,24 @@ namespace MoreNote.Controllers
             }
             return Json(true);
         }
+
         [Route("Note/moveNote")]
-        public IActionResult moveNote(string[] noteIds,string notebookId)
+        public IActionResult moveNote(string[] noteIds, string notebookId)
         {
-            var userId=GetUserIdBySession();
+            var userId = GetUserIdBySession();
             foreach (var noteId in noteIds)
             {
-                noteService.MoveNote(userId,noteId.ToLongByHex(),notebookId.ToLongByHex());
-
+                noteService.MoveNote(userId, noteId.ToLongByHex(), notebookId.ToLongByHex());
             }
             return Json(true);
-
         }
+
         /// <summary>
         /// 搜索笔记
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-         [Route("Note/SearchNote")]
+        [Route("Note/SearchNote")]
         public IActionResult SearchNote(string key)
         {
             /**
@@ -339,9 +339,41 @@ namespace MoreNote.Controllers
              * time<YYYMMDD 2021/10/24 搜索指定日期的笔记
              * file：搜索包含制定附件名称的笔记
              * */
-            var userId=this.GetUserIdBySession();
-             var notes=  noteService.SearchNoteOrContext(key,userId,GetPage(),pageSize);
-            return Json(notes,MyJsonConvert.GetOptions());
+            var userId = this.GetUserIdBySession();
+
+            var notes1 = noteService.SearchNoteByTitleVector(key, userId, GetPage(), pageSize);
+
+            var notes2 = noteService.SearchNoteByContentVector(key, userId, GetPage(), pageSize);
+
+            var result=merge(notes1,notes2);
+            return Json(result, MyJsonConvert.GetOptions());
+        }
+
+        private Note[] merge(Note[] notes1, Note[] notes2)
+        {
+            Dictionary<long?, Note> result = new Dictionary<long?, Note>(notes1.Length + notes2.Length);
+            if (notes1 != null)
+            {
+                foreach (var item in notes1)
+                {
+                    if (!result.ContainsKey(item.NoteId))
+                    {
+                        result.Add(item.NoteId, item);
+                    }
+                }
+            }
+            if (notes2 != null)
+            {
+                foreach (var item in notes2)
+                {
+                    if (!result.ContainsKey(item.NoteId))
+                    {
+                        result.Add(item.NoteId, item);
+                    }
+                }
+            }
+
+            return result.Values.ToArray();
         }
 
         /// <summary>
@@ -352,11 +384,10 @@ namespace MoreNote.Controllers
         [Route("Note/SearchNoteByTags")]
         public IActionResult SearchNoteByTags(string tags)
         {
-            var query= Request.Query["tags[]"];
-            var userId=this.GetUserIdBySession();
-             var notes=  noteService.SearchNoteByTag(query,userId,GetPage(),pageSize);
-            return Json(notes,MyJsonConvert.GetOptions());
-          
+            var query = Request.Query["tags[]"];
+            var userId = this.GetUserIdBySession();
+            var notes = noteService.SearchNoteByTag(query, userId, GetPage(), pageSize);
+            return Json(notes, MyJsonConvert.GetOptions());
         }
     }
 }
