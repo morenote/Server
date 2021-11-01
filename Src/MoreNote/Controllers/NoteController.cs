@@ -340,7 +340,7 @@ namespace MoreNote.Controllers
              * file：搜索包含制定附件名称的笔记
              * */
             var userId=this.GetUserIdBySession();
-             var notes=  noteService.SearchNote(key,userId,GetPage(),pageSize);
+             var notes=  noteService.SearchNoteOrContext(key,userId,GetPage(),pageSize);
             return Json(notes,MyJsonConvert.GetOptions());
         }
 
