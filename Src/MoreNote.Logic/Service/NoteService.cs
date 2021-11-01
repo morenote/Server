@@ -1179,6 +1179,7 @@ namespace MoreNote.Logic.Service
             return list.ToArray();
             
         }
+
         public Note[] SearchNote(string key, long? userId, int pageNumber, int pageSize)
         {
 
@@ -1190,6 +1191,20 @@ namespace MoreNote.Logic.Service
                                     &&b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b=>b.Title);
             return list.ToArray();
             
+        }
+        public Note[] SearchNoteOrContext(string key, long? userId, int pageNumber, int pageSize)
+        {
+
+
+            JiebaSegmenterService jiebaSegmenterService=new JiebaSegmenterService();
+            var query=jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+
+              var result = (from _note in dataContext.Note
+                          join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
+                          where  _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
+                          && ( _note.TitleVector.Matches(query) || _content.ContentVector.Matches(query))
+                          select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
+            return result;
         }
 
         // 搜索noteContents, 补集pageSize个
