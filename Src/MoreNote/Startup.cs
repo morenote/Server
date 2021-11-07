@@ -14,33 +14,28 @@ using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
-using MoreNote.Middleware.TimeMonitor;
 using System;
 
 namespace MoreNote
 {
     public class Startup
     {
-          private WebSiteConfig config;
-         private readonly IWebHostEnvironment _env;
+        private WebSiteConfig config;
+        private readonly IWebHostEnvironment _env;
 
         public IConfiguration Configuration { get; }
 
-
-        public Startup(IConfiguration configuration,IWebHostEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
-            this._env=env;
+            this._env = env;
             ConfigFileService configFileService = new ConfigFileService();
             config = configFileService.WebConfig;
         }
 
-      
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -65,10 +60,8 @@ namespace MoreNote
             services.AddEntityFrameworkNpgsql();
             services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
             {
-                
-                optionsBuilder.UseNpgsql(connection,b=>b.MigrationsAssembly("MoreNote.Logic"));
+                optionsBuilder.UseNpgsql(connection, b => b.MigrationsAssembly("MoreNote.Logic"));
                 optionsBuilder.UseInternalServiceProvider(serviceProvider);
-                
             });
             // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
             //使用分布式内存
@@ -83,8 +76,10 @@ namespace MoreNote
             {
                 // Set a short timeout for easy testing.
                 options.Cookie.Name = "SessionID";
-                options.IdleTimeout = TimeSpan.FromHours(10);//过期时间
+                options.IdleTimeout = TimeSpan.FromDays(30);//过期时间
                 options.Cookie.HttpOnly = true;//设为HttpOnly 阻止js脚本读取
+                options.Cookie.Domain = config.APPConfig.SiteUrl;//
+                options.Cookie.SameSite = SameSiteMode.Lax;//
             });
             //这样可以将HttpContext注入到控制器中。
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -117,17 +112,15 @@ namespace MoreNote
             {
                 option.Filters.Add<InspectionInstallationFilter>();
             });
-             services.AddBundling()
-                     .UseDefaults(_env)
-                     .UseNUglify()
-                     .EnableMinification()
-                     .EnableChangeDetection()
-                     .EnableCacheHeader(TimeSpan.FromHours(1));
+            services.AddBundling()
+                    .UseDefaults(_env)
+                    .UseNUglify()
+                    .EnableMinification()
+                    .EnableChangeDetection()
+                    .EnableCacheHeader(TimeSpan.FromHours(1));
 
             services.AddSevenZipCompressor();
             services.AddResumeFileResult();
-            
-
 
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
@@ -175,7 +168,7 @@ namespace MoreNote
             {
                 var instance = e.Instance;
                 instance.NoteImageService = e.Context.Resolve<NoteImageService>();
-                instance.NoteService=e.Context.Resolve<NoteService>();
+                instance.NoteService = e.Context.Resolve<NoteService>();
             });
             builder.RegisterType<NoteFileService>();
             builder.RegisterType<NoteImageService>();
@@ -225,7 +218,7 @@ namespace MoreNote
                 instance.NotebookService = e.Context.Resolve<NotebookService>();
             });
             builder.RegisterType<UpgradeService>();
-          
+
             builder.RegisterType<UserService>().OnActivated(e =>
             {
                 var instance = e.Instance;
@@ -236,8 +229,8 @@ namespace MoreNote
             .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<Sha256PasswordStore>()
                 .As<IPasswordStore>();
-                   builder.RegisterType<JiebaSegmenterService>()
-                .As<JiebaSegmenterService>();
+            builder.RegisterType<JiebaSegmenterService>()
+         .As<JiebaSegmenterService>();
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
@@ -255,7 +248,7 @@ namespace MoreNote
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-         
+
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -62,4 +62,8 @@
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\DTO\Leanote\" />
+  </ItemGroup>
+
 </Project>

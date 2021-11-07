@@ -14,7 +14,10 @@ namespace MoreNote.Logic.Entity
         public string Id { get; set; }
         public dynamic List { get; set; }
         public dynamic Item { get; set; }
-        public static  ResponseMessage NewRe()
+        public dynamic Payload { get; set; }//Payload   
+
+
+        public static  ResponseMessage Instace()
         {
             return new ResponseMessage()
             {
