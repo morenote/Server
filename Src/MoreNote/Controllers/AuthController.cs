@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Morenote.Framework.Http;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
@@ -12,9 +13,11 @@ using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
@@ -46,7 +49,8 @@ namespace MoreNote.Controllers
                 HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
                 HttpContext.Session.SetBool("Verified", user.Verified);
                 HttpContext.Session.SetString("token", token);
-                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(7) });
+                //anti csrf
+                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true,Domain=config.APPConfig.SiteUrl,SameSite=SameSiteMode.Lax,Secure=true, MaxAge = TimeSpan.FromDays(30) });
             }
             else
             {
@@ -55,7 +59,6 @@ namespace MoreNote.Controllers
             }
             return Redirect("/member");
         }
-   
 
         //public IActionResult Index()
         //{
@@ -109,11 +112,13 @@ namespace MoreNote.Controllers
                     identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));//角色 用户组
                 }
 
+              
                 if (user.Jurisdiction != null && user.Jurisdiction.Any())
                 {
                     foreach (var item in user.Jurisdiction)
                     {
                         identity.AddClaim(new Claim(item.AuthorizationType, item.AuthorizationValue));//授权
+
                     }
                 }
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties
@@ -128,9 +133,38 @@ namespace MoreNote.Controllers
                 HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
                 HttpContext.Session.SetBool("Verified", user.Verified);
 
-                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(7) });
+                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true,Domain=config.APPConfig.SiteUrl,SameSite=SameSiteMode.Lax,Secure=true, MaxAge = TimeSpan.FromDays(30) });
 
                 ResponseMessage re = new ResponseMessage() { Ok = true };
+
+               
+                var jti= SnowFlakeNet.GenerateSnowFlakeID();
+                //签署JWT
+                var claims = new List<Claim>()
+                {
+                    new Claim(JwtRegisteredClaimNames.Jti, jti.ToHex()),
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Sid, user.UserId.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Sub, "{B362F518-1C49-437B-962B-8D83A0A0285E}"),
+                };
+                //网站密钥
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.SecurityConfig.Secret));
+
+                var jwtToken = new JwtSecurityToken(
+                   
+                    issuer: config.APPConfig.SiteUrl,
+                    audience: config.APPConfig.SiteUrl,
+                    claims: claims,
+                    notBefore: DateTime.Now,
+                    
+                    expires: DateTime.Now.AddYears(100),
+
+                    signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+
+                );
+                var jwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+                re.Payload=jwt;
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
         }
@@ -194,6 +228,7 @@ namespace MoreNote.Controllers
                 }, MyJsonConvert.GetSimpleOptions());
             }
         }
+
         /// <summary>
         /// 登出并删除登录信息
         /// </summary>
@@ -204,6 +239,9 @@ namespace MoreNote.Controllers
             HttpContext.Session.Remove("Verified");
             HttpContext.Session.Remove("token");
             HttpContext.Response.Cookies.Delete("token");
+
+
+           
             return Redirect("/member");
         }
     }
