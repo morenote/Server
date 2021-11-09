@@ -78,7 +78,7 @@ namespace MoreNote
                 options.Cookie.Name = "SessionID";
                 options.IdleTimeout = TimeSpan.FromDays(30);//过期时间
                 options.Cookie.HttpOnly = true;//设为HttpOnly 阻止js脚本读取
-                options.Cookie.Domain = config.APPConfig.SiteUrl;//
+                options.Cookie.Domain = config.APPConfig.Domain;//
                 options.Cookie.SameSite = SameSiteMode.Lax;//
             });
             //这样可以将HttpContext注入到控制器中。

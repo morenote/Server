@@ -50,7 +50,12 @@ namespace MoreNote.Controllers
                 HttpContext.Session.SetBool("Verified", user.Verified);
                 HttpContext.Session.SetString("token", token);
                 //anti csrf
-                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true,Domain=config.APPConfig.SiteUrl,SameSite=SameSiteMode.Lax,Secure=true, MaxAge = TimeSpan.FromDays(30) });
+                HttpContext.Response.Cookies.Append("token", token, 
+                    new CookieOptions() { HttpOnly = true,
+                        Domain=config.APPConfig.Domain,
+                        SameSite=SameSiteMode.Lax,
+                        Secure=true, 
+                        MaxAge = TimeSpan.FromDays(30) });
             }
             else
             {
@@ -133,7 +138,12 @@ namespace MoreNote.Controllers
                 HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
                 HttpContext.Session.SetBool("Verified", user.Verified);
 
-                HttpContext.Response.Cookies.Append("token", token, new CookieOptions() { HttpOnly = true,Domain=config.APPConfig.SiteUrl,SameSite=SameSiteMode.Lax,Secure=true, MaxAge = TimeSpan.FromDays(30) });
+                HttpContext.Response.Cookies.Append("token", token, 
+                    new CookieOptions() { HttpOnly = true,
+                    Domain=config.APPConfig.Domain,
+                    SameSite=SameSiteMode.Lax,
+                    Secure=true, 
+                    MaxAge = TimeSpan.FromDays(30) });
 
                 ResponseMessage re = new ResponseMessage() { Ok = true };
 
