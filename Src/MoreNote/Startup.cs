@@ -263,7 +263,7 @@ namespace MoreNote
             app.UseCookiePolicy();
             //使用session 注册
             app.UseSession();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
