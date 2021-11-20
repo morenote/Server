@@ -470,7 +470,9 @@ function setEditorContent(content, isMarkdown, preview, callback) {
 				}, 100);
 			}
 		} else {
-			vditor.setValue(content);
+			vditor.clearCache();//清除缓存
+			vditor.setValue(content,true);//设置内容并清除历史堆栈
+			
 			callback && callback();
 		}
 
