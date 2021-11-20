@@ -14,6 +14,18 @@
                     <button class="btn btn-sm btn-default bulk-email">
                         Send Email
                     </button>
+                      <button id="SetAsAdmin" class="btn btn-sm btn-default ">
+                        SetAsAdmin
+                    </button>
+                    <button id="SetAsUser" class="btn btn-sm btn-default ">
+                        SetAsUser
+                    </button>
+                      <button id="SetVerifiedTrue" class="btn btn-sm btn-default ">
+                        Set Verified=true
+                    </button>
+                      <button id="SetVerifiedFalse" class="btn btn-sm btn-default ">
+                        Set Verified=false
+                    </button>
                 </div>
                 <div class="col-sm-4 m-b-xs">
                 </div>
@@ -133,6 +145,56 @@
             }
             openSendEmailDialog(emails.join(","));
         });
+
+        $("#SetAsAdmin").click(function () {
+            var emails = [];
+            $(".ck:checked").each(function () {
+                emails.push($(this).data("email"));
+            });
+            if (emails.length == 0) {
+                art.alert("No user");
+                return;
+            }
+            openSendEmailDialog(emails.join(","));
+        });
+
+
+        $("#SetAsUser").click(function () {
+            var emails = [];
+            $(".ck:checked").each(function () {
+                emails.push($(this).data("email"));
+            });
+            if (emails.length == 0) {
+                art.alert("No user");
+                return;
+            }
+            openSendEmailDialog(emails.join(","));
+        });
+         $("#SetVerifiedTrue").click(function () {
+            var emails = [];
+            $(".ck:checked").each(function () {
+                emails.push($(this).data("email"));
+            });
+            if (emails.length == 0) {
+                art.alert("No user");
+                return;
+            }
+            openSendEmailDialog(emails.join(","));
+        });
+
+         $("#SetVerifiedFalse").click(function () {
+            var emails = [];
+            $(".ck:checked").each(function () {
+                emails.push($(this).data("email"));
+            });
+            if (emails.length == 0) {
+                art.alert("No user");
+                return;
+            }
+            openSendEmailDialog(emails.join(","));
+        });
+
+
 
         // reset password
         $(".reset-pwd").click(function () {

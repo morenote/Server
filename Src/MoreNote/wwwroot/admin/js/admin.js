@@ -264,6 +264,8 @@ function openSendEmailDialog(emails) {
 	openDialog({width: 500,  url: "/adminEmail/sendEmailDialog?emails=" + emails, title: "Send Email"});
 }
 
+
+
 function goNowToDatetime(goNow) {
 	if(!goNow) {
 		return "";

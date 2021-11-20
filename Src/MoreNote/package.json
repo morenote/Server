@@ -24,6 +24,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@textbus/textbus": "^1.1.3",
     "ansi-colors": "^4.1.1",
     "archy": "^0.0.2",
     "bootbox": "^5.5.2",
