@@ -627,15 +627,24 @@ namespace MoreNote.Logic.Service
 
         public Cate[] GetCateArrayForBlog(long? userId)
         {
-            var result = (from _note in dataContext.Note
-                          join _noteBook in dataContext.Notebook on _note.NotebookId equals _noteBook.NotebookId
+            var cate = (from _note in dataContext.Set<Note>()
+                        join _noteBook in dataContext.Set<Notebook>() 
+                            on _note.NotebookId equals _noteBook.NotebookId
                           where _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
+                          
                           select new Cate
                           {
                               CateId = _note.NotebookId,
                               Title = _noteBook.Title
-                          }).DistinctBy(p => new { p.CateId }).OrderByDescending(b => b.Title).ToArray();
-            return result;
+                          }).Distinct().OrderByDescending(b => b.Title);
+
+            if (cate!=null)
+            {
+
+                return cate.ToArray();
+
+            }
+            return null;
         }
     }
 }
