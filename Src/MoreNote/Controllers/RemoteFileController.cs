@@ -298,7 +298,7 @@ namespace Masuit.MyBlogs.Core.Controllers
                 case "extract":
                     var folder = Path.Combine(Path.Combine(root, req.Destination.TrimStart('\\', '/')), req.FolderName.Trim('/', '\\'));
                     var zip = Path.Combine(root, req.Item.TrimStart('\\', '/'));
-                    SevenZipCompressor.Extract(zip, folder);
+                    SevenZipCompressor.Decompress(zip, folder);
                     list.Add(new
                     {
                         success = "true"
