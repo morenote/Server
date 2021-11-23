@@ -44,6 +44,19 @@ namespace MoreNote
                 options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
 
             });
+            //https://www.npgsql.org/doc/release-notes/6.0.html#breaking-changes
+            //https://wangye.org/posts/2021/11/website-migrate-from-aspnet-core-5-to-6.html
+            /**
+             * 对于PostgreSQL数据库来说UTC时间戳以timestamptz类型表示，对于.NET来说UTC时间戳以带Kind=Utc的DateTime类型表示，
+             * 值得注意的是DateTime这种类型在CLR类型中既可以表示UTC时间戳也可以表示非UTC时间戳，这就存在.NET的DateTime类型到
+             * PostgreSQL的timestamp和timestamptz转换的混淆，我们必须在EF Core中做出配置来决定如何转换，旧版本的Npgsql对于
+             * 这种转换往往是隐式的，这往往会带来一些不可预料的程序bug或者安全问题，现在新版本的Npgsql对此要求显式指派时间戳或
+             * 者日期类型。
+             * 解决方法有两个，通过在迁移文件里加入代码migrationBuilder.Sql("SET TimeZone='UTC'");并重新执行迁移程序，或者
+             * 告诉Npgsql采用旧的兼容模式，具体通过在配置Npgsql服务前加上如下代码：
+             */
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
             //解决Multipart body length limit 134217728 exceeded
             services.Configure<FormOptions>(x =>
