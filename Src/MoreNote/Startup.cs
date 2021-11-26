@@ -16,6 +16,7 @@ using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
 using System;
+using System.Text.RegularExpressions;
 
 namespace MoreNote
 {
@@ -42,7 +43,6 @@ namespace MoreNote
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;//关闭GDPR规范
                 options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
-
             });
             //https://www.npgsql.org/doc/release-notes/6.0.html#breaking-changes
             //https://wangye.org/posts/2021/11/website-migrate-from-aspnet-core-5-to-6.html
@@ -84,6 +84,28 @@ namespace MoreNote
             {
                 optionsBuilder.UseNpgsql(connection, b => b.MigrationsAssembly("MoreNote.Logic"));
                 optionsBuilder.UseInternalServiceProvider(serviceProvider);
+                //调试环境下面打开慢SQL控制台输出，如果执行时间大于10ms
+                if (_env.IsDevelopment())
+                {
+                    optionsBuilder.LogTo(eflog =>
+                    {
+                        //正则表达式 匹配执行时间
+                        var match = Regex.Match(eflog, @"Executed DbCommand \((\d+)ms\)");
+                        if (match.Success)
+                        {
+                            var regexGroups = match.Groups;
+                            var itemValue = regexGroups[1].ToString();
+                            int ms = 0;
+                            Int32.TryParse(itemValue, out ms);
+                            if (ms > 10)
+                            {
+                                Console.WriteLine($"==================Slow database operations,{regexGroups[0]}==================");
+
+                                Console.WriteLine(eflog);
+                            }
+                        }
+                    }, Microsoft.Extensions.Logging.LogLevel.Information);
+                }
             });
             // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
             //使用分布式内存
