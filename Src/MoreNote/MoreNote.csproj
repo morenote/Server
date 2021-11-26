@@ -151,7 +151,7 @@
 
     <PackageReference Include="SharpZipLib" Version="1.3.3" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.88" />
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.13.1" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.13.2" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
