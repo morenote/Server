@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Class1.cs" />
-    <Compile Remove="DB\Class1.cs" />
-    <Compile Remove="Service\ArticleManager.cs" />
-    <Compile Remove="Service\AuthorManager.cs" />
-    <Compile Remove="Service\ChapterManager.cs" />
-    <Compile Remove="Service\PayManager.cs" />
-    <Compile Remove="Service\UserManager.cs" />
+    <Folder Include="DTO\Leanote\" />
   </ItemGroup>
-
-  <ItemGroup>
+	<ItemGroup>
 	  <!--谷歌两步验证-->
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="github.hyfree.Bcrypt.NetCore" Version="1.0.1" />
@@ -47,7 +42,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
-    <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
   </ItemGroup>
 
 </Project>

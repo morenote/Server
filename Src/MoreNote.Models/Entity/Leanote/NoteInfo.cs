@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Masuit.LuceneEFCore.SearchEngine;
 using NpgsqlTypes;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
