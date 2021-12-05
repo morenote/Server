@@ -19,15 +19,15 @@ namespace MoreNote.Logic.Models.Entity.Leanote
         public long? AccessId { get; set; }
 
         [Column("ip")]
-        public string IP { get; set; }
+        public string? IP { get; set; }
         [Column("x_real_ip")]
-        public string X_Real_IP { get; set; }
+        public string? X_Real_IP { get; set; }
         [Column("x_forwarded_for")]
-        public string X_Forwarded_For { get; set; }
+        public string? X_Forwarded_For { get; set; }
         [Column("referrer")]
-        public string Referrer { get; set; }//来源 从哪个网站来的
+        public string? Referrer { get; set; }//来源 从哪个网站来的
         [Column("request_header")]
-        public string RequestHeader { get; set; }//http header
+        public string? RequestHeader { get; set; }//http header
         [Column("access_time")]
         public DateTime AccessTime { get; set; }
         [Column("unix_time")]
@@ -35,11 +35,11 @@ namespace MoreNote.Logic.Models.Entity.Leanote
         [Column("time_interval")]
         public long? TimeInterval { get; set; }//距离上一次访问的时间间隔 如果没有上次 -1
         [Column("url")]
-        public string URL { get; set; }
+        public string? URL { get; set; }
         [Column("remote_ip_address")]
-        public string RemoteIPAddress { get; set; }
+        public string? RemoteIPAddress { get; set; }
         [Column("remote_port")]
-        public string RemotePort { get; set; }
+        public string? RemotePort { get; set; }
 
     }
     /// <summary>

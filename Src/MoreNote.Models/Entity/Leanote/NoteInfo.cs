@@ -24,17 +24,17 @@ namespace MoreNote.Logic.Entity
         [Column("notebook_id")]
         public long? NotebookId { get; set; }
         [Column("title")]
-        public string Title { get; set; }//标题
+        public string? Title { get; set; }//标题
         [Column("title_vector"),JsonIgnore]
-        public NpgsqlTsVector TitleVector { get; set; }
+        public NpgsqlTsVector? TitleVector { get; set; }
         [Column("desc")]
-        public string Desc { get; set; }//描述, 非html
+        public string? Desc { get; set; }//描述, 非html
         [Column("src")]
-        public string Src { get; set; }//来源, 2016/4/22
+        public string? Src { get; set; }//来源, 2016/4/22
         [Column("img_src")]
-        public string ImgSrc { get; set; }//图片, 第一张缩略图地址
+        public string? ImgSrc { get; set; }//图片, 第一张缩略图地址
         [Column("tags")]
-        public string[] Tags { get; set; }
+        public string[]? Tags { get; set; }
         [Column("is_trash")]
         public bool IsTrash { get; set; }//是否是trash, 默认是false
         [Column("is_blog")]
@@ -81,7 +81,7 @@ namespace MoreNote.Logic.Entity
         [Column("content_id")]
         public long? ContentId { get; set; }//当前笔记的笔记内容 
         [Column("access_password")]
-        public string AccessPassword  { get; set; }//当前笔记的访问密码
+        public string? AccessPassword  { get; set; }//当前笔记的访问密码
 
 
 
@@ -107,9 +107,9 @@ namespace MoreNote.Logic.Entity
         [Column("is_blog")]
         public bool IsBlog { get; set; } // 为了搜索博客 
         [Column("content")]
-        public string Content { get; set; }//内容
+        public string? Content { get; set; }//内容
         [Column("content_vector"),JsonIgnore]
-        public NpgsqlTsVector ContentVector { get; set; }
+        public NpgsqlTsVector? ContentVector { get; set; }
 
 
         //public string WebContent{ get;set;}//为web页面优化的内容
