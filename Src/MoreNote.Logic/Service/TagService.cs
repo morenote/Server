@@ -21,7 +21,7 @@ namespace MoreNote.Logic.Service
 
         public bool AddTags(long? userId, string[] tags)
         {
-            if (userId==null||tags==null)
+            if (userId == null || tags == null)
             {
                 return false;
             }
@@ -32,7 +32,7 @@ namespace MoreNote.Logic.Service
                 if (itemTag != null)
                 {
                     var result = dataContext.Tag.Where(tag => tag.UserId == userId);
-                    if (result != null&& result.Any())
+                    if (result != null && result.Any())
                     {
                         var userTags = result.FirstOrDefault();
                         //这个地方区分大小写吗
@@ -148,7 +148,6 @@ namespace MoreNote.Logic.Service
                 return false;
             }
 
-          
             var result = dataContext.NoteTag
                  .Where(b => b.UserId == userId && b.Tag.Equals(tag
                  )).FirstOrDefault();
@@ -217,7 +216,13 @@ namespace MoreNote.Logic.Service
         {
             //todo:这里需要性能优化，获得blog标签
 
-            var result = dataContext.Note.Where(note => note.UserId == userid && note.IsBlog == true && note.IsDeleted == false && note.IsTrash == false && note.Tags != null && note.Tags.Length > 0).DistinctBy(p => new { p.Tags }).ToArray();
+            var result = dataContext.Note.Where(note => note.UserId == userid
+            && note.IsBlog == true
+            && note.IsDeleted == false
+            && note.IsTrash == false
+            && note.Tags != null
+            && note.Tags.Length > 0)
+                .Distinct().ToArray();
             HashSet<string> hs = new HashSet<string>();
             foreach (var item in result)
             {
