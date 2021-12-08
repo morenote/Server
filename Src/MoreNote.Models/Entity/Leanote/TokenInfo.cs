@@ -27,7 +27,7 @@ namespace MoreNote.Logic.Entity
         [Column("token_str")]
         public string TokenStr { get; set; }
         [Column("token_tag")]
-        public string TokenTag { get; set; }//token标签
+        public string? TokenTag { get; set; }//token标签
         [Column("token_type")]
         public int TokenType { get; set; }//token类型
         [Column("created_time")]
