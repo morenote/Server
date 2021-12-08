@@ -123,7 +123,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         public IActionResult NoFoundImage()
         {
-            return Redirect($"https://upyun.morenote.top/404.jpg");
+            return Redirect($"/404.jpg");
         }
 
         [Route("api/File/GetAttach")]

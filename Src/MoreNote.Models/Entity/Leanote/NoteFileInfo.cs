@@ -25,13 +25,13 @@ namespace MoreNote.Logic.Entity
         [Column("album_id")]
         public long? AlbumId { get; set; }
         [Column("name")]
-        public string Name { get; set; } // file name
+        public string? Name { get; set; } // file name
         [Column("title")]
-        public string Title { get; set; } // file  name or user defind for search
+        public string? Title { get; set; } // file  name or user defind for search
         [Column("size")]
         public Int64 Size { get; set; } // file  size (byte)
         [Column("type")]
-        public string Type { get; set; } // file  type ""=image "doc"=word
+        public string? Type { get; set; } // file  type ""=image "doc"=word
         [Column("path")]
         public string Path { get; set; } // the file path
        
@@ -53,9 +53,9 @@ namespace MoreNote.Logic.Entity
         [Column("number_of_file_references")]
         public int NumberOfFileReferences { get; set; }//文件引用数 当文件引用数=0 说明没有笔记引用该文件
         [Column("sha1")]
-        public string SHA1 { get; set; }
+        public string? SHA1 { get; set; }
         [Column("md5")]
-        public string MD5 { get; set; }
+        public string? MD5 { get; set; }
         [Column("storage_type")]
         public StorageTypeEnum StorageType { get; set; } //储存方式 本地？又拍云 对象储存？
     }
