@@ -485,7 +485,7 @@ namespace MoreNote.Controllers
 
             return Json(re, MyJsonConvert.GetOptions());
         }
-
+         [Route("Blog/getLikesAndComments")]
         public IActionResult GetLikesAndComments([ModelBinder(typeof(Hex2LongModelBinder))] long? noteId, string callback)
         {
             long? userId = GetUserIdBySession();
