@@ -127,3 +127,14 @@ dotnet run
 - Masuit.MyBlogs(高性能低占用的博客系统)
 - Leanote(Go语言实现的云笔记服务)
 
+####  向他们的作品和创造致敬
+
+-   Wolai
+-   为知笔记
+-   蚂蚁笔记
+-   印象笔记
+-   onenote
+-   树莓盘
+-   NGX File Cloud 网盘 & NAS
+-   可道云
+
