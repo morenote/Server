@@ -33,11 +33,11 @@ namespace MoreNote.Logic.Security.Service
                 ServerDomain =fido2Config.ServerDomain,
                 ServerName = fido2Config.ServerName,
                 Origin = fido2Config.Origin
-            },Conformance.MetadataServiceInstance(
+            },FIDO2Conformance.MetadataServiceInstance(
                 System.IO.Path.Combine(fido2Config.MDSCacheDirPath, @"Conformance"), fido2Config.Origin));
 
         }
-        public void MakeCredentialOptions(MakeCredentialParams opts)
+        public CredentialCreateOptions MakeCredentialOptions(MakeCredentialParams opts)
         {
             var attType = opts.Attestation;
 
@@ -55,6 +55,7 @@ namespace MoreNote.Logic.Security.Service
 
 
 
+            return null;
 
 
         }
