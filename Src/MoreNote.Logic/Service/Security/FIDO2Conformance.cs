@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+
 using Fido2NetLib;
 
 namespace MoreNote.Logic.Security.Service
 {
-    public static class Conformance
+    public static class FIDO2Conformance
     {
-        private static readonly object _syncRoot = new ();
+        private static readonly object _syncRoot = new();
 
         private static IMetadataService _instance;
 
@@ -23,7 +24,7 @@ namespace MoreNote.Logic.Security.Service
                             new FileSystemMetadataRepository(cacheDir)
                         };
                         _instance = new SimpleMetadataService(repos);
-                        _instance.InitializeAsync().Wait();
+                        _instance.Initialize().Wait();
                     }
                 }
             }
