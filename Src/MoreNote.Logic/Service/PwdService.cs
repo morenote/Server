@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MoreNote.Common.entity;
-using MoreNote.Logic.DB;
+using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
    using Microsoft.Extensions.DependencyInjection;
 

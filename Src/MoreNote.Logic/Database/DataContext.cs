@@ -3,7 +3,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 
-namespace MoreNote.Logic.DB
+namespace MoreNote.Logic.Database
 {
     public class DataContext : DbContext
     {

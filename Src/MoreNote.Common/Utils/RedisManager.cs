@@ -2,7 +2,7 @@
 
 namespace MoreNote.Common.Utils
 {
-    class RedisManager
+    public class RedisManager
     {
         
         private static IDatabase db=null;
