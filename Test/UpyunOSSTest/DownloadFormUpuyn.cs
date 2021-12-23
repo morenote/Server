@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreNote.Logic.DB;
+using MoreNote.Logic.Database;
 using System.IO;
 using System.Linq;
 using System.Net;

@@ -1,7 +1,7 @@
 ﻿using MoreNote.Logic.Entity;
 using MoreNote.Logic.ExtensionMethods.DI;
 using System;
-using MoreNote.Logic.DB;
+using MoreNote.Logic.Database;
 using System.Linq;
 using Z.EntityFramework.Plus;
 

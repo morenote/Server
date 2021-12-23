@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
-using MoreNote.Logic.DB;
+using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;

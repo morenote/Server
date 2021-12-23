@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MoreNote.Logic.DB;
+using MoreNote.Logic.Database;
 using System;
 
 namespace MoreNote.Logic.Service

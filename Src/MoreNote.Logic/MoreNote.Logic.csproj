@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
-    <Compile Remove="DB\Class1.cs" />
+    <Compile Remove="Database\Class1.cs" />
     <Compile Remove="Service\ArticleManager.cs" />
     <Compile Remove="Service\AuthorManager.cs" />
     <Compile Remove="Service\ChapterManager.cs" />

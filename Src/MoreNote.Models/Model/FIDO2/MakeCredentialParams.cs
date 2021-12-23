@@ -9,13 +9,14 @@ using Fido2NetLib.Objects;
 
 namespace MoreNote.Models.Model.FIDO2
 {
+
     public class MakeCredentialParams
     {
        
         public string DisplayName { get; set; }
-        public string UsernameHex { get; set; }
+        public string Username { get; set; }
         public AttestationConveyancePreference Attestation { get; set; }
         public AuthenticatorSelection AuthenticatorSelection { get; set; }
-        public AuthenticationExtensionsClientOutputs Extensions { get; set; }
+   
     }
 }

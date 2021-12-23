@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MoreNote.Logic.DB;
+using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 
 namespace MoreNote.Controllers.PublicAPI

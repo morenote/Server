@@ -1,4 +1,4 @@
-﻿using MoreNote.Logic.DB;
+﻿using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using System;
 using System.Linq;

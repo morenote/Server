@@ -2,7 +2,7 @@
 
 using Fido2NetLib;
 
-namespace MoreNote.Logic.Security.Service
+namespace MoreNote.Logic.Security.FIDO2.Service
 {
     public static class FIDO2Conformance
     {

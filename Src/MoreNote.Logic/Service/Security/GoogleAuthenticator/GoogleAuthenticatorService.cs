@@ -1,10 +1,13 @@
 ﻿using Google.Authenticator;
 using MoreNote.Common.Utils;
-using MoreNote.Logic.DB;
+using MoreNote.Logic.Database;
 using System.Linq;
 
 namespace MoreNote.Logic.Service
 {
+    /// <summary>
+    /// 谷歌两步认证服务
+    /// </summary>
     public class GoogleAuthenticatorService
     {
 

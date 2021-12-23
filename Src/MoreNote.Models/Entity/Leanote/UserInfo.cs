@@ -212,6 +212,8 @@ namespace MoreNote.Logic.Entity
         {
             return this.Role.ToLower().Equals("superadmin");
         }
+
+        
     }
 
     [Table("user_account")]
