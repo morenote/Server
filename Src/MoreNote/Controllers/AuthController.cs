@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 using Morenote.Framework.Http;
 using MoreNote.Common.ExtensionMethods;
@@ -27,14 +28,18 @@ namespace MoreNote.Controllers
         private AuthService authService;
         private ConfigService configService;
         public WebSiteConfig config;
+        private IDistributedCache distributedCache;
 
+        private  readonly string errorCountKey="doLoginErrorCount";
         public AuthController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
+            ,IDistributedCache distributedCache
             , IHttpContextAccessor accessor, AuthService authService, ConfigService configService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
+            this.distributedCache = distributedCache;
             this.authService = authService;
             this.configService = configService;
             this.config = configService.config;
@@ -75,21 +80,35 @@ namespace MoreNote.Controllers
         /// <returns></returns>
         public IActionResult Login()
         {
+            var number=distributedCache.GetInt(errorCountKey);
             ViewBag.Title = "请登录";
             SetLocale();
             ConfigSetting configSetting = new ConfigSetting();
             ViewBag.quickLogin = Request.Cookies["token"] != null;
             ViewBag.ConfigSetting = configSetting;
             //是否需要验证码服务
-            ViewBag.needCaptcha = this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.ON ? "true" : "false";
+            if (this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.OFF
+                ||((this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.AUTO)&&number<10))
+            {
+
+                ViewBag.needCaptcha="false";
+            }
+            else
+            {
+                 ViewBag.needCaptcha="true";
+            }
+            ViewBag.errorCount=number;
+           
             return View();
         }
 
         //public IActionResult DoLogin(string email, string pwd, string captcha)
         public async Task<IActionResult> DoLogin(string email, string pwd, string captcha)
         {
+            var number=distributedCache.GetInt(errorCountKey);
             //是否需要验证码
-            if (this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.ON)
+            if (this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.ON||
+                (this.config.SecurityConfig.NeedVerificationCode == NeedVerificationCode.AUTO)&&number>10)
             {
                 string errorMessage = string.Empty;
                 //检查验证码是否一样
@@ -104,10 +123,14 @@ namespace MoreNote.Controllers
             {
                 //登录失败
                 ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "wrongUsernameOrPassword" };
+             
+                number++;
+                distributedCache.SetInt(errorCountKey,number);
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             else
             {
+                 distributedCache.SetInt(errorCountKey,0);
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identity.AddClaim(new Claim(ClaimTypes.Sid, user.UserId.ToString()));
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
