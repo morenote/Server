@@ -28,5 +28,22 @@ namespace MoreNote.Common.ExtensionMethods
             options.SetSlidingExpiration(TimeSpan.FromSeconds(secondTimeout));
             distributedCache.SetString(key, value,options);
         }
+
+        public static void SetInt(this  IDistributedCache distributedCache,string key,int value)
+        {
+          distributedCache.SetString(key, value.ToString());
+
+        }
+        public static int GetInt(this  IDistributedCache distributedCache,string key)
+        {
+            var value=distributedCache.GetString(key);
+            if (value == null)
+            {
+                return 0;
+            }
+            var number=Int32.Parse(value);
+            return number;
+
+        }
     }
 }

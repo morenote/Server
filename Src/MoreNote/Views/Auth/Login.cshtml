@@ -40,8 +40,8 @@
                         <label class="control-label">@msg["password"]</label>
                         <input type="password" class="form-control" id="pwd" name="pwd">
                     </div>
-                    <div class="form-group" hidden="hidden">
-                        <label class="control-label">谷歌两步验证码</label>
+                    <div id="two-step-authentication" class="form-group" hidden="hidden">
+                        <label class="control-label">two-step code</label>
                         <input type="text" class="form-control" id="timecode" name="timecode">
                     </div>
                     <div id="captchaContainer">
@@ -71,10 +71,15 @@
                     }
                     @if (quickLogin)
                     {
-                        <a href="/Auth/QuickLogin" class="btn btn-default btn-block">Quick Login By Cookie</a>
+                        <a href="/Auth/QuickLogin" class="btn btn-default btn-block">
+							Cookie Login 
+						</a>
                     }
-
-
+					 <button type="button" class="btn btn-primary btn-block">
+						  FIDO2  Login
+					</button>
+						
+					
                 </form>
 			</div>
 		</div>
@@ -94,6 +99,7 @@
 
 	<script>
 $(function() {
+	var error=@ViewBag.errorCount;
 	var needCaptcha = @ViewBag.needCaptcha;
 
 	if(needCaptcha){
@@ -147,13 +153,19 @@ $(function() {
 				var from = "/member";
 				location.href = from;
 			} else {
+				error++;
 				if(e.Item && $.trim($("#captchaContainer").text()) == "") {
-					
 					needCaptcha = true
 				}
-                $("#captchaContainer").html($("#tCaptcha").html());
-
-				showMsg(e.Msg);
+				if(error>10){
+					 $("#captchaContainer").html($("#tCaptcha").html());
+				}
+				if(error<10){
+					showMsg(e.Msg+";Your remaining times:"+(11-error));
+				}else{
+					showMsg(e.Msg);
+				}
+				
 			}
 		});
 	});
