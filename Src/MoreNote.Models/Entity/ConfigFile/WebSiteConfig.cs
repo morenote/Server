@@ -1,4 +1,6 @@
-﻿namespace MoreNote.Logic.Entity.ConfigFile
+﻿using MoreNote.Models.Entity.ConfigFile;
+
+namespace MoreNote.Logic.Entity.ConfigFile
 {
     public class WebSiteConfig
     {
@@ -16,6 +18,8 @@
         public GlobalConfig GlobalConfig{get;set;}=new GlobalConfig();
         public FileStoreConfig FileStoreConfig { get;set;}=new FileStoreConfig();
         public MinIOConfig MinIOConfig { get;set;}=new MinIOConfig();
+        public RedisConfig RedisConfig{get;set;}=new RedisConfig();
+
         public WebSiteConfig()
         {
 

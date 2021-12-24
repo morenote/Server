@@ -49,9 +49,9 @@ namespace MoreNote.Logic.Entity
         [Column("theme_id")]
         public long? ThemeId { get; set; }
         [Column("title")]
-        public string Title { get; set; }
-        [Column("friend_links_url")]
-        public string Url { get; set; }
+        public string? Title { get; set; }
+        [Column("url")]
+        public string? Url { get; set; }
        
     }
 }

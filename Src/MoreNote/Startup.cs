@@ -108,8 +108,22 @@ namespace MoreNote
                 }
             });
             // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
-            //使用分布式内存
-            services.AddDistributedMemoryCache();
+            //是否使用分布式内存
+            if (config.RedisConfig.IsEnable)
+            {
+
+                 services.AddDistributedRedisCache(options =>
+                {
+                    options.Configuration = config.RedisConfig.Configuration;
+                    options.InstanceName = config.RedisConfig.InstanceName;
+                });
+
+            }
+            else
+            {
+                services.AddDistributedMemoryCache();
+            }
+            
             ////使用Redis分布式缓存
             //services.AddDistributedRedisCache(options =>
             //{

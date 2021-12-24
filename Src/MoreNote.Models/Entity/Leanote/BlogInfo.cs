@@ -60,7 +60,7 @@ namespace MoreNote.Logic.Entity
         [Column("comment_type")]
         public string CommentType { get; set; } // default   CommentType // leanote, or disqus
         [Column("disqus_id")]
-        public string DisqusId { get; set; }  
+        public string? DisqusId { get; set; }  
     }
     [Table("user_blog_style")]
     public class UserBlogStyle

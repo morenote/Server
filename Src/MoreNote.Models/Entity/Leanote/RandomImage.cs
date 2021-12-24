@@ -36,6 +36,6 @@ namespace MoreNote.Logic.Entity
         [Column("is_302")]
         public bool Is302 { get;set;}//标记这个图片是否是302跳转图片
         [Column("external_link")]
-        public string ExternalLink  { get;set;}//图片的外部地址，302跳转需要用到这个值
+        public string? ExternalLink  { get;set;}//图片的外部地址，302跳转需要用到这个值
     }
 }
