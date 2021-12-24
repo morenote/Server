@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211224135329_fido2_7")]
+    partial class fido2_7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -466,10 +468,12 @@ namespace MoreNote.Logic.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("CommodityOrderId"));
 
                     b.Property<string>("NativeRequestMessage")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("native_request_message");
 
                     b.Property<string>("NativeResponseMessage")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("native_response_message");
 
@@ -478,6 +482,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnName("notify");
 
                     b.Property<string>("NotifyResponseMessage")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("notify_response_message");
 
@@ -510,6 +515,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnName("notify_url");
 
                     b.Property<string>("openid")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("openid");
 
@@ -528,10 +534,12 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnName("total_fee");
 
                     b.Property<string>("transaction_id")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("transaction_id");
 
                     b.Property<string>("type")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("type");
 

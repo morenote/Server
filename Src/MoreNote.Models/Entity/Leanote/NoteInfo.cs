@@ -114,7 +114,7 @@ namespace MoreNote.Logic.Entity
 
         //public string WebContent{ get;set;}//为web页面优化的内容
         [Column("abstract")]
-        public string Abstract { get; set; } // 摘要, 有html标签, 比content短, 在博客展示需要, 不放在notes表中
+        public string? Abstract { get; set; } // 摘要, 有html标签, 比content短, 在博客展示需要, 不放在notes表中
         [Column("created_time")]
         public DateTime CreatedTime { get; set; }
         [Column("updated_time")]

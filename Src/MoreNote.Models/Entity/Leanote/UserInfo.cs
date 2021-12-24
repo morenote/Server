@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MoreNote.Logic.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Text.Json.Serialization;
+
+using Microsoft.EntityFrameworkCore;
+
+using MoreNote.Logic.Entity;
 
 namespace MoreNote.Logic.Entity
 {
@@ -196,13 +198,51 @@ namespace MoreNote.Logic.Entity
         [Column("post_url")]
         public string? PostUrl { get; set; }
 
-        //编辑器偏好
+        //==================================编辑器偏好======================================================
         [Column("markdown_option")]
         public string? MarkdownEditorOption { get; set; } = "ace";//富文本编辑器选项
 
         [Column("rich_text_option")]
         public string? RichTextEditorOption { get; set; } = "tinymce";//markdown编辑器选项
 
+        //==================================安全密钥  FIDO2 yubikey=========================================
+        /// <summary>
+        /// 安全密钥凭证唯一ID
+        /// </summary>
+        [Column("fido2_credential_id")]
+        
+        public string? FIDO2CredentialId { get; set; }
+        /// <summary>
+        /// FIDO2用户公钥
+        /// </summary>
+        [Column("fido2_public_key")]
+        public string? FIDO2PublicKey { get; set; }
+        /// <summary>
+        /// FIDO2用户唯一标识
+        /// </summary>
+        [Column("fido2_user_handle")]
+        public string? FIDO2UserHandle { get; set; }
+        /// <summary>
+        /// FIDO2签名次数
+        /// </summary>
+        [Column("fido2_signature_counter")]
+        public int FIDO2SignatureCounter { get; set; }
+        /// <summary>
+        /// FIDO2凭证类型
+        /// </summary>
+        [Column("fido2_cred_type")]
+        public string? FIDO2CredType { get; set; }
+        /// <summary>
+        /// FIDO2注册时间
+        /// </summary>
+        [Column("fido2_reg_date")]
+        public DateTime? FIDO2RegDate { get; set; }
+        /// <summary>
+        /// FIDO2唯一序列号
+        /// </summary>
+        [Column("fido2_guid")]
+        public string? FIDO2Guid { get; set; }
+        //=======================================================================================================
         public bool IsAdmin()
         {
             return this.Role.ToLower().Equals("admin");
@@ -212,8 +252,6 @@ namespace MoreNote.Logic.Entity
         {
             return this.Role.ToLower().Equals("superadmin");
         }
-
-        
     }
 
     [Table("user_account")]

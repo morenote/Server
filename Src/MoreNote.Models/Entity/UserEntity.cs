@@ -34,5 +34,7 @@ namespace NickelProject.Logic.Entity
         public int Credit { get; set; }
         public int Gb { get; set; }
 
+       
+
     }
 }

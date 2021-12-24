@@ -47,7 +47,7 @@ namespace MoreNote.Logic.Entity
         /// 支付宝交易传值：alipay ，微信支付无需此字段
         /// </summary>
         [Column("type")]
-        public string type { get; set; }
+        public string? type { get; set; }
         /// <summary>
         /// PAYJS 订单号
         /// </summary>
@@ -57,12 +57,12 @@ namespace MoreNote.Logic.Entity
         /// 微信用户手机显示订单号
         /// </summary>
         [Column("transaction_id")]
-        public string transaction_id { get; set; }
+        public string? transaction_id { get; set; }
         /// <summary>
         /// 用户OPENID标示，本参数没有实际意义，旨在方便用户端区分不同用户
         /// </summary>
         [Column("openid")]
-        public string openid { get; set; }
+        public string? openid { get; set; }
         /// <summary>
         /// 是否回调成功
         /// </summary>
@@ -82,17 +82,17 @@ namespace MoreNote.Logic.Entity
         /// 二维码支付请求数据
         /// </summary>
         [Column("native_request_message")]
-        public string NativeRequestMessage { get; set; }
+        public string? NativeRequestMessage { get; set; }
         /// <summary>
         /// 二维码支付返回数据
         /// </summary>
         [Column("native_response_message")]
-        public string NativeResponseMessage { get; set; }
+        public string? NativeResponseMessage { get; set; }
         /// <summary>
         /// 支付成功异步通知接口返回信息
         /// </summary>
         [Column("notify_response_message")]
-        public string NotifyResponseMessage { get; set; }
+        public string? NotifyResponseMessage { get; set; }
 
 
     }
