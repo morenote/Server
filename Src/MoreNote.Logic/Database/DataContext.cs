@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.Entity.Leanote;
-using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.Leanote;
 
 namespace MoreNote.Logic.Database
@@ -10,8 +10,6 @@ namespace MoreNote.Logic.Database
     {
         //public DataContext()
         //{
-
-
         //}
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
@@ -25,13 +23,7 @@ namespace MoreNote.Logic.Database
         public DataContext(DbContextOptions<DataContext> options)
           : base(options)
         {
-
-
-
         }
-       
-     
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,7 +38,10 @@ namespace MoreNote.Logic.Database
                   .Entity<AttachInfo>()
                   .Property(e => e.StorageType)
                   .HasConversion<int>();
-          
+
+            modelBuilder.Entity<User>()
+               .HasMany(b => b.FIDO2Items)
+               .WithOne();
         }
 
         public DbSet<Album> Album { get; set; }
@@ -72,7 +67,6 @@ namespace MoreNote.Logic.Database
         public DbSet<BlogComment> BlogComment { get; set; }
         public DbSet<BlogCommentPublic> BlogCommentPublic { get; set; }
 
-        
         public DbSet<Config> Config { get; set; }
 
         public DbSet<EmailLog> EmailLog { get; set; }
@@ -93,13 +87,13 @@ namespace MoreNote.Logic.Database
         public DbSet<Tag> Tag { get; set; }
         public DbSet<NoteTag> NoteTag { get; set; }
         public DbSet<TagCount> TagCount { get; set; }
-        public DbSet<NoteTagMap> NoteTagMap { get;set;}
+        public DbSet<NoteTagMap> NoteTagMap { get; set; }
 
         public DbSet<Theme> Theme { get; set; }
         public DbSet<FriendLinks> FriendLinks { get; set; }
         public DbSet<Token> Token { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<FIDO2Item> FIDO2Repository{get;set;}
+        public DbSet<FIDO2Item> FIDO2Repository { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
 
         //应用更新服务
