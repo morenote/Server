@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211227152248_fido2_1227_9")]
+    partial class fido2_1227_9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2096,9 +2098,6 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bytea")
                         .HasColumnName("fido2_credential_id");
 
-                    b.Property<long>("OwnerUserId")
-                        .HasColumnType("bigint");
-
                     b.Property<byte[]>("PublicKey")
                         .HasColumnType("bytea")
                         .HasColumnName("fido2_public_key");
@@ -2115,12 +2114,16 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bytea")
                         .HasColumnName("fido2_user_handle");
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("OwnerUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("fido2_item");
                 });
@@ -2141,13 +2144,9 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.FIDO2Item", b =>
                 {
-                    b.HasOne("MoreNote.Logic.Entity.User", "Owner")
+                    b.HasOne("MoreNote.Logic.Entity.User", null)
                         .WithMany("FIDO2Items")
-                        .HasForeignKey("OwnerUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Cate", b =>

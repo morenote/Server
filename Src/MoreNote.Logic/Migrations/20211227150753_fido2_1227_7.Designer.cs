@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211227150753_fido2_1227_7")]
+    partial class fido2_1227_7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2075,7 +2077,7 @@ namespace MoreNote.Logic.Migrations
                     b.ToTable("access_records");
                 });
 
-            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.FIDO2Item", b =>
+            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.FIDO2Repository", b =>
                 {
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
@@ -2096,9 +2098,6 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bytea")
                         .HasColumnName("fido2_credential_id");
 
-                    b.Property<long>("OwnerUserId")
-                        .HasColumnType("bigint");
-
                     b.Property<byte[]>("PublicKey")
                         .HasColumnType("bytea")
                         .HasColumnName("fido2_public_key");
@@ -2115,14 +2114,18 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bytea")
                         .HasColumnName("fido2_user_handle");
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("OwnerUserId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("fido2_item");
+                    b.ToTable("fido2_repository");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Authorization", b =>
@@ -2139,15 +2142,11 @@ namespace MoreNote.Logic.Migrations
                         .HasForeignKey("CateId1");
                 });
 
-            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.FIDO2Item", b =>
+            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.FIDO2Repository", b =>
                 {
-                    b.HasOne("MoreNote.Logic.Entity.User", "Owner")
-                        .WithMany("FIDO2Items")
-                        .HasForeignKey("OwnerUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
+                    b.HasOne("MoreNote.Logic.Entity.User", null)
+                        .WithMany("FIDO2Repositories")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Cate", b =>
@@ -2157,7 +2156,7 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.User", b =>
                 {
-                    b.Navigation("FIDO2Items");
+                    b.Navigation("FIDO2Repositories");
 
                     b.Navigation("Jurisdiction");
                 });

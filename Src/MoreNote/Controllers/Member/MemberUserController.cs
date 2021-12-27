@@ -74,7 +74,7 @@ namespace MoreNote.Controllers.Member
              SetUserInfo();
             ViewBag.title = "FIDO2 Setting Options";
             userService.InitFIDO2Repositories(user.UserId);
-            ViewBag.fido2Repositories=user.FIDO2Repositories;
+            ViewBag.fido2Repositories=user.FIDO2Items;
             return View("Views/Member/user/fido2.cshtml");
         }
 
@@ -112,9 +112,10 @@ namespace MoreNote.Controllers.Member
             public IActionResult AddTestFIDO2()
         {
             var user=this.GetUserBySession();
-            var fido=new Models.Entity.Leanote.FIDO2Repository()
+            var fido=new Models.Entity.Leanote.FIDO2Item()
             {
                 Id=SnowFlakeNet.GenerateSnowFlakeID(),
+              
                 CredentialId=System.Text.Encoding.Default.GetBytes ( "1111" ),
                 UserHandle=System.Text.Encoding.Default.GetBytes ( "1111" ),
                 SignatureCounter=0,
