@@ -16,6 +16,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.ConfigFile;
+using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Model.FIDO2;
 
 namespace MoreNote.Logic.Security.FIDO2.Service
@@ -32,7 +33,12 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         private FIDO2Config fido2Config;
         private IDistributedCache cache;//缓存数据库
 
-        public Fido2User GetFido2User(User user)
+        /// <summary>
+        /// 系统User与FIDO2User的相互转换
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public Fido2User GetFido2UserByUser(User user)
         {
             return null;
         }
@@ -76,7 +82,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             {
                 throw new Exception();
             }
-            var fidoUser = GetFido2User(user);
+            var fidoUser = GetFido2UserByUser(user);
             // Create options
             var options = _fido2.RequestNewCredential(fidoUser, new List<PublicKeyCredentialDescriptor>(), opts.AuthenticatorSelection, opts.Attestation);
 
@@ -89,7 +95,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <para>当客户端返回响应时，我们验证并注册凭据。</para>
         /// </summary>
         /// <param name="attestationResponse"></param>
-        public async void MakeCredentialResult(long userId, AuthenticatorAttestationRawResponse attestationResponse)
+        public async Task<bool> MakeCredentialAsync(long userId, AuthenticatorAttestationRawResponse attestationResponse)
         {
             // 1. get the options we sent the client
             var jsonOptions = cache.GetString(userId.ToString() + "attestationOptions");
@@ -107,24 +113,117 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             // 2. Verify and make the credentials
             var success = await _fido2.MakeNewCredentialAsync(attestationResponse, options, callback);
             // 3. Store the credentials in db
+            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            if (user == null)
+            {
+                return false;
+            }
+            user.FIDO2Repositories.Add(new FIDO2Repository()
+            {
+                CredentialId = success.Result.CredentialId,
+                PublicKey = success.Result.PublicKey,
+                UserHandle = success.Result.User.Id,
+                SignatureCounter = success.Result.Counter,
+                CredType = success.Result.CredType,
+                RegDate = DateTime.Now,
+                AaGuid = success.Result.Aaguid
+            });
 
+            dataContext.SaveChanges();
 
+            return true;
         }
 
         /// <summary>
         /// 创建断言选项
         /// <para> 当用户想要登录时，我们会根据注册的凭据进行断言。</para>
         /// </summary>
-        public void AssertionOptions()
+        public AssertionOptions AssertionOptionsPost(long userid, AssertionClientParams assertionClientParams, out string error)
         {
+            error = string.Empty;
+            var userName = assertionClientParams.Username;
+            // 1. Get user from DB
+            var user = dataContext.User.Where(b => b.Email.Equals(userName) || b.Username.Equals(userName.ToLower())).FirstOrDefault();
+            if (user == null)
+            {
+                error = "username was not registered";
+                return new AssertionOptions()
+                {
+                    Status = "bad",
+                    ErrorMessage = error
+                };
+            }
+            // 2. Get registered credentials from database
+            var storedCredential = user.FIDO2Repositories;
+
+            var existingCredentials = user.GetPublicKeyCredentialDescriptors();
+
+            var exts = new AuthenticationExtensionsClientInputs()
+            {
+                UserVerificationMethod = true
+            };
+
+            // 3. Create options
+            var uv = assertionClientParams.UserVerification;
+
+            if (null != assertionClientParams.authenticatorSelection)
+            {
+                uv = assertionClientParams.authenticatorSelection.UserVerification;
+            }
+            var options = _fido2.GetAssertionOptions(
+                existingCredentials,
+                uv,
+                exts
+            );
+            cache.SetString(user.UserId.ToString() + "assertionOptions", options.ToJson(), 120);
+
+            return options;
         }
 
         /// <summary>
         /// 验证断言响应
         /// <para>当客户端返回响应时，我们对其进行验证并接受登录。</para>
         /// </summary>
-        public void MakeCredentialParams()
+        public async Task<AssertionVerificationResult> MakeAssertionAsync(long UserId, AuthenticatorAssertionRawResponse clientRespons)
         {
+            var user = dataContext.User.Where(b => b.UserId == UserId).FirstOrDefault();
+            if (user == null)
+            {
+                return new AssertionVerificationResult()
+                {
+                    Status = "bad"
+                };
+            }
+            // 1. Get the assertion options we sent the client
+            var jsonOptions = cache.GetString(user.UserId.ToString() + "assertionOptions");
+            if (string.IsNullOrEmpty(jsonOptions))
+            {
+                return new AssertionVerificationResult()
+                {
+                    Status = "fail",
+                    ErrorMessage = "time out"
+                };
+            }
+            var options = AssertionOptions.FromJson(jsonOptions);
+            // 2. Get registered credential from database
+            var storedCredential = user.FIDO2Repositories;
+            // 3. Get credential counter from database
+
+            var creds = user.FIDO2Repositories.Where(b => b.CredentialId.SequenceEqual(clientRespons.Id)).FirstOrDefault();
+
+            var storedCounter = creds.SignatureCounter;
+            // 4. Create callback to check if userhandle owns the credentialId
+
+            IsUserHandleOwnerOfCredentialIdAsync callback = async (args) =>
+              {
+                  return storedCredential.Exists(c => c.CredentialId.SequenceEqual(args.CredentialId));
+              };
+            // 5. Make the assertion
+            var res = await _fido2.MakeAssertionAsync(clientRespons, options, creds.PublicKey, storedCounter, callback);
+            // 6. Store the updated counter
+            creds.SignatureCounter = res.Counter;
+            dataContext.SaveChanges();
+            return res;
         }
     }
 }

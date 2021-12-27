@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211227142949_fido2_1227_3")]
+    partial class fido2_1227_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2113,15 +2115,13 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnName("fido2_user_handle");
 
                     b.Property<long?>("UserId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("user_id");
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("Id", "CredentialId", "UserHandle", "RegDate", "AaGuid");
 
                     b.ToTable("fido2_repository");
                 });

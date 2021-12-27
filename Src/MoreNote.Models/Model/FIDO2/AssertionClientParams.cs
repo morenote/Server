@@ -11,7 +11,7 @@ namespace MoreNote.Models.Model.FIDO2
 {
     public class AssertionClientParams
     {
-        public string Username { get; set; }
+            public string Username { get; set; }
             public UserVerificationRequirement? UserVerification { get; set; }
             public AuthenticatorSelection authenticatorSelection { get; set; }
             public AuthenticationExtensionsClientOutputs Extensions { get; set; }

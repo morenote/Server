@@ -1,4 +1,4 @@
-﻿namespace Morenote.FIDO2
+﻿namespace MoreNote.Database
 {
     public class Class1
     {

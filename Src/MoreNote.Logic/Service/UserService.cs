@@ -1,13 +1,15 @@
-﻿using MoreNote.Common.ExtensionMethods;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.HySystem;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.PasswordSecurity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using MoreNote.Models.Entity.Leanote;
 
 namespace MoreNote.Logic.Service
 {
@@ -89,7 +91,7 @@ namespace MoreNote.Logic.Service
 
         public bool VDUserName(string username, out string message)
         {
-             bool result =false;
+            bool result = false;
             message = string.Empty;
             //验证是否包含特殊符号
 
@@ -151,15 +153,15 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
-        public bool SetEditorPreferences(long? userId,string mdOption, string rtOption)
+        public bool SetEditorPreferences(long? userId, string mdOption, string rtOption)
         {
-            var user=dataContext.User.Where(b=>b.UserId==userId).FirstOrDefault();
-            if (user==null)
+            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            if (user == null)
             {
                 return false;
             }
-            user.MarkdownEditorOption=mdOption;
-            user.RichTextEditorOption=rtOption;
+            user.MarkdownEditorOption = mdOption;
+            user.RichTextEditorOption = rtOption;
             dataContext.SaveChanges();
             return true;
         }
@@ -479,6 +481,23 @@ namespace MoreNote.Logic.Service
         public int CountUser()
         {
             return dataContext.User.Count();
+        }
+
+        public void AddFIDO2Repository(long? userId, FIDO2Repository fIDO2Repository)
+        {
+            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            user.FIDO2Repositories.Add(fIDO2Repository);
+            dataContext.SaveChanges();
+        }
+        public void InitFIDO2Repositories(long? userId)
+        {
+            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            if (user.FIDO2Repositories == null)
+            {
+                user.FIDO2Repositories=new List<FIDO2Repository>();
+            }
+            dataContext.SaveChanges();
+
         }
     }
 }

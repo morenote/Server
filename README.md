@@ -9,18 +9,22 @@
 > A developer platform for building all  apps.  
 > But  Who cares?
 
-演示网站：<a href="https://www.morenote.top/" target="_blank">morenote云笔记</a>
+在树莓派上的演示网站：<a href="https://www.morenote.top/" target="_blank">morenote云笔记</a>
 
 github:https://github.com/hyfree/MoreNote
 
 gitee:https://gitee.com/hyfree_cn/MoreNote/
 
 
-## 概述
+## MoreNote是什么
 
 ![MoreNote.NET Core](https://github.com/hyfree/MoreNote/workflows/MoreNote.NET%20Core/badge.svg?event=push)
 
-morenote是使用.Net构建的跨平台笔记托管服务，可以运行在Linux和window平台。morenote是基于leanote开发的，提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。相对而言，MoreNote提供了更多的控制选项和更差劲的性能和安全表现👏。
+morenote是使用.net构建的跨平台笔记托管服务，可以运行在Linux和window平台。
+
+morenote是基于leanote的代码二次开发的，提供与leanote一致的API表现，并且最大限度的支持leanote的笔记文件的编码格式。
+
+相对而言，MoreNote提供了更多的控制选项和更差劲的性能和安全表现👏。
 
 ## 项目目标
 
@@ -40,6 +44,7 @@ morenote是使用.Net构建的跨平台笔记托管服务，可以运行在Linux
 * 分布式：任意一个客户端连接到MoreNote均可以获得基于笔记的一个完整拷贝【计划】
 * 数据备份：允许使用任意数据源（WebDev、FTP、OSS等）备份笔记，并使用任意数据源恢复数据【计划】
 * 灾难恢复：使用任意一个完整拷贝或备份文件均可以恢复笔记数据【计划】
+* 更加开放：提供完全可用的全功能API供第三方开发者使用，不受束缚。
 
 
 ## 项目状态
@@ -71,15 +76,25 @@ MoreNote与leanote的主要区别如下：
 
 | 区别| MoreNote | leanote |
 | :----- | :----: | :----: |
-| 开发语言 | C#(.Net5) | Go |
+| 开发语言 | C#(.net6) | Go |
 | 数据库 | PostgreSQL | MongoDB  |
 | 性能 | 非常慢 | 非常快  |
-| 内存占有 |  至少1GB可用内存 | 应该比我少😆  |
-| 主题 | 不支持 | 支持主题包安装  |
-| 支持 | 不支持 | 社区支持&付费版支持  |
-| 多用户 | 不支持 | 支持  |
-| 全文检索 | 不支持 | 支持  |
-| 缓存 | 不支持 | NoSQL  |
+| 内存占有 |  1GB | 应该比我少😆  |
+| 主题 | 不支持 | 博客主题  |
+| bug修复支持 | 社区支持 | 社区支持&付费版支持  |
+| 多租户 | 支持 | 支持  |
+| 全文检索 | 笔记标题√笔记内容√附件标题× | 支持  |
+| 笔记历史 | 不支持（开发中） | 支持 |
+| 缓存 | 本机内存 or Redis | MongoDB |
+| 编辑器 | ace、tinymce、vditor、textbus | ace、tinymce |
+| 文件管理器 | 支持 | 不支持 |
+| 两步验证（开发中） | FIDO2&  人脸登录& Google two-step authentication | 不支持 |
+| 反垃圾评论 | 基于机器学习自动识别 | 不支持 |
+| 跨平台 | 支持 | 支持 |
+| 笔记即服务 | 不支持（开发中） | 不支持 |
+| 笔记定时备份 | 不支持（开发中） | 不支持 |
+| 笔记灾难恢复 | 不支持（开发中） | 不支持 |
+| 笔记导出功能 | msync(开发中) | 支持 |
 
 
 
@@ -126,8 +141,9 @@ dotnet run
 - Masuit.LuceneEFCore.SearchEngine(基于EntityFrameworkCore和Lucene.NET实现的全文检索搜索引擎)
 - Masuit.MyBlogs(高性能低占用的博客系统)
 - Leanote(Go语言实现的云笔记服务)
+- MINIO（分布式对象存储服务）
 
-####  向他们的作品和创造致敬
+####  向他们的作品致敬
 
 -   Wolai
 -   为知笔记
@@ -137,4 +153,6 @@ dotnet run
 -   树莓盘
 -   NGX File Cloud 网盘 & NAS
 -   可道云
+-   LESLIE NOTE 
+-   有道云笔记
 
