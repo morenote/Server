@@ -118,7 +118,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             {
                 return false;
             }
-            user.FIDO2Repositories.Add(new FIDO2Repository()
+            user.FIDO2Items.Add(new FIDO2Item()
             {
                 CredentialId = success.Result.CredentialId,
                 PublicKey = success.Result.PublicKey,
@@ -154,7 +154,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 };
             }
             // 2. Get registered credentials from database
-            var storedCredential = user.FIDO2Repositories;
+            var storedCredential = user.FIDO2Items;
 
             var existingCredentials = user.GetPublicKeyCredentialDescriptors();
 
@@ -206,10 +206,10 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             }
             var options = AssertionOptions.FromJson(jsonOptions);
             // 2. Get registered credential from database
-            var storedCredential = user.FIDO2Repositories;
+            var storedCredential = user.FIDO2Items;
             // 3. Get credential counter from database
 
-            var creds = user.FIDO2Repositories.Where(b => b.CredentialId.SequenceEqual(clientRespons.Id)).FirstOrDefault();
+            var creds = user.FIDO2Items.Where(b => b.CredentialId.SequenceEqual(clientRespons.Id)).FirstOrDefault();
 
             var storedCounter = creds.SignatureCounter;
             // 4. Create callback to check if userhandle owns the credentialId

@@ -21,16 +21,16 @@ using StackExchange.Redis;
 namespace MoreNote.Models.Entity.Leanote
 {
     
-    [Table("fido2_repository"), Index(nameof(Id), IsUnique =true)]
-    public class FIDO2Repository
+    [Table("fido2_item"), Index(nameof(Id), IsUnique =true)]
+    public class FIDO2Item
     {
 
         [Key]
         [Column("id")]
         public long? Id{get; set;}
 
-         [Column("user_id")]
-        public long? UserId { get; set; }
+        [Column("owner")]
+        public User Owner { get; set; }
          /// <summary>
         /// 安全密钥凭证唯一ID
         /// </summary>

@@ -483,20 +483,16 @@ namespace MoreNote.Logic.Service
             return dataContext.User.Count();
         }
 
-        public void AddFIDO2Repository(long? userId, FIDO2Repository fIDO2Repository)
+        public void AddFIDO2Repository(long? userId, FIDO2Item fIDO2Repository)
         {
-            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
-            user.FIDO2Repositories.Add(fIDO2Repository);
+           
+          
+            dataContext.FIDO2Repository.Add(fIDO2Repository);
             dataContext.SaveChanges();
         }
         public void InitFIDO2Repositories(long? userId)
         {
-            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
-            if (user.FIDO2Repositories == null)
-            {
-                user.FIDO2Repositories=new List<FIDO2Repository>();
-            }
-            dataContext.SaveChanges();
+           
 
         }
     }

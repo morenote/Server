@@ -46,7 +46,7 @@ namespace MoreNote.Logic.Database
                   .Entity<AttachInfo>()
                   .Property(e => e.StorageType)
                   .HasConversion<int>();
-
+          
         }
 
         public DbSet<Album> Album { get; set; }
@@ -99,7 +99,7 @@ namespace MoreNote.Logic.Database
         public DbSet<FriendLinks> FriendLinks { get; set; }
         public DbSet<Token> Token { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<FIDO2Repository> FIDO2Repository{get;set;}
+        public DbSet<FIDO2Item> FIDO2Repository{get;set;}
         public DbSet<UserAccount> UserAccount { get; set; }
 
         //应用更新服务

@@ -209,7 +209,9 @@ namespace MoreNote.Logic.Entity
         public string? RichTextEditorOption { get; set; } = "tinymce";//markdown编辑器选项
 
         //==================================安全密钥  FIDO2 yubikey=========================================
-        public List<FIDO2Repository>? FIDO2Repositories {get; set;}
+        [Column("fido2_items")]
+        [InverseProperty("owner")]
+        public List<FIDO2Item>? FIDO2Items {get; set;}
         //=======================================================================================================
         public bool IsAdmin()
         {
@@ -222,7 +224,7 @@ namespace MoreNote.Logic.Entity
         }
         public List<PublicKeyCredentialDescriptor> GetPublicKeyCredentialDescriptors()
         {
-           var existingCredentials = this.FIDO2Repositories.Select(p=>p.GetDescriptor()).ToList<PublicKeyCredentialDescriptor>();
+           var existingCredentials = this.FIDO2Items.Select(p=>p.GetDescriptor()).ToList<PublicKeyCredentialDescriptor>();
            return existingCredentials;
         }
 
