@@ -66,18 +66,7 @@ namespace MoreNote.Controllers.Member
             return View("Views/Member/user/password.cshtml");
         }
 
-        public IActionResult FIDO2()
-        {
-            User user = GetUserBySession();
-            ViewBag.user = user;
-            SetLocale();
-             SetUserInfo();
-            ViewBag.title = "FIDO2 Setting Options";
-            userService.InitFIDO2Repositories(user.UserId);
-            ViewBag.fido2Repositories=user.FIDO2Items;
-            return View("Views/Member/user/fido2.cshtml");
-        }
-
+   
 
          public IActionResult Editor()
         {
@@ -109,6 +98,20 @@ namespace MoreNote.Controllers.Member
 
             return View("Views/Member/user/avatar.cshtml");
         }
+
+             public IActionResult FIDO2()
+        {
+            User user = GetUserBySession();
+            ViewBag.user = user;
+            SetLocale();
+             SetUserInfo();
+            ViewBag.title = "FIDO2 Setting Options";
+            userService.InitFIDO2Repositories(user.UserId);
+            ViewBag.fido2Repositories=user.FIDO2Items;
+            return View("Views/Member/user/fido2.cshtml");
+        }
+
+
             public IActionResult AddTestFIDO2()
         {
             var user=this.GetUserBySession();
