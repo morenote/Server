@@ -1,0 +1,131 @@
+﻿@using MoreNote.Models.Entity.Leanote
+@{
+    Layout = "/Views/Member/_MemberLayout.cshtml";
+    Dictionary<string, string>  msg = ViewBag.msg;
+    Dictionary<string, string> member = ViewBag.member;
+
+
+    string keywords= ViewBag.keywords;
+
+    User[] users=ViewBag.users;
+    List < FIDO2Repository > fido2Repositories = ViewBag.fido2Repositories;
+}
+ 
+ <section class="panel panel-default">
+            <div class="row wrapper">
+                <div class="col-sm-5 m-b-xs">
+                    <button id="add_fido2" class="btn btn-sm btn-default bulk-email">
+                        Add FIDO2
+                    </button>
+                      <button id="delete_some_fido" class="btn btn-sm btn-default ">
+                        Delete Select
+                    </button>
+                       <button id="test" class="btn btn-sm btn-default ">
+                        Add_test
+                    </button>
+                </div>
+                <div class="col-sm-4 m-b-xs">
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group search-group">
+                        <input type="text" class="input-sm form-control" placeholder="Username or Email" id="keywords" value="@keywords" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-sm btn-default" type="button" data-url="/adminUser/index">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                        <tr>
+                            <th width="20">
+                                <input type="checkbox">
+                            </th>
+                           
+                            <th >
+                                Fido2-ID
+                                <span class="th-sort">
+                                    <i class="fa fa-sort-down"></i>
+                                    <i class="fa fa-sort-up"></i>
+                                    <i class="fa fa-sort"></i>
+                                </span>
+                            </th>
+                            <th >
+                                UserId
+                                <span class="th-sort">
+                                    <i class="fa fa-sort-down"></i>
+                                    <i class="fa fa-sort-up"></i>
+                                    <i class="fa fa-sort"></i>
+                                </span>
+                            </th>
+                            <th >
+                                PublicKey
+                                <span class="th-sort">
+                                    <i class="fa fa-sort-down"></i>
+                                    <i class="fa fa-sort-up"></i>
+                                    <i class="fa fa-sort"></i>
+                                </span>
+                            </th>
+                            <th >
+                                Register Date
+                                <span class="th-sort">
+                                    <i class="fa fa-sort-down"></i>
+                                    <i class="fa fa-sort-up"></i>
+                                    <i class="fa fa-sort"></i>
+                                </span>
+                            </th>
+                            <th width="30">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var fido in fido2Repositories)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="ck" data-email="@fido.Id" data-id="@fido.Id.ToHex24()">
+                                </td>
+                                <td>
+                                    <a target="_blank" href="/blog/@fido.Id.ToHex24()">UserId</a>
+                                </td>
+                                <td>
+                                    @fido.Id.ToHex24()
+                                </td>
+                                <td>
+                                   @fido.PublicKey.ByteArrayToBase64()
+                                </td>
+                                <td>
+                                  @fido.RegDate
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-default reset-pwd" data-id="@fido.Id.ToHex24()}">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                        
+                    </tbody>
+                </table>
+            </div>
+           
+        </section>
+
+@section Footer {
+<!-- 注入脚本 -->
+<script>
+    $(function () {
+        $("#test").click(function () {
+          openDialog({width: 500,  url: "/member/user/AddTestFIDO2" , title: "Add Test Fido2"});
+        });
+       
+
+
+
+        // reset password
+        $(".reset-pwd").click(function () {
+            var id = $(this).data("id");
+            openDialog({ width: 500, url: "/adminUser/resetPwd?userId=" + id, title: "Reset Password" });
+        });
+    });
+</script>
+}

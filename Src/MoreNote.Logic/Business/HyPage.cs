@@ -1,6 +1,0 @@
-﻿
-
-namespace MoreNote.Logic.Business
-{
- 
-}

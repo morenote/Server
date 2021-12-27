@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Hangfire.MemoryStorage.Database;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -61,6 +65,20 @@ namespace MoreNote.Controllers.Member
             ViewBag.title = "密码";
             return View("Views/Member/user/password.cshtml");
         }
+
+        public IActionResult FIDO2()
+        {
+            User user = GetUserBySession();
+            ViewBag.user = user;
+            SetLocale();
+             SetUserInfo();
+            ViewBag.title = "FIDO2 Setting Options";
+            userService.InitFIDO2Repositories(user.UserId);
+            ViewBag.fido2Repositories=user.FIDO2Repositories;
+            return View("Views/Member/user/fido2.cshtml");
+        }
+
+
          public IActionResult Editor()
         {
             User user = GetUserBySession();
@@ -90,6 +108,28 @@ namespace MoreNote.Controllers.Member
             ViewBag.globalConfigs= ConfigService.GetGlobalConfigForUser();
 
             return View("Views/Member/user/avatar.cshtml");
+        }
+            public IActionResult AddTestFIDO2()
+        {
+            var user=this.GetUserBySession();
+            var fido=new Models.Entity.Leanote.FIDO2Repository()
+            {
+                Id=SnowFlakeNet.GenerateSnowFlakeID(),
+                CredentialId=System.Text.Encoding.Default.GetBytes ( "1111" ),
+                UserHandle=System.Text.Encoding.Default.GetBytes ( "1111" ),
+                SignatureCounter=0,
+                CredType="",
+
+                PublicKey= System.Text.Encoding.Default.GetBytes ( "1111" ),
+                RegDate=DateTime.Now,
+                AaGuid=new Guid()
+
+                
+            };
+            userService.AddFIDO2Repository(user.UserId, fido);
+
+            return Ok();
+            
         }
     }
 }

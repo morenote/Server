@@ -5,9 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Text.Json.Serialization;
 
+using Fido2NetLib.Objects;
+
 using Microsoft.EntityFrameworkCore;
 
 using MoreNote.Logic.Entity;
+using MoreNote.Models.Entity.Leanote;
 
 namespace MoreNote.Logic.Entity
 {
@@ -206,42 +209,7 @@ namespace MoreNote.Logic.Entity
         public string? RichTextEditorOption { get; set; } = "tinymce";//markdown编辑器选项
 
         //==================================安全密钥  FIDO2 yubikey=========================================
-        /// <summary>
-        /// 安全密钥凭证唯一ID
-        /// </summary>
-        [Column("fido2_credential_id")]
-        
-        public string? FIDO2CredentialId { get; set; }
-        /// <summary>
-        /// FIDO2用户公钥
-        /// </summary>
-        [Column("fido2_public_key")]
-        public string? FIDO2PublicKey { get; set; }
-        /// <summary>
-        /// FIDO2用户唯一标识
-        /// </summary>
-        [Column("fido2_user_handle")]
-        public string? FIDO2UserHandle { get; set; }
-        /// <summary>
-        /// FIDO2签名次数
-        /// </summary>
-        [Column("fido2_signature_counter")]
-        public int FIDO2SignatureCounter { get; set; }
-        /// <summary>
-        /// FIDO2凭证类型
-        /// </summary>
-        [Column("fido2_cred_type")]
-        public string? FIDO2CredType { get; set; }
-        /// <summary>
-        /// FIDO2注册时间
-        /// </summary>
-        [Column("fido2_reg_date")]
-        public DateTime? FIDO2RegDate { get; set; }
-        /// <summary>
-        /// FIDO2唯一序列号
-        /// </summary>
-        [Column("fido2_guid")]
-        public string? FIDO2Guid { get; set; }
+        public List<FIDO2Repository>? FIDO2Repositories {get; set;}
         //=======================================================================================================
         public bool IsAdmin()
         {
@@ -252,6 +220,12 @@ namespace MoreNote.Logic.Entity
         {
             return this.Role.ToLower().Equals("superadmin");
         }
+        public List<PublicKeyCredentialDescriptor> GetPublicKeyCredentialDescriptors()
+        {
+           var existingCredentials = this.FIDO2Repositories.Select(p=>p.GetDescriptor()).ToList<PublicKeyCredentialDescriptor>();
+           return existingCredentials;
+        }
+
     }
 
     [Table("user_account")]
