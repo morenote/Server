@@ -210,7 +210,6 @@ namespace MoreNote.Logic.Entity
 
         //==================================安全密钥  FIDO2 yubikey=========================================
         [Column("fido2_items")]
-        [InverseProperty("Owner")]
         public List<FIDO2Item>? FIDO2Items {get; set;}
         //=======================================================================================================
         public bool IsAdmin()
