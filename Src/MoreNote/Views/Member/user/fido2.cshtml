@@ -43,6 +43,7 @@
                                 <input type="checkbox">
                             </th>
                            
+
                             <th >
                                 Fido2-ID
                                 <span class="th-sort">
@@ -52,13 +53,14 @@
                                 </span>
                             </th>
                             <th >
-                                UserId
+                                CredType
                                 <span class="th-sort">
                                     <i class="fa fa-sort-down"></i>
                                     <i class="fa fa-sort-up"></i>
                                     <i class="fa fa-sort"></i>
                                 </span>
                             </th>
+
                             <th >
                                 PublicKey
                                 <span class="th-sort">
@@ -87,10 +89,10 @@
                                     <input type="checkbox" class="ck" data-email="@fido.Id" data-id="@fido.Id.ToHex24()">
                                 </td>
                                 <td>
-                                    <a target="_blank" href="/blog/@fido.Id.ToHex24()">UserId</a>
+                                    <a target="_blank" href="/blog/@fido.Id.ToHex24()"> @fido.Id.ToHex24()</a>
                                 </td>
-                                <td>
-                                    @fido.Id.ToHex24()
+                                 <td>
+                                   @fido.CredType
                                 </td>
                                 <td>
                                    @fido.PublicKey.ByteArrayToBase64()

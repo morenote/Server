@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.EntityFrameworkCore;
+
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.HySystem;
 using MoreNote.Common.Utils;
@@ -40,7 +42,8 @@ namespace MoreNote.Logic.Service
                 return null;
             }
             var result = dataContext.User
-                     .Where(b => b.UserId.Equals(userid)).FirstOrDefault();
+                          .Include(user => user.FIDO2Items)
+                          .Where(b => b.UserId==(userid)).FirstOrDefault();
             return result;
         }
 
@@ -151,6 +154,14 @@ namespace MoreNote.Logic.Service
             }
             //验证合法性
             return true;
+        }
+
+        public void AddFIDO2Repository(long? userId, FIDO2Item fido)
+        {
+            var user = dataContext.User.Include(p => p.FIDO2Items).Where(b => b.UserId == userId).FirstOrDefault();
+            //user.FIDO2Items.Add(fido);
+            dataContext.FIDO2Repository.Add(fido);
+            dataContext.SaveChanges();
         }
 
         public bool SetEditorPreferences(long? userId, string mdOption, string rtOption)
@@ -483,17 +494,8 @@ namespace MoreNote.Logic.Service
             return dataContext.User.Count();
         }
 
-        public void AddFIDO2Repository(long? userId, FIDO2Item fIDO2Repository)
-        {
-           
-          
-            dataContext.FIDO2Repository.Add(fIDO2Repository);
-            dataContext.SaveChanges();
-        }
         public void InitFIDO2Repositories(long? userId)
         {
-           
-
         }
     }
 }

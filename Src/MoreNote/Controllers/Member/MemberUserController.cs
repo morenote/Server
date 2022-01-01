@@ -103,6 +103,7 @@ namespace MoreNote.Controllers.Member
         {
             User user = GetUserBySession();
             ViewBag.user = user;
+          
             SetLocale();
              SetUserInfo();
             ViewBag.title = "FIDO2 Setting Options";
@@ -118,11 +119,11 @@ namespace MoreNote.Controllers.Member
             var fido=new Models.Entity.Leanote.FIDO2Item()
             {
                 Id=SnowFlakeNet.GenerateSnowFlakeID(),
-              
+                UserId=user.UserId,
                 CredentialId=System.Text.Encoding.Default.GetBytes ( "1111" ),
                 UserHandle=System.Text.Encoding.Default.GetBytes ( "1111" ),
                 SignatureCounter=0,
-                CredType="",
+                CredType="TPM",
 
                 PublicKey= System.Text.Encoding.Default.GetBytes ( "1111" ),
                 RegDate=DateTime.Now,
@@ -132,7 +133,7 @@ namespace MoreNote.Controllers.Member
             };
             userService.AddFIDO2Repository(user.UserId, fido);
 
-            return Ok();
+            return Ok("success");
             
         }
     }

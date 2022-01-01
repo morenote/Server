@@ -29,8 +29,8 @@ namespace MoreNote.Models.Entity.Leanote
         [Column("id")]
         public long? Id{get; set;}
 
-        [Column("owner")]
-        public User Owner { get; set; }
+         [Column("user_id")]
+        public long? UserId { get; set; }
          /// <summary>
         /// 安全密钥凭证唯一ID
         /// </summary>

@@ -1,5 +1,10 @@
-﻿using Autofac;
+﻿using System;
+using System.Text.RegularExpressions;
+
+using Autofac;
+
 using Masuit.Tools.Core.AspNetCore;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,14 +14,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Morenote.Framework.Filter.Global;
+
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
-using System;
-using System.Text.RegularExpressions;
 
 namespace MoreNote
 {
@@ -111,19 +116,17 @@ namespace MoreNote
             //是否使用分布式内存
             if (config.RedisConfig.IsEnable)
             {
-
-                 services.AddDistributedRedisCache(options =>
-                {
-                    options.Configuration = config.RedisConfig.Configuration;
-                    options.InstanceName = config.RedisConfig.InstanceName;
-                });
-
+                services.AddDistributedRedisCache(options =>
+               {
+                   options.Configuration = config.RedisConfig.Configuration;
+                   options.InstanceName = config.RedisConfig.InstanceName;
+               });
             }
             else
             {
                 services.AddDistributedMemoryCache();
             }
-            
+
             ////使用Redis分布式缓存
             //services.AddDistributedRedisCache(options =>
             //{
@@ -277,18 +280,19 @@ namespace MoreNote
             });
             builder.RegisterType<UpgradeService>();
 
-            builder.RegisterType<UserService>().OnActivated(e =>
-            {
-                var instance = e.Instance;
-                instance.BlogService = e.Context.Resolve<BlogService>();
-                instance.EmailService = e.Context.Resolve<EmailService>();
-            })
-            .InstancePerLifetimeScope()
-            .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+            builder.RegisterType<UserService>()
+                   .OnActivated(e =>
+                    {
+                        var instance = e.Instance;
+                        instance.BlogService = e.Context.Resolve<BlogService>();
+                        instance.EmailService = e.Context.Resolve<EmailService>();
+                    })
+                    .InstancePerLifetimeScope()
+                    .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<Sha256PasswordStore>()
                 .As<IPasswordStore>();
             builder.RegisterType<JiebaSegmenterService>()
-         .As<JiebaSegmenterService>();
+                .As<JiebaSegmenterService>();
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
