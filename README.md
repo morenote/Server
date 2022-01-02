@@ -2,6 +2,14 @@
 
 [English](./README_English.md)
 
+# 赞助
+
+
+
+![image-20220102113326000](README.assets/image-20220102113326000.png)
+
+
+
 # MoreNote
 
 > MoreNote是基于[leanote](https://github.com/leanote/leanote)的.net发行版  
