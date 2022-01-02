@@ -140,6 +140,7 @@ dotnet run
 主要开发： hyfree
 
 #### 站在巨人的肩上
+
 - .NetCore(微软出品的跨平台开发语言)
 - AmazeUI(前端UI框架)
 - JQuery(JavaScript脚本库)
@@ -152,18 +153,29 @@ dotnet run
 - Masuit.LuceneEFCore.SearchEngine(基于EntityFrameworkCore和Lucene.NET实现的全文检索搜索引擎)
 - Masuit.MyBlogs(高性能低占用的博客系统)
 - Leanote(Go语言实现的云笔记服务)
-- MINIO（分布式对象存储服务）
+- minio（分布式对象存储服务）
 
 ####  向他们的作品致敬
+
+>   如果你觉得morenote不够完美，那么我建议你去尝试以下笔记软件或服务
 
 -   Wolai
 -   为知笔记
 -   蚂蚁笔记
 -   印象笔记
+-   思源笔记
+-   语雀
+-   飞书
+-   joplin
+-   roamedit
+-   GoodNotes
+-   simplenote
 -   onenote
 -   树莓盘
 -   NGX File Cloud 网盘 & NAS
 -   可道云
 -   LESLIE NOTE 
 -   有道云笔记
+-   专注笔记
+-   幕布
 
