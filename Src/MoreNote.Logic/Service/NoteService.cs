@@ -490,6 +490,13 @@ namespace MoreNote.Logic.Service
                 .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsDeleted == isDeleted && b.IsTrash == isTrash);
             return result.ToArray();
         }
+        public Note[] ListTrashNotes(long? userId, bool isDeleted, bool isTrash)
+        {
+            var result = dataContext.Note
+                .Where(b => b.UserId == userId && b.IsDeleted == isDeleted && b.IsTrash == true);
+            return result.ToArray();
+        }
+
 
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
