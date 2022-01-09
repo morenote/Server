@@ -58,20 +58,26 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetNotes(string notebookId, string token)
         {
             Note[] notes = noteService.ListNotes(GetUserIdByToken(token), notebookId.ToLongByHex(), false);
-            long? myNotebookId = notebookId.ToLongByHex();
-            return null;
+          
+            return Json(notes, MyJsonConvert.GetOptions());
         }
 
         //todo:得到trash
-        public IActionResult GetTrashNotes()
+        public IActionResult GetTrashNotes(string token)
         {
-            return null;
+
+            Note[] notes = noteService.ListTrashNotes(GetUserIdByToken(token),false, true);
+          
+            return Json(notes, MyJsonConvert.GetOptions());
         }
 
         //todo:获取笔记
-        public IActionResult GetNote()
+        public IActionResult GetNote(string token,string noteId)
         {
-            return null;
+            var userId=GetUserIdByToken(token);
+            var note = noteService.GetNote(userId,noteId.ToLongByHex());
+            var apiNotes=   noteService.ToApiNotes(new Note[]{ note});
+            return Json(apiNotes[0], MyJsonConvert.GetOptions());
         }
 
         //todo:得到note和内容

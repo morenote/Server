@@ -72,18 +72,21 @@ namespace MoreNote.Controllers.API.APIV1
 
             ApiRe apiRe = new ApiRe()
             {
-                Ok = false,
+                Ok = true,
                 Msg = "未提供注销功能"
             };
             return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
-        //todo:注册
+        //todo:注册 
         public JsonResult Register(string email,string pwd)
         {
+          
             //ex:API当前不使用cookie和session判断用户身份，
             //API调用必须显式的提供token字段，以证明身份
+            //API调用者必须是管理员身份或者超级管理员身份，否则调用无效
+            //如果用户设置二次验证必须显示提供二次验证码
             ApiRe apiRe;
-            if (authService.Register(email,pwd,0))
+            if (authService.Register(email,pwd,0)&&false)
             {
                 apiRe = new ApiRe()
                 {
