@@ -450,13 +450,26 @@ namespace MoreNote.Logic.Service
         // 宽度
         public bool UpdateColumnWidth(long? userId, int notebookWidth, int noteListWidth, int mdEditorWidth)
         {
-            throw new Exception();
+            dataContext.User.Where(x => x.UserId == userId).UpdateFromQuery(p => new User()
+            {
+                NotebookWidth = notebookWidth,
+                NoteListWidth = noteListWidth,
+                MdEditorWidth=  mdEditorWidth
+            });
+            dataContext.SaveChanges();
+            return true;
         }
 
         // 左侧是否隐藏
         public bool UpdateLeftIsMin(long? userId, bool leftIsMin)
         {
-            throw new Exception();
+            dataContext.User.Where(x => x.UserId == userId)
+                .UpdateFromQuery(p => new User()
+                                {
+                                    LeftIsMin = leftIsMin
+                                });
+             dataContext.SaveChanges() ;
+            return true;
         }
 
         //-------------
@@ -496,6 +509,7 @@ namespace MoreNote.Logic.Service
 
         public void InitFIDO2Repositories(long? userId)
         {
+
         }
     }
 }
