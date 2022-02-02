@@ -7,8 +7,14 @@ using System.Text;
 
 namespace MoreNote.Logic.Service
 {
+    //todo:邮件发送服务
     public class EmailService: MailMessage
     {
+        // 发送邮件
+        string host = "";
+        string emailPort = "";
+        string username = "";
+        string password = "";
         public EmailService()
         {
 
@@ -52,7 +58,7 @@ namespace MoreNote.Logic.Service
                 client.UseDefaultCredentials = false;
                 //验证发件人身份(发件人的邮箱，邮箱里的生成授权码);
                 //todo:添加保密措施，防止邮箱密码泄露
-                client.Credentials = new NetworkCredential("huanyinglike@qq.com", "ygJIJnve4fnu9gom");
+                client.Credentials = new NetworkCredential(username, password);
                 //发送
                 client.Send(this);
             }
@@ -67,11 +73,7 @@ namespace MoreNote.Logic.Service
             throw 
                 new Exception();
         }
-        // 发送邮件
-        string host = "";
-        string emailPort = "";
-        string username = "";
-        string password = "";
+     
         bool ssl = false;
         public void InitEmailFromDb()
         {
