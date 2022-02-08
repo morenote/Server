@@ -36,7 +36,7 @@ namespace Morenote.Framework.Filter.Global
                 context.Result = new RedirectResult("/Auth/Login");
                 return;
             }
-
+            //验证token
             if (!tokenSerivce.VerifyToken(token))
             {
                 context.HttpContext.Session.Remove("token");

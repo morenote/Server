@@ -323,7 +323,15 @@ namespace MoreNote
             app.UseAuthorization();
             //监控接口耗时情况
             //app.UseTimeMonitorMiddleware();
-
+#if DEBUG
+            //调试的时候允许跨域
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowAnyOrigin();
+            });
+#endif
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -50,6 +50,7 @@ namespace MoreNote.Logic.Service
                 if (result)
                 {
                     long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+                    //生成token的数据
                     var tokenContext= TokenSerivce.GenerateTokenContext(tokenid);
                     Token myToken = new Token
                     {
