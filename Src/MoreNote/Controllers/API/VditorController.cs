@@ -4,6 +4,8 @@ using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Models.DTO.Vditor.Upload;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +29,9 @@ namespace MoreNote.Controllers.API
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor, AuthService authService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor, AuthService authService
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.authService = authService;
             this.userService = userService;

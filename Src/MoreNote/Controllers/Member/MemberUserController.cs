@@ -13,6 +13,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 using MoreNote.Value;
 
 namespace MoreNote.Controllers.Member
@@ -28,7 +29,9 @@ namespace MoreNote.Controllers.Member
             , UserService userService
             , ConfigFileService configFileService
             , ConfigService configService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor
+           , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.ConfigService=configService;
 

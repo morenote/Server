@@ -8,6 +8,7 @@ using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 
 using PAYJS_CSharp_SDK;
 using PAYJS_CSharp_SDK.Model;
@@ -28,7 +29,10 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor, DataContext dataContext) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor
+            , DataContext dataContext
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.dataContext = dataContext;
             this.configFileService= configFileService;

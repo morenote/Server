@@ -53,14 +53,16 @@ namespace MoreNote.Framework.Controllers
         protected IHttpContextAccessor _accessor;
 
         protected ConfigFileService configFileService;
+       
+        public ILoggingService LoggingService;
 
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , ILoggingService loggingService
-            , IHttpContextAccessor accessor)
+            , IHttpContextAccessor accessor
+            , ILoggingService loggingService)
         {
             this.attachService = attachService;
             this.tokenSerivce = tokenSerivce;
@@ -70,6 +72,7 @@ namespace MoreNote.Framework.Controllers
             this._accessor = accessor;
             this.loggingService = loggingService;
             config = configFileService.WebConfig;
+            this.loggingService=loggingService;
         }
         
         public string GetAntiCSRFToken()
