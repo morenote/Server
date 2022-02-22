@@ -44,6 +44,8 @@ docker run  -p 9002:9000 --name minio \
   minio/minio server /data
 ```
 
+
+
 ### 安装MQ（可选）
 
 ```
