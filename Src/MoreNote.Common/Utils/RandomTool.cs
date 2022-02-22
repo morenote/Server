@@ -11,7 +11,8 @@ namespace MoreNote.Common.Utils
    public class RandomTool
     {
         /// <summary>
-        /// 生产不安全随机字符串A-Za-z
+        /// 生产安全的随机字符串0-9a-zA-Z
+        /// 不恰当的使用会产生泄露的风险
         /// </summary>
         /// <param name="VcodeNum">随机字符串的长度</param>
         /// <returns>返回一个随机字符串</returns>
@@ -25,15 +26,12 @@ namespace MoreNote.Common.Utils
             var code = "";//产生的随机数  
             var temp = -1;//记录上次随机数值，尽量避避免生产几个一样的随机数  
 
-            var random = new Random();
+           
             //采用一个简单的算法以保证生成随机数的不同  
             for (int i = 1; i < VcodeNum + 1; i++)
             {
-                if (temp != -1)
-                {
-                    random = new Random(i * temp * unchecked((int)DateTime.Now.Ticks));//初始化随机类  
-                }
-                int t = random.Next(61);//获取随机数  
+               
+                int t = RandomNumberGenerator.GetInt32(0,61);//获取随机数  
                 if (temp != -1 && temp == t)
                 {
                     return CreatRandomString(VcodeNum);//如果获取的随机数重复，则递归调用  
@@ -43,6 +41,8 @@ namespace MoreNote.Common.Utils
             }
             return code;
         }
+        
+
         /// <summary>
         /// 产生Base64形式的安全随机数
         /// </summary>
@@ -50,14 +50,10 @@ namespace MoreNote.Common.Utils
         /// <returns></returns>
         public static string CreatSafeRandomBase64(int ByteLength = 32)
         {
-            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
-            {
-                
-                byte[] tokenData = new byte[ByteLength];
-                rng.GetBytes(tokenData);
-                string token = Convert.ToBase64String(tokenData);
-                return token;
-            }
+
+            byte[] tokenData  =RandomNumberGenerator.GetBytes(ByteLength);
+            string token = Convert.ToBase64String(tokenData);
+            return token;
         }
         /// <summary>
         /// 产生Hex形式的安全随机数
@@ -91,28 +87,19 @@ namespace MoreNote.Common.Utils
         /// <returns></returns>
         public static byte[] CreatSafeSaltByteArray(int saltLength = 32)
         {
-            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
-            {
-                byte[] tokenData = new byte[saltLength];
-                rng.GetBytes(tokenData);
-                
-                return tokenData;
-            }
+            byte[] tokenData = RandomNumberGenerator.GetBytes(saltLength);
+            return tokenData;
         }
         /// <summary>
         /// 生成一个不可预测的盐,默认256位
         /// </summary>
         /// <param name="saltLength">盐的长度x byte</param>
         /// <returns></returns>
-        public static string CreatSafeSalt(int saltLength=32)
+        public static string CreatSafeSaltBase64(int saltLength=32)
         {
-            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
-            {
-                byte[] tokenData = new byte[saltLength];
-                rng.GetBytes(tokenData);
-                string token = Convert.ToBase64String(tokenData);
-                return token;
-            }
+            var tokenData= CreatSafeSaltByteArray(saltLength);
+            string token = Convert.ToBase64String(tokenData);
+            return token;
         }
 
 

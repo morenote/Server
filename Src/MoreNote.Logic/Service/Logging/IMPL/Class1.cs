@@ -6,15 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.Logging.IMPL
 {
-    /// <summary>
-    /// log4net日志服务
-    /// </summary>
-    public class Log4NetLoggingService:ILoggingService
+    internal class Class1
     {
-
-
-       
-
-
     }
 }

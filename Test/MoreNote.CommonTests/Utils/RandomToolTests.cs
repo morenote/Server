@@ -12,7 +12,7 @@ namespace MoreNote.Common.Utils.Tests
         [TestMethod()]
         public void CreatSafeSaltTest()
         {
-            string salt = RandomTool.CreatSafeSalt(32);
+            string salt = RandomTool.CreatSafeSaltBase64(32);
             Console.WriteLine(salt);
         }
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 
 namespace MoreNote.Controllers.Admin
 {
@@ -21,9 +22,10 @@ namespace MoreNote.Controllers.Admin
               , ConfigFileService configFileService
               , IHttpContextAccessor accessor,
               AccessService accessService
-    
 
-              ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+
+             , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
 
         }

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System.Diagnostics;
 
 namespace MoreNote.Controllers
@@ -15,7 +17,9 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
         }
 

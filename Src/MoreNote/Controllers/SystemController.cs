@@ -14,6 +14,7 @@ using System.IO;
 using MoreNote.Logic.Service;
 using MoreNote.Framework.Controllers;
 using Morenote.Framework.Filter.Global;
+using MoreNote.Logic.Service.Logging;
 
 namespace MoreNote.Controllers
 {
@@ -25,7 +26,9 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor
+           , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.configFileService = configFileService;
 

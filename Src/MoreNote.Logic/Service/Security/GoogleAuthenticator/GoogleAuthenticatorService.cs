@@ -38,7 +38,7 @@ namespace MoreNote.Logic.Service
 
         public string GenerateSecretKey()
         {
-            string secretKey = RandomTool.CreatSafeSalt();
+            string secretKey = RandomTool.CreatSafeSaltBase64();
             return secretKey;
         }
 

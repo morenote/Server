@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using Polly;
 using System;
 using System.Collections.Generic;
@@ -55,7 +57,9 @@ namespace Masuit.MyBlogs.Core.Controllers
             , NotebookService notebookService
             , IWebHostEnvironment webHostEnvironment
             ,ISevenZipCompressor sevenZipCompressor
-            , BlogService blogService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , BlogService blogService
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.accessService = accessService;
             this.blogService = blogService;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-
-using Autofac;
+﻿using Autofac;
 
 using Masuit.Tools.Core.AspNetCore;
 
@@ -10,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,9 +17,16 @@ using Morenote.Framework.Filter.Global;
 
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Property;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.Logging.IMPL;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
+
+using System;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace MoreNote
 {
@@ -296,8 +301,22 @@ namespace MoreNote
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
-            //日志
-            builder.RegisterType<Log4NetLoggingService>();
+            //注入日志服务日志
+            builder.RegisterType<Log4NetLoggingService>().As<ILoggingService>();
+
+            //Autowired
+            //var controllerBaseType = typeof(ControllerBase);
+            //builder.RegisterAssemblyTypes(typeof(Program).Assembly)
+            //   .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
+            //   .PropertiesAutowired(new AutowiredPropertySelector());
+            
+            
+            //var dataAccess = Assembly.GetExecutingAssembly();
+            //builder.RegisterAssemblyTypes(dataAccess)
+            //  .Where(t => t.Name.EndsWith("Service"))
+            //  .PropertiesAutowired(new AutowiredPropertySelector());
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

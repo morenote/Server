@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +26,8 @@ namespace MoreNote.Controllers.Admin
               , IHttpContextAccessor accessor
               , NoteService noteService
                 ,AuthService authService
-              ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+              , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.noteService = noteService;
             this.authService=authService;

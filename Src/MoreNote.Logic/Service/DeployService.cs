@@ -1,9 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.PasswordSecurity;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +39,13 @@ namespace MoreNote.Logic.Service
                 db.Database.Migrate();
 
                 //======================创建种子数据========================
-
+               ConfigFileService configFileService=new ConfigFileService();
+               var config=configFileService.WebConfig;
+               var pwd = RandomTool.CreatRandomString(16);
+               var passwordStore = PasswordStoreFactory.Instance(config.SecurityConfig);
+               var salt = RandomTool.CreatSafeSaltByteArray(16);
+               //对用户密码做哈希运算
+               string genPass = passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd), salt, config.SecurityConfig.PasswordHashIterations).ByteArrayToBase64();
                 var userId = 1223885079105900540L;
                 if (!db.User.Where(x => x.UserId == userId).Any())
                 {
@@ -45,9 +56,9 @@ namespace MoreNote.Logic.Service
                         Verified = true,
                         Username = "admin",
                         UsernameRaw = "admin",
-                        Pwd = "xr9wmscJHJ5UKWxiU6J/Hcuql30Rpisbau+K4aoC2/k=",
-                        Salt = "NbIF33Qkp3K6fjXDAwoJ6A==",
-                        PasswordMemorySize = 2048,
+                        Pwd = genPass,
+                        Salt = salt.ByteArrayToBase64(),
+                        PasswordMemorySize = config.SecurityConfig.PasswordStoreMemorySize,
                         Logo = null,
                         Theme = null,
                         NotebookWidth = 160,
@@ -72,16 +83,21 @@ namespace MoreNote.Logic.Service
                         FullSyncBefore = DateTime.Now,
                         Role = "Admin",
                         GoogleAuthenticatorSecretKey = null,
-                        PasswordHashAlgorithm = "argon2",
-                        PasswordDegreeOfParallelism = 8,
-                        PasswordHashIterations = 8,
+                        PasswordHashAlgorithm = config.SecurityConfig.PasswordHashAlgorithm,
+                        PasswordDegreeOfParallelism = config.SecurityConfig.PasswordStoreDegreeOfParallelism,
+                        PasswordHashIterations = config.SecurityConfig.PasswordHashIterations,
                         BlogUrl = null,
                         MarkdownEditorOption = "ace",
                         RichTextEditorOption = "tinymce"
                     });
 
-
-
+                    Console.WriteLine("Initialize the admin account");
+                    Console.WriteLine("username=admin");
+                    Console.WriteLine("password=admin123");
+                }
+                else
+                {
+                    Console.WriteLine("skip");
                 }
 
                 if (!db.UserBlog.Where(b => b.UserId == userId).Any())
