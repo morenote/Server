@@ -296,6 +296,8 @@ namespace MoreNote
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
+            //日志
+            builder.RegisterType<Log4NetLoggingService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
