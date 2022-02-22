@@ -12,6 +12,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -37,6 +38,7 @@ namespace MoreNote.Controllers
             , UserService userService
             , ConfigFileService configFileService
             ,IDistributedCache distributedCache
+            ,ILoggingService loggingService
             , IHttpContextAccessor accessor, AuthService authService, ConfigService configService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.distributedCache = distributedCache;
