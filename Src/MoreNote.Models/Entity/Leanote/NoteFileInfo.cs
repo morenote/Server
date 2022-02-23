@@ -22,6 +22,11 @@ namespace MoreNote.Logic.Entity
         //public long? LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
         [Column("user_id")]
         public long? UserId { get; set; }
+
+        [Column("notes_repository_id")]
+        public long? NotesRepositoryId { get; set; }//仓库id
+
+
         [Column("album_id")]
         public long? AlbumId { get; set; }
         [Column("name")]

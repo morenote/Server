@@ -19,6 +19,10 @@ namespace MoreNote.Logic.Entity
         
         [Column("user_id")]
         public long? UserId { get; set; }//  // 谁的
+
+        [Column("notes_repository_id")]
+        public long? NotesRepositoryId { get; set; }//仓库id
+
         [Column("created_user_id")]
         public long? CreatedUserId { get; set; }// // 谁创建的(UserId != CreatedUserId, 是因为共享). 只是共享才有, 默认为空, 不存 必须要加omitempty
         [Column("notebook_id")]
