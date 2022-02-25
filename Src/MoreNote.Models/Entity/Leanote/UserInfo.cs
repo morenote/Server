@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 using MoreNote.Logic.Entity;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Security.FIDO2;
 
 namespace MoreNote.Logic.Entity
 {
