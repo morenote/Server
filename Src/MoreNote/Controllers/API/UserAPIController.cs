@@ -86,6 +86,22 @@ namespace MoreNote.Controllers.API.APIV1
             }
 
         }
+
+        //获取用户的登录策略
+        public JsonResult GetUserLoginSecurityStrategy(string UserName)
+        {
+
+            var ss=  userService.GetGetUserLoginSecurityStrategy(UserName);
+            ApiRe apiRe = new ApiRe()
+            {
+                Ok = (ss!=null),
+                Msg = "",
+                Data=ss
+                
+            };
+            return Json(apiRe, MyJsonConvert.GetOptions());
+        }
+
         //todo:修改用户名
         public IActionResult UpdateUsername()
         {
