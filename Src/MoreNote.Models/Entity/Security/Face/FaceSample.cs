@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Models.Entity.Security.Face
 {
+    /// <summary>
+    /// 存储人脸数据
+    /// </summary>
     [Table("face_sample"), Index(nameof(FaceSampleId), IsUnique = true)]
     public class FaceSample
     {
