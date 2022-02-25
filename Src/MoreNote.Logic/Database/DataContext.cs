@@ -3,6 +3,7 @@
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Security.FIDO2;
 using System;
 using System.Collections.Generic;
 
