@@ -8,6 +8,7 @@ namespace MoreNote.Models.Entity.ConfigFile
 {
     public class FIDO2Config
     {
+        public  bool IsEnable { get; set; }=false;
         public string ServerDomain{get;set;}
         public string ServerName{get;set;}
         public string Origin{get;set;}

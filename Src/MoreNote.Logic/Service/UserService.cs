@@ -12,6 +12,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Security.FIDO2;
 using MoreNote.Models.Model;
 
 namespace MoreNote.Logic.Service

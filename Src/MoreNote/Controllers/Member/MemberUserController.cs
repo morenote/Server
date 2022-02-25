@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Hangfire.MemoryStorage.Database;
+
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +14,7 @@ using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.Entity.Security.FIDO2;
 using MoreNote.Value;
 
 namespace MoreNote.Controllers.Member
@@ -119,7 +120,7 @@ namespace MoreNote.Controllers.Member
             public IActionResult AddTestFIDO2()
         {
             var user=this.GetUserBySession();
-            var fido=new Models.Entity.Leanote.FIDO2Item()
+            var fido=new FIDO2Item()
             {
                 Id=SnowFlakeNet.GenerateSnowFlakeID(),
                 UserId=user.UserId,

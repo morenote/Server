@@ -33,9 +33,14 @@ namespace MoreNote.Logic.Service
 
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
         {
-           
-            
-            user = UserService.GetUser(email);
+
+            if (email.Contains("@"))
+            {
+                user = UserService.GetUser(email);
+            }
+            else{
+                user=UserService.GetUserByUserName(email);
+            }
             if (user==null)
             {
                 tokenStr=null;
