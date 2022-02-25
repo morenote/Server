@@ -90,6 +90,9 @@ namespace MoreNote.Logic.Entity
     {
         public bool Ok { get; set; }
         public string Msg { get; set; }
+
+        public  dynamic Data { get; set; }
+
     }
     // auth
     public class AuthOk
