@@ -125,6 +125,32 @@ namespace MoreNote.Logic.Service
             //计算hmac
             return SecurityUtil.VerifyHamc256(tokenBuider.ToString(), secret,sign);
         }
+        public bool VerifyToken(long? userId, string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+            var sp = token.Split("@");
+            if (sp == null || sp.Length != 3)
+            {
+                return false;
+            }
+            var id = sp[0];
+            var randomData = sp[1];
+            var sign = sp[2];
+            var tokenBuider = new StringBuilder();
+            tokenBuider.Append(id);
+            tokenBuider.Append("@");
+            tokenBuider.Append(randomData);
+            var secret = config.SecurityConfig.Secret;
+            if (!userId.ToHex().Equals(id))
+            {
+                return false;
+            }
+            //计算hmac
+            return SecurityUtil.VerifyHamc256(tokenBuider.ToString(), secret, sign);
+        }
 
         public User GetUserByToken(string token)
         {
@@ -145,6 +171,9 @@ namespace MoreNote.Logic.Service
                 return null;
             }
         }
+        
+
+
 
         public bool DeleteTokenByToken(string token)
         {
