@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Fido2NetLib;
+using Fido2NetLib.Objects;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 
@@ -11,23 +16,23 @@ using System.Text.Json;
 namespace MoreNote.Controllers.API.APIV1
 {
     [Route("api/Auth/[action]")]
-
     public class AuthAPIController : APIBaseController
     {
         private AuthService authService;
+        private FIDO2Service fido2Service; 
         public AuthAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor,
-            AuthService authService
+            , IHttpContextAccessor accessor
+            ,AuthService authService
+            ,FIDO2Service fIDO2Service
             , ILoggingService loggingService) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.authService = authService;
-         
-
+            this.fido2Service = fIDO2Service;
         }
 
         /// <summary>
@@ -46,7 +51,7 @@ namespace MoreNote.Controllers.API.APIV1
             if (authService.LoginByPWD(email, pwd, out tokenStr, out user))
             {
                 SetUserIdToSession(user.UserId);
-                 AuthOk authOk = new AuthOk()
+                AuthOk authOk = new AuthOk()
                 {
                     Ok = true,
                     Token = tokenStr,
@@ -67,12 +72,12 @@ namespace MoreNote.Controllers.API.APIV1
                 return Json(apiRe, MyJsonConvert.GetSimpleOptions());
             }
         }
+
         //todo:注销函数
         public JsonResult Logout()
         {
             //ex:API当前不使用cookie和session判断用户身份，
             //API调用必须显式的提供token字段，以证明身份
-
 
             ApiRe apiRe = new ApiRe()
             {
@@ -81,16 +86,16 @@ namespace MoreNote.Controllers.API.APIV1
             };
             return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
-        //todo:注册 
-        public JsonResult Register(string email,string pwd)
+
+        //todo:注册
+        public JsonResult Register(string email, string pwd)
         {
-          
             //ex:API当前不使用cookie和session判断用户身份，
             //API调用必须显式的提供token字段，以证明身份
             //API调用者必须是管理员身份或者超级管理员身份，否则调用无效
             //如果用户设置二次验证必须显示提供二次验证码
             ApiRe apiRe;
-            if (authService.Register(email,pwd,0)&&false)
+            if (authService.Register(email, pwd, 0) && false)
             {
                 apiRe = new ApiRe()
                 {
@@ -107,6 +112,20 @@ namespace MoreNote.Controllers.API.APIV1
                 };
             }
             return Json(apiRe, MyJsonConvert.GetSimpleOptions());
+        }
+
+        [HttpPost]
+       
+        public JsonResult MakeCredentialOptions()
+        {
+
+            var  apiRe = new ApiRe()
+            {
+                Ok = false,
+                Msg = "注册失败"
+            };
+            return Json(apiRe, MyJsonConvert.GetSimpleOptions());
+
         }
     }
 }

@@ -18,6 +18,7 @@ using Morenote.Framework.Filter.Global;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Property;
+using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.Logging.IMPL;
@@ -146,6 +147,7 @@ namespace MoreNote
                 options.Cookie.HttpOnly = true;//设为HttpOnly 阻止js脚本读取
                 options.Cookie.Domain = config.APPConfig.Domain;//
                 options.Cookie.SameSite = SameSiteMode.Lax;//
+                
             });
             //这样可以将HttpContext注入到控制器中。
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -298,11 +300,16 @@ namespace MoreNote
                 .As<IPasswordStore>();
             builder.RegisterType<JiebaSegmenterService>()
                 .As<JiebaSegmenterService>();
+            //fido2认证服务
+            builder.RegisterType<FIDO2Service>();
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
             //注入日志服务日志
             builder.RegisterType<Log4NetLoggingService>().As<ILoggingService>();
+
+            
+
 
             //Autowired
             //var controllerBaseType = typeof(ControllerBase);
