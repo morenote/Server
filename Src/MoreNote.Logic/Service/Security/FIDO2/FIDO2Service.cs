@@ -34,15 +34,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         private FIDO2Config fido2Config;
         private IDistributedCache cache;//缓存数据库
 
-        /// <summary>
-        /// 系统User与FIDO2User的相互转换
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public Fido2User GetFido2UserByUser(User user)
-        {
-            return null;
-        }
+   
 
         /// <summary>
         /// 构造函数
@@ -65,16 +57,14 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         }
 
         /// <summary>
-        /// <para>创建证明选项</para>
+        /// <para>注册：创建证明选项</para>
         /// <param name="opts"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public CredentialCreateOptions MakeCredentialOptions(MakeCredentialParams opts)
         {
-            var attType = opts.Attestation;
 
-            var username = Encoding.UTF8.GetBytes(opts.Username);
-
+          
             var userId = opts.Username.ToLongByHex();
 
             // Get user from DB by username (in our example, auto create missing users)
@@ -83,16 +73,20 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             {
                 throw new Exception();
             }
-            var fidoUser = GetFido2UserByUser(user);
+            var fidoUser =opts.GetFido2UserByUser();
             // Create options
-            var options = _fido2.RequestNewCredential(fidoUser, new List<PublicKeyCredentialDescriptor>(), opts.AuthenticatorSelection, opts.Attestation);
+            var options = _fido2.RequestNewCredential(
+                fidoUser, 
+                new List<PublicKeyCredentialDescriptor>(), 
+                opts.AuthenticatorSelection,
+                opts.Attestation);
 
             cache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
         }
 
         /// <summary>
-        /// 注册用户凭证
+        /// 注册：验证用户凭证
         /// <para>当客户端返回响应时，我们验证并注册凭据。</para>
         /// </summary>
         /// <param name="attestationResponse"></param>
@@ -136,7 +130,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         }
 
         /// <summary>
-        /// 创建断言选项
+        /// 断言：创建断言选项
         /// <para> 当用户想要登录时，我们会根据注册的凭据进行断言。</para>
         /// </summary>
         public AssertionOptions AssertionOptionsPost(long userid, AssertionClientParams assertionClientParams, out string error)
@@ -182,7 +176,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         }
 
         /// <summary>
-        /// 验证断言响应
+        /// 断言：验证断言响应
         /// <para>当客户端返回响应时，我们对其进行验证并接受登录。</para>
         /// </summary>
         public async Task<AssertionVerificationResult> MakeAssertionAsync(long UserId, AuthenticatorAssertionRawResponse clientRespons)
