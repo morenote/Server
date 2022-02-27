@@ -10,6 +10,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.Model.FIDO2;
 
 using System.Text.Json;
 
@@ -116,15 +117,27 @@ namespace MoreNote.Controllers.API.APIV1
 
         [HttpPost]
        
-        public JsonResult MakeCredentialOptions()
+        public JsonResult MakeCredentialOptions(string token)
         {
+            
 
-            var  apiRe = new ApiRe()
+            var tokenVerify = tokenSerivce.VerifyToken(token);
+            if (!tokenVerify)
             {
-                Ok = false,
-                Msg = "注册失败"
-            };
-            return Json(apiRe, MyJsonConvert.GetSimpleOptions());
+                var apiRe = new ApiRe()
+                {
+                    Ok = false,
+                    Msg = "注册失败,token无效"
+                };
+                return Json(apiRe, MyJsonConvert.GetSimpleOptions());
+            }
+            var user=userService.GetUserByToken(token);
+            //注册选项
+            var opts=new MakeCredentialParams(user.Username,user.UserId);
+
+            var credentialCreateOptions = fido2Service.MakeCredentialOptions(opts);
+         
+            return Json(credentialCreateOptions, MyJsonConvert.GetCamelCaseOptions());
 
         }
     }

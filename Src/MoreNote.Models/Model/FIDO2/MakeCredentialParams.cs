@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using Fido2NetLib;
 using Fido2NetLib.Objects;
+
+using Newtonsoft.Json.Converters;
 
 namespace MoreNote.Models.Model.FIDO2
 {
@@ -13,6 +16,7 @@ namespace MoreNote.Models.Model.FIDO2
     /// <summary>
     /// 注册凭证参数
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public class MakeCredentialParams
     {
 
@@ -21,6 +25,7 @@ namespace MoreNote.Models.Model.FIDO2
         /// </summary>
         public string Username { get; set; }
 
+        public long? UserId { get;set;}
         /// <summary>
         /// attestation: String：表明依赖方是否需要证明。可选三个值：
         /// none：（默认）不需要证明。如上文所述，依赖方不关心证明，因此认证器不会签名。对于 iOS/iPad OS 13，必须设置为此值，否则验证将失败
@@ -28,6 +33,7 @@ namespace MoreNote.Models.Model.FIDO2
         /// direct：依赖方要求直接证明。此时认证器会使用烧录在认证器中的公钥进行签名，同时向依赖方提供签名方式等信息以供依赖方验证认证器是否可信。
         /// 如果你没有高安全需求（如银行交易等），请不要向认证器索取证明，即将 attestation 设置为 "none"。对于普通身份认证来说，要求证明不必要的，且会有浏览器提示打扰到用户。
         /// </summary>
+        
         public AttestationConveyancePreference Attestation { get; set; }=AttestationConveyancePreference.None;
 
         /// <summary>
@@ -51,9 +57,11 @@ namespace MoreNote.Models.Model.FIDO2
             UserVerification = UserVerificationRequirement.Discouraged
         };
 
-        public MakeCredentialParams(string UserName)
+
+        public MakeCredentialParams(string UserName,long? UserId)
         {
             this.Username = UserName;
+            this.UserId = UserId;
         }   
 
         public Fido2User GetFido2UserByUser()

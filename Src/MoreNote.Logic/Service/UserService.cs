@@ -51,6 +51,25 @@ namespace MoreNote.Logic.Service
 
 
         }
+        public User GetUserByToken(string token)
+        {
+            if (token == null)
+            {
+                return null;
+            }
+            var result = dataContext.Token
+                  .Where(b => b.TokenStr.Equals(token)).FirstOrDefault();
+            if (result != null)
+            {
+                var user = dataContext.User
+                .Where(b => b.UserId == result.UserId).FirstOrDefault();
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public User GetUser(string email)
         {
             var result = dataContext.User

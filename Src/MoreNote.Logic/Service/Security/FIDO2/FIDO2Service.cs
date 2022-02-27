@@ -65,21 +65,28 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         {
 
           
-            var userId = opts.Username.ToLongByHex();
+            
 
             // Get user from DB by username (in our example, auto create missing users)
-            var user = dataContext.User.Where(u => u.UserId == userId).FirstOrDefault();
+            var user = dataContext.User.Where(u => u.UserId == opts.UserId).FirstOrDefault();
             if (user == null)
             {
                 throw new Exception();
             }
             var fidoUser =opts.GetFido2UserByUser();
             // Create options
+            var exts = new AuthenticationExtensionsClientInputs()
+            {
+                Extensions = true,
+                UserVerificationMethod = true,
+            };
+
             var options = _fido2.RequestNewCredential(
                 fidoUser, 
                 new List<PublicKeyCredentialDescriptor>(), 
                 opts.AuthenticatorSelection,
-                opts.Attestation);
+                opts.Attestation,
+                exts);
 
             cache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
