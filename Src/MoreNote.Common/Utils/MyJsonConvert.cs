@@ -30,15 +30,15 @@ namespace MoreNote.Common.Utils
 
             return options;
         }
-        public static System.Text.Json.JsonSerializerOptions GetCamelCaseOptions()
+        public static JsonSerializerOptions GetCamelCaseOptions()
         {
             JsonSerializerOptions options = new System.Text.Json.JsonSerializerOptions
             {
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                
             };
-            options.PropertyNamingPolicy =  JsonNamingPolicy.CamelCase;
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            //options.PropertyNamingPolicy =  JsonNamingPolicy.CamelCase;
+            options.Converters.Add(new JsonStringEnumConverter());
             return options;
         }
 

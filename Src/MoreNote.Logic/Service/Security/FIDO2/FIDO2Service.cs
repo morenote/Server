@@ -64,9 +64,6 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         public CredentialCreateOptions MakeCredentialOptions(MakeCredentialParams opts)
         {
 
-          
-            
-
             // Get user from DB by username (in our example, auto create missing users)
             var user = dataContext.User.Where(u => u.UserId == opts.UserId).FirstOrDefault();
             if (user == null)
@@ -79,11 +76,12 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             {
                 Extensions = true,
                 UserVerificationMethod = true,
+               
             };
-
+            var existingKeys = new List<PublicKeyCredentialDescriptor>();
             var options = _fido2.RequestNewCredential(
-                fidoUser, 
-                new List<PublicKeyCredentialDescriptor>(), 
+                fidoUser,
+                existingKeys,
                 opts.AuthenticatorSelection,
                 opts.Attestation,
                 exts);

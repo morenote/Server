@@ -54,7 +54,9 @@ namespace MoreNote.Models.Model.FIDO2
         public AuthenticatorSelection AuthenticatorSelection { get; set; }=new AuthenticatorSelection()
         {
             RequireResidentKey = false,
-            UserVerification = UserVerificationRequirement.Discouraged
+            UserVerification = UserVerificationRequirement.Preferred,
+            //可选）指定要求的认证器类型。如果没有满足要求的认证器，认证可能会失败。该参数可以为 null（表示接受所有类型的认证器：
+            AuthenticatorAttachment = null
         };
 
 
