@@ -137,7 +137,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             var credentialCreateOptions = fido2Service.MakeCredentialOptions(opts);
          
-            return Json(credentialCreateOptions);
+            return Json(credentialCreateOptions,MyJsonConvert.GetCamelCaseOptions());
 
         }
     }
