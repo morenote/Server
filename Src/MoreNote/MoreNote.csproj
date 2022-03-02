@@ -98,11 +98,11 @@
     
     <PackageReference Include="CSRedisCore" Version="3.6.6" />
     
-    <PackageReference Include="Fido2" Version="2.0.2" />
+    <PackageReference Include="Fido2" Version="3.0.0-beta2" />
     
-    <PackageReference Include="Fido2.AspNet" Version="2.0.2" />
+    <PackageReference Include="Fido2.AspNet" Version="3.0.0-beta2" />
     
-    <PackageReference Include="Fido2.Models" Version="2.0.2" />
+    <PackageReference Include="Fido2.Models" Version="3.0.0-beta2" />
     
     <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.1.0" />
     
@@ -127,6 +127,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
     
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.2" />
     
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     

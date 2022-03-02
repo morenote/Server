@@ -41,19 +41,13 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// </summary>
         /// <param name="dataContext"></param>
         /// <param name="configFileService"></param>
-        public FIDO2Service(DataContext dataContext, IDistributedCache distributedCache, ConfigFileService configFileService)
+        public FIDO2Service(DataContext dataContext, IDistributedCache distributedCache, ConfigFileService configFileService,IFido2 fido2)
         {
             this.dataContext = dataContext;
             this.cache = distributedCache;
             this.config = configFileService.WebConfig;
             this.fido2Config = config.SecurityConfig.FIDO2Config;
-            _fido2 = new Fido2(new Fido2Configuration()
-            {
-                ServerDomain = fido2Config.ServerDomain,
-                ServerName = fido2Config.ServerName,
-                Origin = fido2Config.Origin
-            }, FIDO2Conformance.MetadataServiceInstance(
-                System.IO.Path.Combine(fido2Config.MDSCacheDirPath, @"Conformance"), fido2Config.Origin));
+           this._fido2 = fido2;
         }
 
         /// <summary>
@@ -81,11 +75,11 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             var existingKeys = new List<PublicKeyCredentialDescriptor>();
             var options = _fido2.RequestNewCredential(
                 fidoUser,
-                existingKeys,
+                null,
                 opts.AuthenticatorSelection,
                 opts.Attestation,
                 exts);
-            options.Rp.Icon = "";
+           
 
             cache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
@@ -96,7 +90,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <para>当客户端返回响应时，我们验证并注册凭据。</para>
         /// </summary>
         /// <param name="attestationResponse"></param>
-        public async Task<bool> MakeCredentialAsync(long userId, AuthenticatorAttestationRawResponse attestationResponse)
+        public async Task<bool> MakeCredential(long userId, AuthenticatorAttestationRawResponse attestationResponse)
         {
             // 1. get the options we sent the client
             var jsonOptions = cache.GetString(userId.ToString() + "attestationOptions");

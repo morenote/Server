@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +16,6 @@ using Morenote.Framework.Filter.Global;
 
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
-using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
@@ -26,7 +24,7 @@ using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
 
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace MoreNote
@@ -147,7 +145,6 @@ namespace MoreNote
                 options.Cookie.HttpOnly = true;//设为HttpOnly 阻止js脚本读取
                 options.Cookie.Domain = config.APPConfig.Domain;//
                 options.Cookie.SameSite = SameSiteMode.Lax;//
-                
             });
             //这样可以将HttpContext注入到控制器中。
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -189,7 +186,25 @@ namespace MoreNote
 
             services.AddSevenZipCompressor();
             services.AddResumeFileResult();
+            if (config.SecurityConfig.FIDO2Config.IsEnable)
+            {
+                var fido2Config = config.SecurityConfig.FIDO2Config;
+                services.AddFido2(option =>
+                {
+                    option.ServerDomain = fido2Config.ServerDomain;
+                    option.ServerName = fido2Config.ServerName;
+                    option.Origins = new HashSet<string> { fido2Config.Origin };
+                })
+                 .AddCachedMetadataService(
 
+                       config =>
+                       {
+                           config.AddFidoMetadataRepository();
+                       }
+                 );
+            }
+
+            //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
 
@@ -308,22 +323,16 @@ namespace MoreNote
             //注入日志服务日志
             builder.RegisterType<Log4NetLoggingService>().As<ILoggingService>();
 
-            
-
-
             //Autowired
             //var controllerBaseType = typeof(ControllerBase);
             //builder.RegisterAssemblyTypes(typeof(Program).Assembly)
             //   .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
             //   .PropertiesAutowired(new AutowiredPropertySelector());
-            
-            
+
             //var dataAccess = Assembly.GetExecutingAssembly();
             //builder.RegisterAssemblyTypes(dataAccess)
             //  .Where(t => t.Name.EndsWith("Service"))
             //  .PropertiesAutowired(new AutowiredPropertySelector());
-
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

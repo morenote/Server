@@ -36,11 +36,14 @@ namespace MoreNote.Common.Utils
             {
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 Converters = {
-            new JsonStringEnumMemberConverter(),
-            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-        },
+                    new JsonStringEnumMemberConverter(),
+                    //new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+           
+                },
+                DefaultIgnoreCondition=JsonIgnoreCondition.WhenWritingNull
             };
             options.PropertyNamingPolicy =  JsonNamingPolicy.CamelCase;
+            
            // options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             
             return options;
