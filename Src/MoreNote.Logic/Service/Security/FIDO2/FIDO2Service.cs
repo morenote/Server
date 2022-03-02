@@ -85,6 +85,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 opts.AuthenticatorSelection,
                 opts.Attestation,
                 exts);
+            options.Rp.Icon = "";
 
             cache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
