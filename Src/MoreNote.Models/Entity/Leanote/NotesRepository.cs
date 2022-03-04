@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Models.Entity.Leanote
 {
+    /// <summary>
+    /// 笔记仓库
+    /// </summary>
     [Table("notes_repository")]
     public class NotesRepository
     {
@@ -27,13 +30,14 @@ namespace MoreNote.Models.Entity.Leanote
         public long? NotesRepositoryLicense { get; set; }//仓库摘要说明
 
         [Column("notes_repository_type")]
-        public NotesRepositoryType NotesRepositoryType { get; set; }//仓库类型
+        public RepositoryType RepositoryType { get; set; }//仓库类型
 
         [Column("owner_id")]
         public long? OwnerId { get; set; }//拥有者
 
         [Column("visible")]
-        public bool Visible { get; set; }//是否可见
+        public bool Visible { get; set; }//是否公开仓库
+
 
 
 
