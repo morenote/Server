@@ -5,6 +5,8 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.DTO.Joplin;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +29,8 @@ namespace MoreNote.Controllers.Joplin
           , ConfigFileService configFileService
           , IHttpContextAccessor accessor
           , AuthService authService
-          ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+         , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.AuthService = authService;
         }

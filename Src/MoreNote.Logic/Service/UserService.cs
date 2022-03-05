@@ -12,6 +12,8 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Security.FIDO2;
+using MoreNote.Models.Model;
 
 namespace MoreNote.Logic.Service
 {
@@ -28,6 +30,46 @@ namespace MoreNote.Logic.Service
             this.Config = configFileService.WebConfig;
         }
 
+        public UserLoginSecurityStrategy GetGetUserLoginSecurityStrategy(string userName)
+        {
+
+           
+            var user = GetUserByUserName(userName);
+            if (user==null)
+            {
+                return null;
+
+            }
+            var securityStrategy = new UserLoginSecurityStrategy()
+            {
+                UserId=user.UserId,
+                UserName=user.Username,
+                
+            };
+            return securityStrategy;
+
+
+
+        }
+        public User GetUserByToken(string token)
+        {
+            if (token == null)
+            {
+                return null;
+            }
+            var result = dataContext.Token
+                  .Where(b => b.TokenStr.Equals(token)).FirstOrDefault();
+            if (result != null)
+            {
+                var user = dataContext.User
+                .Where(b => b.UserId == result.UserId).FirstOrDefault();
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public User GetUser(string email)
         {
             var result = dataContext.User

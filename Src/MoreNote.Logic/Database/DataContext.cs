@@ -3,6 +3,9 @@
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Security.FIDO2;
+using System;
+using System.Collections.Generic;
 
 namespace MoreNote.Logic.Database
 {
@@ -25,6 +28,7 @@ namespace MoreNote.Logic.Database
         {
         }
 
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //建立索引
@@ -42,6 +46,10 @@ namespace MoreNote.Logic.Database
             modelBuilder.Entity<User>()
                .HasMany(b => b.FIDO2Items)
                .WithOne();
+            //============================种子数据 数据库迁移的时候自动生成================================
+        
+          
+
         }
 
         public DbSet<Album> Album { get; set; }
@@ -83,6 +91,10 @@ namespace MoreNote.Logic.Database
         public DbSet<ReportInfo> ReportInfo { get; set; }
         public DbSet<Session> Session { get; set; }
         public DbSet<Suggestion> Suggestion { get; set; }
+        /*******************NotesRepository***********************/
+        public DbSet<NotesRepository> NotesRepository { get;set; }
+
+
         /**************Tag DB****************/
         public DbSet<Tag> Tag { get; set; }
         public DbSet<NoteTag> NoteTag { get; set; }

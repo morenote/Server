@@ -15,6 +15,9 @@ namespace MoreNote.Logic.Entity
         [Column("user_id")]
         public long? UserId { get; set; }
 
+        [Column("notes_repository_id")]
+        public long? NotesRepositoryId { get; set; }//仓库id
+
         [Column("parent_notebook_Id")]
         public long? ParentNotebookId { get; set; } // 上级
 

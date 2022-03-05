@@ -4,6 +4,8 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System.Collections.Generic;
 
 namespace MoreNote.Controllers
@@ -15,7 +17,9 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
         }
 

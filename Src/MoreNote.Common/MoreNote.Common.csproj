@@ -2,6 +2,7 @@
 
   <PropertyGroup>
 	  <TargetFramework>net6.0</TargetFramework>
+	  <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
     <PackageReference Include="Hangfire" Version="1.7.27" />
     <PackageReference Include="IP2Region" Version="1.2.0" />
+    <PackageReference Include="Macross.Json.Extensions" Version="2.2.0" />
     <PackageReference Include="Masuit.Tools.Core" Version="2.4.5.3" />
     <PackageReference Include="MaxMind.GeoIP2" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />

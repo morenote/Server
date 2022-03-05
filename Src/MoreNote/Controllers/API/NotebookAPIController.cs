@@ -5,6 +5,8 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System.Collections.Generic;
 
 namespace MoreNote.Controllers.API.APIV1
@@ -22,7 +24,9 @@ namespace MoreNote.Controllers.API.APIV1
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
-            NotebookService notebookService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            NotebookService notebookService
+           , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.notebookService = notebookService;
         }

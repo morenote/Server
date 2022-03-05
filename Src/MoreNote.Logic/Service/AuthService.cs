@@ -33,9 +33,14 @@ namespace MoreNote.Logic.Service
 
         public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
         {
-           
-            
-            user = UserService.GetUser(email);
+
+            if (email.Contains("@"))
+            {
+                user = UserService.GetUser(email);
+            }
+            else{
+                user=UserService.GetUserByUserName(email);
+            }
             if (user==null)
             {
                 tokenStr=null;
@@ -50,6 +55,7 @@ namespace MoreNote.Logic.Service
                 if (result)
                 {
                     long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+                    //生成token的数据
                     var tokenContext= TokenSerivce.GenerateTokenContext(tokenid);
                     Token myToken = new Token
                     {
@@ -148,6 +154,7 @@ namespace MoreNote.Logic.Service
             }
             //产生一个盐用于保存密码
             var salt= RandomTool.CreatSafeSaltByteArray(16);
+
             var passwordStore=PasswordStoreFactory.Instance(config.SecurityConfig);
             //对用户密码做哈希运算
             string genPass= passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd),salt,config.SecurityConfig.PasswordHashIterations).ByteArrayToBase64();
@@ -191,6 +198,8 @@ namespace MoreNote.Logic.Service
             }
 
         }
+
+
         public  bool Register(User user)
         {
           

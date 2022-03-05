@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -18,7 +19,9 @@ namespace MoreNote.Controllers.API.APIV1
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
-            TagService tagService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            TagService tagService
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
            
             this.tokenSerivce= tokenSerivce;
