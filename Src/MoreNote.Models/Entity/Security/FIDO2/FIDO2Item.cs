@@ -18,7 +18,7 @@ using MoreNote.Logic.Entity;
 using Org.BouncyCastle.Crypto;
 using StackExchange.Redis;
 
-namespace MoreNote.Models.Entity.Leanote
+namespace MoreNote.Models.Entity.Security.FIDO2
 {
     
     [Table("fido2_item"), Index(nameof(Id), IsUnique =true)]

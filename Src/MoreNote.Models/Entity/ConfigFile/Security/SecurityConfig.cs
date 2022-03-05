@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using MoreNote.Models.Entity.ConfigFile;
+using MoreNote.Models.Entity.ConfigFile.Security;
 
 namespace MoreNote.Logic.Entity.ConfigFile
 {
@@ -79,6 +80,14 @@ namespace MoreNote.Logic.Entity.ConfigFile
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public NeedVerificationCode NeedVerificationCode{get;set;}=NeedVerificationCode.ON;
 
+        /// <summary>
+        /// FIDO2认证协议配置
+        /// </summary>
         public FIDO2Config FIDO2Config{get;set;}=new FIDO2Config();
+
+        /// <summary>
+        /// 人脸验证配置
+        /// </summary>
+        public FaceConfig FaceConfig { get;set;}=new FaceConfig();
     }
 }

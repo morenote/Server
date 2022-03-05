@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MoreNote.Logic.Service;
 using MoreNote.Framework.Controllers;
+using MoreNote.Logic.Service.Logging;
 
 namespace MoreNote.Controllers
 {
@@ -22,7 +23,9 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
            
 

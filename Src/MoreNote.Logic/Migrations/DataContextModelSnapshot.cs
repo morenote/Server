@@ -774,6 +774,10 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("notebook_id");
 
+                    b.Property<long?>("NotesRepositoryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("notes_repository_id");
+
                     b.Property<DateTime>("PublicTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("public_time");
@@ -858,6 +862,10 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsWX")
                         .HasColumnType("boolean")
                         .HasColumnName("is_wx");
+
+                    b.Property<long?>("NotesRepositoryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("notes_repository_id");
 
                     b.Property<int>("NumberNotes")
                         .HasColumnType("integer")
@@ -986,6 +994,10 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text")
                         .HasColumnName("name");
+
+                    b.Property<long?>("NotesRepositoryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("notes_repository_id");
 
                     b.Property<int>("NumberOfFileReferences")
                         .HasColumnType("integer")
@@ -2124,6 +2136,44 @@ namespace MoreNote.Logic.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("fido2_item");
+                });
+
+            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.NotesRepository", b =>
+                {
+                    b.Property<long?>("NotesRepositoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("notes_repository_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NotesRepositoryId"));
+
+                    b.Property<long?>("NotesRepositoryLicense")
+                        .HasColumnType("bigint")
+                        .HasColumnName("notes_repository_license");
+
+                    b.Property<long?>("NotesRepositoryName")
+                        .HasColumnType("bigint")
+                        .HasColumnName("notes_repository_name");
+
+                    b.Property<long?>("NotesRepositorySummary")
+                        .HasColumnType("bigint")
+                        .HasColumnName("notes_repository_summary");
+
+                    b.Property<int>("NotesRepositoryType")
+                        .HasColumnType("integer")
+                        .HasColumnName("notes_repository_type");
+
+                    b.Property<long?>("OwnerId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("owner_id");
+
+                    b.Property<bool>("Visible")
+                        .HasColumnType("boolean")
+                        .HasColumnName("visible");
+
+                    b.HasKey("NotesRepositoryId");
+
+                    b.ToTable("notes_repository");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Authorization", b =>

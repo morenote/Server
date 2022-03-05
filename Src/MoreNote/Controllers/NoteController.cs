@@ -8,6 +8,8 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,12 @@ namespace MoreNote.Controllers
             , IWebHostEnvironment env
             , TagService tagService
             , TrashService trashService
-            , IHttpContextAccessor accessor, NotebookService notebookService, NoteService noteService, NoteContentService noteContentService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor
+            , NotebookService notebookService
+            , NoteService noteService
+            , NoteContentService noteContentService
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.notebookService = notebookService;
             this.noteService = noteService;

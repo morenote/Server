@@ -9,6 +9,7 @@ using MoreNote.Common.ModelBinder;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -23,7 +24,9 @@ namespace MoreNote.Controllers.API.APIV1
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor, AuthService authService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , IHttpContextAccessor accessor, AuthService authService
+           , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.authService = authService;
             this.userService = userService;
@@ -83,6 +86,22 @@ namespace MoreNote.Controllers.API.APIV1
             }
 
         }
+
+        //获取用户的登录策略
+        public JsonResult GetUserLoginSecurityStrategy(string UserName)
+        {
+
+            var ss=  userService.GetGetUserLoginSecurityStrategy(UserName);
+            ApiRe apiRe = new ApiRe()
+            {
+                Ok = (ss!=null),
+                Msg = "",
+                Data=ss
+                
+            };
+            return Json(apiRe, MyJsonConvert.GetOptions());
+        }
+
         //todo:修改用户名
         public IActionResult UpdateUsername()
         {

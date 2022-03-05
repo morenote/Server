@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-
-using Autofac;
+﻿using Autofac;
 
 using Masuit.Tools.Core.AspNetCore;
 
@@ -19,9 +16,16 @@ using Morenote.Framework.Filter.Global;
 
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.Logging.IMPL;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
+
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace MoreNote
 {
@@ -182,7 +186,25 @@ namespace MoreNote
 
             services.AddSevenZipCompressor();
             services.AddResumeFileResult();
+            if (config.SecurityConfig.FIDO2Config.IsEnable)
+            {
+                var fido2Config = config.SecurityConfig.FIDO2Config;
+                services.AddFido2(option =>
+                {
+                    option.ServerDomain = fido2Config.ServerDomain;
+                    option.ServerName = fido2Config.ServerName;
+                    option.Origins = new HashSet<string> { fido2Config.Origin };
+                })
+                 .AddCachedMetadataService(
 
+                       config =>
+                       {
+                           config.AddFidoMetadataRepository();
+                       }
+                 );
+            }
+
+            //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
 
@@ -293,9 +315,24 @@ namespace MoreNote
                 .As<IPasswordStore>();
             builder.RegisterType<JiebaSegmenterService>()
                 .As<JiebaSegmenterService>();
+            //fido2认证服务
+            builder.RegisterType<FIDO2Service>();
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
+            //注入日志服务日志
+            builder.RegisterType<Log4NetLoggingService>().As<ILoggingService>();
+
+            //Autowired
+            //var controllerBaseType = typeof(ControllerBase);
+            //builder.RegisterAssemblyTypes(typeof(Program).Assembly)
+            //   .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
+            //   .PropertiesAutowired(new AutowiredPropertySelector());
+
+            //var dataAccess = Assembly.GetExecutingAssembly();
+            //builder.RegisterAssemblyTypes(dataAccess)
+            //  .Where(t => t.Name.EndsWith("Service"))
+            //  .PropertiesAutowired(new AutowiredPropertySelector());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -323,7 +360,15 @@ namespace MoreNote
             app.UseAuthorization();
             //监控接口耗时情况
             //app.UseTimeMonitorMiddleware();
-
+#if DEBUG
+            //调试的时候允许跨域
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowAnyOrigin();
+            });
+#endif
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

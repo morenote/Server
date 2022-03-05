@@ -49,7 +49,7 @@ namespace MoreNote.Logic.Service
         /// 产生不可预测的Token
         /// </summary>
         /// <param name="tokenId">tokenId</param>
-        /// <param name="tokenByteSize">不可预测部分的byte长度 字节</param>
+        /// <param name="tokenByteSize">不可预测部分的byte长度 字节 默认16</param>
         /// <returns></returns>
         public string GenerateTokenContext(long? tokenId, int tokenByteSize = 16)
         {
@@ -63,25 +63,27 @@ namespace MoreNote.Logic.Service
             //AB拼接 输出hex字符串
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
             {
-                byte[] numData = BitConverter.GetBytes(tokenId.Value);
+               
+                //随机盐
                 byte[] randomData = new byte[tokenByteSize];
                 rng.GetBytes(randomData);
 
-                byte[] tokenData = new byte[numData.Length + randomData.Length];
-                Array.Copy(numData, 0, tokenData, 0, numData.Length);
-                Array.Copy(randomData, 0, tokenData, numData.Length, randomData.Length);
+                //拼接token
+                var tokenBuider=new StringBuilder();
+                tokenBuider.Append(tokenId.ToHex());
+                tokenBuider.Append("@");
+                tokenBuider.Append(randomData.ByteArrayToHex());
 
-                // string token = Convert.ToBase64String(tokenData);
-                string token = HexUtil.ByteArrayToString(tokenData);
-
+               
+                //获取配置文件密钥
                 var secret = this.config.SecurityConfig.Secret;
-
-                var hmac = SecurityUtil.SignHamc256(token, secret);
-                hmac=Base64Util.ToBase64String(hmac);
-                token = token + "@" + hmac;
-
-                Console.WriteLine();
-                return token;
+                //使用配置文件密钥对token进行签名
+                var sign = SecurityUtil.SignHamc256(tokenBuider.ToString(), secret);
+                //拼接上sign
+                tokenBuider.Append("@");
+                tokenBuider.Append(sign);
+          
+                return tokenBuider.ToString();
             }
         }
 
@@ -108,14 +110,46 @@ namespace MoreNote.Logic.Service
                 return false;
             }
             var sp = token.Split("@");
-            if (sp == null || sp.Length != 2)
+            if (sp == null || sp.Length != 3)
             {
                 return false;
             }
-            var message=sp[0];
-            var hmac=Base64Util.UnBase64String(sp[1]);
+            var id=sp[0];
+            var randomData=sp[1];
+            var sign= sp[2];
+            var tokenBuider=new StringBuilder();
+            tokenBuider.Append(id);
+            tokenBuider.Append("@");
+            tokenBuider.Append(randomData);
             var secret= config.SecurityConfig.Secret;
-            return SecurityUtil.VerifyHamc256(message, secret,hmac);
+            //计算hmac
+            return SecurityUtil.VerifyHamc256(tokenBuider.ToString(), secret,sign);
+        }
+        public bool VerifyToken(long? userId, string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+            var sp = token.Split("@");
+            if (sp == null || sp.Length != 3)
+            {
+                return false;
+            }
+            var id = sp[0];
+            var randomData = sp[1];
+            var sign = sp[2];
+            var tokenBuider = new StringBuilder();
+            tokenBuider.Append(id);
+            tokenBuider.Append("@");
+            tokenBuider.Append(randomData);
+            var secret = config.SecurityConfig.Secret;
+            if (!userId.ToHex().Equals(id))
+            {
+                return false;
+            }
+            //计算hmac
+            return SecurityUtil.VerifyHamc256(tokenBuider.ToString(), secret, sign);
         }
 
         public User GetUserByToken(string token)
@@ -137,6 +171,9 @@ namespace MoreNote.Logic.Service
                 return null;
             }
         }
+        
+
+
 
         public bool DeleteTokenByToken(string token)
         {

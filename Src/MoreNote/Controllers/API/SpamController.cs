@@ -10,6 +10,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 
 namespace MoreNote.Controllers.API
 {
@@ -23,7 +24,9 @@ namespace MoreNote.Controllers.API
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
-            SpamService spamService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            SpamService spamService
+           , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
           this.spamService= spamService;
            

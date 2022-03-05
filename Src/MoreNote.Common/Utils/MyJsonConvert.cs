@@ -30,6 +30,24 @@ namespace MoreNote.Common.Utils
 
             return options;
         }
+        public static JsonSerializerOptions GetCamelCaseOptions()
+        {
+            JsonSerializerOptions options = new System.Text.Json.JsonSerializerOptions
+            {
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                Converters = {
+                    new JsonStringEnumMemberConverter(),
+                    //new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+           
+                },
+                DefaultIgnoreCondition=JsonIgnoreCondition.WhenWritingNull
+            };
+            options.PropertyNamingPolicy =  JsonNamingPolicy.CamelCase;
+            
+           // options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            
+            return options;
+        }
 
     }
     public class DateTimeConverter : JsonConverter<DateTime>

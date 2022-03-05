@@ -5,6 +5,8 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
+using MoreNote.Logic.Service.Logging;
+
 using System;
 using System.IO;
 using System.Net;
@@ -24,7 +26,9 @@ namespace MoreNote.Controllers.API.APIV1
              , UserService userService
              , ConfigFileService configFileService
              , IHttpContextAccessor accessor,
-            NoteService noteService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            NoteService noteService
+            , ILoggingService loggingService) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.noteService = noteService;
             this.webSiteConfig = configFileService.WebConfig;

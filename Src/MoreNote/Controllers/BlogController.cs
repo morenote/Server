@@ -8,6 +8,8 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +40,9 @@ namespace MoreNote.Controllers
             , TagService tagService
             , NoteService noteService
             , NotebookService notebookService
-            , BlogService blogService) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , BlogService blogService
+            , ILoggingService loggingService) : 
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.accessService = accessService;
             this.blogService = blogService;

@@ -12,6 +12,8 @@ using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileService.IMPL;
+using MoreNote.Logic.Service.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,8 +77,8 @@ namespace MoreNote.Controllers
             AccessService accessService,
             DataContext dataContext,
             RandomImageService randomImageService
-
-            ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+            , ILoggingService loggingService
+            ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
         {
             this.AccessService = accessService;
             this.dataContext = dataContext;

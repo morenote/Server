@@ -29,7 +29,9 @@ namespace MoreNote.Logic.Entity
         [Column("tag_id")]
         public long? TagId { get; set; }
         [Column("user_id")]
-        public long? UserId { get; set; } // 谁的 
+        public long? UserId { get; set; } // 谁的
+                                           
+
         [Column("tag")]
         public string Tag { get; set; } // UserId, Tag是唯一索引
         [Column("usn")]

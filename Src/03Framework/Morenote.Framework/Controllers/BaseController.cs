@@ -9,6 +9,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Models.DTO.Vditor.Upload;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Logging;
 using MoreNote.Value;
 using System;
 using System.Collections.Generic;
@@ -45,20 +46,23 @@ namespace MoreNote.Framework.Controllers
         public int pageSize = 1000;
 
         public TokenSerivce tokenSerivce;
-
+        public ILoggingService loggingService;
         public UserService userService;
 
         // 不能更改
         protected IHttpContextAccessor _accessor;
 
         protected ConfigFileService configFileService;
+       
+        public ILoggingService LoggingService;
 
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , IHttpContextAccessor accessor)
+            , IHttpContextAccessor accessor
+            , ILoggingService loggingService)
         {
             this.attachService = attachService;
             this.tokenSerivce = tokenSerivce;
@@ -66,7 +70,9 @@ namespace MoreNote.Framework.Controllers
             this.configFileService = configFileService;
             this.userService = userService;
             this._accessor = accessor;
+            this.loggingService = loggingService;
             config = configFileService.WebConfig;
+            this.loggingService=loggingService;
         }
         
         public string GetAntiCSRFToken()
