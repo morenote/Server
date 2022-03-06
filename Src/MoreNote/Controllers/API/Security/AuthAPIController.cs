@@ -115,30 +115,6 @@ namespace MoreNote.Controllers.API.APIV1
             return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
 
-        [HttpPost]
        
-        public JsonResult MakeCredentialOptions(string token)
-        {
-            
-
-            var tokenVerify = tokenSerivce.VerifyToken(token);
-            if (!tokenVerify)
-            {
-                var apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "注册失败,token无效"
-                };
-                return Json(apiRe, MyJsonConvert.GetSimpleOptions());
-            }
-            var user=userService.GetUserByToken(token);
-            //注册选项
-            var opts=new MakeCredentialParams(user.Username,user.UserId);
-
-            var credentialCreateOptions = fido2Service.MakeCredentialOptions(opts);
-         
-            return Json(credentialCreateOptions);
-
-        }
     }
 }

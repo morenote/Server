@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 
 using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
@@ -19,6 +20,8 @@ using MoreNote.Models.Entity.ConfigFile;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Security.FIDO2;
 using MoreNote.Models.Model.FIDO2;
+
+using static Fido2NetLib.Fido2;
 
 namespace MoreNote.Logic.Security.FIDO2.Service
 {
@@ -55,15 +58,10 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <param name="opts"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public CredentialCreateOptions MakeCredentialOptions(MakeCredentialParams opts)
+        public CredentialCreateOptions MakeCredentialOptions(User user, MakeCredentialParams opts)
         {
 
-            // Get user from DB by username (in our example, auto create missing users)
-            var user = dataContext.User.Where(u => u.UserId == opts.UserId).FirstOrDefault();
-            if (user == null)
-            {
-                throw new Exception();
-            }
+           
             var fidoUser =opts.GetFido2UserByUser();
             // Create options
             var exts = new AuthenticationExtensionsClientInputs()
@@ -72,17 +70,26 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 UserVerificationMethod = true,
                
             };
-            var existingKeys = new List<PublicKeyCredentialDescriptor>();
+            var existingKeys = GetPublicKeyCredentialDescriptors(user.UserId);
+            
             var options = _fido2.RequestNewCredential(
                 fidoUser,
-                null,
+                existingKeys,
                 opts.AuthenticatorSelection,
                 opts.Attestation,
                 exts);
-           
-
+          
             cache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
+        }
+
+        public List<PublicKeyCredentialDescriptor> GetPublicKeyCredentialDescriptors(long? userId)
+        {
+           
+            var existingCredentials = this.dataContext.FIDO2Repository
+                .Where(b=>b.UserId==userId)
+                .Select(p => p.GetDescriptor()).ToList<PublicKeyCredentialDescriptor>();
+            return existingCredentials;
         }
 
         /// <summary>
@@ -90,10 +97,15 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <para>当客户端返回响应时，我们验证并注册凭据。</para>
         /// </summary>
         /// <param name="attestationResponse"></param>
-        public async Task<bool> MakeCredential(long userId, AuthenticatorAttestationRawResponse attestationResponse)
+        public async Task<CredentialMakeResult> RegisterCredentials(User user,string fido2Name,AuthenticatorAttestationRawResponse attestationResponse)
         {
+           
             // 1. get the options we sent the client
-            var jsonOptions = cache.GetString(userId.ToString() + "attestationOptions");
+            var jsonOptions = cache.GetString(user.UserId.ToString()+ "attestationOptions");
+            if (string.IsNullOrEmpty(jsonOptions))
+            {
+                return null;
+            }
             var options = CredentialCreateOptions.FromJson(jsonOptions);
 
             // 2. Create callback so that lib can verify credential id is unique to this user
@@ -102,19 +114,26 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 //var users = await DemoStorage.GetUsersByCredentialIdAsync(args.CredentialId);
                 //if (users.Count > 0)
                 //    return false;
-
+                var argUserId= args.CredentialId;
+                if (this.dataContext.FIDO2Repository.Where(b=>b.CredentialId.Equals(argUserId)).Any())
+                {
+                    return false;
+                }
                 return true;
             };
             // 2. Verify and make the credentials
             var success = await _fido2.MakeNewCredentialAsync(attestationResponse, options, callback);
             // 3. Store the credentials in db
-            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            //var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
             if (user == null)
             {
-                return false;
+                return null;
             }
-            user.FIDO2Items.Add(new FIDO2Item()
+            var fido2= new FIDO2Item()
             {
+                Id= SnowFlakeNet.GenerateSnowFlakeID(),
+                UserId=user.UserId,
+                FIDO2Name=fido2Name,
                 CredentialId = success.Result.CredentialId,
                 PublicKey = success.Result.PublicKey,
                 UserHandle = success.Result.User.Id,
@@ -122,12 +141,15 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 CredType = success.Result.CredType,
                 RegDate = DateTime.Now,
                 AaGuid = success.Result.Aaguid
-            });
+            };
+
+            dataContext.FIDO2Repository.Add(fido2);
 
             dataContext.SaveChanges();
 
-            return true;
+            return success;
         }
+     
 
         /// <summary>
         /// 断言：创建断言选项
@@ -151,7 +173,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             // 2. Get registered credentials from database
             var storedCredential = user.FIDO2Items;
 
-            var existingCredentials = user.GetPublicKeyCredentialDescriptors();
+            var existingCredentials = GetPublicKeyCredentialDescriptors(user.UserId);
 
             var exts = new AuthenticationExtensionsClientInputs()
             {

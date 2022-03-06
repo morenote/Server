@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Masuit.Tools.Core" Version="2.4.5.3" />
+    <PackageReference Include="Masuit.Tools.Core" Version="2.4.7.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
   </ItemGroup>
