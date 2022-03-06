@@ -222,11 +222,7 @@ namespace MoreNote.Logic.Entity
         {
             return this.Role.ToLower().Equals("superadmin");
         }
-        public List<PublicKeyCredentialDescriptor> GetPublicKeyCredentialDescriptors()
-        {
-           var existingCredentials = this.FIDO2Items.Select(p=>p.GetDescriptor()).ToList<PublicKeyCredentialDescriptor>();
-           return existingCredentials;
-        }
+  
 
     }
 

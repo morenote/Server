@@ -31,6 +31,13 @@ namespace MoreNote.Models.Entity.Security.FIDO2
 
          [Column("user_id")]
         public long? UserId { get; set; }
+
+        /// <summary>
+        /// FIDO2名称
+        /// </summary>
+        [Column("fido2_name")]
+        public string? FIDO2Name { get;set;}
+
          /// <summary>
         /// 安全密钥凭证唯一ID
         /// </summary>

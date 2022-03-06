@@ -20,6 +20,7 @@ namespace MoreNote.Models.Model.FIDO2
     public class MakeCredentialParams
     {
 
+
         /// <summary>
         /// 用户名称，这个是数据库中的完整名称
         /// </summary>
