@@ -70,7 +70,7 @@ namespace MoreNote.Logic.Service
                 return null;
             }
         }
-        public User GetUser(string email)
+        public User GetUserByEmail(string email)
         {
             var result = dataContext.User
                        .Where(b => b.Email.Equals(email)).FirstOrDefault();

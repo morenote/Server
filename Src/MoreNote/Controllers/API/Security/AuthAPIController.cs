@@ -20,7 +20,7 @@ namespace MoreNote.Controllers.API.APIV1
     public class AuthAPIController : APIBaseController
     {
         private AuthService authService;
-        private FIDO2Service fido2Service; 
+      
         public AuthAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -28,12 +28,11 @@ namespace MoreNote.Controllers.API.APIV1
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor
             ,AuthService authService
-            ,FIDO2Service fIDO2Service
             , ILoggingService loggingService) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.authService = authService;
-            this.fido2Service = fIDO2Service;
+         
         }
 
         /// <summary>

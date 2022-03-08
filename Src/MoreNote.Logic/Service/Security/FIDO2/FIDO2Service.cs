@@ -149,40 +149,29 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// 断言：创建断言选项
         /// <para> 当用户想要登录时，我们会根据注册的凭据进行断言。</para>
         /// </summary>
-        public AssertionOptions AssertionOptionsPost(User user, AssertionClientParams assertionClientParams, out string error)
+        public async Task<AssertionOptions> AssertionOptionsPost(User user, AssertionClientParams assertionClientParams)
         {
-            error = string.Empty;
-            var userName = assertionClientParams.Username;
+            string error = "";
+           
             // 1. Get user from DB
             if (user == null)
             {
                 error = "username was not registered";
-                return new AssertionOptions()
+                var ass =new AssertionOptions()
                 {
                     Status = "bad",
                     ErrorMessage = error
                 };
+                return ass;
             }
             // 2. Get registered credentials from database
 
             var existingCredentials = GetPublicKeyCredentialDescriptors(user.UserId);
 
-            var exts = new AuthenticationExtensionsClientInputs()
-            {
-                UserVerificationMethod = true
-            };
-
-            // 3. Create options
-            var uv = assertionClientParams.UserVerification;
-
-            if (null != assertionClientParams.authenticatorSelection)
-            {
-                uv = assertionClientParams.authenticatorSelection.UserVerification;
-            }
-            var options = _fido2.GetAssertionOptions(
+            var options =  _fido2.GetAssertionOptions(
                 existingCredentials,
-                uv,
-                exts
+                assertionClientParams.UserVerification,
+                assertionClientParams.Extensions
             );
             cache.SetString(user.UserId.ToString() + "assertionOptions", options.ToJson(), 120);
 
