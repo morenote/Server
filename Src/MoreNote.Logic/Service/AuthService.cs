@@ -36,7 +36,7 @@ namespace MoreNote.Logic.Service
 
             if (email.Contains("@"))
             {
-                user = UserService.GetUser(email);
+                user = UserService.GetUserByEmail(email);
             }
             else{
                 user=UserService.GetUserByUserName(email);
@@ -83,6 +83,8 @@ namespace MoreNote.Logic.Service
             }
 
         }
+    
+
         public  bool LoginByToken(string email, string token)
         {
 

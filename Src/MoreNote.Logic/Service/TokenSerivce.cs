@@ -29,6 +29,24 @@ namespace MoreNote.Logic.Service
             a = dataContext.SaveChanges();
             return dataContext.SaveChanges() > 0;
         }
+        public Token GenerateToken(User user)
+        {
+            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+            //生成token的数据
+            var tokenContext = GenerateTokenContext(tokenid);
+            Token myToken = new Token
+            {
+                TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
+                UserId = user.UserId,
+                Email = user.Email,
+                TokenStr = tokenContext,
+                TokenType = 0,
+                CreatedTime = DateTime.Now
+            };
+            return myToken;
+
+        }
+
 
         [Obsolete]
         private static string GenerateToken24()

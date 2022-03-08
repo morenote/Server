@@ -9,7 +9,7 @@ using Fido2NetLib.Objects;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.HySystem;
 using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
@@ -130,14 +130,71 @@ namespace MoreNote.Controllers.API
             }
         }
 
-        public IActionResult CreateAssertionOptions()
+        public async Task<IActionResult> CreateAssertionOptions(string email)
         {
-            return View();
+            string error="";
+
+            try
+            {
+                
+                var user=userService.GetUserByEmail(email);
+
+
+
+                var assertionClientParams = new AssertionClientParams();
+
+              
+                var success = await fido2Service.AssertionOptionsPost(user, assertionClientParams);
+                // 4. return "ok" to the client
+                return Json(success);
+            }
+            catch (Exception e)
+            {
+                return Json(new CredentialMakeResult(status: "error", errorMessage: FormatException(e), result: null));
+            }
+
+
+
         }
 
-        public IActionResult VerifyTheAssertionResponse()
+        public async Task<IActionResult> VerifyTheAssertionResponse(string email, string signData)
         {
-            return View();
+
+            try
+            {
+                var clientRespons = JsonSerializer.Deserialize<AuthenticatorAssertionRawResponse>(signData);
+                var user = userService.GetUserByEmail(email);
+
+                var success = await fido2Service.MakeAssertionAsync(user, clientRespons);
+
+                if (success.Status.Equals("success"))
+                {
+                    //颁发token
+                    var token = tokenSerivce.GenerateToken();
+                    tokenSerivce.AddToken(token);
+
+                    AuthOk authOk = new AuthOk()
+                    {
+                        Ok = true,
+                        Token = token.TokenStr,
+                        UserId = user.UserId.ToHex24(),
+                        Email = user.Email,
+                        Username = user.Username
+                    };
+                    return Json(authOk);
+                }
+                var re = new ApiRe();
+                re.Data = success;
+                return Json(re);
+            }
+            catch (Exception ex)
+            {
+                return Json(new CredentialMakeResult(status: "error", errorMessage: FormatException(ex), result: null));
+            }
+
+      
+
+           
         }
 
         private string FormatException(Exception e)
