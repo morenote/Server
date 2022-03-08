@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Fido2NetLib;
+﻿using Fido2NetLib;
 using Fido2NetLib.Objects;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
-
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
@@ -17,10 +9,13 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.ConfigFile;
-using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Security.FIDO2;
 using MoreNote.Models.Model.FIDO2;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static Fido2NetLib.Fido2;
 
 namespace MoreNote.Logic.Security.FIDO2.Service
@@ -37,20 +32,18 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         private FIDO2Config fido2Config;
         private IDistributedCache cache;//缓存数据库
 
-   
-
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dataContext"></param>
         /// <param name="configFileService"></param>
-        public FIDO2Service(DataContext dataContext, IDistributedCache distributedCache, ConfigFileService configFileService,IFido2 fido2)
+        public FIDO2Service(DataContext dataContext, IDistributedCache distributedCache, ConfigFileService configFileService, IFido2 fido2)
         {
             this.dataContext = dataContext;
             this.cache = distributedCache;
             this.config = configFileService.WebConfig;
             this.fido2Config = config.SecurityConfig.FIDO2Config;
-           this._fido2 = fido2;
+            this._fido2 = fido2;
         }
 
         /// <summary>
@@ -60,36 +53,39 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <exception cref="Exception"></exception>
         public CredentialCreateOptions MakeCredentialOptions(User user, MakeCredentialParams opts)
         {
-
-           
-            var fidoUser =opts.GetFido2UserByUser();
+            var fidoUser = opts.GetFido2UserByUser();
             // Create options
             var exts = new AuthenticationExtensionsClientInputs()
             {
                 Extensions = true,
                 UserVerificationMethod = true,
-               
             };
             var existingKeys = GetPublicKeyCredentialDescriptors(user.UserId);
-            
+
             var options = _fido2.RequestNewCredential(
                 fidoUser,
                 existingKeys,
                 opts.AuthenticatorSelection,
                 opts.Attestation,
                 exts);
-          
+
             cache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
         }
 
         public List<PublicKeyCredentialDescriptor> GetPublicKeyCredentialDescriptors(long? userId)
         {
-           
             var existingCredentials = this.dataContext.FIDO2Repository
-                .Where(b=>b.UserId==userId)
+                .Where(b => b.UserId == userId)
                 .Select(p => p.GetDescriptor()).ToList<PublicKeyCredentialDescriptor>();
             return existingCredentials;
+        }
+
+        public List<FIDO2Item> GetFIDO2ItemByUserId(long? userId)
+        {
+            var existingFIDO2Items = this.dataContext.FIDO2Repository
+               .Where(b => b.UserId == userId).ToList<FIDO2Item>();
+            return existingFIDO2Items;
         }
 
         /// <summary>
@@ -97,11 +93,10 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <para>当客户端返回响应时，我们验证并注册凭据。</para>
         /// </summary>
         /// <param name="attestationResponse"></param>
-        public async Task<CredentialMakeResult> RegisterCredentials(User user,string fido2Name,AuthenticatorAttestationRawResponse attestationResponse)
+        public async Task<CredentialMakeResult> RegisterCredentials(User user, string fido2Name, AuthenticatorAttestationRawResponse attestationResponse)
         {
-           
             // 1. get the options we sent the client
-            var jsonOptions = cache.GetString(user.UserId.ToString()+ "attestationOptions");
+            var jsonOptions = cache.GetString(user.UserId.ToString() + "attestationOptions");
             if (string.IsNullOrEmpty(jsonOptions))
             {
                 return null;
@@ -114,8 +109,8 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 //var users = await DemoStorage.GetUsersByCredentialIdAsync(args.CredentialId);
                 //if (users.Count > 0)
                 //    return false;
-                var argUserId= args.CredentialId;
-                if (this.dataContext.FIDO2Repository.Where(b=>b.CredentialId.Equals(argUserId)).Any())
+                var argUserId = args.CredentialId;
+                if (this.dataContext.FIDO2Repository.Where(b => b.CredentialId.Equals(argUserId)).Any())
                 {
                     return false;
                 }
@@ -129,11 +124,11 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             {
                 return null;
             }
-            var fido2= new FIDO2Item()
+            var fido2 = new FIDO2Item()
             {
-                Id= SnowFlakeNet.GenerateSnowFlakeID(),
-                UserId=user.UserId,
-                FIDO2Name=fido2Name,
+                Id = SnowFlakeNet.GenerateSnowFlakeID(),
+                UserId = user.UserId,
+                FIDO2Name = fido2Name,
                 CredentialId = success.Result.CredentialId,
                 PublicKey = success.Result.PublicKey,
                 UserHandle = success.Result.User.Id,
@@ -149,18 +144,16 @@ namespace MoreNote.Logic.Security.FIDO2.Service
 
             return success;
         }
-     
 
         /// <summary>
         /// 断言：创建断言选项
         /// <para> 当用户想要登录时，我们会根据注册的凭据进行断言。</para>
         /// </summary>
-        public AssertionOptions AssertionOptionsPost(long userid, AssertionClientParams assertionClientParams, out string error)
+        public AssertionOptions AssertionOptionsPost(User user, AssertionClientParams assertionClientParams, out string error)
         {
             error = string.Empty;
             var userName = assertionClientParams.Username;
             // 1. Get user from DB
-            var user = dataContext.User.Where(b => b.Email.Equals(userName) || b.Username.Equals(userName.ToLower())).FirstOrDefault();
             if (user == null)
             {
                 error = "username was not registered";
@@ -171,7 +164,6 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 };
             }
             // 2. Get registered credentials from database
-            var storedCredential = user.FIDO2Items;
 
             var existingCredentials = GetPublicKeyCredentialDescriptors(user.UserId);
 
@@ -201,9 +193,8 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// 断言：验证断言响应
         /// <para>当客户端返回响应时，我们对其进行验证并接受登录。</para>
         /// </summary>
-        public async Task<AssertionVerificationResult> MakeAssertionAsync(long UserId, AuthenticatorAssertionRawResponse clientRespons)
+        public async Task<AssertionVerificationResult> MakeAssertionAsync(User user, AuthenticatorAssertionRawResponse clientRespons)
         {
-            var user = dataContext.User.Where(b => b.UserId == UserId).FirstOrDefault();
             if (user == null)
             {
                 return new AssertionVerificationResult()
@@ -223,7 +214,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             }
             var options = AssertionOptions.FromJson(jsonOptions);
             // 2. Get registered credential from database
-            var storedCredential = user.FIDO2Items;
+            var storedCredential = this.GetFIDO2ItemByUserId(user.UserId);
             // 3. Get credential counter from database
 
             var creds = user.FIDO2Items.Where(b => b.CredentialId.SequenceEqual(clientRespons.Id)).FirstOrDefault();
