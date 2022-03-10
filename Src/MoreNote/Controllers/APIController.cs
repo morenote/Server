@@ -270,7 +270,7 @@ namespace MoreNote.Controllers
                 try
                 {
                     string body = await reader.ReadToEndAsync().ConfigureAwait(true);
-                    ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, Common.Utils.MyJsonConvert.GetOptions());
+                    ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, Common.Utils.MyJsonConvert.GetLeanoteOptions());
                     if (string.IsNullOrEmpty(message.uri) || message.type == UpyunType.test)
                     {
                         Response.StatusCode = 200;

@@ -49,7 +49,7 @@ namespace MoreNote.Controllers.API.APIV1
                         Ok = false,
                         Msg = "NOTLOGIN",
                     };
-                    return Json(apiRe, MyJsonConvert.GetOptions());
+                    return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
                 }
                 User user = userService.GetUserByUserId(myUserId);
 
@@ -60,7 +60,7 @@ namespace MoreNote.Controllers.API.APIV1
                         Ok = false,
                         Msg = "The user does not exist",
                     };
-                    return Json(apiRe, MyJsonConvert.GetOptions());
+                    return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace MoreNote.Controllers.API.APIV1
                         Logo = user.Logo,
                         Verified = user.Verified
                     };
-                    return Json(apiUser, MyJsonConvert.GetOptions());
+                    return Json(apiUser, MyJsonConvert.GetLeanoteOptions());
                 }
             }
             else
@@ -82,7 +82,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Ok = false,
                     Msg = "Invalid user id",
                 };
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
 
         }
@@ -99,7 +99,7 @@ namespace MoreNote.Controllers.API.APIV1
                 Data=ss
                 
             };
-            return Json(apiRe, MyJsonConvert.GetOptions());
+            return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:修改用户名
@@ -127,7 +127,7 @@ namespace MoreNote.Controllers.API.APIV1
                     };
                     string json = JsonSerializer.Serialize(apiRe, MyJsonConvert.GetSimpleOptions());
 
-                    return Json(apiRe, MyJsonConvert.GetOptions());
+                    return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
                 }
                 ApiGetSyncState apiGetSyncState = new ApiGetSyncState()
                 {
@@ -148,6 +148,6 @@ namespace MoreNote.Controllers.API.APIV1
         {
             return null;
         }     
-
+   
     }
 }

@@ -79,7 +79,7 @@ namespace MoreNote.Controllers
 
 
             }
-            return Json(re,MyJsonConvert.GetOptions());
+            return Json(re,MyJsonConvert.GetLeanoteOptions());
 
         }
 

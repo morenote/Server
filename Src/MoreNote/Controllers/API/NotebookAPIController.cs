@@ -44,14 +44,14 @@ namespace MoreNote.Controllers.API.APIV1
                     Msg = "NOTLOGIN",
                 };
 
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
             if (maxEntry == 0)
             {
                 maxEntry = 100;
             }
             Notebook[] notebook = notebookService.GeSyncNotebooks(user.UserId, afterUsn, maxEntry);
-            return Json(notebook, MyJsonConvert.GetOptions());
+            return Json(notebook, MyJsonConvert.GetLeanoteOptions());
         }
 
         public ApiNotebook[] fixNotebooks(Notebook[] notebooks)
@@ -98,13 +98,13 @@ namespace MoreNote.Controllers.API.APIV1
                     Msg = "NOTLOGIN",
                 };
 
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
                 Notebook[] notebooks = notebookService.GetAll(user.UserId);
                 ApiNotebook[] apiNotebooks = fixNotebooks(notebooks);
-                return Json(apiNotebooks, MyJsonConvert.GetOptions());
+                return Json(apiNotebooks, MyJsonConvert.GetLeanoteOptions());
             }
 
             return null;
@@ -122,7 +122,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Msg = "NOTLOGIN",
                 };
 
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -138,7 +138,7 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     ApiNotebook apiNotebook = fixNotebook(notebook);
 
-                    return Json(apiNotebook, MyJsonConvert.GetOptions());
+                    return Json(apiNotebook, MyJsonConvert.GetLeanoteOptions());
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace MoreNote.Controllers.API.APIV1
                         Msg = "AddNotebook is error",
                     };
 
-                    return Json(apiRe, MyJsonConvert.GetOptions());
+                    return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
                 }
             }
         }
@@ -165,7 +165,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Msg = "NOTLOGIN",
                 };
 
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -174,7 +174,7 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     ApiNotebook apiNotebook = fixNotebook(notebook);
 
-                    return Json(apiNotebook, MyJsonConvert.GetOptions());
+                    return Json(apiNotebook, MyJsonConvert.GetLeanoteOptions());
                 }
                 else
                 {
@@ -184,7 +184,7 @@ namespace MoreNote.Controllers.API.APIV1
                         Msg = "UpdateNotebook is error",
                     };
 
-                    return Json(apiRe, MyJsonConvert.GetOptions());
+                    return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
                 }
             }
         }
@@ -201,7 +201,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Msg = "NOTLOGIN",
                 };
 
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
             if (notebookService.DeleteNotebookForce(user.UserId, notebookId.ToLongByHex(), usn))
             {
@@ -210,7 +210,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Ok = true,
                     Msg = "success",
                 };
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -219,7 +219,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Ok = false,
                     Msg = "conflict",
                 };
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
         }
     }

@@ -13,7 +13,7 @@ namespace MoreNote.Common.ExtensionMethods
     
         public  static string ToJsonForLeanote<T>(this T t)
         {
-            string json = JsonSerializer.Serialize(t, MyJsonConvert.GetOptions());
+            string json = JsonSerializer.Serialize(t, MyJsonConvert.GetLeanoteOptions());
             return json;
         }
         public static string ToJsonForSimple<T>(this T t)

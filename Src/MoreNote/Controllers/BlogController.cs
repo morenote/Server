@@ -487,7 +487,7 @@ namespace MoreNote.Controllers
             long? noteNum = noteId.ToLongByHex();
             re.Ok = blogService.IncReadNum(noteNum);
 
-            return Json(re, MyJsonConvert.GetOptions());
+            return Json(re, MyJsonConvert.GetLeanoteOptions());
         }
          [Route("Blog/getLikesAndComments")]
         public IActionResult GetLikesAndComments([ModelBinder(typeof(Hex2LongModelBinder))] long? noteId, string callback)

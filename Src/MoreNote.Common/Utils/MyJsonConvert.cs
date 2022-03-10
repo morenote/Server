@@ -10,7 +10,7 @@ namespace MoreNote.Common.Utils
 {
     public class MyJsonConvert
     {
-        public static System.Text.Json.JsonSerializerOptions GetOptions()
+        public static System.Text.Json.JsonSerializerOptions GetLeanoteOptions()
         {
             JsonSerializerOptions options = new System.Text.Json.JsonSerializerOptions
             {

@@ -898,5 +898,13 @@ namespace MoreNote.Framework.Controllers
                 Data = data
             });
         }
+        public IActionResult SimpleJson(object? data)
+        {
+            return Json(data,MyJsonConvert.GetSimpleOptions());
+        }
+        public IActionResult LeanoteJson(object? data)
+        {
+            return Json(data, MyJsonConvert.GetLeanoteOptions());
+        }
     }
 }

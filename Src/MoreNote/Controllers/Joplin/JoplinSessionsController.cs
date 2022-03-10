@@ -49,7 +49,7 @@ namespace MoreNote.Controllers.Joplin
                     id = token,
                     user_id = user.UserId.ToHex24()
                 };
-                return Json(response, MyJsonConvert.GetOptions());
+                return Json(response, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -59,7 +59,7 @@ namespace MoreNote.Controllers.Joplin
                 };
                 //（禁止） 服务器拒绝请求。
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return Json(response, MyJsonConvert.GetOptions());
+                return Json(response, MyJsonConvert.GetLeanoteOptions());
             }
         }
     }

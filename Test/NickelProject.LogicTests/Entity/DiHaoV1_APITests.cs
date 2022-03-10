@@ -37,7 +37,7 @@ namespace MoreNote.Logic.Entity.Tests
                     }
                 }
             };
-            string json = JsonSerializer.Serialize(diHaoV1_API, MyJsonConvert.GetOptions());
+            string json = JsonSerializer.Serialize(diHaoV1_API, MyJsonConvert.GetLeanoteOptions());
             Console.WriteLine(json);
         }
     }

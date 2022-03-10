@@ -36,35 +36,35 @@ namespace MoreNote.Controllers
             if (string.IsNullOrEmpty(username) || username.Length < 4)
             {
                 re.Msg = "Unable to obtain user information through Session ";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             if (username.Length > 16)
             {
                 re.Msg = "Name string length>16";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             var message = string.Empty;
             User user = GetUserBySession();
             if (user == null)
             {
                 re.Msg = "Unable to obtain user information through Session ";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             if (user.Username.Equals(config.SecurityConfig.DemoUsername))
             {
                 re.Msg = "cannotUpdateDemo";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             if (userService.VDUserName(username, out message))
             {
                 re.Ok = userService.UpdateUsername(user.UserId, username);
                 re.Msg = message;
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
                 re.Msg = "Incorrect username format or conflict";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
         }
 
@@ -75,20 +75,20 @@ namespace MoreNote.Controllers
             if (string.IsNullOrEmpty(oldPwd) || string.IsNullOrEmpty(pwd) || pwd.Length < 6)
             {
                 re.Msg = "Password length is too short";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
 
             User user = GetUserBySession();
             if (user == null)
             {
                 re.Msg = "Unable to obtain user information through Session ";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
 
             if (user.Username.Equals(config.SecurityConfig.DemoUsername))
             {
                 re.Msg = "cannotUpdateDemo";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             string error;
 
@@ -96,13 +96,13 @@ namespace MoreNote.Controllers
             {
                 re.Ok = userService.UpdatePwd(user.UserId, oldPwd, pwd);
                 re.Msg = "The update password is wrong, please check the password you provided ";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
                 re.Msg = error;
                 re.Ok = false;
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
         }
 
@@ -145,7 +145,7 @@ namespace MoreNote.Controllers
             var userId = GetUserIdBySession();
             re.Ok = userService.UpdateColumnWidth(userId, notebookWidth, noteListWidth, mdEditorWidth);
 
-            return Json(re, MyJsonConvert.GetOptions());
+            return Json(re, MyJsonConvert.GetLeanoteOptions());
         }
         /// <summary>
         /// 设置是否隐藏笔记本div
@@ -159,7 +159,7 @@ namespace MoreNote.Controllers
             var userId = GetUserIdBySession();
             re.Ok = userService.UpdateLeftIsMin(userId, leftIsMin);
 
-            return Json(re, MyJsonConvert.GetOptions());
+            return Json(re, MyJsonConvert.GetLeanoteOptions());
         }
     }
 }
