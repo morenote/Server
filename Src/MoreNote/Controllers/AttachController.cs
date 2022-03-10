@@ -57,18 +57,18 @@ namespace MoreNote.Controllers
             if (id == null)
             {
                 re.Msg = "noteId is null";
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             //todo: 判断是否有权限为笔记添加附件
             var note = noteService.GetNoteById(id);
             if (note == null || note.UserId != userId)
             {
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             if (httpFiles == null || httpFiles.Count < 1)
             {
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             var httpFile = httpFiles["file"];
 
@@ -79,7 +79,7 @@ namespace MoreNote.Controllers
                 resultMsg = $"The file's size is bigger than {config.FileStoreConfig.UploadAttachMaxSizeMB}M";
 
                 re.Msg = resultMsg;
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             //上传到对象储存
             var fileName = httpFile.FileName;
@@ -95,7 +95,7 @@ namespace MoreNote.Controllers
             bool result = await noteFileService.SaveFile(objectName, httpFile, memi);
             if (!result)
             {
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             var fileInfo = new AttachInfo()
             {
@@ -117,11 +117,11 @@ namespace MoreNote.Controllers
             {
                 re.Msg = message;
                 re.Ok = false;
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             re.Msg = "success";
             re.Ok = true;
-            return Json(re, MyJsonConvert.GetOptions());
+            return Json(re, MyJsonConvert.GetLeanoteOptions());
         }
 
         //删除附件
@@ -134,7 +134,7 @@ namespace MoreNote.Controllers
                 Ok = result,
                 Msg = string.Empty
             };
-            return Json(response, MyJsonConvert.GetOptions());
+            return Json(response, MyJsonConvert.GetLeanoteOptions());
         }
 
         //获取某个笔记的附件列表
@@ -145,7 +145,7 @@ namespace MoreNote.Controllers
                 Ok = true,
                 List = await attachService.ListAttachsAsync(noteId.ToLongByHex(), GetUserIdBySession())
             };
-            return Json(response, MyJsonConvert.GetOptions());
+            return Json(response, MyJsonConvert.GetLeanoteOptions());
         }
 
         //下载附件

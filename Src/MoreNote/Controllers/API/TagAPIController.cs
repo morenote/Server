@@ -41,10 +41,10 @@ namespace MoreNote.Controllers.API.APIV1
                     Ok = false,
                     Msg = "NOTLOGIN",
                 };
-                return Json(apiRe, MyJsonConvert.GetOptions());
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
             NoteTag[] noteTags = tagService.GeSyncTags(user.UserId, afterUsn, maxEntry);
-            return Json(noteTags, MyJsonConvert.GetOptions());
+            return Json(noteTags, MyJsonConvert.GetLeanoteOptions());
         }
         //todo:添加Tag
         public JsonResult AddTag(string token, string tag)
@@ -52,11 +52,11 @@ namespace MoreNote.Controllers.API.APIV1
             NoteTag noteTag = tagService.AddOrUpdateTag(GetUserIdByToken(token), tag);
             if (noteTag == null)
             {
-                return Json(new ApiRe() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetOptions());
+                return Json(new ApiRe() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
-                return Json(noteTag, MyJsonConvert.GetOptions());
+                return Json(noteTag, MyJsonConvert.GetLeanoteOptions());
             }
         }
         //todo:删除标签
@@ -71,7 +71,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Usn = toUsn,
                     Msg = msg
                 };
-                return Json(reUpdate, MyJsonConvert.GetOptions());
+                return Json(reUpdate, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -80,7 +80,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Ok=false,
                     Msg=msg
                 };
-            return Json(apiRe,MyJsonConvert.GetOptions());
+            return Json(apiRe,MyJsonConvert.GetLeanoteOptions());
 
             }
         }

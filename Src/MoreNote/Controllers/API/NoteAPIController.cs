@@ -55,7 +55,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             if (maxEntry == 0) maxEntry = 100;
             ApiNote[] apiNotes = noteService.GetSyncNotes(GetUserIdByToken(token), afterUsn, maxEntry);
-            return Json(apiNotes, MyJsonConvert.GetOptions());
+            return Json(apiNotes, MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:得到笔记本下的笔记
@@ -63,7 +63,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             Note[] notes = noteService.ListNotes(GetUserIdByToken(token), notebookId.ToLongByHex(), false);
           
-            return Json(notes, MyJsonConvert.GetOptions());
+            return Json(notes, MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:得到trash
@@ -72,7 +72,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             Note[] notes = noteService.ListTrashNotes(GetUserIdByToken(token),false, true);
           
-            return Json(notes, MyJsonConvert.GetOptions());
+            return Json(notes, MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:获取笔记
@@ -81,7 +81,7 @@ namespace MoreNote.Controllers.API.APIV1
             var userId=GetUserIdByToken(token);
             var note = noteService.GetNote(userId,noteId.ToLongByHex());
             var apiNotes=   noteService.ToApiNotes(new Note[]{ note});
-            return Json(apiNotes[0], MyJsonConvert.GetOptions());
+            return Json(apiNotes[0], MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:得到note和内容
@@ -90,7 +90,7 @@ namespace MoreNote.Controllers.API.APIV1
             User tokenUser = tokenSerivce.GetUserByToken(token);
             if (tokenUser == null)
             {
-                return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
+                return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetLeanoteOptions());
             }
             try
             {
@@ -103,16 +103,16 @@ namespace MoreNote.Controllers.API.APIV1
                 apiNote.Abstract = noteAndContent.noteContent.Abstract;
                 if (noteAndContent == null)
                 {
-                    return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetOptions());
+                    return Json(new ApiRe() { Ok = false, Msg = "" }, MyJsonConvert.GetLeanoteOptions());
                 }
                 else
                 {
-                    return Json(apiNote, MyJsonConvert.GetOptions());
+                    return Json(apiNote, MyJsonConvert.GetLeanoteOptions());
                 }
             }
             catch (Exception ex)
             {
-               return Json(new ApiRe() { Ok = false, Msg = ex.Message }, MyJsonConvert.GetOptions());
+               return Json(new ApiRe() { Ok = false, Msg = ex.Message }, MyJsonConvert.GetLeanoteOptions());
             }
         }
 
@@ -130,7 +130,7 @@ namespace MoreNote.Controllers.API.APIV1
             NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token), false);
             if (noteContent == null || note == null)
             {
-                return Json(falseRe, MyJsonConvert.GetOptions());
+                return Json(falseRe, MyJsonConvert.GetLeanoteOptions());
             }
             if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
             {
@@ -147,7 +147,7 @@ namespace MoreNote.Controllers.API.APIV1
                 Content = noteContent.Content
             };
 
-            return Json(apiNote, MyJsonConvert.GetOptions());
+            return Json(apiNote, MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:添加笔记
@@ -190,7 +190,7 @@ namespace MoreNote.Controllers.API.APIV1
                                 else
                                 {
                                     re.Msg = msg;
-                                    return Json(re, MyJsonConvert.GetOptions());
+                                    return Json(re, MyJsonConvert.GetLeanoteOptions());
                                 }
                             }
                             else
@@ -327,7 +327,7 @@ namespace MoreNote.Controllers.API.APIV1
             noteOrContent.Abstract = "";
             //	apiNote := info.NoteToApiNote(note, noteOrContent.Files)
 
-            return Json(noteOrContent, MyJsonConvert.GetOptions());
+            return Json(noteOrContent, MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:更新笔记
@@ -394,7 +394,7 @@ namespace MoreNote.Controllers.API.APIV1
                                 }
                                 if (!string.Equals(msg, "notImage", System.StringComparison.OrdinalIgnoreCase))
                                 {
-                                    return Json(re, MyJsonConvert.GetOptions());
+                                    return Json(re, MyJsonConvert.GetLeanoteOptions());
                                 }
                             }
                             else
@@ -460,7 +460,7 @@ namespace MoreNote.Controllers.API.APIV1
                 re.Ok = false;
                 re.Msg = contentMsg;
                 re.Usn = afterContentUsn;
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
 
             //-------------更新笔记元数据
@@ -481,7 +481,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 re.Ok = false;
                 re.Msg = noteMsg;
-                return Json(re, MyJsonConvert.GetOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             //处理结果
             //-------------API返回客户端信息
@@ -506,7 +506,7 @@ namespace MoreNote.Controllers.API.APIV1
             noteOrContent.UpdatedTime = DateTime.Now;
             noteOrContent.IsDeleted = false;
             noteOrContent.UserId = tokenUserId.ToHex24();
-            return Json(noteOrContent, MyJsonConvert.GetOptions());
+            return Json(noteOrContent, MyJsonConvert.GetLeanoteOptions());
         }
 
         //todo:删除trash
@@ -520,7 +520,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Ok = true,
                     Msg = "",
                     Usn = afterUsn
-                }, MyJsonConvert.GetOptions());
+                }, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -529,7 +529,7 @@ namespace MoreNote.Controllers.API.APIV1
                     Ok = false,
                     Msg = msg,
                     Usn = afterUsn
-                }, MyJsonConvert.GetOptions());
+                }, MyJsonConvert.GetLeanoteOptions());
             }
         }
 

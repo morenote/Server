@@ -55,7 +55,7 @@ namespace MoreNote.Controllers.Joplin
                 created_time=UnixTimeUtil.GetUnixTimeMillisecondsInLong(),
                 updated_time=UnixTimeUtil.GetUnixTimeMillisecondsInLong()
             };
-             return Json(response, MyJsonConvert.GetOptions());
+             return Json(response, MyJsonConvert.GetLeanoteOptions());
         }
         /// <summary>
         ///  删除测试信息

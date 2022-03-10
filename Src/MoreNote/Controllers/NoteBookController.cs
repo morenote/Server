@@ -42,7 +42,7 @@ namespace MoreNote.Controllers
         {
             long? userid = GetUserIdBySession();
             Notebook[] noteBoooks = notebookService.GetNoteBookTree(userid);
-            return Json(noteBoooks, MyJsonConvert.GetOptions());
+            return Json(noteBoooks, MyJsonConvert.GetLeanoteOptions());
         }
         /// <summary>
         /// 删除笔记本
@@ -68,7 +68,7 @@ namespace MoreNote.Controllers
             var result=notebookService.AddNotebook(notebookId.ToLongByHex(),GetUserIdBySession(),parentNotebookId.ToLongByHex(),title,out notebook);
             if (result)
             {
-                return Json(notebook,MyJsonConvert.GetOptions());
+                return Json(notebook,MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -97,7 +97,7 @@ namespace MoreNote.Controllers
             {
                 return Json(false);
             }
-            DragNotebooksInfo info= JsonSerializer.Deserialize<DragNotebooksInfo>(data,MyJsonConvert.GetOptions());
+            DragNotebooksInfo info= JsonSerializer.Deserialize<DragNotebooksInfo>(data,MyJsonConvert.GetLeanoteOptions());
             var result=notebookService.DragNotebooks(GetUserIdBySession(),info.curNotebookId,info.parentNotebookId,info.siblings);
             return Json(result);
         }

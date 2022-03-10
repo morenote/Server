@@ -78,7 +78,7 @@ namespace MoreNote.Controllers.Admin
                 re.Ok=true;
             }
             re.Msg=message;
-            return Json(re,MyJsonConvert.GetOptions());
+            return Json(re,MyJsonConvert.GetLeanoteOptions());
 
         }
     

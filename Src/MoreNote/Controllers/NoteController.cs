@@ -178,9 +178,9 @@ namespace MoreNote.Controllers
             };
             if (noteContent == null)
             {
-                return Json(falseRe, MyJsonConvert.GetOptions());
+                return Json(falseRe, MyJsonConvert.GetLeanoteOptions());
             }
-            return Json(noteContent, MyJsonConvert.GetOptions());
+            return Json(noteContent, MyJsonConvert.GetLeanoteOptions());
         }
 
         [Route("Note/ListNotes")]
@@ -188,7 +188,7 @@ namespace MoreNote.Controllers
         {
             Note[] notes = noteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(), false, false);
             //string json = JsonSerializer.Serialize(notes, MyJsonConvert.GetOptions());
-            return Json(notes, MyJsonConvert.GetOptions());
+            return Json(notes, MyJsonConvert.GetLeanoteOptions());
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace MoreNote.Controllers
                     Abstract = noteOrContent.Abstract
                 };
                 note = noteService.AddNoteAndContentForController(note, noteContent, userid);
-                return Json(note, MyJsonConvert.GetOptions());
+                return Json(note, MyJsonConvert.GetLeanoteOptions());
             }
             var noteUpdate = new Note();
             var needUpdateNote = false;
@@ -353,7 +353,7 @@ namespace MoreNote.Controllers
             var notes2 = noteService.SearchNoteByContentVector(key, userId, GetPage(), pageSize);
 
             var result=merge(notes1,notes2);
-            return Json(result, MyJsonConvert.GetOptions());
+            return Json(result, MyJsonConvert.GetLeanoteOptions());
         }
 
         private Note[] merge(Note[] notes1, Note[] notes2)
@@ -394,7 +394,7 @@ namespace MoreNote.Controllers
             var query = Request.Query["tags[]"];
             var userId = this.GetUserIdBySession();
             var notes = noteService.SearchNoteByTag(query, userId, GetPage(), pageSize);
-            return Json(notes, MyJsonConvert.GetOptions());
+            return Json(notes, MyJsonConvert.GetLeanoteOptions());
         }
     }
 }
