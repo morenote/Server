@@ -88,10 +88,12 @@ namespace MoreNote.Logic.Entity
     // 一般返回
     public class ApiRe
     {
-        public bool Ok { get; set; }
-        public string Msg { get; set; }
-
-        public  dynamic Data { get; set; }
+        public long? Id { get; set; }//唯一标识（可选）
+        public DateTime? CreatedTime { get; set; } = DateTime.Now;//消息创建时间（可选）
+        public bool Ok { get; set; }//消息状态  成功或失败
+        public string Msg { get; set; }//提示信息或者错误信息，或者其他描述性辅助信息（可选）
+        public  int ErrorCode { get; set; }//错误代码
+        public  dynamic Data { get; set; }//返回的数据
 
     }
     // auth

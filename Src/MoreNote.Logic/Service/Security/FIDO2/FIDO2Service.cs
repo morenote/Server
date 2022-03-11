@@ -46,6 +46,12 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             this._fido2 = fido2;
         }
 
+        public List<FIDO2Item> GetFido2List(long? userId)
+        {
+            var list= this.dataContext.FIDO2Repository.Where(b => b.UserId == userId).ToList<FIDO2Item>();
+            return list;
+        }
+
         /// <summary>
         /// <para>注册：创建证明选项</para>
         /// <param name="opts"></param>
