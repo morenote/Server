@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
@@ -33,17 +35,27 @@ namespace MoreNote.Controllers.API
         {
             return View();
         }
-        public IActionResult GetNoteRepository(string token)
+
+        public IActionResult GetNoteRepository(string userId, string token)
         {
-            var user = GetUserByToken(token);
-            var rep = noteRepositoryService.GetNoteRepositoryList(user.UserId);
+            var verify= tokenSerivce.VerifyToken(userId.ToLongByHex(),token);
             var apiRe = new ApiRe()
             {
-                Ok = true,
-                Data = rep
+                Ok = false,
+                Data = null
             };
+            if (verify)
+            {
+                var user=userService.GetUserByUserId(userId.ToLongByHex());
+                var rep = noteRepositoryService.GetNoteRepositoryList(user.UserId);
+                apiRe = new ApiRe()
+                {
+                    Ok = true,
+                    Data = rep
+                };
+            }
+            apiRe.Msg ="";
             return SimpleJson(apiRe);
-
         }
     }
 }
