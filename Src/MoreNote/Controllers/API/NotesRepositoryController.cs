@@ -12,6 +12,8 @@ namespace MoreNote.Controllers.API
     /// <summary>
     /// 笔记仓库
     /// </summary>
+
+    [Route("api/NotesRepository/[action]")]
     public class NotesRepositoryController : APIBaseController
     {
         private NotebookService notebookService;
@@ -36,7 +38,7 @@ namespace MoreNote.Controllers.API
             return View();
         }
 
-        public IActionResult GetNoteRepository(string userId, string token)
+        public IActionResult GetMyNoteRepository(string userId, string token)
         {
             var verify= tokenSerivce.VerifyToken(userId.ToLongByHex(),token);
             var apiRe = new ApiRe()
