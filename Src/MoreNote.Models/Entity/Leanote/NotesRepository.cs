@@ -24,10 +24,10 @@ namespace MoreNote.Models.Entity.Leanote
         public long? NotesRepositoryName { get; set; }//仓库唯一名称
 
         [Column("notes_repository_summary")]
-        public long? NotesRepositorySummary { get; set; }//仓库摘要说明
+        public string? NotesRepositorySummary { get; set; }//仓库摘要说明
 
         [Column("notes_repository_license")]//开源协议
-        public long? NotesRepositoryLicense { get; set; }//仓库摘要说明
+        public string? NotesRepositoryLicense { get; set; }//开源协议
 
         [Column("notes_repository_type")]
         public RepositoryType RepositoryType { get; set; }//仓库类型
@@ -37,9 +37,6 @@ namespace MoreNote.Models.Entity.Leanote
 
         [Column("visible")]
         public bool Visible { get; set; }//是否公开仓库
-
-
-
 
     }
 }
