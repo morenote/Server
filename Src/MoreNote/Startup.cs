@@ -315,6 +315,10 @@ namespace MoreNote
                 .As<IPasswordStore>();
             builder.RegisterType<JiebaSegmenterService>()
                 .As<JiebaSegmenterService>();
+
+            builder.RegisterType<NoteRepositoryService>();
+
+
             //fido2认证服务
             builder.RegisterType<FIDO2Service>();
             //过滤器
