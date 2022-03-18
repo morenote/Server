@@ -170,8 +170,18 @@ namespace MoreNote.Logic.Service
             return SecurityUtil.VerifyHamc256(tokenBuider.ToString(), secret, sign);
         }
 
+        /// <summary>
+        /// 校验token,并获取token代表的user
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public User GetUserByToken(string token)
         {
+
+            if (!VerifyToken(token))
+            {
+                return null;
+            }
             if (token == null)
             {
                 return null;

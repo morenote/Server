@@ -17,27 +17,33 @@ namespace MoreNote.Models.Entity.Leanote
     public class FileRepository
     {
         [Key]
-        [Column("file_repository_id")]
-        public long? FileRepositoryId { get; set; }//仓库id
+        [Column("id")]
+        public long? Id { get; set; }//仓库id
 
+        [Column("avatar")]
+        public string? Avatar { get; set; }//仓库唯一名称
+                                         //
+        [Column("name")]
+        public string? Name { get; set; }//仓库唯一名称
 
-        [Column("file_repository_name")]
-        public long? FileRepositoryName { get; set; }//仓库唯一名称
+        [Column("description")]
+        public string? Description { get; set; }//仓库摘要说明
 
-        [Column("file_repository_summary")]
-        public long? FileRepositorySummary { get; set; }//仓库摘要说明
+        [Column("license")]//开源协议
+        public string? License { get; set; }//仓库开源说明
 
-        [Column("file_repository_license")]//开源协议
-        public long? FileRepositoryLicense { get; set; }//仓库开源说明
-
-        [Column("file_repository_type")]
-        public RepositoryType RepositoryType { get; set; }//仓库类型
+        [Column("owner_type")]
+        public RepositoryOwnerType OwnerType { get; set; }//仓库类型
 
         [Column("owner_id")]
         public long? OwnerId { get; set; }//拥有者
 
         [Column("visible")]
         public bool Visible { get; set; }//是否公开仓库
+
+
+
+
 
 
     }
