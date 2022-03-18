@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220318154749_time20220318_03")]
+    partial class time20220318_03
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2100,10 +2102,6 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("avatar");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
                     b.Property<int>("ForkCounter")
                         .HasColumnType("integer")
                         .HasColumnName("fork_counter");
@@ -2127,6 +2125,10 @@ namespace MoreNote.Logic.Migrations
                     b.Property<int>("StarCounter")
                         .HasColumnType("integer")
                         .HasColumnName("star_counter");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("text")
+                        .HasColumnName("summary");
 
                     b.Property<bool>("Visible")
                         .HasColumnType("boolean")

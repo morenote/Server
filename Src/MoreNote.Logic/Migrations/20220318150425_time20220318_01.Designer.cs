@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220318150425_time20220318_01")]
+    partial class time20220318_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2089,50 +2091,38 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.NotesRepository", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long?>("NotesRepositoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnName("notes_repository_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NotesRepositoryId"));
 
-                    b.Property<string>("Avatar")
+                    b.Property<string>("NotesRepositoryLicense")
                         .HasColumnType("text")
-                        .HasColumnName("avatar");
+                        .HasColumnName("notes_repository_license");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("NotesRepositoryName")
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("notes_repository_name");
 
-                    b.Property<int>("ForkCounter")
-                        .HasColumnType("integer")
-                        .HasColumnName("fork_counter");
-
-                    b.Property<string>("License")
+                    b.Property<string>("NotesRepositorySummary")
                         .HasColumnType("text")
-                        .HasColumnName("license");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnName("notes_repository_summary");
 
                     b.Property<long?>("OwnerId")
                         .HasColumnType("bigint")
                         .HasColumnName("owner_id");
 
-                    b.Property<int>("RepositoryOwnerType")
+                    b.Property<int>("RepositoryType")
                         .HasColumnType("integer")
-                        .HasColumnName("owner_type");
-
-                    b.Property<int>("StarCounter")
-                        .HasColumnType("integer")
-                        .HasColumnName("star_counter");
+                        .HasColumnName("notes_repository_owner_type");
 
                     b.Property<bool>("Visible")
                         .HasColumnType("boolean")
                         .HasColumnName("visible");
 
-                    b.HasKey("Id");
+                    b.HasKey("NotesRepositoryId");
 
                     b.ToTable("notes_repository");
                 });

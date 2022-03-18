@@ -40,15 +40,16 @@ namespace MoreNote.Controllers.API
 
         public IActionResult GetMyNoteRepository(string userId, string token)
         {
-            var verify= tokenSerivce.VerifyToken(userId.ToLongByHex(),token);
+           
             var apiRe = new ApiRe()
             {
                 Ok = false,
                 Data = null
             };
-            if (verify)
+            var user = tokenSerivce.GetUserByToken(token);
+            if (user!=null)
             {
-                var user=userService.GetUserByUserId(userId.ToLongByHex());
+                
                 var rep = noteRepositoryService.GetNoteRepositoryList(user.UserId);
                 apiRe = new ApiRe()
                 {

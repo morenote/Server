@@ -17,20 +17,28 @@ namespace MoreNote.Models.Entity.Leanote
     public class NotesRepository
     {
         [Key]
-        [Column("notes_repository_id")]
-        public long? NotesRepositoryId { get; set; }//仓库id
+        [Column("id")]
+        public long? Id { get; set; }//仓库id
 
-        [Column("notes_repository_name")]
-        public long? NotesRepositoryName { get; set; }//仓库唯一名称
+        [Column("name")]
+        public string? Name { get; set; }//仓库唯一名称
 
-        [Column("notes_repository_summary")]
-        public string? NotesRepositorySummary { get; set; }//仓库摘要说明
+        [Column("avatar")]
+        public string? Avatar { get; set; }//仓库ICON图标
 
-        [Column("notes_repository_license")]//开源协议
-        public string? NotesRepositoryLicense { get; set; }//开源协议
+        [Column("star_counter")]
+        public int StarCounter { get; set; }//仓库收藏数量
+        [Column("fork_counter")]
+        public int ForkCounter { get; set; }//仓库fork数量
 
-        [Column("notes_repository_type")]
-        public RepositoryType RepositoryType { get; set; }//仓库类型
+        [Column("description")]
+        public string? Description { get; set; }//仓库摘要说明
+
+        [Column("license")]//开源协议
+        public string? License { get; set; }//开源协议
+
+        [Column("owner_type")]
+        public RepositoryOwnerType RepositoryOwnerType { get; set; }//仓库类型
 
         [Column("owner_id")]
         public long? OwnerId { get; set; }//拥有者
