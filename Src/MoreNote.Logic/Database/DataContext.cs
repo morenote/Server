@@ -3,7 +3,9 @@
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Leanote.MyOrganization;
 using MoreNote.Models.Entity.Security.FIDO2;
+
 using System;
 using System.Collections.Generic;
 
@@ -28,7 +30,6 @@ namespace MoreNote.Logic.Database
         {
         }
 
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //建立索引
@@ -47,9 +48,6 @@ namespace MoreNote.Logic.Database
                .HasMany(b => b.FIDO2Items)
                .WithOne();
             //============================种子数据 数据库迁移的时候自动生成================================
-        
-          
-
         }
 
         public DbSet<Album> Album { get; set; }
@@ -92,8 +90,23 @@ namespace MoreNote.Logic.Database
         public DbSet<Session> Session { get; set; }
         public DbSet<Suggestion> Suggestion { get; set; }
         /*******************NotesRepository***********************/
-        public DbSet<NotesRepository> NotesRepository { get;set; }
 
+        //笔记仓库
+        public DbSet<NotesRepository> NotesRepository { get; set; }
+
+        public DbSet<FileRepository> FileRepository { get; set; }
+
+        //仓库成员角色
+        public DbSet<RepositoryMemberRole> RepositoryMemberRole { get; set; }
+
+        //仓库成员
+        public DbSet<RepositoryMember> RepositoryMember { get; set; }
+
+        /****************************************************************/
+        public DbSet<Organization> Organization { get; set; }
+        public DbSet<OrganizationMember> OrganizationMember { get; set; }
+        public DbSet<OrganizationTeam> OrganizationTeam { get; set; }
+        public DbSet<OrganizationTeamMember> OrganizationTeamMember { get; set; }
 
         /**************Tag DB****************/
         public DbSet<Tag> Tag { get; set; }

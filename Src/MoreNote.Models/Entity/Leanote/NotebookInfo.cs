@@ -58,6 +58,10 @@ namespace MoreNote.Logic.Entity
         //[Column("Subs", TypeName = "Notebook[]")]
         [NotMapped]
         public List<Notebook> Subs { get; set; }
+
+
+        [NotMapped]
+        public static long? RootParentNotebookId = null;
     }
 
     public class NoteBookTree : Notebook

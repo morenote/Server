@@ -241,6 +241,17 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
+        public  List<Notebook> GetRootNotebooks(long? repositoryId)
+        {
+
+            var books= dataContext.Notebook
+                .Where(b=>b.NotesRepositoryId==repositoryId
+                        &&b.ParentNotebookId==Notebook.RootParentNotebookId)
+                .ToList<Notebook>();
+            return books;
+           
+        }
+
         public bool UpdateNotebook(long? userId, long? notebookId, object needUpdate)
         {
             throw new Exception();

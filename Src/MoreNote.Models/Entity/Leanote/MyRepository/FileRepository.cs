@@ -40,11 +40,6 @@ namespace MoreNote.Models.Entity.Leanote
 
         [Column("visible")]
         public bool Visible { get; set; }//是否公开仓库
-
-
-
-
-
-
+        
     }
 }
