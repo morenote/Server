@@ -20,6 +20,8 @@ using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.Logging.IMPL;
+using MoreNote.Logic.Service.MyOrganization;
+using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
 
@@ -315,8 +317,11 @@ namespace MoreNote
                 .As<IPasswordStore>();
             builder.RegisterType<JiebaSegmenterService>()
                 .As<JiebaSegmenterService>();
-
+            //==============================================
+            builder.RegisterType<OrganizationService>();
+            builder.RegisterType<OrganizationTeamService>();
             builder.RegisterType<NoteRepositoryService>();
+            builder.RegisterType<RepositoryMemberRoleService>();
 
 
             //fido2认证服务

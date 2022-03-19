@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using Morenote.Framework.Filter.Global;
+
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
@@ -17,6 +19,7 @@ namespace MoreNote.Controllers.API.APIV1
     public class NotebookAPIController : APIBaseController
     {
         private NotebookService notebookService;
+        private NoteRepositoryService noteRepositoryService;
 
         public NotebookAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
@@ -25,10 +28,13 @@ namespace MoreNote.Controllers.API.APIV1
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
             NotebookService notebookService
-           , ILoggingService loggingService) :
+           , ILoggingService loggingService
+            , NoteRepositoryService notesRepositoryService)
+            :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.notebookService = notebookService;
+            this.noteRepositoryService = noteRepositoryService;
         }
 
         //获取同步的笔记本
@@ -221,6 +227,28 @@ namespace MoreNote.Controllers.API.APIV1
                 };
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
+        }
+
+        //获得笔记本的第一层文件夹
+        public IActionResult GetRootNotebooks(string token, string repositoryId)
+        {
+            var apiRe=new ApiRe();
+
+            var user = tokenSerivce.GetUserByToken(token);
+            if (user != null)
+            {
+                var repository = noteRepositoryService.GetNotesRepository(repositoryId.ToLongByHex());
+
+                var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
+
+                if (memerRole != null&&memerRole.RepositoryAuthorityEnumSet.Contains(Models.Enum.RepositoryAuthorityEnum.Read))
+                {
+                    var books = notebookService.GetRootNotebooks(repositoryId.ToLongByHex());
+                    apiRe.Ok = true;
+                    apiRe.Data=books;
+                }
+            }
+            return  LeanoteJson(apiRe);
         }
     }
 }

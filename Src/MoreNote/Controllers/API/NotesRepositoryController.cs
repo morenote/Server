@@ -6,6 +6,7 @@ using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.MyRepository;
 
 namespace MoreNote.Controllers.API
 {
