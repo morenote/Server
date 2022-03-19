@@ -13,7 +13,7 @@ namespace MoreNote.Models.Entity.Leanote.MyOrganization
     {
         [Key]
         [Column("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Column("name")]
         public string? Name { get; set; }

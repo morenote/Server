@@ -16,6 +16,7 @@ namespace MoreNote.Models.Entity.Leanote
     [Table("repository_member_Role")]
     public class RepositoryMemberRole
     {
+
         [Key]
         [Column("id")]
         public long? Id { get; set; } // ID
@@ -29,11 +30,6 @@ namespace MoreNote.Models.Entity.Leanote
 
         [Column("repository_id")]
         public long? RepositoryId { get; set; } // 仓库id
-
-        //访问权限
-        [Column("access_set")]
-        public HashSet<RepositoryAuthorityEnum> RepositoryAuthorityEnumSet { get;set;}=new HashSet<RepositoryAuthorityEnum>();
-
 
     }
 }
