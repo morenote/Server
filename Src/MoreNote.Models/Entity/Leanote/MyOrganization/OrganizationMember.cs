@@ -14,14 +14,14 @@ namespace MoreNote.Models.Entity.Leanote.MyOrganization
     {
         [Key]
         [Column("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
       
         [Column("organization_id")]
-        public long OrganizationId { get; set; }
+        public long? OrganizationId { get; set; }
 
 
         [Column("user_id")]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
     }
 }

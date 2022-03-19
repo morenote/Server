@@ -15,11 +15,15 @@ namespace MoreNote.Logic.Service.MyRepository
     {
         private DataContext dataContext;
         private OrganizationTeamService organizationTeamService;
+        private RepositoryMemberRoleService memberRoleService;
 
-        public NoteRepositoryService(DataContext dataContext, OrganizationTeamService organizationTeamService)
+        public NoteRepositoryService(DataContext dataContext,
+            OrganizationTeamService organizationTeamService,
+            RepositoryMemberRoleService repositoryMemberRoleService)
         {
             this.dataContext = dataContext;
             this.organizationTeamService = organizationTeamService;
+            this.memberRoleService = repositoryMemberRoleService;
         }
 
         public NotesRepository GetNotesRepository(long? Id)
@@ -65,6 +69,55 @@ namespace MoreNote.Logic.Service.MyRepository
         {
             var members = dataContext.RepositoryMember.Where(b => b.RespositoryId == respositoryId).ToList<RepositoryMember>();
             return members;
+        }
+
+        public HashSet<RepositoryAuthorityEnum> GetRepositoryAuthoritySet(long? respositoryId, long? userId)
+        {
+            var memerRole = GetRepositoryMemberRole(respositoryId);
+            var set = this.memberRoleService.GetRepositoryAuthoritySet(memerRole.Id);
+
+            return set;
+        }
+
+        public bool Verify(long? respositoryId, long? userId, RepositoryAuthorityEnum repositoryAuthorityEnum)
+        {
+            var respository=GetNotesRepository(respositoryId);
+            if (respository.OwnerId == userId)
+            {
+                return true;//拥有者 拥有任意权限
+            }
+
+            var set = GetRepositoryAuthoritySet(respositoryId, userId);
+            if (set == null)
+            {
+                return false;
+            }
+            return set.Contains(repositoryAuthorityEnum);
+        }
+
+        public bool Verify(long? respositoryId, long? userId, HashSet<RepositoryAuthorityEnum> repositoryAuthorityEnumList)
+        {
+
+            var respository = GetNotesRepository(respositoryId);
+            if (respository.OwnerId == userId)
+            {
+                return true;//拥有者 拥有任意权限
+            }
+
+
+            var set = GetRepositoryAuthoritySet(respositoryId, userId);
+            if (set == null)
+            {
+                return false;
+            }
+            foreach (var item in repositoryAuthorityEnumList)
+            {
+                if (!set.Contains(item))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

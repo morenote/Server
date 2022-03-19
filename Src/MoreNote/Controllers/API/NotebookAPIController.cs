@@ -8,6 +8,8 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.Enum;
 
 using System.Collections.Generic;
 
@@ -20,7 +22,7 @@ namespace MoreNote.Controllers.API.APIV1
     {
         private NotebookService notebookService;
         private NoteRepositoryService noteRepositoryService;
-
+        private RepositoryMemberRoleService repositoryMemberRoleService;
         public NotebookAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -29,12 +31,14 @@ namespace MoreNote.Controllers.API.APIV1
             , IHttpContextAccessor accessor,
             NotebookService notebookService
            , ILoggingService loggingService
-            , NoteRepositoryService notesRepositoryService)
+            , RepositoryMemberRoleService repositoryMemberRoleService
+            , NoteRepositoryService noteRepositoryService)
             :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.notebookService = notebookService;
             this.noteRepositoryService = noteRepositoryService;
+            this.repositoryMemberRoleService = repositoryMemberRoleService;
         }
 
         //获取同步的笔记本
@@ -237,11 +241,12 @@ namespace MoreNote.Controllers.API.APIV1
             var user = tokenSerivce.GetUserByToken(token);
             if (user != null)
             {
-                var repository = noteRepositoryService.GetNotesRepository(repositoryId.ToLongByHex());
+                //var repository = noteRepositoryService.GetNotesRepository(repositoryId.ToLongByHex());
 
-                var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
+                //var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
 
-                if (memerRole != null&&memerRole.RepositoryAuthorityEnumSet.Contains(Models.Enum.RepositoryAuthorityEnum.Read))
+                //检查用户是否对仓库具有读权限
+                if (noteRepositoryService.Verify(repositoryId.ToLongByHex(),user.UserId,RepositoryAuthorityEnum.Read))
                 {
                     var books = notebookService.GetRootNotebooks(repositoryId.ToLongByHex());
                     apiRe.Ok = true;
@@ -250,5 +255,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return  LeanoteJson(apiRe);
         }
+         
+
     }
 }

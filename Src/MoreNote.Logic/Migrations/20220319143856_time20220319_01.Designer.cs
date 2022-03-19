@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220319143856_time20220319_01")]
+    partial class time20220319_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2170,7 +2172,7 @@ namespace MoreNote.Logic.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("organization_member");
+                    b.ToTable("organization_member2");
                 });
 
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.MyOrganization.OrganizationTeam", b =>
@@ -2218,7 +2220,7 @@ namespace MoreNote.Logic.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("organization_team_member");
+                    b.ToTable("organization_member");
                 });
 
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.MyRepository.RepositoryMemberRoleMapping", b =>

@@ -4,6 +4,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.MyOrganization;
+using MoreNote.Models.Entity.Leanote.MyRepository;
 using MoreNote.Models.Entity.Security.FIDO2;
 
 using System;
@@ -98,6 +99,7 @@ namespace MoreNote.Logic.Database
 
         //仓库成员角色
         public DbSet<RepositoryMemberRole> RepositoryMemberRole { get; set; }
+        public DbSet<RepositoryMemberRoleMapping> RepositoryMemberRoleMapping { get; set; }
 
         //仓库成员
         public DbSet<RepositoryMember> RepositoryMember { get; set; }
