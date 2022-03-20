@@ -30,9 +30,11 @@ namespace MoreNote.Models.Entity.Leanote
 
         [Column("accessor_id")]
         public long? AccessorId { get; set; }   //用户ID或者团队Id
-
+        /// <summary>
+        /// 仓库访问者类型（成员类型）
+        /// </summary>
         [Column("accessor_type")]
-        public RepositoryAccessorType RepositoryAccessorType { get; set; }//访问者类型
+        public RepositoryMemberType RepositoryAccessorType { get; set; }//访问者类型
 
     }
 }

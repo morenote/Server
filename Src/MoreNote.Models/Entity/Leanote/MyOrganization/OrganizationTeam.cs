@@ -21,6 +21,9 @@ namespace MoreNote.Models.Entity.Leanote.MyOrganization
         [Column("organization_id")]
         public long? OrganizationId { get; set; }
 
+        [Column("role_id")]
+        public long? RoleId { get; set; } // 角色ID
+
         [Column("description")]
         public string? Description { get; set; }//仓库摘要说明
     }

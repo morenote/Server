@@ -318,10 +318,13 @@ namespace MoreNote
             builder.RegisterType<JiebaSegmenterService>()
                 .As<JiebaSegmenterService>();
             //==============================================
+            builder.RegisterType<OrganizationMemberRoleService>();
             builder.RegisterType<OrganizationService>();
             builder.RegisterType<OrganizationTeamService>();
+            
+
             builder.RegisterType<NoteRepositoryService>();
-            builder.RegisterType<RepositoryMemberRoleService>();
+            builder.RegisterType<OrganizationMemberRoleService>();
 
 
             //fido2认证服务
