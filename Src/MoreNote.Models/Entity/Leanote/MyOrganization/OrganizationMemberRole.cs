@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Models.Entity.Leanote.MyOrganization
 {
-    /// <summary>
-    /// 团队中的成员
-    /// </summary>
-    [Table("organization_team_member")]
-    public class OrganizationTeamMember
+
+    [Table("organization_member_role")]
+    public class OrganizationMemberRole
     {
         [Key]
         [Column("id")]
         public long? Id { get; set; }
 
-        [Column("team_id")]
-        public long? TeamId { get; set; }
+      
+        [Column("organization_id")]
+        public long? OrganizationId { get; set; }
 
-        [Column("user_id")]
-        public long? UserId { get; set; }
+
+        [Column("role_name")]
+        public string? RoleName { get; set; }
     }
 }

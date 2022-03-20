@@ -8,6 +8,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.Enum;
 
@@ -22,7 +23,7 @@ namespace MoreNote.Controllers.API.APIV1
     {
         private NotebookService notebookService;
         private NoteRepositoryService noteRepositoryService;
-        private RepositoryMemberRoleService repositoryMemberRoleService;
+        private OrganizationMemberRoleService repositoryMemberRoleService;
         public NotebookAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -31,7 +32,7 @@ namespace MoreNote.Controllers.API.APIV1
             , IHttpContextAccessor accessor,
             NotebookService notebookService
            , ILoggingService loggingService
-            , RepositoryMemberRoleService repositoryMemberRoleService
+            , OrganizationMemberRoleService repositoryMemberRoleService
             , NoteRepositoryService noteRepositoryService)
             :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)

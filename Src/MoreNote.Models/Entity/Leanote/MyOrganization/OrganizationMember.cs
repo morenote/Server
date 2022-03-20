@@ -20,6 +20,8 @@ namespace MoreNote.Models.Entity.Leanote.MyOrganization
         [Column("organization_id")]
         public long? OrganizationId { get; set; }
 
+        [Column("role_id")]
+        public long? RoleId { get; set; } // 角色ID
 
         [Column("user_id")]
         public long? UserId { get; set; }

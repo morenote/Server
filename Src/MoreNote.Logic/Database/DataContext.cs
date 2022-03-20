@@ -107,6 +107,8 @@ namespace MoreNote.Logic.Database
         /****************************************************************/
         public DbSet<Organization> Organization { get; set; }
         public DbSet<OrganizationMember> OrganizationMember { get; set; }
+        public DbSet<OrganizationMemberRole> OrganizationMemberRole { get; set; }
+        public DbSet<OrganizationMemberRoleMapping> OrganizationMemberRoleMapping { get; set; }
         public DbSet<OrganizationTeam> OrganizationTeam { get; set; }
         public DbSet<OrganizationTeamMember> OrganizationTeamMember { get; set; }
 

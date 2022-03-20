@@ -38,6 +38,9 @@ namespace MoreNote.Logic.Service.MyOrganization
 
             return members;
         }
+     
+
+
 
         public bool ExistUser(long? teamId, long? userId)
         {
