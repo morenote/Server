@@ -24,7 +24,7 @@ namespace MoreNote.Logic.Service.MyOrganization
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<Organization> GetMyOrganization(long userId)
+        public List<Organization> GetMyOrganization(long? userId)
         {
             var list=dataContext.Organization.Where(b=>b.OwnerId==userId).ToList<Organization>();
             return list;
@@ -59,7 +59,7 @@ namespace MoreNote.Logic.Service.MyOrganization
         /// <param name="userId"></param>
         /// <param name="organizationAuthorityEnum"></param>
         /// <returns></returns>
-        public  bool Verify(long? organizationId,long userId, OrganizationAuthorityEnum organizationAuthorityEnum)
+        public  bool Verify(long? organizationId,long? userId, OrganizationAuthorityEnum organizationAuthorityEnum)
         {
             var org=this.GetOrganizationById(organizationId);
             if (org.OwnerId==userId)
@@ -89,7 +89,7 @@ namespace MoreNote.Logic.Service.MyOrganization
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<Organization> GetMyJoinOrganization(long userId)
+        public List<Organization> GetMyJoinOrganization(long? userId)
         {
             var orgs=dataContext.OrganizationMember.Where(b=>b.UserId==userId).ToList<OrganizationMember>();
  
@@ -106,7 +106,7 @@ namespace MoreNote.Logic.Service.MyOrganization
         /// <param name="userId"></param>
         /// <param name="organizationAuthorityEnum"></param>
         /// <returns></returns>
-        public List<Organization> GetMyJoinOrganization(long userId, OrganizationAuthorityEnum organizationAuthorityEnum)
+        public List<Organization> GetOrganizationList(long? userId, OrganizationAuthorityEnum organizationAuthorityEnum)
         {
             var list=GetMyJoinOrganization(userId);
             var myOrgs=GetMyOrganization(userId);
@@ -121,8 +121,6 @@ namespace MoreNote.Logic.Service.MyOrganization
             }
             return result;
         }
-
-
 
 
 
