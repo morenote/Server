@@ -46,5 +46,11 @@ namespace MoreNote.Models.Entity.Leanote
         [Column("visible")]
         public bool Visible { get; set; }//是否公开仓库
 
+        [Column("usn")]
+        public int Usn { get;set; }//仓库版本 每次提交增加+1
+
+        [Column("create_time")]
+        public DateTime CreateTime { get;set;}//仓库创建时间
+
     }
 }

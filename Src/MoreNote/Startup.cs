@@ -324,7 +324,7 @@ namespace MoreNote
             
 
             builder.RegisterType<NoteRepositoryService>();
-            builder.RegisterType<OrganizationMemberRoleService>();
+            builder.RegisterType<RepositoryMemberRoleService>();
 
 
             //fido2认证服务
