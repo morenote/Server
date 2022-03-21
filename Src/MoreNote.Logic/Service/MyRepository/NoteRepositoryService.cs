@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.Database;
+﻿using MoreNote.Common.Utils;
+using MoreNote.Logic.Database;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Enum;
@@ -92,6 +93,32 @@ namespace MoreNote.Logic.Service.MyRepository
 
             return set;
         }
+
+        private void AddNoteRepository(NotesRepository notesRepository)
+        {
+           dataContext.NotesRepository.Add(notesRepository);    
+           dataContext.SaveChanges();
+
+        }
+
+        public NotesRepository CreateNoteRepository(NotesRepository notesRepository)
+        {
+            var addNoteRepositoryService = new NotesRepository()
+            {
+                Id = SnowFlakeNet.GenerateSnowFlakeID(),
+                Name = notesRepository.Name,
+                Description = notesRepository.Description,
+                License = notesRepository.License,
+                RepositoryOwnerType = notesRepository.RepositoryOwnerType,
+                OwnerId = notesRepository.OwnerId,
+                Visible = notesRepository.Visible,
+                CreateTime = DateTime.Now
+
+            };
+            this.AddNoteRepository(addNoteRepositoryService);
+            return addNoteRepositoryService;
+        }
+
         /// <summary>
         ///  检验某个用户是否对仓库具有某种权限
         /// </summary>
