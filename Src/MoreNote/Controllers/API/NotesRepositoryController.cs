@@ -2,11 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Enum;
+
+using System;
+using System.Text.Json;
 
 namespace MoreNote.Controllers.API
 {
@@ -19,6 +26,7 @@ namespace MoreNote.Controllers.API
     {
         private NotebookService notebookService;
         private NoteRepositoryService noteRepositoryService;
+        OrganizationService organizationService;
         public NotesRepositoryController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -27,6 +35,7 @@ namespace MoreNote.Controllers.API
             , IHttpContextAccessor accessor,
             NotebookService notebookService,
             NoteRepositoryService noteRepositoryService,
+             OrganizationService organizationService,
             ILoggingService loggingService) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
@@ -61,6 +70,42 @@ namespace MoreNote.Controllers.API
             apiRe.Msg ="";
             return SimpleJson(apiRe);
         }
- 
+        public IActionResult CreateNoteRepository(string token,string data)
+        {
+            var apiRe = new ApiRe()
+            {
+                Ok = false,
+                Data = null
+            };
+            var user=tokenSerivce.GetUserByToken(token);
+            var notesRepository= JsonSerializer.Deserialize<NotesRepository>(data, MyJsonConvert.GetLeanoteOptions());
+            if (notesRepository.RepositoryOwnerType==RepositoryOwnerType.Organization)
+            {
+                var orgId= notesRepository.OwnerId;
+                var verify=   organizationService.Verify(orgId,user.UserId,OrganizationAuthorityEnum.AddRepository);
+                if (verify == false)
+                {
+                    return LeanoteJson(apiRe);
+                }
+            }
+            if (notesRepository.RepositoryOwnerType == RepositoryOwnerType.Personal)
+            {
+                if (notesRepository.OwnerId!=user.UserId)
+                {
+                    return LeanoteJson(apiRe);
+                }
+            }
+            noteRepositoryService.CreateNoteRepository(notesRepository);
+            apiRe.Ok=true;
+            apiRe.Data = notesRepository;
+            return SimpleJson(apiRe);
+          
+
+        }
+
+
+
+
+
     }
 }
