@@ -140,10 +140,10 @@ namespace MoreNote.Logic.Service
             message = string.Empty;
             //验证是否包含特殊符号
 
-            if (!HyString.isEmail(username))
+            if (!MyStringUtil.isEmail(username))
             {
                 //如果不是邮箱就不允许包含特殊符号
-                result = HyString.IsNumAndEnCh(username);
+                result = MyStringUtil.IsNumAndEnCh(username);
 
                 if (!result)
                 {

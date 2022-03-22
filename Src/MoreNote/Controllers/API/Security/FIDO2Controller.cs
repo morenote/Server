@@ -133,7 +133,7 @@ namespace MoreNote.Controllers.API
                 var attestationResponse = JsonSerializer.Deserialize<AuthenticatorAttestationRawResponse>(data, options);
 
                 var user = userService.GetUserByToken(token);
-                if (string.IsNullOrEmpty(keyName) || !HyString.IsNumAndEnCh(keyName))
+                if (string.IsNullOrEmpty(keyName) || !MyStringUtil.IsNumAndEnCh(keyName))
                 {
                     keyName = "key";
                 }

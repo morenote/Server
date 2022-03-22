@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace MoreNote.Common.HySystem
 {
-   public class HyString
+   public class MyStringUtil
     {
         public static string FilterSpecial(string str)
         {
@@ -87,7 +87,7 @@ namespace MoreNote.Common.HySystem
 
 
         /// <summary>
-        /// 
+        ///  是否包含特殊符号
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
