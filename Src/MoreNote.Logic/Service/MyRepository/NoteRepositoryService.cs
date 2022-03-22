@@ -17,24 +17,26 @@ namespace MoreNote.Logic.Service.MyRepository
         private DataContext dataContext;
         private OrganizationTeamService organizationTeamService;
         private RepositoryMemberRoleService memberRoleService;
-
+        private ConfigFileService ConfigFileService;
         public NoteRepositoryService(DataContext dataContext,
             OrganizationTeamService organizationTeamService,
+            ConfigFileService configFileService,
             RepositoryMemberRoleService repositoryMemberRoleService)
         {
             this.dataContext = dataContext;
             this.organizationTeamService = organizationTeamService;
             this.memberRoleService = repositoryMemberRoleService;
+            this.ConfigFileService = configFileService;
         }
 
         public NotesRepository GetNotesRepository(long? Id)
         {
-            return dataContext.NotesRepository.Where(b => b.Id == Id).FirstOrDefault();
+            return dataContext.NotesRepository.Where(b => b.Id == Id&&b.IsDelete==false).FirstOrDefault();
         }
 
         public List<NotesRepository> GetNoteRepositoryList(long? userId)
         {
-            var list = dataContext.NotesRepository.Where(b => b.OwnerId == userId).ToList<NotesRepository>();
+            var list = dataContext.NotesRepository.Where(b => b.OwnerId == userId&& b.IsDelete==false).ToList<NotesRepository>();
             return list;
         }
         /// <summary>
@@ -90,7 +92,6 @@ namespace MoreNote.Logic.Service.MyRepository
         {
             var memerRole = GetRepositoryMemberRole(respositoryId);
             var set = this.memberRoleService.GetRepositoryAuthoritySet(memerRole.Id);
-
             return set;
         }
 
@@ -98,11 +99,11 @@ namespace MoreNote.Logic.Service.MyRepository
         {
            dataContext.NotesRepository.Add(notesRepository);    
            dataContext.SaveChanges();
-
         }
 
         public NotesRepository CreateNoteRepository(NotesRepository notesRepository)
         {
+        
             var addNoteRepositoryService = new NotesRepository()
             {
                 Id = SnowFlakeNet.GenerateSnowFlakeID(),
@@ -112,13 +113,30 @@ namespace MoreNote.Logic.Service.MyRepository
                 RepositoryOwnerType = notesRepository.RepositoryOwnerType,
                 OwnerId = notesRepository.OwnerId,
                 Visible = notesRepository.Visible,
-                CreateTime = DateTime.Now
-
+                CreateTime = DateTime.Now,
+                Avatar=this.GetDefaultAvatar()
+                
             };
             this.AddNoteRepository(addNoteRepositoryService);
             return addNoteRepositoryService;
         }
+        public void DeleteNoteRepository(long? respositoryId)
+        {
+            dataContext.NotesRepository.Where(b=>b.Id==respositoryId).UpdateFromQuery(x=>new NotesRepository() { IsDelete=true}); 
+            dataContext.SaveChanges();
+        }
 
+        public bool ExistNoteRepositoryByName(long? ownerId, string name)
+        {
+            return dataContext.NotesRepository.Where(x => x.Name == name &&x.OwnerId==ownerId).Any();
+        }
+
+        private string GetDefaultAvatar()
+        {
+            var url=   this.ConfigFileService.WebConfig.APPConfig.SiteUrl;
+            var avatar = url+ @"/images/avatar/antd.png";
+            return avatar;
+        }
         /// <summary>
         ///  检验某个用户是否对仓库具有某种权限
         /// </summary>

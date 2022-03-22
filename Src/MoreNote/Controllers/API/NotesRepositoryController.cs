@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.HySystem;
 using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
@@ -84,7 +85,9 @@ namespace MoreNote.Controllers.API
                 var orgId= notesRepository.OwnerId;
                 var verify=   organizationService.Verify(orgId,user.UserId,OrganizationAuthorityEnum.AddRepository);
                 if (verify == false)
-                {
+                {   
+                    apiRe.Msg= "您没有权限创建这个仓库";
+
                     return LeanoteJson(apiRe);
                 }
             }
@@ -92,15 +95,31 @@ namespace MoreNote.Controllers.API
             {
                 if (notesRepository.OwnerId!=user.UserId)
                 {
+                    apiRe.Msg = "您没有权限创建这个仓库";
                     return LeanoteJson(apiRe);
                 }
             }
-            noteRepositoryService.CreateNoteRepository(notesRepository);
-            apiRe.Ok=true;
-            apiRe.Data = notesRepository;
-            return SimpleJson(apiRe);
-          
+            if (!MyStringUtil.IsNumAndEnCh(notesRepository.Name))
+            {
+                apiRe.Msg = "仓库名称仅允许使用英文大小写、数字，不允许特殊符号";
+                return LeanoteJson(apiRe);
+            }
+            if (noteRepositoryService.ExistNoteRepositoryByName(notesRepository.OwnerId, notesRepository.Name))
+            {
+                apiRe.Msg = "仓库名称冲突";
+                return LeanoteJson(apiRe);
+            }
 
+            var result=  noteRepositoryService.CreateNoteRepository(notesRepository);
+            if (result==null)
+            {
+                apiRe.Msg = "数据库创建仓库失败";
+                return LeanoteJson(apiRe);
+            }
+            apiRe.Ok=true;
+            apiRe.Data = result;
+            return SimpleJson(apiRe);
+   
         }
 
 

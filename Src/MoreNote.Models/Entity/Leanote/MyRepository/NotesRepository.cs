@@ -51,6 +51,8 @@ namespace MoreNote.Models.Entity.Leanote
 
         [Column("create_time")]
         public DateTime CreateTime { get;set;}//仓库创建时间
+        [Column("is_delete")]
+        public bool IsDelete { get;set;}//仓库创建时间
 
     }
 }
