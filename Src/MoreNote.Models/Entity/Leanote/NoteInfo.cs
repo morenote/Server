@@ -86,9 +86,7 @@ namespace MoreNote.Logic.Entity
         public long? ContentId { get; set; }//当前笔记的笔记内容 
         [Column("access_password")]
         public string? AccessPassword  { get; set; }//当前笔记的访问密码
-
-
-
+        
     }
     /// <summary>
     /// <para>笔记内容和可以被允许修改的属性</para>

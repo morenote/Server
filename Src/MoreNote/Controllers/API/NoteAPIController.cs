@@ -6,6 +6,8 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.Enum;
 
 using System;
 using System.Text.RegularExpressions;
@@ -21,8 +23,10 @@ namespace MoreNote.Controllers.API.APIV1
         private NoteService noteService;
         private TokenSerivce tokenSerivce;
         private NoteContentService noteContentService;
+        private NotebookService notebookService;
         private TrashService trashService;
         private IHttpContextAccessor accessor;
+        private NoteRepositoryService noteRepositoryService;
 
         public NoteAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
@@ -32,6 +36,8 @@ namespace MoreNote.Controllers.API.APIV1
             , IHttpContextAccessor accessor,
             NoteService noteService,
             NoteContentService noteContentService,
+            NotebookService notebookService,
+            NoteRepositoryService noteRepositoryService,
             TrashService trashService
            , ILoggingService loggingService) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
@@ -42,6 +48,8 @@ namespace MoreNote.Controllers.API.APIV1
             this.noteContentService = noteContentService;
             this.trashService = trashService;
             this.accessor = accessor;
+            this.notebookService = notebookService;
+            this.noteRepositoryService = noteRepositoryService;
         }
 
         //todo:获取同步的笔记
@@ -578,6 +586,36 @@ namespace MoreNote.Controllers.API.APIV1
                     }
                 }
             }
+        }
+
+
+        public IActionResult GetNotChildrenByNotebookId(string token,string notebookId)
+        {
+            var apiRe = new ApiRe();
+
+            var user = tokenSerivce.GetUserByToken(token);
+
+            if (user != null)
+            {
+                //var repository = noteRepositoryService.GetNotesRepository(repositoryId.ToLongByHex());
+
+                //var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
+
+                var book = notebookService.GetNotebookById(notebookId.ToLongByHex());
+                if (book == null)
+                {
+                    return LeanoteJson(apiRe);
+
+                }
+                //检查用户是否对仓库具有读权限
+                if (noteRepositoryService.Verify(book.NotesRepositoryId, user.UserId, RepositoryAuthorityEnum.Read))
+                {
+                    var notes = noteService.GetNotChildrenByNotebookId(notebookId.ToLongByHex());
+                    apiRe.Ok = true;
+                    apiRe.Data = notes;
+                }
+            }
+            return LeanoteJson(apiRe);
         }
     }
 }

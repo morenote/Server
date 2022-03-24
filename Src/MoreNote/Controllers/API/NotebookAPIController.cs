@@ -257,6 +257,36 @@ namespace MoreNote.Controllers.API.APIV1
             return  LeanoteJson(apiRe);
         }
          
+        public IActionResult GetNotebookChildren(string token, string notebookId)
+        {
+            var apiRe = new ApiRe();
+
+            var user = tokenSerivce.GetUserByToken(token);
+
+            
+
+            if (user != null)
+            {
+                //var repository = noteRepositoryService.GetNotesRepository(repositoryId.ToLongByHex());
+
+                //var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
+
+                var book=notebookService.GetNotebookById(notebookId.ToLongByHex());
+                if (book==null)
+                {
+                    return LeanoteJson(apiRe);
+
+                }
+                //检查用户是否对仓库具有读权限
+                if (noteRepositoryService.Verify(book.NotesRepositoryId, user.UserId, RepositoryAuthorityEnum.Read))
+                {
+                    var note = notebookService.GetNotebookChildren(notebookId.ToLongByHex());
+                    apiRe.Ok = true;
+                    apiRe.Data = note;
+                }
+            }
+            return LeanoteJson(apiRe);
+        }
 
     }
 }

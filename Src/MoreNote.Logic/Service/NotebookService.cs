@@ -25,6 +25,12 @@ namespace MoreNote.Logic.Service
                 Where(b => b.NotebookId == notebookId).FirstOrDefault();
             return result;
         }
+        public List<Notebook> GetNotebookChildren(long? notebookId)
+        {
+            var result = dataContext.Notebook.
+                Where(b => b.ParentNotebookId == notebookId ).OrderBy(b=>b.Title).ToList<Notebook>();
+            return result;
+        }
 
         public bool AddNotebook(Notebook notebook)
         {
@@ -246,7 +252,10 @@ namespace MoreNote.Logic.Service
 
             var books= dataContext.Notebook
                 .Where(b=>b.NotesRepositoryId==repositoryId
-                        &&b.ParentNotebookId==Notebook.RootParentNotebookId)
+                        &&b.ParentNotebookId==Notebook.RootParentNotebookId
+                        &&b.IsDeleted==false
+                        &&b.IsTrash==false)
+                .OrderBy(x=>x.Title)
                 .ToList<Notebook>();
             return books;
            
