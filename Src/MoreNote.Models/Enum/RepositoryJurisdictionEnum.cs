@@ -39,6 +39,7 @@ namespace MoreNote.Models.Enum
         Approval=701,//审批权限
 
         ManagementRepositoryProperties=801,//管理仓库属性
+        DeleteRepository=802//删除仓库
 
 
 

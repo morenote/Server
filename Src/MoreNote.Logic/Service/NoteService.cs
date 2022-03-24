@@ -614,6 +614,12 @@ namespace MoreNote.Logic.Service
             return result.ToList<Note>();
         }
 
+        public List<Note> GetNotChildrenByNotebookId(long? notebookId)
+        {
+            var result=dataContext.Note.Where(b => b.NotebookId == notebookId).OrderBy(x=>x.Title).ToList<Note>();
+            return result;
+        }
+
         // 通过noteIds来查询
         // ShareService调用
         public Note[] ListNotesByNoteIdsWithPageSort(long[] noteIds, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)

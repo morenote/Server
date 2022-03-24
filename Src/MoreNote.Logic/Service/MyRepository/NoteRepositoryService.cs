@@ -128,7 +128,7 @@ namespace MoreNote.Logic.Service.MyRepository
 
         public bool ExistNoteRepositoryByName(long? ownerId, string name)
         {
-            return dataContext.NotesRepository.Where(x => x.Name == name &&x.OwnerId==ownerId).Any();
+            return dataContext.NotesRepository.Where(x => x.Name == name &&x.OwnerId==ownerId && x.IsDelete==false).Any();
         }
 
         private string GetDefaultAvatar()
@@ -147,6 +147,10 @@ namespace MoreNote.Logic.Service.MyRepository
         public bool Verify(long? respositoryId, long? userId, RepositoryAuthorityEnum repositoryAuthorityEnum)
         {
             var respository=GetNotesRepository(respositoryId);
+            if (respository == null)
+            {
+                return false;
+            }
             if (respository.OwnerId == userId)
             {
                 return true;//拥有者 拥有任意权限
