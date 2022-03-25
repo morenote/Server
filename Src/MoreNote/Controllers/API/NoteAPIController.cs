@@ -129,16 +129,23 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:得到内容
         public IActionResult GetNoteContent(string token, string noteId)
         {
-            ApiRe falseRe = new ApiRe()
+
+            ApiRe re = new ApiRe()
             {
                 Ok = false,
                 Msg = "GetNoteContent_is_error"
             };
+            var user=GetUserByToken(token);
+            if (user==null)
+            {
+                return LeanoteJson(re);
+            }
+
             Note note = noteService.GetNote(noteId.ToLongByHex(), GetUserIdByToken(token));
             NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token), false);
             if (noteContent == null || note == null)
             {
-                return Json(falseRe, MyJsonConvert.GetLeanoteOptions());
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
             if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
             {
@@ -148,14 +155,9 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 noteContent.Content = "<p>Content is IsNullOrEmpty<>";
             }
-            ApiNoteContent apiNote = new ApiNoteContent()
-            {
-                NoteId = note.NoteId,
-                UserId = note.UserId,
-                Content = noteContent.Content
-            };
-
-            return Json(apiNote, MyJsonConvert.GetLeanoteOptions());
+            re.Ok = true;
+            re.Data= noteContent;
+            return LeanoteJson(re);
         }
 
         //todo:添加笔记

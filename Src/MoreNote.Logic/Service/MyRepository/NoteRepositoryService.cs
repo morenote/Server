@@ -91,6 +91,11 @@ namespace MoreNote.Logic.Service.MyRepository
         public HashSet<RepositoryAuthorityEnum> GetRepositoryAuthoritySet(long? respositoryId, long? userId)
         {
             var memerRole = GetRepositoryMemberRole(respositoryId);
+            if (memerRole==null)
+            {
+                return new HashSet<RepositoryAuthorityEnum>();
+
+            }
             var set = this.memberRoleService.GetRepositoryAuthoritySet(memerRole.Id);
             return set;
         }
