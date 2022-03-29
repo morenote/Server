@@ -22,6 +22,9 @@ namespace MoreNote.Logic.Entity
     {
         public string NoteId { get; set; }
         public string NotebookId { get; set; }
+
+      
+
         public string UserId { get; set; }
         public string Title { get; set; }
         public string Desc { get; set; }
