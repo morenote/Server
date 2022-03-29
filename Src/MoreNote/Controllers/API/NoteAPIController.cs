@@ -10,6 +10,7 @@ using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.Enum;
 
 using System;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace MoreNote.Controllers.API.APIV1
@@ -161,10 +162,20 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:添加笔记
-        public JsonResult AddNote(ApiNote noteOrContent, string token)
+        public IActionResult AddNote(ApiNote noteOrContent, string token)
         {
+            var re=new ApiRe();
+
+            var user=tokenSerivce.GetUserByToken(token);
+
+            if (user==null)
+            {
+                return LeanoteJson(re);
+            }
+
+
             //json 返回状态好乱呀 /(ㄒoㄒ)/~~
-            ResponseMessage re = ResponseMessage.Instace();
+          
             long? tokenUserId = GetUserIdByToken(token); ;
             long? myUserId = tokenUserId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))
@@ -618,6 +629,70 @@ namespace MoreNote.Controllers.API.APIV1
                 }
             }
             return LeanoteJson(apiRe);
+        }
+        public IActionResult CreateNote(string token,string noteTitle,string notebookId,bool isMarkdown)
+        {
+            if (string.IsNullOrEmpty(noteTitle))
+            {
+                noteTitle ="未命名";
+            }
+            var re=new ApiRe(); 
+            var user=tokenSerivce.GetUserByToken(token);
+            var notebook=notebookService.GetNotebookById(notebookId.ToLongByHex());
+
+            if (user==null || notebook==null)
+            {
+                return LeanoteJson(re);
+            }
+            var repositoryId=notebook.NotesRepositoryId;
+            var verify=  noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            var noteId = SnowFlakeNet.GenerateSnowFlakeID();
+            var noteContentId= SnowFlakeNet.GenerateSnowFlakeID();
+            var content=isMarkdown? "欢迎使用markdown文档 power by vditor": "欢迎使用富文本文档 power by textbus";
+          
+
+
+            NoteContent noteContent=new NoteContent()
+            {
+                NoteContentId= noteContentId,
+                Abstract= content,
+                Content= content,
+                
+                UserId=user.UserId,
+                NoteId=noteId,
+                CreatedTime=DateTime.Now,
+                UpdatedTime=DateTime.Now,
+                UpdatedUserId=user.UserId
+
+            };
+            noteContentService.AddNoteContent(noteContent);
+
+            var note=new Note()
+            {
+                NotebookId=notebook.NotebookId,
+                NoteId=noteId,
+                ContentId=noteContentId,
+                Title= noteTitle,
+                UrlTitle=noteTitle,
+                NotesRepositoryId=repositoryId,
+                IsMarkdown=isMarkdown,
+                CreatedTime =DateTime.Now,
+                UserId=user.UserId,
+                CreatedUserId=user.UserId,
+                Desc=string.Empty,
+                Tags=Array.Empty<string>()
+
+            };
+            noteService.AddNote(note);
+            re.Ok=true;
+            re.Data=note;
+           return LeanoteJson(re);
+
+
         }
     }
 }

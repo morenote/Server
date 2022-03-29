@@ -12,6 +12,7 @@ using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.Enum;
 
+using System;
 using System.Collections.Generic;
 
 namespace MoreNote.Controllers.API.APIV1
@@ -24,6 +25,7 @@ namespace MoreNote.Controllers.API.APIV1
         private NotebookService notebookService;
         private NoteRepositoryService noteRepositoryService;
         private OrganizationMemberRoleService repositoryMemberRoleService;
+      
         public NotebookAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -31,6 +33,7 @@ namespace MoreNote.Controllers.API.APIV1
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
             NotebookService notebookService
+            
            , ILoggingService loggingService
             , OrganizationMemberRoleService repositoryMemberRoleService
             , NoteRepositoryService noteRepositoryService)
@@ -287,6 +290,43 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return LeanoteJson(apiRe);
         }
+        public IActionResult CreateNoteBook(string token, string notebookTitle, string parentNotebookId)
+        {
+            var re = new ApiRe();
+            var user = tokenSerivce.GetUserByToken(token);
+            var parentNotebook = notebookService.GetNotebookById(parentNotebookId.ToLongByHex());
+
+            if (user == null || parentNotebook == null)
+            {
+                return LeanoteJson(re);
+            }
+            var repositoryId = parentNotebook.NotesRepositoryId;
+            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            var notebook = new Notebook()
+            {
+                NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
+                NotesRepositoryId = repositoryId,
+                Seq = 0,
+                UserId = user.UserId,
+               
+                CreatedTime = DateTime.Now,
+                Title = notebookTitle,
+                ParentNotebookId = parentNotebook.NotebookId,
+            };
+
+            notebookService.AddNotebook(notebook);
+            re.Ok=true;
+            re.Data = notebook; 
+
+            return LeanoteJson(re);
+
+
+        }
 
     }
+ 
 }
