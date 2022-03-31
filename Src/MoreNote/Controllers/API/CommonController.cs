@@ -15,10 +15,10 @@ using System.Text.RegularExpressions;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-    [Route("api/Note/[action]")]
+    [Route("api/Common/[action]")]
     [ServiceFilter(typeof(CheckTokenFilter))]
     // [ApiController]
-    public class NoteAPIController : APIBaseController
+    public class CommonController : APIBaseController
     {
         private AttachService attachService;
         private NoteService noteService;
@@ -29,7 +29,7 @@ namespace MoreNote.Controllers.API.APIV1
         private IHttpContextAccessor accessor;
         private NoteRepositoryService noteRepositoryService;
 
-        public NoteAPIController(AttachService attachService
+        public CommonController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
@@ -695,71 +695,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
+
         
-
-        public IActionResult UpdateNoteTitleAndContent(string token,string noteId,string noteTitle,string content)
-        {
-
-            var user=tokenSerivce.GetUserByToken(token);
-            var re=new ApiRe();
-            if (user==null)
-            {
-                return LeanoteJson(re);
-
-            }
-
-            //-------------校验参数合法性
-            if (user == null)
-            {
-                re.Msg = "NOlogin";
-                re.Ok = false;
-                return Json(re, MyJsonConvert.GetSimpleOptions());
-            }
-           
-            // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
-            var note = noteService.GetNote(noteId.ToLongByHex(), user.UserId);
-            var verify=noteRepositoryService.Verify(note.NotesRepositoryId,user.UserId,RepositoryAuthorityEnum.Write);
-            if (!verify)
-            {
-                return LeanoteJson(re);
-            }
-
-            if (note == null || note.NoteId == 0)
-            {
-                re.Msg = "notExists";
-                re.Ok = false;
-                return Json(re, MyJsonConvert.GetSimpleOptions());
-            }
-            var des=MyHtmlHelper.SubHTMLToRaw(content, 200);
-
-            var noteContentId = SnowFlakeNet.GenerateSnowFlakeID();
-
-            NoteContent noteContent = new NoteContent()
-            {
-                NoteContentId = noteContentId,
-                Abstract = content,
-                Content = content,
-
-                UserId = user.UserId,
-                NoteId = note.NoteId,
-                CreatedTime = DateTime.Now,
-                UpdatedTime = DateTime.Now,
-                UpdatedUserId = user.UserId
-            };
-
-            noteContentService.UpdateNoteContent(note.NoteId,noteContent);
-            noteService.UpdateNoteTitle(note.NoteId,noteTitle);
-           
-            var usn=  noteRepositoryService.IncrUsn(note.NotesRepositoryId);
-            noteService.UpdateUsn(note.NoteId,usn);
-            re.Ok=true;
-            re.Data=note;
-            return LeanoteJson(re);
-
-
-
-        }
-
-
     }
 }

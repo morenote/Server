@@ -209,6 +209,12 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
             return true;
         }
+        public void UpdateNoteContent(long? noteId,  NoteContent noteContent)
+        {
+            dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).Update(x => new NoteContent() { IsHistory = true });
+            AddNoteContent(noteContent);
+        }
+
 
         public List<NoteContent> ListNoteContentByNoteIds(long?[] noteIds)
         {
