@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API
 {
-    [Route("api/vditor/[action]")]
+   // [Route("api/vditor/[action]")]
     public class VditorController : APIBaseController
     {
         private AuthService authService;
@@ -37,9 +37,10 @@ namespace MoreNote.Controllers.API
             this.userService = userService;
             this.tokenSerivce = tokenSerivce;
         }
-
-        public IActionResult upload()
+        [Route("api/vditor/upload/{token}")]
+        public IActionResult upload(string token)
         {
+
             string msg = null;
             var data = UploadImagesOrAttach(out msg);
             UploadFileResponse uploadFileResponse = new UploadFileResponse()
@@ -49,9 +50,18 @@ namespace MoreNote.Controllers.API
             return Json(uploadFileResponse, MyJsonConvert.GetSimpleOptions());
         }
 
-        public async Task<IActionResult> fetch([FromBody] FetchFileRequest fetchFileRequest)
+        [Route("api/vditor/fetch/{token}")]
+        public async Task<IActionResult> fetch([FromBody] FetchFileRequest fetchFileRequest,string token)
         {
-              string msg = string.Empty;
+            var user=tokenSerivce.GetUserByToken(token);
+            if (user==null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return Content("401");
+            }
+
+
+            string msg = string.Empty;
 
             //请求
             //var fetchFileRequest = JsonSerializer.Deserialize<FetchFileRequest>(json);
@@ -67,7 +77,7 @@ namespace MoreNote.Controllers.API
            
           
             //保存到本地
-            var resultURL = UploadImagesOrAttach(ref fileModel, out msg);
+            var resultURL = UploadImagesOrAttach(ref fileModel, out msg, user.UserId);
 
             if (string.IsNullOrEmpty(resultURL))
             {

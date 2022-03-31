@@ -14,8 +14,10 @@ using MoreNote.Value;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MoreNote.Framework.Controllers
 {
@@ -687,7 +689,7 @@ namespace MoreNote.Framework.Controllers
             return uploadData;
         }
 
-        public string UploadImagesOrAttach(ref FileModel fileModel, out string msg)
+        public string UploadImagesOrAttach(ref FileModel fileModel, out string msg,long?  userId)
         {
             if (fileModel == null)
             {
@@ -696,8 +698,8 @@ namespace MoreNote.Framework.Controllers
             }
             //检查哈登录
             msg = string.Empty;
-            long? userId;
-            userId = GetUserIdBySession();
+          
+          
             if (userId == null)
             {
                 msg = "Need to log in";
@@ -713,15 +715,17 @@ namespace MoreNote.Framework.Controllers
                 return null;
 
             }
-
-            FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
+            WebSiteConfig webSiteConfig = configFileService.WebConfig;
+            FileStoreConfig fileStoreConfig = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
             var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
 
             string uploadType = "images";//images  attachments
             string datafileName = fileModel.fileName;
+            datafileName= datafileName.Substring(0, datafileName.IndexOf("&"));
             var fileEXT = Path.GetExtension(datafileName).Replace(".", "");
+            
             var ext = Path.GetExtension(datafileName);
             if (IsAllowImageExt(fileEXT))
             {
@@ -735,7 +739,10 @@ namespace MoreNote.Framework.Controllers
             }
             else
             {
-                return null;
+                uploadType = "images";
+                fileEXT="png";
+                ext = ".png";
+
             }
             var fileName = diskFileId.ToHex() + "." + fileEXT;
             string resultURL = string.Empty;//最终返回URL
@@ -772,7 +779,7 @@ namespace MoreNote.Framework.Controllers
                     }
                     else
                     {
-                        resultURL = "/api/file/getImage?fileId=" + diskFileId.ToHex24();
+                        resultURL = webSiteConfig.APPConfig.SiteUrl+"/api/file/getImage?fileId=" + diskFileId.ToHex24();
                     }
                 }
                 else

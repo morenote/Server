@@ -1021,7 +1021,7 @@ namespace MoreNote.Logic.Service
         // [ok] TODO perm还没测 [del]
         public void UpdateNoteTitle( long? noteId, string title)
         {
-            dataContext.Note.Where(b => b.NoteId == noteId ).Update(c => new Note() { Title = title });
+            dataContext.Note.Where(b => b.NoteId == noteId ).UpdateFromQuery(c => new Note() { Title = title });
             dataContext.SaveChanges();
         }
 
