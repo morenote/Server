@@ -20,35 +20,35 @@ namespace MoreNote.Logic.Service.FileService.IMPL
 
         public MinIOFileStoreService(WebSiteConfig siteConfig)
         {
-         
-            this.presignedGetObjectAsyncExpiresInt = siteConfig.FileStoreConfig.BrowserDownloadExpiresInt;
-            minioClient = new MinioClient(siteConfig.MinIOConfig.Endpoint, siteConfig.MinIOConfig.MINIO_ACCESS_KEY, siteConfig.MinIOConfig.MINIO_SECRET_KEY);
-            if (siteConfig.MinIOConfig.WithSSL)
-            {
-                minioClient.WithSSL();
-            }
+                var minIOConfig=siteConfig.MinIOConfig;
+            Init(minIOConfig.Endpoint, minIOConfig.MINIO_ACCESS_KEY, minIOConfig.MINIO_SECRET_KEY, minIOConfig.WithSSL, minIOConfig.BrowserDownloadExpiresInt);
+
         }
         public MinIOFileStoreService(MinIOConfig minIOConfig)
         {
-            
-         
-            this.presignedGetObjectAsyncExpiresInt = minIOConfig.BrowserDownloadExpiresInt;
-            minioClient = new MinioClient(minIOConfig.Endpoint, minIOConfig.MINIO_ACCESS_KEY, minIOConfig.MINIO_SECRET_KEY);
 
-            if (minIOConfig.WithSSL)
-            {
-                minioClient.WithSSL();
-            }
+            Init(minIOConfig.Endpoint,minIOConfig.MINIO_ACCESS_KEY,minIOConfig.MINIO_SECRET_KEY,minIOConfig.WithSSL,minIOConfig.BrowserDownloadExpiresInt);
+
         }
         public MinIOFileStoreService( string Endpoint, string MINIO_ACCESS_KEY,string MINIO_SECRET_KEY, bool WithSSL,int presignedGetObjectAsyncExpiresInt)
         {
-            
+            Init( Endpoint,  MINIO_ACCESS_KEY,  MINIO_SECRET_KEY,  WithSSL,  presignedGetObjectAsyncExpiresInt);
+
+        }
+      
+
+        public void Init(string Endpoint, string MINIO_ACCESS_KEY, string MINIO_SECRET_KEY, bool WithSSL, int presignedGetObjectAsyncExpiresInt)
+        {
+
             this.presignedGetObjectAsyncExpiresInt = presignedGetObjectAsyncExpiresInt;
-            minioClient = new MinioClient(Endpoint, MINIO_ACCESS_KEY, MINIO_SECRET_KEY);
+            minioClient = new MinioClient()
+                .WithEndpoint(Endpoint)
+                .WithCredentials(MINIO_ACCESS_KEY, MINIO_SECRET_KEY);
             if (WithSSL)
             {
                 minioClient.WithSSL();
             }
+            minioClient.Build();
         }
 
 

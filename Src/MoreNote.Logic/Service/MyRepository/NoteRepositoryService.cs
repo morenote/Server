@@ -193,5 +193,15 @@ namespace MoreNote.Logic.Service.MyRepository
             }
             return true;
         }
+
+        public int IncrUsn(long? repositoryId)
+        {
+            var repository = dataContext.NotesRepository
+               .Where(b => b.Id == repositoryId).FirstOrDefault();
+            repository.Usn += 1;
+            dataContext.SaveChanges();
+            
+            return repository.Usn;
+        }
     }
 }

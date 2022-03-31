@@ -1019,9 +1019,10 @@ namespace MoreNote.Logic.Service
 
         // 这里要判断权限, 如果userId != updatedUserId, 那么需要判断权限
         // [ok] TODO perm还没测 [del]
-        public bool UpdateNoteTitle(long? userId, long? updateUserId, long? noteId, string title)
+        public void UpdateNoteTitle( long? noteId, string title)
         {
-            throw new Exception();
+            dataContext.Note.Where(b => b.NoteId == noteId ).Update(c => new Note() { Title = title });
+            dataContext.SaveChanges();
         }
 
         // ?????
@@ -1427,7 +1428,15 @@ namespace MoreNote.Logic.Service
                     });
                 }
             }
+
             return content;
+        }
+        public void UpdateUsn(long? noteId,int usn)
+        {
+            dataContext.Note.Where(b=>b.NoteId==noteId).Update(b=>new Note() { Usn=usn});
+            dataContext.SaveChanges();
+
+
         }
     }
 }
