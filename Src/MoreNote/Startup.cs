@@ -247,7 +247,9 @@ namespace MoreNote
             {
                 var instance = e.Instance;
                 instance.UserService = e.Context.Resolve<UserService>();
-            });
+                instance.NoteService = e.Context.Resolve<NoteService>();
+            })
+            .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<NoteContentHistoryService>();
             builder.RegisterType<NoteContentService>().OnActivated(e =>
             {
@@ -372,15 +374,17 @@ namespace MoreNote
             app.UseAuthorization();
             //监控接口耗时情况
             //app.UseTimeMonitorMiddleware();
-#if DEBUG
             //调试的时候允许跨域
             app.UseCors(builder =>
             {
-                builder.AllowAnyMethod()
+                builder.WithOrigins("http://localhost:3201")
+                       // .AllowAnyMethod()
+                       .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowAnyOrigin();
             });
-#endif
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

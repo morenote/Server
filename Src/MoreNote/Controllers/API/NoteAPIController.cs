@@ -695,7 +695,26 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-        
+        public IActionResult UpdateNoteTitle(string token, string noteId, string noteTitle)
+        {
+            var user = tokenSerivce.GetUserByToken(token);
+            var re = new ApiRe();
+            if (user == null)
+            {
+                return LeanoteJson(re);
+            }
+            var note = noteService.GetNote(noteId.ToLongByHex(), user.UserId);
+            var verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            noteService.UpdateNoteTitle(note.NoteId, noteTitle);
+            re.Ok=true;
+            re.Data=note;
+            return LeanoteJson(re);
+
+        }
 
         public IActionResult UpdateNoteTitleAndContent(string token,string noteId,string noteTitle,string content)
         {
@@ -760,6 +779,27 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-
+        public IActionResult DeleteNote(string token, string noteId)
+        {
+            var user = tokenSerivce.GetUserByToken(token);
+            var re = new ApiRe();
+            if (user == null)
+            {
+                return LeanoteJson(re);
+            }
+            var note = noteService.GetNoteById(noteId.ToLongByHex());
+            var notesRepositoryId = note.NotesRepositoryId;
+            var verify = noteRepositoryService.Verify(notesRepositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            var usn = noteRepositoryService.IncrUsn(notesRepositoryId);
+            var noteDelte= noteService.DeleteNote(noteId.ToLongByHex(), usn);
+            re.Ok = true;
+            re.Data= noteDelte;
+            return LeanoteJson(re);
+            
+        }
     }
 }

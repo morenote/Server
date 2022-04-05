@@ -10,6 +10,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Model.FIDO2;
 
 using System.Text.Json;
@@ -44,32 +45,30 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="pwd"></param>
         /// <returns></returns>
        //[HttpPost]
-        public JsonResult Login(string email, string pwd)
+        public IActionResult Login(string email, string pwd)
         {
-            string tokenStr = "";
+            string tokenValue = "";
             User user;
-            if (authService.LoginByPWD(email, pwd, out tokenStr, out user))
+            var re=new ApiRe();
+
+            if (authService.LoginByPWD(email, pwd, out tokenValue, out user))
             {
-                SetUserIdToSession(user.UserId);
-                AuthOk authOk = new AuthOk()
+                var userToken=new UserToken()
                 {
-                    Ok = true,
-                    Token = tokenStr,
-                    UserId = user.UserId.ToHex24(),
+                    Token = tokenValue,
+                    UserId = user.UserId,
                     Email = user.Email,
                     Username = user.Username
                 };
-                return Json(authOk, MyJsonConvert.GetSimpleOptions());
+                re.Ok = true;
+                re.Data=userToken;
+
+                return LeanoteJson(re);
             }
             else
             {
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "用户名或密码有误"
-                };
-                string json = JsonSerializer.Serialize(apiRe, MyJsonConvert.GetSimpleOptions());
-                return Json(apiRe, MyJsonConvert.GetSimpleOptions());
+                re.Msg = "用户名或密码有误";
+                return LeanoteJson(re);
             }
         }
 

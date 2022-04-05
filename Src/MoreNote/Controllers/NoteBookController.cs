@@ -44,17 +44,7 @@ namespace MoreNote.Controllers
             Notebook[] noteBoooks = notebookService.GetNoteBookTree(userid);
             return Json(noteBoooks, MyJsonConvert.GetLeanoteOptions());
         }
-        /// <summary>
-        /// 删除笔记本
-        /// </summary>
-        /// <param name="notebookId">笔记本id 要求必须是long类型的hex形式</param>
-        /// <returns></returns>
-        public JsonResult DeleteNotebook(string notebookId)
-        {
-            var msg = string.Empty;
-            var result = notebookService.DeleteNotebook(GetUserIdBySession(), notebookId.ToLongByHex(), out msg);
-            return Json(new ResponseMessage() { Ok = result, Msg = msg },MyJsonConvert.GetSimpleOptions());
-        }
+        
         /// <summary>
         /// 添加笔记本
         /// </summary>

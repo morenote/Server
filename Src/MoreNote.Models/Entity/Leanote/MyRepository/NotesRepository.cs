@@ -21,7 +21,7 @@ namespace MoreNote.Models.Entity.Leanote
         public long? Id { get; set; }//仓库id
 
         [Column("name")]
-        public string? Name { get; set; }//仓库唯一名称
+        public string? Name { get; set; }//仓库唯一名称/仓库路径
 
         [Column("avatar")]
         public string? Avatar { get; set; }//仓库ICON图标

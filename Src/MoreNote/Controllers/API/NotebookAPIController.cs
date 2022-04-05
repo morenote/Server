@@ -26,15 +26,18 @@ namespace MoreNote.Controllers.API.APIV1
         private NoteRepositoryService noteRepositoryService;
         private OrganizationMemberRoleService repositoryMemberRoleService;
       
+        private NoteService noteService;
         public NotebookAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
-            NotebookService notebookService
-            
-           , ILoggingService loggingService
+            NotebookService notebookService,
+            NoteService noteService,
+
+
+            ILoggingService loggingService
             , OrganizationMemberRoleService repositoryMemberRoleService
             , NoteRepositoryService noteRepositoryService)
             :
@@ -43,6 +46,7 @@ namespace MoreNote.Controllers.API.APIV1
             this.notebookService = notebookService;
             this.noteRepositoryService = noteRepositoryService;
             this.repositoryMemberRoleService = repositoryMemberRoleService;
+            this.noteService = noteService;
         }
 
         //获取同步的笔记本
@@ -204,21 +208,35 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:删除笔记本
-        public IActionResult DeleteNotebook(string token, string notebookId, int usn)
+        public IActionResult DeleteNotebook(string token, string notebookId)
         {
             User user = tokenSerivce.GetUserByToken(token);
+            ApiRe re = new ApiRe()
+            {
+                Ok = false,
+                Msg = "NOTLOGIN",
+            };
+
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "NOTLOGIN",
-                };
-
-                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
+                re.Msg = "NOTLOGIN";
+                
+              return LeanoteJson(re);
             }
-            if (notebookService.DeleteNotebookForce(user.UserId, notebookId.ToLongByHex(), usn))
+            var message="";
+            var notebook=notebookService.GetNotebookById(notebookId.ToLongByHex());
+            var notesRepositoryId = notebook.NotesRepositoryId;
+            var verify=noteRepositoryService.Verify(notesRepositoryId,user.UserId,RepositoryAuthorityEnum.Write);
+            if (verify == false)
             {
+                return LeanoteJson(verify);
+            }
+            
+            var usn=noteRepositoryService.IncrUsn(notesRepositoryId);
+
+            if (notebookService.DeleteNotebook( notebookId.ToLongByHex(), usn,out message))
+            {
+
                 ApiRe apiRe = new ApiRe()
                 {
                     Ok = true,
@@ -235,6 +253,58 @@ namespace MoreNote.Controllers.API.APIV1
                 };
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
+        }
+        /// <summary>
+        /// 递归删除笔记本
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="notebookId"></param>
+        /// <returns></returns>
+        public IActionResult DeleteNotebookRecursively(string token, string notebookId)
+        {
+            User user = tokenSerivce.GetUserByToken(token);
+            ApiRe re = new ApiRe()
+            {
+                Ok = false,
+                Msg = "NOTLOGIN",
+            };
+
+            if (user == null)
+            {
+                re.Msg = "NOTLOGIN";
+
+                return LeanoteJson(re);
+            }
+            var message = "";
+            var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
+            var notesRepositoryId = notebook.NotesRepositoryId;
+            var verify = noteRepositoryService.Verify(notesRepositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            if (verify == false)
+            {
+                return LeanoteJson(verify);
+            }
+
+            var usn = noteRepositoryService.IncrUsn(notesRepositoryId);
+            if (notebookService.DeleteNotebook(notebookId.ToLongByHex(), usn, out message))
+            {
+
+                ApiRe apiRe = new ApiRe()
+                {
+                    Ok = true,
+                    Msg = "success",
+                };
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
+            }
+            else
+            {
+                ApiRe apiRe = new ApiRe()
+                {
+                    Ok = false,
+                    Msg = "conflict",
+                };
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
+            }
+
         }
 
         //获得笔记本的第一层文件夹
@@ -326,7 +396,32 @@ namespace MoreNote.Controllers.API.APIV1
 
 
         }
+        public IActionResult UpdateNoteBookTitle(string token, string notebookId,string notebookTitle)
+        {
+            var re = new ApiRe();
+            var user = tokenSerivce.GetUserByToken(token);
+            var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
 
+            if (user == null || notebook == null)
+            {
+                return LeanoteJson(re);
+            }
+            var repositoryId = notebook.NotesRepositoryId;
+            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+           
+
+            notebookService.UpdateNotebookTitle(notebook.NotebookId, notebookTitle);
+            re.Ok = true;
+            re.Data = notebook;
+
+            return LeanoteJson(re);
+
+
+        }
     }
  
 }
