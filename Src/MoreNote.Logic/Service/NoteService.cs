@@ -840,6 +840,17 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
+        public Note DeleteNote(long? noteId, int usn)
+        {
+        
+            var note= dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+            note.IsDeleted = true;
+            note.Usn= usn;
+            dataContext.SaveChanges();
+
+            return note;
+        }
+
         private static bool UpdateNote(Note note)
         {
             {
@@ -1438,5 +1449,6 @@ namespace MoreNote.Logic.Service
 
 
         }
+      
     }
 }

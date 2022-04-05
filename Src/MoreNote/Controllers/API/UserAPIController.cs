@@ -36,54 +36,17 @@ namespace MoreNote.Controllers.API.APIV1
 
         //获取用户信息
 
-        public JsonResult Info(string token, [ModelBinder(BinderType = typeof(Hex2LongModelBinder))]long? userId)
+        public IActionResult Info(string token)
         {
-           // long? myUserId =MyConvert.HexToLong(userId);
-            long? myUserId = userId;
-            if (myUserId!=null)
+            var user=tokenSerivce.GetUserByToken(token);
+            var re=new ApiRe();
+            if (user==null)
             {
-                if (!authService.IsLogin(myUserId,token))
-                {
-                    ApiRe apiRe = new ApiRe()
-                    {
-                        Ok = false,
-                        Msg = "NOTLOGIN",
-                    };
-                    return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
-                }
-                User user = userService.GetUserByUserId(myUserId);
+                re.Msg= "NOTLOGIN";
+            }
+            re.Ok=true;
 
-                if (user == null)
-                {
-                    ApiRe apiRe = new ApiRe()
-                    {
-                        Ok = false,
-                        Msg = "The user does not exist",
-                    };
-                    return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
-                }
-                else
-                {
-                    ApiUser apiUser = new ApiUser()
-                    {
-                        UserId = user.UserId.ToHex24(),
-                        Username = user.Username,
-                        Email = user.Email,
-                        Logo = user.Logo,
-                        Verified = user.Verified
-                    };
-                    return Json(apiUser, MyJsonConvert.GetLeanoteOptions());
-                }
-            }
-            else
-            {
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "Invalid user id",
-                };
-                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
-            }
+            return LeanoteJson(user);
 
         }
 

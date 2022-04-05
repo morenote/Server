@@ -100,11 +100,11 @@ namespace MoreNote.Controllers.API
                     return LeanoteJson(apiRe);
                 }
             }
-            if (!MyStringUtil.IsNumAndEnCh(notesRepository.Name))
-            {
-                apiRe.Msg = "仓库名称仅允许使用英文大小写、数字，不允许特殊符号";
-                return LeanoteJson(apiRe);
-            }
+            //if (!MyStringUtil.IsNumAndEnCh(notesRepository.Name))
+            //{
+            //    apiRe.Msg = "仓库路径仅允许使用英文大小写、数字，不允许特殊符号";
+            //    return LeanoteJson(apiRe);
+            //}
             if (noteRepositoryService.ExistNoteRepositoryByName(notesRepository.OwnerId, notesRepository.Name))
             {
                 apiRe.Msg = "仓库名称冲突";

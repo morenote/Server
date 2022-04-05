@@ -6,10 +6,6 @@
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="DTO\Leanote\" />
-  </ItemGroup>
 	<ItemGroup>
 	  <!--谷歌两步验证-->
     <PackageReference Include="AutoMapper" Version="11.0.1" />

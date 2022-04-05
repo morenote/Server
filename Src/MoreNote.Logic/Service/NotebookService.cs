@@ -14,9 +14,11 @@ namespace MoreNote.Logic.Service
         private DataContext dataContext;
         public UserService UserService { get; set; }
 
-        public NotebookService(DataContext dataContext)
+        public NoteService NoteService { get; set; }
+        public NotebookService(DataContext dataContext,NoteService noteService)
         {
             this.dataContext = dataContext;
+            this.NoteService = noteService; 
         }
 
         public Notebook GetNotebookById(long? notebookId)
@@ -222,6 +224,23 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
+        public bool AnyNoteBook(long? parentNotebookId)
+        {
+           var bookAny=dataContext.Notebook.Where(b=>b.ParentNotebookId== parentNotebookId &&
+                                                     b.IsDeleted==false&&
+                                                     b.IsTrash==false).Any();
+          return bookAny;
+        }
+        public bool AnyNote(long? parentNotebookId)
+        {
+            var noteAny = dataContext.Note.Where(b => b.NotebookId == parentNotebookId &&
+                                                        b.IsDeleted == false &&
+                                                        b.IsTrash == false).Any();
+            return noteAny;
+        }
+
+
+
         // 更新笔记本信息
         // 太广, 不用
         /*
@@ -243,6 +262,19 @@ namespace MoreNote.Logic.Service
             var usn=UserService.IncrUsn(userId);
             notebook.Title=title;
             notebook.Usn=usn;
+            dataContext.SaveChanges();
+            return true;
+        }
+        public bool UpdateNotebookTitle(long? notebookId, string title)
+        {
+            var notebook = dataContext.Notebook.Where(b => b.NotebookId == notebookId ).FirstOrDefault();
+            if (notebook == null)
+            {
+                return false;
+            }
+          
+            notebook.Title = title;
+            
             dataContext.SaveChanges();
             return true;
         }
@@ -292,52 +324,88 @@ namespace MoreNote.Logic.Service
 
         // 查看是否有子notebook
         // 先查看该notebookId下是否有notes, 没有则删除
-        public bool DeleteNotebook(long? userId, long? notebookId, out string msg)
+        public bool DeleteNotebook( long? notebookId,int usn, out string msg)
         {
             msg=string.Empty;
-            var childrenNotebooks = dataContext.Notebook.Where(b => b.ParentNotebookId == notebookId
-                                                              && b.UserId == userId
-                                                              && b.IsDeleted == false);
-            if (childrenNotebooks.Any())
+            if (this.AnyNote(notebookId)||this.AnyNoteBook(notebookId))
             {
-                msg = "笔记本下有子笔记本";
+                msg = "笔记本下有子笔记本或笔记";
+            }
+            //删除空笔记本
+            var book = dataContext.Notebook.Where(notebook =>  notebook.NotebookId == notebookId).FirstOrDefault();
+            if (book == null)
+            {
+                msg = "notebookId无效";
                 return false;
             }
-            else
+            book.IsDeleted = true;
+            book.Usn = usn;
+            dataContext.SaveChanges();
+            return true;
+        }
+
+        public List<Note> GetNotebookChildrenNote(long? notebookId)
+        {
+            return dataContext.Note.Where(b => b.NotebookId == notebookId&&
+                                          b.IsDeleted==false&&
+                                          b.IsTrash==false).ToList();
+
+        }
+        /// <summary>
+        /// 递归删除笔记本
+        /// </summary>
+        /// <param name="notebookId"></param>
+        /// <param name="usn"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public void DeleteNotebookRecursively(long? notebookId, int usn)
+        {
+            var noteList = this.GetNotebookChildrenNote(notebookId);
+            if (noteList.Any())
             {
-                var childrenNotes = dataContext.Note.Where(note => note.NotebookId == notebookId
-                                                                 && note.UserId == userId
-                                                                 && note.IsTrash == false
-                                                                 && note.IsDeleted == false);
-                if (childrenNotes.Any())
+                foreach (var note in noteList)
                 {
-                    msg = "笔记本下有笔记";
-                    return false;
-                }
-                else
-                {
-                    //删除空笔记本
-                    var book = dataContext.Notebook.Where(notebook => notebook.UserId == userId
-                                                                     && notebook.NotebookId == notebookId).FirstOrDefault();
-                    if (book == null)
-                    {
-                        msg = "笔记本无效或者已经被删除,请刷新浏览器后重试";
-                        return false;
-                    }
-                    book.IsDeleted=true;
-                    UserService.IncrUsn(userId);
-                    return true;
+                    this.NoteService.DeleteNote(note.NoteId,usn);
                 }
             }
+            var list= this.GetNotebookChildren(notebookId);
+            if (list.Any())
+            {
+                foreach (var item in list)
+                {
+                    this.DeleteNotebookRecursively(item.NotebookId, usn);
+                }
+            }
+            
+            
+
+
+            //删除空笔记本
+            var book = dataContext.Notebook.Where(notebook => notebook.NotebookId == notebookId).FirstOrDefault();
+            if (book == null)
+            {
+               return;
+            }
+            book.IsDeleted = true;
+            book.Usn = usn;
+            dataContext.SaveChanges();
+            
         }
 
         // API调用, 删除笔记本, 不作笔记控制
         public bool DeleteNotebookForce(long? userId, long? notebookId, int usn)
         {
             //var result = dataContext.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
-            var result = dataContext.Notebook.Where(note => note.NotebookId == notebookId && note.UserId == userId && note.Usn == usn).Update(x => new Notebook { IsDeleted = true });
+            var result = dataContext.Notebook.Where(note => note.NotebookId == notebookId &&
+                                                    note.UserId == userId && 
+                                                    note.Usn == usn)
+                .Update(x => new Notebook { IsDeleted = true });
             return result > 0;
         }
+
+
+
+
 
         // 排序
         // 传入 notebookId => Seq
