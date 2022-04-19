@@ -329,7 +329,9 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return  LeanoteJson(apiRe);
         }
-         
+        
+
+
         public IActionResult GetNotebookChildren(string token, string notebookId)
         {
             var apiRe = new ApiRe();
@@ -360,18 +362,42 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return LeanoteJson(apiRe);
         }
-        public IActionResult CreateNoteBook(string token, string notebookTitle, string parentNotebookId)
+        public IActionResult CreateNoteBook(string token,string noteRepositoryId, string notebookTitle, string parentNotebookId)
         {
             var re = new ApiRe();
             var user = tokenSerivce.GetUserByToken(token);
-            var parentNotebook = notebookService.GetNotebookById(parentNotebookId.ToLongByHex());
+            long? parentId=null;
+            bool  verify=false;
+            long? repositoryId=null;
 
-            if (user == null || parentNotebook == null)
+            if (string.IsNullOrEmpty(noteRepositoryId))
             {
                 return LeanoteJson(re);
             }
-            var repositoryId = parentNotebook.NotesRepositoryId;
-            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+
+            if (string.IsNullOrEmpty(parentNotebookId))
+            {
+
+                verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.UserId, RepositoryAuthorityEnum.Write);
+                repositoryId=noteRepositoryId.ToLongByHex();
+            }
+            else
+            {
+                var parentNotebook = notebookService.GetNotebookById(parentNotebookId.ToLongByHex());
+                if (user == null || parentNotebook == null)
+                {
+                    return LeanoteJson(re);
+                }
+                repositoryId = parentNotebook.NotesRepositoryId;
+                if (repositoryId != noteRepositoryId.ToLongByHex())
+                {
+                    return LeanoteJson(re);
+                }
+                verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+                parentId=parentNotebook.NotebookId;
+            }
+
+         
             if (!verify)
             {
                 return LeanoteJson(re);
@@ -385,7 +411,7 @@ namespace MoreNote.Controllers.API.APIV1
                
                 CreatedTime = DateTime.Now,
                 Title = notebookTitle,
-                ParentNotebookId = parentNotebook.NotebookId,
+                ParentNotebookId = parentId,
             };
 
             notebookService.AddNotebook(notebook);
