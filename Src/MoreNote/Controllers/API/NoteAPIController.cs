@@ -10,6 +10,8 @@ using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.Enum;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -779,7 +781,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-        public IActionResult DeleteNote(string token, string noteId)
+        public IActionResult DeleteNote(string token,string noteRepositoryId, string noteId)
         {
             var user = tokenSerivce.GetUserByToken(token);
             var re = new ApiRe();
@@ -788,18 +790,96 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
             }
             var note = noteService.GetNoteById(noteId.ToLongByHex());
-            var notesRepositoryId = note.NotesRepositoryId;
-            var verify = noteRepositoryService.Verify(notesRepositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+           
+            var repositoryId = note.NotesRepositoryId;
+            if (repositoryId!=noteRepositoryId.ToLongByHex())
+            {
+                return LeanoteJson(re);
+            }
+            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
             }
-            var usn = noteRepositoryService.IncrUsn(notesRepositoryId);
+            var usn = noteRepositoryService.IncrUsn(repositoryId);
             var noteDelte= noteService.DeleteNote(noteId.ToLongByHex(), usn);
             re.Ok = true;
             re.Data= noteDelte;
             return LeanoteJson(re);
             
+        }
+
+
+        /// <summary>
+        /// 搜索仓库中的笔记
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [Route("Note/SearchNote")]
+        public IActionResult SearchRepositoryNote(string token, string noteRepositoryId,string key)
+        {
+            /**
+             * 默认：title搜索
+             * 关键词&关键词：title搜索
+             * 关键词|关键词：title搜索
+             * title:仅搜索标题中的关键词的笔记
+             * body：仅搜索文章中的关键词的笔记
+             * tag:仅搜索tag列表的关键词的笔记
+             * time>YYYMMDD 2021/10/24 搜索指定日期后的笔记
+             * time<YYYMMDD 2021/10/24 搜索指定日期前的笔记
+             * time<YYYMMDD 2021/10/24 搜索指定日期的笔记
+             * file：搜索包含制定附件名称的笔记
+             * */
+            var user = tokenSerivce.GetUserByToken(token);
+            var re = new ApiRe();
+            if (user == null)
+            {
+                return LeanoteJson(re);
+            }
+            var repositor = this.noteRepositoryService.GetNotesRepository(noteRepositoryId.ToLongByHex());
+            
+            if (!repositor.Visible)
+            {
+                var verify = noteRepositoryService.Verify(repositor.Id, user.UserId, RepositoryAuthorityEnum.Read);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+            }
+           
+
+            var notes1 = noteService.SearchRepositoryIdNoteByTitleVector(key, repositor.Id, GetPage(), pageSize);
+
+            var notes2 = noteService.SearchRepositoryNoteByContentVector(key, repositor.Id, GetPage(), pageSize);
+
+            var result = merge(notes1, notes2);
+            return Json(result, MyJsonConvert.GetLeanoteOptions());
+        }
+        private Note[] merge(Note[] notes1, Note[] notes2)
+        {
+            Dictionary<long?, Note> result = new Dictionary<long?, Note>(notes1.Length + notes2.Length);
+            if (notes1 != null)
+            {
+                foreach (var item in notes1)
+                {
+                    if (!result.ContainsKey(item.NoteId))
+                    {
+                        result.Add(item.NoteId, item);
+                    }
+                }
+            }
+            if (notes2 != null)
+            {
+                foreach (var item in notes2)
+                {
+                    if (!result.ContainsKey(item.NoteId))
+                    {
+                        result.Add(item.NoteId, item);
+                    }
+                }
+            }
+
+            return result.Values.ToArray();
         }
     }
 }

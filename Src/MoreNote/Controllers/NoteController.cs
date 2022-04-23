@@ -356,6 +356,7 @@ namespace MoreNote.Controllers
             return Json(result, MyJsonConvert.GetLeanoteOptions());
         }
 
+
         private Note[] merge(Note[] notes1, Note[] notes2)
         {
             Dictionary<long?, Note> result = new Dictionary<long?, Note>(notes1.Length + notes2.Length);

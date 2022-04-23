@@ -207,60 +207,17 @@ namespace MoreNote.Controllers.API.APIV1
             }
         }
 
-        //todo:删除笔记本
-        public IActionResult DeleteNotebook(string token, string notebookId)
-        {
-            User user = tokenSerivce.GetUserByToken(token);
-            ApiRe re = new ApiRe()
-            {
-                Ok = false,
-                Msg = "NOTLOGIN",
-            };
 
-            if (user == null)
-            {
-                re.Msg = "NOTLOGIN";
-                
-              return LeanoteJson(re);
-            }
-            var message="";
-            var notebook=notebookService.GetNotebookById(notebookId.ToLongByHex());
-            var notesRepositoryId = notebook.NotesRepositoryId;
-            var verify=noteRepositoryService.Verify(notesRepositoryId,user.UserId,RepositoryAuthorityEnum.Write);
-            if (verify == false)
-            {
-                return LeanoteJson(verify);
-            }
-            
-            var usn=noteRepositoryService.IncrUsn(notesRepositoryId);
-
-            if (notebookService.DeleteNotebook( notebookId.ToLongByHex(), usn,out message))
-            {
-
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = true,
-                    Msg = "success",
-                };
-                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
-            }
-            else
-            {
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "conflict",
-                };
-                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
-            }
-        }
         /// <summary>
-        /// 递归删除笔记本
+        /// 删除笔记本
         /// </summary>
         /// <param name="token"></param>
-        /// <param name="notebookId"></param>
+        /// <param name="noteRepositoryId">仓库id</param>
+        /// <param name="notebookId">笔记本id</param>
+        /// <param name="recursion">是否递归删除，非空文件夹</param>
+        /// <param name="force">系统会忽略错误检查，强制删除笔记本和里面的笔记</param>
         /// <returns></returns>
-        public IActionResult DeleteNotebookRecursively(string token, string notebookId)
+        public IActionResult DeleteNotebook(string token, string noteRepositoryId, string notebookId, bool recursively, bool force)
         {
             User user = tokenSerivce.GetUserByToken(token);
             ApiRe re = new ApiRe()
@@ -272,39 +229,35 @@ namespace MoreNote.Controllers.API.APIV1
             if (user == null)
             {
                 re.Msg = "NOTLOGIN";
-
                 return LeanoteJson(re);
             }
             var message = "";
             var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
-            var notesRepositoryId = notebook.NotesRepositoryId;
-            var verify = noteRepositoryService.Verify(notesRepositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            var repositoryId = notebook.NotesRepositoryId;
+            if (repositoryId!= noteRepositoryId.ToLongByHex())
+            {
+                return LeanoteJson(re);
+            }
+            //鉴别用户是否有权限
+            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
             if (verify == false)
             {
-                return LeanoteJson(verify);
+                return LeanoteJson(re);
             }
+            //增加usn
+            var usn = noteRepositoryService.IncrUsn(repositoryId);
 
-            var usn = noteRepositoryService.IncrUsn(notesRepositoryId);
-            if (notebookService.DeleteNotebook(notebookId.ToLongByHex(), usn, out message))
+            if (recursively)
             {
 
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = true,
-                    Msg = "success",
-                };
-                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
+                re.Ok=notebookService.DeleteNotebookRecursively(notebookId.ToLongByHex(), usn);
             }
             else
             {
-                ApiRe apiRe = new ApiRe()
-                {
-                    Ok = false,
-                    Msg = "conflict",
-                };
-                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
+                re.Ok= notebookService.DeleteNotebook(notebookId.ToLongByHex(), usn);
             }
 
+            return LeanoteJson(re);
         }
 
         //获得笔记本的第一层文件夹

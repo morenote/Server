@@ -1215,6 +1215,17 @@ namespace MoreNote.Logic.Service
                                      && b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
             return list.ToArray();
         }
+
+        public Note[] SearchRepositoryIdNoteByTitleVector(string key, long? noteRepositoryId, int pageNumber, int pageSize)
+        {
+            JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+            var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+            var list = dataContext.Note.Where(b => b.NotesRepositoryId == noteRepositoryId
+                                     && b.IsTrash == false
+                                     && b.IsDeleted == false
+                                     && b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
+            return list.ToArray();
+        }
         /// <summary>
         /// 通过标题向量和内容向量搜索笔记
         /// </summary>
@@ -1255,7 +1266,18 @@ namespace MoreNote.Logic.Service
                           select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
             return result;
         }
+        public Note[] SearchRepositoryNoteByContentVector(string key, long? noteRepositoryId, int pageNumber, int pageSize)
+        {
+            JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+            var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
 
+            var result = (from _note in dataContext.Note
+                          join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
+                          where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.NotesRepositoryId == noteRepositoryId
+                          && (_content.ContentVector.Matches(query))
+                          select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
+            return result;
+        }
         // 搜索noteContents, 补集pageSize个
         public Note[] searchNoteFromContent(Note[] notes, long? userId, string key, int pagSize, string sortField, bool isBlog)
         {

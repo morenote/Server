@@ -324,18 +324,18 @@ namespace MoreNote.Logic.Service
 
         // 查看是否有子notebook
         // 先查看该notebookId下是否有notes, 没有则删除
-        public bool DeleteNotebook( long? notebookId,int usn, out string msg)
+        public bool DeleteNotebook( long? notebookId,int usn)
         {
-            msg=string.Empty;
+          
             if (this.AnyNote(notebookId)||this.AnyNoteBook(notebookId))
             {
-                msg = "笔记本下有子笔记本或笔记";
+               
             }
             //删除空笔记本
             var book = dataContext.Notebook.Where(notebook =>  notebook.NotebookId == notebookId).FirstOrDefault();
             if (book == null)
             {
-                msg = "notebookId无效";
+               
                 return false;
             }
             book.IsDeleted = true;
@@ -343,6 +343,14 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
             return true;
         }
+
+     
+
+
+
+
+
+
 
         public List<Note> GetNotebookChildrenNote(long? notebookId)
         {
@@ -358,8 +366,19 @@ namespace MoreNote.Logic.Service
         /// <param name="usn"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public void DeleteNotebookRecursively(long? notebookId, int usn)
+        public bool DeleteNotebookRecursively(long? notebookId, int usn)
         {
+
+
+            var list = this.GetNotebookChildren(notebookId);
+            if (list.Any())
+            {
+                foreach (var item in list)
+                {
+                    this.DeleteNotebookRecursively(item.NotebookId, usn);
+                }
+            }
+
             var noteList = this.GetNotebookChildrenNote(notebookId);
             if (noteList.Any())
             {
@@ -368,27 +387,18 @@ namespace MoreNote.Logic.Service
                     this.NoteService.DeleteNote(note.NoteId,usn);
                 }
             }
-            var list= this.GetNotebookChildren(notebookId);
-            if (list.Any())
-            {
-                foreach (var item in list)
-                {
-                    this.DeleteNotebookRecursively(item.NotebookId, usn);
-                }
-            }
-            
-            
-
 
             //删除空笔记本
             var book = dataContext.Notebook.Where(notebook => notebook.NotebookId == notebookId).FirstOrDefault();
             if (book == null)
             {
-               return;
+               return false;
             }
             book.IsDeleted = true;
             book.Usn = usn;
             dataContext.SaveChanges();
+
+            return true;
             
         }
 
