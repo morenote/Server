@@ -147,25 +147,29 @@ dotnet run
 
 #### 站在巨人的肩上
 
-- .NetCore(微软出品的跨平台开发语言)
-- AmazeUI(前端UI框架)
-- JQuery(JavaScript脚本库)
-- Supervisor(Linux进程守护程序) 
-- Redis(高性能缓存服务)
-- PostgreSQL(高性能数据库)
-- WangEditer(Web富文本编辑器)
-- Textbus(优秀的富文本编辑器)
-- Vditor(markdown编辑器)
-- Masuit.LuceneEFCore.SearchEngine(基于EntityFrameworkCore和Lucene.NET实现的全文检索搜索引擎)
-- Masuit.MyBlogs(高性能低占用的博客系统)
-- Leanote(Go语言实现的云笔记服务)
-- minio（分布式对象存储服务）
+- .Net(微软出品的跨平台开发语言) 编程语言
+- ng-zorro-antd(前端UI框架) MIT开源许可
+- Ant Design(前端UI框架)  MIT开源许可
+- JQuery(JavaScript脚本库)  MIT开源许可
+- Supervisor(Linux进程守护程序)  基础组件
+- Redis(高性能缓存服务) 基础组件
+- PostgreSQL(高性能数据库) 基础组件
+- WangEditer(Web富文本编辑器)  MIT开源许可
+- Textbus(优秀的富文本编辑器)  GPL开源许可
+- Vditor(markdown编辑器)  MIT开源许可
+- Masuit.LuceneEFCore.SearchEngine(基于EntityFrameworkCore和Lucene.NET实现的全文检索搜索引擎)  MIT开源许可
+- Masuit.MyBlogs(高性能低占用的博客系统)  MIT开源许可
+- Leanote(Go语言实现的云笔记服务) GPL开源许可
+- minio（分布式对象存储服务）组件使用
+- MrDoc（在线文档库）GPL开源许可
+- MxsDoc(Web文件管理系统) GPL开源许可
+- joplin（开源笔记软件） [MIT开源许可](https://github.com/laurent22/joplin/blob/dev/LICENSE)
 
 ####  向他们的作品致敬
 
 >   如果你觉得morenote不够完美，那么我建议你去尝试以下笔记软件或服务
 >
->   morenote在开发过程借鉴了以下软件或服务的设计风格和思路
+>   morenote在开发过程广泛的借鉴了其他比较流行的笔记软件的风格和设计
 
 -   Notion
 -   Wolai
