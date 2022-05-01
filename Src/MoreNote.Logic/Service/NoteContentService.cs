@@ -63,12 +63,28 @@ namespace MoreNote.Logic.Service
             var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId);
             return result == null ? null : result.FirstOrDefault();
         }
-
+        /// <summary>
+        /// 获得有效的笔记内容，根据noteId&&userId匹配
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public NoteContent GetValidNoteContent(long? noteId, long? userId)
         {
             var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == false);
             return result == null ? null : result.FirstOrDefault();
         }
+        /// <summary>
+        /// 获得有效的笔记内容，根据noteId匹配
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        public NoteContent GetValidNoteContent(long? noteId)
+        {
+            var result = dataContext.NoteContent.Where(b =>  b.NoteId == noteId && b.IsHistory == false);
+            return result == null ? null : result.FirstOrDefault();
+        }
+
 
         // 添加笔记本内容
         // [ok]

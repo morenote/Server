@@ -159,7 +159,7 @@ namespace MoreNote.Framework.Controllers
             {
                 return 1;
             }
-            int value = 1;
+            int value = 0;
             Int32.TryParse(pageValue, out value);
             return value;
         }

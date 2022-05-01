@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service.Segmenter;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,54 @@ namespace MoreNote.Logic.Service
         {
             this.dataContext = dataContext;
             this.jieba = jieba;
+        }
+
+        /// <summary>
+        /// 添加笔记
+        /// </summary>
+        /// <param name="repositoryId">仓库id</param>
+        /// <param name="notebookId">将笔记放置在哪个文件夹下面</param>
+        /// <param name="noteId">笔记id</param>
+        /// <param name="noteContentId">笔记内容id</param>
+        /// <param name="userId">操作者用户id</param>
+        /// <param name="noteTitle">笔记标题</param>
+        /// <param name="content">笔记内容</param>
+        /// <param name="isMarkdown">笔记内容格式</param>
+        /// <returns></returns>
+        public bool AddNote(long? repositoryId, long? notebookId, long? noteId, long? noteContentId, long? userId, string noteTitle, string content, bool isMarkdown,int usn)
+        {
+            NoteContent noteContent = new NoteContent()
+            {
+                NoteContentId = noteContentId,
+                Abstract = content,
+                Content = content,
+
+                UserId = userId,
+                NoteId = noteId,
+                CreatedTime = DateTime.Now,
+                UpdatedTime = DateTime.Now,
+                UpdatedUserId = userId,
+               
+            };
+            NoteContentService.AddNoteContent(noteContent);
+
+            var note = new Note()
+            {
+                NotebookId = notebookId,
+                NoteId = noteId,
+                ContentId = noteContentId,
+                Title = noteTitle,
+                UrlTitle = noteTitle,
+                NotesRepositoryId = repositoryId,
+                IsMarkdown = isMarkdown,
+                CreatedTime = DateTime.Now,
+                UserId = userId,
+                CreatedUserId = userId,
+                Desc = string.Empty,
+                Usn=usn,
+                Tags = Array.Empty<string>()
+            };
+            return this.AddNote(note);
         }
 
         public bool AddNote(Note note)
@@ -256,6 +306,11 @@ namespace MoreNote.Logic.Service
             afterUsn = UserService.IncrUsn(userId);
             note.Usn = afterUsn;
             return dataContext.SaveChanges() > 0;
+        }
+        public Note GetNote(long? noteId)
+        {
+            var result = dataContext.Note.Where(b => b.NoteId == noteId);
+            return result == null ? null : result.FirstOrDefault();
         }
 
         public Note GetNote(long? noteId, long? userId, bool IsTrash, bool isDelete)
@@ -490,13 +545,13 @@ namespace MoreNote.Logic.Service
                 .Where(b => b.NotebookId == notebookId && b.UserId == userId && b.IsDeleted == isDeleted && b.IsTrash == isTrash);
             return result.ToArray();
         }
+
         public Note[] ListTrashNotes(long? userId, bool isDeleted, bool isTrash)
         {
             var result = dataContext.Note
                 .Where(b => b.UserId == userId && b.IsDeleted == isDeleted && b.IsTrash == true);
             return result.ToArray();
         }
-
 
         // 列出note, 排序规则, 还有分页
         // CreatedTime, UpdatedTime, title 来排序
@@ -616,7 +671,7 @@ namespace MoreNote.Logic.Service
 
         public List<Note> GetNotChildrenByNotebookId(long? notebookId)
         {
-            var result=dataContext.Note.Where(b => b.NotebookId == notebookId).OrderBy(x=>x.Title).ToList<Note>();
+            var result = dataContext.Note.Where(b => b.NotebookId == notebookId).OrderBy(x => x.Title).ToList<Note>();
             return result;
         }
 
@@ -842,10 +897,9 @@ namespace MoreNote.Logic.Service
 
         public Note DeleteNote(long? noteId, int usn)
         {
-        
-            var note= dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+            var note = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
             note.IsDeleted = true;
-            note.Usn= usn;
+            note.Usn = usn;
             dataContext.SaveChanges();
 
             return note;
@@ -1030,9 +1084,9 @@ namespace MoreNote.Logic.Service
 
         // 这里要判断权限, 如果userId != updatedUserId, 那么需要判断权限
         // [ok] TODO perm还没测 [del]
-        public void UpdateNoteTitle( long? noteId, string title)
+        public void UpdateNoteTitle(long? noteId, string title)
         {
-            dataContext.Note.Where(b => b.NoteId == noteId ).UpdateFromQuery(c => new Note() { Title = title });
+            dataContext.Note.Where(b => b.NoteId == noteId).UpdateFromQuery(c => new Note() { Title = title });
             dataContext.SaveChanges();
         }
 
@@ -1197,6 +1251,7 @@ namespace MoreNote.Logic.Service
                                      && b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
             return list.ToArray();
         }
+
         /// <summary>
         /// 通过标题向量向量搜索笔记
         /// </summary>
@@ -1206,13 +1261,13 @@ namespace MoreNote.Logic.Service
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public Note[] SearchNoteByTitleVector(string key, long? userId, int pageNumber, int pageSize)
-        {
+        { 
             JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
             var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
             var list = dataContext.Note.Where(b => b.UserId == userId
                                      && b.IsTrash == false
                                      && b.IsDeleted == false
-                                     && b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
+                                     && b.TitleVector.Matches(query)).Skip(pageNumber * pageSize).Take(pageSize).ToList().OrderBy(b => b.CreatedTime);
             return list.ToArray();
         }
 
@@ -1223,9 +1278,10 @@ namespace MoreNote.Logic.Service
             var list = dataContext.Note.Where(b => b.NotesRepositoryId == noteRepositoryId
                                      && b.IsTrash == false
                                      && b.IsDeleted == false
-                                     && b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
+                                     && b.TitleVector.Matches(query)).Skip(pageNumber * pageSize).Take(pageSize).ToList().OrderBy(b => b.CreatedTime);
             return list.ToArray();
         }
+
         /// <summary>
         /// 通过标题向量和内容向量搜索笔记
         /// </summary>
@@ -1246,6 +1302,7 @@ namespace MoreNote.Logic.Service
                           select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
             return result;
         }
+
         /// <summary>
         /// 通过内容全文检索向量搜索笔记
         /// </summary>
@@ -1263,9 +1320,10 @@ namespace MoreNote.Logic.Service
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
                           && (_content.ContentVector.Matches(query))
-                          select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
+                          select _note).OrderByDescending(b => b.CreatedTime).Skip((pageNumber ) * 10).Take(pageSize).ToArray();
             return result;
         }
+
         public Note[] SearchRepositoryNoteByContentVector(string key, long? noteRepositoryId, int pageNumber, int pageSize)
         {
             JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
@@ -1275,9 +1333,10 @@ namespace MoreNote.Logic.Service
                           join _content in dataContext.NoteContent on _note.NoteId equals _content.NoteId
                           where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.NotesRepositoryId == noteRepositoryId
                           && (_content.ContentVector.Matches(query))
-                          select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
+                          select _note).OrderByDescending(b => b.CreatedTime).Skip((pageNumber ) * 10).Take(pageSize).ToArray();
             return result;
         }
+
         // 搜索noteContents, 补集pageSize个
         public Note[] searchNoteFromContent(Note[] notes, long? userId, string key, int pagSize, string sortField, bool isBlog)
         {
@@ -1333,9 +1392,6 @@ namespace MoreNote.Logic.Service
 
         // api
         [Obsolete]
-
-        // 得到笔记的内容, 此时将笔记内的链接转成标准的Leanote Url
-        // 将笔记的图片, 附件链接转换成 site.url/file/getImage?fileId=xxx,  site.url/file/getAttach?fileId=xxxx
         public string FixContentBad(string content, bool isMarkdown)
         {
             throw new Exception("废弃");
@@ -1464,13 +1520,11 @@ namespace MoreNote.Logic.Service
 
             return content;
         }
-        public void UpdateUsn(long? noteId,int usn)
+
+        public void UpdateUsn(long? noteId, int usn)
         {
-            dataContext.Note.Where(b=>b.NoteId==noteId).Update(b=>new Note() { Usn=usn});
+            dataContext.Note.Where(b => b.NoteId == noteId).Update(b => new Note() { Usn = usn });
             dataContext.SaveChanges();
-
-
         }
-      
     }
 }

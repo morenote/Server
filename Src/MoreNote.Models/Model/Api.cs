@@ -96,13 +96,31 @@ namespace MoreNote.Logic.Entity
     public class ApiRe
     {
         public long? Id { get; set; }//唯一标识（可选）
-        public DateTime? CreatedTime { get; set; } = DateTime.Now;//消息创建时间（可选）
+        public DateTime? Timestamp { get; set; } = DateTime.Now;//消息创建时间（可选）
         public bool Ok { get; set; }//消息状态  成功或失败
         public string Msg { get; set; }//提示信息或者错误信息，或者其他描述性辅助信息（可选）
         public int ErrorCode { get; set; }//错误代码
         public dynamic Data { get; set; }//返回的数据
+        public PageInfo  PageInfo { get; set; }//分页信息
+
+    }
+    /// <summary>
+    /// 分页信息
+    /// </summary>
+    public struct PageInfo
+    {
+        public int PageNumber { get; set; }//分页位置 从0开始 
+        public int PageSize { get; set; }//分页的大小,每页包含多少数据 
+        public int PageSum { get; set; }//一共有多少页
+
     }
 
+    public struct Sign
+    {
+
+        public string Pubk { get;set; }//签署者公钥
+           
+    }
     public class ApiStatusCode
     {
         public const int OK = 200;

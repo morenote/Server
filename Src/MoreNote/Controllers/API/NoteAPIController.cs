@@ -655,8 +655,7 @@ namespace MoreNote.Controllers.API.APIV1
             var noteId = SnowFlakeNet.GenerateSnowFlakeID();
             var noteContentId= SnowFlakeNet.GenerateSnowFlakeID();
             var content=isMarkdown? "欢迎使用markdown文档 power by vditor": "欢迎使用富文本文档 power by textbus";
-          
-
+            var usn = noteRepositoryService.IncrUsn(repositoryId);
 
             NoteContent noteContent=new NoteContent()
             {
@@ -686,6 +685,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UserId=user.UserId,
                 CreatedUserId=user.UserId,
                 Desc=string.Empty,
+                Usn=usn,
                 Tags=Array.Empty<string>()
 
             };
@@ -815,9 +815,10 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        [Route("Note/SearchNote")]
-        public IActionResult SearchRepositoryNote(string token, string noteRepositoryId,string key)
+      
+        public IActionResult SearchRepositoryNote(string token, string noteRepositoryId,string key,int index)
         {
+             var re=new ApiRe();
             /**
              * 默认：title搜索
              * 关键词&关键词：title搜索
@@ -831,7 +832,7 @@ namespace MoreNote.Controllers.API.APIV1
              * file：搜索包含制定附件名称的笔记
              * */
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiRe();
+        
             if (user == null)
             {
                 return LeanoteJson(re);
@@ -853,8 +854,67 @@ namespace MoreNote.Controllers.API.APIV1
             var notes2 = noteService.SearchRepositoryNoteByContentVector(key, repositor.Id, GetPage(), pageSize);
 
             var result = merge(notes1, notes2);
-            return Json(result, MyJsonConvert.GetLeanoteOptions());
+            re.Ok=true;
+            re.Data= result;
+            return LeanoteJson(re);
         }
+
+        /// <summary>
+        /// 拷贝笔记(不推荐使用)
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="noteId"></param>
+        /// <param name="parentNotebookId"></param>
+        /// <returns></returns>
+        public IActionResult Copy(string token,string  noteId,string targetParentNotebookId)
+        {
+
+            var user = tokenSerivce.GetUserByToken(token);
+            var re = new ApiRe();
+            if (user == null)
+            {
+                return LeanoteJson(re);
+            }
+
+            var note = noteService.GetNoteById(noteId.ToLongByHex());
+
+            var repositoryId = note.NotesRepositoryId;
+
+            var targetParentNotebook= notebookService.GetNotebookById(targetParentNotebookId.ToLongByHex());
+            //目标文件夹必必须位于同一个仓库中
+            if (targetParentNotebook.NotesRepositoryId!=repositoryId)
+            {
+                return LeanoteJson(re);
+            }
+            //操作者必须拥有写权限
+            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            //usn
+            var usn = noteRepositoryService.IncrUsn(repositoryId);
+
+            var noteContext=   noteContentService.GetValidNoteContent(note.NoteId);
+
+
+            var cloneNoteId = SnowFlakeNet.GenerateSnowFlakeID();
+            var cloneNoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
+            var cloneContent = noteContext.Content;
+
+            //添加新文件
+            this.noteService.AddNote(repositoryId,targetParentNotebook.NotebookId,cloneNoteId,cloneNoteContentId,user.UserId,note.Title,cloneContent,note.IsMarkdown,usn);
+
+            var cloneNote=this.noteService.GetNote(cloneNoteId);
+
+            re.Ok=true;
+            re.Data=cloneNote;
+
+            return LeanoteJson(re);
+
+        }
+
+
         private Note[] merge(Note[] notes1, Note[] notes2)
         {
             Dictionary<long?, Note> result = new Dictionary<long?, Note>(notes1.Length + notes2.Length);
