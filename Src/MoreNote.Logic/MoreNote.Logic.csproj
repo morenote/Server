@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	  <TargetFramework>net6.0</TargetFramework>
-	  <Platforms>AnyCPU;x64</Platforms>
+	  <Platforms>AnyCPU;x64;ARM64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,6 @@
 	  <!--谷歌两步验证-->
     <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="FaceRecognitionDotNet" Version="1.3.0.6" />
     <PackageReference Include="Fido2" Version="3.0.0-beta2" />
     <PackageReference Include="Fido2.AspNet" Version="3.0.0-beta2" />
     <PackageReference Include="Fido2.Models" Version="3.0.0-beta2" />
@@ -56,6 +55,10 @@
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Service\Security\Face\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,7 @@
 ﻿using FaceRecognitionDotNet;
+
+using MoreNote.Logic.Entity.ConfigFile;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +20,9 @@ namespace MoreNote.Logic.Service.Security.Face
         /// 容差阈值。如果比较面部的差距小于容差阈值则相同,否则不一样
         /// </summary>
         double tolerance = 0.2d;
-        public FaceService(ConfigFileService configFileService)
+        public FaceService(WebSiteConfig config)
         {
-            var config = configFileService.WebConfig.SecurityConfig.FaceConfig;
+            var config = config;
             this.directory = config.ModelFilesDirectory;
             this.tolerance = config.Tolerance;
         }
@@ -31,8 +34,8 @@ namespace MoreNote.Logic.Service.Security.Face
             using (FaceRecognition fr = FaceRecognition.Create(directory))
             {
 
-                using (Image imageA = FaceRecognition.LoadImageFile(@"E:\Share\WangXianQiang\Work\09Face\01.jpg"))
-                using (Image imageB = FaceRecognition.LoadImageFile(@"E:\Share\WangXianQiang\Work\09Face\03.jpg"))
+                using (Image imageA = FaceRecognition.LoadImageFile(@"E:\Share\01.jpg"))
+                using (Image imageB = FaceRecognition.LoadImageFile(@"E:\Share\03.jpg"))
                 {
 
                     IEnumerable<Location> locationsA = fr.FaceLocations(imageA);
