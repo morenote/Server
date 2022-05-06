@@ -66,8 +66,17 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: pass
-
-
+  elasticsearch:
+    restart: always
+    container_name:  elasticsearch
+    image: elasticsearch:8.2.0
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms128m -Xmx512m
+    
 
 
 

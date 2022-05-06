@@ -92,8 +92,9 @@ namespace MoreNote.Logic.Service
                     });
 
                     Console.WriteLine("Initialize the admin account");
+                    Console.WriteLine("Email=admin@morenote.top");
                     Console.WriteLine("username=admin");
-                    Console.WriteLine("password=admin123");
+                    Console.WriteLine($"password={pwd}");
                 }
                 else
                 {
