@@ -128,13 +128,13 @@ namespace MoreNote.Controllers
         /// <summary>
         /// 博客归档
         /// </summary>
-        /// <param name="blogUserName"></param>
+        /// <param name="repository">仓库id</param>
         /// <param name="archiveHex"></param>
         /// <returns></returns>
-        [Route("Blog/Archive/{blogUserName?}/{archiveHex?}")]
-        public IActionResult Archive(string blogUserName, string archiveHex)
+        [Route("Blog/{repository?}/Archive/{archiveHex?}")]
+        public IActionResult Archive(string repository, string archiveHex)
         {
-            User blogUser = ActionInitBlogUser(blogUserName);
+            User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
@@ -161,7 +161,7 @@ namespace MoreNote.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
 
-        [Route("Blog/Cate/{blogUserName?}/{cateHex?}/")]
+        [Route("Blog/{repository}/Cate/{cateHex}/")]
         public IActionResult Cate(string blogUserName, string cateHex, int page)
         {
             long? notebookId = cateHex.ToLongByHex();
@@ -196,12 +196,8 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Index/{blogUserIdHex}")]
-        [Route("Blog/{blogUserIdHex}")]
-
-        //[Authorize(Roles = "Admin,SuperAdmin")]
-        //[AllowAnonymous]
-        //[Authorize(Policy = "EmployeeOnly")]
+     
+        [Route("Blog/{repository}/{page?}")]
 
         public IActionResult Index(string blogUserIdHex, int page)
         {
@@ -251,7 +247,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Post/{noteIdHex}/")]
+        [Route("Blog/{repository}/Post/{noteIdHex}/")]
         public IActionResult Post1(string noteIdHex)
         {
             long? noteId = noteIdHex.ToLongByHex();
@@ -260,8 +256,8 @@ namespace MoreNote.Controllers
             return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
         }
 
-        //[Authorize(Policy = "guest")]
-        [Route("Blog/Post/{blogUserName}/{noteIdHex}/")]
+      
+        [Route("Blog/{repository}/Post/{noteIdHex}/")]
         public async Task<IActionResult> PostAsync(string blogUserName, string noteIdHex)
         {
             //添加访问日志
@@ -343,7 +339,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Tags/{blogUserName?}/")]
+        [Route("Blog/{repository}/Tags/")]
         public IActionResult Tags(string blogUserName)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -363,7 +359,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Search/{blogUserIdHex?}/{keywords?}/")]
+        [Route("Blog/{repository}/Search/{keywords?}/")]
         public IActionResult Search(string blogUserIdHex, string keywords, int page)
         {
             if (page < 1)
@@ -423,7 +419,7 @@ namespace MoreNote.Controllers
 
         }
 
-        [Route("Blog/Single/{blogUserName?}/{SingleIdHex?}/")]
+        [Route("Blog/{repository}/Single/{SingleIdHex}/")]
         public IActionResult Single(string blogUserName, string SingleIdHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -439,7 +435,7 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/Tags_Posts/{blogUserName?}/{tag?}/")]
+        [Route("Blog/{repository}/Tags_Posts/{tag}/")]
         public IActionResult Tags_Posts(string blogUserName, string tag, int page)
         {
             if (page < 1)
@@ -534,7 +530,6 @@ namespace MoreNote.Controllers
             UserBlog userBlog = blogService.GetUserBlog(userInfo.UserId);
             return BlogCommon(userInfo.UserId, userBlog, userInfo);
         }
-
         public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo)
         {
             if (userInfo.UserId == 0)
@@ -565,7 +560,6 @@ namespace MoreNote.Controllers
 
             return null;
         }
-
         public void SetBlog(UserBlog userBlog, User userInfo)
         {
             BlogInfo blogInfo = blogService.GetBlogInfo(userBlog, userInfo);
