@@ -75,7 +75,7 @@ services:
       - 9300:9300
     environment:
       discovery.type: single-node
-      ES_JAVA_OPTS: -Xms128m -Xmx512m
+      ES_JAVA_OPTS: -Xms128m -Xmx1g
     
 
 
