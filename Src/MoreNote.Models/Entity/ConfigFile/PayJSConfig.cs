@@ -17,6 +17,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public String PayJS_MCHID { get; set; }
         //密钥
         public String PayJS_Key { get; set; }
+        //回调ID
+        public string Notify_Url { get; set; }
+
+
         public static PayJSConfig GenerateTemplate()
         {
             PayJSConfig payJSConfig=new PayJSConfig()

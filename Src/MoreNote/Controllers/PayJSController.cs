@@ -19,7 +19,7 @@ using System.Net;
 
 namespace MoreNote.Controllers
 {
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    
     public class PayJSController : BaseController
     {
         private DataContext dataContext;
@@ -58,7 +58,7 @@ namespace MoreNote.Controllers
                 out_trade_no = id.ToString(),
                 body = "test",
                 attch = "userid",
-                notify_url = "http://frp.morenote.top:7001/PayJS/AsyncNotification"
+                notify_url = webSiteConfig.Payjs.Notify_Url
             };
 
             var responseMessage = pay.native(nativeRequestMessage);
