@@ -29,7 +29,7 @@ namespace MoreNote.Logic.Service
         // 添加笔记时通过title得到urlTitle
         public  string fixUrlTitle(string urlTitle)
         {
-          return SnowFlakeNet.GenerateSnowFlakeIDHex();
+          return SnowFlakeNetService.GenerateSnowFlakeIDHex();
         }
         public  string getUniqueUrlTitle(long? userId,string urlTitle,string types,int padding)
         {

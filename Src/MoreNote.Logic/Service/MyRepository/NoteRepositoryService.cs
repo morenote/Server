@@ -111,7 +111,7 @@ namespace MoreNote.Logic.Service.MyRepository
         
             var addNoteRepositoryService = new NotesRepository()
             {
-                Id = SnowFlakeNet.GenerateSnowFlakeID(),
+                Id = SnowFlakeNetService.GenerateSnowFlakeID(),
                 Name = notesRepository.Name,
                 Description = notesRepository.Description,
                 License = notesRepository.License,

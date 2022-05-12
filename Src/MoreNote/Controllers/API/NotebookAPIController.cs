@@ -146,7 +146,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 Notebook notebook = new Notebook()
                 {
-                    NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
+                    NotebookId = SnowFlakeNetService.GenerateSnowFlakeID(),
                     Title = title,
                     Seq = seq,
                     UserId = user.UserId,
@@ -357,7 +357,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var notebook = new Notebook()
             {
-                NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
+                NotebookId = SnowFlakeNetService.GenerateSnowFlakeID(),
                 NotesRepositoryId = repositoryId,
                 Seq = 0,
                 UserId = user.UserId,

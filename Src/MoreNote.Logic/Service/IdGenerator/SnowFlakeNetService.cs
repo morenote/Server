@@ -5,19 +5,19 @@ using System.Dynamic;
 using System.Text;
 
 using MoreNote.Common.ExtensionMethods;
-
+using MoreNote.Logic.Service.IdGenerator;
 using Snowflake.Core;
 
 namespace MoreNote.Common.Utils
 {
-    public class SnowFlakeNet
+    public class SnowFlakeNetService: IdGeneratorInterface
     {
         private static IdWorker worker = null;
        
        // 定义一个标识确保线程同步
         private static readonly object locker = new object();
         // 定义私有构造函数，使外界不能创建该类实例
-        private SnowFlakeNet()
+        private SnowFlakeNetService()
         {
             if (worker == null)
             {

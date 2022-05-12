@@ -139,7 +139,7 @@ namespace MoreNote.Logic.Service
 
             var insertNoteConext = new NoteContent()
             {
-                NoteContentId = SnowFlakeNet.GenerateSnowFlakeID(),
+                NoteContentId = SnowFlakeNetService.GenerateSnowFlakeID(),
                 NoteId = noteId,
                 UserId = userId,
                 IsBlog = noteContext == null ? noteContext.IsBlog : false,
@@ -167,7 +167,7 @@ namespace MoreNote.Logic.Service
             {
                 //新增笔记内容，需要将上一个笔记设置为历史笔记
                 dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).Update(x => new NoteContent() { IsHistory = true });
-                contentId = SnowFlakeNet.GenerateSnowFlakeID();
+                contentId = SnowFlakeNetService.GenerateSnowFlakeID();
                 NoteContent contentNew = new NoteContent()
                 {
                     NoteContentId = contentId,

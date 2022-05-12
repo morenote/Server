@@ -105,7 +105,7 @@ namespace MoreNote.Controllers
         private async System.Threading.Tasks.Task<ResponseMessage> uploadImage(string from, long? albumId)
         {
             var fileUrlPath = string.Empty;
-            long? fileId = SnowFlakeNet.GenerateSnowFlakeID();
+            long? fileId = SnowFlakeNetService.GenerateSnowFlakeID();
             var resultCode = 0;  // 1表示正常
             var resultMsg = "error";
             var Ok = false;

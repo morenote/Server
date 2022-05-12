@@ -162,7 +162,7 @@ namespace MoreNote.Controllers
             string remotePort = Request.HttpContext.Connection.RemotePort.ToString();
             AccessRecords accessRecords = new AccessRecords()
             {
-                AccessId = SnowFlakeNet.GenerateSnowFlakeID(),
+                AccessId = SnowFlakeNetService.GenerateSnowFlakeID(),
                 IP = RealIP,
                 X_Real_IP = headers["X-Real-IP"],
                 X_Forwarded_For = headers["X-Forwarded-For"],

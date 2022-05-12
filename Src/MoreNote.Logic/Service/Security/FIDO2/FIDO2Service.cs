@@ -132,7 +132,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             }
             var fido2 = new FIDO2Item()
             {
-                Id = SnowFlakeNet.GenerateSnowFlakeID(),
+                Id = SnowFlakeNetService.GenerateSnowFlakeID(),
                 UserId = user.UserId,
                 FIDO2Name = fido2Name,
                 CredentialId = success.Result.CredentialId,

@@ -184,7 +184,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
-            long? noteId = SnowFlakeNet.GenerateSnowFlakeID();
+            long? noteId = SnowFlakeNetService.GenerateSnowFlakeID();
 
             if (noteOrContent.Title == null)
             {
@@ -268,7 +268,7 @@ namespace MoreNote.Controllers.API.APIV1
                 AttachNum = attachNum,
                 CreatedTime = noteOrContent.CreatedTime,
                 UpdatedTime = noteOrContent.UpdatedTime,
-                ContentId = SnowFlakeNet.GenerateSnowFlakeID()
+                ContentId = SnowFlakeNetService.GenerateSnowFlakeID()
             };
 
             //-------------新增笔记内容对象
@@ -652,8 +652,8 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var noteId = SnowFlakeNet.GenerateSnowFlakeID();
-            var noteContentId= SnowFlakeNet.GenerateSnowFlakeID();
+            var noteId = SnowFlakeNetService.GenerateSnowFlakeID();
+            var noteContentId= SnowFlakeNetService.GenerateSnowFlakeID();
             var content=isMarkdown? "欢迎使用markdown文档 power by vditor": "欢迎使用富文本文档 power by textbus";
             var usn = noteRepositoryService.IncrUsn(repositoryId);
 
@@ -753,7 +753,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var des=MyHtmlHelper.SubHTMLToRaw(content, 200);
 
-            var noteContentId = SnowFlakeNet.GenerateSnowFlakeID();
+            var noteContentId = SnowFlakeNetService.GenerateSnowFlakeID();
 
             NoteContent noteContent = new NoteContent()
             {
@@ -898,8 +898,8 @@ namespace MoreNote.Controllers.API.APIV1
             var noteContext=   noteContentService.GetValidNoteContent(note.NoteId);
 
 
-            var cloneNoteId = SnowFlakeNet.GenerateSnowFlakeID();
-            var cloneNoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
+            var cloneNoteId = SnowFlakeNetService.GenerateSnowFlakeID();
+            var cloneNoteContentId = SnowFlakeNetService.GenerateSnowFlakeID();
             var cloneContent = noteContext.Content;
 
             //添加新文件

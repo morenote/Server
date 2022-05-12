@@ -120,7 +120,7 @@ namespace MoreNote.Controllers.API
                 var userId = user.UserId;
                 var notebook = new Notebook()
                 {
-                    NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
+                    NotebookId = SnowFlakeNetService.GenerateSnowFlakeID(),
                     NotesRepositoryId=result.Id,
                     Seq = 0,
                     UserId = userId,

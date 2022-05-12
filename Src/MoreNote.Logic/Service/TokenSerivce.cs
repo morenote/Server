@@ -31,12 +31,12 @@ namespace MoreNote.Logic.Service
         }
         public Token GenerateToken(User user)
         {
-            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+            long? tokenid = SnowFlakeNetService.GenerateSnowFlakeID();
             //生成token的数据
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
-                TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
+                TokenId = SnowFlakeNetService.GenerateSnowFlakeID(),
                 UserId = user.UserId,
                 Email = user.Email,
                 TokenStr = tokenContext,
@@ -53,7 +53,7 @@ namespace MoreNote.Logic.Service
         {
             StringBuilder tokenBuilder = new StringBuilder();
 
-            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+            long? tokenid = SnowFlakeNetService.GenerateSnowFlakeID();
             tokenBuilder.Append(tokenid.ToHex24());
             tokenBuilder.Append("@");
             tokenBuilder.Append(RandomTool.CreatRandomString(16));
@@ -216,11 +216,11 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public Token GenerateToken()
         {
-            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+            long? tokenid = SnowFlakeNetService.GenerateSnowFlakeID();
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
-                TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
+                TokenId = SnowFlakeNetService.GenerateSnowFlakeID(),
 
                 TokenStr = tokenContext,
                 TokenType = 0,

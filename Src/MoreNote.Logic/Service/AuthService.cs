@@ -54,12 +54,12 @@ namespace MoreNote.Logic.Service
                 var result = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
                 if (result)
                 {
-                    long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+                    long? tokenid = SnowFlakeNetService.GenerateSnowFlakeID();
                     //生成token的数据
                     var tokenContext= TokenSerivce.GenerateTokenContext(tokenid);
                     Token myToken = new Token
                     {
-                        TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
+                        TokenId = SnowFlakeNetService.GenerateSnowFlakeID(),
                         UserId = user.UserId,
                         Email = user.Email,
                         TokenStr = tokenContext,
@@ -165,7 +165,7 @@ namespace MoreNote.Logic.Service
                 Msg="密码处理过程出现错误";
                 return false;
             }
-            var userId=SnowFlakeNet.GenerateSnowFlakeID();
+            var userId=SnowFlakeNetService.GenerateSnowFlakeID();
             //生成一个新用户
             User user = new User()
             {
@@ -214,7 +214,7 @@ namespace MoreNote.Logic.Service
                     var userId = user.UserId;
                     var notebook = new Notebook()
                     {
-                        NotebookId = SnowFlakeNet.GenerateSnowFlakeID(),
+                        NotebookId = SnowFlakeNetService.GenerateSnowFlakeID(),
                         Seq = 0,
                         UserId = userId,
                         CreatedTime = DateTime.Now,

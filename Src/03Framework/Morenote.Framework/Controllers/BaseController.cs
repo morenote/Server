@@ -398,7 +398,7 @@ namespace MoreNote.Framework.Controllers
             serverFileId = 0;
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = SnowFlakeNetService.GenerateSnowFlakeID();
             serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             //检查是否登录
@@ -519,7 +519,7 @@ namespace MoreNote.Framework.Controllers
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = SnowFlakeNetService.GenerateSnowFlakeID();
             serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             //检查是否登录
@@ -604,7 +604,7 @@ namespace MoreNote.Framework.Controllers
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = SnowFlakeNetService.GenerateSnowFlakeID();
 
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             if (httpFiles == null || httpFiles.Count < 1)
@@ -719,7 +719,7 @@ namespace MoreNote.Framework.Controllers
             FileStoreConfig fileStoreConfig = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = SnowFlakeNetService.GenerateSnowFlakeID();
 
             string uploadType = "images";//images  attachments
             string datafileName = fileModel.fileName;

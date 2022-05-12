@@ -112,7 +112,7 @@ namespace MoreNote.Logic.Service
 
         public bool AddUser(User user)
         {
-            if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
+            if (user.UserId == 0) user.UserId = SnowFlakeNetService.GenerateSnowFlakeID();
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);
@@ -221,7 +221,7 @@ namespace MoreNote.Logic.Service
 
         public bool AddBlogUser(UserBlog user)
         {
-            if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
+            if (user.UserId == 0) user.UserId = SnowFlakeNetService.GenerateSnowFlakeID();
             dataContext.UserBlog.Add(user);
             return dataContext.SaveChanges() > 0;
         }

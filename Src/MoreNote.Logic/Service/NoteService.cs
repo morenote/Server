@@ -712,7 +712,7 @@ namespace MoreNote.Logic.Service
         {
             if (note.NoteId == null)
             {
-                note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
+                note.NoteId = SnowFlakeNetService.GenerateSnowFlakeID();
             }
 
             // 关于创建时间, 可能是客户端发来, 此时判断时间是否有
@@ -765,11 +765,11 @@ namespace MoreNote.Logic.Service
         {
             if (note.NoteId == null)
             {
-                note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
+                note.NoteId = SnowFlakeNetService.GenerateSnowFlakeID();
             }
             if (noteContent.NoteContentId == null)
             {
-                noteContent.NoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
+                noteContent.NoteContentId = SnowFlakeNetService.GenerateSnowFlakeID();
             }
             noteContent.NoteId = note.NoteId;
             if (note.UserId != null && note.UserId != myUserId)
