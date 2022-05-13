@@ -9,6 +9,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.PasswordSecurity;
 
 namespace MoreNote.Logic.Service
@@ -22,9 +23,10 @@ namespace MoreNote.Logic.Service
         private IPasswordStore passwordStore { get;set;}
         public NotebookService NotebookService { get;set;}
         private WebSiteConfig config;
-        
-        public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService,ConfigFileService configFileService)
+        private IDistributedIdGenerator idGenerator;
+        public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService,ConfigFileService configFileService,IDistributedIdGenerator idGenerator)
         {
+            this.idGenerator=idGenerator;
             this.dataContext=dataContext;
             this.passwordStore=passwordStore;
             this.NotebookService=notebookService;
@@ -54,12 +56,12 @@ namespace MoreNote.Logic.Service
                 var result = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
                 if (result)
                 {
-                    long? tokenid = SnowFlakeNetService.GenerateSnowFlakeID();
+                    long? tokenid = idGenerator.NextId();
                     //生成token的数据
                     var tokenContext= TokenSerivce.GenerateTokenContext(tokenid);
                     Token myToken = new Token
                     {
-                        TokenId = SnowFlakeNetService.GenerateSnowFlakeID(),
+                        TokenId = idGenerator.NextId(),
                         UserId = user.UserId,
                         Email = user.Email,
                         TokenStr = tokenContext,
@@ -165,7 +167,7 @@ namespace MoreNote.Logic.Service
                 Msg="密码处理过程出现错误";
                 return false;
             }
-            var userId=SnowFlakeNetService.GenerateSnowFlakeID();
+            var userId=idGenerator.NextId();
             //生成一个新用户
             User user = new User()
             {
@@ -214,7 +216,7 @@ namespace MoreNote.Logic.Service
                     var userId = user.UserId;
                     var notebook = new Notebook()
                     {
-                        NotebookId = SnowFlakeNetService.GenerateSnowFlakeID(),
+                        NotebookId = idGenerator.NextId(),
                         Seq = 0,
                         UserId = userId,
                         CreatedTime = DateTime.Now,

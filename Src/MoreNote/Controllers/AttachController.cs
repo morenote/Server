@@ -43,7 +43,7 @@ namespace MoreNote.Controllers
         {
             // var xxx= _accessor.HttpContext.Request.Form["noteId"];
             var id = noteId.ToLongByHex();
-            long? fileId = SnowFlakeNetService.GenerateSnowFlakeID();
+            long? fileId = idGenerator.NextId();
             var resultMsg = "error"; // 错误信息
             var userId = GetUserIdBySession();
             var Ok = false;

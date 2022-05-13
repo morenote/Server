@@ -14,6 +14,7 @@ using MoreNote.Models.Enum;
 
 using System;
 using System.Collections.Generic;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -37,10 +38,10 @@ namespace MoreNote.Controllers.API.APIV1
             NoteService noteService,
 
 
-            ILoggingService loggingService
-            , OrganizationMemberRoleService repositoryMemberRoleService
-            , NoteRepositoryService noteRepositoryService)
-            :
+            ILoggingService loggingService,
+             OrganizationMemberRoleService repositoryMemberRoleService,
+             NoteRepositoryService noteRepositoryService
+           ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
         {
             this.notebookService = notebookService;
@@ -146,7 +147,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 Notebook notebook = new Notebook()
                 {
-                    NotebookId = SnowFlakeNetService.GenerateSnowFlakeID(),
+                    NotebookId = idGenerator.NextId(),
                     Title = title,
                     Seq = seq,
                     UserId = user.UserId,
@@ -357,7 +358,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var notebook = new Notebook()
             {
-                NotebookId = SnowFlakeNetService.GenerateSnowFlakeID(),
+                NotebookId = idGenerator.NextId(),
                 NotesRepositoryId = repositoryId,
                 Seq = 0,
                 UserId = user.UserId,

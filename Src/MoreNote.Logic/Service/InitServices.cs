@@ -3,15 +3,17 @@ using MoreNote.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Logic.Service
 {
    public  class InitServices
-    {
+   {
+       private IDistributedIdGenerator idGenerator;
         // onAppStart调用
-        public  void InitService()
+        public  void InitService(IDistributedIdGenerator  idGenerator)
         {
-            throw new Exception();
+            this.idGenerator=idGenerator;
         }
         //----------------
         // service 公用方法
@@ -29,7 +31,7 @@ namespace MoreNote.Logic.Service
         // 添加笔记时通过title得到urlTitle
         public  string fixUrlTitle(string urlTitle)
         {
-          return SnowFlakeNetService.GenerateSnowFlakeIDHex();
+          return idGenerator.NextHexId();
         }
         public  string getUniqueUrlTitle(long? userId,string urlTitle,string types,int padding)
         {

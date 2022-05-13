@@ -15,11 +15,11 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void AddTest()
         {
-            //Notebook notebook1 = new Notebook() { NotebookId = SnowFlake_Net.GenerateSnowFlakeID() };
+            //Notebook notebook1 = new Notebook() { NotebookId = SnowFlake_Net.NextId() };
 
-            //Notebook notebook2 = new Notebook() { NotebookId = SnowFlake_Net.GenerateSnowFlakeID() };
+            //Notebook notebook2 = new Notebook() { NotebookId = SnowFlake_Net.NextId() };
 
-            //Notebook notebook3 = new Notebook() { NotebookId = SnowFlake_Net.GenerateSnowFlakeID() };
+            //Notebook notebook3 = new Notebook() { NotebookId = SnowFlake_Net.NextId() };
             //notebook2.ParentNotebookId = notebook1.NotebookId;
             //notebook3.ParentNotebookId = notebook1.NotebookId;
 
