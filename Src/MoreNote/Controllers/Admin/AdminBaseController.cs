@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Controllers.Admin
 {
@@ -19,6 +20,7 @@ namespace MoreNote.Controllers.Admin
               , ConfigFileService configFileService
               , IHttpContextAccessor accessor
                ,ILoggingService loggingService
+             
               ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
         {
         }

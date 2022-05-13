@@ -13,6 +13,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using UpYunLibrary;
 
 namespace MoreNoteWorkerService
@@ -42,9 +43,10 @@ namespace MoreNoteWorkerService
         }
        
         Random random = new Random();
-       
-        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger, RandomImageService randomImageService, ConfigFileService configFileService)
+        private IDistributedIdGenerator idGenerator;
+        public RandomImagesCrawlerWorker(ILogger<RandomImagesCrawlerWorker> logger, RandomImageService randomImageService, ConfigFileService configFileService, IDistributedIdGenerator idGenerator)
         {
+            this.idGenerator=idGenerator;
             _logger = logger;
             this.randomImageService= randomImageService;
             this.configFileService= configFileService;
@@ -139,7 +141,7 @@ namespace MoreNoteWorkerService
                 upyun.WriteFile($"/upload/{SHAEncryptHelper.MD5Encrypt(type)}/{fileSHA1}{Path.GetExtension(name)}", imageBytes, true);
                 RandomImage randomImage = new RandomImage()
                 {
-                    RandomImageId = SnowFlakeNet.GenerateSnowFlakeID(),
+                    RandomImageId = idGenerator.NextId(),
                     TypeName = type,
                     TypeNameMD5 = SHAEncryptHelper.MD5Encrypt(type),
                     TypeNameSHA1 = SHAEncryptHelper.Hash1Encrypt(type),

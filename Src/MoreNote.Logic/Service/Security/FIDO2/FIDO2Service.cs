@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using static Fido2NetLib.Fido2;
 
 namespace MoreNote.Logic.Security.FIDO2.Service
@@ -31,14 +32,15 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         private WebSiteConfig config;
         private FIDO2Config fido2Config;
         private IDistributedCache cache;//缓存数据库
-
+        private IDistributedIdGenerator IdGenerator; 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dataContext"></param>
         /// <param name="configFileService"></param>
-        public FIDO2Service(DataContext dataContext, IDistributedCache distributedCache, ConfigFileService configFileService, IFido2 fido2)
+        public FIDO2Service(DataContext dataContext, IDistributedCache distributedCache, ConfigFileService configFileService, IFido2 fido2,IDistributedIdGenerator IdGenerator)
         {
+            this.IdGenerator=IdGenerator;
             this.dataContext = dataContext;
             this.cache = distributedCache;
             this.config = configFileService.WebConfig;
@@ -132,7 +134,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             }
             var fido2 = new FIDO2Item()
             {
-                Id = SnowFlakeNet.GenerateSnowFlakeID(),
+                Id = IdGenerator.NextId(),
                 UserId = user.UserId,
                 FIDO2Name = fido2Name,
                 CredentialId = success.Result.CredentialId,

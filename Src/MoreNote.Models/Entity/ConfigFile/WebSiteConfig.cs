@@ -20,6 +20,8 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public MinIOConfig MinIOConfig { get;set;}=new MinIOConfig();
         public RedisConfig RedisConfig{get;set;}=new RedisConfig();
 
+        public  IdGeneratorConfig IdGeneratorConfig { get; set; }=new IdGeneratorConfig();
+
         public WebSiteConfig()
         {
 

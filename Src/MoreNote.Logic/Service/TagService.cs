@@ -5,6 +5,7 @@ using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Logic.Service
 {
@@ -13,9 +14,10 @@ namespace MoreNote.Logic.Service
         private DataContext dataContext;
         public NoteService NoteService { get; set; }
         public UserService UserService { get; set; }
-
-        public TagService(DataContext dataContext)
+        private IDistributedIdGenerator idGenerator;
+        public TagService(DataContext dataContext,IDistributedIdGenerator idGenerator)
         {
+            this.idGenerator=idGenerator;
             this.dataContext = dataContext;
         }
 
@@ -89,7 +91,7 @@ namespace MoreNote.Logic.Service
             var timeNow = DateTime.Now;
             noteTag = new NoteTag()
             {
-                TagId = SnowFlakeNet.GenerateSnowFlakeID(),
+                TagId = idGenerator.NextId(),
                 Count = 1,
                 Tag = tag,
                 UserId = userId,
@@ -205,7 +207,7 @@ namespace MoreNote.Logic.Service
         {
             if (noteTag.TagId == 0)
             {
-                noteTag.TagId = SnowFlakeNet.GenerateSnowFlakeID();
+                noteTag.TagId = idGenerator.NextId();
             }
 
             var result = dataContext.NoteTag.Add(noteTag);

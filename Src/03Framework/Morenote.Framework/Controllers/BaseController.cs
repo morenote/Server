@@ -18,6 +18,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using MoreNote.Logic.Property;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Framework.Controllers
 {
@@ -58,14 +60,19 @@ namespace MoreNote.Framework.Controllers
        
         public ILoggingService LoggingService;
 
+        [Autowired]
+        protected IDistributedIdGenerator idGenerator { get; set; }
+
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor
-            , ILoggingService loggingService)
+            , ILoggingService loggingService
+            )
         {
+           
             this.attachService = attachService;
             this.tokenSerivce = tokenSerivce;
             this.noteFileService = noteFileService;
@@ -398,7 +405,7 @@ namespace MoreNote.Framework.Controllers
             serverFileId = 0;
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = idGenerator.NextId();
             serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             //检查是否登录
@@ -519,7 +526,7 @@ namespace MoreNote.Framework.Controllers
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = idGenerator.NextId();
             serverFileId = diskFileId;
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             //检查是否登录
@@ -604,7 +611,7 @@ namespace MoreNote.Framework.Controllers
             FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = idGenerator.NextId();
 
             var httpFiles = _accessor.HttpContext.Request.Form.Files;
             if (httpFiles == null || httpFiles.Count < 1)
@@ -669,7 +676,7 @@ namespace MoreNote.Framework.Controllers
                         }
                         else
                         {
-                            uploadData.succMap.Add(httpFile.FileName, "/api/file/getImage?fileId=" + diskFileId.ToHex24());
+                            uploadData.succMap.Add(httpFile.FileName, "/api/file/getImage?fileId=" + diskFileId.ToHex());
                         }
                     }
                     else
@@ -719,7 +726,7 @@ namespace MoreNote.Framework.Controllers
             FileStoreConfig fileStoreConfig = configFileService.WebConfig.FileStoreConfig;
             string uploadDirPath = null;
 
-            var diskFileId = SnowFlakeNet.GenerateSnowFlakeID();
+            var diskFileId = idGenerator.NextId();
 
             string uploadType = "images";//images  attachments
             string datafileName = fileModel.fileName;
@@ -779,7 +786,7 @@ namespace MoreNote.Framework.Controllers
                     }
                     else
                     {
-                        resultURL = webSiteConfig.APPConfig.SiteUrl+"/api/file/getImage?fileId=" + diskFileId.ToHex24();
+                        resultURL = webSiteConfig.APPConfig.SiteUrl+"/api/file/getImage?fileId=" + diskFileId.ToHex();
                     }
                 }
                 else

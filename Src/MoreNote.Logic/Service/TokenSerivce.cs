@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Logic.Service
 {
@@ -14,9 +15,11 @@ namespace MoreNote.Logic.Service
     {
         private DataContext dataContext;
         private WebSiteConfig config;
-
-        public TokenSerivce(DataContext dataContext, ConfigFileService configFileService)
+        private IDistributedIdGenerator idGenerator;
+        public TokenSerivce(DataContext dataContext, ConfigFileService configFileService, IDistributedIdGenerator idGenerator)
         {
+            this.idGenerator=  idGenerator;
+            
             this.dataContext = dataContext;
             this.config = configFileService.WebConfig;
         }
@@ -31,12 +34,12 @@ namespace MoreNote.Logic.Service
         }
         public Token GenerateToken(User user)
         {
-            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+            long? tokenid = idGenerator.NextId();
             //生成token的数据
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
-                TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
+                TokenId = idGenerator.NextId(),
                 UserId = user.UserId,
                 Email = user.Email,
                 TokenStr = tokenContext,
@@ -48,20 +51,7 @@ namespace MoreNote.Logic.Service
         }
 
 
-        [Obsolete]
-        private static string GenerateToken24()
-        {
-            StringBuilder tokenBuilder = new StringBuilder();
-
-            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
-            tokenBuilder.Append(tokenid.ToHex24());
-            tokenBuilder.Append("@");
-            tokenBuilder.Append(RandomTool.CreatRandomString(16));
-            tokenBuilder.Append("@");
-            tokenBuilder.Append(DateTime.Now);
-            var token = Base64Util.ToBase64String(tokenBuilder.ToString());
-            return token;
-        }
+ 
 
         /// <summary>
         /// 产生不可预测的Token
@@ -216,11 +206,11 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public Token GenerateToken()
         {
-            long? tokenid = SnowFlakeNet.GenerateSnowFlakeID();
+            long? tokenid = idGenerator.NextId();
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
-                TokenId = SnowFlakeNet.GenerateSnowFlakeID(),
+                TokenId = idGenerator.NextId(),
 
                 TokenStr = tokenContext,
                 TokenType = 0,

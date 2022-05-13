@@ -11,6 +11,7 @@ namespace MoreNote.Logic.Service.Tests
     [TestClass()]
     public class ThemeServiceTests
     {
+
         [TestMethod()]
         public void GetURLsTest()
         {
@@ -22,8 +23,8 @@ namespace MoreNote.Logic.Service.Tests
         public void InsertThemeTest()
         {
             //Theme theme = new Theme();
-            //theme.ThemeId = SnowFlake_Net.GenerateSnowFlakeID();
-            //// theme.FriendLinksArray =new FriendLinks[]{ new FriendLinks() {FriendLinksId= SnowFlake_Net.GenerateSnowFlakeID() ,Title="A",Url="A"} };
+            //theme.ThemeId = SnowFlake_Net.NextId();
+            //// theme.FriendLinksArray =new FriendLinks[]{ new FriendLinks() {FriendLinksId= SnowFlake_Net.NextId() ,Title="A",Url="A"} };
             //ThemeService.InsertTheme(theme);
             //Assert.Fail();
         }
@@ -31,11 +32,7 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void InsertURLTest()
         {
-            FriendLinks friendLinks = new FriendLinks();
-            friendLinks.FriendLinksId = SnowFlakeNet.GenerateSnowFlakeID();
-            friendLinks.ThemeId = SnowFlakeNet.GenerateSnowFlakeID();
-            friendLinks.Title = "标题1";
-            friendLinks.Title = "标题2";
+            
             //Assert.Fail();
         }
     }

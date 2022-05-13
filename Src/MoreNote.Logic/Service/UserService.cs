@@ -10,6 +10,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Security.FIDO2;
@@ -23,9 +24,11 @@ namespace MoreNote.Logic.Service
         public BlogService BlogService { get; set; }
         public EmailService EmailService { get; set; }
         public WebSiteConfig Config { get; set; }
+        private IDistributedIdGenerator idGenerator;
 
-        public UserService(DataContext dataContext, ConfigFileService configFileService)
+        public UserService(DataContext dataContext,IDistributedIdGenerator idGenerator, ConfigFileService configFileService)
         {
+            this.idGenerator=idGenerator;
             this.dataContext = dataContext;
             this.Config = configFileService.WebConfig;
         }
@@ -112,7 +115,7 @@ namespace MoreNote.Logic.Service
 
         public bool AddUser(User user)
         {
-            if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
+            if (user.UserId == 0) user.UserId = idGenerator.NextId();
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);
@@ -221,7 +224,7 @@ namespace MoreNote.Logic.Service
 
         public bool AddBlogUser(UserBlog user)
         {
-            if (user.UserId == 0) user.UserId = SnowFlakeNet.GenerateSnowFlakeID();
+            if (user.UserId == 0) user.UserId = idGenerator.NextId();
             dataContext.UserBlog.Add(user);
             return dataContext.SaveChanges() > 0;
         }

@@ -184,7 +184,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
-            long? noteId = SnowFlakeNet.GenerateSnowFlakeID();
+            long? noteId = idGenerator.NextId();
 
             if (noteOrContent.Title == null)
             {
@@ -268,7 +268,7 @@ namespace MoreNote.Controllers.API.APIV1
                 AttachNum = attachNum,
                 CreatedTime = noteOrContent.CreatedTime,
                 UpdatedTime = noteOrContent.UpdatedTime,
-                ContentId = SnowFlakeNet.GenerateSnowFlakeID()
+                ContentId = idGenerator.NextId()
             };
 
             //-------------新增笔记内容对象
@@ -652,8 +652,8 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var noteId = SnowFlakeNet.GenerateSnowFlakeID();
-            var noteContentId= SnowFlakeNet.GenerateSnowFlakeID();
+            var noteId = idGenerator.NextId();
+            var noteContentId= idGenerator.NextId();
             var content=isMarkdown? "欢迎使用markdown文档 power by vditor": "欢迎使用富文本文档 power by textbus";
             var usn = noteRepositoryService.IncrUsn(repositoryId);
 
@@ -753,7 +753,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var des=MyHtmlHelper.SubHTMLToRaw(content, 200);
 
-            var noteContentId = SnowFlakeNet.GenerateSnowFlakeID();
+            var noteContentId = idGenerator.NextId();
 
             NoteContent noteContent = new NoteContent()
             {
@@ -898,8 +898,8 @@ namespace MoreNote.Controllers.API.APIV1
             var noteContext=   noteContentService.GetValidNoteContent(note.NoteId);
 
 
-            var cloneNoteId = SnowFlakeNet.GenerateSnowFlakeID();
-            var cloneNoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
+            var cloneNoteId = idGenerator.NextId();
+            var cloneNoteContentId = idGenerator.NextId();
             var cloneContent = noteContext.Content;
 
             //添加新文件

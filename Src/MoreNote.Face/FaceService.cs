@@ -20,9 +20,9 @@ namespace MoreNote.Logic.Service.Security.Face
         /// 容差阈值。如果比较面部的差距小于容差阈值则相同,否则不一样
         /// </summary>
         double tolerance = 0.2d;
-        public FaceService(WebSiteConfig config)
+        public FaceService(WebSiteConfig webConfig)
         {
-            var config = config;
+            var config = webConfig.SecurityConfig.FaceConfig;
             this.directory = config.ModelFilesDirectory;
             this.tolerance = config.Tolerance;
         }

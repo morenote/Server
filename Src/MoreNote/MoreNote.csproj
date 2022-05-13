@@ -444,6 +444,10 @@
     <TypeScriptCompile Include="wwwroot\typescript\demo\demo.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\APP\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" tsconfig_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

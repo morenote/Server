@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
@@ -34,9 +34,10 @@ namespace MoreNote.Logic.Service
 
         public ShareService ShareService { get; set; }
         private JiebaSegmenterService jieba { get; set; }
-
-        public NoteService(DataContext dataContext, JiebaSegmenterService jieba)
+        private IDistributedIdGenerator idGenerator;
+        public NoteService(DataContext dataContext, JiebaSegmenterService jieba,IDistributedIdGenerator idGenerator)
         {
+            this.idGenerator=idGenerator;
             this.dataContext = dataContext;
             this.jieba = jieba;
         }
@@ -712,7 +713,7 @@ namespace MoreNote.Logic.Service
         {
             if (note.NoteId == null)
             {
-                note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
+                note.NoteId = idGenerator.NextId();
             }
 
             // 关于创建时间, 可能是客户端发来, 此时判断时间是否有
@@ -765,11 +766,11 @@ namespace MoreNote.Logic.Service
         {
             if (note.NoteId == null)
             {
-                note.NoteId = SnowFlakeNet.GenerateSnowFlakeID();
+                note.NoteId = idGenerator.NextId();
             }
             if (noteContent.NoteContentId == null)
             {
-                noteContent.NoteContentId = SnowFlakeNet.GenerateSnowFlakeID();
+                noteContent.NoteContentId = idGenerator.NextId();
             }
             noteContent.NoteId = note.NoteId;
             if (note.UserId != null && note.UserId != myUserId)

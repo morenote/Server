@@ -17,10 +17,7 @@ namespace MoreNote.Logic.Service.Tests
         [TestMethod()]
         public void GenerateTokenTest()
         {
-            long? id = SnowFlakeNet.GenerateSnowFlakeID();
-            Console.WriteLine(id);
-            //string token = tokenSerivce.GenerateToken(id,16);
-            //Console.WriteLine(token);
+           
         }
     }
 }

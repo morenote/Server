@@ -73,8 +73,8 @@ namespace MoreNote.Logic.Service.Tests
             //string ContentJson = System.IO.File.ReadAllText(@"E:\Project\JSON\note\getNoteContent.json");
             //NoteContent noteConteny = JsonSerializer.Deserialize<NoteContent>(ContentJson, MyJsonConvert.GetOptions());
             //noteConteny.NoteId = 201901;
-            //noteConteny.UpdatedUserId = SnowFlake_Net.GenerateSnowFlakeID();
-            //noteConteny.UserId = SnowFlake_Net.GenerateSnowFlakeID();
+            //noteConteny.UpdatedUserId = SnowFlake_Net.NextId();
+            //noteConteny.UserId = SnowFlake_Net.NextId();
             //NoteContentService.InsertNoteContent(noteConteny);
 
         }
@@ -101,7 +101,7 @@ namespace MoreNote.Logic.Service.Tests
         public void FixMarkDownxContentTest()
         {
            string context="![title](/api/file/getImage?fileId=13c8329167421000)";
-           NoteService noteService=new NoteService(null,null);
+           NoteService noteService=new NoteService(null,null,null);
            var result=  noteService.FixContent(context,true,@"https://localhost:44392");
            Console.WriteLine("");
            Console.WriteLine(result);
@@ -111,7 +111,7 @@ namespace MoreNote.Logic.Service.Tests
         {
            string context="<img src=\"http://leanote.com/file/outputImage?fileId=5503537b38f4111dcb0000d1\">";
          
-           NoteService noteService=new NoteService(null,null);
+           NoteService noteService=new NoteService(null,null,null);
            var result=  noteService.FixContent(context,false,@"https://localhost:44392");
            Console.WriteLine("");
            Console.WriteLine(result);
@@ -121,7 +121,7 @@ namespace MoreNote.Logic.Service.Tests
         {
            
            string context="<p><img src=\"/api/file/getImage?fileId=611502cf05dadb007a000002\"></p>";
-           NoteService noteService=new NoteService(null,null);
+           NoteService noteService=new NoteService(null,null,null);
            var result=  noteService.FixContent(context,false,@"https://localhost:44392");
            Console.WriteLine("");
            Console.WriteLine(result);

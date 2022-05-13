@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Logic.Service.MyRepository
 {
@@ -18,11 +19,14 @@ namespace MoreNote.Logic.Service.MyRepository
         private OrganizationTeamService organizationTeamService;
         private RepositoryMemberRoleService memberRoleService;
         private ConfigFileService ConfigFileService;
+        private IDistributedIdGenerator idGenerator;
         public NoteRepositoryService(DataContext dataContext,
             OrganizationTeamService organizationTeamService,
             ConfigFileService configFileService,
-            RepositoryMemberRoleService repositoryMemberRoleService)
+            RepositoryMemberRoleService repositoryMemberRoleService,
+            IDistributedIdGenerator idGenerator)
         {
+            this.idGenerator=idGenerator;
             this.dataContext = dataContext;
             this.organizationTeamService = organizationTeamService;
             this.memberRoleService = repositoryMemberRoleService;
@@ -111,7 +115,7 @@ namespace MoreNote.Logic.Service.MyRepository
         
             var addNoteRepositoryService = new NotesRepository()
             {
-                Id = SnowFlakeNet.GenerateSnowFlakeID(),
+                Id = idGenerator.NextId(),
                 Name = notesRepository.Name,
                 Description = notesRepository.Description,
                 License = notesRepository.License,
