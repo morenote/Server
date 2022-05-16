@@ -122,7 +122,7 @@ namespace MoreNote.Controllers.Member
             var user=this.GetUserBySession();
             var fido=new FIDO2Item()
             {
-                Id=SnowFlakeNetService.GenerateSnowFlakeID(),
+                Id=idGenerator.NextId(),
                 UserId=user.UserId,
                 CredentialId=System.Text.Encoding.Default.GetBytes ( "1111" ),
                 UserHandle=System.Text.Encoding.Default.GetBytes ( "1111" ),

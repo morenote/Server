@@ -6,6 +6,7 @@ using MoreNote.Logic.Service.Segmenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
@@ -16,9 +17,10 @@ namespace MoreNote.Logic.Service
         public NoteImageService NoteImageService { get; set; }//属性注入
         public NoteService NoteService { get; set; }//属性注入
         JiebaSegmenterService jieba;
-
-        public NoteContentService(DataContext dataContext,JiebaSegmenterService jiebaSegmenter)
+        private IDistributedIdGenerator idGenerator;
+        public NoteContentService(DataContext dataContext,JiebaSegmenterService jiebaSegmenter,IDistributedIdGenerator idGenerator)
         {
+            this.idGenerator=idGenerator;
             this.dataContext = dataContext;
             this.jieba=jiebaSegmenter;
         }
@@ -139,7 +141,7 @@ namespace MoreNote.Logic.Service
 
             var insertNoteConext = new NoteContent()
             {
-                NoteContentId = SnowFlakeNetService.GenerateSnowFlakeID(),
+                NoteContentId = idGenerator.NextId(),
                 NoteId = noteId,
                 UserId = userId,
                 IsBlog = noteContext == null ? noteContext.IsBlog : false,
@@ -167,7 +169,7 @@ namespace MoreNote.Logic.Service
             {
                 //新增笔记内容，需要将上一个笔记设置为历史笔记
                 dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).Update(x => new NoteContent() { IsHistory = true });
-                contentId = SnowFlakeNetService.GenerateSnowFlakeID();
+                contentId = idGenerator.NextId();
                 NoteContent contentNew = new NoteContent()
                 {
                     NoteContentId = contentId,

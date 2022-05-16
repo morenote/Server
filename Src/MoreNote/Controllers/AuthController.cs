@@ -177,7 +177,7 @@ namespace MoreNote.Controllers
                 ResponseMessage re = new ResponseMessage() { Ok = true };
 
                
-                var jti= SnowFlakeNetService.GenerateSnowFlakeID();
+                var jti= idGenerator.NextId();
                 //签署JWT
                 var claims = new List<Claim>()
                 {

@@ -5,6 +5,7 @@ using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
@@ -15,8 +16,10 @@ namespace MoreNote.Logic.Service
         public UserService UserService { get; set; }
 
         public NoteService NoteService { get; set; }
-        public NotebookService(DataContext dataContext,NoteService noteService)
+        private IDistributedIdGenerator IdGenerator;
+        public NotebookService(DataContext dataContext,NoteService noteService,IDistributedIdGenerator IdGenerator)
         {
+            this.IdGenerator=IdGenerator;
             this.dataContext = dataContext;
             this.NoteService = noteService; 
         }
@@ -38,7 +41,7 @@ namespace MoreNote.Logic.Service
         {
             if (notebook.NotebookId == 0)
             {
-                notebook.NotebookId = SnowFlakeNetService.GenerateSnowFlakeID();
+                notebook.NotebookId = IdGenerator.NextId();
             }
             notebook.UrlTitle = notebook.NotebookId.ToHex24();
 
@@ -56,7 +59,7 @@ namespace MoreNote.Logic.Service
         {
             if (notebook.NotebookId ==null)
             {
-                notebook.NotebookId = SnowFlakeNetService.GenerateSnowFlakeID();
+                notebook.NotebookId = IdGenerator.NextId();
             }
             notebook.UrlTitle = notebook.NotebookId.ToHex24();
 

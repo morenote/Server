@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -27,7 +28,8 @@ namespace MoreNote.Controllers.API.APIV1
             , ConfigFileService configFileService
            
             , IHttpContextAccessor accessor
-            , ILoggingService loggingService) : 
+            , ILoggingService loggingService
+            ) : 
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
         {
         }

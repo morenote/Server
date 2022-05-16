@@ -12,8 +12,7 @@ namespace MoreNote.Common.Utils.Tests
         [TestMethod()]
         public void GenerateSnowFlakeIDHexTest()
         {
-         string str=   SnowFlakeNet.GenerateSnowFlakeIDHex();
-            Console.WriteLine(str);
+         
         }
     }
 }

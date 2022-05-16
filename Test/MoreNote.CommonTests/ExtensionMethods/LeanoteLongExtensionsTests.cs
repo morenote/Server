@@ -13,12 +13,7 @@ namespace MoreNote.Common.ExtensionMethods.Tests
         [TestMethod()]
         public void ToLongByHexTest()
         {
-            long? id=SnowFlakeNet.GenerateSnowFlakeID();
-            Console.WriteLine(id);
-            string hex24=id.ToHex24();
-            Console.WriteLine(hex24);
-            long? id24=hex24.ToLongByHex();
-            Console.WriteLine(id24);
+           
         }
     }
 }

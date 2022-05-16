@@ -51,7 +51,7 @@ namespace MoreNote.Controllers
 
         public IActionResult NativePay()
         {
-            long? id = SnowFlakeNetService.GenerateSnowFlakeID();
+            long? id = idGenerator.NextId();
             var nativeRequestMessage = new NativeRequestMessage()
             {
                 total_fee = 1,

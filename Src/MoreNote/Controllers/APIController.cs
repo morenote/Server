@@ -22,6 +22,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using UpYunLibrary.ContentRecognition;
 
 namespace MoreNote.Controllers
@@ -68,6 +69,8 @@ namespace MoreNote.Controllers
 
         private AccessService accessService;
 
+        private IDistributedIdGenerator idGenerator;
+
         public APIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -78,6 +81,7 @@ namespace MoreNote.Controllers
             DataContext dataContext,
             RandomImageService randomImageService
             , ILoggingService loggingService
+            
             ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
         {
             this.AccessService = accessService;
@@ -162,7 +166,7 @@ namespace MoreNote.Controllers
             string remotePort = Request.HttpContext.Connection.RemotePort.ToString();
             AccessRecords accessRecords = new AccessRecords()
             {
-                AccessId = SnowFlakeNetService.GenerateSnowFlakeID(),
+                AccessId = idGenerator.NextId(),
                 IP = RealIP,
                 X_Real_IP = headers["X-Real-IP"],
                 X_Forwarded_For = headers["X-Forwarded-For"],

@@ -46,7 +46,7 @@ namespace MoreNote.Controllers.Tests
             //    {
             //        //Assert.Fail("authorizations==null");
             //        authorizations = new List<Authorization>();
-            //        authorizations.Add(new Authorization(SnowFlake_Net.GenerateSnowFlakeID(), "user", "12"));
+            //        authorizations.Add(new Authorization(SnowFlake_Net.NextId(), "user", "12"));
 
 
             //    }

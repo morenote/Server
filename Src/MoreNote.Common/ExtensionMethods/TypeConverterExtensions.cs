@@ -11,6 +11,10 @@ namespace MoreNote.Common.ExtensionMethods
         {
             return number.Value.ToString("x");
         }
+        public static string ToHex(this long number)
+        {
+            return number.ToString("x");
+        }
 
         public static string ByteArrayToHex(this byte[] data)
         {
