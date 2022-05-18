@@ -18,6 +18,9 @@ using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Segmenter;
+using MoreNote.SignatureService.NetSign;
+using MoreNote.SignatureService;
+using WebApiClient.Extensions.Autofac;
 
 namespace MoreNote.Common.autofac
 {
@@ -28,6 +31,7 @@ namespace MoreNote.Common.autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
+            
              //依赖注入的对象
             builder.RegisterType<AccessService>();
             builder.RegisterType<AlbumService>();
@@ -153,12 +157,25 @@ namespace MoreNote.Common.autofac
             //注入日志服务日志
             builder.RegisterType<Log4NetLoggingService>().As<ILoggingService>();
 
+            //分布式id生成器
             builder.RegisterType<SnowFlakeNetService>()
                 .As<IDistributedIdGenerator>()
+                .SingleInstance();
+            //签名验签服务器
+            builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(c =>
+            {
+                c.HttpHost = new Uri("http://localhost:8080/");
+            });
+
+
+            //服务器端签名和验签服务
+            builder.RegisterType<NetSignService>()
+                .As<ISignatureService>()
                 .SingleInstance();
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
           
+            //批量扫描
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
                 .PropertiesAutowired(new AutowiredPropertySelector());

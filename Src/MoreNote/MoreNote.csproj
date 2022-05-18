@@ -182,6 +182,9 @@
 
     <PackageReference Include="SharpZipLib" Version="1.3.3" />
     <PackageReference Include="StackExchange.Redis" Version="2.5.43" />
+    <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
+    <PackageReference Include="WebApiClient.Extensions.DependencyInjection" Version="2.0.3" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.2" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.13.13" />
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +250,7 @@
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
+    <ProjectReference Include="..\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

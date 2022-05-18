@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.2" />
+    <PackageReference Include="WebApiClientCore.Extensions.JsonRpc" Version="2.0.2" />
+  </ItemGroup>
+
+</Project>
