@@ -21,7 +21,8 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <returns></returns>
         public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
         {
-           
+            throw new NotImplementedException();
+
         }
         /// <summary>
         ///  验证口令
