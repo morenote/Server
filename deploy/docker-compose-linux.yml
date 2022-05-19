@@ -76,7 +76,16 @@ services:
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: -Xms128m -Xmx1g
-    
+  netsin:
+    restart: always
+    container_name:  netsin
+    image: registry.cn-hangzhou.aliyuncs.com/hyfree/netsign:0.1  #使用的是netsign签名服务
+    ports:
+      - 8080:8080
+    volumes:
+      - /morenote/netsign/config:/app/config/ #挂载配置文件
+    environment:
+      ES_JAVA_OPTS: -Xms128m -Xmx1g #限制内存的使用
 
 
 
