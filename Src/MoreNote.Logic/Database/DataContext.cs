@@ -3,6 +3,7 @@
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Leanote.Loggin;
 using MoreNote.Models.Entity.Leanote.MyOrganization;
 using MoreNote.Models.Entity.Leanote.MyRepository;
 using MoreNote.Models.Entity.Security.FIDO2;
@@ -142,5 +143,11 @@ namespace MoreNote.Logic.Database
         public DbSet<CommodityOrder> GoodOrder { get; set; }
 
         public DbSet<SpamInfo> SpamInfo { get; set; }
+
+        //日志
+        public DbSet<LoggingLogin> LoggingLogin { get; set; }
+
+
+
     }
 }

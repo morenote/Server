@@ -11,9 +11,11 @@ using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Models.DTO.Leanote;
+using MoreNote.Models.Entity.Leanote.Loggin;
 using MoreNote.Models.Model.FIDO2;
-
+using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -21,7 +23,8 @@ namespace MoreNote.Controllers.API.APIV1
     public class AuthAPIController : APIBaseController
     {
         private AuthService authService;
-      
+
+       
         public AuthAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -45,31 +48,57 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="pwd"></param>
         /// <returns></returns>
        //[HttpPost]
-        public IActionResult Login(string email, string pwd)
+        public async Task<IActionResult> Login(string email, string pwd)
         {
             string tokenValue = "";
             User user;
             var re=new ApiRe();
-
-            if (authService.LoginByPWD(email, pwd, out tokenValue, out user))
+            LoggingLogin loggingLogin = new LoggingLogin()
             {
-                var userToken=new UserToken()
+                Id = this.idGenerator.NextId(),
+                LoginDateTime = DateTime.Now,
+                LoginMethod = "pwd",
+                Ip = Request.Host.Host,
+                BrowserRequestHeader=Request.Headers.ToString(),
+            };
+
+            try
+            {
+                if (authService.LoginByPWD(email, pwd, out tokenValue, out user))
                 {
-                    Token = tokenValue,
-                    UserId = user.UserId,
-                    Email = user.Email,
-                    Username = user.Username
-                };
-                re.Ok = true;
-                re.Data=userToken;
-
-                return LeanoteJson(re);
+                    var userToken = new UserToken()
+                    {
+                        Token = tokenValue,
+                        UserId = user.UserId,
+                        Email = user.Email,
+                        Username = user.Username
+                    };
+                    re.Ok = true;
+                    re.Data = userToken;
+                    loggingLogin.UserId = user.UserId;
+                    loggingLogin.IsLoginSuccess = true;
+                    return LeanoteJson(re);
+                }
+                else
+                {
+                    re.Msg = "用户名或密码有误";
+                    
+                    loggingLogin.ErrorMessage = "用户名或密码有误";
+                    return LeanoteJson(re);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                re.Msg = "用户名或密码有误";
-                return LeanoteJson(re);
+                re.Msg=ex.Message;
+                throw ;
             }
+            finally
+            {
+
+               await loggingLogin.AddMac(this.cryptographyProvider);
+
+            }
+            
         }
 
         //todo:注销函数

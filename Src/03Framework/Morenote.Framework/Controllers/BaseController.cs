@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Web;
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.CryptographyProvider;
 
 namespace MoreNote.Framework.Controllers
 {
@@ -66,6 +67,8 @@ namespace MoreNote.Framework.Controllers
         [Autowired]
         protected ILoggingService logging { get; set; }
 
+        [Autowired]
+        protected ICryptographyProvider cryptographyProvider { get; set; }
 
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce

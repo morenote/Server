@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
+    <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
   </ItemGroup>
 
 </Project>
