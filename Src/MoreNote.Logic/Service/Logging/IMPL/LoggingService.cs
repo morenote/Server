@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.Extensions.Logging;
 using MoreNote.CryptographyProvider;
+using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Models.Entity.Leanote.Loggin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,16 +16,19 @@ namespace MoreNote.Logic.Service.Logging.IMPL
     /// <summary>
     /// 日志服务
     /// </summary>
-    public class LoggingService : ILoggingService,ILogger
+    public class LoggingService : ILoggingService
     {
         private string path = "logs/log.log";
        
         public WebSiteConfig webSiteConfig { get; set; }
         private ICryptographyProvider cryptographyProvider { get; set; }
-        public LoggingService(ConfigFileService configFileService, ICryptographyProvider cryptographyProvider)
+
+        private DataContext dataContext { get; set; }
+        public LoggingService(ConfigFileService configFileService, ICryptographyProvider cryptographyProvider,DataContext dataContext)
         {
             this.webSiteConfig = configFileService.WebConfig;
             this.cryptographyProvider = cryptographyProvider;
+            this.dataContext= dataContext;
            
         }
         private string getLogFileName()
@@ -109,5 +114,19 @@ namespace MoreNote.Logic.Service.Logging.IMPL
         {
             throw new NotImplementedException();
         }
+
+        public void Save(LoggingLogin loggingLogin)
+        {
+            this.dataContext.LoggingLogin.Add(loggingLogin);
+            this.dataContext.SaveChanges();
+        }
+
+        public List<LoggingLogin> GetAllUserLoggingLogin()
+        {
+            return dataContext.LoggingLogin.ToList<LoggingLogin>();
+        }
+
+
+
     }
 }

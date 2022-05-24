@@ -13,7 +13,7 @@ namespace MoreNote.Models.Entity.Leanote.Loggin
     /// <summary>
     /// 登录日志
     /// </summary>
-    [Table("logging_login"), Index(nameof(Id), nameof(UserId), nameof(DateTime), nameof(LoginMethod), nameof(IsLoginSuccess),nameof(Ip))]
+    [Table("logging_login"), Index(nameof(Id), nameof(UserId), nameof(LoginDateTime), nameof(LoginMethod), nameof(IsLoginSuccess),nameof(Ip))]
     public class LoggingLogin
     {
         [Key]
@@ -36,8 +36,8 @@ namespace MoreNote.Models.Entity.Leanote.Loggin
         [Column("hmac")]
         public string? Hmac { get; set; }//计算Hmac
 
-   
-
+        [NotMapped]
+        public bool Verify { get; set; }
         public string ToStringNoMac()
         {
             StringBuilder stringBuilder = new StringBuilder();

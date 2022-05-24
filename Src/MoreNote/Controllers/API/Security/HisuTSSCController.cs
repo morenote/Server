@@ -22,6 +22,7 @@ namespace MoreNote.Controllers.API.Security
         public async Task<IActionResult> GenLog()
         {
             loggingService.Info("hello world");
+            
             return Content("log生成测试");
         }
     }

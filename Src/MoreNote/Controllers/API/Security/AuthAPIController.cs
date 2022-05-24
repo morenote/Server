@@ -14,6 +14,7 @@ using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Entity.Leanote.Loggin;
 using MoreNote.Models.Model.FIDO2;
 using System;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -24,19 +25,17 @@ namespace MoreNote.Controllers.API.APIV1
     {
         private AuthService authService;
 
-       
         public AuthAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor
-            ,AuthService authService
+            , AuthService authService
             ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.authService = authService;
-         
         }
 
         /// <summary>
@@ -52,14 +51,22 @@ namespace MoreNote.Controllers.API.APIV1
         {
             string tokenValue = "";
             User user;
-            var re=new ApiRe();
-            LoggingLogin loggingLogin = new LoggingLogin()
+            var re = new ApiRe();
+
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var item in Request.Headers)
+            {
+                stringBuilder.Append(item.Key+"=" + item.Value.ToString()+"\r\n");
+
+            }
+
+            LoggingLogin logg = new LoggingLogin()
             {
                 Id = this.idGenerator.NextId(),
                 LoginDateTime = DateTime.Now,
                 LoginMethod = "pwd",
                 Ip = Request.Host.Host,
-                BrowserRequestHeader=Request.Headers.ToString(),
+                BrowserRequestHeader = stringBuilder.ToString(),
             };
 
             try
@@ -75,30 +82,28 @@ namespace MoreNote.Controllers.API.APIV1
                     };
                     re.Ok = true;
                     re.Data = userToken;
-                    loggingLogin.UserId = user.UserId;
-                    loggingLogin.IsLoginSuccess = true;
+                    logg.UserId = user.UserId;
+                    logg.IsLoginSuccess = true;
                     return LeanoteJson(re);
                 }
                 else
                 {
                     re.Msg = "用户名或密码有误";
-                    
-                    loggingLogin.ErrorMessage = "用户名或密码有误";
+
+                    logg.ErrorMessage = "用户名或密码有误";
                     return LeanoteJson(re);
                 }
             }
             catch (Exception ex)
             {
-                re.Msg=ex.Message;
-                throw ;
+                re.Msg = ex.Message;
+                throw;
             }
             finally
             {
-
-               await loggingLogin.AddMac(this.cryptographyProvider);
-
+                await logg.AddMac(this.cryptographyProvider);
+                this.logging.Save(logg);
             }
-            
         }
 
         //todo:注销函数
@@ -142,6 +147,33 @@ namespace MoreNote.Controllers.API.APIV1
             return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
 
-       
+
+
+        public async Task<IActionResult> GetUserLoginLogging(string token)
+        {
+            var re = new ApiRe()
+            {
+                Ok = false,
+                Data = null
+            };
+            var user = tokenSerivce.GetUserByToken(token);
+            if (!user.IsAdmin())
+            {
+                re.Msg = "只有Admin账户才可以访问";
+                return LeanoteJson(re);
+            }
+            var data= logging.GetAllUserLoggingLogin();
+
+            foreach (var item in data)
+            {
+                var verify= await  item.VerifyHmac(cryptographyProvider);
+                item.Verify = verify;
+            }
+            re.Data = data;
+            re.Ok = true;
+            return LeanoteJson(re);
+
+
+        }
     }
 }
