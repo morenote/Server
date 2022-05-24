@@ -64,7 +64,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 Id = this.idGenerator.NextId(),
                 LoginDateTime = DateTime.Now,
-                LoginMethod = "口令登录",
+                LoginMethod = "PassWord",
                 Ip = Request.Host.Host,
                 BrowserRequestHeader = stringBuilder.ToString(),
             };
