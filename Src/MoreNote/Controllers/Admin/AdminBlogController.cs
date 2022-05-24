@@ -24,8 +24,8 @@ namespace MoreNote.Controllers.Admin
               AccessService accessService
 
 
-             , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+             ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
 
         }

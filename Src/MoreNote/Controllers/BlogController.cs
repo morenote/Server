@@ -41,8 +41,8 @@ namespace MoreNote.Controllers
             , NoteService noteService
             , NotebookService notebookService
             , BlogService blogService
-            , ILoggingService loggingService) : 
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+            ) : 
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.accessService = accessService;
             this.blogService = blogService;

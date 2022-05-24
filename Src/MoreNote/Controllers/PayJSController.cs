@@ -31,8 +31,8 @@ namespace MoreNote.Controllers
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor
             , DataContext dataContext
-            , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+            ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.dataContext = dataContext;
             this.configFileService= configFileService;

@@ -28,9 +28,9 @@ namespace MoreNote.Controllers.API.APIV1
             , ConfigFileService configFileService
            
             , IHttpContextAccessor accessor
-            , ILoggingService loggingService
+            
             ) : 
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
         }
     }

@@ -41,9 +41,9 @@ namespace MoreNote.Controllers
             
             , IHttpContextAccessor accessor,
             AuthService authService, 
-            ConfigService configService,
-            ILoggingService loggingService) : 
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
+            ConfigService configService
+            ) : 
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.distributedCache = distributedCache;
             this.authService = authService;

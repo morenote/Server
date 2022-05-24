@@ -50,7 +50,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.Models", "Src\More
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.Face", "Src\MoreNote.Face\MoreNote.Face.csproj", "{28C8D0AA-DBA8-47F3-BACD-286765DAA4F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreNote.SignatureService", "Src\MoreNote.SignatureService\MoreNote.SignatureService.csproj", "{2707DF5F-FCD2-493B-8569-040F6ECEFA49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.SignatureService", "Src\MoreNote.SignatureService\MoreNote.SignatureService.csproj", "{2707DF5F-FCD2-493B-8569-040F6ECEFA49}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.CryptographyProvider", "Src\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj", "{23D5A421-2476-4624-9765-A219280BD99B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -287,6 +289,22 @@ Global
 		{2707DF5F-FCD2-493B-8569-040F6ECEFA49}.Release|x64.Build.0 = Release|Any CPU
 		{2707DF5F-FCD2-493B-8569-040F6ECEFA49}.Release|x86.ActiveCfg = Release|Any CPU
 		{2707DF5F-FCD2-493B-8569-040F6ECEFA49}.Release|x86.Build.0 = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|x64.ActiveCfg = Debug|x64
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|x64.Build.0 = Debug|x64
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Debug|x86.Build.0 = Debug|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|ARM64.Build.0 = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|x64.ActiveCfg = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|x64.Build.0 = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|x86.ActiveCfg = Release|Any CPU
+		{23D5A421-2476-4624-9765-A219280BD99B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -311,6 +329,7 @@ Global
 		{A7BB015A-F4DA-4226-BBB5-8357022A0511} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
 		{28C8D0AA-DBA8-47F3-BACD-286765DAA4F2} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
 		{2707DF5F-FCD2-493B-8569-040F6ECEFA49} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
+		{23D5A421-2476-4624-9765-A219280BD99B} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F22C218-D996-467B-93A1-1BEEE77AFD54}

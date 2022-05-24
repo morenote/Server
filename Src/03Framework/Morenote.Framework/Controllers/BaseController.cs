@@ -50,7 +50,7 @@ namespace MoreNote.Framework.Controllers
         public int pageSize = 1000;
 
         public TokenSerivce tokenSerivce;
-        public ILoggingService loggingService;
+       
         public UserService userService;
 
         // 不能更改
@@ -58,10 +58,14 @@ namespace MoreNote.Framework.Controllers
 
         protected ConfigFileService configFileService;
        
-        public ILoggingService LoggingService;
+       
 
         [Autowired]
         protected IDistributedIdGenerator idGenerator { get; set; }
+
+        [Autowired]
+        protected ILoggingService logging { get; set; }
+
 
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce
@@ -69,7 +73,7 @@ namespace MoreNote.Framework.Controllers
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor
-            , ILoggingService loggingService
+           
             )
         {
            
@@ -79,9 +83,9 @@ namespace MoreNote.Framework.Controllers
             this.configFileService = configFileService;
             this.userService = userService;
             this._accessor = accessor;
-            this.loggingService = loggingService;
+          
             config = configFileService.WebConfig;
-            this.loggingService=loggingService;
+           
         }
         
         public string GetAntiCSRFToken()

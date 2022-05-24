@@ -20,8 +20,8 @@ namespace MoreNote.Controllers.API.APIV1
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
             TagService tagService
-            , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+            ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            
             this.tokenSerivce= tokenSerivce;

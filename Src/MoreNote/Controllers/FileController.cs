@@ -29,8 +29,8 @@ namespace MoreNote.Controllers
             , ConfigFileService configFileService
             ,NoteService noteService
             , IHttpContextAccessor accessor
-           , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+            ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.configFileService = configFileService;
             this.noteService=noteService;

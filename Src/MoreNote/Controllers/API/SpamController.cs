@@ -25,8 +25,8 @@ namespace MoreNote.Controllers.API
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
             SpamService spamService
-           , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+           ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
           this.spamService= spamService;
            

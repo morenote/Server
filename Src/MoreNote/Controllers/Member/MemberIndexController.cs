@@ -26,8 +26,8 @@ namespace MoreNote.Controllers.Member
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor, NoteService noteService
-          , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+             ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.noteService= noteService;
            

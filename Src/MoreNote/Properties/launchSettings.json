@@ -17,7 +17,6 @@
     },
     "MoreNote": {
       "commandName": "Project",
-      "commandLineArgs": "-command MigrateDatabase",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

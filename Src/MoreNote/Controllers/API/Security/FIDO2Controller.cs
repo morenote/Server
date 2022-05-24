@@ -34,8 +34,8 @@ namespace MoreNote.Controllers.API
             , IHttpContextAccessor accessor
             , AuthService authService
             , FIDO2Service fIDO2Service
-            , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+            ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.authService = authService;
             this.fido2Service = fIDO2Service;

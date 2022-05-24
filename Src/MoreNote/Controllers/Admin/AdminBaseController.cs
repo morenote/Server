@@ -19,9 +19,9 @@ namespace MoreNote.Controllers.Admin
               , UserService userService
               , ConfigFileService configFileService
               , IHttpContextAccessor accessor
-               ,ILoggingService loggingService
              
-              ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
+             
+              ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
         }
 

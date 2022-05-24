@@ -29,8 +29,8 @@ namespace MoreNote.Controllers.Joplin
           , ConfigFileService configFileService
           , IHttpContextAccessor accessor
           , AuthService authService
-         , ILoggingService loggingService) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+          ) :
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.AuthService = authService;
         }

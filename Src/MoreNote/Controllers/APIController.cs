@@ -80,9 +80,9 @@ namespace MoreNote.Controllers
             AccessService accessService,
             DataContext dataContext,
             RandomImageService randomImageService
-            , ILoggingService loggingService
+           
             
-            ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
+            ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.AccessService = accessService;
             this.dataContext = dataContext;

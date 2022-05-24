@@ -21,6 +21,10 @@ using MoreNote.Logic.Service.Segmenter;
 using MoreNote.SignatureService.NetSign;
 using MoreNote.SignatureService;
 using WebApiClient.Extensions.Autofac;
+using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
+using MoreNote.CryptographyProvider;
+using Autofac.log4net;
+using Autofac.Extras.NLog;
 
 namespace MoreNote.Common.autofac
 {
@@ -155,23 +159,37 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
             //注入日志服务日志
-            builder.RegisterType<Log4NetLoggingService>().As<ILoggingService>();
+            
+            builder.RegisterModule<NLogModule>();
+
+            builder.RegisterType<LoggingService>().As<ILoggingService>();
 
             //分布式id生成器
             builder.RegisterType<SnowFlakeNetService>()
                 .As<IDistributedIdGenerator>()
                 .SingleInstance();
             //签名验签服务器
-            builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(c =>
+            builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
             {
-                c.HttpHost = new Uri("http://localhost:8080/");
+                api.HttpHost = new Uri("http://localhost:8080/");
             });
-
-
+           
             //服务器端签名和验签服务
             builder.RegisterType<NetSignService>()
                 .As<ISignatureService>()
                 .SingleInstance();
+
+            //加密平台服务
+            builder.RegisterHttpApi<IHisuTSSApi>().ConfigureHttpApiConfig(api =>
+            {
+                api.HttpHost = new Uri("http://localhost:8080/");
+            });
+            builder.RegisterType<HisuTSSService>()
+                .As<ICryptographyProvider>()
+                .SingleInstance();
+
+
+
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
           

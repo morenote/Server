@@ -89,5 +89,11 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 人脸验证配置
         /// </summary>
         public FaceConfig FaceConfig { get;set;}=new FaceConfig();
+        /// <summary>
+        /// 需要对日志计算Hmac，防止被篡改
+        /// </summary>
+        public bool LogNeedHmac { get;set;}=false;
+
+
     }
 }

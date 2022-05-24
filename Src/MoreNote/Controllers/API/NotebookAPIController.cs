@@ -38,11 +38,11 @@ namespace MoreNote.Controllers.API.APIV1
             NoteService noteService,
 
 
-            ILoggingService loggingService,
+           
              OrganizationMemberRoleService repositoryMemberRoleService,
              NoteRepositoryService noteRepositoryService
            ) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor, loggingService)
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.notebookService = notebookService;
             this.noteRepositoryService = noteRepositoryService;

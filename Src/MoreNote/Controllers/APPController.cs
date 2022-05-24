@@ -20,9 +20,9 @@ namespace MoreNote.Controllers
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
-            , ILoggingService loggingService
+            
             , IHttpContextAccessor accessor) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor,loggingService)
+            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
            
 

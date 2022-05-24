@@ -38,6 +38,7 @@ using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using NuGet.Protocol.Plugins;
+using Microsoft.Extensions.Logging;
 
 namespace MoreNote
 {
@@ -219,6 +220,9 @@ namespace MoreNote
                  );
             }
             services.AddControllers().AddControllersAsServices();
+
+
+            
             //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
@@ -252,6 +256,7 @@ namespace MoreNote
 
             app.UseAuthentication();
             app.UseAuthorization();
+           
             //监控接口耗时情况
             //app.UseTimeMonitorMiddleware();
             //调试的时候允许跨域
