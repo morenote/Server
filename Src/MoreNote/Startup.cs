@@ -40,6 +40,7 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 using NuGet.Protocol.Plugins;
 using Microsoft.Extensions.Logging;
 
+
 namespace MoreNote
 {
     public class Startup
@@ -220,9 +221,9 @@ namespace MoreNote
                  );
             }
             services.AddControllers().AddControllersAsServices();
+           
 
 
-            
             //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }

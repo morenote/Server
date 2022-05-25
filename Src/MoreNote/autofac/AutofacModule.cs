@@ -25,6 +25,8 @@ using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
 using MoreNote.CryptographyProvider;
 using Autofac.log4net;
 using Autofac.Extras.NLog;
+using MoreNote.Logic.Service.Captcha.IMPL;
+using MoreNote.Logic.Service.VerificationCode;
 
 namespace MoreNote.Common.autofac
 {
@@ -188,8 +190,10 @@ namespace MoreNote.Common.autofac
                 .As<ICryptographyProvider>()
                 .SingleInstance();
 
+            builder.RegisterType<ImageSharpCaptchaGenerator>()
+                .As<ICaptchaGenerator>();
 
-
+      
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
           

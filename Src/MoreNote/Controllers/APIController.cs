@@ -24,6 +24,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using UpYunLibrary.ContentRecognition;
+using MoreNote.Logic.Service.VerificationCode;
+using MoreNote.Logic.Property;
 
 namespace MoreNote.Controllers
 {
@@ -71,6 +73,9 @@ namespace MoreNote.Controllers
 
         private IDistributedIdGenerator idGenerator;
 
+        [Autowired]
+        private ICaptchaGenerator captchaGenerator { get; set; }
+
         public APIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -80,8 +85,7 @@ namespace MoreNote.Controllers
             AccessService accessService,
             DataContext dataContext,
             RandomImageService randomImageService
-           
-            
+
             ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.AccessService = accessService;
@@ -105,13 +109,12 @@ namespace MoreNote.Controllers
         [Route("api/random-images/{typeMd5}/{fileName}")]
         public async Task<IActionResult> MinIOImagesAsync(string typeMd5, string fileName)
         {
-            MinIOFileStoreService minio = new MinIOFileStoreService( webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);
+            MinIOFileStoreService minio = new MinIOFileStoreService(webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);
             string fileExt = Path.GetExtension(fileName);
-            var objectName =$"{typeMd5}/{fileName}";
+            var objectName = $"{typeMd5}/{fileName}";
             var data = await minio.GetObjecByteArraytAsync(webcConfig.MinIOConfig.RandomImagesBucketName, objectName);
             var provider = new FileExtensionContentTypeProvider();
             var memi = provider.Mappings[fileExt];
-           
 
             return File(data, memi);
         }
@@ -236,7 +239,6 @@ namespace MoreNote.Controllers
             randomImage = randomImageList[type][index];
 
             string ext = Path.GetExtension(randomImage.FileName);
-          
 
             return $"{webcConfig.APPConfig.SiteUrl}/api/random-images/{randomImage.TypeNameMD5}/{randomImage.RandomImageId.ToHex() + ext}";
         }
@@ -338,44 +340,31 @@ namespace MoreNote.Controllers
         /// <returns></returns>
         // [HttpGet("VerifyCode")]
         [SkipInspectionInstallationFilter]
-        public async Task VerifyCode()
+        public  IActionResult VerifyCode()
         {
-            try
-            {
-                Response.ContentType = "image/jpeg";
+            Response.ContentType = "image/jpeg";
 
-                using (var stream = VerificationCode.GenerateImage(out var code))
-                {
-                    var buffer = stream.ToArray();
+            var buffer = captchaGenerator.GenerateImage(out var code);
 
-                    //存session
-                    HttpContext.Session.SetString("VerifyCode", code.ToLower());
+            //存session
+            HttpContext.Session.SetString("VerifyCode", code.ToLower());
 
-                    //使用标志，不允许重复使用一个验证码。
-                    //这个验证码被消费一次后，要置0。
-                    HttpContext.Session.SetInt32("VerifyCodeValid", 1);
+            //使用标志，不允许重复使用一个验证码。
+            //这个验证码被消费一次后，要置0。
+            HttpContext.Session.SetInt32("VerifyCodeValid", 1);
 
-                    //验证码生成时间。
-                    HttpContext.Session.SetInt32("VerifyCodeTime", UnixTimeUtil.GetTimeStampInInt32());
+            //验证码生成时间。
+            HttpContext.Session.SetInt32("VerifyCodeTime", UnixTimeUtil.GetTimeStampInInt32());
 
-                    //string sessionID = Request.Cookies["SessionID"];
-                    //RedisManager.SetString(sessionID, code);
+            //string sessionID = Request.Cookies["SessionID"];
+            //RedisManager.SetString(sessionID, code);
 
-                    // Response.Cookies.Append("code",code);
+            // Response.Cookies.Append("code",code);
 
-                    // 将验证码的token放入cookie
-                    // Response.Cookies.Append(VERFIY_CODE_TOKEN_COOKIE_NAME, await SecurityServices.GetVerifyCodeToken(code));
+            // 将验证码的token放入cookie
+            // Response.Cookies.Append(VERFIY_CODE_TOKEN_COOKIE_NAME, await SecurityServices.GetVerifyCodeToken(code));
 
-                    await Response.Body.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
-                }
-            }
-            catch (Exception e)
-            {
-                var buffer = ASCIIEncoding.ASCII.GetBytes(e.Message);
-                await Response.Body.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
-                Console.WriteLine(e.Message);
-                return;
-            }
+            return File(buffer, "image/png");
         }
     }
 }
