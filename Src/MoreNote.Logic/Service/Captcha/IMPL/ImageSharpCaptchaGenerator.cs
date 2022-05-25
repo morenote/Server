@@ -1,53 +1,135 @@
-﻿
-using MoreNote.Common.Utils;
+﻿using MoreNote.Common.Utils;
 using MoreNote.Logic.Service.VerificationCode;
+
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.Captcha.IMPL
 {
     /// <summary>
-    /// 
-    /// 
-    /// 
+    ///
+    ///
+    ///
     /// </summary>
     public class ImageSharpCaptchaGenerator : ICaptchaGenerator
     {
-        
         public ImageSharpCaptchaGenerator()
         {
-           
         }
+
         public byte[] GenerateImage(out string code, int codeLength = 4)
         {
             //验证码
-            code = RandomTool.CreatRandomString(codeLength);
+            code = RandomTool.CreatRandom58String(codeLength);
 
+            var random = new Random();
 
-            var width = code.Length * 20;
-            var height = 32;
+            //验证码颜色集合
+            Color[] colorArray = {
+                Color.Black,
+                Color.Red,
+                Color.DarkBlue,
+                Color.Green,
+                Color.Orange,
+                Color.Brown,
+                Color.DarkCyan,
+                Color.Purple,
+                Color.Yellow,
+                Color.Cyan};
+            //验证码字体集合
+            string[] fonts = {"fonts/GNUUnifont9FullHintInstrUCSUR.ttf",
+                              "fonts/I.PenCrane-B.ttf",
+                              "fonts/jf-openhuninn-1.1.ttf",
+                              "fonts/laihu.ttf"
+                              };
+            var width = code.Length * 40;
+            var height = 64;
 
-            byte[] buffer=null;
-            using(MemoryStream ms = new MemoryStream())
-            using (Image image =new Image<Rgba32>(width,height,Color.White))
+            byte[] buffer = null;
+            using (MemoryStream ms = new MemoryStream())
+            using (Image image = new Image<Rgba32>(width, height, Color.White))
             {
-                FontCollection collection = new();
-                FontFamily family = collection.Add("fonts/leanote-font3/leanote.ttf");
-                Font font = family.CreateFont(12, FontStyle.Italic);
-                image.Mutate(x => x.DrawText("hello", font,Color.Black,new PointF(10,10)));
+                 
+                 //绘制干扰线条
+                for (int i = 0; i < 2; i++)
+                {
+                    var cindex = random.Next(9);//随机颜色索引值
+                    int x1 = random.Next(image.Width);
+                    int y1 = random.Next(image.Height);
+
+                    int x2 = random.Next(image.Width);
+                    int y2 = random.Next(image.Height);
+
+                    var thickness=random.Next(1,4);
+
+                    var linerSegemnt = new LinearLineSegment(
+                        new Vector2(x1, y1),
+
+                        new Vector2(x2, y2)
+                    
+                    );
+                    var color=colorArray[cindex];
+                    var p = new SixLabors.ImageSharp.Drawing.Path(linerSegemnt);
+                    image.Mutate(x => x.Draw(color, thickness, p));
+                }
+
+                //绘制文字
+                for (int i = 0; i < code.Length; i++)
+                {
+                    var cindex = random.Next(7);//随机颜色索引值
+                    var findex = random.Next(4);//随机字体索引值
+
+                    FontCollection collection = new();
+                    FontFamily family = collection.Add(fonts[findex]);
+                    Font font = family.CreateFont(30);
+
+                    Color brushColor = colorArray[cindex];
+
+                    //产生一个轻微的抖动
+                    int shakeX = random.Next(0, 10);
+                    int shakeY = random.Next(0, 20);
+
+                    float x = 3 + (i * 30) + shakeX;//x坐标
+                    float y = 0 + shakeY;//Y坐标
+                    string character = code.Substring(i, 1);//绘制的字符
+
+                    image.Mutate(opera => opera.DrawText(character, font, brushColor, new PointF(x, y)));
+                }
+                //在随机位置画背景点
+                for (int i = 0; i < 5; i++)
+                {
+                    var cindex = random.Next(7);//随机颜色索引值
+                    int x = random.Next(image.Width);
+                    int y = random.Next(image.Height);
+                }
+               
+                //绘制干扰点
+                for (int i = 0; i < 40; i++)
+                {
+                    var cindex = random.Next(7);//随机颜色索引值
+                    int x = random.Next(image.Width);
+                    int y = random.Next(image.Height);
+
+                    var  rectangle = new  Rectangle(x, y, 1, 1);
+                    var coloer=colorArray[cindex];
+                    image.Mutate(x=>x.Draw(coloer,4f,rectangle));
+                }
 
                 image.SaveAsBmp(ms);
 
-               buffer= ms.ToArray();
+                buffer = ms.ToArray();
             }
             return buffer;
         }

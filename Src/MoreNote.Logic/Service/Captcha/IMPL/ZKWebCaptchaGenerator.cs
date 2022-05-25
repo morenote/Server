@@ -19,7 +19,7 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
         public byte[] GenerateImage(out string code, int codeLength = 4)
         {
             //验证码
-            code = RandomTool.CreatRandomString(codeLength);
+            code = RandomTool.CreatRandom58String(codeLength);
             //Bitmap img = null;
             //Graphics g = null;
 
@@ -41,7 +41,7 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
             string[] fonts = { "Verdana", "Microsoft Sans Serif", "Comic Sans MS", "Arial", "宋体" };
             byte[] imageBytes ;
             using (var ms = new MemoryStream ())
-            using (var img = new Bitmap(code.Length * 20, 32))
+            using (var img = new Bitmap(code.Length * 40, 64))
             {
                 using (var g = Graphics.FromImage(img))
                 {
@@ -56,7 +56,7 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
                         //产生一个轻微的抖动
                         int shakeX = random.Next(0, 5);
                         int shakeY = random.Next(0, 10);
-                        float x = 3 + (i * 15) + shakeX;//x坐标
+                        float x = 3 + (i * 30) + shakeX;//x坐标
                         float y = 0 + shakeY;//Y坐标
                         string character = code.Substring(i, 1);//绘制的字符
                         g.DrawString(character, font, brush, x, y);//绘制一个验证字符
