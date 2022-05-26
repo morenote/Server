@@ -72,13 +72,22 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
                     int x2 = random.Next(image.Width);
                     int y2 = random.Next(image.Height);
 
-                    var thickness=random.Next(1,4);
+                    int x3 = random.Next(image.Width);
+                    int y3 = random.Next(image.Height);
+
+                    int x4 = random.Next(image.Width);
+                    int y4 = random.Next(image.Height);
+
+                    int x5 = random.Next(image.Width);
+                    int y5 = random.Next(image.Height);
+                    var thickness=random.Next(2,4);
 
                     var linerSegemnt = new LinearLineSegment(
                         new Vector2(x1, y1),
-
-                        new Vector2(x2, y2)
-                    
+                        new Vector2(x2, y2),
+                        new Vector2(x3, y3),
+                        new Vector2(x4, y4),
+                        new Vector2(x5, y5)
                     );
                     var color=colorArray[cindex];
                     var p = new SixLabors.ImageSharp.Drawing.Path(linerSegemnt);
@@ -91,21 +100,24 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
                     var cindex = random.Next(7);//随机颜色索引值
                     var findex = random.Next(4);//随机字体索引值
 
+                    var fontSize = random.Next(35, 50);
+
                     FontCollection collection = new();
                     FontFamily family = collection.Add(fonts[findex]);
-                    Font font = family.CreateFont(30);
+                    Font font = family.CreateFont(fontSize);
 
-                    Color brushColor = colorArray[cindex];
+
+                    Color selectColor = colorArray[cindex];
 
                     //产生一个轻微的抖动
-                    int shakeX = random.Next(0, 10);
-                    int shakeY = random.Next(0, 20);
+                    int shakeX = random.Next(-5, 15);
+                    int shakeY = random.Next(-5, 25);
 
                     float x = 3 + (i * 30) + shakeX;//x坐标
                     float y = 0 + shakeY;//Y坐标
                     string character = code.Substring(i, 1);//绘制的字符
 
-                    image.Mutate(opera => opera.DrawText(character, font, brushColor, new PointF(x, y)));
+                    image.Mutate(opera => opera.DrawText(character, font, selectColor, new PointF(x, y)));
                 }
                 //在随机位置画背景点
                 for (int i = 0; i < 5; i++)
