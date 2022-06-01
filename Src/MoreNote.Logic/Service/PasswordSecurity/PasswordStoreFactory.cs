@@ -1,17 +1,27 @@
-﻿using MoreNote.Logic.Entity;
+﻿using Autofac;
+
+using MoreNote.CryptographyProvider;
+using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.PasswordSecurity.IMPL;
+
 using System;
 
 namespace MoreNote.Logic.Service.PasswordSecurity
 {
     public class PasswordStoreFactory
     {
-        public static IPasswordStore Instance(string hash_algorithm, int PasswordStoreDegreeOfParallelism=8, int PasswordStoreMemorySize=1024)
+        private ICryptographyProvider cryptography;
+        public PasswordStoreFactory(ICryptographyProvider cryptography)
+        {
+            this.cryptography = cryptography;
+        }
+        public  IPasswordStore Instance(string hash_algorithm, int PasswordStoreDegreeOfParallelism=8, int PasswordStoreMemorySize=1024)
         {
             switch (hash_algorithm.ToLower())
             {
                 case "sha256":
-                    return new Sha256PasswordStore();
+                    return new SHA256PasswordStore();
 
                 case "argon2":
                     return new Argon2PasswordStore()
@@ -21,19 +31,19 @@ namespace MoreNote.Logic.Service.PasswordSecurity
                     };
                 case "bcrypt":
                     return new BCryptPasswordStore();
-
                 case "pbkdf2":
                     return new PDKDF2PasswordStore();
-
+                case "sjj1962":
+                    return new SJJ1962PasswordStore(cryptography);
                 default:
                     throw new ArgumentException("hash_algorithm is error", "hash_algorithm");
             }
         }
-        public static IPasswordStore Instance(SecurityConfig securityConfig)
+        public  IPasswordStore Instance(SecurityConfig securityConfig)
         {
             return Instance(securityConfig.PasswordHashAlgorithm,securityConfig.PasswordStoreDegreeOfParallelism,securityConfig.PasswordStoreMemorySize);
         }
-        public static IPasswordStore Instance(User user)
+        public  IPasswordStore Instance(User user)
         {
             return Instance(user.PasswordHashAlgorithm , user.PasswordDegreeOfParallelism, user.PasswordMemorySize);
         }

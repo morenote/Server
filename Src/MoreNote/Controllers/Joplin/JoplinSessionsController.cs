@@ -36,13 +36,13 @@ namespace MoreNote.Controllers.Joplin
         }
 
         [Route("api/sessions")]
-        public IActionResult sessions([FromBody] SessionRequestDto sessionRequest)
+        public async Task<IActionResult> sessions([FromBody] SessionRequestDto sessionRequest)
         {
             string token = string.Empty;
             User user = null;
-            var loginReult = AuthService.LoginByPWD(sessionRequest.email, sessionRequest.password, out token, out user);
+            var tokenStr =await AuthService.LoginByPWD(sessionRequest.email, sessionRequest.password);
 
-            if (loginReult)
+            if (!string.IsNullOrEmpty(tokenStr))
             {
                 var response = new SessionResponseDto
                 {

@@ -7,6 +7,7 @@ using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
@@ -69,7 +70,7 @@ namespace MoreNote.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdatePwd(string oldPwd, string pwd)
+        public async Task<IActionResult> UpdatePwd(string oldPwd, string pwd)
         {
             var re = new ResponseMessage();
             if (string.IsNullOrEmpty(oldPwd) || string.IsNullOrEmpty(pwd) || pwd.Length < 6)
@@ -94,7 +95,7 @@ namespace MoreNote.Controllers
 
             if (userService.VDPassWord(pwd, user.UserId, out error))
             {
-                re.Ok = userService.UpdatePwd(user.UserId, oldPwd, pwd);
+                re.Ok =  await userService.UpdatePwd(user.UserId, oldPwd, pwd);
                 re.Msg = "The update password is wrong, please check the password you provided ";
                 return Json(re, MyJsonConvert.GetLeanoteOptions());
             }

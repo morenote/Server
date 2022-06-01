@@ -142,7 +142,7 @@ namespace MoreNote.Common.autofac
                     })
                     .InstancePerLifetimeScope()
                     .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
-            builder.RegisterType<Sha256PasswordStore>()
+            builder.RegisterType<SHA256PasswordStore>()
                 .As<IPasswordStore>();
             builder.RegisterType<JiebaSegmenterService>()
                 .As<JiebaSegmenterService>();
@@ -155,6 +155,7 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<NoteRepositoryService>();
             builder.RegisterType<RepositoryMemberRoleService>();
 
+            builder.RegisterType<PasswordStoreFactory>();
 
             //fido2认证服务
             builder.RegisterType<FIDO2Service>();

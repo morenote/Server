@@ -27,5 +27,21 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
         {
             return api.verifyHmac(data, mac);
         }
+        /// <summary>
+        /// 转加密 
+        /// </summary>
+        /// <param name="cipherBase64">SM2密文Base64编码</param>
+        /// <returns>base64结果</returns>
+        public async Task<string> TransEncrypted(string cipherBase64)
+        {
+    
+            var result= await api.transPinBlockFromPKToZPK("MBNK", "myself", "sm2",
+                                               "MBNK", "myself", "RZPK", 0, cipherBase64, "123456789012345");
+            if (result.Ok)
+            {
+                return result.Data;
+            }
+            throw new Exception("转加密失败");
+        }
     }
 }

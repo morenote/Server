@@ -10,25 +10,25 @@ using System.Threading.Tasks;
 namespace MoreNote.Logic.Service.PasswordSecurity
 {
     /// <summary>
-    /// 使用SHA256算法处理口令
+    /// 使用SHA512算法处理口令
     /// </summary>
-    public class SHA256PasswordStore : IPasswordStore
+    public class SHA512PasswordStore : IPasswordStore
     {
         public async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
         {
-            using (var sha256 = SHA256.Create())
+            using (var sha512 = SHA512.Create())
             {
-                byte[] hash = sha256.ComputeHash(pass);
+                byte[] hash = sha512.ComputeHash(pass);
 
                 for (int i = 0; i < iterations; i++)
                 {
                     if (i % 2 == 0)
                     {
-                        hash = sha256.ComputeHash(Sum(hash, salt));
+                        hash = sha512.ComputeHash(Sum(hash, salt));
                     }
                     else
                     {
-                        hash = sha256.ComputeHash(Sum(salt, hash));
+                        hash = sha512.ComputeHash(Sum(salt, hash));
                     }
                 }
                 return hash;

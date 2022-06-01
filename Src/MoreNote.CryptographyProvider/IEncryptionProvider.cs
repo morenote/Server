@@ -8,5 +8,7 @@
       
         public Task<string> hmac(string data);
         public Task<bool> verifyHmac(string data, string mac);
+
+        public Task<string> TransEncrypted(string cipherBase64);
     }
 }

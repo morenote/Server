@@ -19,33 +19,37 @@ namespace MoreNote.Logic.Service
 {
     public class DeployService
     {
-        IHost host;
+        private IHost host;
+
         public DeployService(IHost host)
         {
             this.host = host;
-
         }
-        public void MigrateDatabase()
+
+        public async void MigrateDatabase()
         {
-            if (host==null)
+            if (host == null)
             {
-               throw new ArgumentNullException("host is null,class DeployService  is error");
+                throw new ArgumentNullException("host is null,class DeployService  is error");
             }
             //执行数据库迁移命令
             System.Console.WriteLine(" ==================== PostgreSQL Migrate  Start====================");
             using (var scope = host.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+                var passwordStoreFactory = scope.ServiceProvider.GetRequiredService<PasswordStoreFactory>();
+
                 db.Database.Migrate();
 
                 //======================创建种子数据========================
-               ConfigFileService configFileService=new ConfigFileService();
-               var config=configFileService.WebConfig;
-               var pwd = RandomTool.CreatRandomString(16);
-               var passwordStore = PasswordStoreFactory.Instance(config.SecurityConfig);
-               var salt = RandomTool.CreatSafeSaltByteArray(16);
-               //对用户密码做哈希运算
-               string genPass = passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd), salt, config.SecurityConfig.PasswordHashIterations).ByteArrayToBase64();
+                ConfigFileService configFileService = new ConfigFileService();
+                var config = configFileService.WebConfig;
+                var pwd = RandomTool.CreatRandomString(16);
+                var passwordStore = passwordStoreFactory.Instance("sha256");
+                var salt = RandomTool.CreatSafeSaltByteArray(16);
+                //对用户密码做哈希运算
+                var genPassData = await passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd), salt, config.SecurityConfig.PasswordHashIterations);
+                var genPass = genPassData.ByteArrayToBase64();
                 var userId = 1223885079105900540L;
                 if (!db.User.Where(x => x.UserId == userId).Any())
                 {
@@ -83,12 +87,13 @@ namespace MoreNote.Logic.Service
                         FullSyncBefore = DateTime.Now,
                         Role = "Admin",
                         GoogleAuthenticatorSecretKey = null,
-                        PasswordHashAlgorithm = config.SecurityConfig.PasswordHashAlgorithm,
+                        PasswordHashAlgorithm ="sha256",
                         PasswordDegreeOfParallelism = config.SecurityConfig.PasswordStoreDegreeOfParallelism,
                         PasswordHashIterations = config.SecurityConfig.PasswordHashIterations,
                         BlogUrl = null,
                         MarkdownEditorOption = "ace",
-                        RichTextEditorOption = "tinymce"
+                        RichTextEditorOption = "tinymce",
+                        ChangePasswordReminder=true
                     });
 
                     Console.WriteLine("Initialize the admin account");
@@ -112,9 +117,7 @@ namespace MoreNote.Logic.Service
 
                         IsAsc = true,
                     });
-
                 }
-
 
                 var list = new List<string>(4) { "life", "study", "work", "tutorial" };
 
@@ -134,21 +137,16 @@ namespace MoreNote.Logic.Service
                             UrlTitle = item,
                             ParentNotebookId = null
                         });
-
                     }
-
                 }
 
                 db.SaveChanges();
-
             }
-
 
             System.Console.WriteLine(" ==================== PostgreSQL Migrate  Successfully====================");
         }
 
-
-        public  void InitSecret()
+        public void InitSecret()
         {
             Console.WriteLine(" ==================== Initializing Secret Start==================== ");
             ConfigFileService configFileService = new ConfigFileService();

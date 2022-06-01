@@ -124,8 +124,8 @@ namespace MoreNote.Controllers
                     return Json(re, MyJsonConvert.GetSimpleOptions());
                 }
             }
-
-            if (!authService.LoginByPWD(email, pwd, out string token, out User user))
+            var tokenStr = await authService.LoginByPWD(email, pwd);
+            if ( string.IsNullOrEmpty(tokenStr))
             {
                 //登录失败
                 ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "wrongUsernameOrPassword" };
@@ -136,6 +136,7 @@ namespace MoreNote.Controllers
             }
             else
             {
+                var user=userService.GetUserByEmail(email);
                  distributedCache.SetInt(errorCountKey,0);
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identity.AddClaim(new Claim(ClaimTypes.Sid, user.UserId.ToString()));
@@ -163,11 +164,11 @@ namespace MoreNote.Controllers
                 //var token=   tokenSerivce.GenerateToken();
 
                 //登录成功
-                HttpContext.Session.SetString("token", token);
+                HttpContext.Session.SetString("token", tokenStr);
                 HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
                 HttpContext.Session.SetBool("Verified", user.Verified);
 
-                HttpContext.Response.Cookies.Append("token", token, 
+                HttpContext.Response.Cookies.Append("token", tokenStr, 
                     new CookieOptions() { HttpOnly = true,
                     Domain=config.APPConfig.Domain,
                     SameSite=SameSiteMode.Lax,
@@ -238,7 +239,7 @@ namespace MoreNote.Controllers
         /// <param name="pwd">注册者的口令</param>
         /// <param name="iu"></param>
         /// <returns></returns>
-        public JsonResult DoRegister(string email, string pwd, string iu, string captcha)
+        public async Task<JsonResult> DoRegister(string email, string pwd, string iu, string captcha)
         {
             if (!configFileService.WebConfig.SecurityConfig.OpenRegister)
             {
@@ -249,7 +250,7 @@ namespace MoreNote.Controllers
                 }, MyJsonConvert.GetSimpleOptions());
             }
             string errorMessage = string.Empty;
-            bool result = authService.Register(email, pwd, iu.ToLongByHex(), out errorMessage);
+            bool result = await authService.Register(email, pwd, iu.ToLongByHex());
             if (result)
             {
                 return Json(new ApiRe()

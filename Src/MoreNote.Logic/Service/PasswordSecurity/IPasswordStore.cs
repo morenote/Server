@@ -20,7 +20,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
         /// <param name="salt">盐值</param>
         /// <param name="iterations">迭代次数</param>
         /// <returns></returns>
-        public byte[] Encryption(byte[] pass, byte[] salt,int iterations);
+        public Task<byte[]> Encryption(byte[] pass, byte[] salt,int iterations);
 
         /// <summary>
         /// 验证提供的口令是否与提供的哈希匹配
@@ -30,7 +30,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
         /// <param name="salt">盐值</param>
         /// <param name="iterations">迭代次数</param>
         /// <returns></returns>
-        public bool VerifyPassword(byte[] encryData,byte[] pass,  byte[] salt,int iterations);
+        public Task<bool> VerifyPassword(byte[] encryData,byte[] pass,  byte[] salt,int iterations);
 
     }
 }

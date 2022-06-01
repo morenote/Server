@@ -67,15 +67,15 @@ namespace MoreNote.Controllers.Admin
               return View("Views/admin/user/add.cshtml");
         }
 
-        public IActionResult Register(string email,string pwd)
+        public async  Task<IActionResult> Register(string email,string pwd)
         {
             var re=new ResponseMessage();
             var message=string.Empty;
             
             if (userService.VDUserName(email,out message)&&userService.VDPassWord(pwd,null,out message))
             {
-                authService.Register(email,pwd,null,out message);
-                re.Ok=true;
+                var result=await  authService.Register(email,pwd,null);
+                re.Ok= result;
             }
             re.Msg=message;
             return Json(re,MyJsonConvert.GetLeanoteOptions());

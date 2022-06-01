@@ -26,14 +26,14 @@ namespace MoreNote
             var map = GetArgsMap(args);
 
             DeployService deployService = new DeployService(host);
-            if (map.Keys.Contains("command"))
+            if (map.Keys.Contains("m"))
             {
-                var cmd = map["command"];
+                var cmd = map["m"];
                 
                 switch (cmd)
                 {
                     case "GenSecret":
-                        deployService.InitSecret();
+                         //deployService.InitSecret();
                         return;
                     case "MigrateDatabase":
                         deployService.MigrateDatabase();
@@ -42,10 +42,8 @@ namespace MoreNote
                         Console.WriteLine("unkown cmd");
                         return;
                 }
-
             }
-           
-
+          
             host.Run();
         }
 

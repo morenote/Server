@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -25,12 +26,13 @@ namespace MoreNote.Logic.Service
         public EmailService EmailService { get; set; }
         public WebSiteConfig Config { get; set; }
         private IDistributedIdGenerator idGenerator;
-
-        public UserService(DataContext dataContext,IDistributedIdGenerator idGenerator, ConfigFileService configFileService)
+        private PasswordStoreFactory passwordStoreFactory;
+        public UserService(DataContext dataContext,IDistributedIdGenerator idGenerator, ConfigFileService configFileService, PasswordStoreFactory passwordStoreFactory)
         {
             this.idGenerator=idGenerator;
             this.dataContext = dataContext;
             this.Config = configFileService.WebConfig;
+            this.passwordStoreFactory = passwordStoreFactory;
         }
 
         public UserLoginSecurityStrategy GetGetUserLoginSecurityStrategy(string userName)
@@ -427,13 +429,13 @@ namespace MoreNote.Logic.Service
 
         //----------------------
         // 已经登录了的用户修改密码
-        public bool UpdatePwd(long? userId, string oldPwd, string pwd)
+        public async Task<bool> UpdatePwd(long? userId, string oldPwd, string pwd)
         {
             var user = dataContext.User.Where(b => b.UserId == userId).First();
 
-            IPasswordStore passwordStore = PasswordStoreFactory.Instance(user);
+            IPasswordStore passwordStore = passwordStoreFactory.Instance(user);
             //验证旧密码
-            var vd = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), oldPwd.ToByteArrayByUtf8(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
+            var vd =await passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), oldPwd.ToByteArrayByUtf8(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
             if (!vd)
             {
                 return vd;
@@ -441,7 +443,7 @@ namespace MoreNote.Logic.Service
             //产生新的盐
             var salt = RandomTool.CreatSafeSaltByteArray(16);
 
-            passwordStore = PasswordStoreFactory.Instance(Config.SecurityConfig);
+            passwordStore = passwordStoreFactory.Instance(Config.SecurityConfig);
             //更新用户生成密码哈希的安全策略
             user.PasswordDegreeOfParallelism = Config.SecurityConfig.PasswordStoreDegreeOfParallelism;
             user.PasswordHashAlgorithm = Config.SecurityConfig.PasswordHashAlgorithm;
@@ -450,7 +452,7 @@ namespace MoreNote.Logic.Service
             //更新盐
             user.Salt = salt.ByteArrayToBase64();
             //生成新的密码哈希
-            user.Pwd = passwordStore.Encryption(pwd.ToByteArrayByUtf8(), salt, user.PasswordHashIterations).ByteArrayToBase64();
+            user.Pwd =(await passwordStore.Encryption(pwd.ToByteArrayByUtf8(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
             return dataContext.SaveChanges() > 0;
         }
 

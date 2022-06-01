@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MoreNote.Common.Utils;
+using MoreNote.CryptographyProvider;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +9,15 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
 {
+    /// <summary>
+    /// 使用加密芯片保护口令
+    /// </summary>
     public class SJJ1962PasswordStore : IPasswordStore
     {
-        public SJJ1962PasswordStore()
+        private ICryptographyProvider cryptographyProvider;
+        public SJJ1962PasswordStore(ICryptographyProvider  cryptographyProvider)
         {
-
+            this.cryptographyProvider = cryptographyProvider;
         }
         /// <summary>
         /// 加密口令
@@ -19,10 +26,11 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <param name="salt">盐（无效参数）</param>
         /// <param name="iterations">轮数（无效参数）</param>
         /// <returns></returns>
-        public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
+        public async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
         {
-            throw new NotImplementedException();
-
+            var base64Pass = Convert.ToBase64String(pass);
+            var result=await cryptographyProvider.TransEncrypted(base64Pass);
+            return Convert.FromBase64String(result);
         }
         /// <summary>
         ///  验证口令
@@ -33,9 +41,12 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <param name="iterations">轮数（无效参数）</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+        public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
         {
-            throw new NotImplementedException();
+            var base64Pass = Convert.ToBase64String(pass);
+            var result = await cryptographyProvider.TransEncrypted(base64Pass);
+            var verify= SecurityUtil.SafeCompareByteArray(encryData, pass);
+            return verify;
         }
     }
 }

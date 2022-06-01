@@ -16,42 +16,42 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
         string password= "12345678";
         
         [TestMethod()]
-        public void BCryptPasswordStoreTest()
+        public async void BCryptPasswordStoreTest()
         {
              var salt = HexUtil.StringToByteArray(hex);
              IPasswordStore passwordStore=new BCryptPasswordStore();
-             var enc= passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 9);
-             var text=HexUtil.ByteArrayToString(enc);
+             var enc= await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 9);
+             var text= HexUtil.ByteArrayToString(enc);
              Console.WriteLine(text);
         }
 
         [TestMethod()]
-        public void Argon2PasswordStoreTest()
+        public async void Argon2PasswordStoreTest()
         {
             var salt = HexUtil.StringToByteArray(hex);
             IPasswordStore passwordStore = new Argon2PasswordStore();
-            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 8);
+            var enc =await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 8);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
         }
 
         [TestMethod()]
-        public void PDKDF2PasswordStoreTest()
+        public async void PDKDF2PasswordStoreTest()
         {
             var salt = HexUtil.StringToByteArray(hex);
             IPasswordStore passwordStore = new PDKDF2PasswordStore();
-            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*80);
+            var enc =await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*80);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
 
         }
 
         [TestMethod()]
-        public void Sha256PasswordStoreTest()
+        public async void Sha256PasswordStoreTest()
         {
             var salt = HexUtil.StringToByteArray(hex);
-            IPasswordStore passwordStore = new Sha256PasswordStore();
-            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*160);
+            IPasswordStore passwordStore = new SHA256PasswordStore();
+            var enc =await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*160);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
 

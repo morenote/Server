@@ -70,6 +70,7 @@ namespace MoreNote.Logic.Entity
         [JsonIgnore]
         public string? Pwd { get; set; }
 
+
         /// <summary>
         /// 加密用户登录口令使用的哈希算法
         /// <para>
@@ -212,6 +213,11 @@ namespace MoreNote.Logic.Entity
         //==================================安全密钥  FIDO2 yubikey=========================================
         [Column("fido2_items")]
         public List<FIDO2Item>? FIDO2Items {get; set;}
+
+        [Column("password_expired")]
+        public int? PasswordExpired { get; set; }//密码过期时间
+        [Column("change_password_reminder")]
+        public bool? ChangePasswordReminder { get; set; }//修改密码提醒
         //=======================================================================================================
         public bool IsAdmin()
         {

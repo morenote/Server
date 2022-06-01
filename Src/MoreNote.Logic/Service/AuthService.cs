@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Formats.Asn1;
 using System.Text;
+using System.Threading.Tasks;
+
 using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
@@ -24,18 +26,21 @@ namespace MoreNote.Logic.Service
         public NotebookService NotebookService { get;set;}
         private WebSiteConfig config;
         private IDistributedIdGenerator idGenerator;
-        public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService,ConfigFileService configFileService,IDistributedIdGenerator idGenerator)
+        private PasswordStoreFactory passwordStoreFactory;
+        public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService,ConfigFileService configFileService, IDistributedIdGenerator idGenerator, PasswordStoreFactory passwordStoreFactory)
         {
-            this.idGenerator=idGenerator;
-            this.dataContext=dataContext;
-            this.passwordStore=passwordStore;
-            this.NotebookService=notebookService;
-            this.config= configFileService.WebConfig;
+            this.idGenerator = idGenerator;
+            this.dataContext = dataContext;
+            this.passwordStore = passwordStore;
+            this.NotebookService = notebookService;
+            this.config = configFileService.WebConfig;
+            this.passwordStoreFactory = passwordStoreFactory;
         }
 
-        public  bool LoginByPWD(String email, string pwd, out string tokenStr,out User user)
+        public  async Task<string> LoginByPWD(String email, string pwd)
         {
-
+            User user;
+            string tokenStr;
             if (email.Contains("@"))
             {
                 user = UserService.GetUserByEmail(email);
@@ -47,13 +52,13 @@ namespace MoreNote.Logic.Service
             {
                 tokenStr=null;
                 user=null;
-                return false;
+                return null;
             }
-            var passwordStore = PasswordStoreFactory.Instance(user);
+            var passwordStore = passwordStoreFactory.Instance(user);
 
             if (user != null)
             {
-                var result = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
+                var result = await passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
                 if (result)
                 {
                     long? tokenid = idGenerator.NextId();
@@ -70,18 +75,18 @@ namespace MoreNote.Logic.Service
                     };
                     TokenSerivce.AddToken(myToken);
                     tokenStr = myToken.TokenStr;
-                    return true;
+                    return tokenStr;
                 }
                 else
                 {
                     tokenStr = "";
-                    return false;
+                    return null;
                 }
             }
             else
             {
                 tokenStr = "";
-                return false;
+                return null;
             }
 
         }
@@ -126,10 +131,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public  bool Register(string email,string pwd,long? fromUserId)
-        {
-           return Register( email,  pwd,  fromUserId, out string Msg);
-        }
+     
         // 注册
         /*
         注册 leanote@leanote.com userId = "5368c1aa99c37b029d000001"
@@ -141,10 +143,10 @@ namespace MoreNote.Logic.Service
         // 1. 添加用户
         // 2. 将leanote共享给我
         // [ok]
-        public  bool Register(string email, string pwd, long? fromUserId,out string Msg)
+        public  async Task<bool> Register(string email, string pwd, long? fromUserId)
         {
             email=email.ToLower();//邮箱保存时全部使用小写形式
-
+            var Msg = "";
             if (string.IsNullOrEmpty(email)||string.IsNullOrEmpty(pwd)||pwd.Length<6)
             {
                 Msg="参数错误";
@@ -159,9 +161,9 @@ namespace MoreNote.Logic.Service
             //产生一个盐用于保存密码
             var salt= RandomTool.CreatSafeSaltByteArray(16);
 
-            var passwordStore=PasswordStoreFactory.Instance(config.SecurityConfig);
+            var passwordStore=passwordStoreFactory.Instance(config.SecurityConfig);
             //对用户密码做哈希运算
-            string genPass= passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd),salt,config.SecurityConfig.PasswordHashIterations).ByteArrayToBase64();
+            string genPass=( await passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd),salt,config.SecurityConfig.PasswordHashIterations)).ByteArrayToBase64();
             if (string.IsNullOrEmpty(genPass))
             {
                 Msg="密码处理过程出现错误";
