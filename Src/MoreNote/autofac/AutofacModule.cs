@@ -27,6 +27,7 @@ using Autofac.log4net;
 using Autofac.Extras.NLog;
 using MoreNote.Logic.Service.Captcha.IMPL;
 using MoreNote.Logic.Service.VerificationCode;
+using MoreNote.Logic.Service.Security.USBKey.CSP;
 
 namespace MoreNote.Common.autofac
 {
@@ -173,13 +174,14 @@ namespace MoreNote.Common.autofac
             //签名验签服务器
             builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
             {
-                api.HttpHost = new Uri("http://localhost:8080/");
+                api.HttpHost = new Uri("http://localhost:8081/");
             });
            
             //服务器端签名和验签服务
             builder.RegisterType<NetSignService>()
                 .As<ISignatureService>()
                 .SingleInstance();
+
 
             //加密平台服务
             builder.RegisterHttpApi<IHisuTSSApi>().ConfigureHttpApiConfig(api =>
@@ -189,6 +191,8 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<HisuTSSService>()
                 .As<ICryptographyProvider>()
                 .SingleInstance();
+            builder.RegisterType<EPassService>();
+
 
             builder.RegisterType<ImageSharpCaptchaGenerator>()
                 .As<ICaptchaGenerator>();

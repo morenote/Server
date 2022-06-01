@@ -18,7 +18,7 @@ namespace MoreNote.Logic.Entity
         [Column("user_id")]
         public long? UserId { get; set; }
         [Column("email")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         //使用token来授权第三方应用使用你的笔记数据
         //当使用API登录时，总是假定你的登录方式是使用token方式获得授权
         //token的规格是16位随机字符串 yk1I-W8o8-FwC0-O2vO 但是不保证后期版本升级后长度发生变化

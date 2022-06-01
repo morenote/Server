@@ -14,9 +14,9 @@ namespace MoreNote.Common.ExtensionMethods
         /// 设置字符串
         /// </summary>
         /// <param name="distributedCache"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <param name="secondTimeout"></param>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="secondTimeout">超时时间 秒</param>
         public static void SetString(this IDistributedCache distributedCache,string key,string value,int secondTimeout)
         {
              DistributedCacheEntryOptions options = new DistributedCacheEntryOptions();

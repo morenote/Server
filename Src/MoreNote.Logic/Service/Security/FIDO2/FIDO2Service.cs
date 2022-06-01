@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         private DataContext dataContext;
         private WebSiteConfig config;
         private FIDO2Config fido2Config;
-        private IDistributedCache cache;//缓存数据库
+        private IDistributedCache distributedCache;//分布式缓存
         private IDistributedIdGenerator IdGenerator; 
         /// <summary>
         /// 构造函数
@@ -42,7 +42,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         {
             this.IdGenerator=IdGenerator;
             this.dataContext = dataContext;
-            this.cache = distributedCache;
+            this.distributedCache = distributedCache;
             this.config = configFileService.WebConfig;
             this.fido2Config = config.SecurityConfig.FIDO2Config;
             this._fido2 = fido2;
@@ -77,7 +77,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 opts.Attestation,
                 exts);
 
-            cache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
+            distributedCache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
         }
 
@@ -104,7 +104,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         public async Task<CredentialMakeResult> RegisterCredentials(User user, string fido2Name, AuthenticatorAttestationRawResponse attestationResponse)
         {
             // 1. get the options we sent the client
-            var jsonOptions = cache.GetString(user.UserId.ToString() + "attestationOptions");
+            var jsonOptions = distributedCache.GetString(user.UserId.ToString() + "attestationOptions");
             if (string.IsNullOrEmpty(jsonOptions))
             {
                 return null;
@@ -181,7 +181,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 assertionClientParams.UserVerification,
                 assertionClientParams.Extensions
             );
-            cache.SetString(user.UserId.ToString() + "assertionOptions", options.ToJson(), 120);
+            distributedCache.SetString(user.UserId.ToString() + "assertionOptions", options.ToJson(), 120);
 
             return options;
         }
@@ -200,7 +200,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 };
             }
             // 1. Get the assertion options we sent the client
-            var jsonOptions = cache.GetString(user.UserId.ToString() + "assertionOptions");
+            var jsonOptions = distributedCache.GetString(user.UserId.ToString() + "assertionOptions");
             if (string.IsNullOrEmpty(jsonOptions))
             {
                 return new AssertionVerificationResult()

@@ -21,9 +21,9 @@ namespace MoreNote.SignatureService.NetSign
             return _netSignApi.rawSignature(data);
         }
 
-        public Task<bool> rawVerify(string data, string sign, string cer)
+        public Task<bool> rawVerify(String data, String sign, String cer, bool usbKey, String pubKeyModulusInHex, String pubKeyExpInHex)
         {
-            return this._netSignApi.rawVerify(data, sign, cer);
+            return this._netSignApi.rawVerify(data, sign, cer,usbKey,pubKeyModulusInHex,pubKeyExpInHex);
         }
     }
 }

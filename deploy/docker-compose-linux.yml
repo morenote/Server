@@ -76,17 +76,28 @@ services:
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: -Xms128m -Xmx1g
-  netsin:
+  netsin: # 签名验签服务器
     restart: always
     container_name:  netsin
     image: registry.cn-hangzhou.aliyuncs.com/hyfree/netsign:0.1  #使用的是netsign签名服务
     ports:
-      - 8080:8080
+      - 8081:8081
     volumes:
       - /morenote/netsign/config:/app/config/ #挂载配置文件
     environment:
       ES_JAVA_OPTS: -Xms128m -Xmx1g #限制内存的使用
-
+  HisuTSSC: # 加密服务平台
+    restart: always
+    container_name: HisuTSSC
+    image: registry.cn-hangzhou.aliyuncs.com/hyfree/HisuTSSC:0.1
+    ports:
+     - 8080:8080
+    volumes:
+      - /morenote/HisuTSSC/config:/app/config/ #挂载配置文件
+    environment:
+      ES_JAVA_OPTS: -Xms128m -Xmx1g #限制内存的使用
+    
+    
 
 
 
