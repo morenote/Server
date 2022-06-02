@@ -11,6 +11,7 @@ using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Models.DTO.Leanote;
+using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Leanote.Loggin;
 using MoreNote.Models.Model.FIDO2;
 using System;
@@ -172,6 +173,50 @@ namespace MoreNote.Controllers.API.APIV1
                 item.Verify = verify;
             }
             re.Data = data;
+            re.Ok = true;
+            return LeanoteJson(re);
+
+
+        }
+
+        /// <summary>
+        /// 获得用户登录安全策略级别
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> GetUserLoginSecurityPolicyLevel(string email)
+        {
+
+            var re = new ApiRe()
+            {
+                Ok = false,
+                Data = null
+            };
+            var user = userService.GetUserByEmail(email);
+            if (user==null)
+            {
+                return LeanoteJson(re);
+            }
+            re.Ok = true;
+            re.Data = user.LoginSecurityPolicyLevel;
+            return LeanoteJson(re);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> SetUserLoginSecurityPolicyLevel(string token,LoginSecurityPolicyLevel level)
+        {
+
+            var re = new ApiRe()
+            {
+                Ok = false,
+                Data = null
+            };
+            var user = tokenSerivce.GetUserByToken(token);
+            if (user==null)
+            {
+                return LeanoteJson(re);
+            }
+            userService.SetUserLoginSecurityPolicyLevel(user.UserId, level);
+
             re.Ok = true;
             return LeanoteJson(re);
 

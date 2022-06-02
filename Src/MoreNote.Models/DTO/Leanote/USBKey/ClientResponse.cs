@@ -24,11 +24,15 @@ namespace MoreNote.Models.DTO.Leanote.USBKey
         /// </summary>
         public string Certificate { get; set; }
 
+        
+
         /// <summary>
         /// 客户端签名
         /// </summary>
         public string Sign { get; set; }
 
+
+       
         public static ClientResponse FromJSON(string json)
         {
             var clientResponse = JsonSerializer.Deserialize<ClientResponse>(json,MyJsonConvert.GetLeanoteOptions());

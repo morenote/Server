@@ -10,6 +10,7 @@ using Fido2NetLib.Objects;
 using Microsoft.EntityFrameworkCore;
 
 using MoreNote.Logic.Entity;
+using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Security.FIDO2;
 
@@ -218,6 +219,9 @@ namespace MoreNote.Logic.Entity
         public int? PasswordExpired { get; set; }//密码过期时间
         [Column("change_password_reminder")]
         public bool? ChangePasswordReminder { get; set; }//修改密码提醒
+
+        [Column("login_security_policy_level")]
+        public LoginSecurityPolicyLevel LoginSecurityPolicyLevel { get; set; } = LoginSecurityPolicyLevel.unlimited;//登录安全策略级别
         //=======================================================================================================
         public bool IsAdmin()
         {

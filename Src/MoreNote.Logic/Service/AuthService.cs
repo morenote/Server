@@ -73,7 +73,7 @@ namespace MoreNote.Logic.Service
                         TokenType = 0,
                         CreatedTime = DateTime.Now
                     };
-                    TokenSerivce.AddToken(myToken);
+                    TokenSerivce.SaveToken(myToken);
                     tokenStr = myToken.TokenStr;
                     return tokenStr;
                 }

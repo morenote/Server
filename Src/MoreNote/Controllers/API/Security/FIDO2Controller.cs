@@ -10,6 +10,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Model.FIDO2;
 using System;
 using System.Text.Json;
@@ -176,25 +177,27 @@ namespace MoreNote.Controllers.API
 
                 var success = await fido2Service.MakeAssertionAsync(user, clientRespons);
 
+                var re = new ApiRe();
                 if (success.Status.Equals("success"))
                 {
                     //颁发token
-                    var token = tokenSerivce.GenerateToken();
-                    tokenSerivce.AddToken(token);
+                    var token = tokenSerivce.GenerateToken(user.UserId,user.Email);
+                    tokenSerivce.SaveToken(token);
 
-                    AuthOk authOk = new AuthOk()
+                    UserToken authOk = new UserToken()
                     {
-                        Ok = true,
                         Token = token.TokenStr,
-                        UserId = user.UserId.ToHex24(),
+                        UserId = user.UserId,
                         Email = user.Email,
                         Username = user.Username
                     };
-                    return Json(authOk);
+                    re.Ok = true;
+                    re.Data = authOk;
+                    return LeanoteJson(re);
                 }
-                var re = new ApiRe();
+               
                 re.Data = success;
-                return Json(re);
+                return LeanoteJson(re);
             }
             catch (Exception ex)
             {

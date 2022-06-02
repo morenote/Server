@@ -24,7 +24,7 @@ namespace MoreNote.Logic.Service
             this.config = configFileService.WebConfig;
         }
 
-        public bool AddToken(Token token)
+        public bool SaveToken(Token token)
         {
             int a = 0;
 
@@ -204,14 +204,15 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Token GenerateToken()
+        public Token GenerateToken(long? userId,string email)
         {
             long? tokenid = idGenerator.NextId();
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
                 TokenId = idGenerator.NextId(),
-
+                UserId= userId,
+                Email= email,
                 TokenStr = tokenContext,
                 TokenType = 0,
                 CreatedTime = DateTime.Now

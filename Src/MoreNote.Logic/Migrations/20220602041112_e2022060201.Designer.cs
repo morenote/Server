@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220602041112_e2022060201")]
+    partial class e2022060201
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1707,10 +1709,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("LeftIsMin")
                         .HasColumnType("boolean")
                         .HasColumnName("left_is_min");
-
-                    b.Property<int>("LoginSecurityPolicyLevel")
-                        .HasColumnType("integer")
-                        .HasColumnName("login_security_policy_level");
 
                     b.Property<string>("Logo")
                         .HasColumnType("text")

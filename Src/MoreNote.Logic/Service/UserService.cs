@@ -13,6 +13,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.PasswordSecurity;
+using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Security.FIDO2;
 using MoreNote.Models.Model;
@@ -208,6 +209,15 @@ namespace MoreNote.Logic.Service
             var user = dataContext.User.Include(p => p.FIDO2Items).Where(b => b.UserId == userId).FirstOrDefault();
             //user.FIDO2Items.Add(fido);
             dataContext.FIDO2Repository.Add(fido);
+            dataContext.SaveChanges();
+        }
+
+        public void SetUserLoginSecurityPolicyLevel(long? userId, LoginSecurityPolicyLevel level)
+        {
+            dataContext.User.Where(b => b.UserId == userId).UpdateFromQuery(x => new User()
+            {
+                LoginSecurityPolicyLevel = level,
+            });
             dataContext.SaveChanges();
         }
 
