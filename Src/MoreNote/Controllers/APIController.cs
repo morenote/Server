@@ -32,7 +32,7 @@ namespace MoreNote.Controllers
     public class APIController : BaseController
     {
         private AccessService AccessService { get; set; }
-        private RandomImageService randomImageService;
+      
         private DataContext dataContext;
         private ConfigFileService configFileService;
 
@@ -83,14 +83,14 @@ namespace MoreNote.Controllers
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor,
             AccessService accessService,
-            DataContext dataContext,
-            RandomImageService randomImageService
+            DataContext dataContext
+         
 
             ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.AccessService = accessService;
             this.dataContext = dataContext;
-            this.randomImageService = randomImageService;
+          
             this.configFileService = configFileService;
             webcConfig = configFileService.WebConfig;
 
@@ -119,130 +119,9 @@ namespace MoreNote.Controllers
             return File(data, memi);
         }
 
-        public async Task<IActionResult> GetRandomImage(string type, string format = "raw", int jsonSize = 1)
-        {
-            var randomImageList = randomImageService.GetRandomImageList();
-            lock (_fuseObj)
-            {
-                _fuseCount++;
-            }
-            RandomImage randomImage = null;
-            if (DateTime.Now.Hour != _initTime)
-            {
-                _fuseCount = 0;
-                _initTime = DateTime.Now.Hour;
-            }
-            else
-            {
-                if (_fuseCount > _randomImageFuseSize)
-                {
-                    Response.StatusCode = (int)HttpStatusCode.BadGateway;
-                    return Content("接口遭到攻击，并发量超出限制值，触发防火墙策略。");
-                }
-            }
+      
 
-            if (string.IsNullOrEmpty(type) || !randomImageList.ContainsKey(type))
-            {
-                type = "动漫综合2";
-            }
-            if (type.Equals("少女映画"))
-            {
-                string userHex = HttpContext.Session.GetString("_UserId");
-                if (string.IsNullOrEmpty(userHex))
-                {
-                    //没登陆
-                    return Redirect("/Auth/login");
-                }
-            }
-            int index = random.Next(randomImageList[type].Count - 1);
-            randomImage = randomImageList[type][index];
-
-            string ext = Path.GetExtension(randomImage.FileName);
-            IHeaderDictionary headers = Request.Headers;
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (KeyValuePair<string, Microsoft.Extensions.Primitives.StringValues> item in headers)
-            {
-                stringBuilder.Append(item.Key + "---" + item.Value + "\r\n");
-            }
-            string RealIP = headers["X-Forwarded-For"].ToString().Split(",")[0];
-            string remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            string remotePort = Request.HttpContext.Connection.RemotePort.ToString();
-            AccessRecords accessRecords = new AccessRecords()
-            {
-                AccessId = idGenerator.NextId(),
-                IP = RealIP,
-                X_Real_IP = headers["X-Real-IP"],
-                X_Forwarded_For = headers["X-Forwarded-For"],
-                Referrer = headers["Referer"],
-                RequestHeader = stringBuilder.ToString(),
-                AccessTime = DateTime.Now,
-                UnixTime = (long)UnixTimeUtil.GetTimeStampInInt32(),
-                TimeInterval = -1,
-                URL = "/api/GetRandomImage",
-                RemoteIPAddress = remoteIpAddress,
-                RemotePort = remotePort
-            };
-            //访问日志
-            await AccessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
-            string typeMD5 = randomImage.TypeNameMD5;
-
-            int unixTimestamp = UnixTimeUtil.GetTimeStampInInt32();
-            Console.WriteLine("现在的时间=" + unixTimestamp);
-            unixTimestamp += 15;
-            Console.WriteLine("过期时间=" + unixTimestamp);
-
-            //开启token防盗链
-
-            switch (format)
-            {
-                case "raw":
-                    return Redirect($"{webcConfig.APPConfig.SiteUrl}/api/random-images/{randomImage.TypeNameMD5}/{randomImage.RandomImageId.ToHex() + ext}");
-
-                case "json":
-                    if (jsonSize < 0)
-                    {
-                        jsonSize = 1;
-                    }
-
-                    if (jsonSize > 20)
-                    {
-                        jsonSize = 20;
-                    }
-                    List<string> images = new List<string>();
-
-                    for (int i = 0; i < jsonSize; i++)
-                    {
-                        string img = GetOneURL(type);
-                        images.Add(img);
-                    }
-
-                    RandomImageResult randomImageResult = new RandomImageResult()
-                    {
-                        Error = 0,
-                        Result = 200,
-                        Count = images.Count,
-                        Images = images
-                    };
-                    return Json(randomImageResult, Common.Utils.MyJsonConvert.GetSimpleOptions());
-
-                default:
-                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    return Content("format=??");
-            }
-        }
-
-        private string GetOneURL(string type)
-        {
-            var randomImageList = randomImageService.GetRandomImageList();
-            RandomImage randomImage = null;
-            int index = random.Next(randomImageList[type].Count - 1);
-            randomImage = randomImageList[type][index];
-
-            string ext = Path.GetExtension(randomImage.FileName);
-
-            return $"{webcConfig.APPConfig.SiteUrl}/api/random-images/{randomImage.TypeNameMD5}/{randomImage.RandomImageId.ToHex() + ext}";
-        }
-
+       
         public IActionResult ResolutionStrategy(String StrategyID)
         {
             if (string.IsNullOrEmpty(StrategyID))
@@ -263,10 +142,7 @@ namespace MoreNote.Controllers
             }
         }
 
-        public IActionResult GetRandomImageFuseSize()
-        {
-            return Content(_fuseCount.ToString());
-        }
+      
 
         [HttpPost]
         public async Task<IActionResult> UpYunImageServiceHook()

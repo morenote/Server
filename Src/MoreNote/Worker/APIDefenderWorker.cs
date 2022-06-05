@@ -24,7 +24,7 @@ namespace MoreNoteWorkerService
     //定期扫描网站日志，并将恶意访问者的IP加入黑名单
     public class APIDefenderWorker : BackgroundService
     {
-        private readonly ILogger<RandomImagesCrawlerWorker> _logger;
+        private readonly ILogger<APIDefenderWorker> _logger;
         private ConfigFileService configFileService;
         /// <summary>
         /// 网站配置
@@ -37,7 +37,7 @@ namespace MoreNoteWorkerService
 
         Random random = new Random();
 
-        public APIDefenderWorker(ILogger<RandomImagesCrawlerWorker> logger, ConfigFileService configFileService)
+        public APIDefenderWorker(ILogger<APIDefenderWorker> logger, ConfigFileService configFileService)
         {
             _logger = logger;
             this.configFileService= configFileService;
@@ -53,7 +53,6 @@ namespace MoreNoteWorkerService
                     await Check().ConfigureAwait(false);
                     int time = DateTime.Now.Hour;
                     //每过60秒随机抓取一次
-                    //频率太高，站长会顺着网线过来打人
                     await Task.Delay(TimeSpan.FromMinutes(10), stoppingToken).ConfigureAwait(false);
                 }
                 catch (Exception ex)
