@@ -209,9 +209,10 @@ namespace MoreNote
                  );
             }
             services.AddControllers().AddControllersAsServices();
-           
 
 
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
             //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
@@ -258,6 +259,11 @@ namespace MoreNote
                        .AllowAnyOrigin();
             });
 
+          
+
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseEndpoints(endpoints =>
             {
