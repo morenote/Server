@@ -4,39 +4,28 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0  AS base
 WORKDIR /app
 EXPOSE 80
-# use mirrors.aliyun.com/debian
-COPY ["Src/MoreNote/sources.list","/app/sources.list"]
-RUN  mv /etc/apt/sources.list /etc/apt/sources.list.bak &&cp sources.list /etc/apt/sources.list&&cat /etc/apt/sources.list 
-# https://stackoverflow.com/questions/30451939/cant-install-libc6-package/30452149
-RUN  apt-get autoclean&&apt-get update&&apt-get upgrade&& apt-get -u dist-upgrade&&dpkg --configure -a&&apt-get -f install&&apt-get install -y libgdiplus &&ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
-
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /code
-#替换软件源
-COPY ["Src/MoreNote/sources.list","/app/sources.list"]
-RUN  mv /etc/apt/sources.list /etc/apt/sources.list.bak &&cp /app/sources.list /etc/apt/sources.list&&cat /etc/apt/sources.list 
-
-
-#解决证书问题
-#https://q.cnblogs.com/q/133315/
-ADD http://ftp.us.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20210119_all.deb .
-RUN dpkg -i ca-certificates_20210119_all.deb
-RUN apt-get update -y && apt-get install -y ca-certificates && update-ca-certificates && rm -rf /var/lib/apt/lists/*
 
 
 #APP 应用
 COPY ["Src/MoreNote/MoreNote.csproj", "Src/MoreNote/"]
 #通用层
 COPY ["Src/MoreNote.Common/MoreNote.Common.csproj", "Src/MoreNote.Common/"]
+#加密提供服务
+COPY ["Src/MoreNote.Common/MoreNote.CryptographyProvider.csproj", "Src/MoreNote.CryptographyProvider/"]
+#人脸识别服务
+COPY ["Src/MoreNote.Common/MoreNote.Face.csproj", "Src/MoreNote.Face/"]
 #逻辑层
 COPY ["Src/MoreNote.Logic/MoreNote.Logic.csproj", "Scrc/MoreNote.Logic/"]
 #框架
 COPY ["Src/03Framework/Morenote.Framework/Morenote.Framework.csproj", "Src/03Framework/Morenote.FrameworkMorenote/"]
 #国际化
 COPY ["Src/MoreNote.Language/MoreNote.Language.csproj", "Src/MoreNote.Language/"]
-RUN  
-
+#签名服务
+COPY ["Src/MoreNote.Language/MoreNote.SignatureService.csproj", "Src/MoreNote.SignatureService/"]
+ 
 RUN dotnet restore "Src/MoreNote/MoreNote.csproj"
 COPY . .
 WORKDIR "/code/Src/MoreNote"
