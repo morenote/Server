@@ -106,7 +106,7 @@ namespace MoreNote.Common.autofac
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<PwdService>();
-            builder.RegisterType<RandomImageService>();
+    
             builder.RegisterType<SessionService>();
             builder.RegisterType<ShareService>();
             builder.RegisterType<SpamService>().OnActivated(e =>

@@ -91,18 +91,6 @@ namespace MoreNote
                 x.MultipartBodyLengthLimit = int.MaxValue; // In case of multipart
             });
 
-            //随机图片API初始化程序
-            if (config != null && config.Spiders != null && config.Spiders.CanCrawlerWorker)
-            {
-                services.AddHostedService<MoreNoteWorkerService.RandomImagesCrawlerWorker>();
-            }
-            if (config != null && config.PublicAPI != null && config.PublicAPI.CanRandomImageAPI)
-            {
-                services.AddHostedService<MoreNoteWorkerService.UpdataImageURLWorker>();
-                //网络分析和权重
-                //services.AddHostedService<MoreNoteWorkerService.AnalysisOfNetwork>();
-            }
-
             //增加数据库
             var connection = config.PostgreSql.Connection;
             services.AddEntityFrameworkNpgsql();
