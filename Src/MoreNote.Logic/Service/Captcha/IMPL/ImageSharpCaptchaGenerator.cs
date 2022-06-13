@@ -49,10 +49,13 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
                 Color.Yellow,
                 Color.Cyan};
             //验证码字体集合
-            string[] fonts = {"fonts/GNUUnifont9FullHintInstrUCSUR.ttf",
-                              "fonts/I.PenCrane-B.ttf",
-                              "fonts/jf-openhuninn-1.1.ttf",
-                              "fonts/laihu.ttf"
+            string[] fonts = {"fonts/Apalu-2.otf",
+                              "fonts/Apalu-3.ttf",
+                              "fonts/Arvo-Italic.ttf",
+                              "fonts/brelaregular.otf",
+                              "fonts/ColorTube-2.otf",
+                              "fonts/LeagueGothic-Italic.otf",
+                              "fonts/Quantum-2.otf",
                               };
             var width = code.Length * 40;
             var height = 64;
@@ -98,7 +101,7 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
                 for (int i = 0; i < code.Length; i++)
                 {
                     var cindex = random.Next(7);//随机颜色索引值
-                    var findex = random.Next(4);//随机字体索引值
+                    var findex = random.Next(7);//随机字体索引值
 
                     var fontSize = random.Next(35, 50);
 
