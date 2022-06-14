@@ -166,12 +166,26 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
             }
             var data= logging.GetAllUserLoggingLogin();
-
-            foreach (var item in data)
+            if (config.SecurityConfig.LogNeedHmac)
             {
-                var verify= await  item.VerifyHmac(cryptographyProvider);
-                item.Verify = verify;
+                try
+                {
+                    foreach (var item in data)
+                    {
+                        var verify = await item.VerifyHmac(cryptographyProvider);
+                        item.Verify = verify;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    foreach (var item in data)
+                    {
+                        item.Verify = false;
+                    }
+
+                }
             }
+           
             re.Data = data;
             re.Ok = true;
             return LeanoteJson(re);
