@@ -465,6 +465,9 @@ namespace MoreNote.Logic.Service
             user.Pwd =(await passwordStore.Encryption(pwd.ToByteArrayByUtf8(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
             return dataContext.SaveChanges() > 0;
         }
+   
+
+
 
         // 管理员重置密码
         public bool ResetPwd(long? adminUserId, long? userId, string pwd)

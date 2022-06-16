@@ -13,12 +13,25 @@ namespace MoreNote.Logic.Entity.ConfigFile
     public class SecurityConfig
     {
         /// <summary>
-        /// 密钥 用于敏感操作
-        /// 每次软件启动后可能使用随机密钥填充这个值
-        /// 在进行某些敏感操作的时候，系统会询问你的密钥 比如重置admin管理员的密码
-        /// 但是务必注意的是：你的密码重置后，服务器端保存的加密数据是无法恢复
+        /// 敏感信息加密密钥和hmac完整性（bash64编码）
+        /// 随机密钥 用于敏感操作和对用户的信息进行Hmac鉴权
+        /// 请务必注意的是：
+        ///  1、Secret重置后，服务器端保存的加密数据是无法恢复
+        ///  2、当启用加密硬件时，hmac和加密密钥由加密硬件
         /// </summary>
         public string Secret{get;set;}
+        /// <summary>
+        /// 服务器公钥（Hex格式）
+        /// </summary>
+        public string PublicKey{get;set;}
+
+        /// <summary>
+        /// 服务器私钥（Hex格式）
+        /// 注意：不要泄露服务器私钥给任何人
+        /// </summary>
+        public string PrivateKey{get;set;}
+
+
         /// <summary>
         /// 是否允许第三方注册
         /// 邀请注册 不受限制
@@ -60,6 +73,21 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </summary>
         public string PasswordHashAlgorithm { get;set;}= "argon2";
         /// <summary>
+        /// 强制通信数字信封加密
+        /// <para>
+        ///  当此配置激活时，客户端必须强制实现数字信封<code>DigitalEnvelopeProtocol</code>
+        ///  否则通信过程将被服务器拒绝
+        /// </para>
+        /// </summary>
+        public bool ForceDigitalEnvelope { get; set; } = false;
+        /// <summary>
+        /// 数字信封协议
+        /// <para>
+        ///  默认SM2
+        /// </para>
+        /// </summary>
+        public string DigitalEnvelopeProtocol { get; set; } = "sm2";
+        /// <summary>
         /// 密码加密时的迭代次数
         /// 迭代次数越大，计算越困难
         /// </summary>
@@ -79,6 +107,8 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </summary>
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public NeedVerificationCode NeedVerificationCode{get;set;}=NeedVerificationCode.ON;
+
+
 
         /// <summary>
         /// FIDO2认证协议配置

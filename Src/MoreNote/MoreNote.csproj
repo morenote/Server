@@ -106,6 +106,8 @@
     
     <PackageReference Include="Autofac.log4net" Version="6.0.1" />
     
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    
     <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="5.0.1" />
     
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
@@ -516,6 +518,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\API\Config\" />
     <Folder Include="Views\APP\" />
   </ItemGroup>
 

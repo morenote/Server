@@ -150,6 +150,15 @@ namespace MoreNote.Controllers.API.APIV1
             return Json(apiRe, MyJsonConvert.GetSimpleOptions());
         }
 
+        public async Task<IActionResult> ChangeUserPassword(string token,string password)
+        {
+            return null;
+        }
+  
+
+
+
+
 
 
         public async Task<IActionResult> GetUserLoginLogging(string token)

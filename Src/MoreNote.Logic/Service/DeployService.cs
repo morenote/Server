@@ -44,12 +44,14 @@ namespace MoreNote.Logic.Service
                 //======================创建种子数据========================
                 ConfigFileService configFileService = new ConfigFileService();
                 var config = configFileService.WebConfig;
-                var pwd = RandomTool.CreatRandomString(16);
+                //初始化随机口令
+                var pwd = "admin123";
                 var passwordStore = passwordStoreFactory.Instance("sha256");
                 var salt = RandomTool.CreatSafeSaltByteArray(16);
                 //对用户密码做哈希运算
                 var genPassData = await passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd), salt, config.SecurityConfig.PasswordHashIterations);
                 var genPass = genPassData.ByteArrayToBase64();
+                //初始化默认用户
                 var userId = 1223885079105900540L;
                 if (!db.User.Where(x => x.UserId == userId).Any())
                 {

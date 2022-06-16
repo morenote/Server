@@ -2,6 +2,8 @@
 using System;
 using System.Globalization;
 using System.Text.Json;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
@@ -45,8 +47,8 @@ namespace MoreNote.Controllers.API.APIV1
                 re.Msg= "NOTLOGIN";
             }
             re.Ok=true;
-
-            return LeanoteJson(user);
+            re.Data = user;
+            return LeanoteJson(re);
 
         }
 
@@ -71,12 +73,22 @@ namespace MoreNote.Controllers.API.APIV1
             return null;
         }
         //todo:修改密码
-        public IActionResult UpdatePwd()
+        public async Task<IActionResult> UpdatePwd(string token,string oldPwd,string pwd)
         {
-            return null;
+            ApiRe re = new ApiRe();
+            User user = tokenSerivce.GetUserByToken(token);
+            if (user == null)
+            {
+                re.Msg = "NOTLOGIN";
+
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
+            }
+           var result= await userService.UpdatePwd(user.UserId, oldPwd, pwd);
+           re.Ok = result;
+           return LeanoteJson(re);
         }
         //获得同步状态
-      //  [HttpPost]
+        //[HttpPost]
         public JsonResult GetSyncState(string token)
         {
             
@@ -88,7 +100,7 @@ namespace MoreNote.Controllers.API.APIV1
                         Ok = false,
                         Msg = "NOTLOGIN",
                     };
-                    string json = JsonSerializer.Serialize(apiRe, MyJsonConvert.GetSimpleOptions());
+                   
 
                     return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
                 }

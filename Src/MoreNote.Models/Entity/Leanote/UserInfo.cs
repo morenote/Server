@@ -75,11 +75,18 @@ namespace MoreNote.Logic.Entity
         /// <summary>
         /// 加密用户登录口令使用的哈希算法
         /// <para>
-        /// 哈希算法 sha256  sha512  HMAC算法 hmac-sha256 hmac-sha512 慢哈希算法 Argon2 bcrypt scrypt   pbkdf2
+        /// 密码算法
+        ///   哈希算法 
+        ///         sha256（支持）  sha512  
+        ///         HMAC算法
+        ///             hmac-sha256 hmac-sha512 
+        ///   慢哈希算法 
+        ///         Argon2（支持） bcrypt（支持） scrypt   pbkdf2（支持） 
+        /// 由安全芯片或加密设备实现
+        ///   sjj1962（支持） 
         /// </para>
         /// </summary>
         [Column("password_hash_algorithm")]
-        [JsonIgnore]
         public string PasswordHashAlgorithm { get; set; }
 
         /// <summary>
