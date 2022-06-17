@@ -36,9 +36,13 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-        //获取用户信息
+        /// <summary>
+        /// 通过token获得用户本人的详情
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
 
-        public IActionResult Info(string token)
+        public IActionResult GetUserInfoByToken(string token)
         {
             var user=tokenSerivce.GetUserByToken(token);
             var re=new ApiRe();
@@ -49,9 +53,24 @@ namespace MoreNote.Controllers.API.APIV1
             re.Ok=true;
             re.Data = user;
             return LeanoteJson(re);
-
         }
-
+        /// <summary>
+        /// 通过邮箱获得用户详情
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public IActionResult GetUserInfoByEmail(string email)
+        {
+            var user = userService.GetUserByEmail(email);
+            var re = new ApiRe();
+            if (user == null)
+            {
+                re.Msg = "NOTLOGIN";
+            }
+            re.Ok = true;
+            re.Data = user;
+            return LeanoteJson(re);
+        }
         //获取用户的登录策略
         public JsonResult GetUserLoginSecurityStrategy(string UserName)
         {
@@ -83,8 +102,23 @@ namespace MoreNote.Controllers.API.APIV1
 
                 return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
-           var result= await userService.UpdatePwd(user.UserId, oldPwd, pwd);
-           re.Ok = result;
+            try
+            {
+                var result = await userService.UpdatePwd(user.UserId, oldPwd, pwd);
+                re.Ok = result;
+                if (!result)
+                {
+                    re.Msg = "更新密码失败";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                re.Msg = ex.Message;
+                re.Ok = false;
+            }
+          
+          
            return LeanoteJson(re);
         }
         //获得同步状态

@@ -45,7 +45,9 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         {
             var base64Pass = Convert.ToBase64String(pass);
             var result = await cryptographyProvider.TransEncrypted(base64Pass);
-            var verify= SecurityUtil.SafeCompareByteArray(encryData, pass);
+            var zjm = Convert.FromBase64String(result);
+            //将数据库中存储的加密口令与 用户输入的口令的加密的加密结果比较
+            var verify= SecurityUtil.SafeCompareByteArray(encryData, zjm);
             return verify;
         }
     }

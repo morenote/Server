@@ -58,7 +58,7 @@ namespace MoreNote.Logic.Service
 
             if (user != null)
             {
-                var result = await passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(),Encoding.UTF8.GetBytes(pwd),user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
+                var result = await passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), pwd.Base64ToByteArray(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
                 if (result)
                 {
                     long? tokenid = idGenerator.NextId();
