@@ -18,7 +18,7 @@ namespace MoreNote.Logic.Service
         ICryptographyProvider cryptographyProvider;
         public RealNameService(DataContext dataContext, 
             IDistributedIdGenerator distributedIdGenerator,
-             ICryptographyProvider cryptographyProvider)
+            ICryptographyProvider cryptographyProvider)
         {
             this.dataContext=dataContext;
             this.distributedIdGenerator=distributedIdGenerator;

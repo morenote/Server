@@ -1,8 +1,36 @@
-﻿using System;
+﻿using Autofac;
+using Autofac.Extras.NLog;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Morenote.Framework.Filter.Global;
+
+using MoreNote.Common.Utils;
+using MoreNote.CryptographyProvider;
+using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
+using MoreNote.Logic.Property;
+using MoreNote.Logic.Security.FIDO2.Service;
+using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Captcha.IMPL;
+using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.Logging.IMPL;
+using MoreNote.Logic.Service.MyOrganization;
+using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Logic.Service.PasswordSecurity;
+using MoreNote.Logic.Service.Security.USBKey.CSP;
+using MoreNote.Logic.Service.Segmenter;
+using MoreNote.Logic.Service.VerificationCode;
+using MoreNote.SignatureService;
+using MoreNote.SignatureService.NetSign;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using WebApiClient.Extensions.Autofac;
 
 namespace MoreNote.Common.autofac
 {

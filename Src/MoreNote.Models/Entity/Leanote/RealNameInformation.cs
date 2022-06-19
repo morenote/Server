@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Models.Entity.Leanote
 {
-    [Table("report_info")]
+    [Table("real_name_information")]
     public class RealNameInformation
     {
         [Key]

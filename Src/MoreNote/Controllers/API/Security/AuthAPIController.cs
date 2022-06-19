@@ -40,7 +40,7 @@ namespace MoreNote.Controllers.API.APIV1
             this.authService = authService;
         }
         /// <summary>
-        /// 取号
+        /// 取号(临时token)
         /// </summary>
         /// <returns></returns>
         public IActionResult TakeNumber()
@@ -51,7 +51,7 @@ namespace MoreNote.Controllers.API.APIV1
             var random=RandomTool.CreatSafeRandomBase64(16);
             var data=id+random;
             distributedCache.SetBool(data,false);
-            re.Data=id;
+            re.Data= data;
             re.Ok=true;
             return LeanoteJson(re);
         }

@@ -131,7 +131,7 @@ namespace MoreNote.Controllers
                 ResponseMessage re = new ResponseMessage() { Ok = false, Msg = "wrongUsernameOrPassword" };
              
                 number++;
-                distributedCache.SetInt(errorCountKey,number);
+                distributedCache.SetInt(errorCountKey,number.Value);
                 return Json(re, MyJsonConvert.GetSimpleOptions());
             }
             else
