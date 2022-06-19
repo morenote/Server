@@ -49,17 +49,7 @@ namespace MoreNote.Controllers
 
         private static readonly object _fuseObj = new object();
 
-        /// <summary>
-        /// 随机数组的大小
-        /// </summary>
-        private int size;
-
-        /// <summary>
-        /// 随即图片初始化的时间
-        /// 这意味着 每小时的图片数量只有60个图片是随机选择的
-        /// 每经过1小时更会一次图片
-        /// </summary>
-        private static int _initTime = -1;
+       
 
         //目录分隔符
         private static readonly char dsc = Path.DirectorySeparatorChar;
@@ -95,7 +85,7 @@ namespace MoreNote.Controllers
             webcConfig = configFileService.WebConfig;
 
             _randomImageFuseSize = webcConfig.PublicAPI.RandomImageFuseSize;
-            size = webcConfig.PublicAPI.RandomImageSize;
+           
         }
 
         private class RandomImageResult

@@ -25,18 +25,35 @@ namespace MoreNote.Controllers.API.APIV1
     public class AuthAPIController : APIBaseController
     {
         private AuthService authService;
-
+       
         public AuthAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
             , IHttpContextAccessor accessor
+           
             , AuthService authService
             ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.authService = authService;
+        }
+        /// <summary>
+        /// 取号
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult TakeNumber()
+        {
+            var re=new ApiRe();
+            //产生一个序号
+            var id= idGenerator.NextId();//序号
+            var random=RandomTool.CreatSafeRandomBase64(16);
+            var data=id+random;
+            distributedCache.SetBool(data,false);
+            re.Data=id;
+            re.Ok=true;
+            return LeanoteJson(re);
         }
 
         /// <summary>

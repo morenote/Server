@@ -37,7 +37,11 @@ namespace MoreNote.Controllers.API.Security
             this.authService = authService;
             this.ePass = ePassService;
         }
-
+        /// <summary>
+        /// 获得服务器挑战
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public IActionResult GetLoginChallenge(string email)
         {
             ApiRe apiRe = new ApiRe();
@@ -52,6 +56,12 @@ namespace MoreNote.Controllers.API.Security
             return LeanoteJson(apiRe);
         }
 
+
+        /// <summary>
+        /// 对服务器的挑战给出响应
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public async Task<IActionResult> LoginResponse( string data)
         {
             var clinetResponse = ClientResponse.FromJSON(data);

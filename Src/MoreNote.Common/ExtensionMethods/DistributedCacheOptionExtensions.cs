@@ -34,16 +34,35 @@ namespace MoreNote.Common.ExtensionMethods
           distributedCache.SetString(key, value.ToString());
 
         }
-        public static int GetInt(this  IDistributedCache distributedCache,string key)
+      
+
+
+        public static int? GetInt(this  IDistributedCache distributedCache,string key)
         {
             var value=distributedCache.GetString(key);
             if (value == null)
             {
-                return 0;
+                return null;
             }
             var number=Int32.Parse(value);
             return number;
 
+        }
+
+        public static void SetBool (this IDistributedCache distributedCache,string key,bool value)
+        {
+            distributedCache.SetInt(key,value?1:0);
+        }
+
+
+        public static bool? GetBool(this IDistributedCache distributedCache, string key, bool value)
+        {
+            var number= distributedCache.GetInt(key);
+            if (number==null)
+            {
+                return null;
+            }
+            return number.Value==1;
         }
     }
 }

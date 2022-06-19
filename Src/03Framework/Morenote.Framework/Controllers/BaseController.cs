@@ -21,6 +21,7 @@ using System.Web;
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.CryptographyProvider;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace MoreNote.Framework.Controllers
 {
@@ -63,6 +64,9 @@ namespace MoreNote.Framework.Controllers
 
         [Autowired]
         protected IDistributedIdGenerator idGenerator { get; set; }
+
+        [Autowired]
+        protected IDistributedCache distributedCache { get;set;}//分布式缓存
 
         [Autowired]
         protected ILoggingService logging { get; set; }

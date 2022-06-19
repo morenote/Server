@@ -47,12 +47,21 @@ namespace MoreNote.Logic.Service.Security.USBKey.CSP
             SaveServerChallenge(challenge);
             return challenge;
         }
+        /// <summary>
+        /// 存储挑战
+        /// </summary>
+        /// <param name="challenge"></param>
         private  void SaveServerChallenge(ServerChallenge challenge)
         {
             var json= JsonSerializer.Serialize(challenge);
             distributedCache.SetString("challenge" + challenge.Id.ToString(), json,200);
 
         }
+        /// <summary>
+        /// 从缓存中获得服务器挑战
+        /// </summary>
+        /// <param name="challengeId"></param>
+        /// <returns></returns>
         public ServerChallenge GetServerChallenge(long? challengeId)
         {
             var json=   distributedCache.GetString("challenge" + challengeId.ToString());
@@ -63,6 +72,10 @@ namespace MoreNote.Logic.Service.Security.USBKey.CSP
             var challenge= JsonSerializer.Deserialize<ServerChallenge>(json);
             return challenge;
         }
+        /// <summary>
+        /// 删除服务器挑战
+        /// </summary>
+        /// <param name="challengeId"></param>
         public void DeleteChallenge(long challengeId)
         {
             distributedCache.Remove("challenge" + challengeId.ToString());
