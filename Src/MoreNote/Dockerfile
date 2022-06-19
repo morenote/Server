@@ -4,13 +4,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0  AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 5000 
-EXPOSE 5001
+
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /code
-
-
 #APP 应用
 COPY ["Src/MoreNote/MoreNote.csproj", "Src/MoreNote/"]
 #通用层
@@ -20,7 +17,9 @@ COPY ["Src/MoreNote.CryptographyProvider/MoreNote.CryptographyProvider.csproj", 
 #人脸识别服务
 COPY ["Src/MoreNote.Face/MoreNote.Face.csproj", "Src/MoreNote.Face/"]
 #逻辑层
-COPY ["Src/MoreNote.Logic/MoreNote.Logic.csproj", "Scrc/MoreNote.Logic/"]
+COPY ["Src/MoreNote.Logic/MoreNote.Logic.csproj", "Src/MoreNote.Logic/"]
+#模型层
+COPY ["Src/MoreNote.Models/MoreNote.Models.csproj", "Src/MoreNote.Models/"]
 #框架
 COPY ["Src/03Framework/Morenote.Framework/Morenote.Framework.csproj", "Src/03Framework/Morenote.FrameworkMorenote/"]
 #国际化
