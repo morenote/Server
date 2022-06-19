@@ -7,6 +7,22 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="C:\Users\WangXianQiang\.nuget\packages\dlibdotnet\19.21.0.20210302\build\..\runtimes\win-AnyCPU\native\DlibDotNetNative.dll" />
     <Content Remove="C:\Users\WangXianQiang\.nuget\packages\dlibdotnet\19.21.0.20210302\build\..\runtimes\win-AnyCPU\native\DlibDotNetNativeDnn.dll" />
