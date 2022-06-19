@@ -41,15 +41,19 @@ namespace MoreNote.Models.Entity.Leanote
             return this;
         }
 
-        public async Task<bool> VerifyHmac(ICryptographyProvider cryptographyProvider)
+        public async Task<RealNameInformation> VerifyHmac(ICryptographyProvider cryptographyProvider)
         {
             if (string.IsNullOrEmpty(this.Hmac))
             {
-                return false;
+                return this;
             }
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
             var base64 = Convert.ToBase64String(bytes);
-            return await cryptographyProvider.verifyHmac(base64, this.Hmac);
+
+            var result= await cryptographyProvider.verifyHmac(base64, this.Hmac);
+            this.Verify=result;
+
+            return this;
         }
 
     }

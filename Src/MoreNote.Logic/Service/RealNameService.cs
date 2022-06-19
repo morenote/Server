@@ -1,4 +1,6 @@
-﻿using MoreNote.Logic.Database;
+﻿using MoreNote.CryptographyProvider;
+using MoreNote.Logic.Database;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Models.Entity.Leanote;
 
 using System;
@@ -12,34 +14,41 @@ namespace MoreNote.Logic.Service
     public class RealNameService
     {
         DataContext dataContext;
-
-        public RealNameService(DataContext dataContext)
+        IDistributedIdGenerator distributedIdGenerator;
+        ICryptographyProvider cryptographyProvider;
+        public RealNameService(DataContext dataContext, 
+            IDistributedIdGenerator distributedIdGenerator,
+             ICryptographyProvider cryptographyProvider)
         {
             this.dataContext=dataContext;
+            this.distributedIdGenerator=distributedIdGenerator;
+            this.cryptographyProvider=cryptographyProvider;
         }
 
-        public void SetRealName(long? userId,string realName)
+        public async void SetRealNameInformation(long? userId,string realName)
         {
+            var rName=new RealNameInformation()
+            {
+                Id=this.distributedIdGenerator.NextId(),
+                UserId=userId,
+                RealName=realName
+            };
+            rName = await rName.AddMac(this.cryptographyProvider);
 
-
+            dataContext.RealNameInformation.Add(rName);
+            dataContext.SaveChanges();
         }
 
-        public void GetRealName(long? userId)
+        public async Task<RealNameInformation> GetRealNameInformation(long? userId)
         {
-
+            var realName=dataContext.RealNameInformation.Where(b=>b.UserId==userId).FirstOrDefault();
+            if (realName==null)
+            {
+                return null;
+            }
+            await realName.VerifyHmac(this.cryptographyProvider);
+            return realName;
         }
-        public void verifyHmac(RealNameInformation realName )
-        {
-
-
-        } 
-        private  RealNameInformation DoHamc(RealNameInformation realNameInformation)
-        {
-
-
-
-            return realNameInformation;
-
-        }
+       
     }
 }

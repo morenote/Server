@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+
+using MoreNote.CryptographyProvider;
+using MoreNote.Logic.Entity;
+using MoreNote.Models.DTO.Leanote.Auth;
+using MoreNote.Models.Entity.Security.FIDO2;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Text.Json.Serialization;
-
-using Fido2NetLib.Objects;
-
-using Microsoft.EntityFrameworkCore;
-
-using MoreNote.Logic.Entity;
-using MoreNote.Models.DTO.Leanote.Auth;
-using MoreNote.Models.Entity.Leanote;
-using MoreNote.Models.Entity.Security.FIDO2;
 
 namespace MoreNote.Logic.Entity
 {
@@ -71,19 +69,18 @@ namespace MoreNote.Logic.Entity
         [JsonIgnore]
         public string? Pwd { get; set; }
 
-
         /// <summary>
         /// 加密用户登录口令使用的哈希算法
         /// <para>
         /// 密码算法
-        ///   哈希算法 
-        ///         sha256（支持）  sha512  
+        ///   哈希算法
+        ///         sha256（支持）  sha512
         ///         HMAC算法
-        ///             hmac-sha256 hmac-sha512 
-        ///   慢哈希算法 
-        ///         Argon2（支持） bcrypt（支持） scrypt   pbkdf2（支持） 
+        ///             hmac-sha256 hmac-sha512
+        ///   慢哈希算法
+        ///         Argon2（支持） bcrypt（支持） scrypt   pbkdf2（支持）
         /// 由安全芯片或加密设备实现
-        ///   sjj1962（支持） 
+        ///   sjj1962（支持）
         /// </para>
         /// </summary>
         [Column("password_hash_algorithm")]
@@ -220,27 +217,77 @@ namespace MoreNote.Logic.Entity
 
         //==================================安全密钥  FIDO2 yubikey=========================================
         [Column("fido2_items")]
-        public List<FIDO2Item>? FIDO2Items {get; set;}
+        public List<FIDO2Item>? FIDO2Items { get; set; }
 
         [Column("password_expired")]
         public int? PasswordExpired { get; set; }//密码过期时间
+
         [Column("change_password_reminder")]
         public bool? ChangePasswordReminder { get; set; }//修改密码提醒
 
         [Column("login_security_policy_level")]
         public LoginSecurityPolicyLevel LoginSecurityPolicyLevel { get; set; } = LoginSecurityPolicyLevel.unlimited;//登录安全策略级别
+
         //=======================================================================================================
         public bool IsAdmin()
         {
             return this.Role.ToLower().Equals("admin");
         }
 
+        [NotMapped]
+        public bool Verify { get; set; }
+
+        [Column("hmac")]
+        public string Hmac { get; set; }
+
+        /// <summary>
+        /// 用于计算hmac的材料，hmac用于防止数据库被篡改
+        /// </summary>
+        /// <returns></returns>
+        public string ToStringNoMac()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("Id=" + this.UserId);
+            stringBuilder.Append("Email=" + this.Email);
+            stringBuilder.Append("Username=" + this.Username);
+            stringBuilder.Append("Verified=" + this.Verified);
+            stringBuilder.Append("Pwd=" + this.Pwd);
+            stringBuilder.Append("PasswordHashAlgorithm=" + this.PasswordHashAlgorithm);
+            stringBuilder.Append("PasswordHashIterations=" + this.PasswordHashIterations);
+            stringBuilder.Append("PasswordDegreeOfParallelism=" + this.PasswordDegreeOfParallelism);
+            stringBuilder.Append("PasswordMemorySize=" + this.PasswordMemorySize);
+            stringBuilder.Append("Salt=" + this.Salt);
+            stringBuilder.Append("Role=" + this.Role);
+            return stringBuilder.ToString();
+        }
+
+        public async Task<User> AddMac(ICryptographyProvider cryptographyProvider)
+        {
+            var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
+            var base64 = Convert.ToBase64String(bytes);
+            this.Hmac = await cryptographyProvider.hmac(base64);
+            return this;
+        }
+
+        public async Task<User> VerifyHmac(ICryptographyProvider cryptographyProvider)
+        {
+            if (string.IsNullOrEmpty(this.Hmac))
+            {
+                return this;
+            }
+            var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
+            var base64 = Convert.ToBase64String(bytes);
+
+            var result = await cryptographyProvider.verifyHmac(base64, this.Hmac);
+            this.Verify = result;
+
+            return this;
+        }
+
         public bool IsSuperAdmin()
         {
             return this.Role.ToLower().Equals("superadmin");
         }
-  
-
     }
 
     [Table("user_account")]

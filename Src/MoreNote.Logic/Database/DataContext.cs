@@ -147,7 +147,7 @@ namespace MoreNote.Logic.Database
         //日志
         public DbSet<LoggingLogin> LoggingLogin { get; set; }
 
-
+        public DbSet<RealNameInformation> RealNameInformation { get; set; }
 
     }
 }

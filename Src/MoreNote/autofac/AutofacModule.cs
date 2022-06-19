@@ -3,31 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Autofac;
-using Microsoft.AspNetCore.Mvc;
-using MoreNote.Common.Utils;
-using MoreNote.Framework.Controllers;
-using Morenote.Framework.Filter.Global;
-using MoreNote.Logic.Property;
-using MoreNote.Logic.Security.FIDO2.Service;
-using MoreNote.Logic.Service;
-using MoreNote.Logic.Service.DistributedIDGenerator;
-using MoreNote.Logic.Service.Logging;
-using MoreNote.Logic.Service.Logging.IMPL;
-using MoreNote.Logic.Service.MyOrganization;
-using MoreNote.Logic.Service.MyRepository;
-using MoreNote.Logic.Service.PasswordSecurity;
-using MoreNote.Logic.Service.Segmenter;
-using MoreNote.SignatureService.NetSign;
-using MoreNote.SignatureService;
-using WebApiClient.Extensions.Autofac;
-using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
-using MoreNote.CryptographyProvider;
-using Autofac.log4net;
-using Autofac.Extras.NLog;
-using MoreNote.Logic.Service.Captcha.IMPL;
-using MoreNote.Logic.Service.VerificationCode;
-using MoreNote.Logic.Service.Security.USBKey.CSP;
 
 namespace MoreNote.Common.autofac
 {
@@ -38,8 +13,7 @@ namespace MoreNote.Common.autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            
-             //依赖注入的对象
+            //依赖注入的对象
             builder.RegisterType<AccessService>();
             builder.RegisterType<AlbumService>();
             builder.RegisterType<APPStoreInfoService>();
@@ -106,7 +80,7 @@ namespace MoreNote.Common.autofac
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<PwdService>();
-    
+
             builder.RegisterType<SessionService>();
             builder.RegisterType<ShareService>();
             builder.RegisterType<SpamService>().OnActivated(e =>
@@ -150,7 +124,6 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<OrganizationMemberRoleService>();
             builder.RegisterType<OrganizationService>();
             builder.RegisterType<OrganizationTeamService>();
-            
 
             builder.RegisterType<NoteRepositoryService>();
             builder.RegisterType<RepositoryMemberRoleService>();
@@ -163,7 +136,7 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
             //注入日志服务日志
-            
+
             builder.RegisterModule<NLogModule>();
 
             builder.RegisterType<LoggingService>().As<ILoggingService>();
@@ -177,12 +150,11 @@ namespace MoreNote.Common.autofac
             {
                 api.HttpHost = new Uri("http://localhost:8081/");
             });
-           
+
             //服务器端签名和验签服务
             builder.RegisterType<NetSignService>()
                 .As<ISignatureService>()
                 .SingleInstance();
-
 
             //加密平台服务
             builder.RegisterHttpApi<IHisuTSSApi>().ConfigureHttpApiConfig(api =>
@@ -194,19 +166,17 @@ namespace MoreNote.Common.autofac
                 .SingleInstance();
             builder.RegisterType<EPassService>();
 
-
             builder.RegisterType<ImageSharpCaptchaGenerator>()
                 .As<ICaptchaGenerator>();
-
-      
+            //实名认证服务
+            builder.RegisterType<RealNameService>();
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
-          
+
             //批量扫描
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
                 .PropertiesAutowired(new AutowiredPropertySelector());
-
         }
     }
 }
