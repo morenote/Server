@@ -4,33 +4,34 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0  AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 5000 
+EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /code
 
 
-#APP Ó¦ÓÃ
+#APP åº”ç”¨
 COPY ["Src/MoreNote/MoreNote.csproj", "Src/MoreNote/"]
-#Í¨ÓÃ²ã
+#é€šç”¨å±‚
 COPY ["Src/MoreNote.Common/MoreNote.Common.csproj", "Src/MoreNote.Common/"]
-#¼ÓÃÜÌá¹©·şÎñ
-COPY ["Src/MoreNote.Common/MoreNote.CryptographyProvider.csproj", "Src/MoreNote.CryptographyProvider/"]
-#ÈËÁ³Ê¶±ğ·şÎñ
-COPY ["Src/MoreNote.Common/MoreNote.Face.csproj", "Src/MoreNote.Face/"]
-#Âß¼­²ã
+#åŠ å¯†æä¾›æœåŠ¡
+COPY ["Src/MoreNote.CryptographyProvider/MoreNote.CryptographyProvider.csproj", "Src/MoreNote.CryptographyProvider/"]
+#äººè„¸è¯†åˆ«æœåŠ¡
+COPY ["Src/MoreNote.Face/MoreNote.Face.csproj", "Src/MoreNote.Face/"]
+#é€»è¾‘å±‚
 COPY ["Src/MoreNote.Logic/MoreNote.Logic.csproj", "Scrc/MoreNote.Logic/"]
-#¿ò¼Ü
+#æ¡†æ¶
 COPY ["Src/03Framework/Morenote.Framework/Morenote.Framework.csproj", "Src/03Framework/Morenote.FrameworkMorenote/"]
-#¹ú¼Ê»¯
+#å›½é™…åŒ–
 COPY ["Src/MoreNote.Language/MoreNote.Language.csproj", "Src/MoreNote.Language/"]
-#Ç©Ãû·şÎñ
-COPY ["Src/MoreNote.Language/MoreNote.SignatureService.csproj", "Src/MoreNote.SignatureService/"]
+#ç­¾åæœåŠ¡
+COPY ["Src/MoreNote.SignatureService/MoreNote.SignatureService.csproj", "Src/MoreNote.SignatureService/"]
  
 RUN dotnet restore "Src/MoreNote/MoreNote.csproj"
 COPY . .
 WORKDIR "/code/Src/MoreNote"
 RUN dotnet build "MoreNote.csproj" -c Release -o /app/build
-
 
 
 FROM build AS publish
@@ -39,5 +40,6 @@ RUN dotnet publish "MoreNote.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MoreNote.dll"]
