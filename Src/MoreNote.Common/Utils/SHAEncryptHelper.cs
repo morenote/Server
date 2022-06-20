@@ -129,7 +129,8 @@ namespace MoreNote.Common.Utils
             }
             return tmp.ToString();
         }
-        
+
+    
         public static string Hash1Encrypt(string password)
         {
             var sha256 = new System.Security.Cryptography.SHA1CryptoServiceProvider();

@@ -40,7 +40,7 @@ namespace MoreNote.Controllers.API.APIV1
             this.authService = authService;
         }
         /// <summary>
-        /// 取号(临时token)
+        /// 取号(用于客户端请求序列号)
         /// </summary>
         /// <returns></returns>
         public IActionResult TakeNumber()
@@ -48,9 +48,10 @@ namespace MoreNote.Controllers.API.APIV1
             var re=new ApiRe();
             //产生一个序号
             var id= idGenerator.NextId();//序号
-            var random=RandomTool.CreatSafeRandomBase64(16);
-            var data=id+random;
-            distributedCache.SetBool(data,false);
+            var random = RandomTool.CreatSafeRandomBase64(16);
+            var data = SHAEncryptHelper.Hash256Encrypt(id+random);
+
+            distributedCache.SetBool("TakeNumber"+id, true);
             re.Data= data;
             re.Ok=true;
             return LeanoteJson(re);
@@ -65,7 +66,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="pwd"></param>
         /// <returns></returns>
        //[HttpPost]
-        public async Task<IActionResult> Login(string email, string pwd)
+        public async Task<IActionResult> Login(string email, string pwd, string requestNumber)
         {
             string tokenValue = "";
           
@@ -93,6 +94,8 @@ namespace MoreNote.Controllers.API.APIV1
                 if (!string.IsNullOrEmpty(tokenStr))
                 {
                     var user = userService.GetUserByEmail(email);
+
+
                     var userToken = new UserToken()
                     {
                         Token = tokenStr,
@@ -101,7 +104,8 @@ namespace MoreNote.Controllers.API.APIV1
                         Username = user.Username
                     };
                     re.Ok = true;
-                    re.Data = userToken;
+                    //re.Data = userToken;
+                    this.distributedCache.SetBool("PWD_Check" + requestNumber, true);
                     logg.UserId = user.UserId;
                     logg.IsLoginSuccess = true;
                     return LeanoteJson(re);
@@ -125,6 +129,17 @@ namespace MoreNote.Controllers.API.APIV1
                 this.logging.Save(logg);
             }
         }
+
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="tickets"></param>
+        /// <returns></returns>
+        public IActionResult SubmitLogin(string requestNumber)
+        {
+            return null;
+        }
+
 
         //todo:注销函数
         public JsonResult Logout()

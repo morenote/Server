@@ -25,6 +25,11 @@ namespace MoreNote.Models.DTO.Leanote.USBKey
         /// 标签，标识其用途
         /// </summary>
         public string Tag { get; set; }
+
+        /// <summary>
+        /// 客户端请求序列号
+        /// </summary>
+        public string RequestNumber { get;set; }
         /// <summary>
         /// 随机数  16字节
         /// </summary>
@@ -51,6 +56,7 @@ namespace MoreNote.Models.DTO.Leanote.USBKey
             stringBuilder.Append("Id="+this.Id);
             stringBuilder.Append("UserId="+this.UserId);
             stringBuilder.Append("Tag="+this.Tag);
+            stringBuilder.Append("RequestNumber=" + this.RequestNumber);
             stringBuilder.Append("Random=" + this.Random);
             stringBuilder.Append("UinxTime=" + this.UinxTime);
             var data = Encoding.ASCII.GetBytes(stringBuilder.ToString());

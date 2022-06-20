@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service.Security.USBKey.CSP
 
 
         }
-        public ServerChallenge GenServerChallenge(string tag,long? userId)
+        public ServerChallenge GenServerChallenge(string tag,string requestNumber, long? userId)
         {
             //随机数
             var random= RandomTool.CreatSafeRandomBase64(32);
@@ -41,6 +41,7 @@ namespace MoreNote.Logic.Service.Security.USBKey.CSP
                 Id = this.idGenerator.NextId(),
                 UserId = userId,
                 Tag = tag,
+                RequestNumber = requestNumber,
                 Random = random,
                 UinxTime = UnixTimeUtil.GetTimeStampInInt32()
             };
