@@ -51,7 +51,7 @@ namespace MoreNote.Controllers.API.APIV1
             var random = RandomTool.CreatSafeRandomBase64(16);
             var data = SHAEncryptHelper.Hash256Encrypt(id+random);
 
-            distributedCache.SetBool("TakeNumber"+id, true);
+            distributedCache.SetBool("TakeNumber", true);
             re.Data= data;
             re.Ok=true;
             return LeanoteJson(re);
@@ -69,13 +69,13 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task<IActionResult> Login(string email, string pwd, string requestNumber)
         {
             string tokenValue = "";
-          
+
             var re = new ApiRe();
 
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var item in Request.Headers)
             {
-                stringBuilder.Append(item.Key+"=" + item.Value.ToString()+"\r\n");
+                stringBuilder.Append(item.Key + "=" + item.Value.ToString() + "\r\n");
 
             }
 
@@ -105,7 +105,7 @@ namespace MoreNote.Controllers.API.APIV1
                     };
                     re.Ok = true;
                     //re.Data = userToken;
-                    this.distributedCache.SetBool("PWD_Check" + requestNumber, true);
+                    this.distributedCache.SetBool("Password" + requestNumber, true);
                     logg.UserId = user.UserId;
                     logg.IsLoginSuccess = true;
                     return LeanoteJson(re);
@@ -128,6 +128,54 @@ namespace MoreNote.Controllers.API.APIV1
                 await logg.AddMac(this.cryptographyProvider);
                 this.logging.Save(logg);
             }
+        }
+
+        public IActionResult TakeToken(string email, string requestNumber)
+        {
+          
+            var re=new ApiRe();
+            var user=userService.GetUserByEmail(email);
+            if (user==null)
+            {
+                return LeanoteJson(re);
+            }
+            var Passwrod_Check = this.distributedCache.GetBool("Password" + requestNumber,false);
+            var USBKEY_CHECK = this.distributedCache.GetBool("USBKEY" + requestNumber,false);
+
+            var result=false;
+
+            if (user.LoginSecurityPolicyLevel==LoginSecurityPolicyLevel.compliant)
+            {
+               result=Passwrod_Check&&USBKEY_CHECK;
+            }
+            if (user.LoginSecurityPolicyLevel==LoginSecurityPolicyLevel.unlimited || user.LoginSecurityPolicyLevel== LoginSecurityPolicyLevel.loose)
+            {
+                result = Passwrod_Check || USBKEY_CHECK;
+            }
+
+
+
+            if (result)
+            {
+                var token = tokenSerivce.GenerateToken(user.UserId, user.Email);
+
+                tokenSerivce.SaveToken(token);
+                var userToken = new UserToken()
+                {
+                    Token = token.TokenStr,
+                    UserId = user.UserId,
+                    Email = user.Email,
+                    Username = user.Username
+                };
+
+
+                re.Ok = true;
+                re.Data = userToken;
+                return LeanoteJson(re);
+            }
+            return LeanoteJson(re);
+
+
         }
 
         /// <summary>
@@ -187,10 +235,6 @@ namespace MoreNote.Controllers.API.APIV1
             return null;
         }
   
-
-
-
-
 
 
         public async Task<IActionResult> GetUserLoginLogging(string token)
@@ -256,6 +300,7 @@ namespace MoreNote.Controllers.API.APIV1
             return LeanoteJson(re);
 
         }
+
         [HttpPost]
         public async Task<IActionResult> SetUserLoginSecurityPolicyLevel(string token,LoginSecurityPolicyLevel level)
         {

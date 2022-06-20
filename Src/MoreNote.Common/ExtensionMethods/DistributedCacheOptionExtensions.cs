@@ -55,7 +55,7 @@ namespace MoreNote.Common.ExtensionMethods
         }
 
 
-        public static bool? GetBool(this IDistributedCache distributedCache, string key, bool value)
+        public static bool? GetBool(this IDistributedCache distributedCache, string key)
         {
             var number= distributedCache.GetInt(key);
             if (number==null)
@@ -63,6 +63,16 @@ namespace MoreNote.Common.ExtensionMethods
                 return null;
             }
             return number.Value==1;
+        }
+
+        public static bool GetBool(this IDistributedCache distributedCache, string key,bool defaultValue)
+        {
+            var number = distributedCache.GetInt(key);
+            if (number == null)
+            {
+                return defaultValue;
+            }
+            return number.Value == 1;
         }
     }
 }

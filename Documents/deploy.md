@@ -21,6 +21,14 @@ export PATH=$PATH:$HOME/dotnet
 ```
 docker run -it --name postgres --restart always -e POSTGRES_PASSWORD='your-password' -e ALLOW_IP_RANGE=0.0.0.0/0 -v /home/postgres/data:/var/lib/postgresql -p 55433:5432 -d postgres
 ```
+### 迁移数据库
+
+```
+dotnet ef migrations add InitialCreate  --project E:\github\hyfree\Morenote\Server\Src\MoreNote.Logic //替换为你的路径
+
+dotnet ef database update
+```
+
 
 ### 安装Redis（可选）
 

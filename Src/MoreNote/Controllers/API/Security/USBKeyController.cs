@@ -57,6 +57,8 @@ namespace MoreNote.Controllers.API.Security
         }
 
 
+
+
         /// <summary>
         /// 对服务器的挑战给出响应
         /// </summary>
@@ -92,23 +94,17 @@ namespace MoreNote.Controllers.API.Security
                 {
                     var userId = challenge.UserId;
                     var user = userService.GetUserByUserId(userId);
-                    var token = tokenSerivce.GenerateToken(user.UserId, user.Email);
+                   // var token = tokenSerivce.GenerateToken(user.UserId, user.Email);
 
-                    tokenSerivce.SaveToken(token);
-                    var userToken = new UserToken()
-                    {
-
-                        Token = token.TokenStr,
-                        UserId = user.UserId,
-                        Email = user.Email,
-                        Username = user.Username
-                    };
+                    //tokenSerivce.SaveToken(token);
+              
                     //登录日志
                     logg.UserId = user.UserId;
                     logg.IsLoginSuccess = true;
-
                     apiRe.Ok = true;
-                    apiRe.Data = userToken;
+                    this.distributedCache.SetBool("USBKEY"+ challenge.RequestNumber,true);
+
+                    //apiRe.Data = userToken;
                     return LeanoteJson(apiRe);
                 }
                 else

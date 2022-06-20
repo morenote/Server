@@ -15,10 +15,10 @@ namespace MoreNote.Logic.Entity
         // // 必须要设置bson:"_id" 不然mgo不会认为是主键
         [Key] 
         [Column("note_id")] 
-        public long? NoteId{ get; set; }
+        public long? NoteId{ get; set; } //【保护】
         
         [Column("user_id")]
-        public long? UserId { get; set; }//  // 谁的
+        public long? UserId { get; set; }//  // 谁的 【保护】
 
         [Column("notes_repository_id")]
         public long? NotesRepositoryId { get; set; }//仓库id
@@ -28,11 +28,11 @@ namespace MoreNote.Logic.Entity
         [Column("notebook_id")]
         public long? NotebookId { get; set; }
         [Column("title")]
-        public string? Title { get; set; }//标题
+        public string? Title { get; set; }//标题 //【保护】
         [Column("title_vector"),JsonIgnore]
         public NpgsqlTsVector? TitleVector { get; set; }
         [Column("desc")]
-        public string? Desc { get; set; }//描述, 非html
+        public string? Desc { get; set; }//描述, 非html //【保护】
         [Column("src")]
         public string? Src { get; set; }//来源, 2016/4/22
         [Column("img_src")]
@@ -65,7 +65,7 @@ namespace MoreNote.Logic.Entity
         [Column("attach_num")]
         public int AttachNum { get; set; }//// 2014/9/21, attachments num
         [Column("created_time")]
-        public DateTime CreatedTime { get; set; }
+        public DateTime CreatedTime { get; set; } //【保护】
         [Column("updated_time")]
         public DateTime UpdatedTime { get; set; }
         [Column("recommend_time")]
