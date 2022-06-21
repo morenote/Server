@@ -1,6 +1,9 @@
 ﻿using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.Entity.Leanote;
 
 using System;
@@ -13,42 +16,65 @@ namespace MoreNote.Logic.Service
 {
     public class RealNameService
     {
-        DataContext dataContext;
-        IDistributedIdGenerator distributedIdGenerator;
-        ICryptographyProvider cryptographyProvider;
-        public RealNameService(DataContext dataContext, 
-            IDistributedIdGenerator distributedIdGenerator,
+        private DataContext dataContext;
+
+        public WebSiteConfig Config { get; set; }
+        private IDistributedIdGenerator idGenerator;
+        private PasswordStoreFactory passwordStoreFactory;
+
+        private ILoggingService logging { get; set; }
+
+        protected ICryptographyProvider cryptographyProvider { get; set; }
+        public RealNameService(DataContext dataContext, IDistributedIdGenerator idGenerator,
+            ConfigFileService configFileService,
+            PasswordStoreFactory passwordStoreFactory,
+            ILoggingService logging,
             ICryptographyProvider cryptographyProvider)
         {
-            this.dataContext=dataContext;
-            this.distributedIdGenerator=distributedIdGenerator;
-            this.cryptographyProvider=cryptographyProvider;
+            this.idGenerator = idGenerator;
+            this.dataContext = dataContext;
+            this.Config = configFileService.WebConfig;
+            this.passwordStoreFactory = passwordStoreFactory;
+            this.cryptographyProvider = cryptographyProvider;
+            this.logging = logging;
         }
 
-        public async void SetRealNameInformation(long? userId,string realName)
+        public async Task SetRealName(long? userId, string cardNo)
         {
-            var rName=new RealNameInformation()
+
+            if (dataContext.RealNameInformation.Where(b => b.UserId == userId).Any())
             {
-                Id=this.distributedIdGenerator.NextId(),
-                UserId=userId,
-                RealName=realName
-            };
-            rName = await rName.AddMac(this.cryptographyProvider);
+                var realName = dataContext.RealNameInformation.Where(b => b.UserId == userId).FirstOrDefault();
+                realName.IdCardNo = cardNo;
+                await realName.AddMac(this.cryptographyProvider);
+                this.dataContext.SaveChanges();
 
-            dataContext.RealNameInformation.Add(rName);
-            dataContext.SaveChanges();
+            }
+            else
+            {
+                var rni = new RealNameInformation()
+                {
+                    Id = this.idGenerator.NextId(),
+                    UserId = userId,
+                    IdCardNo = cardNo
+                };
+                await rni.AddMac(this.cryptographyProvider);
+
+                 this.dataContext.RealNameInformation.Add(rni);
+                 this.dataContext.SaveChanges();
+            }
         }
-
-        public async Task<RealNameInformation> GetRealNameInformation(long? userId)
+        public async Task<RealNameInformation> GetRealNameInformationByUserId(long? userId)
         {
-            var realName=dataContext.RealNameInformation.Where(b=>b.UserId==userId).FirstOrDefault();
-            if (realName==null)
+            var realName = this.dataContext.RealNameInformation.Where(b => b.UserId == userId).FirstOrDefault();
+            if (realName == null)
             {
                 return null;
             }
             await realName.VerifyHmac(this.cryptographyProvider);
             return realName;
+
         }
-       
+
     }
 }

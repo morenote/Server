@@ -98,9 +98,18 @@ namespace MoreNote.Logic.Service.Security.USBKey.CSP
             var data = challenge.GetBytes().ByteArrayToBase64();
             var cer = clientResponse.Certificate;
             var sign = clientResponse.Sign;
+            //验证签名
             var result= await this.signatureService.rawVerify(data,sign,"",true,cer, "010001");
             return result;
+        }
 
+        public async Task<bool> VerifyDataSign(DataSignDTO dataSignDTO)
+        {
+            var data = dataSignDTO.SignData.GetBytes().ByteArrayToBase64();
+            var cer = dataSignDTO.Certificate;
+            var sign = dataSignDTO.Sign;
+            var result = await this.signatureService.rawVerify(data, sign, "", true, cer, "010001");
+            return result;
         }
     }
 }

@@ -12,6 +12,8 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.Security.USBKey.CSP;
+using MoreNote.Models.DTO.Leanote.USBKey;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -21,18 +23,24 @@ namespace MoreNote.Controllers.API.APIV1
         private AuthService authService;
         private UserService userService;
         private TokenSerivce tokenSerivce;
+        private RealNameService realNameService;
+        private EPassService ePass;
         public UserAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
+            , RealNameService realNameService
             , IHttpContextAccessor accessor, AuthService authService
+            , EPassService ePass
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.authService = authService;
             this.userService = userService;
             this.tokenSerivce = tokenSerivce;
+            this.realNameService = realNameService;
+            this.ePass = ePass;
 
         }
 
@@ -157,8 +165,51 @@ namespace MoreNote.Controllers.API.APIV1
         {
             return null;
         }
-        
+        public  async Task<IActionResult> GetRealNameInformation(string token)
+        {
+            ApiRe re = new ApiRe();
+            User user = tokenSerivce.GetUserByToken(token);
+            if (user == null)
+            {
+                ApiRe apiRe = new ApiRe()
+                {
+                    Ok = false,
+                    Msg = "NOTLOGIN",
+                };
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
+            }
+            var realName = await this.realNameService.GetRealNameInformationByUserId(user.UserId);
+            re.Ok = true;
+            re.Data = realName;
+            return LeanoteJson(re);
+        }
+        public async Task<IActionResult> SetRealNameInformation(string token,string json)
+        {
+            ApiRe re = new ApiRe();
+            User user = tokenSerivce.GetUserByToken(token);
+            if (user == null)
+            {
+                ApiRe apiRe = new ApiRe()
+                {
+                    Ok = false,
+                    Msg = "NOTLOGIN",
+                };
+                return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
+            }
+            var dataSignDTO = DataSignDTO.FromJSON(json);
+            var result=await this.ePass.VerifyDataSign(dataSignDTO);
+            if (!result)
+            {
+                re.Msg = "VerifyDataSign is Error";
+                return LeanoteJson(re);
+            }
+           await  this.realNameService.SetRealName(user.UserId, dataSignDTO.SignData.Data);
+            re.Ok=true;
+            return LeanoteJson(re);
+        }
 
-   
+
+
+
     }
 }
