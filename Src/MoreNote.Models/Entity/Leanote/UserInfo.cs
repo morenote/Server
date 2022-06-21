@@ -238,7 +238,7 @@ namespace MoreNote.Logic.Entity
         public bool Verify { get; set; }
 
         [Column("hmac")]
-        public string Hmac { get; set; }
+        public string? Hmac { get; set; }
 
         /// <summary>
         /// 用于计算hmac的材料，hmac用于防止数据库被篡改
@@ -263,16 +263,18 @@ namespace MoreNote.Logic.Entity
 
         public async Task<User> AddMac(ICryptographyProvider cryptographyProvider)
         {
-            var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
-            var base64 = Convert.ToBase64String(bytes);
-            this.Hmac = await cryptographyProvider.hmac(base64);
-            return this;
+            
+                var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
+                var base64 = Convert.ToBase64String(bytes);
+                this.Hmac = await cryptographyProvider.hmac(base64);
+                return this;
         }
 
         public async Task<User> VerifyHmac(ICryptographyProvider cryptographyProvider)
         {
             if (string.IsNullOrEmpty(this.Hmac))
             {
+                this.Verify = false;
                 return this;
             }
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());

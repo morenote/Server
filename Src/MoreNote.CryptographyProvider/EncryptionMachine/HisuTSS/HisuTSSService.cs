@@ -12,6 +12,11 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
     /// </summary>
     public class HisuTSSService: ICryptographyProvider
     {
+        
+        public HisuTSSService()
+        {
+
+        }
          private IHisuTSSApi api { get; set; }
         public HisuTSSService(IHisuTSSApi hisuTSS)
         {
@@ -20,6 +25,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
 
         public Task<string> hmac(string data)
         {
+            
             return api.hmac(data);
         }
 
@@ -36,7 +42,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
         {
     
             var result= await api.transPinBlockFromPKToZPK("MBNK", "myself", "sm2",
-                                               "MBNK", "myself", "RZPK", 0, cipherBase64, "123456789012345");
+                                               "MBNK", "myself", "RZPK", 0, cipherBase64, "1234567890123456");
             if (result.Ok)
             {
                 return result.Data;

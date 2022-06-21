@@ -26,14 +26,14 @@ namespace MoreNote.Controllers.API.APIV1
     {
         private AuthService authService;
        
-        public AuthAPIController(AttachService attachService
-            , TokenSerivce tokenSerivce
-            , NoteFileService noteFileService
-            , UserService userService
-            , ConfigFileService configFileService
-            , IHttpContextAccessor accessor
-           
-            , AuthService authService
+        public AuthAPIController(AttachService attachService,
+             TokenSerivce tokenSerivce,
+             NoteFileService noteFileService,
+             UserService userService,
+             ConfigFileService configFileService,
+             IHttpContextAccessor accessor,
+            
+             AuthService authService
             ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
@@ -94,8 +94,15 @@ namespace MoreNote.Controllers.API.APIV1
                 if (!string.IsNullOrEmpty(tokenStr))
                 {
                     var user = userService.GetUserByEmail(email);
-
-
+                    if (this.config.SecurityConfig.LogNeedHmac)
+                    {
+                        await user.VerifyHmac(this.cryptographyProvider);
+                        if (!user.Verify)
+                        {
+                            re.Msg = "VerifyHmac is Error";
+                            return LeanoteJson(re);
+                        }
+                    }
                     var userToken = new UserToken()
                     {
                         Token = tokenStr,
