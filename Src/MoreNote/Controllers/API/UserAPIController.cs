@@ -203,6 +203,9 @@ namespace MoreNote.Controllers.API.APIV1
                 re.Msg = "VerifyDataSign is Error";
                 return LeanoteJson(re);
             }
+
+
+           
            await  this.realNameService.SetRealName(user.UserId, dataSignDTO.SignData.Data);
             re.Ok=true;
             return LeanoteJson(re);

@@ -41,7 +41,7 @@ namespace MoreNote.Logic.Service
 
         public async Task SetRealName(long? userId, string cardNo)
         {
-
+            
             if (dataContext.RealNameInformation.Where(b => b.UserId == userId).Any())
             {
                 var realName = dataContext.RealNameInformation.Where(b => b.UserId == userId).FirstOrDefault();

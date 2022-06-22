@@ -198,6 +198,7 @@ namespace MoreNote.Common.autofac
                 .As<ICaptchaGenerator>();
             //实名认证服务
             builder.RegisterType<RealNameService>();
+            builder.RegisterType<DataSignService>();
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
 
