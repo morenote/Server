@@ -1,7 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿using Autofac;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.DataEncryption;
+using MoreNote.autofac;
+using MoreNote.AutoFac;
+using MoreNote.Common.ExtensionMethods;
+using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Models.Entity.Leanote;
+using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Loggin;
 using MoreNote.Models.Entity.Leanote.MyOrganization;
@@ -27,9 +34,15 @@ namespace MoreNote.Logic.Database
         //    optionsBuilder.UseNpgsql(postgres.PostgreSql.Connection);
 
         //}
+        private WebSiteConfig config;
+     
+      
+
+
         public DataContext(DbContextOptions<DataContext> options)
           : base(options)
         {
+            this.config = new ConfigFileService().WebConfig;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +50,21 @@ namespace MoreNote.Logic.Database
             //建立索引
             //  modelBuilder.Entity<UserEntity>().HasIndex(b => b.Userid);
             //枚举类型转换
+            if (this.config.SecurityConfig.DataBaseEncryption)
+            {
+                var aesKey = this.config.SecurityConfig.DataBaseEncrypthonKey;
+                if (!string.IsNullOrEmpty(aesKey))
+                {
+
+                    var aesProvider = new Microsoft.EntityFrameworkCore.DataEncryption.Providers.AesProvider(aesKey.HexToByteArray());
+                    modelBuilder.UseEncryption(aesProvider);
+
+                }
+               
+                
+            }
+           
+
             modelBuilder
                 .Entity<NoteFile>()
                 .Property(e => e.StorageType)

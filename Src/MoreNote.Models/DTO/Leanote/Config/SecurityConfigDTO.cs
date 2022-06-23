@@ -68,7 +68,7 @@ namespace MoreNote.Models.DTO.Leanote.Config
                 ShareYourData = securityConfig.ShareYourData,
                 PasswordHashAlgorithm = securityConfig.PasswordHashAlgorithm,
                 ForceDigitalEnvelope = securityConfig.ForceDigitalEnvelope,
-                DigitalEnvelopeProtocol = securityConfig.DigitalEnvelopeProtocol,
+                DigitalEnvelopeProtocol = securityConfig.ForceDigitalEnvelopeProtocol,
                 NeedVerificationCode = securityConfig.NeedVerificationCode
 
             };

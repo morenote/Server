@@ -4,7 +4,7 @@ using Autofac.Extras.NLog;
 using Microsoft.AspNetCore.Mvc;
 
 using Morenote.Framework.Filter.Global;
-
+using MoreNote.AutoFac;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
@@ -39,6 +39,7 @@ namespace MoreNote.Common.autofac
     /// </summary>
     public class AutofacModule : Autofac.Module
     {
+        public static ContainerBuilder builder { get;set;}
         protected override void Load(ContainerBuilder builder)
         {
             //依赖注入的对象
@@ -189,6 +190,12 @@ namespace MoreNote.Common.autofac
             {
                 api.HttpHost = new Uri("http://localhost:8080/");
             });
+            //加密平台KMS
+            builder.RegisterHttpApi<IHisuKMSApi>().ConfigureHttpApiConfig(api =>
+            {
+                api.HttpHost = new Uri("http://localhost:8082/");
+            });
+
             builder.RegisterType<HisuTSSService>()
                 .As<ICryptographyProvider>()
                 .SingleInstance();
@@ -206,6 +213,13 @@ namespace MoreNote.Common.autofac
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
                 .PropertiesAutowired(new AutowiredPropertySelector());
+
+
+            builder.RegisterBuildCallback(container =>
+            {
+                AutoFacHelper.Container = (IContainer)container;
+            });
+
         }
     }
 }

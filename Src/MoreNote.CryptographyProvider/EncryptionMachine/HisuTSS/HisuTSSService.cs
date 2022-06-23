@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoreNote.Common.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,11 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
 
         }
          private IHisuTSSApi api { get; set; }
-        public HisuTSSService(IHisuTSSApi hisuTSS)
+        private IHisuKMSApi kmsAPi { get; set; }
+        public HisuTSSService(IHisuTSSApi hisuTSS,IHisuKMSApi hisuKMSApi)
         {
             this.api = hisuTSS;
+            this.kmsAPi = kmsAPi;
         }
 
         public Task<string> hmac(string data)
@@ -49,5 +52,52 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
             }
             throw new Exception("转加密失败");
         }
+         
+        public async Task<byte[]> SM2Encrypt(byte[] data)
+        {
+            try
+            {
+
+                Console.WriteLine("SM2Decrypt" + HexUtil.ByteArrayToString(data));
+                var dataBase64 = Convert.ToBase64String(data);
+
+                var result = await kmsAPi.HisuUniveralEncryptByPk(dataBase64);
+                if (!result.Ok)
+                {
+                    throw new Exception("SM2Encrypt is Error");
+                }
+                return Convert.FromBase64String(result.Data);
+                
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<byte[]> SM2Decrypt(byte[] data)
+        {
+            try
+            {
+                Console.WriteLine("SM2Decrypt" + HexUtil.ByteArrayToString(data));
+                var dataBase64 = Convert.ToBase64String(data);
+
+                var result = await kmsAPi.HisuUniveralDecryptByVk(dataBase64);
+                if (!result.Ok)
+                {
+                    throw new Exception("SM2Encrypt is Error");
+                }
+                return Convert.FromBase64String(result.Data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+
+        }
+
+
     }
 }

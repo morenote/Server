@@ -26,4 +26,7 @@
     <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
    
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
+  </ItemGroup>
 </Project>

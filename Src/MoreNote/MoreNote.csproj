@@ -93,7 +93,7 @@
 
   <ItemGroup>
     
-    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac" Version="6.4.0" />
     
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     
@@ -258,6 +258,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\03Framework\Morenote.Framework\Morenote.Framework.csproj" />
+    <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />

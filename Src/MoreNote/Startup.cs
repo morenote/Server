@@ -47,7 +47,6 @@ namespace MoreNote
     {
         private WebSiteConfig config;
         private readonly IWebHostEnvironment _env;
-
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
@@ -111,14 +110,14 @@ namespace MoreNote
                             var itemValue = regexGroups[1].ToString();
                             int ms = 0;
                             Int32.TryParse(itemValue, out ms);
-                            if (ms > 10)
+                            if (ms > 100)
                             {
                                 Console.WriteLine($"==================Slow database operations,{regexGroups[0]}==================");
 
                                 Console.WriteLine(eflog);
                             }
                         }
-                    }, Microsoft.Extensions.Logging.LogLevel.Information);
+                    }, Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
             });
             // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));

@@ -80,13 +80,25 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </para>
         /// </summary>
         public bool ForceDigitalEnvelope { get; set; } = false;
+    
         /// <summary>
         /// 数字信封协议
         /// <para>
         ///  默认SM2
         /// </para>
         /// </summary>
-        public string DigitalEnvelopeProtocol { get; set; } = "sm2";
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public DigitalEnvelopeProtocol ForceDigitalEnvelopeProtocol { get; set; } = DigitalEnvelopeProtocol.SM2SM3SM4;
+
+        /// <summary>
+        /// 强制数字签名
+        /// </summary>
+        public bool ForceDigitalSignature { get; set; } = false;
+        /// <summary>
+        /// 使用的数字签名协议
+        /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public DigitalSignatureProtocol ForceDigitalSignatureProtocol { get; set; } = DigitalSignatureProtocol.SM2;
         /// <summary>
         /// 密码加密时的迭代次数
         /// 迭代次数越大，计算越困难
@@ -123,7 +135,19 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 需要对日志计算Hmac，防止被篡改
         /// </summary>
         public bool LogNeedHmac { get;set;}=false;
+        /// <summary>
+        /// 是否启用数据库加密
+        /// </summary>
+        
 
+
+
+
+        public bool DataBaseEncryption { get; set; } = false;
+
+        public string? DataBaseEncrypthonKey { get; set; }
+
+        public string? DataBaseEncrypthonIV { get; set; }
 
     }
 }
