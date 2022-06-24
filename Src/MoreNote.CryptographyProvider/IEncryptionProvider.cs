@@ -12,7 +12,7 @@
         public Task<string> TransEncrypted(string cipherBase64);
 
 
-        public  Task<byte[]> SM2Encrypt(byte[] data);
-        public  Task<byte[]> SM2Decrypt(byte[] data);
+        public Task<string> SM2Encrypt(string DataStr);
+        public Task<string> SM2Decrypt(string base64Data);
     }
 }

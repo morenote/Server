@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.DataEncryption;
-using MoreNote.autofac;
+
 using MoreNote.AutoFac;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.CryptographyProvider;

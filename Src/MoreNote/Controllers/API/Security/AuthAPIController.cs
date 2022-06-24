@@ -128,7 +128,8 @@ namespace MoreNote.Controllers.API.APIV1
             catch (Exception ex)
             {
                 re.Msg = ex.Message;
-                throw;
+                re.Ok = false;
+                return LeanoteJson(re);
             }
             finally
             {

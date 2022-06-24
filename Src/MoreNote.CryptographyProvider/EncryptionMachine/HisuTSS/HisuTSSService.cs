@@ -23,7 +23,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
         public HisuTSSService(IHisuTSSApi hisuTSS,IHisuKMSApi hisuKMSApi)
         {
             this.api = hisuTSS;
-            this.kmsAPi = kmsAPi;
+            this.kmsAPi = hisuKMSApi;
         }
 
         public Task<string> hmac(string data)
@@ -53,48 +53,29 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS
             throw new Exception("转加密失败");
         }
          
-        public async Task<byte[]> SM2Encrypt(byte[] data)
+        public async Task<string> SM2Encrypt(string data)
         {
-            try
+            var utf8=Encoding.UTF8.GetBytes(data);
+            var base64 = Convert.ToBase64String(utf8); 
+            var result = await kmsAPi.HisuUniveralEncryptByPk(base64);
+            if (!result.Ok)
             {
-
-                Console.WriteLine("SM2Decrypt" + HexUtil.ByteArrayToString(data));
-                var dataBase64 = Convert.ToBase64String(data);
-
-                var result = await kmsAPi.HisuUniveralEncryptByPk(dataBase64);
-                if (!result.Ok)
-                {
-                    throw new Exception("SM2Encrypt is Error");
-                }
-                return Convert.FromBase64String(result.Data);
-                
-
+                throw new Exception("SM2Encrypt is Error");
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return result.Data;
         }
 
-        public async Task<byte[]> SM2Decrypt(byte[] data)
+        public async Task<string> SM2Decrypt(string data)
         {
-            try
+            var result = await kmsAPi.HisuUniveralDecryptByVk(data);
+            if (!result.Ok)
             {
-                Console.WriteLine("SM2Decrypt" + HexUtil.ByteArrayToString(data));
-                var dataBase64 = Convert.ToBase64String(data);
-
-                var result = await kmsAPi.HisuUniveralDecryptByVk(dataBase64);
-                if (!result.Ok)
-                {
-                    throw new Exception("SM2Encrypt is Error");
-                }
-                return Convert.FromBase64String(result.Data);
+                throw new Exception("SM2Encrypt is Error");
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-           
+            var base64= result.Data;
+            var utf8=Convert.FromBase64String(base64);
+            var str = Encoding.UTF8.GetString(utf8);
+            return str;
 
         }
 

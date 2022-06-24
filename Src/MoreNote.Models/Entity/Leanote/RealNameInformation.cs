@@ -19,7 +19,7 @@ namespace MoreNote.Models.Entity.Leanote
         [Column("user_id")]
         public long? UserId { get;set;}
         [Column("id_card_no")]
-        [Encrypted]
+   
         public string? IdCardNo { get;set;}
 
 

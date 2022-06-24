@@ -86,7 +86,11 @@ namespace MoreNote.Logic.Entity
         public long? ContentId { get; set; }//当前笔记的笔记内容 
         [Column("access_password")]
         public string? AccessPassword  { get; set; }//当前笔记的访问密码
-        
+
+    
+    
+
+
     }
     /// <summary>
     /// <para>笔记内容和可以被允许修改的属性</para>
@@ -125,6 +129,8 @@ namespace MoreNote.Logic.Entity
         public long? UpdatedUserId { get; set; } // 如果共享了,  并可写, 那么可能是其它他修改了
         [Column("is_history")]
         public bool IsHistory { get; set; }//是否是历史纪录
+        [Column("is_encryption")]
+        public bool IsEncryption { get; set; }//指示当前笔记内容是否被加密
     }
     // 基本信息和内容在一起
     public class NoteAndContent

@@ -1,4 +1,5 @@
 ﻿using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Models.Entity.ConfigFile.Security;
 
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,14 @@ namespace MoreNote.Models.DTO.Leanote.Config
         ///  默认SM2
         /// </para>
         /// </summary>
-        public string DigitalEnvelopeProtocol { get; set; } 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public DigitalEnvelopeProtocol ForceDigitalEnvelopeProtocol { get; set; } 
+
+
+        public bool ForceDigitalSignature { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public DigitalSignatureProtocol ForceDigitalSignatureProtocol { get; set; } = DigitalSignatureProtocol.SM2;
+
         /// <summary>
         /// 是否启用人机校验 验证码
         /// </summary>
@@ -68,9 +76,10 @@ namespace MoreNote.Models.DTO.Leanote.Config
                 ShareYourData = securityConfig.ShareYourData,
                 PasswordHashAlgorithm = securityConfig.PasswordHashAlgorithm,
                 ForceDigitalEnvelope = securityConfig.ForceDigitalEnvelope,
-                DigitalEnvelopeProtocol = securityConfig.ForceDigitalEnvelopeProtocol,
+                ForceDigitalEnvelopeProtocol = securityConfig.ForceDigitalEnvelopeProtocol,
+                ForceDigitalSignature = securityConfig.ForceDigitalSignature,
+                ForceDigitalSignatureProtocol = securityConfig.ForceDigitalSignatureProtocol,
                 NeedVerificationCode = securityConfig.NeedVerificationCode
-
             };
             return dto;
 

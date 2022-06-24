@@ -19,7 +19,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn />
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -39,12 +39,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NoWarn />
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <NoWarn />
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -129,7 +129,7 @@
     
     <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
     
-    <PackageReference Include="htmldiff.net-core" Version="1.3.6" />
+    <PackageReference Include="htmldiff.net" Version="1.4.0" />
     
     <PackageReference Include="IP2Region" Version="1.2.0" />
     
@@ -261,6 +261,7 @@
     <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
+    <ProjectReference Include="..\MoreNote.GM\MoreNote.GM.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
@@ -533,15 +534,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
 

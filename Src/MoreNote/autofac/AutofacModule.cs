@@ -8,6 +8,7 @@ using MoreNote.AutoFac;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
+using MoreNote.GM;
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
@@ -206,6 +207,7 @@ namespace MoreNote.Common.autofac
             //实名认证服务
             builder.RegisterType<RealNameService>();
             builder.RegisterType<DataSignService>();
+            builder.RegisterType<GMService>();
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
 

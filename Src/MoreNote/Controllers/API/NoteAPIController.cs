@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Morenote.Framework.Filter.Global;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
+using MoreNote.GM;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
+using MoreNote.Models.DTO.Leanote.ApiRequest;
 using MoreNote.Models.DTO.Leanote.USBKey;
 using MoreNote.Models.Enum;
 
@@ -34,6 +36,7 @@ namespace MoreNote.Controllers.API.APIV1
         private IHttpContextAccessor accessor;
         private NoteRepositoryService noteRepositoryService;
         private EPassService ePassService;
+        private GMService gMService;
         DataSignService dataSignService;
         public NoteAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
@@ -47,6 +50,7 @@ namespace MoreNote.Controllers.API.APIV1
             NoteRepositoryService noteRepositoryService,
             TrashService trashService,
             EPassService ePass,
+            GMService gMService,
             DataSignService dataSignService
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
@@ -61,6 +65,7 @@ namespace MoreNote.Controllers.API.APIV1
             this.noteRepositoryService = noteRepositoryService;
             this.ePassService = ePass;
             this.dataSignService = dataSignService;
+            this.gMService = gMService;
         }
 
         //todo:获取同步的笔记
@@ -138,7 +143,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:格式化URL
 
         //todo:得到内容
-        public IActionResult GetNoteContent(string token, string noteId)
+        public async Task<IActionResult> GetNoteContent(string token, string noteId)
         {
 
             ApiRe re = new ApiRe()
@@ -166,13 +171,19 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 noteContent.Content = "<p>Content is IsNullOrEmpty<>";
             }
+            if (noteContent.IsEncryption)
+            {
+                noteContent.Content =await this.cryptographyProvider.SM2Decrypt(noteContent.Content);
+
+            }
+
             re.Ok = true;
             re.Data= noteContent;
             return LeanoteJson(re);
         }
 
         //todo:添加笔记
-        public IActionResult AddNote(ApiNote noteOrContent, string token)
+        public async Task<IActionResult> AddNote(ApiNote noteOrContent, string token)
         {
             var re=new ApiRe();
 
@@ -184,7 +195,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
 
 
-            //json 返回状态好乱呀 /(ㄒoㄒ)/~~
+            //json 返回状态乱
           
             long? tokenUserId = GetUserIdByToken(token); ;
             long? myUserId = tokenUserId;
@@ -325,8 +336,8 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 note.Desc = noteOrContent.Desc;
             }
-
-            note = noteService.AddNoteAndContent(note, noteContent, myUserId);
+          
+            note = await noteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
             if (note == null || note.NoteId == 0)
             {
@@ -695,7 +706,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedUserId=user.UserId
 
             };
-            noteContentService.AddNoteContent(noteContent);
+           await  noteContentService.AddNoteContent(noteContent);
 
             var note=new Note()
             {
@@ -743,9 +754,8 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-        public async Task<IActionResult> UpdateNoteTitleAndContent(string token,string noteId,string noteTitle,string content, string dataSignJson)
+        public async Task<IActionResult> UpdateNoteTitleAndContent(string token,string noteId,string noteTitle,string content, string dataSignJson,string digitalEnvelopeJson)
         {
-
             var user=tokenSerivce.GetUserByToken(token);
             var re=new ApiRe();
             if (user==null)
@@ -753,6 +763,19 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
 
             }
+            //数字信封
+            if (!string.IsNullOrEmpty(digitalEnvelopeJson))
+            {
+              var digitalEnvelope= DigitalEnvelope.FromJSON(digitalEnvelopeJson);
+              var data= digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
+                if (data==null)
+                {
+                    throw new Exception("数字信封解密失败");
+                }
+            }
+            
+
+
             //验证签名
             var dataSign = DataSignDTO.FromJSON(dataSignJson);
             var verify = await this.ePassService.VerifyDataSign(dataSign);
@@ -808,7 +831,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedUserId = user.UserId
             };
 
-            noteContentService.UpdateNoteContent(note.NoteId,noteContent);
+            await noteContentService.UpdateNoteContent(note.NoteId,noteContent);
             noteService.UpdateNoteTitle(note.NoteId,noteTitle);
            
             var usn=  noteRepositoryService.IncrUsn(note.NotesRepositoryId);
