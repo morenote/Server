@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using NpgsqlTypes;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using System.Text.Json;
+using MoreNote.Common.Utils;
 
 namespace MoreNote.Logic.Entity
 {
@@ -87,9 +89,13 @@ namespace MoreNote.Logic.Entity
         [Column("access_password")]
         public string? AccessPassword  { get; set; }//当前笔记的访问密码
 
-    
-    
 
+
+        public string ToJson()
+        {
+            var json = JsonSerializer.Serialize(this, MyJsonConvert.GetLeanoteOptions());
+            return json;
+        }
 
     }
     /// <summary>

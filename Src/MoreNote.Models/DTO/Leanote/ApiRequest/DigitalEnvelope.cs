@@ -1,5 +1,7 @@
-﻿using MoreNote.Common.Utils;
-using MoreNote.GM;
+﻿using github.hyfree.GM;
+
+using MoreNote.Common.Utils;
+
 
 using System;
 using System.Collections.Generic;
@@ -14,21 +16,26 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
     {
         public string PayLoad { get; set; }
         public string Key { get; set; }
-
-
+        
         public static DigitalEnvelope FromJSON(string json)
         {
             var dataPack = JsonSerializer.Deserialize<DigitalEnvelope>(json, MyJsonConvert.GetLeanoteOptions());
             return dataPack;
         }
-
+        public string getSM4Key(GMService gMService, string priKey)
+        {
+            var rawKey = gMService.SM2Decrypt("04" + this.Key, priKey, false);
+            return rawKey;
+        }
         public string GetPayLoadValue(GMService gMService,string priKey)
         {
-            var rawKey = gMService.SM2Decrypt(this.Key, priKey,false);
+            
+            var rawKey = gMService.SM2Decrypt("04"+this.Key, priKey,false);
             var rawPayLod=gMService.SM4_Decrypt_CBC(this.PayLoad, rawKey, "00000000000000000000000000000000",false);
             var rawPayLodObj= PayLoadDTO.FromJSON(rawPayLod);
-            var myHash = gMService.SM3(rawPayLodObj.Data);
-            if (!myHash.ToUpper().Equals(rawPayLodObj.Hash))
+            var dataHex= Common.Utils.HexUtil.ByteArrayToString(Encoding.UTF8.GetBytes(rawPayLodObj.Data));
+            var myHash = gMService.SM3(dataHex);
+            if (!myHash.ToUpper().Equals(rawPayLodObj.Hash.ToUpper()))
             {
                 return null;
             }

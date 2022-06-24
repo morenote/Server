@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.Entity;
 
-using Org.BouncyCastle.Crypto;
+
 using StackExchange.Redis;
 
 namespace MoreNote.Models.Entity.Security.FIDO2

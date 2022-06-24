@@ -1,4 +1,6 @@
-﻿using MoreNote.Common.Utils;
+﻿using github.hyfree.GM;
+
+using MoreNote.Common.Utils;
 
 using System;
 using System.Collections.Generic;
@@ -18,8 +20,14 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
             var dataPack = JsonSerializer.Deserialize<PayLoadDTO>(json, MyJsonConvert.GetLeanoteOptions());
             return dataPack;
         }
+        public void SetData(string data)  {
+            var gm = new GMService();
+            this.Data = data;
+            var hex = Common.Utils.HexUtil.ByteArrayToString(Encoding.UTF8.GetBytes(data));
+            this.Hash = gm.SM3(hex);
+          }
 
-        public string ToJson()
+    public string ToJson()
         {
             var json = JsonSerializer.Serialize(this);
             return json;

@@ -251,7 +251,9 @@ namespace MoreNote
             //调试的时候允许跨域
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:3201")
+                builder.WithOrigins("http://localhost:3201",
+                    "http://app.morenote.top", 
+                    "https://app.morenote.top")
                        // .AllowAnyMethod()
                        .AllowAnyMethod()
                        .AllowAnyHeader()

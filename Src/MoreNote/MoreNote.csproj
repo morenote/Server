@@ -121,6 +121,8 @@
     
     <PackageReference Include="Fido2.Models" Version="3.0.0-beta2" />
     
+    <PackageReference Include="github.hyfree.GM" Version="0.0.3" />
+    
     <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.1.0" />
     
     <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.2.0" />
@@ -261,7 +263,6 @@
     <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
-    <ProjectReference Include="..\MoreNote.GM\MoreNote.GM.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />

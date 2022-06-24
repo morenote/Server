@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using github.hyfree.GM;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Morenote.Framework.Filter.Global;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
-using MoreNote.GM;
+
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
@@ -16,6 +18,7 @@ using MoreNote.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -756,6 +759,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         public async Task<IActionResult> UpdateNoteTitleAndContent(string token,string noteId,string noteTitle,string content, string dataSignJson,string digitalEnvelopeJson)
         {
+
             var user=tokenSerivce.GetUserByToken(token);
             var re=new ApiRe();
             if (user==null)
@@ -763,19 +767,20 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
 
             }
+            DigitalEnvelope digitalEnvelope=null;
             //数字信封
-            if (!string.IsNullOrEmpty(digitalEnvelopeJson))
+            if (this.config.SecurityConfig.ForceDigitalEnvelope)
             {
-              var digitalEnvelope= DigitalEnvelope.FromJSON(digitalEnvelopeJson);
-              var data= digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
-                if (data==null)
+
+                digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
+                var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
+                if (data == null)
                 {
                     throw new Exception("数字信封解密失败");
                 }
+                //赋予解密的数字信封
+                content = data;
             }
-            
-
-
             //验证签名
             var dataSign = DataSignDTO.FromJSON(dataSignJson);
             var verify = await this.ePassService.VerifyDataSign(dataSign);
@@ -838,9 +843,25 @@ namespace MoreNote.Controllers.API.APIV1
             noteService.UpdateUsn(note.NoteId,usn);
             re.Ok=true;
             re.Data=note;
+            if (this.config.SecurityConfig.ForceDigitalEnvelope)
+            {
+
+                var key = digitalEnvelope.getSM4Key(this.gMService, this.config.SecurityConfig.PrivateKey);
+                var json = note.ToJson();
+
+                var payLoad = new PayLoadDTO();
+                payLoad.SetData(json);
+
+                var payLoadJson= payLoad.ToJson();
+
+                var jsonHex = Common.Utils.HexUtil.ByteArrayToString(Encoding.UTF8.GetBytes(payLoadJson));
+
+                var enc = gMService.SM4_Encrypt_CBC(jsonHex,key, "00000000000000000000000000000000", true);
+                re.Data = enc;
+                re.Encryption = true;
+            }
+
             return LeanoteJson(re);
-
-
 
         }
 
@@ -889,6 +910,9 @@ namespace MoreNote.Controllers.API.APIV1
             var noteDelte= noteService.DeleteNote(noteId.ToLongByHex(), usn);
             re.Ok = true;
             re.Data= noteDelte;
+          
+
+
             return LeanoteJson(re);
             
         }

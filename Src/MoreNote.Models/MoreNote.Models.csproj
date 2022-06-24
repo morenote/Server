@@ -37,6 +37,7 @@
     <PackageReference Include="Fido2.AspNet" Version="3.0.0-beta2" />
     <PackageReference Include="Fido2.Models" Version="3.0.0-beta2" />
     <PackageReference Include="github.hyfree.Bcrypt.NetCore" Version="1.0.1" />
+    <PackageReference Include="github.hyfree.GM" Version="0.0.3" />
     <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
     <PackageReference Include="github.hyfree.Masuit.LuceneEFCore.SearchEngine_Long" Version="1.1.4.2" />
     <PackageReference Include="github.hyfree.SpamClassificationML.Model" Version="1.1.0" />
@@ -67,7 +68,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
-    <ProjectReference Include="..\MoreNote.GM\MoreNote.GM.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extras.NLog;
 
+using github.hyfree.GM;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Morenote.Framework.Filter.Global;
@@ -8,7 +10,7 @@ using MoreNote.AutoFac;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
-using MoreNote.GM;
+
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
