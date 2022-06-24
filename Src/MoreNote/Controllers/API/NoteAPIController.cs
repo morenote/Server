@@ -856,7 +856,7 @@ namespace MoreNote.Controllers.API.APIV1
 
                 var jsonHex = Common.Utils.HexUtil.ByteArrayToString(Encoding.UTF8.GetBytes(payLoadJson));
 
-                var enc = gMService.SM4_Encrypt_CBC(jsonHex,key, "00000000000000000000000000000000", true);
+                var enc = gMService.SM4_Encrypt_CBC(jsonHex,key, digitalEnvelope.IV, true);
                 re.Data = enc;
                 re.Encryption = true;
             }
