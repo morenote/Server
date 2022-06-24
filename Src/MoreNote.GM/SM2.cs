@@ -6,6 +6,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using System.Text;
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace MoreNote.GM
 {
@@ -96,20 +97,20 @@ namespace MoreNote.GM
             sm3.BlockUpdate(userId, 0, userId.Length);
 
             // a,b
-            p = ecc_a.ToByteArray();
+            p = ecc_a.ToByteArray32();
             sm3.BlockUpdate(p, 0, p.Length);
-            p = ecc_b.ToByteArray();
+            p = ecc_b.ToByteArray32();
             sm3.BlockUpdate(p, 0, p.Length);
             // gx,gy
-            p = ecc_gx.ToByteArray();
+            p = ecc_gx.ToByteArray32();
             sm3.BlockUpdate(p, 0, p.Length);
-            p = ecc_gy.ToByteArray();
+            p = ecc_gy.ToByteArray32();
             sm3.BlockUpdate(p, 0, p.Length);
 
             // x,y
-            p = userKey.X.ToBigInteger().ToByteArray();
+            p = userKey.X.ToBigInteger().ToByteArray32();
             sm3.BlockUpdate(p, 0, p.Length);
-            p = userKey.Y.ToBigInteger().ToByteArray();
+            p = userKey.Y.ToBigInteger().ToByteArray32();
             sm3.BlockUpdate(p, 0, p.Length);
 
             // Z

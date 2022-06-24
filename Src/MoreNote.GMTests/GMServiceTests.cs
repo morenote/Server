@@ -31,7 +31,7 @@ namespace MoreNote.GMTests
         [TestMethod()]
         public void SM2DecryptTest()
         {
-            var data = "04a404c7ded09c432e97178f6e286c3fdde983128c4dc30e0565ea7f85998b680b30f1c53ea994666fc553a8f7a634ae8ffcfbef5ddc070c8b4da1cd46ba6a2263ebe61a22b4032047c44fa0122cee9dbebcc22c0c90322608ba9b16e75530a62ccc922b1048f86a037a248b4032a605d2";
+            var data = "04a68d2adbbb5a186de7e26c026f07a9d8039a4f1fe2347e35317261de7757ded5864cca6a1e5c27b1c7ecd05c906867664ce26794f901c24622501dd2e7280df4639e0a1a646997bb33935b5c7f2ad8bc7feca2ac9d77d9e2934749b20d1705678feea82576e7cd9a50d37308b77dfd3df1c126b72b4f068b6c455a503532adcb";
             var priKey = "811ED43E4D4A716D6192F04A204E6DBDDF1F99EFEE3B6D85C0328B17C5E11612";
             GMService gMService = new GMService();
             var dec = gMService.SM2Decrypt(data, priKey, true);
@@ -72,8 +72,8 @@ namespace MoreNote.GMTests
         [TestMethod()]
         public void SM3Test()
         {
-            var data = "00000000000000000000000000000000";
-            var expect = "106E34A2B8C7BB13156CFDD0D91379DCC47543DCF9787C68AE5EB582620AE6E8";
+            var data = "3030303030303030303030303030303030303030303030303030303030303030";
+            var expect = "557D7424ACA47640B500A525D2B53C4B2E59E552704722291AAC4D52695546AA";
             var gm = new GMService();
             var sm3=  gm.SM3(data);
             Console.WriteLine(sm3);

@@ -1,4 +1,5 @@
 ﻿using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
@@ -40,12 +41,14 @@ namespace MoreNote.GM
             byte[] p;
 
 
-            p = p2.X.ToBigInteger().ToByteArray();
+            p = p2.X.ToBigInteger().ToByteArray32();
+            
             sm3keybase.BlockUpdate(p, 0, p.Length);
             sm3c3.BlockUpdate(p, 0, p.Length);
 
 
-            p = p2.Y.ToBigInteger().ToByteArray();
+            p = p2.Y.ToBigInteger().ToByteArray32();
+           
             sm3keybase.BlockUpdate(p, 0, p.Length);
 
 
@@ -56,12 +59,15 @@ namespace MoreNote.GM
 
         private void NextKey()
         {
+
             SM3Digest sm3keycur = new SM3Digest(sm3keybase);
-            sm3keycur.Update((byte)(ct >> 24 & 0x00ff));
-            sm3keycur.Update((byte)(ct >> 16 & 0x00ff));
-            sm3keycur.Update((byte)(ct >> 8 & 0x00ff));
-            sm3keycur.Update((byte)(ct & 0x00ff));
+            sm3keycur.Update((byte)(ct >> 24 & 0xff));
+            sm3keycur.Update((byte)(ct >> 16 & 0xff));
+            sm3keycur.Update((byte)(ct >> 8 & 0xff));
+            sm3keycur.Update((byte)(ct & 0xff));
             sm3keycur.DoFinal(key, 0);
+            var testKey = HexUtil.ByteArrayToHex(key);
+
             keyOff = 0;
             ct++;
         }
@@ -111,12 +117,13 @@ namespace MoreNote.GM
 
         public virtual void Decrypt(byte[] data)
         {
+            var test=HexUtil.ByteArrayToHex(data);
             for (int i = 0; i < data.Length; i++)
             {
                 if (keyOff == key.Length)
                     NextKey();
 
-
+                var testKey = HexUtil.ByteArrayToHex(key);
                 data[i] ^= key[keyOff++];
             }
             sm3c3.BlockUpdate(data, 0, data.Length);
@@ -125,7 +132,7 @@ namespace MoreNote.GM
 
         public virtual void Dofinal(byte[] c3)
         {
-            byte[] p = p2.Y.ToBigInteger().ToByteArray();
+            byte[] p = p2.Y.ToBigInteger().ToByteArray32();
             sm3c3.BlockUpdate(p, 0, p.Length);
             sm3c3.DoFinal(c3, 0);
             Reset();

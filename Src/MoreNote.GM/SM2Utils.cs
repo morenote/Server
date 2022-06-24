@@ -24,7 +24,7 @@ namespace MoreNote.GM
             ECPoint publicKey = ecpub.Q;
 
             System.Console.Out.WriteLine("公钥: " + Encoding.Default.GetString(Hex.Encode(publicKey.GetEncoded())).ToUpper());
-            System.Console.Out.WriteLine("私钥: " + Encoding.Default.GetString(Hex.Encode(privateKey.ToByteArray())).ToUpper());
+            System.Console.Out.WriteLine("私钥: " + Encoding.Default.GetString(Hex.Encode(privateKey.ToByteArray32())).ToUpper());
         }
 
         public static String Encrypt(byte[] publicKey, byte[] data)
