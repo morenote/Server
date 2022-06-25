@@ -138,10 +138,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// <summary>
         /// 是否启用数据库加密
         /// </summary>
-        
-
-
-
+       
 
         public bool DataBaseEncryption { get; set; } = false;
 
