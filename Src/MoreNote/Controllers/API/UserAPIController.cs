@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using github.hyfree.GM;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
@@ -13,6 +15,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
+using MoreNote.Models.DTO.Leanote.ApiRequest;
 using MoreNote.Models.DTO.Leanote.USBKey;
 
 namespace MoreNote.Controllers.API.APIV1
@@ -24,15 +27,20 @@ namespace MoreNote.Controllers.API.APIV1
         private UserService userService;
         private TokenSerivce tokenSerivce;
         private RealNameService realNameService;
-        private EPassService ePass;
+        private EPassService ePassService;
+        private GMService gMService;
+        private DataSignService dataSignService;
+    
         public UserAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
+            , GMService gMService
             , RealNameService realNameService
             , IHttpContextAccessor accessor, AuthService authService
             , EPassService ePass
+            ,DataSignService dataSignService
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
@@ -40,8 +48,9 @@ namespace MoreNote.Controllers.API.APIV1
             this.userService = userService;
             this.tokenSerivce = tokenSerivce;
             this.realNameService = realNameService;
-            this.ePass = ePass;
-
+            this.ePassService = ePass;
+            this.gMService = gMService;
+            this.dataSignService = dataSignService;
         }
 
         /// <summary>
@@ -165,9 +174,35 @@ namespace MoreNote.Controllers.API.APIV1
         {
             return null;
         }
-        public  async Task<IActionResult> GetRealNameInformation(string token)
+        public  async Task<IActionResult> GetRealNameInformation(string token, string digitalEnvelopeJson, string dataSignJson)
         {
-            ApiRe re = new ApiRe();
+
+            var re = new ApiRe();
+            DigitalEnvelope digitalEnvelope = null;
+            //数字信封
+            if (this.config.SecurityConfig.ForceDigitalEnvelope)
+            {
+                digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
+                
+            }
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+            var verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            verify = dataSign.SignData.Operate.Equals("/api/User/GetRealNameInformation");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签字签名和数字信封数据
+
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "GetRealNameInformation");
+
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
@@ -183,9 +218,41 @@ namespace MoreNote.Controllers.API.APIV1
             re.Data = realName;
             return LeanoteJson(re);
         }
-        public async Task<IActionResult> SetRealNameInformation(string token,string json)
+        public async Task<IActionResult> SetRealNameInformation(string token,string sfz,string digitalEnvelopeJson,string dataSignJson)
         {
-            ApiRe re = new ApiRe();
+            var re = new ApiRe();
+            DigitalEnvelope digitalEnvelope = null;
+            //数字信封
+            if (this.config.SecurityConfig.ForceDigitalEnvelope)
+            {
+
+                digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
+                var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
+                if (data == null)
+                {
+                    throw new Exception("数字信封解密失败");
+                }
+                //赋予解密的数字信封
+                sfz = data;
+            }
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+            var verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            verify = dataSign.SignData.Operate.Equals("/api/User/SetRealNameInformation");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签字签名和数字信封数据
+
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "SetRealNameInformation");
+
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
@@ -196,17 +263,8 @@ namespace MoreNote.Controllers.API.APIV1
                 };
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
-            var dataSignDTO = DataSignDTO.FromJSON(json);
-            var result=await this.ePass.VerifyDataSign(dataSignDTO);
-            if (!result)
-            {
-                re.Msg = "VerifyDataSign is Error";
-                return LeanoteJson(re);
-            }
-
-
-           
-           await  this.realNameService.SetRealName(user.UserId, dataSignDTO.SignData.Data);
+         
+           await  this.realNameService.SetRealName(user.UserId, sfz);
             re.Ok=true;
             return LeanoteJson(re);
         }
