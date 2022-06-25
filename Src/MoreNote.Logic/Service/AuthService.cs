@@ -163,7 +163,7 @@ namespace MoreNote.Logic.Service
 
             var passwordStore=passwordStoreFactory.Instance(config.SecurityConfig);
             //对用户密码做哈希运算
-            string genPass=( await passwordStore.Encryption(Encoding.UTF8.GetBytes(pwd),salt,config.SecurityConfig.PasswordHashIterations)).ByteArrayToBase64();
+            string genPass=( await passwordStore.Encryption(pwd.Base64ToByteArray(), salt,config.SecurityConfig.PasswordHashIterations)).ByteArrayToBase64();
             if (string.IsNullOrEmpty(genPass))
             {
                 Msg="密码处理过程出现错误";
@@ -192,7 +192,7 @@ namespace MoreNote.Logic.Service
                 Verified=false,
                 Usn = 1
             };
-            if (Register(user))
+            if (await Register(user))
             {
                 Msg = "注册成功";
                 return true;
@@ -206,10 +206,10 @@ namespace MoreNote.Logic.Service
         }
 
 
-        public  bool Register(User user)
+        public  async Task<bool> Register(User user)
         {
           
-            if (UserService.AddUser(user))
+            if (await UserService.AddUserAsync(user))
             {
                 var list=new List<string>(4){ "life", "study", "work", "tutorial" };
                 foreach (var item in list)

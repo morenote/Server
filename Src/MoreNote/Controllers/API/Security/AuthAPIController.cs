@@ -212,16 +212,24 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:注册
-        public async Task<JsonResult> Register(string email, string pwd)
+        public async Task<IActionResult> Register(string email, string pwd)
         {
             //ex:API当前不使用cookie和session判断用户身份，
             //API调用必须显式的提供token字段，以证明身份
             //API调用者必须是管理员身份或者超级管理员身份，否则调用无效
             //如果用户设置二次验证必须显示提供二次验证码
-            ApiRe apiRe;
-            if (await authService.Register(email, pwd, 0) && false)
+            ApiRe re=new ApiRe();
+            if (!this.config.SecurityConfig.OpenRegister)
             {
-                apiRe = new ApiRe()
+                re.Msg = "服务器管理员已经禁止用户注册功能";
+                return LeanoteJson(re);
+
+            }
+
+
+            if (await authService.Register(email, pwd, 0))
+            {
+                re = new ApiRe()
                 {
                     Ok = true,
                     Msg = "注册成功"
@@ -229,13 +237,13 @@ namespace MoreNote.Controllers.API.APIV1
             }
             else
             {
-                apiRe = new ApiRe()
+                re = new ApiRe()
                 {
                     Ok = false,
                     Msg = "注册失败"
                 };
             }
-            return Json(apiRe, MyJsonConvert.GetSimpleOptions());
+            return Json(re, MyJsonConvert.GetSimpleOptions());
         }
 
         public async Task<IActionResult> ChangeUserPassword(string token,string password)

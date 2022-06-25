@@ -128,13 +128,17 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public bool AddUser(User user)
+        public async Task<bool> AddUserAsync(User user)
         {
             if (user.UserId == 0) user.UserId = idGenerator.NextId();
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);
-
+            if (this.Config.SecurityConfig.LogNeedHmac)
+            {
+                //计算hmac
+                await user.AddMac(this.cryptographyProvider);
+            }
             dataContext.User.Add(user);
             return dataContext.SaveChanges() > 0;
         }
