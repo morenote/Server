@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.HySystem;
 using MoreNote.Common.Utils;
+using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Leanote;
@@ -28,12 +30,22 @@ namespace MoreNote.Logic.Service
         public WebSiteConfig Config { get; set; }
         private IDistributedIdGenerator idGenerator;
         private PasswordStoreFactory passwordStoreFactory;
-        public UserService(DataContext dataContext,IDistributedIdGenerator idGenerator, ConfigFileService configFileService, PasswordStoreFactory passwordStoreFactory)
+
+        private ILoggingService logging { get; set; }
+
+        protected ICryptographyProvider cryptographyProvider { get; set; }
+        public UserService(DataContext dataContext, IDistributedIdGenerator idGenerator,
+            ConfigFileService configFileService,
+            PasswordStoreFactory passwordStoreFactory,
+            ILoggingService logging,
+            ICryptographyProvider cryptographyProvider)
         {
             this.idGenerator=idGenerator;
             this.dataContext = dataContext;
             this.Config = configFileService.WebConfig;
             this.passwordStoreFactory = passwordStoreFactory;
+            this.cryptographyProvider = cryptographyProvider;
+            this.logging = logging;
         }
 
         public UserLoginSecurityStrategy GetGetUserLoginSecurityStrategy(string userName)
@@ -116,13 +128,17 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public bool AddUser(User user)
+        public async Task<bool> AddUserAsync(User user)
         {
             if (user.UserId == 0) user.UserId = idGenerator.NextId();
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);
-
+            if (this.Config.SecurityConfig.LogNeedHmac)
+            {
+                //计算hmac
+                await user.AddMac(this.cryptographyProvider);
+            }
             dataContext.User.Add(user);
             return dataContext.SaveChanges() > 0;
         }
@@ -463,6 +479,11 @@ namespace MoreNote.Logic.Service
             user.Salt = salt.ByteArrayToBase64();
             //生成新的密码哈希
             user.Pwd =(await passwordStore.Encryption(pwd.Base64ToByteArray(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
+            if (this.Config.SecurityConfig.LogNeedHmac)
+            {
+                //计算hmac
+                await user.AddMac(this.cryptographyProvider);
+            }
             return dataContext.SaveChanges() > 0;
         }
    

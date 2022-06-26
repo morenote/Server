@@ -1,13 +1,16 @@
 ﻿using Autofac;
 using Autofac.Extras.NLog;
 
+using github.hyfree.GM;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Morenote.Framework.Filter.Global;
-
+using MoreNote.AutoFac;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
+
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
@@ -39,6 +42,7 @@ namespace MoreNote.Common.autofac
     /// </summary>
     public class AutofacModule : Autofac.Module
     {
+        public static ContainerBuilder builder { get;set;}
         protected override void Load(ContainerBuilder builder)
         {
             //依赖注入的对象
@@ -189,6 +193,12 @@ namespace MoreNote.Common.autofac
             {
                 api.HttpHost = new Uri("http://localhost:8080/");
             });
+            //加密平台KMS
+            builder.RegisterHttpApi<IHisuKMSApi>().ConfigureHttpApiConfig(api =>
+            {
+                api.HttpHost = new Uri("http://localhost:8082/");
+            });
+
             builder.RegisterType<HisuTSSService>()
                 .As<ICryptographyProvider>()
                 .SingleInstance();
@@ -198,6 +208,8 @@ namespace MoreNote.Common.autofac
                 .As<ICaptchaGenerator>();
             //实名认证服务
             builder.RegisterType<RealNameService>();
+            builder.RegisterType<DataSignService>();
+            builder.RegisterType<GMService>();
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
 
@@ -205,6 +217,13 @@ namespace MoreNote.Common.autofac
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
                 .PropertiesAutowired(new AutowiredPropertySelector());
+
+
+            builder.RegisterBuildCallback(container =>
+            {
+                AutoFacHelper.Container = (IContainer)container;
+            });
+
         }
     }
 }

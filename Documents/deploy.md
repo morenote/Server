@@ -27,6 +27,13 @@ docker run -it --name postgres --restart always -e POSTGRES_PASSWORD='your-passw
 dotnet ef migrations add InitialCreate  --project E:\github\hyfree\Morenote\Server\Src\MoreNote.Logic //替换为你的路径
 
 dotnet ef database update
+
+
+#软件数据迁移动作
+MoreNote.exe -m  MigrateDatabase
+
+
+
 ```
 
 

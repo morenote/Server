@@ -101,6 +101,7 @@ namespace MoreNote.Logic.Entity
         public string Msg { get; set; }//提示信息或者错误信息，或者其他描述性辅助信息（可选）
         public int ErrorCode { get; set; }//错误代码
         public dynamic Data { get; set; }//返回的数据
+        public bool Encryption { get; set; }//指示Data是否被加密；如果Data被加密，那么Data就是一个字符串
         public PageInfo  PageInfo { get; set; }//分页信息
 
     }

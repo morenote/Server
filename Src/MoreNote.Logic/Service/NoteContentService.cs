@@ -8,6 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
+using MoreNote.Logic.Entity.ConfigFile;
+using System.Threading.Tasks;
+using MoreNote.CryptographyProvider;
+using System.Text;
 
 namespace MoreNote.Logic.Service
 {
@@ -18,10 +22,19 @@ namespace MoreNote.Logic.Service
         public NoteService NoteService { get; set; }//属性注入
         JiebaSegmenterService jieba;
         private IDistributedIdGenerator idGenerator;
-        public NoteContentService(DataContext dataContext,JiebaSegmenterService jiebaSegmenter,IDistributedIdGenerator idGenerator)
+        WebSiteConfig config;
+
+        ICryptographyProvider cryptographyProvider;
+        public NoteContentService(DataContext dataContext,
+            JiebaSegmenterService jiebaSegmenter,
+            ConfigFileService configFileService,
+            ICryptographyProvider cryptographyProvider,
+            IDistributedIdGenerator idGenerator)
         {
+            this.cryptographyProvider = cryptographyProvider;
             this.idGenerator=idGenerator;
             this.dataContext = dataContext;
+            this.config = configFileService.WebConfig;
             this.jieba=jiebaSegmenter;
         }
 
@@ -46,8 +59,14 @@ namespace MoreNote.Logic.Service
             return result;
         }
 
-        public bool InsertNoteContent(NoteContent noteContent)
+        public async Task<bool> InsertNoteContent(NoteContent noteContent)
         {
+            if (this.config.SecurityConfig.DataBaseEncryption)
+            {
+                noteContent.Content = await this.cryptographyProvider.SM2Encrypt(noteContent.Content);
+                noteContent.IsEncryption = true;
+            }
+
             var result = dataContext.NoteContent.Add(noteContent);
 
             return dataContext.SaveChanges() > 0;
@@ -90,13 +109,13 @@ namespace MoreNote.Logic.Service
 
         // 添加笔记本内容
         // [ok]
-        public NoteContent AddNoteContent(NoteContent noteContent)
+        public async Task<NoteContent> AddNoteContent(NoteContent noteContent)
         {
             noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
             noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
             noteContent.UpdatedUserId = noteContent.UserId;
             UpdataVector(ref  noteContent);
-            InsertNoteContent(noteContent);
+            await InsertNoteContent(noteContent);
             // 更新笔记图片
             NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;
@@ -227,10 +246,10 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
             return true;
         }
-        public void UpdateNoteContent(long? noteId,  NoteContent noteContent)
+        public async Task UpdateNoteContent(long? noteId,  NoteContent noteContent)
         {
             dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).Update(x => new NoteContent() { IsHistory = true });
-            AddNoteContent(noteContent);
+           await  AddNoteContent(noteContent);
         }
 
 

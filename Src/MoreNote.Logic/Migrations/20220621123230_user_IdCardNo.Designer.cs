@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220621123230_user_IdCardNo")]
+    partial class user_IdCardNo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -934,10 +936,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsBlog")
                         .HasColumnType("boolean")
                         .HasColumnName("is_blog");
-
-                    b.Property<bool>("IsEncryption")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_encryption");
 
                     b.Property<bool>("IsHistory")
                         .HasColumnType("boolean")
@@ -2146,36 +2144,6 @@ namespace MoreNote.Logic.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("file_repository");
-                });
-
-            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.Loggin.DataSignLogging", b =>
-                {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
-
-                    b.Property<long?>("DataId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("data_id");
-
-                    b.Property<string>("DataSignJson")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("data_sign_json");
-
-                    b.Property<string>("Tag")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("tag");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id", "DataId");
-
-                    b.ToTable("data_sign");
                 });
 
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.Loggin.LoggingLogin", b =>

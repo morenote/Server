@@ -18,8 +18,12 @@ namespace MoreNote.Models.Entity.Leanote
         public long? Id { get;set;}
         [Column("user_id")]
         public long? UserId { get;set;}
-        [Column("real_name")]
-        public string? RealName { get;set;}
+        [Column("id_card_no")]
+   
+        public string? IdCardNo { get;set;}
+
+
+
         [Column("hmac")]
         public string? Hmac { get;set;}
         [NotMapped]
@@ -29,7 +33,7 @@ namespace MoreNote.Models.Entity.Leanote
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("Id=" + this.Id);
             stringBuilder.Append("UserId=" + this.UserId);
-            stringBuilder.Append("RealName=" + this.RealName);
+            stringBuilder.Append("RealName=" + this.IdCardNo);
             return stringBuilder.ToString();
         }
 

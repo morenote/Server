@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
@@ -220,7 +221,7 @@ namespace MoreNote.Controllers
 
         // 这里不能用json, 要用post
         [Route("Note/UpdateNoteOrContent")]
-        public JsonResult UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
+        public async Task<JsonResult> UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
         {
             var userid = GetUserIdBySession();
             var oldNote = noteService.GetNoteById(noteOrContent.NoteId);
@@ -255,7 +256,7 @@ namespace MoreNote.Controllers
                     Content = noteOrContent.Content,
                     Abstract = noteOrContent.Abstract
                 };
-                note = noteService.AddNoteAndContentForController(note, noteContent, userid);
+                note = await noteService.AddNoteAndContentForController(note, noteContent, userid);
                 return Json(note, MyJsonConvert.GetLeanoteOptions());
             }
             var noteUpdate = new Note();

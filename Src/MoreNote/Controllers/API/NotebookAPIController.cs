@@ -15,6 +15,9 @@ using MoreNote.Models.Enum;
 using System;
 using System.Collections.Generic;
 using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.Models.DTO.Leanote.USBKey;
+using MoreNote.Logic.Service.Security.USBKey.CSP;
+using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -26,7 +29,8 @@ namespace MoreNote.Controllers.API.APIV1
         private NotebookService notebookService;
         private NoteRepositoryService noteRepositoryService;
         private OrganizationMemberRoleService repositoryMemberRoleService;
-      
+        private EPassService ePassService;
+        private DataSignService dataSignService;
         private NoteService noteService;
         public NotebookAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
@@ -36,10 +40,9 @@ namespace MoreNote.Controllers.API.APIV1
             , IHttpContextAccessor accessor,
             NotebookService notebookService,
             NoteService noteService,
-
-
-           
+             EPassService ePassService,
              OrganizationMemberRoleService repositoryMemberRoleService,
+             DataSignService dataSignService,
              NoteRepositoryService noteRepositoryService
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
@@ -48,6 +51,8 @@ namespace MoreNote.Controllers.API.APIV1
             this.noteRepositoryService = noteRepositoryService;
             this.repositoryMemberRoleService = repositoryMemberRoleService;
             this.noteService = noteService;
+            this.ePassService=ePassService;
+            this.dataSignService=dataSignService;
         }
 
         //获取同步的笔记本
@@ -218,7 +223,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="recursion">是否递归删除，非空文件夹</param>
         /// <param name="force">系统会忽略错误检查，强制删除笔记本和里面的笔记</param>
         /// <returns></returns>
-        public IActionResult DeleteNotebook(string token, string noteRepositoryId, string notebookId, bool recursively, bool force)
+        public async Task<IActionResult> DeleteNotebook(string token, string noteRepositoryId, string notebookId, bool recursively, bool force, string dataSignJson)
         {
             User user = tokenSerivce.GetUserByToken(token);
             ApiRe re = new ApiRe()
@@ -232,6 +237,21 @@ namespace MoreNote.Controllers.API.APIV1
                 re.Msg = "NOTLOGIN";
                 return LeanoteJson(re);
             }
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+            var verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            verify = dataSign.SignData.Operate.Equals("/api/Notebook/DeleteNotebook");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "DeleteNotebook");
             var message = "";
             var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
             var repositoryId = notebook.NotesRepositoryId;
@@ -240,7 +260,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
             }
             //鉴别用户是否有权限
-            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+             verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
             if (verify == false)
             {
                 return LeanoteJson(re);
@@ -316,13 +336,30 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return LeanoteJson(apiRe);
         }
-        public IActionResult CreateNoteBook(string token,string noteRepositoryId, string notebookTitle, string parentNotebookId)
+        public async Task<IActionResult> CreateNoteBook(string token,string noteRepositoryId, string notebookTitle, string parentNotebookId,string dataSignJson)
         {
             var re = new ApiRe();
             var user = tokenSerivce.GetUserByToken(token);
             long? parentId=null;
             bool  verify=false;
             long? repositoryId=null;
+
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+             verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            verify = dataSign.SignData.Operate.Equals("/api/Notebook/CreateNoteBook");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "CreateNoteBook");
+
 
             if (string.IsNullOrEmpty(noteRepositoryId))
             {
@@ -376,7 +413,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 
         }
-        public IActionResult UpdateNoteBookTitle(string token, string notebookId,string notebookTitle)
+        public async Task<IActionResult> UpdateNoteBookTitle(string token, string notebookId,string notebookTitle, string dataSignJson)
         {
             var re = new ApiRe();
             var user = tokenSerivce.GetUserByToken(token);
@@ -386,8 +423,26 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
+
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+            var verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            verify = dataSign.SignData.Operate.Equals("/api/Notebook/UpdateNoteBookTitle");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "UpdateNoteBookTitle");
+
+
             var repositoryId = notebook.NotesRepositoryId;
-            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+             verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);

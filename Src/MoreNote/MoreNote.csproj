@@ -19,7 +19,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn />
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -39,12 +39,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NoWarn />
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <NoWarn />
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -93,7 +93,7 @@
 
   <ItemGroup>
     
-    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac" Version="6.4.0" />
     
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     
@@ -121,6 +121,8 @@
     
     <PackageReference Include="Fido2.Models" Version="3.0.0-beta2" />
     
+    <PackageReference Include="github.hyfree.GM" Version="0.0.3" />
+    
     <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.1.0" />
     
     <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.2.0" />
@@ -129,7 +131,7 @@
     
     <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
     
-    <PackageReference Include="htmldiff.net-core" Version="1.3.6" />
+    <PackageReference Include="htmldiff.net" Version="1.4.0" />
     
     <PackageReference Include="IP2Region" Version="1.2.0" />
     
@@ -258,6 +260,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\03Framework\Morenote.Framework\Morenote.Framework.csproj" />
+    <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
@@ -532,15 +535,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
 

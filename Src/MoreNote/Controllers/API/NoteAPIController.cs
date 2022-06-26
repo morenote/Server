@@ -1,19 +1,27 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using github.hyfree.GM;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Morenote.Framework.Filter.Global;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
+
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Logic.Service.Security.USBKey.CSP;
+using MoreNote.Models.DTO.Leanote.ApiRequest;
+using MoreNote.Models.DTO.Leanote.USBKey;
 using MoreNote.Models.Enum;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -30,7 +38,9 @@ namespace MoreNote.Controllers.API.APIV1
         private TrashService trashService;
         private IHttpContextAccessor accessor;
         private NoteRepositoryService noteRepositoryService;
-
+        private EPassService ePassService;
+        private GMService gMService;
+        DataSignService dataSignService;
         public NoteAPIController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -41,7 +51,10 @@ namespace MoreNote.Controllers.API.APIV1
             NoteContentService noteContentService,
             NotebookService notebookService,
             NoteRepositoryService noteRepositoryService,
-            TrashService trashService
+            TrashService trashService,
+            EPassService ePass,
+            GMService gMService,
+            DataSignService dataSignService
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
@@ -53,6 +66,9 @@ namespace MoreNote.Controllers.API.APIV1
             this.accessor = accessor;
             this.notebookService = notebookService;
             this.noteRepositoryService = noteRepositoryService;
+            this.ePassService = ePass;
+            this.dataSignService = dataSignService;
+            this.gMService = gMService;
         }
 
         //todo:获取同步的笔记
@@ -130,7 +146,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:格式化URL
 
         //todo:得到内容
-        public IActionResult GetNoteContent(string token, string noteId)
+        public async Task<IActionResult> GetNoteContent(string token, string noteId)
         {
 
             ApiRe re = new ApiRe()
@@ -158,13 +174,19 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 noteContent.Content = "<p>Content is IsNullOrEmpty<>";
             }
+            if (noteContent.IsEncryption)
+            {
+                noteContent.Content =await this.cryptographyProvider.SM2Decrypt(noteContent.Content);
+
+            }
+
             re.Ok = true;
             re.Data= noteContent;
             return LeanoteJson(re);
         }
 
         //todo:添加笔记
-        public IActionResult AddNote(ApiNote noteOrContent, string token)
+        public async Task<IActionResult> AddNote(ApiNote noteOrContent, string token)
         {
             var re=new ApiRe();
 
@@ -176,7 +198,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
 
 
-            //json 返回状态好乱呀 /(ㄒoㄒ)/~~
+            //json 返回状态乱
           
             long? tokenUserId = GetUserIdByToken(token); ;
             long? myUserId = tokenUserId;
@@ -317,8 +339,8 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 note.Desc = noteOrContent.Desc;
             }
-
-            note = noteService.AddNoteAndContent(note, noteContent, myUserId);
+          
+            note = await noteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
             if (note == null || note.NoteId == 0)
             {
@@ -632,7 +654,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return LeanoteJson(apiRe);
         }
-        public IActionResult CreateNote(string token,string noteTitle,string notebookId,bool isMarkdown)
+        public async Task<IActionResult> CreateNote(string token,string noteTitle,string notebookId,bool isMarkdown,string dataSignJson)
         {
             if (string.IsNullOrEmpty(noteTitle))
             {
@@ -646,8 +668,25 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+            var verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            verify = dataSign.SignData.Operate.Equals("/api/Note/CreateNote");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "CreateNote");
+            
+
             var repositoryId=notebook.NotesRepositoryId;
-            var verify=  noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            verify=  noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
@@ -670,7 +709,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedUserId=user.UserId
 
             };
-            noteContentService.AddNoteContent(noteContent);
+           await  noteContentService.AddNoteContent(noteContent);
 
             var note=new Note()
             {
@@ -718,7 +757,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-        public IActionResult UpdateNoteTitleAndContent(string token,string noteId,string noteTitle,string content)
+        public async Task<IActionResult> UpdateNoteTitleAndContent(string token,string noteId,string noteTitle,string content, string dataSignJson,string digitalEnvelopeJson)
         {
 
             var user=tokenSerivce.GetUserByToken(token);
@@ -728,6 +767,37 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
 
             }
+            DigitalEnvelope digitalEnvelope=null;
+            //数字信封
+            if (this.config.SecurityConfig.ForceDigitalEnvelope)
+            {
+
+                digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
+                var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
+                if (data == null)
+                {
+                    throw new Exception("数字信封解密失败");
+                }
+                //赋予解密的数字信封
+                content = data;
+            }
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+            var verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            verify = dataSign.SignData.Operate.Equals("/api/Note/UpdateNoteTitleAndContent");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签字签名和数字信封数据
+
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "UpdateNoteTitleAndContent");
 
             //-------------校验参数合法性
             if (user == null)
@@ -739,7 +809,7 @@ namespace MoreNote.Controllers.API.APIV1
            
             // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
             var note = noteService.GetNote(noteId.ToLongByHex(), user.UserId);
-            var verify=noteRepositoryService.Verify(note.NotesRepositoryId,user.UserId,RepositoryAuthorityEnum.Write);
+             verify=noteRepositoryService.Verify(note.NotesRepositoryId,user.UserId,RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
@@ -768,20 +838,36 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedUserId = user.UserId
             };
 
-            noteContentService.UpdateNoteContent(note.NoteId,noteContent);
+            await noteContentService.UpdateNoteContent(note.NoteId,noteContent);
             noteService.UpdateNoteTitle(note.NoteId,noteTitle);
            
             var usn=  noteRepositoryService.IncrUsn(note.NotesRepositoryId);
             noteService.UpdateUsn(note.NoteId,usn);
             re.Ok=true;
             re.Data=note;
+            if (this.config.SecurityConfig.ForceDigitalEnvelope)
+            {
+
+                var key = digitalEnvelope.getSM4Key(this.gMService, this.config.SecurityConfig.PrivateKey);
+                var json = note.ToJson();
+
+                var payLoad = new PayLoadDTO();
+                payLoad.SetData(json);
+
+                var payLoadJson= payLoad.ToJson();
+
+                var jsonHex = Common.Utils.HexUtil.ByteArrayToString(Encoding.UTF8.GetBytes(payLoadJson));
+
+                var enc = gMService.SM4_Encrypt_CBC(jsonHex,key, digitalEnvelope.IV, true);
+                re.Data = enc;
+                re.Encryption = true;
+            }
+
             return LeanoteJson(re);
-
-
 
         }
 
-        public IActionResult DeleteNote(string token,string noteRepositoryId, string noteId)
+        public async Task<IActionResult> DeleteNote(string token,string noteRepositoryId, string noteId,string dataSignJson)
         {
             var user = tokenSerivce.GetUserByToken(token);
             var re = new ApiRe();
@@ -789,6 +875,27 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
+
+            //验证签名
+            var dataSign = DataSignDTO.FromJSON(dataSignJson);
+            var verify = await this.ePassService.VerifyDataSign(dataSign);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+
+       
+            verify = dataSign.SignData.Operate.Equals("/api/Note/DeleteNote");
+            if (!verify)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            //签名存证
+            this.dataSignService.AddDataSign(dataSign, "DeleteNote");
+
+
+
             var note = noteService.GetNoteById(noteId.ToLongByHex());
            
             var repositoryId = note.NotesRepositoryId;
@@ -796,7 +903,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
@@ -805,6 +912,9 @@ namespace MoreNote.Controllers.API.APIV1
             var noteDelte= noteService.DeleteNote(noteId.ToLongByHex(), usn);
             re.Ok = true;
             re.Data= noteDelte;
+          
+
+
             return LeanoteJson(re);
             
         }
