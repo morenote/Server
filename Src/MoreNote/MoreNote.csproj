@@ -55,6 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="MockData\notice.json" />
     <Content Remove="nlog.config" />
     <Content Remove="Views\admin\blog\page.cshtml" />
     <Content Remove="Views\admin\button.cshtml" />
@@ -86,6 +87,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="MockData\notice.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -205,6 +209,18 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="MockData\activities.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="MockData\chart.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="MockData\current.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="MockData\list.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Pages\About.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -516,7 +532,7 @@
     <Folder Include="Views\APP\" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" tsconfig_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES2015</TypeScriptTarget>

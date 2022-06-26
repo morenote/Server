@@ -8,10 +8,11 @@ using MoreNote.Models.DTO.ng;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-    [Route("api/Common/[action]")]
+    
     public class MokeController : APIBaseController
     {
         private AttachService attachService;
@@ -46,35 +47,46 @@ namespace MoreNote.Controllers.API.APIV1
             this.notebookService = notebookService;
             this.noteRepositoryService = noteRepositoryService;
 
-            int[] temp = { 7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5 };
-            int[] fakeY2temp = { 1, 6, 4, 8, 3, 7, 2 };
-            fakeY = temp;
-            fakeY2 = fakeY2temp;
-            for (int i = 0; i < temp.Length; i++)
-            {
-                visitData.Add(new VisitData()
-                {
-                    x = DateTime.Now,
-                    y = fakeY[i]
-                });
-            }
-
-            for (int i = 0; i < fakeY2.Length; i++)
-            {
-                visitData2.Add(new VisitData()
-                {
-                    x = DateTime.Now,
-                    y = fakeY2[i]
-                });
-            }
 
         }
+        [Route("/chart")]
+        public async Task chart()
+        {
+            var json=System.IO.File.ReadAllText("MockData/chart.json");
+            await Response.WriteAsJsonAsync(json);
+            await Response.CompleteAsync();
+        }
+        [Route("/api/notice")]
+        public async Task notice()
+        {
+            var json = System.IO.File.ReadAllText("MockData/notice.json");
+            await Response.WriteAsJsonAsync(json);
+            await Response.CompleteAsync();
 
-        private DateTime beginDay = DateTime.Now;
-        private int[] fakeY = null;
-        private int[] fakeY2 = null;
-        private List<VisitData> visitData;
-        private List<VisitData> visitData2;
+        }
+        [Route("/api/activities")]
+        public async Task activities()
+        {
+            var json = System.IO.File.ReadAllText("MockData/activities.json");
+            await Response.WriteAsJsonAsync(json);
+            await Response.CompleteAsync();
+
+        }
+        [Route("/api/list")]
+        public async Task list()
+        {
+            var json = System.IO.File.ReadAllText("MockData/list.json");
+            await Response.WriteAsJsonAsync(json);
+            await Response.CompleteAsync();
+
+        }
+        [Route("/user/current")]
+        public async Task current()
+        {
+            var json = System.IO.File.ReadAllText("MockData/current.json");
+            await Response.WriteAsJsonAsync(json);
+            await Response.CompleteAsync();
+        }
     }
         
   
