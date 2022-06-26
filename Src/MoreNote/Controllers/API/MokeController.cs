@@ -60,7 +60,8 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task notice()
         {
             var json = System.IO.File.ReadAllText("MockData/notice.json");
-            await Response.WriteAsJsonAsync(json);
+            await Response.WriteAsync(json);
+            Response.ContentType = "application/json; charset=utf-8";
             await Response.CompleteAsync();
 
         }
@@ -68,7 +69,8 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task activities()
         {
             var json = System.IO.File.ReadAllText("MockData/activities.json");
-            await Response.WriteAsJsonAsync(json);
+            await Response.WriteAsync(json);
+            Response.ContentType = "application/json; charset=utf-8";
             await Response.CompleteAsync();
 
         }
@@ -76,7 +78,8 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task list()
         {
             var json = System.IO.File.ReadAllText("MockData/list.json");
-            await Response.WriteAsJsonAsync(json);
+            await Response.WriteAsync(json);
+            Response.ContentType = "application/json; charset=utf-8";
             await Response.CompleteAsync();
 
         }
@@ -84,7 +87,8 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task current()
         {
             var json = System.IO.File.ReadAllText("MockData/current.json");
-            await Response.WriteAsJsonAsync(json);
+            await Response.WriteAsync(json);
+            Response.ContentType = "application/json; charset=utf-8";
             await Response.CompleteAsync();
         }
     }
