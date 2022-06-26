@@ -50,46 +50,47 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
         [Route("/chart")]
-        public async Task chart()
+        public async Task<IActionResult> chart()
         {
             var json=System.IO.File.ReadAllText("MockData/chart.json");
-            await Response.WriteAsJsonAsync(json);
-            await Response.CompleteAsync();
+            Response.ContentType = "application/json; charset=utf-8";
+
+            return Content(json);
         }
         [Route("/api/notice")]
-        public async Task notice()
+        public async Task<IActionResult> notice()
         {
             var json = System.IO.File.ReadAllText("MockData/notice.json");
-            await Response.WriteAsync(json);
             Response.ContentType = "application/json; charset=utf-8";
-            await Response.CompleteAsync();
+
+            return Content(json);
 
         }
         [Route("/api/activities")]
-        public async Task activities()
+        public async Task<IActionResult> activities()
         {
             var json = System.IO.File.ReadAllText("MockData/activities.json");
-            await Response.WriteAsync(json);
             Response.ContentType = "application/json; charset=utf-8";
-            await Response.CompleteAsync();
+
+            return Content(json);
 
         }
         [Route("/api/list")]
-        public async Task list()
+        public async Task<IActionResult> list()
         {
             var json = System.IO.File.ReadAllText("MockData/list.json");
-            await Response.WriteAsync(json);
             Response.ContentType = "application/json; charset=utf-8";
-            await Response.CompleteAsync();
+
+            return Content(json);
 
         }
         [Route("/user/current")]
-        public async Task current()
+        public async Task<IActionResult> current()
         {
             var json = System.IO.File.ReadAllText("MockData/current.json");
-            await Response.WriteAsync(json);
             Response.ContentType = "application/json; charset=utf-8";
-            await Response.CompleteAsync();
+
+            return Content(json);
         }
     }
         
