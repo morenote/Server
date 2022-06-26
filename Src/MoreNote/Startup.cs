@@ -236,6 +236,7 @@ namespace MoreNote
             }
 
             // app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             //使用session 注册

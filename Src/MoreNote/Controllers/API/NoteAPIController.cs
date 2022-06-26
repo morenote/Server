@@ -767,37 +767,51 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
 
             }
-            DigitalEnvelope digitalEnvelope=null;
-            //数字信封
+            DigitalEnvelope digitalEnvelope = null;
+            var verify=false;
             if (this.config.SecurityConfig.ForceDigitalEnvelope)
             {
-
-                digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
-                var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
-                if (data == null)
+                //数字信封
+                if (this.config.SecurityConfig.ForceDigitalEnvelope)
                 {
-                    throw new Exception("数字信封解密失败");
-                }
-                //赋予解密的数字信封
-                content = data;
-            }
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
-            {
-                return LeanoteJson(re);
-            }
-            verify = dataSign.SignData.Operate.Equals("/api/Note/UpdateNoteTitleAndContent");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签字签名和数字信封数据
 
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "UpdateNoteTitleAndContent");
+                    digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
+                    var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
+                    if (data == null)
+                    {
+                        throw new Exception("数字信封解密失败");
+                    }
+                    //赋予解密的数字信封
+                    content = data;
+                }
+
+            }
+
+
+            if (this.config.SecurityConfig.ForceDigitalSignature)
+            {
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+                verify = dataSign.SignData.Operate.Equals("/api/Note/UpdateNoteTitleAndContent");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签字签名和数字信封数据
+
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "UpdateNoteTitleAndContent");
+            }
+           
+            
+
+           
 
             //-------------校验参数合法性
             if (user == null)
@@ -875,24 +889,29 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
+            var verify=false;
+            if (this.config.SecurityConfig.ForceDigitalSignature)
             {
-                return LeanoteJson(re);
-            }
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
 
-       
-            verify = dataSign.SignData.Operate.Equals("/api/Note/DeleteNote");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
+
+                verify = dataSign.SignData.Operate.Equals("/api/Note/DeleteNote");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "DeleteNote");
+
             }
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "DeleteNote");
+            
 
 
 

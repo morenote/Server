@@ -6,11 +6,11 @@ using github.hyfree.GM;
 using Microsoft.AspNetCore.Mvc;
 
 using Morenote.Framework.Filter.Global;
+
 using MoreNote.AutoFac;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
-
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
@@ -42,7 +42,8 @@ namespace MoreNote.Common.autofac
     /// </summary>
     public class AutofacModule : Autofac.Module
     {
-        public static ContainerBuilder builder { get;set;}
+        public static ContainerBuilder builder { get; set; }
+
         protected override void Load(ContainerBuilder builder)
         {
             //依赖注入的对象
@@ -177,31 +178,49 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<SnowFlakeNetService>()
                 .As<IDistributedIdGenerator>()
                 .SingleInstance();
-            //签名验签服务器
-            builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
+            ConfigFileService configFileService = new ConfigFileService();
+            var config = configFileService.WebConfig;
+            if (config.SecurityConfig.NeedEncryptionMachine)
             {
-                api.HttpHost = new Uri("http://NetSign:8081/");
-            });
+                //签名验签服务器
+                builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
+                {
+                    api.HttpHost = new Uri(config.SecurityConfig.NetSignApi);
+                });
 
-            //服务器端签名和验签服务
-            builder.RegisterType<NetSignService>()
-                .As<ISignatureService>()
-                .SingleInstance();
+                //加密平台服务
+                builder.RegisterHttpApi<IHisuTSSApi>().ConfigureHttpApiConfig(api =>
+                {
+                    api.HttpHost = new Uri(config.SecurityConfig.HisuTSSC);
+                });
+                //加密平台KMS
+                builder.RegisterHttpApi<IHisuKMSApi>().ConfigureHttpApiConfig(api =>
+                {
+                    api.HttpHost = new Uri(config.SecurityConfig.HisuCCBC);
+                });
 
-            //加密平台服务
-            builder.RegisterHttpApi<IHisuTSSApi>().ConfigureHttpApiConfig(api =>
+                //服务器端签名和验签服务
+                builder.RegisterType<NetSignService>()
+                    .As<ISignatureService>()
+                    .SingleInstance();
+                //加密提供服务
+                builder.RegisterType<HisuTSSService>()
+                   .As<ICryptographyProvider>()
+                   .SingleInstance();
+            }
+            else
             {
-                api.HttpHost = new Uri("http://HisuTSSC:8080/");
-            });
-            //加密平台KMS
-            builder.RegisterHttpApi<IHisuKMSApi>().ConfigureHttpApiConfig(api =>
-            {
-                api.HttpHost = new Uri("http://HisuCCBC:8082/");
-            });
+                //服务器端签名和验签服务
+                builder.RegisterType<FakeSignatureService>()
+                    .As<ISignatureService>()
+                    .SingleInstance();
+                //加密提供服务
+                builder.RegisterType<FakeCryptographyProvider>()
+                   .As<ICryptographyProvider>()
+                   .SingleInstance();
 
-            builder.RegisterType<HisuTSSService>()
-                .As<ICryptographyProvider>()
-                .SingleInstance();
+            }
+
             builder.RegisterType<EPassService>();
 
             builder.RegisterType<ImageSharpCaptchaGenerator>()
@@ -218,12 +237,10 @@ namespace MoreNote.Common.autofac
                 .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
                 .PropertiesAutowired(new AutowiredPropertySelector());
 
-
             builder.RegisterBuildCallback(container =>
             {
                 AutoFacHelper.Container = (IContainer)container;
             });
-
         }
     }
 }

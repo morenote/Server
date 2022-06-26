@@ -88,22 +88,26 @@ namespace MoreNote.Controllers.API
                 Ok = false,
                 Data = null
             };
+            var verify=false;
+            if (this.config.SecurityConfig.ForceDigitalSignature)
+            {
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+                verify = dataSign.SignData.Operate.Equals("/api/NotesRepository/CreateNoteRepository");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "CreateNoteRepository");
 
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
-            {
-                return LeanoteJson(re);
             }
-            verify = dataSign.SignData.Operate.Equals("/api/NotesRepository/CreateNoteRepository");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "CreateNoteRepository");
 
             var user = tokenSerivce.GetUserByToken(token);
             var notesRepository = JsonSerializer.Deserialize<NotesRepository>(data, MyJsonConvert.GetLeanoteOptions());
@@ -136,9 +140,6 @@ namespace MoreNote.Controllers.API
                 re.Msg = "仓库名称冲突";
                 return LeanoteJson(re);
             }
-
-
-
 
             var result = noteRepositoryService.CreateNoteRepository(notesRepository);
 

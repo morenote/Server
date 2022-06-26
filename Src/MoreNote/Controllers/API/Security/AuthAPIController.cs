@@ -133,6 +133,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             finally
             {
+
                 await logg.AddMac(this.cryptographyProvider);
                 this.logging.Save(logg);
             }
