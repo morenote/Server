@@ -180,7 +180,7 @@ namespace MoreNote.Common.autofac
             //签名验签服务器
             builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
             {
-                api.HttpHost = new Uri("http://localhost:8081/");
+                api.HttpHost = new Uri("http://NetSign:8081/");
             });
 
             //服务器端签名和验签服务
@@ -191,12 +191,12 @@ namespace MoreNote.Common.autofac
             //加密平台服务
             builder.RegisterHttpApi<IHisuTSSApi>().ConfigureHttpApiConfig(api =>
             {
-                api.HttpHost = new Uri("http://localhost:8080/");
+                api.HttpHost = new Uri("http://HisuTSSC:8080/");
             });
             //加密平台KMS
             builder.RegisterHttpApi<IHisuKMSApi>().ConfigureHttpApiConfig(api =>
             {
-                api.HttpHost = new Uri("http://localhost:8082/");
+                api.HttpHost = new Uri("http://HisuCCBC:8082/");
             });
 
             builder.RegisterType<HisuTSSService>()
