@@ -10,11 +10,14 @@
         public bool VerifyHmac(byte[] data, byte[] mac);
 
         public byte[] TransEncrypted(byte[] cipher, byte[] salt);
-        public byte[] SM2Encrypt(string DataStr);
-        public byte[] SM2Decrypt(string base64Data);
+        public byte[] SM2Encrypt(byte[] data);
+        public byte[] SM2Decrypt(byte[] data);
 
         public byte[] SM4Encrypt(byte[] data, byte[] iv);
         public byte[] SM4Decrypt(byte[] data, byte[] iv);
+
+        public byte[] SM4Encrypt(byte[] data);
+        public byte[] SM4Decrypt(byte[] data);
 
     }
 }

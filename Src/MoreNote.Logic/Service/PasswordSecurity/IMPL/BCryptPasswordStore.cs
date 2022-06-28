@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
     /// </summary>
     public class BCryptPasswordStore : IPasswordStore
     {
-        public async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
+        public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
         {
             if (salt.Length!=16)
             {
@@ -26,7 +26,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
 
         }
 
-        public async Task<bool> VerifyPassword(byte[] encryData,byte[] pass , byte[] salt, int iterations)
+        public bool VerifyPassword(byte[] encryData,byte[] pass , byte[] salt, int iterations)
         {
            
             return BCryptHlper.Verify(encryData,pass,salt,iterations);

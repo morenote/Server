@@ -176,7 +176,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             if (noteContent.IsEncryption)
             {
-                noteContent.Content =await this.cryptographyProvider.SM2Decrypt(noteContent.Content);
+                noteContent.Content = this.cryptographyProvider.SM4Decrypt(noteContent.Content.Base64ToByteArray()).ByteArrayToBase64();
 
             }
 
@@ -340,7 +340,7 @@ namespace MoreNote.Controllers.API.APIV1
                 note.Desc = noteOrContent.Desc;
             }
           
-            note = await noteService.AddNoteAndContent(note, noteContent, myUserId);
+            note =  noteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
             if (note == null || note.NoteId == 0)
             {
@@ -709,7 +709,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedUserId=user.UserId
 
             };
-           await  noteContentService.AddNoteContent(noteContent);
+             noteContentService.AddNoteContent(noteContent);
 
             var note=new Note()
             {
@@ -852,7 +852,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedUserId = user.UserId
             };
 
-            await noteContentService.UpdateNoteContent(note.NoteId,noteContent);
+             noteContentService.UpdateNoteContent(note.NoteId,noteContent);
             noteService.UpdateNoteTitle(note.NoteId,noteTitle);
            
             var usn=  noteRepositoryService.IncrUsn(note.NotesRepositoryId);

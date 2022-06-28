@@ -96,7 +96,7 @@ namespace MoreNote.Controllers.API.APIV1
                     var user = userService.GetUserByEmail(email);
                     if (this.config.SecurityConfig.LogNeedHmac)
                     {
-                        await user.VerifyHmac(this.cryptographyProvider);
+                        user.VerifyHmac(this.cryptographyProvider);
                         if (!user.Verify)
                         {
                             re.Msg = "VerifyHmac is Error";
@@ -272,7 +272,7 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     foreach (var item in data)
                     {
-                        var verify = await item.VerifyHmac(cryptographyProvider);
+                        var verify =  item.VerifyHmac(cryptographyProvider);
                         item.Verify = verify;
                     }
                 }

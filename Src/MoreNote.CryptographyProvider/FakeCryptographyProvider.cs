@@ -15,31 +15,51 @@ namespace MoreNote.CryptographyProvider
        /// <param name="data"></param>
        /// <returns></returns>
        /// <exception cref="NotImplementedException"></exception>
-        public async Task<string> Hmac(string data)
+        public byte[] Hmac(byte[] data)
         {
-            var bytes=Convert.FromBase64String(data);
-            var hash= SHA256.Create().ComputeHash(bytes);
-            string base64=Convert.ToBase64String(hash);
             
-            return base64;
+            var hash= SHA256.Create().ComputeHash(data);
+           
+            
+            return hash;
         }
 
-        public Task<string> SM4Decrypt(string base64Data)
+        public byte[] SM2Decrypt(byte[] data)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> SM4Encrypt(string DataStr)
+        public byte[] SM2Encrypt(byte[] data)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> TransEncrypted(string cipherBase64)
+        public byte[] SM4Decrypt(byte[] data, byte[] iv)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> VerifyHmac(string data, string mac)
+        public byte[] SM4Decrypt(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] SM4Encrypt(byte[] data, byte[] iv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] SM4Encrypt(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] TransEncrypted(byte[] cipher, byte[] salt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool VerifyHmac(byte[] data, byte[] mac)
         {
             throw new NotImplementedException();
         }

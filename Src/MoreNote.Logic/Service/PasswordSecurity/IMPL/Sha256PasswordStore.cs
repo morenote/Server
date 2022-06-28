@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
     /// </summary>
     public class SHA256PasswordStore : IPasswordStore
     {
-        public async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
+        public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
         {
             using (var sha256 = SHA256.Create())
             {
@@ -35,9 +35,9 @@ namespace MoreNote.Logic.Service.PasswordSecurity
             }
         }
 
-        public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+        public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
         {
-            var hash = await Encryption(pass, salt, iterations);
+            var hash =  Encryption(pass, salt, iterations);
             return SecurityUtil.SafeCompareByteArray(hash, encryData);
         }
 

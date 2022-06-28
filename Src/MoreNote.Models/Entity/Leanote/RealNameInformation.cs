@@ -1,4 +1,5 @@
-﻿using MoreNote.CryptographyProvider;
+﻿using MoreNote.Common.ExtensionMethods;
+using MoreNote.CryptographyProvider;
 
 using System;
 using System.Collections.Generic;
@@ -37,24 +38,23 @@ namespace MoreNote.Models.Entity.Leanote
             return stringBuilder.ToString();
         }
 
-        public async Task<RealNameInformation> AddMac(ICryptographyProvider cryptographyProvider)
+        public RealNameInformation AddMac(ICryptographyProvider cryptographyProvider)
         {
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
-            var base64 = Convert.ToBase64String(bytes);
-            this.Hmac = await cryptographyProvider.Hmac(base64);
+            this.Hmac =  cryptographyProvider.Hmac(bytes).ByteArrayToBase64();
             return this;
         }
 
-        public async Task<RealNameInformation> VerifyHmac(ICryptographyProvider cryptographyProvider)
+        public RealNameInformation VerifyHmac(ICryptographyProvider cryptographyProvider)
         {
             if (string.IsNullOrEmpty(this.Hmac))
             {
                 return this;
             }
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
-            var base64 = Convert.ToBase64String(bytes);
+           
 
-            var result= await cryptographyProvider.VerifyHmac(base64, this.Hmac);
+            var result=  cryptographyProvider.VerifyHmac(bytes, this.Hmac.Base64ToByteArray());
             this.Verify=result;
 
             return this;

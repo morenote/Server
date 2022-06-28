@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Entity;
 using MoreNote.Models.DTO.Leanote.Auth;
@@ -265,12 +266,12 @@ namespace MoreNote.Logic.Entity
         {
             
                 var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
-                var base64 = Convert.ToBase64String(bytes);
-                this.Hmac = await cryptographyProvider.Hmac(base64);
+              
+                this.Hmac =  cryptographyProvider.Hmac(bytes).ByteArrayToBase64();
                 return this;
         }
 
-        public async Task<User> VerifyHmac(ICryptographyProvider cryptographyProvider)
+        public User  VerifyHmac(ICryptographyProvider cryptographyProvider)
         {
             if (string.IsNullOrEmpty(this.Hmac))
             {
@@ -278,9 +279,8 @@ namespace MoreNote.Logic.Entity
                 return this;
             }
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
-            var base64 = Convert.ToBase64String(bytes);
-
-            var result = await cryptographyProvider.VerifyHmac(base64, this.Hmac);
+           
+            var result =  cryptographyProvider.VerifyHmac(bytes, this.Hmac.Base64ToByteArray());
             this.Verify = result;
 
             return this;

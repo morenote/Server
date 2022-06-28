@@ -15,13 +15,13 @@ namespace MoreNote.Logic.Service.PasswordSecurity
     {
         public const int HASH_SIZE = 64; // 字节大小
 
-        public async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
+        public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
         {
             Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(pass, salt, iterations, HashAlgorithmName.SHA512);
             return pbkdf2.GetBytes(HASH_SIZE);
         }
 
-        public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+        public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
         {
             Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(pass, salt, iterations, HashAlgorithmName.SHA512);
             byte[] hash = pbkdf2.GetBytes(HASH_SIZE);

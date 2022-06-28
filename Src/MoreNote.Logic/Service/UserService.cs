@@ -461,7 +461,7 @@ namespace MoreNote.Logic.Service
 
             IPasswordStore passwordStore = passwordStoreFactory.Instance(user);
             //验证旧密码
-            var vd =await passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), oldPwd.Base64ToByteArray(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
+            var vd = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), oldPwd.Base64ToByteArray(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
             if (!vd)
             {
                 return vd;
@@ -478,11 +478,11 @@ namespace MoreNote.Logic.Service
             //更新盐
             user.Salt = salt.ByteArrayToBase64();
             //生成新的密码哈希
-            user.Pwd =(await passwordStore.Encryption(pwd.Base64ToByteArray(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
+            user.Pwd =( passwordStore.Encryption(pwd.Base64ToByteArray(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
             if (this.Config.SecurityConfig.LogNeedHmac)
             {
                 //计算hmac
-                await user.AddMac(this.cryptographyProvider);
+                 user.AddMac(this.cryptographyProvider);
             }
             return dataContext.SaveChanges() > 0;
         }

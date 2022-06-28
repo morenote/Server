@@ -1,4 +1,5 @@
-﻿using MoreNote.CryptographyProvider;
+﻿using MoreNote.Common.ExtensionMethods;
+using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
@@ -39,10 +40,10 @@ namespace MoreNote.Logic.Service
             this.logging = logging;
         }
 
-        public async Task SetRealName(long? userId, string cardNo)
+        public void SetRealName(long? userId, string cardNo)
         {
-            var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(cardNo));
-            cardNo = await this.cryptographyProvider.SM2Encrypt(base64);
+            
+            cardNo =  this.cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(cardNo)).ByteArrayToBase64();
 
 
             if (dataContext.RealNameInformation.Where(b => b.UserId == userId).Any())
@@ -50,7 +51,7 @@ namespace MoreNote.Logic.Service
                 var realName = dataContext.RealNameInformation.Where(b => b.UserId == userId).FirstOrDefault();
                 realName.IdCardNo = cardNo;
 
-                await realName.AddMac(this.cryptographyProvider);
+                realName.AddMac(this.cryptographyProvider);
                 this.dataContext.SaveChanges();
 
             }
@@ -64,24 +65,23 @@ namespace MoreNote.Logic.Service
                     IdCardNo = cardNo
                 };
 
-                await rni.AddMac(this.cryptographyProvider);
+                 rni.AddMac(this.cryptographyProvider);
                 
                  this.dataContext.RealNameInformation.Add(rni);
                  this.dataContext.SaveChanges();
             }
         }
-        public async Task<RealNameInformation> GetRealNameInformationByUserId(long? userId)
+        public  RealNameInformation  GetRealNameInformationByUserId(long? userId)
         {
-          
 
             var realName = this.dataContext.RealNameInformation.Where(b => b.UserId == userId).FirstOrDefault();
             if (realName == null)
             {
                 return null;
             }
-            await realName.VerifyHmac(this.cryptographyProvider);
-            var dec= await this.cryptographyProvider.SM2Decrypt(realName.IdCardNo);
-            realName.IdCardNo = Encoding.UTF8.GetString(Convert.FromBase64String(dec));
+            realName.VerifyHmac(this.cryptographyProvider);
+            var dec=  this.cryptographyProvider.SM4Decrypt(realName.IdCardNo.Base64ToByteArray());
+            realName.IdCardNo = Encoding.UTF8.GetString(dec);
 
             return realName;
 

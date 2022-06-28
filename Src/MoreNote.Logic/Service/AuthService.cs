@@ -58,7 +58,7 @@ namespace MoreNote.Logic.Service
 
             if (user != null)
             {
-                var result = await passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), pwd.Base64ToByteArray(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
+                var result =  passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), pwd.Base64ToByteArray(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
                 if (result)
                 {
                     long? tokenid = idGenerator.NextId();
@@ -163,7 +163,7 @@ namespace MoreNote.Logic.Service
 
             var passwordStore=passwordStoreFactory.Instance(config.SecurityConfig);
             //对用户密码做哈希运算
-            string genPass=( await passwordStore.Encryption(pwd.Base64ToByteArray(), salt,config.SecurityConfig.PasswordHashIterations)).ByteArrayToBase64();
+            string genPass=(  passwordStore.Encryption(pwd.Base64ToByteArray(), salt,config.SecurityConfig.PasswordHashIterations)).ByteArrayToBase64();
             if (string.IsNullOrEmpty(genPass))
             {
                 Msg="密码处理过程出现错误";

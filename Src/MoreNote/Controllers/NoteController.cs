@@ -256,7 +256,7 @@ namespace MoreNote.Controllers
                     Content = noteOrContent.Content,
                     Abstract = noteOrContent.Abstract
                 };
-                note = await noteService.AddNoteAndContentForController(note, noteContent, userid);
+                note =  noteService.AddNoteAndContentForController(note, noteContent, userid);
                 return Json(note, MyJsonConvert.GetLeanoteOptions());
             }
             var noteUpdate = new Note();

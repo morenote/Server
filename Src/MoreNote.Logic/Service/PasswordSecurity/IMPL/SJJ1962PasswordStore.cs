@@ -1,4 +1,5 @@
-﻿using MoreNote.Common.Utils;
+﻿using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 
 using System;
@@ -26,11 +27,11 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <param name="salt">盐（无效参数）</param>
         /// <param name="iterations">轮数（无效参数）</param>
         /// <returns></returns>
-        public async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
+        public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
         {
             var base64Pass = Convert.ToBase64String(pass);
-            var result=await cryptographyProvider.TransEncrypted(base64Pass);
-            return Convert.FromBase64String(result);
+            var result= cryptographyProvider.TransEncrypted(base64Pass.Base64ToByteArray(),salt);
+            return  result;
         }
         /// <summary>
         ///  验证口令
@@ -41,13 +42,13 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <param name="iterations">轮数（无效参数）</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+        public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
         {
-            var base64Pass = Convert.ToBase64String(pass);
-            var result = await cryptographyProvider.TransEncrypted(base64Pass);
-            var zjm = Convert.FromBase64String(result);
+            
+            var result =  cryptographyProvider.TransEncrypted(pass,salt);
+           
             //将数据库中存储的加密口令与 用户输入的口令的加密的加密结果比较
-            var verify= SecurityUtil.SafeCompareByteArray(encryData, zjm);
+            var verify= SecurityUtil.SafeCompareByteArray(encryData, result);
             return verify;
         }
     }

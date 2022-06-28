@@ -56,20 +56,23 @@ namespace MoreNote.Models.Entity.Leanote.Loggin
         public async Task<LoggingLogin> AddMac(ICryptographyProvider cryptographyProvider)
         {
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
-            var base64 = Convert.ToBase64String(bytes);
-            this.Hmac = await cryptographyProvider.Hmac(base64);
+            var hmac = cryptographyProvider.Hmac(bytes);
+            this.Hmac = Convert.ToBase64String(hmac);
             return this;
         }
         
-        public async Task<bool> VerifyHmac(ICryptographyProvider cryptographyProvider)
+        public bool  VerifyHmac(ICryptographyProvider cryptographyProvider)
         {
             if (string.IsNullOrEmpty(this.Hmac))
             {
                 return false;
             }
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
-            var base64 = Convert.ToBase64String(bytes);
-            return await cryptographyProvider.VerifyHmac(base64, this.Hmac);
+           
+
+            var hmac=Convert.FromBase64String(this.Hmac);
+            return  cryptographyProvider.VerifyHmac(bytes, hmac);
+
         }
     }
 }

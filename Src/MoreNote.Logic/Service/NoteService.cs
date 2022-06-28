@@ -757,13 +757,13 @@ namespace MoreNote.Logic.Service
 
         // 添加笔记和内容
         // 这里使用 info.NoteAndContent 接收?
-        public async Task<Note> AddNoteAndContentForController(Note note, NoteContent noteContent, long? updatedUserId)
+        public Note AddNoteAndContentForController(Note note, NoteContent noteContent, long? updatedUserId)
         {
             //todo:实现AddNoteAndContentForController
-             return await AddNoteAndContent(note, noteContent, updatedUserId);
+             return  AddNoteAndContent(note, noteContent, updatedUserId);
         }
 
-        public async Task<Note> AddNoteAndContent(Note note, NoteContent noteContent, long? myUserId)
+        public  Note AddNoteAndContent(Note note, NoteContent noteContent, long? myUserId)
         {
             if (note.NoteId == null)
             {
@@ -786,7 +786,7 @@ namespace MoreNote.Logic.Service
 
             if (note.NoteId != null)
             {
-               await  NoteContentService.AddNoteContent(noteContent);
+                 NoteContentService.AddNoteContent(noteContent);
             }
             return note;
         }

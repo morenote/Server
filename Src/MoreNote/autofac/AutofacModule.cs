@@ -10,7 +10,6 @@ using Morenote.Framework.Filter.Global;
 using MoreNote.AutoFac;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
-using MoreNote.CryptographyProvider.EncryptionMachine.HisuTSS;
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
@@ -187,17 +186,10 @@ namespace MoreNote.Common.autofac
                 {
                     api.HttpHost = new Uri(config.SecurityConfig.NetSignApi);
                 });
-
-              
-
                 //服务器端签名和验签服务
                 builder.RegisterType<NetSignService>()
                     .As<ISignatureService>()
                     .SingleInstance();
-                //加密提供服务
-                builder.RegisterType<HisuTSSService>()
-                   .As<ICryptographyProvider>()
-                   .SingleInstance();
             }
             else
             {

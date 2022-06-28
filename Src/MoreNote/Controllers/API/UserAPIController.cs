@@ -213,7 +213,7 @@ namespace MoreNote.Controllers.API.APIV1
                 };
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
-            var realName = await this.realNameService.GetRealNameInformationByUserId(user.UserId);
+            var realName =  this.realNameService.GetRealNameInformationByUserId(user.UserId);
             re.Ok = true;
             re.Data = realName;
             return LeanoteJson(re);
@@ -264,7 +264,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
          
-           await  this.realNameService.SetRealName(user.UserId, sfz);
+             this.realNameService.SetRealName(user.UserId, sfz);
             re.Ok=true;
             return LeanoteJson(re);
         }

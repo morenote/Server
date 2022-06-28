@@ -44,42 +44,42 @@ namespace MoreNote.Logic.Service.Logging.IMPL
             return dir;
         }
 
-        public async void Debug(string message)
+        public  void Debug(string message)
         {
             var log = new Log(message);
             if (webSiteConfig.SecurityConfig.LogNeedHmac)
             {
-                log= await log.AddMac(cryptographyProvider);
+                log=  log.AddMac(cryptographyProvider);
             }
             WirteFile( log.ToJson());
         }
 
-        public async void Error(string message, Exception exception)
+        public  void Error(string message, Exception exception)
         {
             var log = new Log(message+"\r\n"+exception.StackTrace);
             if (webSiteConfig.SecurityConfig.LogNeedHmac)
             {
-                log = await log.AddMac(cryptographyProvider);
+                log =  log.AddMac(cryptographyProvider);
             }
             WirteFile(log.ToJson());
         }
 
-        public async void Info(string message)
+        public  void Info(string message)
         {
             var log = new Log(message );
             if (webSiteConfig.SecurityConfig.LogNeedHmac)
             {
-                log = await log.AddMac(cryptographyProvider);
+                log =  log.AddMac(cryptographyProvider);
             }
             WirteFile( log.ToJson());
         }
 
-        public async void Warn(string message)
+        public  void Warn(string message)
         {
             var log = new Log(message);
             if (webSiteConfig.SecurityConfig.LogNeedHmac)
             {
-                log = await log.AddMac(cryptographyProvider);
+                log =  log.AddMac(cryptographyProvider);
             }
             WirteFile( log.ToJson());
         }

@@ -59,11 +59,11 @@ namespace MoreNote.Logic.Service
             return result;
         }
 
-        public async Task<bool> InsertNoteContent(NoteContent noteContent)
+        public  bool InsertNoteContent(NoteContent noteContent)
         {
             if (this.config.SecurityConfig.DataBaseEncryption)
             {
-                noteContent.Content = await this.cryptographyProvider.SM2Encrypt(noteContent.Content);
+                noteContent.Content =  this.cryptographyProvider.SM4Encrypt(noteContent.Content.Base64ToByteArray()).ByteArrayToBase64();
                 noteContent.IsEncryption = true;
             }
 
@@ -109,13 +109,13 @@ namespace MoreNote.Logic.Service
 
         // 添加笔记本内容
         // [ok]
-        public async Task<NoteContent> AddNoteContent(NoteContent noteContent)
+        public  NoteContent AddNoteContent(NoteContent noteContent)
         {
             noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
             noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
             noteContent.UpdatedUserId = noteContent.UserId;
             UpdataVector(ref  noteContent);
-            await InsertNoteContent(noteContent);
+             InsertNoteContent(noteContent);
             // 更新笔记图片
             NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;
@@ -246,10 +246,10 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
             return true;
         }
-        public async Task UpdateNoteContent(long? noteId,  NoteContent noteContent)
+        public void UpdateNoteContent(long? noteId,  NoteContent noteContent)
         {
             dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).Update(x => new NoteContent() { IsHistory = true });
-           await  AddNoteContent(noteContent);
+             AddNoteContent(noteContent);
         }
 
 

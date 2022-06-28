@@ -54,6 +54,19 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
             return hamc;
         }
 
+        public byte[] SM4Decrypt(byte[] data)
+        {
+            var dec = this.SM4Decrypt( data, new byte[16]);
+            return dec;
+        }
+
+        public byte[] SM4Encrypt(byte[] data)
+        {
+            var enc = this.SM4Encrypt(data, new byte[16]);
+            return enc;
+        }
+
+
         public byte[] SM4Decrypt(byte[] data, byte[] iv)
         {
             var dec = sdfHelper.SM4_Encrypt(iv, data, true);
