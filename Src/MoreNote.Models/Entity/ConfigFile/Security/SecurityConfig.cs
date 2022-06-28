@@ -146,7 +146,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
 
         public string? DataBaseEncrypthonIV { get; set; }
 
-        public bool NeedEncryptionMachine=false;
+        public bool NeedEncryptionMachine { get; set; }=false;
         public string NetSignApi { get;set;}= "http://NetSign:8081/";
         public string HisuTSSC { get;set;}= "http://HisuTSSC:8080/";
         public string HisuCCBC { get;set;}= "http://HisuCCBC:8082/";

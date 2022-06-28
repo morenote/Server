@@ -17,7 +17,7 @@ namespace MoreNote
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static  void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
             
@@ -34,7 +34,8 @@ namespace MoreNote
                          //deployService.InitSecret();
                         return;
                     case "MigrateDatabase":
-                        deployService.MigrateDatabase();
+                          deployService.MigrateDatabase();
+                        
                         return;
                     default:
                         Console.WriteLine("unkown cmd");

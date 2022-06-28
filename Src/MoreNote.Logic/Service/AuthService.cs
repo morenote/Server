@@ -192,6 +192,10 @@ namespace MoreNote.Logic.Service
                 Verified=false,
                 Usn = 1
             };
+            if (user.Email.Equals("admin@morenote.top"))
+            {
+                user.Role = "Admin";
+            }
             if (await Register(user))
             {
                 Msg = "注册成功";

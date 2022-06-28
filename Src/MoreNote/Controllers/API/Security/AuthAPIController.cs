@@ -224,9 +224,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 re.Msg = "服务器管理员已经禁止用户注册功能";
                 return LeanoteJson(re);
-
             }
-
 
             if (await authService.Register(email, pwd, 0))
             {

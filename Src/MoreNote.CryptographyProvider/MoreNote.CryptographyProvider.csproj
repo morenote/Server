@@ -23,6 +23,7 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="github.hyfree.SDFWrapper" Version="1.0.0" />
     <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
    
   </ItemGroup>
