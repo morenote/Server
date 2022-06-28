@@ -14,10 +14,15 @@
 	  <DockerfileContext>..\..</DockerfileContext>
 	  <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 	  <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
-	  <Platforms>AnyCPU;x64;ARM64</Platforms>
+	  <Platforms>AnyCPU;x64;ARM64;x86</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <NoWarn />
     <Optimize>False</Optimize>
   </PropertyGroup>
@@ -551,6 +556,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <Optimize>True</Optimize>
   </PropertyGroup>
 

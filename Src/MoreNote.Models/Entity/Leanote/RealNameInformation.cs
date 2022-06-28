@@ -41,7 +41,7 @@ namespace MoreNote.Models.Entity.Leanote
         {
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
             var base64 = Convert.ToBase64String(bytes);
-            this.Hmac = await cryptographyProvider.hmac(base64);
+            this.Hmac = await cryptographyProvider.Hmac(base64);
             return this;
         }
 
@@ -54,7 +54,7 @@ namespace MoreNote.Models.Entity.Leanote
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
             var base64 = Convert.ToBase64String(bytes);
 
-            var result= await cryptographyProvider.verifyHmac(base64, this.Hmac);
+            var result= await cryptographyProvider.VerifyHmac(base64, this.Hmac);
             this.Verify=result;
 
             return this;

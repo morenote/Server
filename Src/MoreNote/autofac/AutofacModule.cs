@@ -188,16 +188,7 @@ namespace MoreNote.Common.autofac
                     api.HttpHost = new Uri(config.SecurityConfig.NetSignApi);
                 });
 
-                //加密平台服务
-                builder.RegisterHttpApi<IHisuTSSApi>().ConfigureHttpApiConfig(api =>
-                {
-                    api.HttpHost = new Uri(config.SecurityConfig.HisuTSSC);
-                });
-                //加密平台KMS
-                builder.RegisterHttpApi<IHisuKMSApi>().ConfigureHttpApiConfig(api =>
-                {
-                    api.HttpHost = new Uri(config.SecurityConfig.HisuCCBC);
-                });
+              
 
                 //服务器端签名和验签服务
                 builder.RegisterType<NetSignService>()

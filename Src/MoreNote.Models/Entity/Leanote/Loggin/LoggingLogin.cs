@@ -57,7 +57,7 @@ namespace MoreNote.Models.Entity.Leanote.Loggin
         {
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
             var base64 = Convert.ToBase64String(bytes);
-            this.Hmac = await cryptographyProvider.hmac(base64);
+            this.Hmac = await cryptographyProvider.Hmac(base64);
             return this;
         }
         
@@ -69,7 +69,7 @@ namespace MoreNote.Models.Entity.Leanote.Loggin
             }
             var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
             var base64 = Convert.ToBase64String(bytes);
-            return await cryptographyProvider.verifyHmac(base64, this.Hmac);
+            return await cryptographyProvider.VerifyHmac(base64, this.Hmac);
         }
     }
 }

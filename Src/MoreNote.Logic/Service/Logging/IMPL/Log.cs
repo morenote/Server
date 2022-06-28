@@ -41,14 +41,14 @@ namespace MoreNote.Logic.Service.Logging.IMPL
         {
             var bytes = Encoding.UTF8.GetBytes(this.logText);
             var base64 = Convert.ToBase64String(bytes);
-            this.mac = await cryptographyProvider.hmac(base64);
+            this.mac = await cryptographyProvider.Hmac(base64);
             return this;
         }
         public async Task<bool> VerifyHmac(ICryptographyProvider cryptographyProvider)
         {
             var bytes = Encoding.UTF8.GetBytes(this.logText);
             var base64 = Convert.ToBase64String(bytes);
-            return await cryptographyProvider.verifyHmac(base64, mac);
+            return await cryptographyProvider.VerifyHmac(base64, mac);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public FileStoreConfig FileStoreConfig { get;set;}=new FileStoreConfig();
         public MinIOConfig MinIOConfig { get;set;}=new MinIOConfig();
         public RedisConfig RedisConfig{get;set;}=new RedisConfig();
+        public SDFConfig SDFConfig { get;set;}=new SDFConfig();
 
         public  IdGeneratorConfig IdGeneratorConfig { get; set; }=new IdGeneratorConfig();
 

@@ -6,13 +6,15 @@
     public interface ICryptographyProvider
     {
       
-        public Task<string> hmac(string data);
-        public Task<bool> verifyHmac(string data, string mac);
+        public byte[] Hmac(byte[] data);
+        public bool VerifyHmac(byte[] data, byte[] mac);
 
-        public Task<string> TransEncrypted(string cipherBase64);
+        public byte[] TransEncrypted(byte[] cipher, byte[] salt);
+        public byte[] SM2Encrypt(string DataStr);
+        public byte[] SM2Decrypt(string base64Data);
 
+        public byte[] SM4Encrypt(byte[] data, byte[] iv);
+        public byte[] SM4Decrypt(byte[] data, byte[] iv);
 
-        public Task<string> SM2Encrypt(string DataStr);
-        public Task<string> SM2Decrypt(string base64Data);
     }
 }
