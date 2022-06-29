@@ -10,6 +10,7 @@ using Morenote.Framework.Filter.Global;
 using MoreNote.AutoFac;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
+using MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDevice;
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
@@ -190,6 +191,11 @@ namespace MoreNote.Common.autofac
                 builder.RegisterType<NetSignService>()
                     .As<ISignatureService>()
                     .SingleInstance();
+                //加密提供服务
+                builder.RegisterType<SDFProvider>()
+                   .As<ICryptographyProvider>()
+                   .SingleInstance();
+
             }
             else
             {

@@ -262,7 +262,7 @@ namespace MoreNote.Logic.Entity
             return stringBuilder.ToString();
         }
 
-        public async Task<User> AddMac(ICryptographyProvider cryptographyProvider)
+        public User AddMac(ICryptographyProvider cryptographyProvider)
         {
             
                 var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());

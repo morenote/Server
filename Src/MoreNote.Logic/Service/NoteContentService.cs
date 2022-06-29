@@ -63,7 +63,8 @@ namespace MoreNote.Logic.Service
         {
             if (this.config.SecurityConfig.DataBaseEncryption)
             {
-                noteContent.Content =  this.cryptographyProvider.SM4Encrypt(noteContent.Content.Base64ToByteArray()).ByteArrayToBase64();
+                var enc = this.cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(noteContent.Content));
+                noteContent.Content = enc.ByteArrayToBase64();
                 noteContent.IsEncryption = true;
             }
 

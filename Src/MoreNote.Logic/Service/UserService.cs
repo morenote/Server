@@ -128,7 +128,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public async Task<bool> AddUserAsync(User user)
+        public bool AddUserAsync(User user)
         {
             if (user.UserId == 0) user.UserId = idGenerator.NextId();
             user.CreatedTime = DateTime.Now;
@@ -137,7 +137,7 @@ namespace MoreNote.Logic.Service
             if (this.Config.SecurityConfig.LogNeedHmac)
             {
                 //计算hmac
-                await user.AddMac(this.cryptographyProvider);
+                 user.AddMac(this.cryptographyProvider);
             }
             dataContext.User.Add(user);
             return dataContext.SaveChanges() > 0;
@@ -230,9 +230,15 @@ namespace MoreNote.Logic.Service
 
         public void SetUserLoginSecurityPolicyLevel(long? userId, LoginSecurityPolicyLevel level)
         {
+           
+
+            var user = dataContext.User.Where(b=>b.UserId==userId).First();
+            user.LoginSecurityPolicyLevel = level;
+            user.AddMac(this.cryptographyProvider);
             dataContext.User.Where(b => b.UserId == userId).UpdateFromQuery(x => new User()
             {
                 LoginSecurityPolicyLevel = level,
+                Hmac=user.Hmac
             });
             dataContext.SaveChanges();
         }

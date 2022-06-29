@@ -176,7 +176,8 @@ namespace MoreNote.Controllers.API.APIV1
             }
             if (noteContent.IsEncryption)
             {
-                noteContent.Content = this.cryptographyProvider.SM4Decrypt(noteContent.Content.Base64ToByteArray()).ByteArrayToBase64();
+                var dec = this.cryptographyProvider.SM4Decrypt(noteContent.Content.Base64ToByteArray());
+                noteContent.Content = Encoding.UTF8.GetString(dec);
 
             }
 

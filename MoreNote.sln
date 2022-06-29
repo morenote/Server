@@ -56,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.CryptographyProvid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.AutoFac", "Src\MoreNote.AutoFac\MoreNote.AutoFac.csproj", "{D8D0EDA1-9367-4806-9D19-D2ED0BE38694}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreNote.Config", "Src\MoreNote.Config\MoreNote.Config.csproj", "{CF66F156-56FE-4220-B68C-D676001E0A4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.Config", "Src\MoreNote.Config\MoreNote.Config.csproj", "{CF66F156-56FE-4220-B68C-D676001E0A4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -327,8 +327,8 @@ Global
 		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|x64.Build.0 = Debug|Any CPU
+		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|x64.ActiveCfg = Debug|x64
+		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|x64.Build.0 = Debug|x64
 		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Debug|x86.Build.0 = Debug|Any CPU
 		{CF66F156-56FE-4220-B68C-D676001E0A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -368,7 +368,7 @@ Global
 		{CF66F156-56FE-4220-B68C-D676001E0A4E} = {4BDA97FE-8F11-43E4-8A1B-178AF3B8CBD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_PrefixTranslations = True
 		SolutionGuid = {9F22C218-D996-467B-93A1-1BEEE77AFD54}
+		RESX_PrefixTranslations = True
 	EndGlobalSection
 EndGlobal

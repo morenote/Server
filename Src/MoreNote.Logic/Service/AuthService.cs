@@ -196,7 +196,7 @@ namespace MoreNote.Logic.Service
             {
                 user.Role = "Admin";
             }
-            if (await Register(user))
+            if (Register(user))
             {
                 Msg = "注册成功";
                 return true;
@@ -210,10 +210,10 @@ namespace MoreNote.Logic.Service
         }
 
 
-        public  async Task<bool> Register(User user)
+        public bool  Register(User user)
         {
           
-            if (await UserService.AddUserAsync(user))
+            if ( UserService.AddUserAsync(user))
             {
                 var list=new List<string>(4){ "life", "study", "work", "tutorial" };
                 foreach (var item in list)

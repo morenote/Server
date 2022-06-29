@@ -16,34 +16,33 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
         string password= "12345678";
         
         [TestMethod()]
-        public async void BCryptPasswordStoreTest()
+        public  void BCryptPasswordStoreTest()
         {
              var salt = HexUtil.StringToByteArray(hex);
              IPasswordStore passwordStore=new BCryptPasswordStore();
-             var enc= await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 9);
+             var enc=  passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 9);
              var text= HexUtil.ByteArrayToString(enc);
              Console.WriteLine(text);
         }
 
         [TestMethod()]
-        public async void Argon2PasswordStoreTest()
+        public  void Argon2PasswordStoreTest()
         {
             var salt = HexUtil.StringToByteArray(hex);
             IPasswordStore passwordStore = new Argon2PasswordStore();
-            var enc =await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 8);
+            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 8);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
         }
 
         [TestMethod()]
-        public async void PDKDF2PasswordStoreTest()
+        public  void PDKDF2PasswordStoreTest()
         {
             var salt = HexUtil.StringToByteArray(hex);
             IPasswordStore passwordStore = new PDKDF2PasswordStore();
-            var enc =await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*80);
+            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*80);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
-
         }
 
         [TestMethod()]

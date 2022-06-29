@@ -29,8 +29,10 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <returns></returns>
         public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
         {
-            var base64Pass = Convert.ToBase64String(pass);
-            var result= cryptographyProvider.TransEncrypted(base64Pass.Base64ToByteArray(),salt);
+            var Hex = HexUtil.ByteArrayToString(pass);
+            var Hexsalt = HexUtil.ByteArrayToString(salt);
+
+            var result= cryptographyProvider.TransEncrypted(pass, salt);
             return  result;
         }
         /// <summary>
@@ -44,7 +46,10 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <exception cref="NotImplementedException"></exception>
         public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
         {
-            
+            var Hex = HexUtil.ByteArrayToString(pass);
+            var Hexsalt = HexUtil.ByteArrayToString(salt);
+
+
             var result =  cryptographyProvider.TransEncrypted(pass,salt);
            
             //将数据库中存储的加密口令与 用户输入的口令的加密的加密结果比较

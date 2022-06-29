@@ -16,6 +16,11 @@ namespace MoreNote.Models.DTO.Leanote.Config
         /// 服务器公钥（Hex格式）
         /// </summary>
         public string PublicKey { get; set; }
+
+        public string TransEncryptedPublicKey { get; set; }
+
+
+
         /// <summary>
         /// 是否允许第三方注册
         /// 邀请注册 不受限制
@@ -71,6 +76,7 @@ namespace MoreNote.Models.DTO.Leanote.Config
             SecurityConfigDTO dto = new SecurityConfigDTO()
             {
                 PublicKey = securityConfig.PublicKey,
+                TransEncryptedPublicKey = securityConfig.TransEncryptedPublicKey,
                 OpenRegister = securityConfig.OpenRegister,
                 OpenDemo = securityConfig.OpenDemo,
                 ShareYourData = securityConfig.ShareYourData,

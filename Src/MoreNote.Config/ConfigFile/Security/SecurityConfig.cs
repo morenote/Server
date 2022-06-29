@@ -32,6 +32,11 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public string PrivateKey{get;set;}
 
 
+        public string TransEncryptedPublicKey { get; set; }
+        public string TransEncryptedPrivateKey { get; set; }
+
+
+
         /// <summary>
         /// 是否允许第三方注册
         /// 邀请注册 不受限制

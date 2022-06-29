@@ -342,6 +342,9 @@
     <None Update="fonts\Quantum-2.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="htjncipher.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="sources.list">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

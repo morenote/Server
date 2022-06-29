@@ -78,9 +78,10 @@ namespace MoreNote
 
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
+            {   
+                webBuilder.UseUrls("http://*:5000").UseStartup<Startup>();
             })
+           
             .UseNLog();
             
             

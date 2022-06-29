@@ -45,10 +45,14 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
             sdfConfig = configFileService.WebConfig.SDFConfig;
             CheckInitSDF();
             sdfHelper = new SDFHelper(sdfConfig.SDFDLLFilePath);
+            sdfHelper.SDF_OpenDevice();
+            sdfHelper.SDF_OpenSession();
+            sdfHelper.SDF_ImportKey(HexUtil.StringToByteArray(sdfConfig.PucKey), 1);
         }
 
         public byte[] Hmac(byte[] data)
         {
+            var hex = HexUtil.ByteArrayToString(data);
             var hamc = sdfHelper.SDF_HMAC(data);
 
             return hamc;
@@ -69,12 +73,13 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 
         public byte[] SM4Decrypt(byte[] data, byte[] iv)
         {
-            var dec = sdfHelper.SM4_Encrypt(iv, data, true);
+            var dec = sdfHelper.SM4_Decrypt(iv, data, true);
             return dec;
         }
 
         public byte[] SM4Encrypt(byte[] data, byte[] iv)
         {
+
             var enc = sdfHelper.SM4_Encrypt(iv, data, true);
             return enc;
         }
@@ -94,7 +99,12 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
             }
         
             var plain = SM2Decrypt(data);
-            var enc= SM4Encrypt(data, iv);
+            var hex = HexUtil.ByteArrayToString(plain);
+            var hexIV = HexUtil.ByteArrayToString(iv);
+
+            var enc= SM4Encrypt(plain, iv);
+
+            var encHex = HexUtil.ByteArrayToString(enc);
             return enc;
         }
 
@@ -107,8 +117,12 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 
         public byte[] SM2Decrypt(byte[] data)
         {
-            SM2Cipher sm2= SM2Cipher.InsanceC1C3C2(data,true);
-            var dec=sdfHelper.SM2_Decrypt(sm2,11);
+            var hex = HexUtil.ByteArrayToString(data);
+            SM2Cipher sm2 = SM2Cipher.InsanceC1C3C2(data,false);
+
+            var pucCipher = sm2.ToECCCipher();
+
+            var dec=sdfHelper.SM2_Decrypt(sm2, 11);
             return dec;
         }
     }
