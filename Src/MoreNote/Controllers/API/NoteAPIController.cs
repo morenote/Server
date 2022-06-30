@@ -154,36 +154,46 @@ namespace MoreNote.Controllers.API.APIV1
                 Ok = false,
                 Msg = "GetNoteContent_is_error"
             };
-            var user=GetUserByToken(token);
-            if (user==null)
+          
+            try
             {
+                var user = GetUserByToken(token);
+                if (user == null)
+                {
+                    return LeanoteJson(re);
+                }
+                Note note = noteService.GetNote(noteId.ToLongByHex(), GetUserIdByToken(token));
+                NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token), false);
+                if (noteContent == null || note == null)
+                {
+                    return Json(re, MyJsonConvert.GetLeanoteOptions());
+                }
+                if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
+                {
+                    noteContent.Content = noteService.FixContent(noteContent.Content, note.IsMarkdown);
+                }
+                else
+                {
+                    noteContent.Content = "<p>Content is IsNullOrEmpty<>";
+                }
+                if (noteContent.IsEncryption)
+                {
+                    var dec = this.cryptographyProvider.SM4Decrypt(noteContent.Content.Base64ToByteArray());
+                    noteContent.Content = Encoding.UTF8.GetString(dec);
+
+                }
+
+                re.Ok = true;
+                re.Data = noteContent;
                 return LeanoteJson(re);
             }
-
-            Note note = noteService.GetNote(noteId.ToLongByHex(), GetUserIdByToken(token));
-            NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token), false);
-            if (noteContent == null || note == null)
+            catch (Exception ex)
             {
-                return Json(re, MyJsonConvert.GetLeanoteOptions());
+                re.Ok=false;
+                re.Msg=ex.Message;
+                throw;
             }
-            if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
-            {
-                noteContent.Content = noteService.FixContent(noteContent.Content, note.IsMarkdown);
-            }
-            else
-            {
-                noteContent.Content = "<p>Content is IsNullOrEmpty<>";
-            }
-            if (noteContent.IsEncryption)
-            {
-                var dec = this.cryptographyProvider.SM4Decrypt(noteContent.Content.Base64ToByteArray());
-                noteContent.Content = Encoding.UTF8.GetString(dec);
-
-            }
-
-            re.Ok = true;
-            re.Data= noteContent;
-            return LeanoteJson(re);
+           
         }
 
         //todo:添加笔记
