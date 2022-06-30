@@ -85,7 +85,7 @@ namespace MoreNote.Logic.Service
             }
             var noteContent = result.FirstOrDefault();
             noteContent.VerifyHmac(this.cryptographyProvider);
-            if (noteContent.HmacVerify)
+            if (!noteContent.HmacVerify)
             {
                 throw new Exception("noteContent VerifyHmac is Error");
             }
