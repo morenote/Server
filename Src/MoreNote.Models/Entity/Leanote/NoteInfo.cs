@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using MoreNote.Common.Utils;
+using MoreNote.CryptographyProvider;
+using MoreNote.Common.ExtensionMethods;
 
 namespace MoreNote.Logic.Entity
 {
@@ -137,6 +139,41 @@ namespace MoreNote.Logic.Entity
         public bool IsHistory { get; set; }//是否是历史纪录
         [Column("is_encryption")]
         public bool IsEncryption { get; set; }//指示当前笔记内容是否被加密
+        [Column("hmac")]
+        public string? Hmac { get; set; }
+        [NotMapped]
+        public bool HmacVerify { get; set; }
+        public string ToStringNoMac()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("Id=" + this.NoteContentId);
+            stringBuilder.Append("NoteId=" + this.NoteId);
+            stringBuilder.Append("Content=" + this.Content);
+            return stringBuilder.ToString();
+        }
+
+        public NoteContent AddMac(ICryptographyProvider cryptographyProvider)
+        {
+            var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
+            this.Hmac = cryptographyProvider.Hmac(bytes).ByteArrayToBase64();
+            return this;
+        }
+
+        public NoteContent VerifyHmac(ICryptographyProvider cryptographyProvider)
+        {
+            if (string.IsNullOrEmpty(this.Hmac))
+            {
+                return this;
+            }
+            var bytes = Encoding.UTF8.GetBytes(this.ToStringNoMac());
+
+
+            var result = cryptographyProvider.VerifyHmac(bytes, this.Hmac.Base64ToByteArray());
+            this.HmacVerify = result;
+
+            return this;
+        }
+
     }
     // 基本信息和内容在一起
     public class NoteAndContent

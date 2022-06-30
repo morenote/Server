@@ -853,7 +853,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedUserId = user.UserId
             };
 
-             noteContentService.UpdateNoteContent(note.NoteId,noteContent);
+            noteContentService.UpdateNoteContent(note.NoteId,noteContent);
             noteService.UpdateNoteTitle(note.NoteId,noteTitle);
            
             var usn=  noteRepositoryService.IncrUsn(note.NotesRepositoryId);

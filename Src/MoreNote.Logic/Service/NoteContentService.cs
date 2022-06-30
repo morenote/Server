@@ -67,7 +67,10 @@ namespace MoreNote.Logic.Service
                 noteContent.Content = enc.ByteArrayToBase64();
                 noteContent.IsEncryption = true;
             }
-
+            if (this.config.SecurityConfig.LogNeedHmac)
+            {
+                noteContent.AddMac(this.cryptographyProvider);
+            }
             var result = dataContext.NoteContent.Add(noteContent);
 
             return dataContext.SaveChanges() > 0;
@@ -76,6 +79,17 @@ namespace MoreNote.Logic.Service
         public NoteContent GetNoteContent(long? noteId, long? userId, bool IsHistory)
         {
             var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == IsHistory);
+            if (result==null|| result.FirstOrDefault()==null)
+            {
+                throw new Exception("GetNoteContent result is null");
+            }
+            var noteContent = result.FirstOrDefault();
+            noteContent.VerifyHmac(this.cryptographyProvider);
+            if (noteContent.HmacVerify)
+            {
+                throw new Exception("noteContent VerifyHmac is Error");
+            }
+
             return result == null ? null : result.FirstOrDefault();
         }
 
@@ -249,6 +263,7 @@ namespace MoreNote.Logic.Service
         }
         public void UpdateNoteContent(long? noteId,  NoteContent noteContent)
         {
+
             dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).Update(x => new NoteContent() { IsHistory = true });
              AddNoteContent(noteContent);
         }
