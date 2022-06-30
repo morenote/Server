@@ -220,6 +220,9 @@
     <Content Update="MockData\chart.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="MockData\province.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="MockData\current.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

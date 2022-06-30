@@ -49,7 +49,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 
         }
-        [Route("/chart")]
+        [Route("/api/chart")]
         public async Task<IActionResult> chart()
         {
             var json=System.IO.File.ReadAllText("MockData/chart.json");
@@ -84,8 +84,19 @@ namespace MoreNote.Controllers.API.APIV1
             return Content(json);
 
         }
-        [Route("/user/current")]
+        [Route("/api/user/current")]
         public async Task<IActionResult> current()
+        {
+            var json = System.IO.File.ReadAllText("MockData/current.json");
+            Response.ContentType = "application/json; charset=utf-8";
+
+            return Content(json);
+        }
+        ///geo/330000
+
+        [Route("/api/geo/province")]
+        [Route("/api/geo/{pid}")]
+        public async Task<IActionResult> province()
         {
             var json = System.IO.File.ReadAllText("MockData/current.json");
             Response.ContentType = "application/json; charset=utf-8";
