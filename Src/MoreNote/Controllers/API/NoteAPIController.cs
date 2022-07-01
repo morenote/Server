@@ -862,6 +862,10 @@ namespace MoreNote.Controllers.API.APIV1
                 UpdatedTime = DateTime.Now,
                 UpdatedUserId = user.UserId
             };
+            if (this.config.SecurityConfig.DataBaseEncryption)
+            {
+                noteContent.Abstract = "DataBaseEncryption";
+            }
 
             noteContentService.UpdateNoteContent(note.NoteId,noteContent);
             noteService.UpdateNoteTitle(note.NoteId,noteTitle);
