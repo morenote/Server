@@ -129,8 +129,13 @@ namespace MoreNote.Logic.Service
             noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
             noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
             noteContent.UpdatedUserId = noteContent.UserId;
-            UpdataVector(ref  noteContent);
-             InsertNoteContent(noteContent);
+            //todo:在数据库加密的情况下，不进行索引
+            if (!this.config.SecurityConfig.DataBaseEncryption)
+            {
+                UpdataVector(ref noteContent);
+            }
+            
+            InsertNoteContent(noteContent);
             // 更新笔记图片
             NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;

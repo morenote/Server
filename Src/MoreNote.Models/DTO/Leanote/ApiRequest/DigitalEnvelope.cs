@@ -27,6 +27,24 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
             var rawKey = gMService.SM2Decrypt("04" + this.Key, priKey, false);
             return rawKey;
         }
+        public PayLoadDTO GetPayLoadDTO(GMService gMService, string priKey)
+        {
+            var rawKey = gMService.SM2Decrypt("04" + this.Key, priKey, false);
+            var rawPayLod = gMService.SM4_Decrypt_CBC(this.PayLoad, rawKey, this.IV, false);
+            var rawPayLodObj = PayLoadDTO.FromJSON(rawPayLod);
+
+            return rawPayLodObj;
+
+        }
+
+        public string GetPayLoadSM3(GMService gMService, string priKey)
+        {
+            var payload = GetPayLoadDTO(gMService, priKey);
+            var dataHex = Common.Utils.HexUtil.ByteArrayToString(Encoding.UTF8.GetBytes(payload.Data));
+            var myHash = gMService.SM3(dataHex);
+
+            return myHash;
+        }
         public string GetPayLoadValue(GMService gMService,string priKey)
         {
             var rawKey = gMService.SM2Decrypt("04"+this.Key, priKey,false);

@@ -820,10 +820,7 @@ namespace MoreNote.Controllers.API.APIV1
                 this.dataSignService.AddDataSign(dataSign, "UpdateNoteTitleAndContent");
             }
            
-            
-
-           
-
+          
             //-------------校验参数合法性
             if (user == null)
             {
@@ -868,6 +865,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
 
             noteContentService.UpdateNoteContent(note.NoteId,noteContent);
+
             noteService.UpdateNoteTitle(note.NoteId,noteTitle);
            
             var usn=  noteRepositoryService.IncrUsn(note.NotesRepositoryId);
