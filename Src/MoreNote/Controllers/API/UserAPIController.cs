@@ -249,7 +249,17 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
             }
             //签字签名和数字信封数据
-
+            if (digitalEnvelope != null)
+            {
+                var sm3 = digitalEnvelope.GetPayLoadSM3(this.gMService, this.config.SecurityConfig.PrivateKey);
+                var dataSM3 = gMService.SM3(sfz);
+                if (!sm3.ToUpper().Equals(dataSM3.ToUpper()))
+                {
+                    re.Ok = false;
+                    re.Msg = "SM3 is Error";
+                    return LeanoteJson(re);
+                }
+            }
             //签名存证
             this.dataSignService.AddDataSign(dataSign, "SetRealNameInformation");
 
