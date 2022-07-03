@@ -84,12 +84,14 @@ namespace MoreNote.Logic.Service
                 throw new Exception("GetNoteContent result is null");
             }
             var noteContent = result.FirstOrDefault();
-            noteContent.VerifyHmac(this.cryptographyProvider);
-            if (!noteContent.HmacVerify)
+            if (this.config.SecurityConfig.LogNeedHmac)
             {
-                throw new Exception("noteContent VerifyHmac is Error");
+                noteContent.VerifyHmac(this.cryptographyProvider);
+                if (!noteContent.HmacVerify)
+                {
+                    throw new Exception("noteContent VerifyHmac is Error");
+                }
             }
-
             return result == null ? null : result.FirstOrDefault();
         }
 

@@ -22,7 +22,8 @@ namespace MoreNote.Models.Entity.Leanote
         [Column("id_card_no")]
    
         public string? IdCardNo { get;set;}
-
+        [Column("is_encryption")]
+        public bool IsEncryption { get;set;}
 
 
         [Column("hmac")]

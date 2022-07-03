@@ -226,6 +226,7 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task<IActionResult> DeleteNotebook(string token, string noteRepositoryId, string notebookId, bool recursively, bool force, string dataSignJson)
         {
             User user = tokenSerivce.GetUserByToken(token);
+            var verify=false;
             ApiRe re = new ApiRe()
             {
                 Ok = false,
@@ -237,21 +238,26 @@ namespace MoreNote.Controllers.API.APIV1
                 re.Msg = "NOTLOGIN";
                 return LeanoteJson(re);
             }
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
+            if (this.config.SecurityConfig.ForceDigitalSignature)
             {
-                return LeanoteJson(re);
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+                verify = dataSign.SignData.Operate.Equals("/api/Notebook/DeleteNotebook");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "DeleteNotebook");
+
             }
-            verify = dataSign.SignData.Operate.Equals("/api/Notebook/DeleteNotebook");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "DeleteNotebook");
+            
             var message = "";
             var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
             var repositoryId = notebook.NotesRepositoryId;
@@ -345,20 +351,25 @@ namespace MoreNote.Controllers.API.APIV1
             long? repositoryId=null;
 
             //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-             verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
+            if (this.config.SecurityConfig.ForceDigitalSignature)
             {
-                return LeanoteJson(re);
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+                verify = dataSign.SignData.Operate.Equals("/api/Notebook/CreateNoteBook");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "CreateNoteBook");
+
             }
-            verify = dataSign.SignData.Operate.Equals("/api/Notebook/CreateNoteBook");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "CreateNoteBook");
+            
 
 
             if (string.IsNullOrEmpty(noteRepositoryId))
@@ -423,22 +434,26 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
+            var verify=false;
+            if (this.config.SecurityConfig.ForceDigitalSignature)
             {
-                return LeanoteJson(re);
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+                verify = dataSign.SignData.Operate.Equals("/api/Notebook/UpdateNoteBookTitle");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "UpdateNoteBookTitle");
             }
-            verify = dataSign.SignData.Operate.Equals("/api/Notebook/UpdateNoteBookTitle");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "UpdateNoteBookTitle");
+           
 
 
             var repositoryId = notebook.NotesRepositoryId;

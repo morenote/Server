@@ -26,6 +26,7 @@ namespace MoreNote.Logic.Service
         private ILoggingService logging { get; set; }
 
         protected ICryptographyProvider cryptographyProvider { get; set; }
+
         public RealNameService(DataContext dataContext, IDistributedIdGenerator idGenerator,
             ConfigFileService configFileService,
             PasswordStoreFactory passwordStoreFactory,
@@ -42,50 +43,59 @@ namespace MoreNote.Logic.Service
 
         public void SetRealName(long? userId, string cardNo)
         {
-            
-            cardNo =  this.cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(cardNo)).ByteArrayToBase64();
-
-
             if (dataContext.RealNameInformation.Where(b => b.UserId == userId).Any())
             {
                 var realName = dataContext.RealNameInformation.Where(b => b.UserId == userId).FirstOrDefault();
                 realName.IdCardNo = cardNo;
+                if (this.Config.SecurityConfig.DataBaseEncryption)
+                {
+                    realName.IdCardNo = this.cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(cardNo)).ByteArrayToBase64();
+                    realName.IsEncryption = true;
+                }
 
                 realName.AddMac(this.cryptographyProvider);
                 this.dataContext.SaveChanges();
-
             }
             else
             {
-
                 var rni = new RealNameInformation()
                 {
                     Id = this.idGenerator.NextId(),
                     UserId = userId,
                     IdCardNo = cardNo
                 };
+                if (this.Config.SecurityConfig.DataBaseEncryption)
+                {
+                    rni.IdCardNo = this.cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(cardNo)).ByteArrayToBase64();
+                    rni.IsEncryption = true;
+                }
+                rni.AddMac(this.cryptographyProvider);
 
-                 rni.AddMac(this.cryptographyProvider);
-                
-                 this.dataContext.RealNameInformation.Add(rni);
-                 this.dataContext.SaveChanges();
+                this.dataContext.RealNameInformation.Add(rni);
+                this.dataContext.SaveChanges();
             }
         }
-        public  RealNameInformation  GetRealNameInformationByUserId(long? userId)
-        {
 
+        public RealNameInformation GetRealNameInformationByUserId(long? userId)
+        {
             var realName = this.dataContext.RealNameInformation.Where(b => b.UserId == userId).FirstOrDefault();
             if (realName == null)
             {
                 return null;
             }
-            realName.VerifyHmac(this.cryptographyProvider);
-            var dec=  this.cryptographyProvider.SM4Decrypt(realName.IdCardNo.Base64ToByteArray());
-            realName.IdCardNo = Encoding.UTF8.GetString(dec);
+            if (this.Config.SecurityConfig.LogNeedHmac)
+            {
+                realName.VerifyHmac(this.cryptographyProvider);
+
+            }
+            if (realName.IsEncryption)
+            {
+                var dec = this.cryptographyProvider.SM4Decrypt(realName.IdCardNo.Base64ToByteArray());
+                realName.IdCardNo = Encoding.UTF8.GetString(dec);
+            }
+           
 
             return realName;
-
         }
-
     }
 }

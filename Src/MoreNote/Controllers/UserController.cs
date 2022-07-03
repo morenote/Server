@@ -30,44 +30,7 @@ namespace MoreNote.Controllers
             return null;
         }
 
-        [HttpPost]
-        public IActionResult UpdateUsername(string username)
-        {
-            var re = new ResponseMessage();
-            if (string.IsNullOrEmpty(username) || username.Length < 4)
-            {
-                re.Msg = "Unable to obtain user information through Session ";
-                return Json(re, MyJsonConvert.GetLeanoteOptions());
-            }
-            if (username.Length > 16)
-            {
-                re.Msg = "Name string length>16";
-                return Json(re, MyJsonConvert.GetLeanoteOptions());
-            }
-            var message = string.Empty;
-            User user = GetUserBySession();
-            if (user == null)
-            {
-                re.Msg = "Unable to obtain user information through Session ";
-                return Json(re, MyJsonConvert.GetLeanoteOptions());
-            }
-            if (user.Username.Equals(config.SecurityConfig.DemoUsername))
-            {
-                re.Msg = "cannotUpdateDemo";
-                return Json(re, MyJsonConvert.GetLeanoteOptions());
-            }
-            if (userService.VDUserName(username, out message))
-            {
-                re.Ok = userService.UpdateUsername(user.UserId, username);
-                re.Msg = message;
-                return Json(re, MyJsonConvert.GetLeanoteOptions());
-            }
-            else
-            {
-                re.Msg = "Incorrect username format or conflict";
-                return Json(re, MyJsonConvert.GetLeanoteOptions());
-            }
-        }
+        
 
         [HttpPost]
         public async Task<IActionResult> UpdatePwd(string oldPwd, string pwd)

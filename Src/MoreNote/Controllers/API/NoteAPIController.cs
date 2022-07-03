@@ -666,6 +666,7 @@ namespace MoreNote.Controllers.API.APIV1
                 noteTitle = "未命名";
             }
             var re = new ApiRe();
+            var verify=false;
             var user = tokenSerivce.GetUserByToken(token);
             var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
 
@@ -673,21 +674,26 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
+            if (this.config.SecurityConfig.ForceDigitalSignature)
             {
-                return LeanoteJson(re);
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+                verify = dataSign.SignData.Operate.Equals("/api/Note/CreateNote");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "CreateNote");
             }
-            verify = dataSign.SignData.Operate.Equals("/api/Note/CreateNote");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "CreateNote");
+           
+          
 
             var repositoryId = notebook.NotesRepositoryId;
             verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);

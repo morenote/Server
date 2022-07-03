@@ -88,6 +88,62 @@ namespace MoreNote.Controllers.API.APIV1
             re.Data = user;
             return LeanoteJson(re);
         }
+
+        public IActionResult GetUserInfoByUserId(string userId)
+        {
+            var user = userService.GetUserByUserId(userId.ToLongByHex());
+            var re = new ApiRe();
+            if (user == null)
+            {
+                re.Msg = "NOTLOGIN";
+            }
+            re.Ok = true;
+            re.Data = user;
+            return LeanoteJson(re);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateUsername(string token,string username)
+        {
+            var re = new ApiRe();
+            var message = string.Empty;
+
+            if (string.IsNullOrEmpty(username) || username.Length < 4)
+            {
+                re.Msg = "用户名长度必须大于4";
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
+            }
+            if (username.Length > 16)
+            {
+                re.Msg = "Name string length>16";
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
+            }
+           
+            User user = tokenSerivce.GetUserByToken(token);
+
+            if (user == null)
+            {
+                re.Msg = "Unable to obtain user information through Session ";
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
+            }
+            if (user.Username.Equals(config.SecurityConfig.DemoUsername))
+            {
+                re.Msg = "cannotUpdateDemo";
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
+            }
+            if (userService.VDUserName(username, out message))
+            {
+                re.Ok = userService.UpdateUsername(user.UserId, username);
+                re.Msg = message;
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
+            }
+            else
+            {
+                re.Msg = "Incorrect username format or conflict";
+                return Json(re, MyJsonConvert.GetLeanoteOptions());
+            }
+        }
+
         //获取用户的登录策略
         public JsonResult GetUserLoginSecurityStrategy(string UserName)
         {
@@ -179,29 +235,34 @@ namespace MoreNote.Controllers.API.APIV1
 
             var re = new ApiRe();
             DigitalEnvelope digitalEnvelope = null;
+            var verify=false;
             //数字信封
             if (this.config.SecurityConfig.ForceDigitalEnvelope)
             {
                 digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
                 
             }
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
+            if (this.config.SecurityConfig.ForceDigitalSignature)
             {
-                return LeanoteJson(re);
-            }
-            verify = dataSign.SignData.Operate.Equals("/api/User/GetRealNameInformation");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签字签名和数字信封数据
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
+                {
+                    return LeanoteJson(re);
+                }
+                verify = dataSign.SignData.Operate.Equals("/api/User/GetRealNameInformation");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签字签名和数字信封数据
 
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "GetRealNameInformation");
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "GetRealNameInformation");
+            }
+          
 
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
@@ -222,6 +283,8 @@ namespace MoreNote.Controllers.API.APIV1
         {
             var re = new ApiRe();
             DigitalEnvelope digitalEnvelope = null;
+
+            var verify=false;
             //数字信封
             if (this.config.SecurityConfig.ForceDigitalEnvelope)
             {
@@ -235,35 +298,38 @@ namespace MoreNote.Controllers.API.APIV1
                 //赋予解密的数字信封
                 sfz = data;
             }
-            //验证签名
-            var dataSign = DataSignDTO.FromJSON(dataSignJson);
-            var verify = await this.ePassService.VerifyDataSign(dataSign);
-            if (!verify)
+            if (this.config.SecurityConfig.ForceDigitalSignature)
             {
-                return LeanoteJson(re);
-            }
-            verify = dataSign.SignData.Operate.Equals("/api/User/SetRealNameInformation");
-            if (!verify)
-            {
-                re.Msg = "Operate is not Equals ";
-                return LeanoteJson(re);
-            }
-            //签字签名和数字信封数据
-            if (dataSign != null)
-            {
-                var dataSM3 = gMService.SM3(sfz);
-                var signSM3 = dataSign.SignData.Hash;
-                if (!dataSM3.ToUpper().Equals(signSM3.ToUpper()))
+
+                //验证签名
+                var dataSign = DataSignDTO.FromJSON(dataSignJson);
+                verify = await this.ePassService.VerifyDataSign(dataSign);
+                if (!verify)
                 {
-                    re.Msg = "SM3 is error";
-                    re.Ok = false;
                     return LeanoteJson(re);
                 }
+                verify = dataSign.SignData.Operate.Equals("/api/User/SetRealNameInformation");
+                if (!verify)
+                {
+                    re.Msg = "Operate is not Equals ";
+                    return LeanoteJson(re);
+                }
+                //签字签名和数字信封数据
+                if (dataSign != null)
+                {
+                    var dataSM3 = gMService.SM3(sfz);
+                    var signSM3 = dataSign.SignData.Hash;
+                    if (!dataSM3.ToUpper().Equals(signSM3.ToUpper()))
+                    {
+                        re.Msg = "SM3 is error";
+                        re.Ok = false;
+                        return LeanoteJson(re);
+                    }
+                }
+
+                //签名存证
+                this.dataSignService.AddDataSign(dataSign, "SetRealNameInformation");
             }
-
-            //签名存证
-            this.dataSignService.AddDataSign(dataSign, "SetRealNameInformation");
-
             User user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {

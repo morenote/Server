@@ -447,6 +447,10 @@ namespace MoreNote.Logic.Service
             }
             user.UsernameRaw = username;
             user.Username = username;
+            if (this.Config.SecurityConfig.LogNeedHmac)
+            {
+                user.AddMac(this.cryptographyProvider);
+            }
             return dataContext.SaveChanges() > 0;
         }
 

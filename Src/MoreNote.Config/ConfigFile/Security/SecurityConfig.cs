@@ -17,7 +17,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 随机密钥 用于敏感操作和对用户的信息进行Hmac鉴权
         /// 请务必注意的是：
         ///  1、Secret重置后，服务器端保存的加密数据是无法恢复
-        ///  2、当启用加密硬件时，hmac和加密密钥由加密硬件
+        ///  2、当启用加密硬件时，hmac和加密密钥由加密硬件提供
         /// </summary>
         public string Secret{get;set;}
         /// <summary>
@@ -31,8 +31,13 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </summary>
         public string PrivateKey{get;set;}
 
-
+        /// <summary>
+        /// 转加密公钥，使用加密机时此参数填写加密机公钥
+        /// </summary>
         public string TransEncryptedPublicKey { get; set; }
+        /// <summary>
+        /// 转加密私钥，使用加密机时此参数无效
+        /// </summary>
         public string TransEncryptedPrivateKey { get; set; }
 
 

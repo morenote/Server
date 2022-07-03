@@ -741,7 +741,11 @@ namespace MoreNote.Framework.Controllers
 
             string uploadType = "images";//images  attachments
             string datafileName = fileModel.fileName;
-            datafileName= datafileName.Substring(0, datafileName.IndexOf("&"));
+            if (datafileName.IndexOf("&") > 1)
+            {
+                datafileName = datafileName.Substring(0, datafileName.IndexOf("&"));
+            }
+          
             var fileEXT = Path.GetExtension(datafileName).Replace(".", "");
             
             var ext = Path.GetExtension(datafileName);

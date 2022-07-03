@@ -208,6 +208,36 @@ namespace MoreNote.Logic.Entity
 
         [Column("post_url")]
         public string? PostUrl { get; set; }
+        //------------------------------------联系信息----------------------------------------------------
+        [Column("profile")]
+        public string Profile { get;set;}//个人简介
+        [Column("country")]
+        public string Country { get;set;}//国家
+
+        [Column("address")]
+        public string Address { get; set; }//地址
+        [Column("phone")]
+        public string Phone { get; set; }//地址
+
+        [Column("Avatar")]
+        public string Avatar { get; set; }//头像
+
+        [Column("geographic_province")]
+        public string GeographicProvince { get; set; }//地理位置
+
+
+        [Column("geographic_city")]
+        public string GeographicCity { get; set; }//地理位置
+
+        [Column("signature")]
+        public string Signature { get; set; }//个人名片签名
+        [Column("title")]
+        public string Title { get; set; }//个人名片标题
+        [Column("group")]
+        public string Group { get; set; }//个人名片归属团体
+
+        [Column("tags")]
+        public string Tags { get; set; }//个人名片标签
 
         //==================================编辑器偏好======================================================
         [Column("markdown_option")]

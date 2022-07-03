@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,10 @@ using NpgsqlTypes;
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220703133728_userinfo2")]
+    partial class userinfo2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2529,10 +2531,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("IdCardNo")
                         .HasColumnType("text")
                         .HasColumnName("id_card_no");
-
-                    b.Property<bool>("IsEncryption")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_encryption");
 
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
