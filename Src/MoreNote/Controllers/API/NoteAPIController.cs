@@ -798,14 +798,14 @@ namespace MoreNote.Controllers.API.APIV1
                     return LeanoteJson(re);
                 }
                 //签字签名和数字信封数据
-                if (digitalEnvelope != null)
+                if (dataSign != null)
                 {
-                    var sm3 = digitalEnvelope.GetPayLoadSM3(this.gMService, this.config.SecurityConfig.PrivateKey);
                     var dataSM3 = gMService.SM3(noteId + noteTitle + content);
-                    if (!sm3.ToUpper().Equals(dataSM3.ToUpper()))
+                    var signSM3 = dataSign.SignData.Hash;
+                    if (!dataSM3.ToUpper().Equals(signSM3.ToUpper()))
                     {
+                        re.Msg = "SM3 is error";
                         re.Ok = false;
-                        re.Msg = "SM3 is Error";
                         return LeanoteJson(re);
                     }
                 }
