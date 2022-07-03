@@ -607,12 +607,10 @@ namespace MoreNote.Framework.Controllers
             }
         }
 
-        public UploadData UploadImagesOrAttach(out string msg)
+        public UploadData UploadImagesOrAttach(long? userId,out string msg)
         {
             //检查哈登录
             msg = string.Empty;
-            long? userId;
-            userId = GetUserIdBySession();
             if (userId == null)
             {
                 msg = "Need to log in";

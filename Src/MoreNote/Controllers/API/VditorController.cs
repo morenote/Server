@@ -40,9 +40,15 @@ namespace MoreNote.Controllers.API
         [Route("api/vditor/upload/{token}")]
         public IActionResult upload(string token)
         {
+            var user = tokenSerivce.GetUserByToken(token);
+            if (user == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return Content("401");
+            }
 
             string msg = null;
-            var data = UploadImagesOrAttach(out msg);
+            var data = UploadImagesOrAttach(user.UserId,out msg);
             UploadFileResponse uploadFileResponse = new UploadFileResponse()
             {
                 data = data
