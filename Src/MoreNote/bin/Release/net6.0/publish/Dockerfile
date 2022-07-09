@@ -3,6 +3,5 @@ WORKDIR /app
 
 #APP 应用
 COPY ["linux64", "/app"]
-
 EXPOSE 5000
 ENTRYPOINT ["dotnet", "MoreNote.dll"]
