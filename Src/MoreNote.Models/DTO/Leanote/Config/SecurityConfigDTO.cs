@@ -68,8 +68,11 @@ namespace MoreNote.Models.DTO.Leanote.Config
         /// 是否启用人机校验 验证码
         /// </summary>
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public NeedVerificationCode NeedVerificationCode { get; set; } 
-
+        public NeedVerificationCode NeedVerificationCode { get; set; }
+        /// <summary>
+        /// 是否启用浏览器水印，默认值false
+        /// </summary>
+        public bool OpenWatermark { get;set;}
 
         public static SecurityConfigDTO Instance(SecurityConfig securityConfig)
         {
@@ -85,7 +88,8 @@ namespace MoreNote.Models.DTO.Leanote.Config
                 ForceDigitalEnvelopeProtocol = securityConfig.ForceDigitalEnvelopeProtocol,
                 ForceDigitalSignature = securityConfig.ForceDigitalSignature,
                 ForceDigitalSignatureProtocol = securityConfig.ForceDigitalSignatureProtocol,
-                NeedVerificationCode = securityConfig.NeedVerificationCode
+                NeedVerificationCode = securityConfig.NeedVerificationCode,
+                OpenWatermark=securityConfig.OpenWatermark
             };
             return dto;
 

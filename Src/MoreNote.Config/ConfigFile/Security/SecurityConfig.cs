@@ -160,8 +160,10 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public string NetSignApi { get;set;}= "http://NetSign:8081/";
         public string HisuTSSC { get;set;}= "http://HisuTSSC:8080/";
         public string HisuCCBC { get;set;}= "http://HisuCCBC:8082/";
-        
-
+        /// <summary>
+        /// 是否启用浏览器水印，默认值false
+        /// </summary>
+        public bool OpenWatermark { get;set;}=false;
 
 
     }
