@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -346,8 +347,55 @@ namespace MoreNote.Controllers.API.APIV1
             return LeanoteJson(re);
         }
 
+        [HttpPost]
+        public IActionResult SetMDEditorPreferences(string mdOption)
+        {
+            var re = new ResponseMessage();
+            var mdHashSet = new HashSet<string>();
+            mdHashSet.Add("ace");
+            mdHashSet.Add("vditor");
 
+            var rthashSet = new HashSet<string>();
+            rthashSet.Add("tinymce");
+            rthashSet.Add("textbus");
+            //参数判断
+            if (string.IsNullOrEmpty(mdOption) || !mdHashSet.Contains(mdOption) )
+            {
+                re.Msg = "Parameter error ";
+                re.Ok = false;
+                return Json(re, MyJsonConvert.GetSimpleOptions());
+            }
+            var user = GetUserBySession();
+            //设置编辑器偏好
+            userService.SetMDEditorPreferences(user.UserId, mdOption);
 
+            re.Ok = true;
+            return Json(re, MyJsonConvert.GetSimpleOptions());
+        }
+        [HttpPost]
+        public IActionResult SetRTEditorPreferences(string rtOption)
+        {
+            var re = new ResponseMessage();
+            var mdHashSet = new HashSet<string>();
+            mdHashSet.Add("ace");
+            mdHashSet.Add("vditor");
+
+            var rthashSet = new HashSet<string>();
+            rthashSet.Add("tinymce");
+            rthashSet.Add("textbus");
+            //参数判断
+            if (string.IsNullOrEmpty(rtOption) || !rthashSet.Contains(rtOption))
+            {
+                re.Msg = "Parameter error ";
+                re.Ok = false;
+                return Json(re, MyJsonConvert.GetSimpleOptions());
+            }
+            var user = GetUserBySession();
+            //设置编辑器偏好
+            userService.SetRTEditorPreferences(user.UserId, rtOption);
+            re.Ok = true;
+            return Json(re, MyJsonConvert.GetSimpleOptions());
+        }
 
     }
 }

@@ -243,7 +243,7 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
         }
 
-        public bool SetEditorPreferences(long? userId, string mdOption, string rtOption)
+        public bool SetMDEditorPreferences(long? userId, string mdOption)
         {
             var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
             if (user == null)
@@ -251,6 +251,18 @@ namespace MoreNote.Logic.Service
                 return false;
             }
             user.MarkdownEditorOption = mdOption;
+         
+            dataContext.SaveChanges();
+            return true;
+        }
+        public bool SetRTEditorPreferences(long? userId, string rtOption)
+        {
+            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            if (user == null)
+            {
+                return false;
+            }
+           
             user.RichTextEditorOption = rtOption;
             dataContext.SaveChanges();
             return true;

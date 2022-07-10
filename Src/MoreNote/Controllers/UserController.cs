@@ -70,31 +70,7 @@ namespace MoreNote.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult SetEditorPreferences(string mdOption, string rtOption)
-        {
-            var re = new ResponseMessage();
-            var mdHashSet = new HashSet<string>();
-            mdHashSet.Add("ace");
-            mdHashSet.Add("vditor");
-
-            var rthashSet = new HashSet<string>();
-            rthashSet.Add("tinymce");
-            rthashSet.Add("textbus");
-            //参数判断
-            if (string.IsNullOrEmpty(mdOption) || !mdHashSet.Contains(mdOption) || string.IsNullOrEmpty(rtOption) || !rthashSet.Contains(rtOption))
-            {
-                re.Msg = "Parameter error ";
-                re.Ok = false;
-                return Json(re, MyJsonConvert.GetSimpleOptions());
-            }
-            var user = GetUserBySession();
-            //设置编辑器偏好
-            userService.SetEditorPreferences(user.UserId, mdOption, rtOption);
-
-            re.Ok = true;
-            return Json(re, MyJsonConvert.GetSimpleOptions());
-        }
+ 
         /// <summary>
         /// 设置宽度
         /// </summary>
