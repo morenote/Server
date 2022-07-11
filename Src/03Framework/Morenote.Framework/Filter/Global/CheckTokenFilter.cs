@@ -37,7 +37,11 @@ namespace Morenote.Framework.Filter.Global
             }
             if (token == null || string.IsNullOrEmpty(token))
             {
-                token = context.HttpContext.Request.Form["token"];
+                if (context.HttpContext.Request.Form!=null && context.HttpContext.Request.Form.Any())
+                {
+                    token = context.HttpContext.Request.Form["token"];
+                }
+               
             }
             if (token == null || string.IsNullOrEmpty(token))
             {

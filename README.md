@@ -4,11 +4,7 @@
 
 # 赞助
 
-
-
 ![image-20220102113326000](README.assets/image-20220102113326000.png)
-
-
 
 # MoreNote
 
@@ -16,7 +12,6 @@
 > Free. Cross-platform. Open source.  
 > A developer platform for building all  apps.  
 > But  Who cares?
-
 
 ## MoreNote是什么
 
@@ -27,8 +22,6 @@ MoreNote是使用C#开发的跨平台笔记托管服务，可以运行在云服�
 morenote支持托管你的笔记、文档、文件、图片或者视频资料。
 
 在树莓派上的演示网站：<a href="https://www.morenote.top/" target="_blank">morenote云笔记</a>
-
-
 
 ## 项目目标
 
@@ -42,21 +35,20 @@ morenote支持托管你的笔记、文档、文件、图片或者视频资料。
 
 ## 特色（画饼）
 
--   [ ] **分布式**：morenote是分布式版本控制系统，您的每个设备上都拥有一个完整的笔记库，中心服务器的崩溃不会影响你的笔记安全；
--   [ ] **快速协作**：你可以选择离线工作，亦可以选择通过中心化服务器与其他人协同工作，这是您的自由，我们不会干涉；
--   [ ] **同步**：你的笔记可以眨眼间在不同设备之间快速同步，不会丢失，不会泄露；
--   [ ] **通用格式**：morenote优先使用markdown格式，你可以自由的使用第三方编辑器处理，这是您的自由，我们不会干涉；
--   [ ] **开源软件**：morenote的代码是开源，所有代码是公开，您可以自由的审查软件中是否存在后门和安全风险；
--   [ ] **端到端加密**：morenote提供端到端加密的支持，你的数据在传输和存储过程中始终保密；
--   [ ] **笔记单独加密**：允许使用加密算法对笔记数据单独加密；
--   [ ] **更多编辑器**：morenote适配了很多第三方开源的编辑器，你可以选择你喜欢的第三方编辑器；
--   [ ] **本地化编辑**：使用msync下载笔记数据到本地，然后使用第三方编辑器修改，然后与服务器同步；
--   [ ] **数据兼容**：与Leanote笔记的API兼容，可以直接使用leanote的桌面软件或移动端软件登录（不再受支持）
--   [ ] **不同的风格**：更强大的托管后台，更简洁有力的布局，更清新简约的编辑界面（使用了ng-alain）；
--   [ ] **API接口**：MoreNote提供开发的API接口，方便定制功能和插件；
--   [ ] **插件主题**：MoreNote提供丰富的插件和主题供用户使用；
--   [ ] **文件托管**：MoreNote就是你的私有云盘！！
-
+- [ ] **分布式**：morenote是分布式版本控制系统，您的每个设备上都拥有一个完整的笔记库，中心服务器的崩溃不会影响你的笔记安全；
+- [ ] **快速协作**：你可以选择离线工作，亦可以选择通过中心化服务器与其他人协同工作，这是您的自由，我们不会干涉；
+- [ ] **同步**：你的笔记可以眨眼间在不同设备之间快速同步，不会丢失，不会泄露；
+- [ ] **通用格式**：morenote优先使用markdown格式，你可以自由的使用第三方编辑器处理，这是您的自由，我们不会干涉；
+- [ ] **开源软件**：morenote的代码是开源，所有代码是公开，您可以自由的审查软件中是否存在后门和安全风险；
+- [ ] **端到端加密**：morenote提供端到端加密的支持，你的数据在传输和存储过程中始终保密；
+- [ ] **笔记单独加密**：允许使用加密算法对笔记数据单独加密；
+- [ ] **更多编辑器**：morenote适配了很多第三方开源的编辑器，你可以选择你喜欢的第三方编辑器；
+- [ ] **本地化编辑**：使用msync下载笔记数据到本地，然后使用第三方编辑器修改，然后与服务器同步；
+- [ ] **数据兼容**：与Leanote笔记的API兼容，可以直接使用leanote的桌面软件或移动端软件登录（不再受支持）
+- [ ] **不同的风格**：更强大的托管后台，更简洁有力的布局，更清新简约的编辑界面（使用了ng-alain）；
+- [ ] **API接口**：MoreNote提供开发的API接口，方便定制功能和插件；
+- [ ] **插件主题**：MoreNote提供丰富的插件和主题供用户使用；
+- [ ] **文件托管**：MoreNote就是你的私有云盘！！
 
 ## 项目状态
 
@@ -70,10 +62,9 @@ V 0.0.1的设计目标仅仅是是实现leanote 2.6.1的大部分功能。
 
 ## 发行里程碑：
 
-
-|  版本   | Dev版  | 测试版|发布版|兼容版本|备注|
-|  ----    | ----  |---- |---- | --- | --- |
-| V 0.0.1  |进行中⏳ |  没有😒|   没有😒|leanote 2.6.1🤦‍♂️|不支持共享笔记，不支持博客模板|
+| 版本      | Dev版 | 测试版  | 发布版  | 兼容版本               | 备注              |
+| ------- | ---- | ---- | ---- | ------------------ | --------------- |
+| V 0.0.1 | 进行中⏳ | 没有😒 | 没有😒 | leanote 2.6.1🤦‍♂️ | 不支持共享笔记，不支持博客模板 |
 
 ## 开发进度表
 
@@ -83,35 +74,33 @@ V 0.0.1的设计目标仅仅是是实现leanote 2.6.1的大部分功能。
 
 MoreNote与leanote的主要区别如下：
 
-| 区别| MoreNote | leanote |
-| :----- | :----: | :----: |
-| 开发语言 | C# | Go |
-| 数据库 | PostgreSQL | MongoDB  |
-| 性能 | 快 | 非常快  |
-| 内存 | 最少2GB，建议4GB | 最少2GB |
-| 主题 | 不支持（开发中） | 博客主题 |
-| 支持 | 社区支持 | 社区支持&QQ群 |
-| 多租户 | 支持 | 支持  |
-| 全文检索 | 笔记标题√笔记内容√附件标题×（开发中） | 支持  |
-| 实时协作 | 不支持（开发中） | 不支持 |
-| 笔记历史 | 不支持（开发中） | 支持 |
-| 缓存加速 | 内存缓存或Redis | 不支持 |
-| 编辑器 | ace、tinymce、vditor、textbus | ace、tinymce |
-| 文件管理器 | 支持 | 不支持 |
-| 文件传输协议 | 不支持(开发中：WebDAV、SAMBA、FTP、SFTP) | 不支持 |
-| 端到端加密 | 不支持（开发中） | 支持 |
-| 两步验证 | 支持安全令牌登录（开发中：FIDO2&  人脸登录& Google  Authentication） | 不支持 |
-| 反垃圾评论 | 基于机器学习自动识别 | 不支持 |
-| 跨平台 | 支持 | 支持 |
-| 开放API接口 | 不支持（开发中） | 支持 |
-| 笔记备份功能 | 不支持（开发中） | 不支持 |
-| 笔记灾难恢复 | 不支持（开发中） | 不支持 |
-| 笔记导出功能 | msync(开发中) | 支持 |
-
-
-
+| 区别      | MoreNote                                           | leanote     |
+|:------- |:--------------------------------------------------:|:-----------:|
+| 开发语言    | C#                                                 | Go          |
+| 数据库     | PostgreSQL                                         | MongoDB     |
+| 性能      | 快                                                  | 非常快         |
+| 内存      | 最少2GB，建议4GB                                        | 最少2GB       |
+| 主题      | 不支持（开发中）                                           | 博客主题        |
+| 支持      | 社区支持                                               | 社区支持&QQ群    |
+| 多租户     | 支持                                                 | 支持          |
+| 全文检索    | 笔记标题√笔记内容√附件标题×（开发中）                               | 支持          |
+| 实时协作    | 不支持（开发中）                                           | 不支持         |
+| 笔记历史    | 不支持（开发中）                                           | 支持          |
+| 缓存加速    | 内存缓存或Redis                                         | 不支持         |
+| 编辑器     | ace、tinymce、vditor、textbus                         | ace、tinymce |
+| 文件管理器   | 支持                                                 | 不支持         |
+| 文件传输协议  | 不支持(开发中：WebDAV、SAMBA、FTP、SFTP)                     | 不支持         |
+| 端到端加密   | 不支持（开发中）                                           | 支持          |
+| 两步验证    | 支持安全令牌登录（开发中：FIDO2&  人脸登录& Google  Authentication） | 不支持         |
+| 反垃圾评论   | 基于机器学习自动识别                                         | 不支持         |
+| 跨平台     | 支持                                                 | 支持          |
+| 开放API接口 | 不支持（开发中）                                           | 支持          |
+| 笔记备份功能  | 不支持（开发中）                                           | 不支持         |
+| 笔记灾难恢复  | 不支持（开发中）                                           | 不支持         |
+| 笔记导出功能  | msync(开发中)                                         | 支持          |
 
 #### 软件架构
+
 前端框架： ng-alain
 
 后端框架：asp .net  core
@@ -129,13 +118,14 @@ MoreNote与leanote的主要区别如下：
 对象存储：MINIO
 
 #### 安装教程
+
 目前仅支持CentOS7
+
 ```ssh
 git clone URL
 cd  NickelProject
 dotnet run
 ```
-
 
 #### 参与贡献
 
@@ -146,48 +136,50 @@ dotnet run
 - .Net(微软出品的跨平台开发语言) 编程语言
 - ng-zorro-antd(前端UI框架) MIT开源许可
 - Ant Design(前端UI框架)  MIT开源许可
+- ng-alain（前端UI框架）[MIT开源许可](https://github.com/ng-alain/ng-alain/blob/master/LICENSE)
 - JQuery(JavaScript脚本库)  MIT开源许可
 - Supervisor(Linux进程守护程序)  基础组件
 - Redis(高性能缓存服务) 基础组件
 - PostgreSQL(高性能数据库) 基础组件
-- WangEditer(Web富文本编辑器)  MIT开源许可
-- Textbus(优秀的富文本编辑器)  GPL开源许可
-- Vditor(markdown编辑器)  MIT开源许可
-- Masuit.LuceneEFCore.SearchEngine(基于EntityFrameworkCore和Lucene.NET实现的全文检索搜索引擎)  MIT开源许可
-- Masuit.MyBlogs(高性能低占用的博客系统)  MIT开源许可
-- Leanote(Go语言实现的云笔记服务) GPL开源许可
-- minio（分布式对象存储服务）组件使用
-- MrDoc（在线文档库）GPL开源许可
-- MxsDoc(Web文件管理系统) GPL开源许可
+- WangEditer(Web富文本编辑器)  [MIT开源许可](https://github.com/wangeditor-team/wangEditor/blob/master/LICENSE)
+- Textbus(优秀的富文本编辑器)  [GPL开源许可](https://github.com/textbus/textbus/blob/main/LICENSE)
+- Vditor(markdown编辑器)  [MIT开源许可](https://github.com/Vanessa219/vditor/blob/master/LICENSE)
+- Masuit.LuceneEFCore.SearchEngine(基于EntityFrameworkCore和Lucene.NET实现的全文检索搜索引擎)  [MIT开源许可](https://github.com/ldqk/Masuit.LuceneEFCore.SearchEngine/blob/master/LICENSE)
+- Masuit.MyBlogs(高性能低占用的博客系统)  [MIT开源许可](https://github.com/ldqk/Masuit.MyBlogs)
+- Leanote(Go语言实现的云笔记服务) [GPL开源许可](https://github.com/leanote/leanote)
+- minio（分布式对象存储服务）[组件使用](http://www.minio.org.cn/)
+- MrDoc（在线文档库）[GPL开源许可](https://github.com/zmister2016/MrDoc/blob/master/LICENSE)
+- MxsDoc(Web文件管理系统) [GPL开源许可](https://gitee.com/RainyGao/DocSys/blob/master/LICENSE)
 - joplin（开源笔记软件） [MIT开源许可](https://github.com/laurent22/joplin/blob/dev/LICENSE)
 
-####  向他们的作品致敬
+
+
+#### 向他们的作品致敬
 
 >   如果你觉得morenote不够完美，那么我建议你去尝试以下笔记软件或服务
->
+> 
 >   morenote在开发过程广泛的借鉴了其他比较流行的笔记软件的风格和设计
 
--   Notion
--   Wolai
--   Appflowy
--   为知笔记
--   蚂蚁笔记
--   印象笔记
--   思源笔记
--   语雀
--   飞书
--   joplin
--   roamedit
--   GoodNotes
--   simplenote
--   onenote
--   树莓盘
--   NGX File Cloud 网盘 & NAS
--   可道云
--   LESLIE NOTE 
--   有道云笔记
--   专注笔记
--   幕布
--   无忧·企业文档
--   DOKUWIKI
-
+- Notion
+- Wolai
+- Appflowy
+- 为知笔记
+- 蚂蚁笔记
+- 印象笔记
+- 思源笔记
+- 语雀
+- 飞书
+- joplin
+- roamedit
+- GoodNotes
+- simplenote
+- onenote
+- 树莓盘
+- NGX File Cloud 网盘 & NAS
+- 可道云
+- LESLIE NOTE 
+- 有道云笔记
+- 专注笔记
+- 幕布
+- 无忧·企业文档
+- DOKUWIKI
