@@ -39,7 +39,7 @@ using MoreNote.Logic.Property;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using NuGet.Protocol.Plugins;
 using Microsoft.Extensions.Logging;
-
+using System.IO;
 
 namespace MoreNote
 {
@@ -214,6 +214,11 @@ namespace MoreNote
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
+
+
+                // using System.Reflection;
+                var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
             //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();

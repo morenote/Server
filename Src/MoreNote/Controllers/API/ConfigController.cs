@@ -38,11 +38,11 @@ namespace MoreNote.Controllers.API
         }
         /// <summary>
         /// 获得服务器的口令保护方案的密码算法
-        /// 当服务器启用sjj1962或其他非对称加密算法时，客户端必须强制实现非对称加密算法的数字信封，
-        /// 用于保护用户传输信息的机密性
+        /// <para>当服务器启用sjj1962或其他非对称加密算法时，客户端必须强制实现非对称加密算法的数字信封，</para>
+        /// <para>用于保护用户传输信息的机密性</para>
         /// </summary>
         /// <param name="token"></param>
-        /// <returns></returns>
+        /// <returns>SecurityConfigDTO</returns>
         [HttpGet]
         public IActionResult GetSecurityConfig()
         {
