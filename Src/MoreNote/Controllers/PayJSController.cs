@@ -43,12 +43,12 @@ namespace MoreNote.Controllers
         private  WebSiteConfig webSiteConfig;
 
         private  Payjs pay ;
-
+        [HttpGet, HttpPost]
         public IActionResult Index()
         {
             return View();
         }
-
+        [HttpGet, HttpPost]
         public IActionResult NativePay()
         {
             long? id = idGenerator.NextId();
@@ -90,6 +90,7 @@ namespace MoreNote.Controllers
         /// </summary>
         /// <param name="notifyResponseMessage"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public IActionResult AsyncNotification(NotifyResponseMessage notifyResponseMessage)
         {
             if (notifyResponseMessage == null)

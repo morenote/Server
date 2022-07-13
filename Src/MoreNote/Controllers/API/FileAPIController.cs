@@ -37,6 +37,7 @@ namespace MoreNote.Controllers.API.APIV1
         //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片
         //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
         [Route("api/File/Images/{fileId}")]
+        [HttpGet]
         public Task<IActionResult> GetImageForWeb(string fileId)
         {
             return GetImage(fileId);
@@ -49,6 +50,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="filename"></param>
         /// <returns></returns>
         [Route("api/File/Avatars/{userIdHex}/{filename}")]
+        [HttpGet]
         public async Task<IActionResult> GetAvatar(string userIdHex, string filename)
         {
             var fileUrlPath = $"{userIdHex}/images/logo";
@@ -73,6 +75,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo: 输出image 需要get参数
         //api/File/GetImage?fileId=xxxx
         [Route("api/File/GetImage")]
+        [HttpGet]
         public async Task<IActionResult> GetImage(string fileId)
         {
             //try
@@ -131,6 +134,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         [Route("api/File/GetAttach")]
+        [HttpGet]
         //todo:下载附件
         public async Task<IActionResult> GetAttach(string fileId)
         {
@@ -146,6 +150,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:下载所有附件
+        [HttpGet]
         public IActionResult GetAllAttachs(string noteId, string token)
         {
             return null;

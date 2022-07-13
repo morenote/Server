@@ -32,6 +32,8 @@ namespace MoreNote.Controllers
         }
 
         //Post表单上传
+
+        [HttpGet, HttpPost]
         public async Task<IActionResult> FileFormSave(List<IFormFile> files)
 
         {
@@ -81,6 +83,8 @@ namespace MoreNote.Controllers
         }
 
         //AJAX上传
+
+        [HttpGet, HttpPost]
         public async Task<IActionResult> FileAJAXSave()
         {
             var date = Request;
@@ -108,6 +112,7 @@ namespace MoreNote.Controllers
 
 
         //下载
+        [HttpGet]
         public IActionResult DownLoad(string fileFullName)
         {
             var addrUrl = fileFullName;
@@ -118,7 +123,9 @@ namespace MoreNote.Controllers
             var memi = provider.Mappings[fileExt];
             return File(stream, memi, Path.GetFileName(addrUrl));
         }
-       // [HttpPost]
+       [HttpPost]
+
+
         private IActionResult UploadFiles(List<IFormFile> files)
         {
             long? size = 0;
@@ -152,7 +159,7 @@ namespace MoreNote.Controllers
         /// AJAX请求上传，通过Request.Form.Files获取上传文件信息
         /// </summary>
         /// <returns></returns>
-       // [HttpPost]
+        [HttpPost]
         private JsonResult AjaxUploadFiles()
         {
             long? size = 0;
@@ -187,7 +194,7 @@ namespace MoreNote.Controllers
             });
         }
 
-
+        [HttpGet, HttpPost]
         public async Task<IActionResult> EditorImageUploadService(List<IFormFile> files)
         {
             return null;
@@ -267,6 +274,7 @@ namespace MoreNote.Controllers
         /// <param name="stream">要计算哈希值的 Stream</param>
         /// <param name="algName">算法:SHA1,MD5</param>
         /// <returns>哈希值字节数组</returns>
+        
         private byte[] HashData(System.IO.Stream stream, string algName)
         {
             System.Security.Cryptography.HashAlgorithm algorithm;

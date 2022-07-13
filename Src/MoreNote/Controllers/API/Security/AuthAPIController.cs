@@ -43,6 +43,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// 取号(用于客户端请求序列号)
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public IActionResult TakeNumber()
         {
             var re=new ApiRe();
@@ -65,7 +66,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="email"></param>
         /// <param name="pwd"></param>
         /// <returns></returns>
-       //[HttpPost]
+       [HttpPost]
         public async Task<IActionResult> Login(string email, string pwd, string requestNumber)
         {
             string tokenValue = "";
@@ -138,7 +139,7 @@ namespace MoreNote.Controllers.API.APIV1
                 this.logging.Save(logg);
             }
         }
-
+        [HttpGet]
         public IActionResult TakeToken(string email, string requestNumber)
         {
           
@@ -192,12 +193,14 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <param name="tickets"></param>
         /// <returns></returns>
+        /// 
+        [HttpPost]
         public IActionResult SubmitLogin(string requestNumber)
         {
             return null;
         }
 
-
+        [HttpDelete]
         //todo:注销函数
         public JsonResult Logout()
         {
@@ -213,6 +216,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:注册
+        [HttpPost]
         public async Task<IActionResult> Register(string email, string pwd)
         {
             //ex:API当前不使用cookie和session判断用户身份，
@@ -244,14 +248,14 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return Json(re, MyJsonConvert.GetSimpleOptions());
         }
-
+        [HttpPost]
         public async Task<IActionResult> ChangeUserPassword(string token,string password)
         {
             return null;
         }
-  
 
 
+        [HttpGet]
         public async Task<IActionResult> GetUserLoginLogging(string token)
         {
             var re = new ApiRe()
@@ -297,6 +301,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// 获得用户登录安全策略级别
         /// </summary>
         /// <returns></returns>
+        [HttpGet,HttpPost]
         public async Task<IActionResult> GetUserLoginSecurityPolicyLevel(string email)
         {
 

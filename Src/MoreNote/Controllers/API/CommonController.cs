@@ -56,7 +56,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// 获得Hex形式的ID
         /// </summary>
         /// <returns></returns>
-       
+       [HttpGet]
        public IActionResult GetHexId()
         {
             var re = new ApiRe();

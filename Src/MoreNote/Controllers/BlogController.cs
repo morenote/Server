@@ -132,6 +132,7 @@ namespace MoreNote.Controllers
         /// <param name="archiveHex"></param>
         /// <returns></returns>
         [Route("Blog/{repository?}/Archive/{archiveHex?}")]
+        [HttpGet]
         public IActionResult Archive(string repository, string archiveHex)
         {
             User blogUser = ActionInitBlogUser(repository);
@@ -162,6 +163,7 @@ namespace MoreNote.Controllers
         /// <returns></returns>
 
         [Route("Blog/{repository}/Cate/{cateHex}/")]
+        [HttpGet]
         public IActionResult Cate(string blogUserName, string cateHex, int page)
         {
             long? notebookId = cateHex.ToLongByHex();
@@ -198,7 +200,7 @@ namespace MoreNote.Controllers
 
      
         [Route("Blog/{repository}/{page?}")]
-
+        [HttpGet]
         public IActionResult Index(string blogUserIdHex, int page)
         {
             if (page < 1)
@@ -247,7 +249,8 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{repository}/Post/{noteIdHex}/")]
+        [Route("Blog/{repository}/Post/{noteIdHex}/1")]
+        [HttpGet]
         public IActionResult Post1(string noteIdHex)
         {
             long? noteId = noteIdHex.ToLongByHex();
@@ -258,6 +261,7 @@ namespace MoreNote.Controllers
 
       
         [Route("Blog/{repository}/Post/{noteIdHex}/")]
+        [HttpGet]
         public async Task<IActionResult> PostAsync(string blogUserName, string noteIdHex)
         {
             //添加访问日志
@@ -340,6 +344,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Blog/{repository}/Tags/")]
+        [HttpGet]
         public IActionResult Tags(string blogUserName)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -360,6 +365,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Blog/{repository}/Search/{keywords?}/")]
+        [HttpGet]
         public IActionResult Search(string blogUserIdHex, string keywords, int page)
         {
             if (page < 1)
@@ -420,6 +426,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Blog/{repository}/Single/{SingleIdHex}/")]
+        [HttpGet]
         public IActionResult Single(string blogUserName, string SingleIdHex)
         {
             User blogUser = ActionInitBlogUser(blogUserName);
@@ -436,6 +443,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Blog/{repository}/Tags_Posts/{tag}/")]
+        [HttpGet]
         public IActionResult Tags_Posts(string blogUserName, string tag, int page)
         {
             if (page < 1)
@@ -468,6 +476,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Blog/NoFound")]
+        [HttpGet]
         public IActionResult NoFound()
         {
             Dictionary<string, string> blog = new Dictionary<string, string>();
@@ -486,6 +495,7 @@ namespace MoreNote.Controllers
             return Json(re, MyJsonConvert.GetLeanoteOptions());
         }
          [Route("Blog/getLikesAndComments")]
+        [HttpGet]
         public IActionResult GetLikesAndComments([ModelBinder(typeof(Hex2LongModelBinder))] long? noteId, string callback)
         {
             long? userId = GetUserIdBySession();

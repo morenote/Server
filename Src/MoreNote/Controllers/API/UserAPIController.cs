@@ -59,7 +59,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-
+        [HttpGet]
         public IActionResult GetUserInfoByToken(string token)
         {
             var user=tokenSerivce.GetUserByToken(token);
@@ -77,6 +77,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
+        [HttpGet]
         public IActionResult GetUserInfoByEmail(string email)
         {
             var user = userService.GetUserByEmail(email);
@@ -89,7 +90,7 @@ namespace MoreNote.Controllers.API.APIV1
             re.Data = user;
             return LeanoteJson(re);
         }
-
+        [HttpGet]
         public IActionResult GetUserInfoByUserId(string userId)
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
@@ -146,6 +147,8 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //获取用户的登录策略
+
+        [HttpGet]
         public JsonResult GetUserLoginSecurityStrategy(string UserName)
         {
 
@@ -160,12 +163,10 @@ namespace MoreNote.Controllers.API.APIV1
             return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
         }
 
-        //todo:修改用户名
-        public IActionResult UpdateUsername()
-        {
-            return null;
-        }
+    
         //todo:修改密码
+
+        [HttpPost]
         public async Task<IActionResult> UpdatePwd(string token,string oldPwd,string pwd)
         {
             ApiRe re = new ApiRe();
@@ -197,6 +198,8 @@ namespace MoreNote.Controllers.API.APIV1
         }
         //获得同步状态
         //[HttpPost]
+
+        [HttpGet]
         public JsonResult GetSyncState(string token)
         {
             
@@ -222,15 +225,21 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:头像设置
+
+        [HttpPost]
         public IActionResult UpdateLogo()
         {
             return null;
         }
         //todo:上传图片
+
+        [HttpPost]
         public IActionResult uploadImage()
         {
             return null;
         }
+
+        [HttpPost,HttpGet]
         public  async Task<IActionResult> GetRealNameInformation(string token, string digitalEnvelopeJson, string dataSignJson)
         {
 
@@ -280,6 +289,7 @@ namespace MoreNote.Controllers.API.APIV1
             re.Data = realName;
             return LeanoteJson(re);
         }
+        [HttpPost]
         public async Task<IActionResult> SetRealNameInformation(string token,string sfz,string digitalEnvelopeJson,string dataSignJson)
         {
             var re = new ApiRe();

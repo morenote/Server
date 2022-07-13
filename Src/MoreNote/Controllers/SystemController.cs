@@ -34,6 +34,7 @@ namespace MoreNote.Controllers
 
         }
         [SkipInspectionInstallationFilter]
+        [HttpGet, HttpPost]
         public IActionResult Install()
         {
             WebSiteConfig webSiteConfig=configFileService.WebConfig;
@@ -51,6 +52,7 @@ namespace MoreNote.Controllers
         } 
 
          [SkipInspectionInstallationFilter]
+        [HttpGet, HttpPost]
         public IActionResult DoInstall(string captcha,string config)
         {
             WebSiteConfig localWebSiteConfig=configFileService.WebConfig;
@@ -91,6 +93,7 @@ namespace MoreNote.Controllers
                     return Json(re, MyJsonConvert.GetSimpleOptions());
             }
         }
+        [HttpGet, HttpPost]
         public IActionResult InstallSuccess()
         {
             return View();

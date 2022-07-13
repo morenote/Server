@@ -23,7 +23,7 @@ namespace MoreNote.Controllers
         {
             this.dataContext = dataContext;
         }
-
+        [HttpGet, HttpPost]
         public IActionResult RebuildIndex()
         {
             
@@ -42,7 +42,7 @@ namespace MoreNote.Controllers
             dataContext.SaveChanges();
             return Ok();
         }
-
+        [HttpGet, HttpPost]
         public IActionResult Index(string s)
         {
             var query=jiebaSegmenterService.GetSerachNpgsqlTsQuery(s);

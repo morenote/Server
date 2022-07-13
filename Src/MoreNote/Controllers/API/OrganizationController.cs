@@ -32,10 +32,12 @@ namespace MoreNote.Controllers.API
         {
             this.organizationService = organizationService;
         }
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
+        [HttpGet]
         public IActionResult GetOrganizationListByAuthorityEnum(string token, OrganizationAuthorityEnum AuthorityEnum)
         {
             

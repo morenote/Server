@@ -39,6 +39,8 @@ namespace MoreNote.Controllers
 
         [Route("Attach/UploadAttach")]
         //上传附件
+        [HttpPost,HttpGet]
+
         public async Task<IActionResult> UploadAttach(string noteId)
         {
             // var xxx= _accessor.HttpContext.Request.Form["noteId"];

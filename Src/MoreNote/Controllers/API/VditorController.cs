@@ -38,6 +38,7 @@ namespace MoreNote.Controllers.API
             this.tokenSerivce = tokenSerivce;
         }
         [Route("api/vditor/upload/{token}")]
+        [HttpGet,HttpPost]
         public IActionResult upload(string token)
         {
             var user = tokenSerivce.GetUserByToken(token);
@@ -57,6 +58,7 @@ namespace MoreNote.Controllers.API
         }
 
         [Route("api/vditor/fetch/{token}")]
+        [HttpPost,HttpGet]
         public async Task<IActionResult> fetch([FromBody] FetchFileRequest fetchFileRequest,string token)
         {
             var user=tokenSerivce.GetUserByToken(token);

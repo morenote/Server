@@ -88,6 +88,7 @@ namespace Masuit.MyBlogs.Core.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult GetFiles(string path)
         {
             var files = Directory.GetFiles(HostEnvironment.WebRootPath + path).OrderByDescending(s => s).Select(s => new
@@ -103,6 +104,7 @@ namespace Masuit.MyBlogs.Core.Controllers
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public ActionResult Read(string filename)
         {
             if (System.IO.File.Exists(filename))
@@ -119,6 +121,7 @@ namespace Masuit.MyBlogs.Core.Controllers
         /// <param name="filename"></param>
         /// <param name="content"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public ActionResult Save(string filename, string content)
         {
             try

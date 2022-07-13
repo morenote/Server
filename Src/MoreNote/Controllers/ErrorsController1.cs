@@ -24,6 +24,7 @@ namespace MoreNote.Controllers
            
 
         }
+        [HttpGet]
         public IActionResult Unauthorized1()
         {
             return Unauthorized();

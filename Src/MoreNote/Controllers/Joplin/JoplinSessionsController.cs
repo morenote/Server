@@ -36,6 +36,7 @@ namespace MoreNote.Controllers.Joplin
         }
 
         [Route("api/sessions")]
+        [HttpGet]
         public async Task<IActionResult> sessions([FromBody] SessionRequestDto sessionRequest)
         {
             string token = string.Empty;

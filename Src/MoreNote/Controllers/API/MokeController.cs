@@ -50,6 +50,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
         [Route("/api/chart")]
+        [HttpGet]
         public async Task<IActionResult> chart()
         {
             var json=System.IO.File.ReadAllText("MockData/chart.json");
@@ -58,6 +59,7 @@ namespace MoreNote.Controllers.API.APIV1
             return Content(json);
         }
         [Route("/api/notice")]
+        [HttpGet]
         public async Task<IActionResult> notice()
         {
             var json = System.IO.File.ReadAllText("MockData/notice.json");
@@ -67,6 +69,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
         [Route("/api/activities")]
+        [HttpGet]
         public async Task<IActionResult> activities()
         {
             var json = System.IO.File.ReadAllText("MockData/activities.json");
@@ -76,6 +79,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
         [Route("/api/list")]
+        [HttpGet]
         public async Task<IActionResult> list()
         {
             var json = System.IO.File.ReadAllText("MockData/list.json");
@@ -85,6 +89,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
         [Route("/api/user/current")]
+        [HttpGet]
         public async Task<IActionResult> current()
         {
             var json = System.IO.File.ReadAllText("MockData/current.json");
@@ -96,6 +101,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         [Route("/api/geo/province")]
         [Route("/api/geo/{pid}")]
+        [HttpGet]
         public async Task<IActionResult> province()
         {
             var json = System.IO.File.ReadAllText("MockData/current.json");

@@ -55,6 +55,7 @@ namespace MoreNote.Controllers
 
         [Route("Note/{noteIdHex?}/")]
         [Authorize(Roles = "Admin,SuperAdmin,User")]
+        [HttpGet]
         public IActionResult Editor(string noteIdHex)
         {
             this.SetLocale();//设置区域化信息
@@ -167,6 +168,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Note/GetNoteContent")]
+        [HttpGet]
         public IActionResult GetNoteContent(string noteId)
         {
             long? noteNumber = noteId.ToLongByHex();
@@ -185,6 +187,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Note/ListNotes")]
+        [HttpGet]
         public JsonResult ListNotes(string notebookId)
         {
             Note[] notes = noteService.ListNotes(GetUserIdBySession(), notebookId.ToLongByHex(), false, false);
@@ -200,6 +203,7 @@ namespace MoreNote.Controllers
         /// <param name="isTop">是否置顶</param>
         /// <returns></returns>
         [Route("Note/SetNote2Blog")]
+        [HttpGet]
         public JsonResult SetNote2Blog(string[] noteIds, bool isBlog, bool isTop)
         {
             foreach (var item in noteIds)
@@ -210,6 +214,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Note/SetAccessPassword")]
+        [HttpGet]
         public JsonResult SetAccessPassword(string[] noteIds, string password)
         {
             foreach (var nodeId in noteIds)
@@ -221,6 +226,7 @@ namespace MoreNote.Controllers
 
         // 这里不能用json, 要用post
         [Route("Note/UpdateNoteOrContent")]
+        [HttpPost]
         public async Task<JsonResult> UpdateNoteOrContent([ModelBinder(BinderType = typeof(NoteOrContentModelBinder))] NoteOrContent noteOrContent)
         {
             var userid = GetUserIdBySession();
@@ -298,6 +304,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Note/DeleteNote")]
+        [HttpPost,HttpDelete]
         public JsonResult DeleteNote(string[] noteIds, bool isShared)
         {
             if (!isShared)
@@ -317,6 +324,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("Note/moveNote")]
+        [HttpPost]
         public IActionResult moveNote(string[] noteIds, string notebookId)
         {
             var userId = GetUserIdBySession();
@@ -333,6 +341,7 @@ namespace MoreNote.Controllers
         /// <param name="key"></param>
         /// <returns></returns>
         [Route("Note/SearchNote")]
+        [HttpGet]
         public IActionResult SearchNote(string key)
         {
             /**
@@ -391,6 +400,7 @@ namespace MoreNote.Controllers
         /// <param name="key"></param>
         /// <returns></returns>
         [Route("Note/SearchNoteByTags")]
+        [HttpGet]
         public IActionResult SearchNoteByTags(string tags)
         {
             var query = Request.Query["tags[]"];

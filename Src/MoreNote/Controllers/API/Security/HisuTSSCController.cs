@@ -13,6 +13,7 @@ namespace MoreNote.Controllers.API.Security
 
         [Autowired]
         ILoggingService loggingService { get; set; }
+
        public HisuTSSCController(ISignatureService signatureService)
         {
             this.signatureService = signatureService;

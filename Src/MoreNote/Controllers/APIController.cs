@@ -97,6 +97,7 @@ namespace MoreNote.Controllers
         }
 
         [Route("api/random-images/{typeMd5}/{fileName}")]
+        [HttpGet]
         public async Task<IActionResult> MinIOImagesAsync(string typeMd5, string fileName)
         {
             MinIOFileStoreService minio = new MinIOFileStoreService(webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);

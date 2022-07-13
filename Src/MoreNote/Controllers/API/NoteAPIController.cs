@@ -78,6 +78,7 @@ namespace MoreNote.Controllers.API.APIV1
         //    ApiNote[] apiNotes=NoteService.GetSyncNotes(userId,afterUsn,maxEntry);
         //    return Json(apiNotes,MyJsonConvert.GetOptions());
         //}
+        [HttpGet]
         public JsonResult GetSyncNotes(int afterUsn, int maxEntry, string token)
         {
             if (maxEntry == 0) maxEntry = 100;
@@ -86,6 +87,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:得到笔记本下的笔记
+        [HttpGet]
         public IActionResult GetNotes(string notebookId, string token)
         {
             Note[] notes = noteService.ListNotes(GetUserIdByToken(token), notebookId.ToLongByHex(), false);
@@ -94,6 +96,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:得到trash
+        [HttpGet]
         public IActionResult GetTrashNotes(string token)
         {
             Note[] notes = noteService.ListTrashNotes(GetUserIdByToken(token), false, true);
@@ -102,6 +105,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:获取笔记
+        [HttpGet]
         public IActionResult GetNote(string token, string noteId)
         {
             var userId = GetUserIdByToken(token);
@@ -111,6 +115,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:得到note和内容
+        [HttpGet]
         public IActionResult GetNoteAndContent(string token, string noteId)
         {
             User tokenUser = tokenSerivce.GetUserByToken(token);
@@ -145,6 +150,7 @@ namespace MoreNote.Controllers.API.APIV1
         //todo:格式化URL
 
         //todo:得到内容
+        [HttpGet]
         public async Task<IActionResult> GetNoteContent(string token, string noteId)
         {
             ApiRe re = new ApiRe()
@@ -193,6 +199,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:添加笔记
+        [HttpGet]
         public async Task<IActionResult> AddNote(ApiNote noteOrContent, string token)
         {
             var re = new ApiRe();
@@ -382,6 +389,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:更新笔记
+        [HttpPost]
         public JsonResult UpdateNote(ApiNote noteOrContent, string token)
         {
             Note noteUpdate = new Note();
@@ -561,6 +569,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:删除trash
+        [HttpPost,HttpDelete]
         public JsonResult DeleteTrash(string noteId, int usn, string token)
         {
             bool result = trashService.DeleteTrashApi(noteId.ToLongByHex(), GetUserIdByToken(token), usn, out string msg, out int afterUsn);
@@ -585,6 +594,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:导出成PDF
+        [HttpGet]
         public IActionResult ExportPdf()
         {
             return null;
@@ -594,6 +604,7 @@ namespace MoreNote.Controllers.API.APIV1
         // https://leanote.com/api/file/getImage?fileId=xx
         // https://leanote.com/api/file/getAttach?fileId=xx
         // 将fileId=映射成ServerFileId, 这里的fileId可能是本地的FileId
+        [ApiExplorerSettings(IgnoreApi = true)]
         public void FixPostNotecontent(ref ApiNote noteOrContent)
         {
             //todo 这里需要完成fixPostNotecontent
@@ -630,7 +641,7 @@ namespace MoreNote.Controllers.API.APIV1
                 }
             }
         }
-
+        [HttpGet]
         public IActionResult GetNotChildrenByNotebookId(string token, string notebookId)
         {
             var apiRe = new ApiRe();
@@ -659,6 +670,7 @@ namespace MoreNote.Controllers.API.APIV1
             return LeanoteJson(apiRe);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateNote(string token, string noteTitle, string notebookId, bool isMarkdown, string dataSignJson)
         {
             if (string.IsNullOrEmpty(noteTitle))
@@ -742,6 +754,7 @@ namespace MoreNote.Controllers.API.APIV1
             return LeanoteJson(re);
         }
 
+        [HttpPost]
         public IActionResult UpdateNoteTitle(string token, string noteId, string noteTitle)
         {
             var user = tokenSerivce.GetUserByToken(token);
@@ -761,7 +774,7 @@ namespace MoreNote.Controllers.API.APIV1
             re.Data = note;
             return LeanoteJson(re);
         }
-
+        [HttpPost]
         public async Task<IActionResult> UpdateNoteTitleAndContent(string token, string noteId, string noteTitle, string content, string dataSignJson, string digitalEnvelopeJson)
         {
             var user = tokenSerivce.GetUserByToken(token);
@@ -890,7 +903,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             return LeanoteJson(re);
         }
-
+        [HttpPost,HttpDelete]
         public async Task<IActionResult> DeleteNote(string token, string noteRepositoryId, string noteId, string dataSignJson)
         {
             var user = tokenSerivce.GetUserByToken(token);
@@ -945,7 +958,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-
+        [HttpGet]
         public IActionResult SearchRepositoryNote(string token, string noteRepositoryId, string key, int index)
         {
             var re = new ApiRe();
@@ -995,6 +1008,8 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="noteId"></param>
         /// <param name="parentNotebookId"></param>
         /// <returns></returns>
+        /// 
+        [HttpPost]
         public IActionResult Copy(string token, string noteId, string targetParentNotebookId)
         {
             var user = tokenSerivce.GetUserByToken(token);
@@ -1039,7 +1054,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             return LeanoteJson(re);
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         private Note[] merge(Note[] notes1, Note[] notes2)
         {
             Dictionary<long?, Note> result = new Dictionary<long?, Note>(notes1.Length + notes2.Length);

@@ -31,6 +31,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //todo:获取同步的标签
+        [HttpGet]
         public JsonResult GetSyncTags(string token, int afterUsn, int maxEntry)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -47,6 +48,7 @@ namespace MoreNote.Controllers.API.APIV1
             return Json(noteTags, MyJsonConvert.GetLeanoteOptions());
         }
         //todo:添加Tag
+        [HttpPost]
         public JsonResult AddTag(string token, string tag)
         {
             NoteTag noteTag = tagService.AddOrUpdateTag(GetUserIdByToken(token), tag);
@@ -60,6 +62,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
         }
         //todo:删除标签
+        [HttpPost,HttpDelete]
         public IActionResult DeleteTag(string token, string tag, int usn)
         {
             bool result = tagService.DeleteTagApi(GetUserIdByToken(token), tag, usn, out int toUsn, out string msg);

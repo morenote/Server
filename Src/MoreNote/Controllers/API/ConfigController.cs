@@ -43,7 +43,7 @@ namespace MoreNote.Controllers.API
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-
+        [HttpGet]
         public IActionResult GetSecurityConfig()
         {
             var securityConfig = config.SecurityConfig;

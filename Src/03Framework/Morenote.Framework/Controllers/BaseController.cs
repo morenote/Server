@@ -32,8 +32,8 @@ namespace MoreNote.Framework.Controllers
      *
      * 2020年01月27日
      * */
-
-    public class BaseController : Controller
+    
+    public abstract class BaseController : Controller
     {
         public AttachService attachService;
 
@@ -94,8 +94,8 @@ namespace MoreNote.Framework.Controllers
             config = configFileService.WebConfig;
            
         }
-        
-        public string GetAntiCSRFToken()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected string GetAntiCSRFToken()
         {
             var token= HttpContext.Session.GetString("AntiCSRFToken");
             if (string.IsNullOrEmpty(token))
@@ -109,7 +109,8 @@ namespace MoreNote.Framework.Controllers
         /// 检查验证码
         /// </summary>
         /// <returns></returns>
-        public bool CheckVerifyCode(string captcha, out string message)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected bool CheckVerifyCode(string captcha, out string message)
         {
             string verifyCode = HttpContext.Session.GetString("VerifyCode");
             int time = HttpContext.Session.GetInt32("VerifyCodeTime").GetValueOrDefault(0);
@@ -138,7 +139,7 @@ namespace MoreNote.Framework.Controllers
             return true;
         }
 
-        public enum FileTyte
+        protected enum FileTyte
         {
             /**
              * 文件分类
@@ -146,13 +147,13 @@ namespace MoreNote.Framework.Controllers
              * */
             Video, Audio, Image, Binary, PlainText
         }
-
-        public IActionResult Action()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected IActionResult Action()
         {
             return Content("error");
         }
-
-        public long? ConvertUserIdToLong()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected long? ConvertUserIdToLong()
         {
             string hex = _accessor.HttpContext.Request.Form["userId"];
             if (string.IsNullOrEmpty(hex))
@@ -170,7 +171,8 @@ namespace MoreNote.Framework.Controllers
         ///  得到第几页
         /// </summary>
         /// <returns></returns>
-        public int GetPage()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected int GetPage()
         {
             var pageValue = Request.Query["page"];
             if (StringValues.IsNullOrEmpty(pageValue))
@@ -187,7 +189,8 @@ namespace MoreNote.Framework.Controllers
         /// todo:得到token, 这个token是在AuthInterceptor设到Session中的
         /// </summary>
         /// <returns></returns>
-        public string GetTokenByHttpContext()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected string GetTokenByHttpContext()
         {
             /**
              *  软件从不假设某个IP或者使用者借助cookie获得永久的使用权
@@ -215,8 +218,8 @@ namespace MoreNote.Framework.Controllers
                 return token;
             }
         }
-
-        public User SetUserInfo()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected User SetUserInfo()
         {
             var userInfo = this.GetUserBySession();
             ViewBag.userInfo = userInfo;
@@ -236,8 +239,8 @@ namespace MoreNote.Framework.Controllers
 
             return userInfo;
         }
-
-        public User GetUserBySession()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected User GetUserBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
             long? userid_number = userid_hex.ToLongByHex();
@@ -245,8 +248,8 @@ namespace MoreNote.Framework.Controllers
             User user = userService.GetUserByUserId(userid_number);
             return user;
         }
-
-        public User GetUserByToken(string token)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected User GetUserByToken(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -258,7 +261,7 @@ namespace MoreNote.Framework.Controllers
                 return user;
             }
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         public User GetUserByToken()
         {
             string token = GetTokenByHttpContext();
@@ -272,21 +275,21 @@ namespace MoreNote.Framework.Controllers
                 return user;
             }
         }
-
-        public long? GetUserIdBySession()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected long? GetUserIdBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
             long? userid_number = userid_hex.ToLongByHex();
             return userid_number;
         }
-
-        public void UpdateSession(string key, string value)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected void UpdateSession(string key, string value)
         {
             _accessor.HttpContext.Session.SetString(key, value);
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         // todo:得到用户信息
-        public long? GetUserIdByToken(string token)
+        protected long? GetUserIdByToken(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -299,8 +302,8 @@ namespace MoreNote.Framework.Controllers
                 return userid;
             }
         }
-
-        public long? GetUserIdByToken()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected long? GetUserIdByToken()
         {
             string token = GetTokenByHttpContext();
             if (string.IsNullOrEmpty(token))
@@ -316,8 +319,8 @@ namespace MoreNote.Framework.Controllers
                 return userid;
             }
         }
-
-        public User GetUserAndBlogUrl()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected User GetUserAndBlogUrl()
         {
             var userid = GetUserIdBySession();
             if (userid == null)
@@ -329,8 +332,8 @@ namespace MoreNote.Framework.Controllers
                 return userService.GetUserAndBlogUrl(userid);
             }
         }
-
-        public bool HasLogined()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected bool HasLogined()
         {
             string userHex = HttpContext.Session.GetString("UserId");
             if (string.IsNullOrEmpty(userHex))
@@ -348,7 +351,8 @@ namespace MoreNote.Framework.Controllers
         /// 获得国际化语言资源文件
         /// </summary>
         /// <returns></returns>
-        public LanguageResource GetLanguageResource()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected LanguageResource GetLanguageResource()
         {
             var lnag = "zh-cn";
 
@@ -366,7 +370,8 @@ namespace MoreNote.Framework.Controllers
         /// 设置区域性信息
         /// </summary>
         /// <returns></returns>
-        public string SetLocale()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected string SetLocale()
         {
             //todo:SetLocale未完成
 
@@ -398,19 +403,20 @@ namespace MoreNote.Framework.Controllers
 
             return null;
         }
-           
-        
-        
-        
 
 
-        public void SetUserIdToSession(long? userId)
+
+
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected void SetUserIdToSession(long? userId)
         {
             _accessor.HttpContext.Session.SetString("UserId", userId.ToHex24());
         }
 
         // todo :上传附件
-        public bool UploadAttach(string name, long? userId, long? noteId, out string msg, out long? serverFileId)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected bool UploadAttach(string name, long? userId, long? noteId, out string msg, out long? serverFileId)
         {
             msg = "";
             serverFileId = 0;
@@ -489,12 +495,14 @@ namespace MoreNote.Framework.Controllers
             }
         }
 
-        public void UploadAudio()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected void UploadAudio()
         {
         }
 
         //上传图片 png jpg
-        public bool UploadImage()
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected bool UploadImage()
         {
             return false;
         }
@@ -504,7 +512,8 @@ namespace MoreNote.Framework.Controllers
         /// </summary>
         /// <param name="ext"></param>
         /// <returns></returns>
-        public string GetMemi(string ext)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected string GetMemi(string ext)
         {
             try
             {
@@ -526,7 +535,8 @@ namespace MoreNote.Framework.Controllers
             }
         }
 
-        public bool UploadImages(string name, long? userId, long? noteId, bool isAttach, out long? serverFileId, out string msg)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected bool UploadImages(string name, long? userId, long? noteId, bool isAttach, out long? serverFileId, out string msg)
         {
             if (isAttach)
             {
@@ -607,7 +617,8 @@ namespace MoreNote.Framework.Controllers
             }
         }
 
-        public UploadData UploadImagesOrAttach(long? userId,out string msg)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected UploadData UploadImagesOrAttach(long? userId,out string msg)
         {
             //检查哈登录
             msg = string.Empty;
@@ -705,7 +716,8 @@ namespace MoreNote.Framework.Controllers
             return uploadData;
         }
 
-        public string UploadImagesOrAttach(ref FileModel fileModel, out string msg,long?  userId)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected string UploadImagesOrAttach(ref FileModel fileModel, out string msg,long?  userId)
         {
             if (fileModel == null)
             {
@@ -818,7 +830,8 @@ namespace MoreNote.Framework.Controllers
             return resultURL;
         }
 
-        public async Task<FileModel> DownLoadFile(string url)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected async Task<FileModel> DownLoadFile(string url)
         {
             try
             {
@@ -877,7 +890,8 @@ namespace MoreNote.Framework.Controllers
             }
         }
 
-        public bool IsAllowAttachExt(string ext)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected bool IsAllowAttachExt(string ext)
         {
             //上传文件扩展名 白名单  后期会集中到一个类里面专门处理上传文件的问题
             HashSet<string> exts = new HashSet<string>() { "bmp","jpg","png","tif","gif","pcx","tga","exif","fpx","svg","psd","cdr","pcd","dxf","ufo","eps","ai","raw","WMF","webp",
@@ -895,7 +909,8 @@ namespace MoreNote.Framework.Controllers
         }
 
         //检查上传图片后缀名
-        public bool IsAllowImageExt(string ext)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected bool IsAllowImageExt(string ext)
         {
             HashSet<string> exts = new HashSet<string>() { "bmp", "jpg", "jpeg", "png", "tif", "gif", "pcx", "tga", "exif", "fpx", "svg", "psd", "cdr", "pcd", "dxf", "ufo", "eps", "ai", "raw", "WMF", "webp" };
             if (exts.Contains(ext.ToLower()))
@@ -907,7 +922,7 @@ namespace MoreNote.Framework.Controllers
                 return false;
             }
         }
-          /// <summary>
+        /// <summary>
         /// 返回结果json
         /// </summary>
         /// <param name="data">响应数据</param>
@@ -915,7 +930,8 @@ namespace MoreNote.Framework.Controllers
         /// <param name="message">响应消息</param>
         /// <param name="isLogin">登录状态</param>
         /// <returns></returns>
-        public ActionResult ResultData(object data, bool success = true, string message = "", bool isLogin = true)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected ActionResult ResultData(object data, bool success = true, string message = "", bool isLogin = true)
         {
             return Ok(new
             {
@@ -925,11 +941,13 @@ namespace MoreNote.Framework.Controllers
                 Data = data
             });
         }
-        public IActionResult SimpleJson(object? data)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected IActionResult SimpleJson(object? data)
         {
             return Json(data,MyJsonConvert.GetSimpleOptions());
         }
-        public IActionResult LeanoteJson(object? data)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        protected IActionResult LeanoteJson(object? data)
         {
             return Json(data, MyJsonConvert.GetLeanoteOptions());
         }
