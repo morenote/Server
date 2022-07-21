@@ -35,13 +35,15 @@ namespace MoreNote.Controllers
             this.configFileService = configFileService;
             this.noteService=noteService;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
         [Authorize(Roles = "Admin,SuperAdmin")]
+
+        [HttpGet]
         public IActionResult UploadUPyun()
         {
             var webConfig = configFileService.WebConfig;
@@ -57,6 +59,7 @@ namespace MoreNote.Controllers
             ViewBag.signature = signature;
             return View();
         }
+        [HttpGet,HttpPost]
         public async Task<IActionResult> PasteImage(string noteId)
         {
             var id=noteId.ToLongByHex();
@@ -82,7 +85,7 @@ namespace MoreNote.Controllers
             return Json(re,MyJsonConvert.GetLeanoteOptions());
 
         }
-
+        [HttpGet, HttpPost]
         public async Task<IActionResult> UploadAvatar()
         {
             var re=await uploadImage("logo",null);
@@ -101,7 +104,7 @@ namespace MoreNote.Controllers
 
         }
 
-
+        
         private async System.Threading.Tasks.Task<ResponseMessage> uploadImage(string from, long? albumId)
         {
             var fileUrlPath = string.Empty;

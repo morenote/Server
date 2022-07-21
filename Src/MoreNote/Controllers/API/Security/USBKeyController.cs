@@ -42,6 +42,7 @@ namespace MoreNote.Controllers.API.Security
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
+        [HttpGet]
         public IActionResult GetLoginChallenge(string email,string  requestNumber)
         {
             ApiRe apiRe = new ApiRe();
@@ -64,6 +65,7 @@ namespace MoreNote.Controllers.API.Security
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<IActionResult> LoginResponse( string data)
         {
             var clinetResponse = ClientResponse.FromJSON(data);

@@ -29,7 +29,7 @@ namespace MoreNote.Controllers
         {
             this.notebookService = notebookService;
         }
-
+        [HttpGet, HttpPost]
         public IActionResult Index()
         {
             return View();
@@ -39,13 +39,14 @@ namespace MoreNote.Controllers
         /// 得到用户的所有笔记本
         /// </summary>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public JsonResult GetNotebooks()
         {
             long? userid = GetUserIdBySession();
             Notebook[] noteBoooks = notebookService.GetNoteBookTree(userid);
             return Json(noteBoooks, MyJsonConvert.GetLeanoteOptions());
         }
-        
+
         /// <summary>
         /// 添加笔记本
         /// </summary>
@@ -53,6 +54,7 @@ namespace MoreNote.Controllers
         /// <param name="title"></param>
         /// <param name="parentNotebookId"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public JsonResult AddNotebook(string notebookId,string title,string parentNotebookId)
         {
             Notebook notebook;
@@ -72,6 +74,7 @@ namespace MoreNote.Controllers
         /// <param name="notebookId"></param>
         /// <param name="title"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public JsonResult UpdateNotebookTitle(string notebookId,string title)
         {
             var result=notebookService.UpdateNotebookTitle(notebookId.ToLongByHex(),GetUserIdBySession(),title);
@@ -82,6 +85,7 @@ namespace MoreNote.Controllers
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public JsonResult DragNotebooks(string data)
         {
             if (string.IsNullOrEmpty(data))
@@ -92,6 +96,7 @@ namespace MoreNote.Controllers
             var result=notebookService.DragNotebooks(GetUserIdBySession(),info.curNotebookId,info.parentNotebookId,info.siblings);
             return Json(result);
         }
+        [HttpGet, HttpPost]
         public JsonResult SetNotebook2Blog(string notebookId,bool isBlog)
         {
             var result=notebookService.ToBlog(GetUserIdBySession(),notebookId.ToLongByHex(),isBlog);

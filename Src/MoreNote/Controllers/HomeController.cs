@@ -24,6 +24,8 @@ namespace MoreNote.Controllers
         }
 
         // leanote展示页, 没有登录的, 或已登录明确要进该页的
+
+        [HttpGet, HttpPost]
         public IActionResult Index()
         {
             //return Content("An API listing authors of docs.asp.net.");
@@ -39,11 +41,12 @@ namespace MoreNote.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [HttpGet, HttpPost]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        [HttpGet, HttpPost]
         public IActionResult ErrorPage()
         {
             return View();

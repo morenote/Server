@@ -32,6 +32,8 @@ namespace MoreNote.Controllers.API
            
 
         }
+
+        [HttpGet,HttpPost]
         public IActionResult Predict(string input)
         {
          

@@ -46,6 +46,7 @@ namespace MoreNote.Controllers.API
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public IActionResult GetFido2List(string userId, string token)
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
@@ -104,6 +105,7 @@ namespace MoreNote.Controllers.API
         /// 验证并注册FIDO2令牌
         /// </summary>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public async Task<IActionResult> RegisterCredentials(string token, string keyName, string data)
         {
             try
@@ -147,7 +149,7 @@ namespace MoreNote.Controllers.API
                 return Json(new CredentialMakeResult(status: "error", errorMessage: FormatException(e), result: null));
             }
         }
-
+        [HttpPost]
         public async Task<IActionResult> CreateAssertionOptions(string email)
         {
             string error = "";
@@ -167,7 +169,7 @@ namespace MoreNote.Controllers.API
                 return Json(new CredentialMakeResult(status: "error", errorMessage: FormatException(e), result: null));
             }
         }
-
+        [HttpPost]
         public async Task<IActionResult> VerifyTheAssertionResponse(string email, string signData)
         {
             try

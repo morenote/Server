@@ -49,7 +49,8 @@ namespace MoreNote.Controllers.Admin
 
             return View("Views/admin/index.cshtml");
         }
-         [Route("admin/fileManager")]
+        [Route("/admin/fileManager")]
+        [HttpGet]
         public ActionResult FileManager()
         {
             SetUserInfo();

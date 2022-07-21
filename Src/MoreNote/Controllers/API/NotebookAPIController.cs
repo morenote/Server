@@ -56,7 +56,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //获取同步的笔记本
-        //[HttpPost]
+        [HttpGet]
         public JsonResult GetSyncNotebooks(string token, int afterUsn, int maxEntry)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -77,7 +77,7 @@ namespace MoreNote.Controllers.API.APIV1
             Notebook[] notebook = notebookService.GeSyncNotebooks(user.UserId, afterUsn, maxEntry);
             return Json(notebook, MyJsonConvert.GetLeanoteOptions());
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ApiNotebook[] fixNotebooks(Notebook[] notebooks)
         {
             ApiNotebook[] apiNotebooks = null;
@@ -91,7 +91,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return apiNotebooks;
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ApiNotebook fixNotebook(Notebook notebook)
         {
             return new ApiNotebook()
@@ -111,6 +111,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //得到用户的所有笔记本
+        [HttpGet]
         public IActionResult GetNotebooks(string token)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -135,6 +136,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //添加notebook
+        [HttpPost]
         public IActionResult AddNotebook(string token, string title, string parentNotebookId, int seq)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -178,6 +180,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //修改笔记
+        [HttpPost]
         public IActionResult UpdateNotebook(string token, string notebookId, string title, string parentNotebookId, int seq, int usn)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -223,6 +226,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="recursion">是否递归删除，非空文件夹</param>
         /// <param name="force">系统会忽略错误检查，强制删除笔记本和里面的笔记</param>
         /// <returns></returns>
+        [HttpPost,HttpDelete]
         public async Task<IActionResult> DeleteNotebook(string token, string noteRepositoryId, string notebookId, bool recursively, bool force, string dataSignJson)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -288,6 +292,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         //获得笔记本的第一层文件夹
+        [HttpGet]
         public IActionResult GetRootNotebooks(string token, string repositoryId)
         {
             var apiRe=new ApiRe();
@@ -309,9 +314,9 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return  LeanoteJson(apiRe);
         }
-        
 
 
+        [HttpGet]
         public IActionResult GetNotebookChildren(string token, string notebookId)
         {
             var apiRe = new ApiRe();
@@ -342,6 +347,8 @@ namespace MoreNote.Controllers.API.APIV1
             }
             return LeanoteJson(apiRe);
         }
+
+        [HttpPost]
         public async Task<IActionResult> CreateNoteBook(string token,string noteRepositoryId, string notebookTitle, string parentNotebookId,string dataSignJson)
         {
             var re = new ApiRe();
@@ -424,6 +431,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 
         }
+        [HttpPost]
         public async Task<IActionResult> UpdateNoteBookTitle(string token, string notebookId,string notebookTitle, string dataSignJson)
         {
             var re = new ApiRe();

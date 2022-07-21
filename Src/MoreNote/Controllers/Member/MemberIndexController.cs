@@ -35,6 +35,7 @@ namespace MoreNote.Controllers.Member
 
        // [Authorize(Roles = "Admin,SuperAdmin")] CheckLoginFilter
         [TypeFilter(typeof(CheckLoginFilter))]
+        [HttpGet]
         public IActionResult Index()
         {
 

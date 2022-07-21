@@ -16,6 +16,7 @@ namespace MoreNote.Controllers
     public class DashboardController : Controller
     {
         [Authorize(Roles = "Admin,SuperAdmin")]
+        [HttpGet]
         public ActionResult FileManager()
         {
             return View();

@@ -53,11 +53,7 @@ namespace MoreNote.Controllers.API
             this.dataSignService = dataSignService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        [HttpGet]
         public IActionResult GetMyNoteRepository(string userId, string token)
         {
             var apiRe = new ApiRe()
@@ -79,6 +75,8 @@ namespace MoreNote.Controllers.API
             return LeanoteJson(apiRe);
         }
 
+
+        [HttpPost]
         public async Task<IActionResult> CreateNoteRepository(string token, string data, string dataSignJson)
         {
             var re = new ApiRe()
@@ -174,6 +172,7 @@ namespace MoreNote.Controllers.API
         /// <param name="token"></param>
         /// <param name="noteRepositoryId"></param>
         /// <returns></returns>
+        [HttpPost,HttpDelete]
         public async Task<IActionResult> DeleteNoteRepository(string token, string noteRepositoryId, string dataSignJson)
         {
             var verify = false;

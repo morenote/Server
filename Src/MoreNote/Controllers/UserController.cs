@@ -23,7 +23,7 @@ namespace MoreNote.Controllers
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
         }
-
+        [HttpGet, HttpPost]
         public IActionResult Account(int tab)
         {
             //todo:Account
@@ -70,7 +70,7 @@ namespace MoreNote.Controllers
             }
         }
 
- 
+
         /// <summary>
         /// 设置宽度
         /// </summary>
@@ -78,6 +78,7 @@ namespace MoreNote.Controllers
         /// <param name="noteListWidth">笔记div的宽度</param>
         /// <param name="mdEditorWidth">编辑器div的宽度</param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public IActionResult UpdateColumnWidth(int notebookWidth, int noteListWidth, int mdEditorWidth)
         {
             var re = new ResponseMessage();
@@ -92,6 +93,7 @@ namespace MoreNote.Controllers
         /// </summary>
         /// <param name="leftIsMin"></param>
         /// <returns></returns>
+        [HttpGet, HttpPost]
         public IActionResult UpdateLeftIsMin(bool leftIsMin)
         {
             var re = new ResponseMessage();

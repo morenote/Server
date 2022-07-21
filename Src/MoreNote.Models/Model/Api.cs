@@ -95,14 +95,38 @@ namespace MoreNote.Logic.Entity
     // 一般返回
     public class ApiRe
     {
-        public long? Id { get; set; }//唯一标识（可选）
-        public DateTime? Timestamp { get; set; } = DateTime.Now;//消息创建时间（可选）
-        public bool Ok { get; set; }//消息状态  成功或失败
-        public string Msg { get; set; }//提示信息或者错误信息，或者其他描述性辅助信息（可选）
-        public int ErrorCode { get; set; }//错误代码
-        public dynamic Data { get; set; }//返回的数据
-        public bool Encryption { get; set; }//指示Data是否被加密；如果Data被加密，那么Data就是一个字符串
-        public PageInfo  PageInfo { get; set; }//分页信息
+        /// <summary>
+        /// 唯一标识（可选）
+        /// </summary>
+        public long? Id { get; set; }
+        /// <summary>
+        /// 消息创建时间（可选）
+        /// </summary>
+        public DateTime? Timestamp { get; set; } = DateTime.Now;
+        /// <summary>
+        /// 消息状态  成功或失败
+        /// </summary>
+        public bool Ok { get; set; }
+        /// <summary>
+        /// 提示信息或者错误信息，或者其他描述性辅助信息（可选）
+        /// </summary>
+        public string Msg { get; set; }
+        /// <summary>
+        /// 错误代码
+        /// </summary>
+        public int ErrorCode { get; set; }
+        /// <summary>
+        /// 返回的数据
+        /// </summary>
+        public dynamic Data { get; set; }
+        /// <summary>
+        /// 指示Data是否被加密；如果Data被加密，那么Data就是一个字符串
+        /// </summary>
+        public bool Encryption { get; set; }
+        /// <summary>
+        /// 分页信息
+        /// </summary>
+        public PageInfo  PageInfo { get; set; }
 
     }
     /// <summary>
@@ -110,9 +134,18 @@ namespace MoreNote.Logic.Entity
     /// </summary>
     public struct PageInfo
     {
-        public int PageNumber { get; set; }//分页位置 从0开始 
-        public int PageSize { get; set; }//分页的大小,每页包含多少数据 
-        public int PageSum { get; set; }//一共有多少页
+        /// <summary>
+        /// 分页位置 从0开始 
+        /// </summary>
+        public int PageNumber { get; set; }
+        /// <summary>
+        /// 分页的大小,每页包含多少数据 
+        /// </summary>
+        public int PageSize { get; set; }
+        /// <summary>
+        /// 一共有多少页
+        /// </summary>
+        public int PageSum { get; set; }
 
     }
 
