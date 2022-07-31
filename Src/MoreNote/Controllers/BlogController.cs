@@ -67,7 +67,7 @@ namespace MoreNote.Controllers
                 }
                 isPreview = true;
                 themePath = themePath2;
-                setPreviewUrl();
+                //setPreviewUrl();
                 // 因为common的themeInfo是从UserBlog.ThemeId来取的, 所以这里要fugai下
                 ViewBag.themeInfo = ViewBag.themeInfoPreview;
             }
