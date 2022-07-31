@@ -96,7 +96,7 @@ namespace MoreNote.Controllers
             public List<string> Images { get; set; }
         }
 
-        [Route("api/random-images/{typeMd5}/{fileName}")]
+        [Route("core-system/random-images/{typeMd5}/{fileName}")]
         [HttpGet]
         public async Task<IActionResult> MinIOImagesAsync(string typeMd5, string fileName)
         {
