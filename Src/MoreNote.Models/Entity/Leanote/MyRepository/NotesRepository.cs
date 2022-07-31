@@ -54,5 +54,8 @@ namespace MoreNote.Models.Entity.Leanote
         [Column("is_delete")]
         public bool IsDelete { get;set;}//仓库创建时间
 
+        [Column("is_blog")]
+        public bool IsBlog { get; set; }//仓库创建时间
+
     }
 }

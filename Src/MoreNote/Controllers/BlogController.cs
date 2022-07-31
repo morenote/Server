@@ -9,6 +9,7 @@ using MoreNote.Logic.Model;
 using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.MyRepository;
 
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace MoreNote.Controllers
         private TagService tagService;
         private NotebookService notebookService;
         private NoteService noteService;
-
+        private NoteRepositoryService noteRepository;
         public BlogController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -41,6 +42,7 @@ namespace MoreNote.Controllers
             , NoteService noteService
             , NotebookService notebookService
             , BlogService blogService
+            , NoteRepositoryService noteRepository
             ) : 
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
@@ -50,6 +52,7 @@ namespace MoreNote.Controllers
             this.tagService = tagService;
             this.notebookService = notebookService;
             this.noteService = noteService;
+            this.noteRepository = noteRepository;
         }
 
         private IActionResult render(string templateName, string themePath)
@@ -72,9 +75,7 @@ namespace MoreNote.Controllers
             return null;
         }
 
-        public void setPreviewUrl()
-        {
-        }
+ 
 
         private IActionResult E404()
         {
@@ -199,9 +200,9 @@ namespace MoreNote.Controllers
         }
 
      
-        [Route("Blog/{repository}/{page?}")]
+        [Route("Blog/{repositoryId}/{page?}")]
         [HttpGet]
-        public IActionResult Index(string blogUserIdHex, int page)
+        public IActionResult Index(string repositoryId, int page)
         {
             if (page < 1)
             {
@@ -209,24 +210,19 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
+            var repository=this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+
             User blogUser = null;
-            if (string.IsNullOrEmpty(blogUserIdHex))
+            if (string.IsNullOrEmpty(repositoryId)|| repository==null|| repository.IsDelete || repository.IsBlog)
             {
-                return Content("查无此人");
+                Response.StatusCode=404;
+                return Content("仓库无法访问");
             }
             else
             {
-                blogUser = userService.GetUserByUserId(blogUserIdHex.ToLongByHex());
+                //blogUser = userService.GetUserByUserId(blogUserIdHex.ToLongByHex());
             }
 
-            if (blogUser == null)
-            {
-                blogUser = userService.GetUserByUserName(blogUserIdHex);
-                if (blogUser == null)
-                {
-                    return Content("查无此人");
-                }
-            }
             ViewBag.blogUser = blogUser;
             if (!blogUser.Verified)
             {
@@ -248,6 +244,8 @@ namespace MoreNote.Controllers
 
             return View();
         }
+
+
 
         [Route("Blog/{repository}/Post/{noteIdHex}/1")]
         [HttpGet]

@@ -59,9 +59,12 @@ namespace MoreNote.Logic.Service
         /// <summary>
         /// 统计网站上公开的Post的数量
         /// </summary>
-        public int CountTheNumberForBlogs(long? userId)
+        public int CountTheNumberForBlogs(long? repositoryId)
         {
-            var count = dataContext.Note.Where(b => b.IsBlog == true && b.IsDeleted == false && b.IsTrash == false && b.UserId == userId).Count();
+            var count = dataContext.Note.Where(b => b.IsBlog == true 
+                                                && b.IsDeleted == false 
+                                                && b.IsTrash == false 
+                                                && b.NotesRepositoryId == repositoryId).Count();
             return count;
         }
         public int CountTheNumberForSearch(long? userId,string keyword)
