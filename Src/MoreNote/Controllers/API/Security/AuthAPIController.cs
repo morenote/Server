@@ -139,7 +139,7 @@ namespace MoreNote.Controllers.API.APIV1
                 this.logging.Save(logg);
             }
         }
-        [HttpGet]
+        [HttpGet, HttpPost]
         public IActionResult TakeToken(string email, string requestNumber)
         {
           
