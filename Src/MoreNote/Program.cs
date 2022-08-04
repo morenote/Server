@@ -19,8 +19,18 @@ namespace MoreNote
     {
         public static  void Main(string[] args)
         {
+
+            //设置读取指定位置的nlog.config文件
+            if (RuntimeEnvironment.IsWindows)
+            {
+                NLogBuilder.ConfigureNLog("nlog-windows.config");
+            }
+            else
+            {
+                NLogBuilder.ConfigureNLog("nlog-linux.config");
+            }
+
             var host = CreateHostBuilder(args).Build();
-            
             var map = GetArgsMap(args);
 
             DeployService deployService = new DeployService(host);

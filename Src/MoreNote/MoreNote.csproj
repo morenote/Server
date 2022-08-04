@@ -62,7 +62,8 @@
 
   <ItemGroup>
     <Content Remove="MockData\notice.json" />
-    <Content Remove="nlog.config" />
+    <Content Remove="nlog-linux.config" />
+    <Content Remove="nlog-windows.config" />
     <Content Remove="Views\admin\blog\page.cshtml" />
     <Content Remove="Views\admin\button.cshtml" />
     <Content Remove="Views\admin\end.cshtml" />
@@ -96,7 +97,10 @@
     <None Include="MockData\notice.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="nlog.config">
+    <None Include="nlog-linux.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="nlog-windows.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -541,6 +545,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\API\Config\" />
+    <Folder Include="logs\" />
     <Folder Include="Views\APP\" />
   </ItemGroup>
 
