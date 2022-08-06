@@ -9,7 +9,7 @@
 > A developer platform for building all  apps.  
 > But  Who cares?
 
-Demo website ：<a href="https://www.morenote.top/" target="_blank">Morenote  Cloud note service implemented in C#</a>
+Demo website ：<a href="https://dev.morenote.top/" target="_blank">Morenote  Cloud note service implemented in C#</a>
 
 github:https://github.com/hyfree/MoreNote
 
