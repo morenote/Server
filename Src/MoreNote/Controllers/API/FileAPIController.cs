@@ -34,14 +34,6 @@ namespace MoreNote.Controllers.API.APIV1
             this.webSiteConfig = configFileService.WebConfig;
         }
 
-        //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片
-        //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
-        [Route("api/File/Images/{fileId}")]
-        [HttpGet]
-        public Task<IActionResult> GetImageForWeb(string fileId)
-        {
-            return GetImage(fileId);
-        }
 
         /// <summary>
         /// 获取用户头像
@@ -70,6 +62,16 @@ namespace MoreNote.Controllers.API.APIV1
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Content("NotFound");
             }
+        }
+
+
+        //经过格式化的URL,有助于CDN或者反向代码服务器缓存图片
+        //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
+        [Route("CacheServer/File/Images/{fileId}")]
+        [HttpGet]
+        public Task<IActionResult> GetImageForWeb(string fileId)
+        {
+            return GetImage(fileId);
         }
 
         //todo: 输出image 需要get参数

@@ -696,7 +696,7 @@ namespace MoreNote.Framework.Controllers
                         }
                         else
                         {
-                            uploadData.succMap.Add(httpFile.FileName, "/api/file/getImage?fileId=" + diskFileId.ToHex());
+                            uploadData.succMap.Add(httpFile.FileName, "/CacheServer/File/Images/" + diskFileId.ToHex());
                         }
                     }
                     else
@@ -811,7 +811,7 @@ namespace MoreNote.Framework.Controllers
                     }
                     else
                     {
-                        resultURL = webSiteConfig.APPConfig.SiteUrl+"/api/file/getImage?fileId=" + diskFileId.ToHex();
+                        resultURL = webSiteConfig.APPConfig.SiteUrl+ "/CacheServer/File/Images/" + diskFileId.ToHex();
                     }
                 }
                 else
