@@ -24,6 +24,7 @@ morenote支持托管你的笔记、文档、文件、图片或者视频资料。
 在树莓派4B上的演示网站：
 
 <a href="https://dev.morenote.top/" target="_blank">dev版本：morenote云笔记</a>
+
 稳定版本：暂无
 ## 项目目标
 
