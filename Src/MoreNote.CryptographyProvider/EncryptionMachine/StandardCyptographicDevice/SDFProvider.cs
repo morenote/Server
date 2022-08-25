@@ -49,6 +49,22 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
             sdfHelper.SDF_OpenSession();
             sdfHelper.SDF_ImportKey(HexUtil.StringToByteArray(sdfConfig.PucKey), 1);
         }
+        private void CheckReconnection()
+        {
+            try
+            {
+                Hmac(HexUtil.StringToByteArray("0102030405060708"));
+
+            }catch(Exception ex)
+            {
+                sdfHelper = new SDFHelper(sdfConfig.SDFDLLFilePath);
+                sdfHelper.SDF_OpenDevice();
+                sdfHelper.SDF_OpenSession();
+                sdfHelper.SDF_ImportKey(HexUtil.StringToByteArray(sdfConfig.PucKey), 1);
+
+            }
+            
+        }
 
         public byte[] Hmac(byte[] data)
         {
