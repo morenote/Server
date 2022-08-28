@@ -121,7 +121,8 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             {
               await  WriteNoteBook(notebook, docsPath);
             }
-
+            var readMePath=System.IO.Path.Join(docsPath,"README.md");
+            File.WriteAllText(readMePath,notesRepository.Description);
 
             await Build(notesRepositoryPath);
         }
