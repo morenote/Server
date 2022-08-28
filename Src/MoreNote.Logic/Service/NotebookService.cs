@@ -116,6 +116,27 @@ namespace MoreNote.Logic.Service
                    .Where(b => b.UserId == userid).OrderBy(b=>b.Title).ToArray<Notebook>();
             return result;
         }
+        public Notebook[] GetAllByNotesRepositoryId(long? repositoryId)
+        {
+            var result = dataContext.Notebook
+                   .Where(b => b.NotesRepositoryId == repositoryId&&b.IsDeleted==false&&b.IsTrash==false).OrderBy(b => b.Title).ToArray<Notebook>();
+            return result;
+        }
+
+        public Notebook[] GetNoteBookTreeByNotesRepositoryId(long? repositoryId)
+        {
+            Notebook[] notebooks = GetAllByNotesRepositoryId(repositoryId);
+            Notebook[] noteBookTrees = (from Notebook n in notebooks
+                                        where n.ParentNotebookId == 0
+                                        select n).ToArray<Notebook>();
+            foreach (Notebook notebook in noteBookTrees)
+            {
+                notebook.Subs = GetNoteBookTree(notebook.NotebookId, ref notebooks);
+            }
+            return noteBookTrees;
+        }
+
+
 
         public Notebook[] GetNoteBookTree(long? userid)
         {

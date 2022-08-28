@@ -123,6 +123,12 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             }
             var readMePath=System.IO.Path.Join(docsPath,"README.md");
             File.WriteAllText(readMePath,notesRepository.Description);
+            //生成配置文件
+            var  vuePressPath=System.IO.Path.Join(docsPath,".vuepress");
+            var configPath= System.IO.Path.Join(vuePressPath,"config.js");
+            //生成侧边栏
+            var tree=notebookService.GetNoteBookTreeByNotesRepositoryId(notesRepository.Id);
+
 
             await Build(notesRepositoryPath);
         }
