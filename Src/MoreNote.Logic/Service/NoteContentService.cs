@@ -75,6 +75,24 @@ namespace MoreNote.Logic.Service
 
             return dataContext.SaveChanges() > 0;
         }
+        public NoteContent GetNoteContent(long? noteId)
+        {
+            var result = dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false);
+            if (result == null || result.FirstOrDefault() == null)
+            {
+                throw new Exception("GetNoteContent result is null");
+            }
+            var noteContent = result.FirstOrDefault();
+            if (this.config.SecurityConfig.LogNeedHmac)
+            {
+                noteContent.VerifyHmac(this.cryptographyProvider);
+                if (!noteContent.HmacVerify)
+                {
+                    throw new Exception("noteContent VerifyHmac is Error");
+                }
+            }
+            return result == null ? null : result.FirstOrDefault();
+        }
 
         public NoteContent GetNoteContent(long? noteId, long? userId, bool IsHistory)
         {

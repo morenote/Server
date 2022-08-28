@@ -1,4 +1,5 @@
-﻿using MoreNote.Models.Entity.ConfigFile;
+﻿using MoreNote.Config.ConfigFile;
+using MoreNote.Models.Entity.ConfigFile;
 
 namespace MoreNote.Logic.Entity.ConfigFile
 {
@@ -11,7 +12,11 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public RandomImangeServiceConfig PublicAPI { get; set; }
         public ImageSpidersConfig Spiders { get; set; }
         public UpyunConfig UpyunConfig { get; set; }
-     
+        /// <summary>
+        /// 博客配置文件
+        /// </summary>
+        public BlogConfig BlogConfig { get;set;}=new BlogConfig();
+
 
         public SecurityConfig SecurityConfig{get;set;}=new SecurityConfig();
         public APPConfig APPConfig{get;set;}=new APPConfig();

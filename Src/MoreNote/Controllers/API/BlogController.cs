@@ -1,9 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Property;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.BlogBuilder;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.Enum;
+
+using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -13,12 +21,18 @@ namespace MoreNote.Controllers.API.APIV1
     {
         private TokenSerivce tokenSerivce;
         private TagService tagService;
-        public BlogController(AttachService attachService
-            , TokenSerivce tokenSerivce
-            , NoteFileService noteFileService
-            , UserService userService
-            , ConfigFileService configFileService
-            , IHttpContextAccessor accessor,
+        [Autowired]
+        private NoteRepositoryService noteRepositoryService { get;set;}
+
+        [Autowired]
+        private BlogBuilderInterface blogBuilder { get; set; }
+        public BlogController(AttachService attachService,
+             TokenSerivce tokenSerivce,
+             NoteFileService noteFileService,
+             UserService userService,
+             ConfigFileService configFileService,
+              NoteRepositoryService noteRepositoryService,
+             IHttpContextAccessor accessor,
             TagService tagService
             ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
@@ -33,10 +47,35 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="repositoryId"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult UpdateVuePress(string repositoryId)
+        public async Task<IActionResult> InitVuePress(string noteRepositoryId, string token)
         {
 
-            return Content("hello world");
+            var verify = false;
+            var user = tokenSerivce.GetUserByToken(token);
+            var re = new ApiRe()
+            {
+                Ok = false,
+                Data = null
+            };
+            if (user == null)
+            {
+                return LeanoteJson(re);
+            }
+            verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.UserId, RepositoryAuthorityEnum.Read);
+            if (!verify)
+            {
+                return LeanoteJson(re);
+            }
+            var noteRepository = noteRepositoryService.GetNotesRepository(noteRepositoryId.ToLongByHex());
+            await  blogBuilder.WriteNotesRepository(noteRepository);
+
+
+
+
+            re.Ok=true;
+            return LeanoteJson(re);
+
+
         }
        
 

@@ -14,6 +14,8 @@ using MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDevice
 using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.BlogBuilder;
+using MoreNote.Logic.Service.BlogBuilder.VuePress;
 using MoreNote.Logic.Service.Captcha.IMPL;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Logging;
@@ -220,6 +222,9 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<GMService>();
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
+
+            //注册VuePress生成器
+            builder.RegisterType<VuePressBuilder>().As<BlogBuilderInterface>().Named<BlogBuilderInterface>("VuePress");
 
             //批量扫描
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)

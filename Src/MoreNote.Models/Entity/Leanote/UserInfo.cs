@@ -88,21 +88,24 @@ namespace MoreNote.Logic.Entity
         public string PasswordHashAlgorithm { get; set; }
 
         /// <summary>
-        /// 哈希加密迭代次数
+        /// 软模块哈希加密迭代次数，
+        /// 当启用加密机时，用户口令由加密机保护，此参数无效
         /// </summary>
         [Column("password_hash_iterations")]
         [JsonIgnore]
         public int PasswordHashIterations { get; set; }
 
         /// <summary>
-        /// 哈希加密时CPU线程限制
+        /// 软模块哈希加密时CPU线程限制，
+        /// 当启用加密机时，用户口令由加密机保护，此参数无效
         /// </summary>
         [Column("password_degree_of_parallelism")]
         [JsonIgnore]
         public int PasswordDegreeOfParallelism { get; set; }
 
         /// <summary>
-        /// 哈希加密时内存限制
+        /// 软模块哈希加密时内存限制，
+        /// 当启用加密机时，用户口令由加密机保护，此参数无效
         /// </summary>
         [Column("password_memory_size")]
         [JsonIgnore]
@@ -110,7 +113,7 @@ namespace MoreNote.Logic.Entity
 
         [Column("salt")]
         [JsonIgnore]
-        public string? Salt { get; set; }//MD5 盐 盐的长度默认是32字节
+        public string? Salt { get; set; }//盐 盐的长度默认是32字节,当启用加密机时此参数无效
 
         [Column("google_authenticator_secret_key")]
         [JsonIgnore]

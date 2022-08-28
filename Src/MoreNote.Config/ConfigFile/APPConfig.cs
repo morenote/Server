@@ -30,7 +30,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// 使用什么类型的数据库
         /// sqlserver mysql mongdb sqlite
         /// </summary>
-        public string DB { get;set;}= "postgresql";
+        public string DB { get;set;}= "postgresql";//目前仅支持postgresql
         /// <summary>
         /// 开发模式
         /// 另外可以通过设置环境变量设置
@@ -39,7 +39,7 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// <summary>
         /// 用户上传/附件/主题文件夹
         /// </summary>
-        public string FileFolder { get;set;}
+        public string FileFolder { get;set;}= "/morenote/FileFolder";
         
     }
 }

@@ -51,6 +51,7 @@
 	  <!--谷歌两步验证-->
     <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="CliWrap" Version="3.5.0" />
     <PackageReference Include="EntityFrameworkCore.DataEncryption" Version="3.0.1" />
     <PackageReference Include="Fido2" Version="3.0.0-beta2" />
     <PackageReference Include="Fido2.AspNet" Version="3.0.0-beta2" />
@@ -98,6 +99,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Service\BlogBuilder\Hugo\" />
+    <Folder Include="Service\BlogBuilder\Jekyll\" />
     <Folder Include="Service\Security\Face\" />
     <Folder Include="Service\Security\CSP\" />
   </ItemGroup>
