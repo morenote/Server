@@ -21,9 +21,18 @@ namespace MoreNote.Logic.OS.Node
             return this;
         }
 
-        public Task<NodePackageManagement> Init()
+        public  async Task<NodePackageManagement> Init()
         {
-            throw new NotImplementedException();
+            var stdOutBuffer = new StringBuilder();
+            var stdErrBuffer = new StringBuilder();
+
+            var result = await Cli.Wrap("pnpm")
+                .WithArguments("init --yes")
+             .WithWorkingDirectory(this.workingDirectory)
+               .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+               .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
+             .ExecuteAsync();
+            return this;
         }
 
         public Task<NodePackageManagement> Install(string packageName)
@@ -31,9 +40,18 @@ namespace MoreNote.Logic.OS.Node
             throw new NotImplementedException();
         }
 
-        public Task<NodePackageManagement> InstallDev(string packageName)
+        public async Task<NodePackageManagement> InstallDev(string packageName)
         {
-            throw new NotImplementedException();
+            var stdOutBuffer = new StringBuilder();
+            var stdErrBuffer = new StringBuilder();
+
+            var result = await Cli.Wrap("pnpm")
+                .WithArguments($"install -D {packageName}")
+                   .WithWorkingDirectory(this.workingDirectory)
+                   .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+               .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
+                   .ExecuteAsync();
+            return this;
         }
 
         public Task<NodePackageManagement> InstallGlobal(string packageName)
@@ -41,14 +59,25 @@ namespace MoreNote.Logic.OS.Node
             throw new NotImplementedException();
         }
 
-        public Task<NodePackageManagement> Run(string Command)
+        public async Task<NodePackageManagement> Run(string cmd)
         {
-            throw new NotImplementedException();
+            var stdOutBuffer = new StringBuilder();
+            var stdErrBuffer = new StringBuilder();
+
+            var result = await Cli.Wrap("pnpm")
+                 .WithArguments(cmd)
+                 .WithWorkingDirectory(this.workingDirectory)
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
+                 .ExecuteAsync();
+            return this;
         }
 
         public async Task<NodePackageManagement> SetRegistry(string registryURL)
         {
-            var result = await Cli.Wrap($"pnpm config set registry {registryURL}")
+            var result = await Cli.Wrap("pnpm")
+                .WithArguments($"config set registry {registryURL}")
+                          .WithWorkingDirectory(this.workingDirectory)
                       .ExecuteAsync();
             return this;
         }

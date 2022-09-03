@@ -18,8 +18,8 @@ namespace MoreNote.Logic.Service.BlogBuilder
         public  Task InitDefault(string path);
         public Task Build(string path);
 
-        public  Task WriteNoteBook(Notebook notebook,string path);
-        public  Task WriteNote(Note note,string path);
+        public  Task WriteNoteBook(Notebook notebook, string path, StringBuilder stringBuilder, string link);
+        public  Task WriteNote(Note note, string path, StringBuilder stringBuilder, string link);
         public  Task WriteNotesRepository(NotesRepository notesRepository);
 
     }

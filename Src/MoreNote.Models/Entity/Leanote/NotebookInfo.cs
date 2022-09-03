@@ -62,6 +62,9 @@ namespace MoreNote.Logic.Entity
 
         [NotMapped]
         public static long? RootParentNotebookId = null;
+
+
+     
     }
 
     public class NoteBookTree : Notebook

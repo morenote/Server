@@ -1,4 +1,6 @@
-﻿using MoreNote.Common.ExtensionMethods;
+﻿using Masuit.Tools;
+
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.OS.Node;
@@ -42,56 +44,72 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             {
                 Directory.CreateDirectory(path);
             }
-            var yarn = GetNPM(path);
+            var npm = GetNPM(path);
       
-            await yarn.SetRegistry("http://registry.npm.taobao.org/");
-            await yarn.Init();
-            await yarn.InstallDev("vuepress@next");
+            await npm.SetRegistry("https://registry.npmmirror.com/");
+            await npm.Init();
+            await npm.InstallDev("vue");
+            await npm.InstallDev("@vuepress/client@next");
+            await npm.InstallDev("vuepress@next");
 
         }
 
         public async Task Build(string path)
         {
-            var yarn = GetNPM(path);
-            await yarn.Run("vuepress build docs");
+            var npm = GetNPM(path);
+            await npm.Run("vuepress build docs");
         }
 
         public NodePackageManagement GetNPM(string path)
         {
             var node = new NodeService();
-            var yarn = node.GetNPM(NPMType.YARN);
-            yarn.SetWorkingDirectory(path);
-            return yarn;
+            var npm = node.GetNPM(NPMType.PNPM);
+            npm.SetWorkingDirectory(path);
+            return npm;
         }
-        public async Task WriteNoteBook(Notebook notebook,string path)
+        public async Task WriteNoteBook(Notebook notebook,string path,StringBuilder stringBuilder,string link)
         {
+            stringBuilder.Append($"{{text: '{notebook.Title}',");
+           
+
+            var books = notebookService.GetNotebookChildren(notebook.NotebookId);
+            var notes = notebookService.GetNotebookChildrenNote(notebook.NotebookId);
             var bookPath=System.IO.Path.Join(path,notebook.Title);
             if (!Directory.Exists(bookPath))
             {
                 Directory.CreateDirectory(bookPath);
             }
-            var books= notebookService.GetNotebookChildren(notebook.NotebookId);
+            if (books.Any() || notes.Any())
+            {
+                stringBuilder.Append(" children: [");
+            }
+            
             foreach (var book in books)
             {
-
-              await  WriteNoteBook(book,bookPath);
+              await  WriteNoteBook(book,bookPath, stringBuilder, link + "/" + notebook.Title);
+                stringBuilder.Append(",");
             }
-            var notes=notebookService.GetNotebookChildrenNote(notebook.NotebookId);
+           
             foreach (var note in notes)
             {
-              await  WriteNote(note,bookPath);
-
+              await  WriteNote(note,bookPath, stringBuilder,link+"/"+notebook.Title);
+              stringBuilder.Append(",");
             }
-
-
+            if (books.Any() || notes.Any())
+            {
+                stringBuilder.Append(" children: ]");
+                
+            }
+           
+            stringBuilder.Append($"}}");
 
         }
-        public async Task WriteNote(Note note,string path)
+        public async Task WriteNote(Note note,string path, StringBuilder stringBuilder,string link)
         {
            var noteContent=this.noteContentService.GetNoteContent(note.NoteId);
            var mdFilePath=System.IO.Path.Join(path,$"{note.Title}.md");
            File.WriteAllText(mdFilePath, noteContent.Content);
-
+           stringBuilder.Append($"{{text: '{note.Title}', link: '{link}/{note.Title}.md'}},");
         }
  
        
@@ -117,22 +135,32 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             }
             //递归生成md
             var books = notebookService.GetRootNotebooks(notesRepository.Id);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
             foreach (var notebook in books)
             {
-              await  WriteNoteBook(notebook, docsPath);
+              await  WriteNoteBook(notebook, docsPath, sb,"/");
             }
+            sb.Append("[");
             var readMePath=System.IO.Path.Join(docsPath,"README.md");
             File.WriteAllText(readMePath,notesRepository.Description);
             //生成配置文件
             var  vuePressPath=System.IO.Path.Join(docsPath,".vuepress");
+            if (!Directory.Exists(vuePressPath))
+            {
+                Directory.CreateDirectory(vuePressPath);
+            }
             var configPath= System.IO.Path.Join(vuePressPath,"config.js");
+            var configValue= File.ReadAllText(this.configFile.BlogConfig.BlogBuilderVuePressTemplate+"config.ts");
+            configValue= configValue.Replace("@sidebar", sb.ToString());
+            File.WriteAllText(configPath,configValue);
             //生成侧边栏
-            var tree=notebookService.GetNoteBookTreeByNotesRepositoryId(notesRepository.Id);
-
-
             await Build(notesRepositoryPath);
         }
 
 
     }
+
+
+
 }
