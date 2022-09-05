@@ -5,10 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using CliWrap;
 
+using Microsoft.Extensions.Logging;
+
 namespace MoreNote.Logic.OS.Node
 {
     public class NodeService
     {
+        private readonly ILogger _logger;
+        public NodeService(ILogger logger)
+        {
+            this._logger=  logger;
+        }
 
         public NodePackageManagement GetNPM(NPMType npmName)
         {
@@ -18,7 +25,7 @@ namespace MoreNote.Logic.OS.Node
                     return new NPMService();
                  
                 case NPMType.PNPM:
-                    return new PNPMService();
+                    return new PNPMService(this._logger);
                   
                 case NPMType.YARN:
                     return new Yarn();

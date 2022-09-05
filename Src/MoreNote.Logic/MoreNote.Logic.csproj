@@ -52,6 +52,8 @@
     <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="CliWrap" Version="3.5.0" />
+    <PackageReference Include="Collections.Pooled" Version="1.0.82" />
+    <PackageReference Include="EFCoreSecondLevelCacheInterceptor" Version="3.6.3" />
     <PackageReference Include="EntityFrameworkCore.DataEncryption" Version="3.0.1" />
     <PackageReference Include="Fido2" Version="3.0.0-beta2" />
     <PackageReference Include="Fido2.AspNet" Version="3.0.0-beta2" />
@@ -103,6 +105,7 @@
     <Folder Include="Service\BlogBuilder\Jekyll\" />
     <Folder Include="Service\Security\Face\" />
     <Folder Include="Service\Security\CSP\" />
+    <Folder Include="新文件夹\" />
   </ItemGroup>
 
 </Project>

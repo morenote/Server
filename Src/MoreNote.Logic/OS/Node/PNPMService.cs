@@ -1,5 +1,7 @@
 ﻿using CliWrap;
 
+using Microsoft.Extensions.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,11 @@ namespace MoreNote.Logic.OS.Node
     public class PNPMService : NodePackageManagement
     {
         string workingDirectory;
-
+        ILogger logger;
+        public PNPMService(ILogger logger)
+        {
+            this.logger = logger;
+        }
         public NodePackageManagement SetWorkingDirectory(string workingDirectory)
         {
            this.workingDirectory=workingDirectory;
@@ -63,13 +69,30 @@ namespace MoreNote.Logic.OS.Node
         {
             var stdOutBuffer = new StringBuilder();
             var stdErrBuffer = new StringBuilder();
+            try
+            {
+                var result = await Cli.Wrap("pnpm")
+               .WithArguments(cmd)
+               .WithWorkingDirectory(this.workingDirectory)
+              .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+              .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
+               .ExecuteAsync();
 
-            var result = await Cli.Wrap("pnpm")
-                 .WithArguments(cmd)
-                 .WithWorkingDirectory(this.workingDirectory)
-                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
-                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
-                 .ExecuteAsync();
+            }
+            catch (Exception ex)
+            {
+
+                this.logger.LogError(ex.ToString());
+            }
+          
+
+
+            var stdOut = stdOutBuffer.ToString();
+            var stdErr = stdErrBuffer.ToString();
+
+            this.logger.LogDebug("PNPM="+stdOut);
+            this.logger.LogDebug("PNPM=" + stdErr);
+
             return this;
         }
 
