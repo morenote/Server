@@ -72,7 +72,7 @@ namespace MoreNote.Logic.Service
         {
             NoteTag noteTag = GetTag(userId, tag);
             // 存在, 则更新之
-            if (noteTag != null && noteTag.TagId != 0)
+            if (noteTag != null && noteTag.Id != 0)
             {
                 // 统计note数
                 int count = NoteService.CountNoteByTag(userId, tag);
@@ -83,7 +83,7 @@ namespace MoreNote.Logic.Service
                 {
                     noteTag.Usn = UserService.IncrUsn(userId);
                     noteTag.IsDeleted = false;
-                    UpdateByIdAndUserId(noteTag.TagId, userId, noteTag);
+                    UpdateByIdAndUserId(noteTag.Id, userId, noteTag);
                 }
                 return noteTag;
             }
@@ -91,7 +91,7 @@ namespace MoreNote.Logic.Service
             var timeNow = DateTime.Now;
             noteTag = new NoteTag()
             {
-                TagId = idGenerator.NextId(),
+                Id = idGenerator.NextId(),
                 Count = 1,
                 Tag = tag,
                 UserId = userId,
@@ -107,7 +107,7 @@ namespace MoreNote.Logic.Service
         public bool UpdateByIdAndUserId(long? tagId, long? userId, NoteTag noteTag)
         {
             var noteT = dataContext.NoteTag
-                       .Where(b => b.TagId == tagId
+                       .Where(b => b.Id == tagId
                        && b.UserId == userId).FirstOrDefault();
             noteT.Tag = noteTag.Tag;
             noteT.Usn = noteTag.Usn;
@@ -184,7 +184,7 @@ namespace MoreNote.Logic.Service
         public NoteTag GetTag(long? tagId)
         {
             var result = dataContext.NoteTag
-                      .Where(b => b.TagId == tagId);
+                      .Where(b => b.Id == tagId);
             if (result == null)
             {
                 return null;
@@ -205,9 +205,9 @@ namespace MoreNote.Logic.Service
 
         public bool AddNoteTag(NoteTag noteTag)
         {
-            if (noteTag.TagId == 0)
+            if (noteTag.Id == 0)
             {
-                noteTag.TagId = idGenerator.NextId();
+                noteTag.Id = idGenerator.NextId();
             }
 
             var result = dataContext.NoteTag.Add(noteTag);

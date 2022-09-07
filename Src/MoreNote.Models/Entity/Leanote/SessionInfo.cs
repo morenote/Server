@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     [Table("session")]
-    public class Session
+    public class Session: BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; } // 没有意义 
+       
         [Column("session_id")]
         public long? SessionId { get; set; } // SessionId 
         [Column("login_times")]

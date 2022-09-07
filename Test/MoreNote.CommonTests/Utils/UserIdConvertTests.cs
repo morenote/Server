@@ -15,7 +15,7 @@ namespace MoreNote.Common.Utils.Tests
         {
 
             long? a = 1213656203658399745;
-            string hex = a.ToHex24();
+            string hex = a.ToHex();
             Console.WriteLine(hex);
             long? b = hex.ToLongByHex();
             Console.WriteLine(b);//1213656226102120449

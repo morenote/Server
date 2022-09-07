@@ -60,7 +60,7 @@ namespace MoreNote.Logic.Service
             }
             var securityStrategy = new UserLoginSecurityStrategy()
             {
-                UserId=user.UserId,
+                UserId=user.Id,
                 UserName=user.Username,
                 
             };
@@ -80,7 +80,7 @@ namespace MoreNote.Logic.Service
             if (result != null)
             {
                 var user = dataContext.User
-                .Where(b => b.UserId == result.UserId).FirstOrDefault();
+                .Where(b => b.Id == result.UserId).FirstOrDefault();
                 return user;
             }
             else
@@ -103,7 +103,7 @@ namespace MoreNote.Logic.Service
             }
             var result = dataContext.User
                           .Include(user => user.FIDO2Items)
-                          .Where(b => b.UserId==(userid)).FirstOrDefault();
+                          .Where(b => b.Id==(userid)).FirstOrDefault();
             return result;
         }
 
@@ -116,7 +116,7 @@ namespace MoreNote.Logic.Service
         public int IncrUsn(long? userid)
         {
             var user = dataContext.User
-               .Where(b => b.UserId == (userid
+               .Where(b => b.Id == (userid
                )).FirstOrDefault();
             user.Usn += 1;
             dataContext.SaveChanges();
@@ -130,7 +130,7 @@ namespace MoreNote.Logic.Service
 
         public bool AddUserAsync(User user)
         {
-            if (user.UserId == 0) user.UserId = idGenerator.NextId();
+            if (user.Id == 0) user.Id = idGenerator.NextId();
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);
@@ -222,7 +222,7 @@ namespace MoreNote.Logic.Service
 
         public void AddFIDO2Repository(long? userId, FIDO2Item fido)
         {
-            var user = dataContext.User.Include(p => p.FIDO2Items).Where(b => b.UserId == userId).FirstOrDefault();
+            var user = dataContext.User.Include(p => p.FIDO2Items).Where(b => b.Id == userId).FirstOrDefault();
             //user.FIDO2Items.Add(fido);
             dataContext.FIDO2Repository.Add(fido);
             dataContext.SaveChanges();
@@ -232,10 +232,10 @@ namespace MoreNote.Logic.Service
         {
            
 
-            var user = dataContext.User.Where(b=>b.UserId==userId).First();
+            var user = dataContext.User.Where(b=>b.Id==userId).First();
             user.LoginSecurityPolicyLevel = level;
             user.AddMac(this.cryptographyProvider);
-            dataContext.User.Where(b => b.UserId == userId).UpdateFromQuery(x => new User()
+            dataContext.User.Where(b => b.Id == userId).UpdateFromQuery(x => new User()
             {
                 LoginSecurityPolicyLevel = level,
                 Hmac=user.Hmac
@@ -245,7 +245,7 @@ namespace MoreNote.Logic.Service
 
         public bool SetMDEditorPreferences(long? userId, string mdOption)
         {
-            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            var user = dataContext.User.Where(b => b.Id == userId).FirstOrDefault();
             if (user == null)
             {
                 return false;
@@ -257,7 +257,7 @@ namespace MoreNote.Logic.Service
         }
         public bool SetRTEditorPreferences(long? userId, string rtOption)
         {
-            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            var user = dataContext.User.Where(b => b.Id == userId).FirstOrDefault();
             if (user == null)
             {
                 return false;
@@ -338,7 +338,7 @@ namespace MoreNote.Logic.Service
                 return null;
             }
             var result = dataContext.User
-                      .Where(b => b.UserId == userId).FirstOrDefault();
+                      .Where(b => b.Id == userId).FirstOrDefault();
             return result;
         }
 
@@ -419,7 +419,7 @@ namespace MoreNote.Logic.Service
 
             var userAndBlog = new UserAndBlog()
             {
-                UserId = user.UserId,
+                UserId = user.Id,
                 Username = user.Username,
                 Email = user.Email,
                 Logo = user.Logo,
@@ -452,7 +452,7 @@ namespace MoreNote.Logic.Service
         // 更新username
         public bool UpdateUsername(long? userId, string username)
         {
-            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            var user = dataContext.User.Where(b => b.Id == userId).FirstOrDefault();
             if (user == null)
             {
                 return false;
@@ -469,7 +469,7 @@ namespace MoreNote.Logic.Service
         // 修改头像
         public bool UpdateAvatar(long? userId, string avatarPath)
         {
-            var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+            var user = dataContext.User.Where(b => b.Id == userId).FirstOrDefault();
             user.Logo = avatarPath;
             dataContext.SaveChanges();
             return true;
@@ -479,7 +479,7 @@ namespace MoreNote.Logic.Service
         // 已经登录了的用户修改密码
         public async Task<bool> UpdatePwd(long? userId, string oldPwd, string pwd)
         {
-            var user = dataContext.User.Where(b => b.UserId == userId).First();
+            var user = dataContext.User.Where(b => b.Id == userId).First();
 
             IPasswordStore passwordStore = passwordStoreFactory.Instance(user);
             //验证旧密码
@@ -550,7 +550,7 @@ namespace MoreNote.Logic.Service
         // 宽度
         public bool UpdateColumnWidth(long? userId, int notebookWidth, int noteListWidth, int mdEditorWidth)
         {
-            dataContext.User.Where(x => x.UserId == userId).UpdateFromQuery(p => new User()
+            dataContext.User.Where(x => x.Id == userId).UpdateFromQuery(p => new User()
             {
                 NotebookWidth = notebookWidth,
                 NoteListWidth = noteListWidth,
@@ -563,7 +563,7 @@ namespace MoreNote.Logic.Service
         // 左侧是否隐藏
         public bool UpdateLeftIsMin(long? userId, bool leftIsMin)
         {
-            dataContext.User.Where(x => x.UserId == userId)
+            dataContext.User.Where(x => x.Id == userId)
                 .UpdateFromQuery(p => new User()
                                 {
                                     LeftIsMin = leftIsMin
@@ -576,7 +576,7 @@ namespace MoreNote.Logic.Service
         // user admin
         public User[] ListUsers(int pageNumber, int pageSize, string sortField, bool isAsc, string email, out Page page)
         {
-            var users = dataContext.User.Where(b => b.Username.Equals(email) || b.UsernameRaw.Equals(email) || b.Email.Equals(email)).OrderBy(b => b.UserId).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
+            var users = dataContext.User.Where(b => b.Username.Equals(email) || b.UsernameRaw.Equals(email) || b.Email.Equals(email)).OrderBy(b => b.Id).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
 
             var count = users.Count();
 
@@ -587,7 +587,7 @@ namespace MoreNote.Logic.Service
 
         public User[] ListUsers(int pageNumber, int pageSize, string sortField, bool isAsc, out Page page)
         {
-            var users = dataContext.User.OrderBy(b => b.UserId).OrderBy(b => b.UserId).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
+            var users = dataContext.User.OrderBy(b => b.Id).OrderBy(b => b.Id).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
 
             var count = users.Count();
 

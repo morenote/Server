@@ -48,7 +48,7 @@ namespace MoreNote.Controllers.Joplin
                 var response = new SessionResponseDto
                 {
                     id = token,
-                    user_id = user.UserId.ToHex24()
+                    user_id = user.Id.ToHex()
                 };
                 return Json(response, MyJsonConvert.GetLeanoteOptions());
             }

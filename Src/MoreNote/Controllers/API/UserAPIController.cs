@@ -135,7 +135,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             if (userService.VDUserName(username, out message))
             {
-                re.Ok = userService.UpdateUsername(user.UserId, username);
+                re.Ok = userService.UpdateUsername(user.Id, username);
                 re.Msg = message;
                 return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
@@ -179,7 +179,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             try
             {
-                var result = await userService.UpdatePwd(user.UserId, oldPwd, pwd);
+                var result = await userService.UpdatePwd(user.Id, oldPwd, pwd);
                 re.Ok = result;
                 if (!result)
                 {
@@ -284,7 +284,7 @@ namespace MoreNote.Controllers.API.APIV1
                 };
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
-            var realName =  this.realNameService.GetRealNameInformationByUserId(user.UserId);
+            var realName =  this.realNameService.GetRealNameInformationByUserId(user.Id);
             re.Ok = true;
             re.Data = realName;
             return LeanoteJson(re);
@@ -352,7 +352,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
          
-             this.realNameService.SetRealName(user.UserId, sfz);
+             this.realNameService.SetRealName(user.Id, sfz);
             re.Ok=true;
             return LeanoteJson(re);
         }
@@ -377,7 +377,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var user = GetUserBySession();
             //设置编辑器偏好
-            userService.SetMDEditorPreferences(user.UserId, mdOption);
+            userService.SetMDEditorPreferences(user.Id, mdOption);
 
             re.Ok = true;
             return Json(re, MyJsonConvert.GetSimpleOptions());
@@ -402,7 +402,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var user = GetUserBySession();
             //设置编辑器偏好
-            userService.SetRTEditorPreferences(user.UserId, rtOption);
+            userService.SetRTEditorPreferences(user.Id, rtOption);
             re.Ok = true;
             return Json(re, MyJsonConvert.GetSimpleOptions());
         }

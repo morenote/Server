@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
@@ -23,11 +24,9 @@ namespace MoreNote.Logic.Entity
 
     }
     [Table("note_tag")]
-    public class NoteTag
+    public class NoteTag: BaseEntity
     {
-        [Key]
-        [Column("tag_id")]
-        public long? TagId { get; set; }
+        
         [Column("user_id")]
         public long? UserId { get; set; } // 谁的
                                            

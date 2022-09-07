@@ -10,16 +10,15 @@ using System.Text.Json;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.Common.ExtensionMethods;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     [Table("note"),Index(nameof(UserId),nameof(IsBlog),nameof(IsDeleted))]
-    public class Note
+    public class Note: BaseEntity
     {
-        // // 必须要设置bson:"_id" 不然mgo不会认为是主键
-        [Key] 
-        [Column("note_id")] 
-        public long? NoteId{ get; set; } //【保护】
+       
+       
         
         [Column("user_id")]
         public long? UserId { get; set; }//  // 谁的 【保护】
@@ -108,12 +107,9 @@ namespace MoreNote.Logic.Entity
     /// </para>
     /// </summary>
     [Table("note_content"),Index(nameof(NoteId),nameof(UserId),nameof(IsHistory))]
-    public class NoteContent
+    public class NoteContent: BaseEntity
     {
-        [Key]
-        [Column("note_content_id")]
-        //[JsonConverter(typeof(string))] //解决序列化时被转成数值的问题
-        public long? NoteContentId {get;set;}
+       
         [Column("note_id")]
         public long? NoteId { get; set; }
         [Column("user_id")]
@@ -146,7 +142,7 @@ namespace MoreNote.Logic.Entity
         public string ToStringNoMac()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Id=" + this.NoteContentId);
+            stringBuilder.Append("Id=" + this.Id);
             stringBuilder.Append("NoteId=" + this.NoteId);
             stringBuilder.Append("Content=" + this.Content);
             return stringBuilder.ToString();

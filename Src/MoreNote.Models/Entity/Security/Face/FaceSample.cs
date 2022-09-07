@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,15 +15,10 @@ namespace MoreNote.Models.Entity.Security.Face
     /// <summary>
     /// 存储人脸数据
     /// </summary>
-    [Table("face_sample"), Index(nameof(FaceSampleId), IsUnique = true)]
-    public class FaceSample
+    [Table("face_sample"), Index(nameof(Id), IsUnique = true)]
+    public class FaceSample: BaseEntity
     {
-        /// <summary>
-        /// 存档的人脸样本
-        /// </summary>
-        [Key]
-        [Column("face_sample_id")]
-        public long? FaceSampleId { get; set; }
+        
         /// <summary>
         /// 用户id
         /// </summary>

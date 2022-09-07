@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     // 举报
     [Table("report_info")]
-    public class ReportInfo
+    public class ReportInfo: BaseEntity
     {
-        [Key]
-        [Column("report_id")]
-        public long? ReportId { get; set; }
+        
         [Column("note_id")]
         public long? NoteId { get; set; }
         [Column("user_id")]

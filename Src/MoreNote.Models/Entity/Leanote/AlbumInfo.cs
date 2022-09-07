@@ -1,4 +1,6 @@
 ﻿
+using Morenote.Models.Models.Entity;
+
 using MoreNote.Logic.Model;
 using System;
 using System.Collections.Generic;
@@ -12,12 +14,9 @@ namespace MoreNote.Logic.Entity
     /// 专辑
     /// </summary>
     [Table("album")]
-    public class Album
+    public class Album: BaseEntity
     {
-        [Key]
-        [Column("album_id")]
-       // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public long?  AlbumId { get; set; }
+       
         [Column("user_id")]
         public long? UserId { get; set; }
         [Column("name")]

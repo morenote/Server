@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
@@ -10,11 +11,9 @@ namespace MoreNote.Logic.Entity
     // 验证邮箱
     // 找回密码
     [Table("token")]
-    public class Token
+    public class Token: BaseEntity
     {
-        [Key]
-        [Column("token_id")]
-        public long? TokenId { get; set; }
+        
         [Column("user_id")]
         public long? UserId { get; set; }
         [Column("email")]

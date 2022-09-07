@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,11 +9,9 @@ using System.Text;
 namespace MoreNote.Logic.Entity
 {
     [Table("web_report_info")]
-    public class WebReportInfo
+    public class WebReportInfo: BaseEntity
     {
-        [Key]
-        [Column("report_id")]
-        public long? ReportId { get; set; }
+        
         [Column("web_site_name")]
         public string WebSiteName { get; set; }
         [Column("web_site_url")]

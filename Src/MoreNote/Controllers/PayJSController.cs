@@ -65,7 +65,7 @@ namespace MoreNote.Controllers
             ViewBag.msg = responseMessage;
             CommodityOrder goodOrder = new CommodityOrder()
             {
-                CommodityOrderId = id,
+                Id = id,
                 mchid = webSiteConfig.Payjs.PayJS_MCHID,
                 total_fee = nativeRequestMessage.total_fee,
                 out_trade_no = id.ToString(),

@@ -44,7 +44,7 @@ namespace MoreNote.Controllers.API.APIV1
                 };
                 return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
             }
-            NoteTag[] noteTags = tagService.GeSyncTags(user.UserId, afterUsn, maxEntry);
+            NoteTag[] noteTags = tagService.GeSyncTags(user.Id, afterUsn, maxEntry);
             return Json(noteTags, MyJsonConvert.GetLeanoteOptions());
         }
         //todo:添加Tag

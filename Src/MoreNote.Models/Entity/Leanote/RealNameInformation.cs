@@ -1,4 +1,6 @@
-﻿using MoreNote.Common.ExtensionMethods;
+﻿using Morenote.Models.Models.Entity;
+
+using MoreNote.Common.ExtensionMethods;
 using MoreNote.CryptographyProvider;
 
 using System;
@@ -12,11 +14,9 @@ using System.Threading.Tasks;
 namespace MoreNote.Models.Entity.Leanote
 {
     [Table("real_name_information")]
-    public class RealNameInformation
+    public class RealNameInformation: BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get;set;}
+        
         [Column("user_id")]
         public long? UserId { get;set;}
         [Column("id_card_no")]

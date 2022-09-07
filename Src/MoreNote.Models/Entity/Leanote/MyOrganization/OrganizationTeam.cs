@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,11 +11,9 @@ using System.Threading.Tasks;
 namespace MoreNote.Models.Entity.Leanote.MyOrganization
 {
     [Table("organization_team")]
-    public class OrganizationTeam
+    public class OrganizationTeam : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; }
+        
 
         [Column("name")]
         public string? Name { get; set; }

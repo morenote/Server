@@ -80,54 +80,26 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpGet]
         public async Task<IActionResult> GetImage(string fileId)
         {
-            //try
-            //{
-            //    if (string.IsNullOrEmpty(fileId)) return Content("error");
-            //    var myFileId = fileId.ToLongByHex();
-            //    var noteFile = noteFileService.GetFile(myFileId);
-            //    if (noteFile == null)
-            //        //return Content("NoFoundImage");
-            //        return NoFoundImage();
-            //    //获取又拍云操作对象
-            //    UpYun upyun = new UpYun(config.UpyunConfig.UpyunBucket, config.UpyunConfig.UpyunUsername, config.UpyunConfig.UpyunPassword);
-            //    upyun.secret = config.UpyunConfig.UpyunSecret;
-            //    string path = noteFile.Path;
-            //    int unixTimestamp = UnixTimeHelper.GetTimeStampInInt32();
-            //    unixTimestamp += 15;
-            //    string _upt = upyun.CreatToken(unixTimestamp.ToString(), upyun.secret, path);
-            //    return Redirect($"https://upyun.morenote.top{path}?_upt={_upt}");
-            //}
-            //catch (Exception ex)
-            //{
-            //    return NoFoundImage();
-            //}
 
-            try
+            if (string.IsNullOrEmpty(fileId))
             {
-                if (string.IsNullOrEmpty(fileId))
-                {
-                    return Content("error");
-                }
-                var myFileId = fileId.ToLongByHex();
-                var noteFile = noteFileService.GetFile(myFileId);
-                if (noteFile == null)
-                    //return Content("NoFoundImage");
-                    return NoFoundImage();
-                //获取操作对象
-                string fileExt = Path.GetExtension(noteFile.Name);
-                var fileService = FileStoreServiceFactory.Instance(webSiteConfig);
-
-                var objectName = $"{noteFile.UserId.ToHex()}/images/{noteFile.CreatedTime.ToString("yyyy")}/{noteFile.CreatedTime.ToString("MM")}/{noteFile.FileId.ToHex()}{Path.GetExtension(noteFile.Name)}";
-                var provider = new FileExtensionContentTypeProvider();
-                var memi = provider.Mappings[fileExt];
-                var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
-
-                return File(data, memi);
+                return Content("error");
             }
-            catch (Exception ex)
-            {
+            var myFileId = fileId.ToLongByHex();
+            var noteFile = noteFileService.GetFile(myFileId);
+            if (noteFile == null)
+                //return Content("NoFoundImage");
                 return NoFoundImage();
-            }
+            //获取操作对象
+            string fileExt = Path.GetExtension(noteFile.Name);
+            var fileService = FileStoreServiceFactory.Instance(webSiteConfig);
+
+            var objectName = $"{noteFile.UserId.ToHex()}/images/{noteFile.CreatedTime.ToString("yyyy")}/{noteFile.CreatedTime.ToString("MM")}/{noteFile.Id.ToHex()}{Path.GetExtension(noteFile.Name)}";
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[fileExt];
+            var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
+
+            return File(data, memi);
         }
 
         public IActionResult NoFoundImage()

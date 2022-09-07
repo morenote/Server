@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
+
 using MoreNote.CryptographyProvider;
 using System;
 using System.Collections.Generic;
@@ -14,11 +17,9 @@ namespace MoreNote.Models.Entity.Leanote.Loggin
     /// 登录日志
     /// </summary>
     [Table("logging_login"), Index(nameof(Id), nameof(UserId), nameof(LoginDateTime), nameof(LoginMethod), nameof(IsLoginSuccess),nameof(Ip))]
-    public class LoggingLogin
+    public class LoggingLogin:BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; }//登录事件id
+        
         [Column("user_id")]
         public long? UserId { get; set; }//登录用户
         [Column("login_datetime")]

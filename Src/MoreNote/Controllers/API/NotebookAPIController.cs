@@ -74,7 +74,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 maxEntry = 100;
             }
-            Notebook[] notebook = notebookService.GeSyncNotebooks(user.UserId, afterUsn, maxEntry);
+            Notebook[] notebook = notebookService.GeSyncNotebooks(user.Id, afterUsn, maxEntry);
             return Json(notebook, MyJsonConvert.GetLeanoteOptions());
         }
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -96,7 +96,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             return new ApiNotebook()
             {
-                NotebookId = notebook.NotebookId,
+                NotebookId = notebook.Id,
                 UserId = notebook.UserId,
                 ParentNotebookId = notebook.ParentNotebookId,
                 Seq = notebook.Seq,
@@ -127,7 +127,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             else
             {
-                Notebook[] notebooks = notebookService.GetAll(user.UserId);
+                Notebook[] notebooks = notebookService.GetAll(user.Id);
                 ApiNotebook[] apiNotebooks = fixNotebooks(notebooks);
                 return Json(apiNotebooks, MyJsonConvert.GetLeanoteOptions());
             }
@@ -154,10 +154,10 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 Notebook notebook = new Notebook()
                 {
-                    NotebookId = idGenerator.NextId(),
+                    Id = idGenerator.NextId(),
                     Title = title,
                     Seq = seq,
-                    UserId = user.UserId,
+                    UserId = user.Id,
                     ParentNotebookId = parentNotebookId.ToLongByHex()
                 };
                 if (notebookService.AddNotebook(ref notebook))
@@ -197,7 +197,7 @@ namespace MoreNote.Controllers.API.APIV1
             else
             {
                 Notebook notebook;
-                if (notebookService.UpdateNotebookApi(user.UserId, notebookId.ToLongByHex(), title, parentNotebookId.ToLongByHex(), seq, usn, out notebook))
+                if (notebookService.UpdateNotebookApi(user.Id, notebookId.ToLongByHex(), title, parentNotebookId.ToLongByHex(), seq, usn, out notebook))
                 {
                     ApiNotebook apiNotebook = fixNotebook(notebook);
 
@@ -270,7 +270,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
             }
             //鉴别用户是否有权限
-             verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+             verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
             if (verify == false)
             {
                 return LeanoteJson(re);
@@ -305,7 +305,7 @@ namespace MoreNote.Controllers.API.APIV1
                 //var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
 
                 //检查用户是否对仓库具有读权限
-                if (noteRepositoryService.Verify(repositoryId.ToLongByHex(),user.UserId,RepositoryAuthorityEnum.Read))
+                if (noteRepositoryService.Verify(repositoryId.ToLongByHex(),user.Id,RepositoryAuthorityEnum.Read))
                 {
                     var books = notebookService.GetRootNotebooks(repositoryId.ToLongByHex());
                     apiRe.Ok = true;
@@ -338,7 +338,7 @@ namespace MoreNote.Controllers.API.APIV1
 
                 }
                 //检查用户是否对仓库具有读权限
-                if (noteRepositoryService.Verify(book.NotesRepositoryId, user.UserId, RepositoryAuthorityEnum.Read))
+                if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Read))
                 {
                     var note = notebookService.GetNotebookChildren(notebookId.ToLongByHex());
                     apiRe.Ok = true;
@@ -387,7 +387,7 @@ namespace MoreNote.Controllers.API.APIV1
             if (string.IsNullOrEmpty(parentNotebookId))
             {
 
-                verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.UserId, RepositoryAuthorityEnum.Write);
+                verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Write);
                 repositoryId=noteRepositoryId.ToLongByHex();
             }
             else
@@ -402,8 +402,8 @@ namespace MoreNote.Controllers.API.APIV1
                 {
                     return LeanoteJson(re);
                 }
-                verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
-                parentId=parentNotebook.NotebookId;
+                verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
+                parentId=parentNotebook.Id;
             }
 
          
@@ -413,10 +413,10 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var notebook = new Notebook()
             {
-                NotebookId = idGenerator.NextId(),
+                Id = idGenerator.NextId(),
                 NotesRepositoryId = repositoryId,
                 Seq = 0,
-                UserId = user.UserId,
+                UserId = user.Id,
                
                 CreatedTime = DateTime.Now,
                 Title = notebookTitle,
@@ -465,14 +465,14 @@ namespace MoreNote.Controllers.API.APIV1
 
 
             var repositoryId = notebook.NotesRepositoryId;
-             verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+             verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
             }
            
 
-            notebookService.UpdateNotebookTitle(notebook.NotebookId, notebookTitle);
+            notebookService.UpdateNotebookTitle(notebook.Id, notebookTitle);
             re.Ok = true;
             re.Data = notebook;
 

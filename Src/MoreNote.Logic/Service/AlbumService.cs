@@ -45,7 +45,7 @@ namespace MoreNote.Logic.Service
 
             if (dataContext.NoteFile.Where(b => b.AlbumId == albumId && b.UserId == userId).Count() == 0)
             {
-                return dataContext.Album.Where(a => a.AlbumId == albumId).Delete() > 0;
+                return dataContext.Album.Where(a => a.Id == albumId).Delete() > 0;
             }
             return false;
         }
@@ -54,7 +54,7 @@ namespace MoreNote.Logic.Service
         {
 
             var result = dataContext.Album
-            .Where(b => b.AlbumId.Equals(albumId) && b.UserId.Equals(userId));
+            .Where(b => b.Id.Equals(albumId) && b.UserId.Equals(userId));
             if (result != null)
             {
             }

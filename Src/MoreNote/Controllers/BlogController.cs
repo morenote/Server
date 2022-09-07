@@ -95,7 +95,7 @@ namespace MoreNote.Controllers
 
             AccessRecords accessRecords = new AccessRecords()
             {
-                AccessId = idGenerator.NextId(),
+                Id = idGenerator.NextId(),
                 IP = RealIP,
                 X_Real_IP = headers["X-Real-IP"],
                 X_Forwarded_For = headers["X-Forwarded-For"],
@@ -122,7 +122,7 @@ namespace MoreNote.Controllers
             {
                 return null;
             }
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
             return blogUser;
         }
 
@@ -142,7 +142,7 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            var list = blogService.GetNotes(blogUser.UserId);
+            var list = blogService.GetNotes(blogUser.Id);
             IOrderedEnumerable<IGrouping<int, Note>> queryArchiveList =
                                 from note in list
                                 group note by note.PublicTime.Year into newGroup
@@ -182,8 +182,8 @@ namespace MoreNote.Controllers
             Notebook notebook = notebookService.GetNotebookById(notebookId);
             ViewBag.notebook = notebook;
 
-            ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.UserId, notebookId);
-            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.UserId);
+            ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.Id, notebookId);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.Id);
             SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
 
@@ -191,7 +191,7 @@ namespace MoreNote.Controllers
             {
                 return Content("查无此人");
             }
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", $"分类-{notebook.Title}");
             blog.Add("keywords", "关键字");
@@ -228,12 +228,12 @@ namespace MoreNote.Controllers
             {
                 return Content("用户未实名认证");
             }
-            ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.UserId);
-            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.UserId);
+            ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.Id);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.Id);
             SetAccessPassword(noteAndContent);
 
             ViewBag.noteAndContent = noteAndContent;
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "moreote云笔记");
@@ -331,8 +331,8 @@ namespace MoreNote.Controllers
             {
                 return Content("用户未实名认证");
             }
-            UserBlog userBlog = blogService.GetUserBlog(blogUser.UserId);
-            BlogCommon(blogUser.UserId, userBlog, blogUser);
+            UserBlog userBlog = blogService.GetUserBlog(blogUser.Id);
+            BlogCommon(blogUser.Id, userBlog, blogUser);
             ViewBag.noteAndContent = noteAndContent;
             blog.Add("Title", noteAndContent.note.Title);
             blog.Add("NoteTitle", noteAndContent.note.Title);
@@ -351,7 +351,7 @@ namespace MoreNote.Controllers
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            string[] tags = tagService.GetBlogTags(blogUser.UserId);
+            string[] tags = tagService.GetBlogTags(blogUser.Id);
             ViewBag.tags = tags;
             ViewBag.blogUser = blogUser;
             blog.Add("Title", "标签云");
@@ -392,11 +392,11 @@ namespace MoreNote.Controllers
             }
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.UserId, keywords);
-            NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.UserId, keywords);
+            ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.Id, keywords);
+            NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.Id, keywords);
             SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
             ViewBag.keywords = keywords;
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
@@ -458,12 +458,12 @@ namespace MoreNote.Controllers
             }
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = blogService.CountTheNumberForBlogTags(blogUser.UserId, tag);
-            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentByTag(page, blogUser.UserId, tag);
+            ViewBag.postCount = blogService.CountTheNumberForBlogTags(blogUser.Id, tag);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentByTag(page, blogUser.Id, tag);
            
             SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.UserId);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "标签检索");
@@ -535,15 +535,15 @@ namespace MoreNote.Controllers
 
         public UserBlog BlogCommon(User userInfo)
         {
-            UserBlog userBlog = blogService.GetUserBlog(userInfo.UserId);
-            return BlogCommon(userInfo.UserId, userBlog, userInfo);
+            UserBlog userBlog = blogService.GetUserBlog(userInfo.Id);
+            return BlogCommon(userInfo.Id, userBlog, userInfo);
         }
         public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo)
         {
-            if (userInfo.UserId == 0)
+            if (userInfo.Id == 0)
             {
                 userInfo = userService.GetUserByUserId(userId);
-                if (userInfo.UserId == 0)
+                if (userInfo.Id == 0)
                 {
                     return null;
                 }

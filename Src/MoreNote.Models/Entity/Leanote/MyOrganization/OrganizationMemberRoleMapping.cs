@@ -1,4 +1,6 @@
-﻿using MoreNote.Models.Enum;
+﻿using Morenote.Models.Models.Entity;
+
+using MoreNote.Models.Enum;
 
 using System;
 using System.Collections.Generic;
@@ -12,12 +14,9 @@ namespace MoreNote.Models.Entity.Leanote.MyOrganization
 {
 
     [Table("organization_member_role_mapping")]
-    public class OrganizationMemberRoleMapping
+    public class OrganizationMemberRoleMapping:BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; }
-
+        
 
         [Column("role_id")]
         public long? RoleId { get; set; }

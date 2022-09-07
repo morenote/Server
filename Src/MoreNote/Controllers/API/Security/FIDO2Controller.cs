@@ -57,7 +57,7 @@ namespace MoreNote.Controllers.API
                 return SimpleJson(new ApiRe() { Msg="TokenIsError"});
 
             }
-            var list = fido2Service.GetFido2List(user.UserId);
+            var list = fido2Service.GetFido2List(user.Id);
 
             var re = new ApiRe()
             {
@@ -91,7 +91,7 @@ namespace MoreNote.Controllers.API
             var ok = Enum.TryParse<AuthenticatorAttachment>(authType, true, out attachment);
 
             //注册选项
-            var opts = new MakeCredentialParams(user.Username, user.UserId);
+            var opts = new MakeCredentialParams(user.Username, user.Id);
             if (ok)
             {
                 opts.AuthenticatorSelection.AuthenticatorAttachment = attachment;
@@ -183,13 +183,13 @@ namespace MoreNote.Controllers.API
                 if (success.Status.Equals("success"))
                 {
                     //颁发token
-                    var token = tokenSerivce.GenerateToken(user.UserId,user.Email);
+                    var token = tokenSerivce.GenerateToken(user.Id,user.Email);
                     tokenSerivce.SaveToken(token);
 
                     UserToken authOk = new UserToken()
                     {
                         Token = token.TokenStr,
-                        UserId = user.UserId,
+                        UserId = user.Id,
                         Email = user.Email,
                         Username = user.Username
                     };

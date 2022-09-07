@@ -68,7 +68,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 Extensions = true,
                 UserVerificationMethod = true,
             };
-            var existingKeys = GetPublicKeyCredentialDescriptors(user.UserId);
+            var existingKeys = GetPublicKeyCredentialDescriptors(user.Id);
 
             var options = _fido2.RequestNewCredential(
                 fidoUser,
@@ -77,7 +77,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 opts.Attestation,
                 exts);
 
-            distributedCache.SetString(user.UserId.ToString() + "attestationOptions", options.ToJson(), 120);
+            distributedCache.SetString(user.Id.ToString() + "attestationOptions", options.ToJson(), 120);
             return options;
         }
 
@@ -104,7 +104,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         public async Task<CredentialMakeResult> RegisterCredentials(User user, string fido2Name, AuthenticatorAttestationRawResponse attestationResponse)
         {
             // 1. get the options we sent the client
-            var jsonOptions = distributedCache.GetString(user.UserId.ToString() + "attestationOptions");
+            var jsonOptions = distributedCache.GetString(user.Id.ToString() + "attestationOptions");
             if (string.IsNullOrEmpty(jsonOptions))
             {
                 return null;
@@ -135,7 +135,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             var fido2 = new FIDO2Item()
             {
                 Id = IdGenerator.NextId(),
-                UserId = user.UserId,
+                UserId = user.Id,
                 FIDO2Name = fido2Name,
                 CredentialId = success.Result.CredentialId,
                 PublicKey = success.Result.PublicKey,
@@ -174,14 +174,14 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             }
             // 2. Get registered credentials from database
 
-            var existingCredentials = GetPublicKeyCredentialDescriptors(user.UserId);
+            var existingCredentials = GetPublicKeyCredentialDescriptors(user.Id);
 
             var options =  _fido2.GetAssertionOptions(
                 existingCredentials,
                 assertionClientParams.UserVerification,
                 assertionClientParams.Extensions
             );
-            distributedCache.SetString(user.UserId.ToString() + "assertionOptions", options.ToJson(), 120);
+            distributedCache.SetString(user.Id.ToString() + "assertionOptions", options.ToJson(), 120);
 
             return options;
         }
@@ -200,7 +200,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 };
             }
             // 1. Get the assertion options we sent the client
-            var jsonOptions = distributedCache.GetString(user.UserId.ToString() + "assertionOptions");
+            var jsonOptions = distributedCache.GetString(user.Id.ToString() + "assertionOptions");
             if (string.IsNullOrEmpty(jsonOptions))
             {
                 return new AssertionVerificationResult()
@@ -211,7 +211,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             }
             var options = AssertionOptions.FromJson(jsonOptions);
             // 2. Get registered credential from database
-            var storedCredential = this.GetFIDO2ItemByUserId(user.UserId);
+            var storedCredential = this.GetFIDO2ItemByUserId(user.Id);
             // 3. Get credential counter from database
 
             var creds = user.FIDO2Items.Where(b => b.CredentialId.SequenceEqual(clientRespons.Id)).FirstOrDefault();

@@ -49,7 +49,7 @@ namespace MoreNote.Controllers.API
             }
 
             string msg = null;
-            var data = UploadImagesOrAttach(user.UserId,out msg);
+            var data = UploadImagesOrAttach(user.Id,out msg);
             UploadFileResponse uploadFileResponse = new UploadFileResponse()
             {
                 data = data
@@ -85,7 +85,7 @@ namespace MoreNote.Controllers.API
            
           
             //保存到本地
-            var resultURL = UploadImagesOrAttach(ref fileModel, out msg, user.UserId);
+            var resultURL = UploadImagesOrAttach(ref fileModel, out msg, user.Id);
 
             if (string.IsNullOrEmpty(resultURL))
             {

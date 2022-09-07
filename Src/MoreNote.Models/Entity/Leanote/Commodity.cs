@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,11 +12,9 @@ namespace MoreNote.Logic.Entity
     /// 商品
     /// </summary>
     [Table("commodity")]
-    public class Commodity
+    public class Commodity: BaseEntity
     {
-        [Key]
-        [Column("commodity_id")]
-        public long? CommodityId { get; set; }
+       
         /// <summary>
         /// 商品名称
         /// </summary>

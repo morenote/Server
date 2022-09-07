@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,10 +23,9 @@ namespace MoreNote.Logic.Entity
         public AppInfo[] app_list { get; set; }
     }
     [Table("app_info")]
-    public class AppInfo
+    public class AppInfo: BaseEntity
     {
-        [Key]
-        public long? appid { get; set; }
+        
         public string appautor { get; set; }
         public string appdetail { get; set; }
         public string appname { get; set; }

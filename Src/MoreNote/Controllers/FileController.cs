@@ -115,7 +115,7 @@ namespace MoreNote.Controllers
            
             var re = new ResponseMessage()
             {
-                Id = fileId.ToHex24(),
+                Id = fileId.ToHex(),
                 Code = resultCode,
                 Msg = resultMsg,
                 Ok = Ok
@@ -194,7 +194,7 @@ namespace MoreNote.Controllers
             //File对象
             var fileInfo=new NoteFile()
             {
-                FileId=fileId,
+                Id=fileId,
                 UserId=userid,
                 AlbumId=1,
 

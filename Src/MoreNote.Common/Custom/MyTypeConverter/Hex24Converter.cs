@@ -38,7 +38,7 @@ namespace MoreNote.Common.Custom.MyTypeConverter
         {
             if (destinationType == typeof(string))
             {
-               return (value as long?).ToHex24();
+               return (value as long?).ToHex();
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }

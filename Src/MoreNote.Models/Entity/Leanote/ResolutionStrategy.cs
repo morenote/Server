@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,11 +12,9 @@ namespace MoreNote.Logic.Entity
     /// 解析策略
     /// </summary>
     [Table("resolution_strategy")]
-    public  class ResolutionStrategy
+    public  class ResolutionStrategy: BaseEntity
     {
-        [Key]
-        [Column("strategy_id")]
-        public long? StrategyID{ get;set;}//策略ID
+        
         [Column("strategy_key")]
         public String StrategyKey{ get;set;}//策略授权密钥
         [Column("strategy_name")]

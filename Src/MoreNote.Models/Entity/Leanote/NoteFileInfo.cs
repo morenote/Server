@@ -6,18 +6,17 @@ using System.ComponentModel.DataAnnotations;
 using MoreNote.Logic.Model;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     /// <summary>
     /// 对应Leanote的File
     /// </summary>
-    [Table("note_file"),Index(nameof(FileId),nameof(UserId),nameof(SHA1))]
-    public class NoteFile
+    [Table("note_file"),Index(nameof(Id),nameof(UserId),nameof(SHA1))]
+    public class NoteFile: BaseEntity
     {
-        [Key]
-        [Column("file_id")]
-        public long? FileId { get; set; }
+       
         //如果 不进行FixContent处理，那么FileId=LocalFileId
         //public long? LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
         [Column("user_id")]

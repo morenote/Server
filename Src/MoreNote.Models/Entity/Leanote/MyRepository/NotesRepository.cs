@@ -1,4 +1,6 @@
-﻿using MoreNote.Models.Enum;
+﻿using Morenote.Models.Models.Entity;
+
+using MoreNote.Models.Enum;
 
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,9 @@ namespace MoreNote.Models.Entity.Leanote
     /// 笔记仓库
     /// </summary>
     [Table("notes_repository")]
-    public class NotesRepository
+    public class NotesRepository:BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; }//仓库id
+        
 
         [Column("name")]
         public string? Name { get; set; }//仓库唯一名称/仓库路径

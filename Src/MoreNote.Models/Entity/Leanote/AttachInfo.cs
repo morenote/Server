@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+
+using Morenote.Models.Models.Entity;
+
 using MoreNote.Logic.Model;
 
 
@@ -14,11 +17,9 @@ namespace MoreNote.Logic.Entity
     /// 附件
     /// </summary>
     [Table("attach_info")]
-    public class AttachInfo
+    public class AttachInfo: BaseEntity
     {
-        [Key]
-        [Column("attach_id")]
-        public long? AttachId{ get; set; }
+        
         [Column("user_id")]
         public long? UserId { get;set;}
         [Column("note_id")]

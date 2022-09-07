@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     [Table("suggestion")]
-    public class Suggestion
+    public class Suggestion: BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; }
+      
         [Column("user_id")]
         public long? UserId { get; set; }
         [Column("addr")]

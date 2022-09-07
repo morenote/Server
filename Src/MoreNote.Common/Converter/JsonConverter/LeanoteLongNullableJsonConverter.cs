@@ -26,7 +26,7 @@ namespace MoreNote.Common.Converter.JsonConverter
             }
             else
             {
-                writer.WriteStringValue(value.ToHex24ForLeanote());
+                writer.WriteStringValue(value.ToHex());
             }
 
         }

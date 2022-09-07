@@ -45,7 +45,7 @@ namespace MoreNote.Controllers.API
             var modelOutput = spamService.Predict(input);
             var spam = new SpamInfo()
             {
-                SpamId = idGenerator.NextId(),
+                Id = idGenerator.NextId(),
                 Input = input,
                 Prediction = modelOutput.Prediction,
                 Score = modelOutput.Score,

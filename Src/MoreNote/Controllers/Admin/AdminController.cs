@@ -38,8 +38,8 @@ namespace MoreNote.Controllers.Admin
             SetLocale();
             SetUserInfo();
             var countUser=userService.CountUser();
-            int countNote = noteService.CountNote(user.UserId);
-            int countBlog = noteService.CountBlog(user.UserId);
+            int countNote = noteService.CountNote(user.Id);
+            int countBlog = noteService.CountBlog(user.Id);
 
             ViewBag.countUser=countUser;
             ViewBag.countNote = countNote;

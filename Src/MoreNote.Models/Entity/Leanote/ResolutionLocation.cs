@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,11 +12,9 @@ namespace MoreNote.Logic.Entity
     /// 解析线路
     /// </summary>
     [Table("resolution_location")]
-    public class ResolutionLocation
+    public class ResolutionLocation: BaseEntity
     {
-        [Key]
-        [Column("resolution_location_id")]
-        public long?  ResolutionLocationID{get;set;}//解析线路ID
+        
         [Column("strategy_id")]
         public long?  StrategyID{get;set;}//解析线路ID
         [Column("url")]

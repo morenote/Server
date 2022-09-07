@@ -116,7 +116,7 @@ namespace MoreNote.Controllers.Member
             SetLocale();
             SetUserInfo();
             ViewBag.title = "FIDO2 Setting Options";
-            userService.InitFIDO2Repositories(user.UserId);
+            userService.InitFIDO2Repositories(user.Id);
             ViewBag.fido2Repositories = user.FIDO2Items;
             return View("Views/Member/user/fido2.cshtml");
         }
@@ -128,7 +128,7 @@ namespace MoreNote.Controllers.Member
             var fido = new FIDO2Item()
             {
                 Id = idGenerator.NextId(),
-                UserId = user.UserId,
+                UserId = user.Id,
                 CredentialId = System.Text.Encoding.Default.GetBytes("1111"),
                 UserHandle = System.Text.Encoding.Default.GetBytes("1111"),
                 SignatureCounter = 0,
@@ -138,7 +138,7 @@ namespace MoreNote.Controllers.Member
                 RegDate = DateTime.Now,
                 AaGuid = new Guid()
             };
-            userService.AddFIDO2Repository(user.UserId, fido);
+            userService.AddFIDO2Repository(user.Id, fido);
 
             return Ok("success");
         }

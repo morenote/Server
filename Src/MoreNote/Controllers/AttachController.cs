@@ -52,7 +52,7 @@ namespace MoreNote.Controllers
 
             var re = new ResponseMessage()
             {
-                Id = fileId.ToHex24(),
+                Id = fileId.ToHex(),
                 Msg = resultMsg,
                 Ok = Ok,
             };
@@ -101,7 +101,7 @@ namespace MoreNote.Controllers
             }
             var fileInfo = new AttachInfo()
             {
-                AttachId = fileId,
+                Id = fileId,
                 UserId = userId,
 
                 Name = safeFileName,
@@ -188,11 +188,11 @@ namespace MoreNote.Controllers
             //下载拼接
             foreach (var attach in attachs)
             {
-                sb.Append(attach.AttachId);
+                sb.Append(attach.Id);
             }
             //计算AttachId合并字符串的哈希
             string md5 = SHAEncryptHelper.MD5Encrypt(sb.ToString());
-            var dir = config.FileStoreConfig.TempFolder + Path.DirectorySeparatorChar + note.NoteId.ToHex();
+            var dir = config.FileStoreConfig.TempFolder + Path.DirectorySeparatorChar + note.Id.ToHex();
             var zipFileName = config.FileStoreConfig.TempFolder + Path.DirectorySeparatorChar + md5 + ".zip";
             if (!System.IO.File.Exists(zipFileName))
             {

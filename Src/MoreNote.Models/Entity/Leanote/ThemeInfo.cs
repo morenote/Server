@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     // 主题, 每个用户有多个主题, 这里面有主题的配置信息
     // 模板, css, js, images, 都在路径Path下
     [Table("theme")]
-    public class Theme
+    public class Theme: BaseEntity
     {
-        [Key]
-        [Column("theme_id")]
-        public long? ThemeId { get; set; } // 必须要设置bson:"_id" 
+       
         [Column("user_id")]
         public long? UserId { get; set; }
         [Column("name")]

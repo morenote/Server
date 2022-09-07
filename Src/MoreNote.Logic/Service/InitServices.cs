@@ -46,7 +46,7 @@ namespace MoreNote.Logic.Service
         // 先md5, 再取12位
         public  string subIdHalf(long? id)
         {
-            return id.ToHex24();
+            return id.ToHex();
         }
         // types == note,notebook,single
         // id noteId, notebookId, singleId 当title没的时候才有用, 用它来替换
@@ -56,7 +56,7 @@ namespace MoreNote.Logic.Service
             string urlTitle=title.Trim();
             if (string.IsNullOrEmpty(urlTitle))
             {
-                urlTitle= "Untitled-" + userId.ToHex24();
+                urlTitle= "Untitled-" + userId.ToHex();
 
             }
             else

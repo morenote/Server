@@ -56,9 +56,9 @@ namespace MoreNote.Controllers
             }
             string error;
 
-            if (userService.VDPassWord(pwd, user.UserId, out error))
+            if (userService.VDPassWord(pwd, user.Id, out error))
             {
-                re.Ok =  await userService.UpdatePwd(user.UserId, oldPwd, pwd);
+                re.Ok =  await userService.UpdatePwd(user.Id, oldPwd, pwd);
                 re.Msg = "The update password is wrong, please check the password you provided ";
                 return Json(re, MyJsonConvert.GetLeanoteOptions());
             }

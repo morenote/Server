@@ -22,7 +22,7 @@ namespace MoreNote.Logic.Entity.Tests
                     {
                      new AppInfo()
                      {
-                        appid =111,
+                        Id =111,
                         appautor = "appid",
                         appdetail = "appid",
                         appname = "appid",

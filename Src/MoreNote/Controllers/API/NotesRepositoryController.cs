@@ -64,7 +64,7 @@ namespace MoreNote.Controllers.API
             var user = tokenSerivce.GetUserByToken(token);
             if (user != null)
             {
-                var rep = noteRepositoryService.GetNoteRepositoryList(user.UserId);
+                var rep = noteRepositoryService.GetNoteRepositoryList(user.Id);
                 apiRe = new ApiRe()
                 {
                     Ok = true,
@@ -109,7 +109,7 @@ namespace MoreNote.Controllers.API
             if (notesRepository.RepositoryOwnerType == RepositoryOwnerType.Organization)
             {
                 var orgId = notesRepository.OwnerId;
-                verify = organizationService.Verify(orgId, user.UserId, OrganizationAuthorityEnum.AddRepository);
+                verify = organizationService.Verify(orgId, user.Id, OrganizationAuthorityEnum.AddRepository);
                 if (verify == false)
                 {
                     re.Msg = "您没有权限创建这个仓库";
@@ -119,7 +119,7 @@ namespace MoreNote.Controllers.API
             }
             if (notesRepository.RepositoryOwnerType == RepositoryOwnerType.Personal)
             {
-                if (notesRepository.OwnerId != user.UserId)
+                if (notesRepository.OwnerId != user.Id)
                 {
                     re.Msg = "您没有权限创建这个仓库";
                     return LeanoteJson(re);
@@ -142,10 +142,10 @@ namespace MoreNote.Controllers.API
             foreach (var item in list)
             {
                 // 添加笔记本, 生活, 学习, 工作
-                var userId = user.UserId;
+                var userId = user.Id;
                 var notebook = new Notebook()
                 {
-                    NotebookId = idGenerator.NextId(),
+                    Id = idGenerator.NextId(),
                     NotesRepositoryId = result.Id,
                     Seq = 0,
                     UserId = userId,
@@ -206,7 +206,7 @@ namespace MoreNote.Controllers.API
                 this.dataSignService.AddDataSign(dataSign, "DeleteNoteRepository");
             }
 
-            verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.UserId, RepositoryAuthorityEnum.DeleteRepository);
+            verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.DeleteRepository);
             if (!verify)
             {
                 return LeanoteJson(re);

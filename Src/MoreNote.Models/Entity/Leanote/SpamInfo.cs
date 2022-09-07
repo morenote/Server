@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,11 +9,9 @@ using System.Text;
 namespace MoreNote.Logic.Entity
 {
     [Table("spam_info")]
-    public class SpamInfo
+    public class SpamInfo: BaseEntity
     {
-        [Key]
-        [Column("spam_id")]
-        public long? SpamId { get; set; }
+        
         [Column("spam_input")]
         public string Input { get; set; }
         [Column("prediction")]

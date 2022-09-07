@@ -27,7 +27,7 @@ namespace MoreNote.Logic.Service
         public Notebook GetNotebookById(long? notebookId)
         {
             var result = dataContext.Notebook.
-                Where(b => b.NotebookId == notebookId).FirstOrDefault();
+                Where(b => b.Id == notebookId).FirstOrDefault();
             return result;
         }
         public List<Notebook> GetNotebookChildren(long? notebookId)
@@ -39,11 +39,11 @@ namespace MoreNote.Logic.Service
 
         public bool AddNotebook(Notebook notebook)
         {
-            if (notebook.NotebookId == 0)
+            if (notebook.Id == 0)
             {
-                notebook.NotebookId = IdGenerator.NextId();
+                notebook.Id = IdGenerator.NextId();
             }
-            notebook.UrlTitle = notebook.NotebookId.ToHex24();
+            notebook.UrlTitle = notebook.Id.ToHex();
 
             notebook.Usn = UserService.IncrUsn(notebook.UserId);
 
@@ -57,11 +57,11 @@ namespace MoreNote.Logic.Service
 
         public bool AddNotebook(ref Notebook notebook)
         {
-            if (notebook.NotebookId ==null)
+            if (notebook.Id ==null)
             {
-                notebook.NotebookId = IdGenerator.NextId();
+                notebook.Id = IdGenerator.NextId();
             }
-            notebook.UrlTitle = notebook.NotebookId.ToHex24();
+            notebook.UrlTitle = notebook.Id.ToHex();
 
             notebook.Usn = UserService.IncrUsn(notebook.UserId);
 
@@ -74,12 +74,12 @@ namespace MoreNote.Logic.Service
         }
         public bool AddNotebook(long? notebookId,long? userid,long? parentNotebookId,string title,out Notebook one)
         {
-            var notebook=dataContext.Notebook.Where(b=>b.NotebookId== notebookId&&b.UserId==userid).FirstOrDefault();
+            var notebook=dataContext.Notebook.Where(b=>b.Id== notebookId&&b.UserId==userid).FirstOrDefault();
             if (notebook==null)
             {
                 one=new Notebook()
                 {
-                    NotebookId=notebookId,
+                    Id=notebookId,
                     Title=title,
                     UserId=userid,
                     ParentNotebookId=parentNotebookId
@@ -95,7 +95,7 @@ namespace MoreNote.Logic.Service
         public bool UpdateNotebookApi(long? userId, long? notebookId, string title, long? parentNotebookId, int seq, int usn, out Notebook notebook)
         {
             var result = dataContext.Notebook.
-                 Where(b => b.NotebookId == notebookId);
+                 Where(b => b.Id == notebookId);
             if (result == null)
             {
                 notebook = null;
@@ -131,7 +131,7 @@ namespace MoreNote.Logic.Service
                                         select n).ToArray<Notebook>();
             foreach (Notebook notebook in noteBookTrees)
             {
-                notebook.Subs = GetNoteBookTree(notebook.NotebookId, ref notebooks);
+                notebook.Subs = GetNoteBookTree(notebook.Id, ref notebooks);
             }
             return noteBookTrees;
         }
@@ -146,7 +146,7 @@ namespace MoreNote.Logic.Service
                                         select n).ToArray<Notebook>();
             foreach (Notebook notebook in noteBookTrees)
             {
-                notebook.Subs = GetNoteBookTree(notebook.NotebookId, ref notebooks);
+                notebook.Subs = GetNoteBookTree(notebook.Id, ref notebooks);
             }
             return noteBookTrees;
         }
@@ -158,7 +158,7 @@ namespace MoreNote.Logic.Service
                                             select n).ToList<Notebook>();
             foreach (Notebook notebook in noteBookTrees)
             {
-                notebook.Subs = GetNoteBookTree(notebook.NotebookId, ref notebooks);
+                notebook.Subs = GetNoteBookTree(notebook.Id, ref notebooks);
             }
             return noteBookTrees;
         }
@@ -204,7 +204,7 @@ namespace MoreNote.Logic.Service
             }
             foreach (var item in temp)
             {
-                item.Subs = RecursiveSpanningTrees(userNotebooks, item.NotebookId, needSort);
+                item.Subs = RecursiveSpanningTrees(userNotebooks, item.Id, needSort);
             }
 
             return temp;
@@ -277,7 +277,7 @@ namespace MoreNote.Logic.Service
         // [ok]
         public bool UpdateNotebookTitle(long? notebookId, long? userId, string title)
         {
-            var notebook=dataContext.Notebook.Where(b=>b.NotebookId== notebookId
+            var notebook=dataContext.Notebook.Where(b=>b.Id== notebookId
                                                        && b.UserId==userId).FirstOrDefault();
             if (notebook==null)
             {
@@ -291,7 +291,7 @@ namespace MoreNote.Logic.Service
         }
         public bool UpdateNotebookTitle(long? notebookId, string title)
         {
-            var notebook = dataContext.Notebook.Where(b => b.NotebookId == notebookId ).FirstOrDefault();
+            var notebook = dataContext.Notebook.Where(b => b.Id == notebookId ).FirstOrDefault();
             if (notebook == null)
             {
                 return false;
@@ -327,7 +327,7 @@ namespace MoreNote.Logic.Service
         {
             //todo:实现这个ToBlog
             var usn=UserService.IncrUsn(userId);
-            dataContext.Notebook.Where(b => b.NotebookId == notebookId && b.UserId == userId)
+            dataContext.Notebook.Where(b => b.Id == notebookId && b.UserId == userId)
                                   .Update(x => new Notebook() { IsBlog = isBlog, Usn = usn });
             if (isBlog)
             {
@@ -356,7 +356,7 @@ namespace MoreNote.Logic.Service
                
             }
             //删除空笔记本
-            var book = dataContext.Notebook.Where(notebook =>  notebook.NotebookId == notebookId).FirstOrDefault();
+            var book = dataContext.Notebook.Where(notebook =>  notebook.Id == notebookId).FirstOrDefault();
             if (book == null)
             {
                
@@ -399,7 +399,7 @@ namespace MoreNote.Logic.Service
             {
                 foreach (var item in list)
                 {
-                    this.DeleteNotebookRecursively(item.NotebookId, usn);
+                    this.DeleteNotebookRecursively(item.Id, usn);
                 }
             }
 
@@ -408,12 +408,12 @@ namespace MoreNote.Logic.Service
             {
                 foreach (var note in noteList)
                 {
-                    this.NoteService.DeleteNote(note.NoteId,usn);
+                    this.NoteService.DeleteNote(note.Id,usn);
                 }
             }
 
             //删除空笔记本
-            var book = dataContext.Notebook.Where(notebook => notebook.NotebookId == notebookId).FirstOrDefault();
+            var book = dataContext.Notebook.Where(notebook => notebook.Id == notebookId).FirstOrDefault();
             if (book == null)
             {
                return false;
@@ -430,7 +430,7 @@ namespace MoreNote.Logic.Service
         public bool DeleteNotebookForce(long? userId, long? notebookId, int usn)
         {
             //var result = dataContext.Notebook.Where(note=> note.NotebookId== notebookId && note.UserId==userId&&note.Usn==usn).Delete();
-            var result = dataContext.Notebook.Where(note => note.NotebookId == notebookId &&
+            var result = dataContext.Notebook.Where(note => note.Id == notebookId &&
                                                     note.UserId == userId && 
                                                     note.Usn == usn)
                 .Update(x => new Notebook { IsDeleted = true });
@@ -454,7 +454,7 @@ namespace MoreNote.Logic.Service
         public bool DragNotebooks(long? userId, long? curNotebookId, long? parentNotebookId, long?[] siblings)
         {
             
-            var notebook = dataContext.Notebook.Where(b => b.NotebookId == curNotebookId && b.UserId == userId).FirstOrDefault();
+            var notebook = dataContext.Notebook.Where(b => b.Id == curNotebookId && b.UserId == userId).FirstOrDefault();
             if (notebook == null)
             {
                 return false;
@@ -463,7 +463,7 @@ namespace MoreNote.Logic.Service
             dataContext.SaveChanges();
             var usn=UserService.IncrUsn(userId);
             //排序
-            dataContext.Notebook.Where(b=>b.UserId==userId&&siblings.Contains(b.NotebookId))
+            dataContext.Notebook.Where(b=>b.UserId==userId&&siblings.Contains(b.Id))
                 .Update(x=>new Notebook(){ Usn=usn});
             dataContext.SaveChanges();
             return true;
@@ -476,7 +476,7 @@ namespace MoreNote.Logic.Service
         public bool ReCountNotebookNumberNotes(long? notebookId)
         {
             var count = dataContext.Note.Where(b => b.NotebookId == notebookId && b.IsTrash == false && b.IsDeleted == false).Count();
-            var notebook = dataContext.Notebook.Where(b => b.NotebookId == notebookId).FirstOrDefault();
+            var notebook = dataContext.Notebook.Where(b => b.Id == notebookId).FirstOrDefault();
             notebook.NumberNotes = count;
             return dataContext.SaveChanges() > 0;
         }

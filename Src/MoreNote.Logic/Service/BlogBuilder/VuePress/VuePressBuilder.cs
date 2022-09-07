@@ -78,9 +78,9 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             StringBuilder sb = new StringBuilder();
             sb.Append($"{{text: '{notebook.Title}'");
 
-            var books = notebookService.GetNotebookChildren(notebook.NotebookId);
-            var notes = notebookService.GetNotebookChildrenNote(notebook.NotebookId);
-            var bookPath = System.IO.Path.Join(path, notebook.NotebookId.ToHex());
+            var books = notebookService.GetNotebookChildren(notebook.Id);
+            var notes = notebookService.GetNotebookChildrenNote(notebook.Id);
+            var bookPath = System.IO.Path.Join(path, notebook.Id.ToHex());
             if (!Directory.Exists(bookPath))
             {
                 Directory.CreateDirectory(bookPath);
@@ -119,7 +119,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             }
             foreach (var note in notes)
             {
-                await WriteNote(note, bookPath, sb, link + notebook.NotebookId.ToHex());
+                await WriteNote(note, bookPath, sb, link + notebook.Id.ToHex());
                 if (note != notes.Last())
                 {
                     sb.Append(",");
@@ -137,8 +137,8 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 
         public async Task WriteNote(Note note, string path, StringBuilder stringBuilder, string link)
         {
-            var noteContent = this.noteContentService.GetNoteContent(note.NoteId);
-            var mdFilePath = System.IO.Path.Join(path, $"{note.NoteId.ToHex()}.md");
+            var noteContent = this.noteContentService.GetNoteContent(note.Id);
+            var mdFilePath = System.IO.Path.Join(path, $"{note.Id.ToHex()}.md");
             StringBuilder frontmatterBuilder = new StringBuilder();
             frontmatterBuilder.Append("---\r\n");
             frontmatterBuilder.Append("lang: zh-CN\r\n");
@@ -151,7 +151,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             streamWriter.Write(frontmatterBuilder.ToString());
             streamWriter.Close();
             fileStream.Close();
-            stringBuilder.Append($"{{text: '{note.Title}', link: '{link}/{note.NoteId.ToHex()}.md'}}");
+            stringBuilder.Append($"{{text: '{note.Title}', link: '{link}/{note.Id.ToHex()}.md'}}");
         }
 
         public async Task WriteNotesRepository(NotesRepository notesRepository)

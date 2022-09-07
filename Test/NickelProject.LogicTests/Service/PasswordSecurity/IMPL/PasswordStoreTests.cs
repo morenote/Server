@@ -50,7 +50,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
         {
             var salt = HexUtil.StringToByteArray(hex);
             IPasswordStore passwordStore = new SHA256PasswordStore();
-            var enc =await passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*160);
+            var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000*160);
             var text = HexUtil.ByteArrayToString(enc);
             Console.WriteLine(text);
 

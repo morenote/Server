@@ -66,8 +66,8 @@ namespace MoreNote.Logic.Service
                     var tokenContext= TokenSerivce.GenerateTokenContext(tokenid);
                     Token myToken = new Token
                     {
-                        TokenId = idGenerator.NextId(),
-                        UserId = user.UserId,
+                        Id = idGenerator.NextId(),
+                        UserId = user.Id,
                         Email = user.Email,
                         TokenStr = tokenContext,
                         TokenType = 0,
@@ -173,7 +173,7 @@ namespace MoreNote.Logic.Service
             //生成一个新用户
             User user = new User()
             {
-                UserId = userId,
+                Id = userId,
                 Email = email,
                 Username = userId.ToHex(),
                 UsernameRaw = userId.ToHex(),
@@ -219,10 +219,10 @@ namespace MoreNote.Logic.Service
                 foreach (var item in list)
                 {
                     // 添加笔记本, 生活, 学习, 工作
-                    var userId = user.UserId;
+                    var userId = user.Id;
                     var notebook = new Notebook()
                     {
-                        NotebookId = idGenerator.NextId(),
+                        Id = idGenerator.NextId(),
                         Seq = 0,
                         UserId = userId,
                         CreatedTime = DateTime.Now,
@@ -234,7 +234,7 @@ namespace MoreNote.Logic.Service
                 //用户博客信息
                 var user_blog=new UserBlog()
                 {
-                    UserId=user.UserId,
+                    UserId=user.Id,
                     CanComment=true,
                     CommentType="leanote",
                     ThemeId=null,

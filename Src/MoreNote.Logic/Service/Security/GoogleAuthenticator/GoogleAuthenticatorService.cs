@@ -22,7 +22,7 @@ namespace MoreNote.Logic.Service
         public void SetSecretKey(long? userId, string secretKey)
         {
            
-                var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+                var user = dataContext.User.Where(b => b.Id == userId).FirstOrDefault();
                 user.GoogleAuthenticatorSecretKey = secretKey;
                 dataContext.SaveChanges();
             
@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service
         public string GetSecretKey(long? userId)
         {
            
-                var user = dataContext.User.Where(b => b.UserId == userId).FirstOrDefault();
+                var user = dataContext.User.Where(b => b.Id == userId).FirstOrDefault();
                 return user.GoogleAuthenticatorSecretKey;
             
         }

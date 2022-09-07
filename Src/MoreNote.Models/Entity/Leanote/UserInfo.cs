@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+using Morenote.Models.Models.Entity;
+
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Entity;
@@ -48,11 +50,9 @@ namespace MoreNote.Logic.Entity
 
     [Table("user_info"), Index(nameof(Email), nameof(Verified), nameof(Username), nameof(UsernameRaw), nameof(Role)
         , nameof(ThirdUserId), nameof(FromUserId))]
-    public class User
+    public class User: BaseEntity
     {
-        [Key]
-        [Column("user_id")]
-        public long? UserId { get; set; }
+       
 
         [Column("email")]
         public string? Email { get; set; }//全是小写
@@ -281,7 +281,7 @@ namespace MoreNote.Logic.Entity
         public string ToStringNoMac()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Id=" + this.UserId);
+            stringBuilder.Append("Id=" + this.Id);
             stringBuilder.Append("Email=" + this.Email);
             stringBuilder.Append("Username=" + this.Username);
             stringBuilder.Append("Verified=" + this.Verified);
@@ -326,11 +326,9 @@ namespace MoreNote.Logic.Entity
     }
 
     [Table("user_account")]
-    public class UserAccount
+    public class UserAccount: BaseEntity
     {
-        [Key]
-        [Column("user_id")]
-        public long? UserId { get; set; }
+        
 
         [Column("account_type")]
         public string AccountType { get; set; } //normal(为空), premium

@@ -39,8 +39,8 @@ namespace MoreNote.Logic.Service
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
-                TokenId = idGenerator.NextId(),
-                UserId = user.UserId,
+                Id = idGenerator.NextId(),
+                UserId = user.Id,
                 Email = user.Email,
                 TokenStr = tokenContext,
                 TokenType = 0,
@@ -181,7 +181,7 @@ namespace MoreNote.Logic.Service
             if (result != null)
             {
                 var user = dataContext.User
-                .Where(b => b.UserId == result.UserId).FirstOrDefault();
+                .Where(b => b.Id == result.UserId).FirstOrDefault();
                 return user;
             }
             else
@@ -210,7 +210,7 @@ namespace MoreNote.Logic.Service
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
-                TokenId = idGenerator.NextId(),
+                Id = idGenerator.NextId(),
                 UserId= userId,
                 Email= email,
                 TokenStr = tokenContext,

@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     [Table("note_image")]
-    public class NoteImage
+    public class NoteImage: BaseEntity
     {
-        [Key]
-        [Column("note_image_id")]
-        public long? NoteImageId { get; set; } // 必须要设置bson:"_id" 
+       
         [Column("note_id")]
         public long? NoteId { get; set; } // 笔记 
         [Column("image_id")]

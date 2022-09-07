@@ -178,7 +178,7 @@ namespace MoreNote.Logic.Service
        )
         {
             var note = NoteService.GetNoteById(noteId);
-            if (note == null || note.NoteId == null)
+            if (note == null || note.Id == null)
             {
                 return false;
             }
@@ -200,7 +200,7 @@ namespace MoreNote.Logic.Service
 
             var insertNoteConext = new NoteContent()
             {
-                NoteContentId = idGenerator.NextId(),
+                Id = idGenerator.NextId(),
                 NoteId = noteId,
                 UserId = userId,
                 IsBlog = noteContext == null ? noteContext.IsBlog : false,
@@ -221,7 +221,7 @@ namespace MoreNote.Logic.Service
         {
             //更新 将其他笔记刷新
             var noteId = apiNote.NoteId.ToLongByHex();
-            var note = dataContext.Note.Where(b => b.NoteId == noteId).First();
+            var note = dataContext.Note.Where(b => b.Id == noteId).First();
             var noteContent = dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).FirstOrDefault();
             //如果笔记内容发生变化，生成新的笔记内容
             if (apiNote.Content != null)
@@ -231,7 +231,7 @@ namespace MoreNote.Logic.Service
                 contentId = idGenerator.NextId();
                 NoteContent contentNew = new NoteContent()
                 {
-                    NoteContentId = contentId,
+                    Id = contentId,
                     NoteId = noteContent.NoteId,
                     UserId = noteContent.UserId,
                     IsBlog = noteContent.IsBlog,
@@ -267,7 +267,7 @@ namespace MoreNote.Logic.Service
             }
             else
             {   //没有新增笔记内容，那么仅仅修改原始笔记内容就可以了
-                contentId = noteContent.NoteContentId;
+                contentId = noteContent.Id;
                 if (apiNote.IsBlog != null)
                 {
                     noteContent.IsBlog = apiNote.IsBlog.GetValueOrDefault();

@@ -39,7 +39,7 @@ namespace MoreNote.Logic.Service
             var ok = InsertAttach(attachInfo);
             var note = NoteService.GetNoteById(attachInfo.NoteId);
             long? userId = 0L;
-            if (note.NoteId !=null)
+            if (note.Id !=null)
             {
                 userId = note.UserId;
             }
@@ -75,7 +75,7 @@ namespace MoreNote.Logic.Service
         public bool UpdateNoteAttachNum(long? noteId, int addNUm)
         {
                 Note note = dataContext.Note
-                   .Where(b => b.NoteId == noteId).FirstOrDefault();
+                   .Where(b => b.Id == noteId).FirstOrDefault();
                 if (note == null)
                 {
                     return false;
@@ -121,7 +121,7 @@ namespace MoreNote.Logic.Service
         public bool UpdateImageTitle(long? userId, long? fileId, string title)
         {
            
-                var image = dataContext.NoteFile.Where(file => file.FileId == fileId && file.UserId == userId);
+                var image = dataContext.NoteFile.Where(file => file.Id == fileId && file.UserId == userId);
                 if (image != null)
                 {
                     var imageFile = image.FirstOrDefault();
@@ -151,7 +151,7 @@ namespace MoreNote.Logic.Service
                 {
                     foreach (var attach in attachInfos)
                     {
-                       await  DeleteAttachAsync(attach.AttachId, userId);
+                       await  DeleteAttachAsync(attach.Id, userId);
                         //todo:实现os删除，因为文件可能在对象储存上
                         /**
                          * 这里存在的问题就是morenote可能允许多种储存方式
@@ -177,10 +177,10 @@ namespace MoreNote.Logic.Service
             if (attachId != 0 && userId != 0)
             {
                 
-                    var attach = dataContext.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).FirstOrDefault();
+                    var attach = dataContext.AttachInfo.Where(b => b.Id == attachId && b.UserId == userId).FirstOrDefault();
                     long? noteId = attach.NoteId;
                     string path = attach.Path;
-                    dataContext.AttachInfo.Where(b => b.AttachId == attachId && b.UserId == userId).Delete();
+                    dataContext.AttachInfo.Where(b => b.Id == attachId && b.UserId == userId).Delete();
                     UpdateNoteAttachNum(noteId, -1);
                     await  DeleteAttachOnDiskAsync(path);
                     return true;
@@ -209,7 +209,7 @@ namespace MoreNote.Logic.Service
 
         public async Task<AttachInfo> GetAttachAsync(long? attachId, long? userId)
         {
-          var attach=dataContext.AttachInfo.Where(b=>b.AttachId==attachId&&b.UserId==userId);
+          var attach=dataContext.AttachInfo.Where(b=>b.Id==attachId&&b.UserId==userId);
             AttachInfo attachInfo = await attach.FirstOrDefaultAsync();
             return attachInfo;
         }
@@ -217,7 +217,7 @@ namespace MoreNote.Logic.Service
         public AttachInfo GetAttach(long? attachId)
         {
             
-                var result = dataContext.AttachInfo.Where(b => b.AttachId == attachId);
+                var result = dataContext.AttachInfo.Where(b => b.Id == attachId);
                 return result == null ? null : result.FirstOrDefault();
             
         }
@@ -240,12 +240,12 @@ namespace MoreNote.Logic.Service
             }
             foreach (var attach in attachs)
             {
-                var fileId = attach.AttachId.ToHex24();
+                var fileId = attach.Id.ToHex();
                 if (!nowAttachs.Contains(fileId))
                 {
                     // 需要删除的
                     // TODO 权限验证去掉
-                    DeleteAttachAsync(attach.AttachId, userId);
+                    DeleteAttachAsync(attach.Id, userId);
                 }
             }
             return true;

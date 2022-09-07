@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
+
 using MoreNote.Logic.Models.Enum;
 using System;
 using System.Collections.Generic;
@@ -13,12 +16,10 @@ namespace MoreNote.Logic.Models.Entity
     /// <summary>
     /// 分享笔记 这个的共享仅仅是只读性质
     /// </summary>
-    [Table("share_note"),Index(nameof(ShareNoteId),nameof(NoteId))]
-    public class ShareNote
+    [Table("share_note"),Index(nameof(Id),nameof(NoteId))]
+    public class ShareNote: BaseEntity
     {
-        [Key]
-        [Column("share_note_id")]
-        public long? ShareNoteId { get; set; }
+       
 
         [Column("note_id")]
         public long? NoteId { get; set; }

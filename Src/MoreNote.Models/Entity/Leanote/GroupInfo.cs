@@ -4,16 +4,15 @@ using System.Text;
 using MoreNote.Logic.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     // 分组
     [Table("group_team")]
-    public class GroupTeam
+    public class GroupTeam: BaseEntity
     {
-        [Key]
-        [Column("group_team_id")]
-        public long? GroupTeamId { get; set; } // 谁的 
+        
         [Column("user_id")]
         public long? UserId { get; set; } // 所有者Id 
         [Column("title")]
@@ -28,11 +27,9 @@ namespace MoreNote.Logic.Entity
 
     // 分组好友
     [Table("group_team_user")]
-    public class GroupTeamUser
+    public class GroupTeamUser: BaseEntity
     {
-        [Key]
-        [Column("group_team_user_id")]
-        public long? GroupTeamUserId { get; set; } // 谁的 
+       
         [Column("group_id")]
         public long? GroupId { get; set; } // 分组 
         [Column("user_id")]

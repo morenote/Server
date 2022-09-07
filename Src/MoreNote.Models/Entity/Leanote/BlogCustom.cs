@@ -1,4 +1,6 @@
 ﻿
+using Morenote.Models.Models.Entity;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,9 +12,11 @@ namespace MoreNote.Logic.Entity
 
     [Table("blog_info_custom")]
     // 仅仅为了博客的主题
-    public class BlogInfoCustom
+    public class BlogInfoCustom: BaseEntity
     {
-        [Key]
+
+
+       
         [Column("user_id")]
         public long? UserId{ get; set; }
         [Column("username")]
@@ -38,9 +42,9 @@ namespace MoreNote.Logic.Entity
       
     }
     [Table("post")]
-    public class Post
+    public class Post: BaseEntity
     {
-        [Key]
+       
         [Column("note_id")]
         public long? NoteId{ get; set; }
         [Column("title")]
@@ -85,11 +89,9 @@ namespace MoreNote.Logic.Entity
         public Note[] Posts { get; set; }
     }
     [Table("cate")]
-    public class Cate
+    public class Cate: BaseEntity
     {
-        [Key]
-        [Column("cate_id")]
-        public long? CateId { get; set; }
+        
         [Column("parent_cate_id")]
         public string ParentCateId { get; set; }
         [Column("title")]

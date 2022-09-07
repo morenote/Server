@@ -298,7 +298,7 @@ namespace MoreNote.Framework.Controllers
             else
             {
                 User user = tokenSerivce.GetUserByToken(token);
-                long? userid = (user == null ? 0 : user.UserId);
+                long? userid = (user == null ? 0 : user.Id);
                 return userid;
             }
         }
@@ -315,7 +315,7 @@ namespace MoreNote.Framework.Controllers
             else
             {
                 User user = tokenSerivce.GetUserByToken(token);
-                long? userid = (user == null ? 0 : user.UserId);
+                long? userid = (user == null ? 0 : user.Id);
                 return userid;
             }
         }
@@ -411,7 +411,7 @@ namespace MoreNote.Framework.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         protected void SetUserIdToSession(long? userId)
         {
-            _accessor.HttpContext.Session.SetString("UserId", userId.ToHex24());
+            _accessor.HttpContext.Session.SetString("UserId", userId.ToHex());
         }
 
         // todo :上传附件
@@ -469,7 +469,7 @@ namespace MoreNote.Framework.Controllers
                 //将结果保存在数据库
                 AttachInfo attachInfo = new AttachInfo()
                 {
-                    AttachId = diskFileId,
+                    Id = diskFileId,
                     UserId = userId,
                     NoteId = noteId,
                     UploadUserId = userId,
@@ -593,7 +593,7 @@ namespace MoreNote.Framework.Controllers
                 //将结果保存在数据库
                 NoteFile noteFile = new NoteFile()
                 {
-                    FileId = diskFileId,
+                    Id = diskFileId,
                     UserId = userId,
                     AlbumId = 1,
                     Name = fileName,
@@ -677,7 +677,7 @@ namespace MoreNote.Framework.Controllers
                         //将结果保存在数据库
                         NoteFile noteFile = new NoteFile()
                         {
-                            FileId = diskFileId,
+                            Id = diskFileId,
                             UserId = userId,
                             AlbumId = 1,
                             Name = fileName,
@@ -793,7 +793,7 @@ namespace MoreNote.Framework.Controllers
                     //将结果保存在数据库
                     NoteFile noteFile = new NoteFile()
                     {
-                        FileId = diskFileId,
+                        Id = diskFileId,
                         UserId = userId,
                         AlbumId = 1,
                         Name = fileName,

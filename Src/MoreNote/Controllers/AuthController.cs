@@ -57,7 +57,7 @@ namespace MoreNote.Controllers
             var user = tokenSerivce.GetUserByToken(token);
             if (user != null && tokenSerivce.VerifyToken(token))
             {
-                HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
+                HttpContext.Session.SetString("UserId", user.Id.ToHex());
                 HttpContext.Session.SetBool("Verified", user.Verified);
                 HttpContext.Session.SetString("token", token);
                 //anti csrf
@@ -139,7 +139,7 @@ namespace MoreNote.Controllers
                 var user=userService.GetUserByEmail(email);
                  distributedCache.SetInt(errorCountKey,0);
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                identity.AddClaim(new Claim(ClaimTypes.Sid, user.UserId.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
 
                 if (!string.IsNullOrEmpty(user.Role))
@@ -165,7 +165,7 @@ namespace MoreNote.Controllers
 
                 //登录成功
                 HttpContext.Session.SetString("token", tokenStr);
-                HttpContext.Session.SetString("UserId", user.UserId.ToHex24());
+                HttpContext.Session.SetString("UserId", user.Id.ToHex());
                 HttpContext.Session.SetBool("Verified", user.Verified);
 
                 HttpContext.Response.Cookies.Append("token", tokenStr, 
@@ -184,7 +184,7 @@ namespace MoreNote.Controllers
                 {
                     new Claim(JwtRegisteredClaimNames.Jti, jti.ToHex()),
                     new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Sid, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Sid, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(JwtRegisteredClaimNames.Sub, "{B362F518-1C49-437B-962B-8D83A0A0285E}"),
                 };

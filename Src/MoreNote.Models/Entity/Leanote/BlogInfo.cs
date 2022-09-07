@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,9 +40,9 @@ namespace MoreNote.Logic.Entity
 
     }
     [Table("user_blog_base")]
-    public class UserBlogBase
+    public class UserBlogBase: BaseEntity
     {
-        [Key]
+       
         [Column("logo")]
         public string Logo { get; set; } // logo 
         [Column("title")]
@@ -50,11 +52,10 @@ namespace MoreNote.Logic.Entity
 
     }
     [Table("user_blog_comment")]
-    public class UserBlogComment
+    public class UserBlogComment: BaseEntity
     {
-        [Key]
-        [Column("user_blog_comment_id")]
-        public long? UserBlogCommentId { get; set; }
+       
+        
         [Column("can_comment")]
         public bool CanComment { get; set; } // 是否可以评论 
         [Column("comment_type")]
@@ -63,11 +64,9 @@ namespace MoreNote.Logic.Entity
         public string? DisqusId { get; set; }  
     }
     [Table("user_blog_style")]
-    public class UserBlogStyle
+    public class UserBlogStyle: BaseEntity
     {
-        [Key]
-        [Column("user_blog_style_id")]
-        public long? UserBlogStyleId { get; set; }
+        
         [Column("style")]
         public string Style { get; set; } // 风格 
         [Column("css")]
@@ -76,9 +75,9 @@ namespace MoreNote.Logic.Entity
     }
     // 每个用户一份博客设置信息
     [Table("user_blog")]
-    public class UserBlog
+    public class UserBlog: BaseEntity
     {
-        [Key]
+        
         [Column("user_id")]
         public long? UserId { get; set; } // 谁的 
         [Column("logo")]
@@ -126,9 +125,9 @@ namespace MoreNote.Logic.Entity
     }
     //博客统计信息
     [Table("blog_stat")]
-    public class BlogStat
+    public class BlogStat: BaseEntity
     {
-        [Key]
+        
         [Column("node_id")]
         public long? NodeId {get;set;}
         [Column("read_num")]
@@ -141,11 +140,9 @@ namespace MoreNote.Logic.Entity
     }
     //// 单页
     [Table("blog_single")]
-    public class BlogSingle
+    public class BlogSingle: BaseEntity
     {
-        [Key]
-        [Column("single_id")]
-        public long? SingleId { get; set; }
+        
         [Column("user_id")]
         public long? UserId { get; set; }
         [Column("title")]
@@ -167,11 +164,9 @@ namespace MoreNote.Logic.Entity
 
     // 点赞记录
     [Table("blog_like")]
-    public class BlogLike
+    public class BlogLike: BaseEntity
     {
-        [Key]
-        [Column("like_id")]
-        public long? LikeId { get; set; }
+       
         [Column("note_id")]
         public long? NoteId { get; set; }
         [Column("user_id")]
@@ -182,11 +177,9 @@ namespace MoreNote.Logic.Entity
     }
     // 评论
     [Table("blog_comment")]
-    public class BlogComment
+    public class BlogComment: BaseEntity
     {
-        [Key]
-        [Column("comment_id")]
-        public long? CommentId { get; set; }
+        
         [Column("note_id")]
         public long? NoteId { get; set; }
         [Column("user_id")]
@@ -211,11 +204,9 @@ namespace MoreNote.Logic.Entity
 
     }
     [Table("blog_comment_public")]
-    public class BlogCommentPublic
+    public class BlogCommentPublic: BaseEntity
     {
-        [Key]
-        [Column("blog_comment_public_id")]
-        public long? BlogCommentPublicId { get; set; }
+        
         [Column("blog_comment")]
         BlogComment BlogComment { get; set; }
         [Column("is_i_like_it")]

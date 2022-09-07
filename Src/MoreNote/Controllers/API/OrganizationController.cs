@@ -49,7 +49,7 @@ namespace MoreNote.Controllers.API
             var user = tokenSerivce.GetUserByToken(token);
             if (user != null)
             {
-                var list = organizationService.GetOrganizationList(user.UserId, AuthorityEnum);
+                var list = organizationService.GetOrganizationList(user.Id, AuthorityEnum);
               
                 apiRe = new ApiRe()
                 {

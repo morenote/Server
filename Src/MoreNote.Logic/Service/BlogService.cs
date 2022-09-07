@@ -48,7 +48,7 @@ namespace MoreNote.Logic.Service
             var note = NoteService.GetBlogNote(noteId);
             var stat = new BlogStat()
             {
-                NodeId = note.NoteId,
+                NodeId = note.Id,
                 ReadNum = note.ReadNum,
                 LikeNum = note.LikeNum,
                 CommentNum = note.CommentNum
@@ -121,7 +121,7 @@ namespace MoreNote.Logic.Service
 
         public BlogItem GetBlog(long? noteId)
         {
-            var note = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+            var note = dataContext.Note.Where(b => b.Id == noteId).FirstOrDefault();
             return GetBlogItem(note);
         }
 
@@ -133,7 +133,7 @@ namespace MoreNote.Logic.Service
             }
 
             //内容
-            var noteContent = NoteContentService.GetNoteContent(note.NoteId, note.UserId);
+            var noteContent = NoteContentService.GetNoteContent(note.Id, note.UserId);
             // 组装成blogItem
             User user = UserService.GetUserByUserId(note.UserId);
             var blog = new BlogItem()
@@ -183,7 +183,7 @@ namespace MoreNote.Logic.Service
         {
             BlogInfo blogInfo = new BlogInfo()
             {
-                UserId = userinfo.UserId.ToHex24(),
+                UserId = userinfo.Id.ToHex(),
                 Username = userinfo.Username,
                 UserLogo = userinfo.Logo,
                 Title = userBlog.Title,
@@ -192,7 +192,7 @@ namespace MoreNote.Logic.Service
                 OpenComment = userBlog.CanComment,
                 CommentType = userBlog.CommentType,// leanote, or disqus
                 DisqusId = userBlog.DisqusId,
-                ThemeId = userBlog.ThemeId.ToHex24(),
+                ThemeId = userBlog.ThemeId.ToHex(),
                 SubDomain = userBlog.SubDomain,
                 Domain = userBlog.Domain,
             };
@@ -234,7 +234,7 @@ namespace MoreNote.Logic.Service
         public BlogItem[] notes2BlogItems(Note[] notes)
         {
            var noteIds=(from note in notes
-                       select note.NoteId).ToArray();
+                       select note.Id).ToArray();
            var noteContents=NoteContentService.DictionaryNoteContentByNoteIds(noteIds);
 
            var blogs=new List<BlogItem>();
@@ -244,8 +244,8 @@ namespace MoreNote.Logic.Service
                 var blogItem=new BlogItem()
                 {
                     Note=note,
-                    Abstract=noteContents[note.NoteId]?.Abstract,
-                    Content=noteContents[note.NoteId]?.Content,
+                    Abstract=noteContents[note.Id]?.Abstract,
+                    Content=noteContents[note.Id]?.Content,
                     HasMore=true
                    
                 };
@@ -410,7 +410,7 @@ namespace MoreNote.Logic.Service
         {
             try
             {
-                var result = dataContext.Note.Where(b => b.NoteId == noteId).FirstOrDefault();
+                var result = dataContext.Note.Where(b => b.Id == noteId).FirstOrDefault();
                 result.ReadNum++;
                 return dataContext.SaveChanges() == 1;
             }
@@ -577,7 +577,7 @@ namespace MoreNote.Logic.Service
             }
             else
             {
-                userIdOrEmail = userInfo.UserId.ToHex();
+                userIdOrEmail = userInfo.Id.ToHex();
             }
             indexUrl = blogUrl + "/" + userIdOrEmail;
 
@@ -632,12 +632,12 @@ namespace MoreNote.Logic.Service
         {
             var cate = (from _note in dataContext.Set<Note>()
                         join _noteBook in dataContext.Set<Notebook>() 
-                            on _note.NotebookId equals _noteBook.NotebookId
+                            on _note.NotebookId equals _noteBook.Id
                           where _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
                           
                           select new Cate
                           {
-                              CateId = _note.NotebookId,
+                              Id = _note.NotebookId.Value,
                               Title = _noteBook.Title
                           }).Distinct().OrderByDescending(b => b.Title);
 

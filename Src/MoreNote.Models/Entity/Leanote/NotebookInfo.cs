@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Morenote.Models.Models.Entity;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,12 +8,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MoreNote.Logic.Entity
 {
     [Table("notebook")]
-    public class Notebook
+    public class Notebook: BaseEntity
     {
-        [Key]
-        [Column("notebook_id")]
-        public long? NotebookId { get; set; } // 须要设置bson:"_id" 不然mgo不会认为是主键
-
+       
         [Column("user_id")]
         public long? UserId { get; set; }
 

@@ -26,12 +26,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Album", b =>
                 {
-                    b.Property<long?>("AlbumId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("album_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("AlbumId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
@@ -46,6 +46,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("seq");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer")
                         .HasColumnName("type");
@@ -54,18 +57,22 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("AlbumId");
+                    b.HasKey("Id");
 
                     b.ToTable("album");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.AppInfo", b =>
                 {
-                    b.Property<long?>("appid")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("appid"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("appautor")
                         .IsRequired()
@@ -103,19 +110,19 @@ namespace MoreNote.Logic.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.HasKey("appid");
+                    b.HasKey("Id");
 
                     b.ToTable("app_info");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.AttachInfo", b =>
                 {
-                    b.Property<long?>("AttachId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("attach_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("AttachId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
@@ -139,6 +146,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("size");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<int>("StorageType")
                         .HasColumnType("integer")
                         .HasColumnName("storage_type");
@@ -161,7 +171,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("AttachId");
+                    b.HasKey("Id");
 
                     b.ToTable("attach_info");
                 });
@@ -197,12 +207,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.BlogComment", b =>
                 {
-                    b.Property<long?>("CommentId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("comment_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("CommentId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<bool>("Allow")
                         .HasColumnType("boolean")
@@ -230,6 +240,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("note_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<long?>("ToCommentId")
                         .HasColumnType("bigint")
                         .HasColumnName("to_comment_id");
@@ -242,37 +255,40 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("CommentId");
+                    b.HasKey("Id");
 
                     b.ToTable("blog_comment");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.BlogCommentPublic", b =>
                 {
-                    b.Property<long?>("BlogCommentPublicId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("blog_comment_public_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("BlogCommentPublicId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<bool>("IsILikeIt")
                         .HasColumnType("boolean")
                         .HasColumnName("is_i_like_it");
 
-                    b.HasKey("BlogCommentPublicId");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("blog_comment_public");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.BlogInfoCustom", b =>
                 {
-                    b.Property<long?>("UserId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("user_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("CommentType")
                         .IsRequired()
@@ -294,6 +310,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("open_comment");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SubDomain")
                         .IsRequired()
                         .HasColumnType("text")
@@ -314,6 +333,10 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("title");
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
                     b.Property<string>("UserLogo")
                         .IsRequired()
                         .HasColumnType("text")
@@ -324,19 +347,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("username");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("blog_info_custom");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.BlogLike", b =>
                 {
-                    b.Property<long?>("LikeId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("like_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("LikeId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
@@ -346,23 +369,26 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("note_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("LikeId");
+                    b.HasKey("Id");
 
                     b.ToTable("blog_like");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.BlogSingle", b =>
                 {
-                    b.Property<long?>("SingleId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("single_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("SingleId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -372,6 +398,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_time");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -391,19 +420,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("SingleId");
+                    b.HasKey("Id");
 
                     b.ToTable("blog_single");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.BlogStat", b =>
                 {
-                    b.Property<long?>("NodeId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("node_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NodeId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<int>("CommentNum")
                         .HasColumnType("integer")
@@ -413,31 +442,41 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("like_num");
 
+                    b.Property<long?>("NodeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("node_id");
+
                     b.Property<int>("ReadNum")
                         .HasColumnType("integer")
                         .HasColumnName("read_num");
 
-                    b.HasKey("NodeId");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("blog_stat");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Cate", b =>
                 {
-                    b.Property<long?>("CateId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("cate_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("CateId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
-                    b.Property<long?>("CateId1")
+                    b.Property<long?>("CateId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ParentCateId")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("parent_cate_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -449,21 +488,21 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("url_title");
 
-                    b.HasKey("CateId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CateId1");
+                    b.HasIndex("CateId");
 
                     b.ToTable("cate");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.CommodityOrder", b =>
                 {
-                    b.Property<long?>("CommodityOrderId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("commodity_order_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("CommodityOrderId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("NativeRequestMessage")
                         .HasColumnType("text")
@@ -488,6 +527,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("Refund")
                         .HasColumnType("boolean")
                         .HasColumnName("re_fund");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("attch")
                         .IsRequired()
@@ -535,47 +577,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("type");
 
-                    b.HasKey("CommodityOrderId");
+                    b.HasKey("Id");
 
                     b.ToTable("commodity_order");
                 });
 
-            modelBuilder.Entity("MoreNote.Logic.Entity.Config", b =>
-                {
-                    b.Property<long?>("ConfigId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("config_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("ConfigId"));
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("key");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("user_id");
-
-                    b.Property<string>("ValueStr")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("value_str");
-
-                    b.HasKey("ConfigId");
-
-                    b.ToTable("config");
-                });
-
             modelBuilder.Entity("MoreNote.Logic.Entity.EmailLog", b =>
                 {
-                    b.Property<long?>("LogId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("log_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("LogId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -600,12 +614,15 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("ok");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("subject");
 
-                    b.HasKey("LogId");
+                    b.HasKey("Id");
 
                     b.ToTable("email_log");
                 });
@@ -638,16 +655,19 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.GroupTeam", b =>
                 {
-                    b.Property<long?>("GroupTeamId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("group_team_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("GroupTeamId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_time");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -662,19 +682,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("GroupTeamId");
+                    b.HasKey("Id");
 
                     b.ToTable("group_team");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.GroupTeamUser", b =>
                 {
-                    b.Property<long?>("GroupTeamUserId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("group_team_user_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("GroupTeamUserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
@@ -684,23 +704,26 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("group_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("GroupTeamUserId");
+                    b.HasKey("Id");
 
                     b.ToTable("group_team_user");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Note", b =>
                 {
-                    b.Property<long?>("NoteId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("note_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NoteId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("AccessPassword")
                         .HasColumnType("text")
@@ -794,6 +817,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("src");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string[]>("Tags")
                         .HasColumnType("text[]")
                         .HasColumnName("tags");
@@ -827,7 +853,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("usn");
 
-                    b.HasKey("NoteId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId", "IsBlog", "IsDeleted");
 
@@ -836,12 +862,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Notebook", b =>
                 {
-                    b.Property<long?>("NotebookId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("notebook_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NotebookId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
@@ -879,6 +905,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("seq");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text")
@@ -901,19 +930,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("usn");
 
-                    b.HasKey("NotebookId");
+                    b.HasKey("Id");
 
                     b.ToTable("notebook");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.NoteContent", b =>
                 {
-                    b.Property<long?>("NoteContentId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("note_content_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NoteContentId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("Abstract")
                         .HasColumnType("text")
@@ -951,6 +980,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("note_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated_time");
@@ -963,7 +995,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("NoteContentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("NoteId", "UserId", "IsHistory");
 
@@ -972,12 +1004,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.NoteFile", b =>
                 {
-                    b.Property<long?>("FileId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("file_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("FileId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<long?>("AlbumId")
                         .HasColumnType("bigint")
@@ -1024,6 +1056,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("size");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<int>("StorageType")
                         .HasColumnType("integer")
                         .HasColumnName("storage_type");
@@ -1040,21 +1075,21 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("FileId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("FileId", "UserId", "SHA1");
+                    b.HasIndex("Id", "UserId", "SHA1");
 
                     b.ToTable("note_file");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.NoteImage", b =>
                 {
-                    b.Property<long?>("NoteImageId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("note_image_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NoteImageId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<long?>("ImageId")
                         .HasColumnType("bigint")
@@ -1064,23 +1099,26 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("note_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<int>("UseCount")
                         .HasColumnType("integer")
                         .HasColumnName("use_count");
 
-                    b.HasKey("NoteImageId");
+                    b.HasKey("Id");
 
                     b.ToTable("note_image");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.NoteTag", b =>
                 {
-                    b.Property<long?>("TagId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("tag_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("TagId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<int>("Count")
                         .HasColumnType("integer")
@@ -1097,6 +1135,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Tag")
                         .IsRequired()
@@ -1115,7 +1156,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("usn");
 
-                    b.HasKey("TagId");
+                    b.HasKey("Id");
 
                     b.ToTable("note_tag");
                 });
@@ -1148,12 +1189,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Post", b =>
                 {
-                    b.Property<long?>("NoteId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("note_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("NoteId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("Abstract")
                         .IsRequired()
@@ -1191,6 +1232,10 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("like_num");
 
+                    b.Property<long?>("NoteId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("note_id");
+
                     b.Property<DateTime>("PublicTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("public_time");
@@ -1198,6 +1243,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<int>("ReadNum")
                         .HasColumnType("integer")
                         .HasColumnName("read_num");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string[]>("Tags")
                         .IsRequired()
@@ -1218,19 +1266,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("url_title");
 
-                    b.HasKey("NoteId");
+                    b.HasKey("Id");
 
                     b.ToTable("post");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.RandomImage", b =>
                 {
-                    b.Property<long?>("RandomImageId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("random_image_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("RandomImageId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<bool>("Block")
                         .HasColumnType("boolean")
@@ -1272,6 +1320,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("sex");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("TypeName")
                         .IsRequired()
                         .HasColumnType("text")
@@ -1287,21 +1338,21 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("type_name_sha1");
 
-                    b.HasKey("RandomImageId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("RandomImageId", "TypeName", "Sex", "IsDelete", "Block", "FileSHA1");
+                    b.HasIndex("Id", "TypeName", "Sex", "IsDelete", "Block", "FileSHA1");
 
                     b.ToTable("random_image");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.ReportInfo", b =>
                 {
-                    b.Property<long?>("ReportId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("report_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("ReportId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<int>("CommentId")
                         .HasColumnType("integer")
@@ -1316,23 +1367,26 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("reason");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("ReportId");
+                    b.HasKey("Id");
 
                     b.ToTable("report_info");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.ResolutionLocation", b =>
                 {
-                    b.Property<long?>("ResolutionLocationID")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("resolution_location_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("ResolutionLocationID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<int>("Score")
                         .HasColumnType("integer")
@@ -1341,6 +1395,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<int>("Speed")
                         .HasColumnType("integer")
                         .HasColumnName("speed");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<long?>("StrategyID")
                         .HasColumnType("bigint")
@@ -1355,23 +1412,26 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("weight");
 
-                    b.HasKey("ResolutionLocationID");
+                    b.HasKey("Id");
 
                     b.ToTable("resolution_location");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.ResolutionStrategy", b =>
                 {
-                    b.Property<long?>("StrategyID")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("strategy_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("StrategyID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<int>("CheckTime")
                         .HasColumnType("integer")
                         .HasColumnName("check_time");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("StrategyKey")
                         .IsRequired()
@@ -1383,7 +1443,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("strategy_name");
 
-                    b.HasKey("StrategyID");
+                    b.HasKey("Id");
 
                     b.ToTable("resolution_strategy");
                 });
@@ -1414,6 +1474,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("session_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated_time");
@@ -1429,12 +1492,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.SpamInfo", b =>
                 {
-                    b.Property<long?>("SpamId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("spam_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("SpamId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatData")
                         .HasColumnType("timestamp without time zone")
@@ -1461,7 +1524,10 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("real")
                         .HasColumnName("score");
 
-                    b.HasKey("SpamId");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("spam_info");
                 });
@@ -1479,6 +1545,9 @@ namespace MoreNote.Logic.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("addr");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
@@ -1541,12 +1610,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Theme", b =>
                 {
-                    b.Property<long?>("ThemeId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("theme_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("ThemeId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -1585,6 +1654,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("theme_path");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Style")
                         .IsRequired()
                         .HasColumnType("text")
@@ -1603,19 +1675,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("version");
 
-                    b.HasKey("ThemeId");
+                    b.HasKey("Id");
 
                     b.ToTable("theme");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.Token", b =>
                 {
-                    b.Property<long?>("TokenId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("token_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("TokenId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
@@ -1624,6 +1696,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text")
                         .HasColumnName("email");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("TokenStr")
                         .IsRequired()
@@ -1642,19 +1717,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("TokenId");
+                    b.HasKey("Id");
 
                     b.ToTable("token");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.User", b =>
                 {
-                    b.Property<long?>("UserId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("user_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("AccountEndTime")
                         .HasColumnType("timestamp without time zone")
@@ -1851,6 +1926,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("signature");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Tags")
                         .IsRequired()
                         .HasColumnType("text")
@@ -1893,7 +1971,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("verified");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Email", "Verified", "Username", "UsernameRaw", "Role", "ThirdUserId", "FromUserId");
 
@@ -1902,12 +1980,12 @@ namespace MoreNote.Logic.Migrations
 
             modelBuilder.Entity("MoreNote.Logic.Entity.UserAccount", b =>
                 {
-                    b.Property<long?>("UserId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("user_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("AccountEndTime")
                         .HasColumnType("timestamp without time zone")
@@ -1942,19 +2020,22 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("max_per_attach_size");
 
-                    b.HasKey("UserId");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("user_account");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.UserBlog", b =>
                 {
-                    b.Property<long?>("UserId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("user_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("AboutMe")
                         .HasColumnType("text")
@@ -2004,6 +2085,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("sort_field");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Style")
                         .HasColumnType("text")
                         .HasColumnName("style");
@@ -2028,16 +2112,31 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.HasKey("UserId");
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
 
                     b.ToTable("user_blog");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.UserBlogBase", b =>
                 {
+                    b.Property<long?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+
                     b.Property<string>("Logo")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("logo");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SubTitle")
                         .IsRequired()
@@ -2049,19 +2148,19 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.HasKey("Logo");
+                    b.HasKey("Id");
 
                     b.ToTable("user_blog_base");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.UserBlogComment", b =>
                 {
-                    b.Property<long?>("UserBlogCommentId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("user_blog_comment_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("UserBlogCommentId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<bool>("CanComment")
                         .HasColumnType("boolean")
@@ -2076,43 +2175,49 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("disqus_id");
 
-                    b.HasKey("UserBlogCommentId");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("user_blog_comment");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Entity.UserBlogStyle", b =>
                 {
-                    b.Property<long?>("UserBlogStyleId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("user_blog_style_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("UserBlogStyleId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("Css")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("css");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Style")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("style");
 
-                    b.HasKey("UserBlogStyleId");
+                    b.HasKey("Id");
 
                     b.ToTable("user_blog_style");
                 });
 
             modelBuilder.Entity("MoreNote.Logic.Models.Entity.Leanote.AccessRecords", b =>
                 {
-                    b.Property<long?>("AccessId")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("access_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("AccessId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime>("AccessTime")
                         .HasColumnType("timestamp without time zone")
@@ -2138,6 +2243,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("request_header");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<long?>("TimeInterval")
                         .HasColumnType("bigint")
                         .HasColumnName("time_interval");
@@ -2158,7 +2266,7 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("x_real_ip");
 
-                    b.HasKey("AccessId");
+                    b.HasKey("Id");
 
                     b.HasIndex("IP", "X_Real_IP", "X_Forwarded_For", "AccessTime", "URL");
 
@@ -2198,6 +2306,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("owner_type");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("Visible")
                         .HasColumnType("boolean")
                         .HasColumnName("visible");
@@ -2224,6 +2335,9 @@ namespace MoreNote.Logic.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("data_sign_json");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Tag")
                         .IsRequired()
@@ -2274,6 +2388,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("login_method");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
@@ -2302,6 +2419,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("owner_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("organization");
@@ -2323,6 +2443,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<long?>("RoleId")
                         .HasColumnType("bigint")
                         .HasColumnName("role_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
@@ -2350,6 +2473,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("role_name");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("organization_member_role");
@@ -2371,6 +2497,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<long?>("RoleId")
                         .HasColumnType("bigint")
                         .HasColumnName("role_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -2402,6 +2531,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("role_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("organization_team");
@@ -2415,6 +2547,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<long?>("TeamId")
                         .HasColumnType("bigint")
@@ -2445,6 +2580,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<long?>("RoleId")
                         .HasColumnType("bigint")
                         .HasColumnName("role_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -2504,6 +2642,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("star_counter");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Usn")
                         .HasColumnType("integer")
                         .HasColumnName("usn");
@@ -2537,6 +2678,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsEncryption")
                         .HasColumnType("boolean")
                         .HasColumnName("is_encryption");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
@@ -2572,6 +2716,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("role_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("repository_member");
@@ -2593,6 +2740,9 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("RoleName")
                         .HasColumnType("text")
                         .HasColumnName("role_name");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -2636,6 +2786,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("fido2_signature_counter");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<byte[]>("UserHandle")
                         .HasColumnType("bytea")
                         .HasColumnName("fido2_user_handle");
@@ -2665,7 +2818,7 @@ namespace MoreNote.Logic.Migrations
                 {
                     b.HasOne("MoreNote.Logic.Entity.Cate", null)
                         .WithMany("Children")
-                        .HasForeignKey("CateId1");
+                        .HasForeignKey("CateId");
                 });
 
             modelBuilder.Entity("MoreNote.Models.Entity.Security.FIDO2.FIDO2Item", b =>

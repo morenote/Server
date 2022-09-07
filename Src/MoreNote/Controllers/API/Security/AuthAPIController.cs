@@ -107,14 +107,14 @@ namespace MoreNote.Controllers.API.APIV1
                     var userToken = new UserToken()
                     {
                         Token = tokenStr,
-                        UserId = user.UserId,
+                        UserId = user.Id,
                         Email = user.Email,
                         Username = user.Username
                     };
                     re.Ok = true;
                     //re.Data = userToken;
                     this.distributedCache.SetBool("Password" + requestNumber, true);
-                    logg.UserId = user.UserId;
+                    logg.UserId = user.Id;
                     logg.IsLoginSuccess = true;
                     return LeanoteJson(re);
                 }
@@ -167,13 +167,13 @@ namespace MoreNote.Controllers.API.APIV1
 
             if (result)
             {
-                var token = tokenSerivce.GenerateToken(user.UserId, user.Email);
+                var token = tokenSerivce.GenerateToken(user.Id, user.Email);
 
                 tokenSerivce.SaveToken(token);
                 var userToken = new UserToken()
                 {
                     Token = token.TokenStr,
-                    UserId = user.UserId,
+                    UserId = user.Id,
                     Email = user.Email,
                     Username = user.Username
                 };
@@ -335,7 +335,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            userService.SetUserLoginSecurityPolicyLevel(user.UserId, level);
+            userService.SetUserLoginSecurityPolicyLevel(user.Id, level);
 
             re.Ok = true;
             return LeanoteJson(re);

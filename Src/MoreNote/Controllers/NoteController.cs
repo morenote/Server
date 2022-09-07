@@ -63,9 +63,9 @@ namespace MoreNote.Controllers
             var userInfo = this.GetUserAndBlogUrl();//得到用户信息+博客主页
             //判断用户ID是否已经登录
             var user = this.GetUserBySession();
-            var userId = user.UserId;
+            var userId = user.Id;
 
-            Notebook[] noteBoooks = notebookService.GetNoteBookTree(user.UserId);
+            Notebook[] noteBoooks = notebookService.GetNoteBookTree(user.Id);
 
             //是否已经开放注册功能
             ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;
@@ -95,8 +95,8 @@ namespace MoreNote.Controllers
                         noteContent = noteContentService.GetNoteContent(noteId, noteOwner, false);
 
                         hasRightNoteId = true;
-                        ViewBag.curNoteId = noteId.ToHex24();
-                        ViewBag.curNotebookId = note.NotebookId.ToHex24();
+                        ViewBag.curNoteId = noteId.ToHex();
+                        ViewBag.curNotebookId = note.NotebookId.ToHex();
 
                         // 打开的是共享的笔记, 那么判断是否是共享给我的默认笔记
 
@@ -104,7 +104,7 @@ namespace MoreNote.Controllers
                         {
                             if (shareService.HasReadPerm(noteOwner, GetUserIdBySession(), noteId))
                             {
-                                ViewBag.curSharedNoteNotebookId = note.NotebookId.ToHex24();
+                                ViewBag.curSharedNoteNotebookId = note.NotebookId.ToHex();
                                 ViewBag.curSharedUserId = noteOwner;
                             }
                             else
@@ -130,8 +130,8 @@ namespace MoreNote.Controllers
                     notes = noteService.ListNotes(userId, false, GetPage(), 50, defaultSortField, false, null);
                     if (notes.Any())
                     {
-                        noteContent = noteContentService.GetValidNoteContent(notes[0].NoteId, userId);
-                        ViewBag.curNoteId = notes[0].NoteId;
+                        noteContent = noteContentService.GetValidNoteContent(notes[0].Id, userId);
+                        ViewBag.curNoteId = notes[0].Id;
                     }
                 }
             }
@@ -245,7 +245,7 @@ namespace MoreNote.Controllers
                 var note = new Note()
                 {
                     UserId = userId,
-                    NoteId = noteOrContent.NoteId,
+                    Id = noteOrContent.NoteId,
                     NotebookId = noteOrContent.NotebookId,
                     Title = noteOrContent.Title,
                     Src = noteOrContent.Src,
@@ -374,9 +374,9 @@ namespace MoreNote.Controllers
             {
                 foreach (var item in notes1)
                 {
-                    if (!result.ContainsKey(item.NoteId))
+                    if (!result.ContainsKey(item.Id))
                     {
-                        result.Add(item.NoteId, item);
+                        result.Add(item.Id, item);
                     }
                 }
             }
@@ -384,9 +384,9 @@ namespace MoreNote.Controllers
             {
                 foreach (var item in notes2)
                 {
-                    if (!result.ContainsKey(item.NoteId))
+                    if (!result.ContainsKey(item.Id))
                     {
-                        result.Add(item.NoteId, item);
+                        result.Add(item.Id, item);
                     }
                 }
             }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,11 +15,9 @@ namespace MoreNote.Logic.Models.Entity.Leanote
     /// 访问记录
     /// </summary>
     [Table("access_records"), Index(nameof(IP), nameof(X_Real_IP), nameof(X_Forwarded_For), nameof(AccessTime), nameof(URL))]
-    public class AccessRecords
+    public class AccessRecords: BaseEntity
     {
-        [Key]
-        [Column("access_id")]
-        public long? AccessId { get; set; }
+        
 
         [Column("ip")]
         public string? IP { get; set; }
@@ -46,21 +47,17 @@ namespace MoreNote.Logic.Models.Entity.Leanote
     /// 白名单
     /// </summary>
     [Table("black_list")]
-    public class Blacklist
+    public class Blacklist: BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? ID { get; set; }
+       
         [Column("ip")]
         public string IP { get; set; }
     }
 
     [Table("backgroud_image_file")]
-    public class BackgroudImageFile
+    public class BackgroudImageFile: BaseEntity
     {
-        [Key]
-        [Column("file_id")]
-        public long? FileId { get; set; }
+       
         //如果 不进行FixContent处理，那么FileId=LocalFileId
         //public long? LocalFileId { get;set;}//客户端首次提交文件时的客户端定义的文件ID  
         [Column("album_id")]

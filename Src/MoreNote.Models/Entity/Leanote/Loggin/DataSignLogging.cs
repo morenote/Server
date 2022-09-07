@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,11 +16,8 @@ namespace MoreNote.Models.Entity.Leanote.Loggin
     /// 数据签名记录表
     /// </summary>
     [Table("data_sign"), Index(nameof(Id),nameof(DataId))]
-    public class DataSignLogging
+    public class DataSignLogging:BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; }
         [Column("data_id")]
         public long? DataId { get; set; }
         [Column("tag")]

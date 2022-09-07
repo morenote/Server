@@ -195,7 +195,7 @@ namespace MoreNote.Logic.Service
         public NoteFile GetFile(long? fileId)
         {
             
-                var result = dataContext.NoteFile.Where(b => b.FileId == fileId);
+                var result = dataContext.NoteFile.Where(b => b.Id == fileId);
                 var file = (result == null ? null : result.FirstOrDefault());
                 return file;
             

@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,12 +10,10 @@ using System.Text;
 
 namespace MoreNote.Logic.Entity
 {
-    [Table("random_image"),Index(nameof(RandomImageId),nameof(TypeName),nameof(Sex),nameof(IsDelete),nameof(Block),nameof(FileSHA1))]
-    public class RandomImage
+    [Table("random_image"),Index(nameof(Id),nameof(TypeName),nameof(Sex),nameof(IsDelete),nameof(Block),nameof(FileSHA1))]
+    public class RandomImage: BaseEntity
     {
-        [Key]
-        [Column("random_image_id")]
-        public long? RandomImageId { get; set; }
+       
         [Column("type_name")]
         public string TypeName { get; set; }
         [Column("type_name_md5")]

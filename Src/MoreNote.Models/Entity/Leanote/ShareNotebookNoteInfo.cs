@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
@@ -41,11 +42,9 @@ namespace MoreNote.Logic.Entity
 
     }
     [Table("share_notebook")]
-    public class ShareNotebook
+    public class ShareNotebook: BaseEntity
     {
-        [Key]
-        [Column("share_notebook_id")]
-        public int ShareNotebookId { get; set; } // 必须要设置bson:"_id" 不然mgo不会认为是主键
+       
         [Column("user_id")]
         public long? UserId { get; set; }
         [Column("to_user_id")]

@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Morenote.Models.Models.Entity;
 
 namespace MoreNote.Logic.Entity
 {
     [Table("email_log")]
-    public class EmailLog
+    public class EmailLog: BaseEntity
     {
-        [Key]
-        [Column("log_id")]
-        public long? LogId { get; set;}
+       
         [Column("email")]
         public string Email { get; set; } // 发送者 
         [Column("subject")]

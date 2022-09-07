@@ -12,6 +12,8 @@ using Fido2NetLib.Objects;
 using Masuit.Tools.Models;
 using Microsoft.EntityFrameworkCore;
 
+using Morenote.Models.Models.Entity;
+
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.Entity;
 
@@ -22,12 +24,8 @@ namespace MoreNote.Models.Entity.Security.FIDO2
 {
     
     [Table("fido2_item"), Index(nameof(Id), IsUnique =true)]
-    public class FIDO2Item
+    public class FIDO2Item: BaseEntity
     {
-
-        [Key]
-        [Column("id")]
-        public long? Id{get; set;}
 
          [Column("user_id")]
         public long? UserId { get; set; }

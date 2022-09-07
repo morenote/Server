@@ -1,4 +1,6 @@
-﻿using MoreNote.Models.Enum;
+﻿using Morenote.Models.Models.Entity;
+
+using MoreNote.Models.Enum;
 
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,10 @@ namespace MoreNote.Models.Entity.Leanote
     /// 仓库访问权限角色
     /// </summary>
     [Table("repository_member_Role")]
-    public class RepositoryMemberRole
+    public class RepositoryMemberRole: BaseEntity
     {
 
-        [Key]
-        [Column("id")]
-        public long? Id { get; set; } // ID
+       
 
         /// <summary>
         /// 角色名称

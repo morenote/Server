@@ -51,7 +51,7 @@ namespace MoreNote.Controllers.API.Security
             {
                 return LeanoteJson(apiRe);
             }
-            var challenge = ePass.GenServerChallenge("LoginChallenge", requestNumber, user.UserId);
+            var challenge = ePass.GenServerChallenge("LoginChallenge", requestNumber, user.Id);
             apiRe.Ok = true;
             apiRe.Data = challenge;
             return LeanoteJson(apiRe);
@@ -101,7 +101,7 @@ namespace MoreNote.Controllers.API.Security
                     //tokenSerivce.SaveToken(token);
               
                     //登录日志
-                    logg.UserId = user.UserId;
+                    logg.UserId = user.Id;
                     logg.IsLoginSuccess = true;
                     apiRe.Ok = true;
                     this.distributedCache.SetBool("USBKEY"+ challenge.RequestNumber,true);

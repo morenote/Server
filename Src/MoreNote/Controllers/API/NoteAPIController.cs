@@ -125,7 +125,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             try
             {
-                NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId.ToLongByHex(), tokenUser.UserId, false, false, false);
+                NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId.ToLongByHex(), tokenUser.Id, false, false, false);
 
                 ApiNote[] apiNotes = noteService.ToApiNotes(new Note[] { noteAndContent.note });
                 ApiNote apiNote = apiNotes[0];
@@ -254,7 +254,7 @@ namespace MoreNote.Controllers.API.APIV1
                             else
                             {
                                 // 建立映射
-                                file.FileId = serverFileId.ToHex24();
+                                file.FileId = serverFileId.ToHex();
                                 noteOrContent.Files[i] = file;
                                 if (file.IsAttach)
                                 {
@@ -291,7 +291,7 @@ namespace MoreNote.Controllers.API.APIV1
             Note note = new Note()
             {
                 UserId = tokenUserId,
-                NoteId = noteId,
+                Id = noteId,
                 CreatedUserId = tokenUserId,
                 UpdatedUserId = noteId,
                 NotebookId = noteOrContent.NotebookId.ToLongByHex(),
@@ -309,7 +309,7 @@ namespace MoreNote.Controllers.API.APIV1
             //-------------新增笔记内容对象
             NoteContent noteContent = new NoteContent()
             {
-                NoteContentId = note.ContentId,
+                Id = note.ContentId,
                 NoteId = noteId,
                 UserId = tokenUserId,
                 IsBlog = note.IsBlog,
@@ -355,7 +355,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             note = noteService.AddNoteAndContent(note, noteContent, myUserId);
             //-------------将笔记与笔记内容保存到数据库
-            if (note == null || note.NoteId == 0)
+            if (note == null || note.Id == 0)
             {
                 return Json(new ApiRe()
                 {
@@ -364,8 +364,8 @@ namespace MoreNote.Controllers.API.APIV1
                 });
             }
             //-------------API返回客户端信息
-            noteOrContent.NoteId = noteId.ToHex24();
-            noteOrContent.UserId = tokenUserId.ToHex24();
+            noteOrContent.NoteId = noteId.ToHex();
+            noteOrContent.UserId = tokenUserId.ToHex();
             noteOrContent.Title = note.Title;
             noteOrContent.Tags = note.Tags;
             noteOrContent.IsMarkdown = note.IsMarkdown;
@@ -420,8 +420,8 @@ namespace MoreNote.Controllers.API.APIV1
             }
             // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
             var note = noteService.GetNote(noteId, tokenUserId);
-            var noteContent = noteContentService.GetNoteContent(note.NoteId, tokenUserId, false);
-            if (note == null || note.NoteId == 0)
+            var noteContent = noteContentService.GetNoteContent(note.Id, tokenUserId, false);
+            if (note == null || note.Id == 0)
             {
                 re.Msg = "notExists";
                 re.Ok = false;
@@ -459,7 +459,7 @@ namespace MoreNote.Controllers.API.APIV1
                             else
                             {
                                 // 建立映射
-                                file.FileId = serverFileId.ToHex24();
+                                file.FileId = serverFileId.ToHex();
                                 noteOrContent.Files[i] = file;
                             }
                         }
@@ -564,7 +564,7 @@ namespace MoreNote.Controllers.API.APIV1
             noteOrContent.Usn = afterNoteUsn;
             noteOrContent.UpdatedTime = DateTime.Now;
             noteOrContent.IsDeleted = false;
-            noteOrContent.UserId = tokenUserId.ToHex24();
+            noteOrContent.UserId = tokenUserId.ToHex();
             return Json(noteOrContent, MyJsonConvert.GetLeanoteOptions());
         }
 
@@ -660,7 +660,7 @@ namespace MoreNote.Controllers.API.APIV1
                     return LeanoteJson(apiRe);
                 }
                 //检查用户是否对仓库具有读权限
-                if (noteRepositoryService.Verify(book.NotesRepositoryId, user.UserId, RepositoryAuthorityEnum.Read))
+                if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Read))
                 {
                     var notes = noteService.GetNotChildrenByNotebookId(notebookId.ToLongByHex());
                     apiRe.Ok = true;
@@ -708,7 +708,7 @@ namespace MoreNote.Controllers.API.APIV1
           
 
             var repositoryId = notebook.NotesRepositoryId;
-            verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
@@ -720,30 +720,30 @@ namespace MoreNote.Controllers.API.APIV1
 
             NoteContent noteContent = new NoteContent()
             {
-                NoteContentId = noteContentId,
+                Id = noteContentId,
                 Abstract = content,
                 Content = content,
 
-                UserId = user.UserId,
+                UserId = user.Id,
                 NoteId = noteId,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = DateTime.Now,
-                UpdatedUserId = user.UserId
+                UpdatedUserId = user.Id
             };
             noteContentService.AddNoteContent(noteContent);
 
             var note = new Note()
             {
-                NotebookId = notebook.NotebookId,
-                NoteId = noteId,
+                NotebookId = notebook.Id,
+                Id = noteId,
                 ContentId = noteContentId,
                 Title = noteTitle,
                 UrlTitle = noteTitle,
                 NotesRepositoryId = repositoryId,
                 IsMarkdown = isMarkdown,
                 CreatedTime = DateTime.Now,
-                UserId = user.UserId,
-                CreatedUserId = user.UserId,
+                UserId = user.Id,
+                CreatedUserId = user.Id,
                 Desc = string.Empty,
                 Usn = usn,
                 Tags = Array.Empty<string>()
@@ -763,13 +763,13 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var note = noteService.GetNote(noteId.ToLongByHex(), user.UserId);
-            var verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            var note = noteService.GetNote(noteId.ToLongByHex(), user.Id);
+            var verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
             }
-            noteService.UpdateNoteTitle(note.NoteId, noteTitle);
+            noteService.UpdateNoteTitle(note.Id, noteTitle);
             re.Ok = true;
             re.Data = note;
             return LeanoteJson(re);
@@ -842,14 +842,14 @@ namespace MoreNote.Controllers.API.APIV1
             }
 
             // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
-            var note = noteService.GetNote(noteId.ToLongByHex(), user.UserId);
-            verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            var note = noteService.GetNote(noteId.ToLongByHex(), user.Id);
+            verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
             }
 
-            if (note == null || note.NoteId == 0)
+            if (note == null || note.Id == 0)
             {
                 re.Msg = "notExists";
                 re.Ok = false;
@@ -861,27 +861,27 @@ namespace MoreNote.Controllers.API.APIV1
 
             NoteContent noteContent = new NoteContent()
             {
-                NoteContentId = noteContentId,
+                Id = noteContentId,
                 Abstract = content,
                 Content = content,
 
-                UserId = user.UserId,
-                NoteId = note.NoteId,
+                UserId = user.Id,
+                NoteId = note.Id,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = DateTime.Now,
-                UpdatedUserId = user.UserId
+                UpdatedUserId = user.Id
             };
             if (this.config.SecurityConfig.DataBaseEncryption)
             {
                 noteContent.Abstract = "DataBaseEncryption";
             }
 
-            noteContentService.UpdateNoteContent(note.NoteId, noteContent);
+            noteContentService.UpdateNoteContent(note.Id, noteContent);
 
-            noteService.UpdateNoteTitle(note.NoteId, noteTitle);
+            noteService.UpdateNoteTitle(note.Id, noteTitle);
 
             var usn = noteRepositoryService.IncrUsn(note.NotesRepositoryId);
-            noteService.UpdateUsn(note.NoteId, usn);
+            noteService.UpdateUsn(note.Id, usn);
             re.Ok = true;
             re.Data = note;
             if (this.config.SecurityConfig.ForceDigitalEnvelope)
@@ -940,7 +940,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
@@ -984,7 +984,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             if (!repositor.Visible)
             {
-                var verify = noteRepositoryService.Verify(repositor.Id, user.UserId, RepositoryAuthorityEnum.Read);
+                var verify = noteRepositoryService.Verify(repositor.Id, user.Id, RepositoryAuthorityEnum.Read);
                 if (!verify)
                 {
                     return LeanoteJson(re);
@@ -1030,7 +1030,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
             }
             //操作者必须拥有写权限
-            var verify = noteRepositoryService.Verify(repositoryId, user.UserId, RepositoryAuthorityEnum.Write);
+            var verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
             if (!verify)
             {
                 return LeanoteJson(re);
@@ -1038,14 +1038,14 @@ namespace MoreNote.Controllers.API.APIV1
             //usn
             var usn = noteRepositoryService.IncrUsn(repositoryId);
 
-            var noteContext = noteContentService.GetValidNoteContent(note.NoteId);
+            var noteContext = noteContentService.GetValidNoteContent(note.Id);
 
             var cloneNoteId = idGenerator.NextId();
             var cloneNoteContentId = idGenerator.NextId();
             var cloneContent = noteContext.Content;
 
             //添加新文件
-            this.noteService.AddNote(repositoryId, targetParentNotebook.NotebookId, cloneNoteId, cloneNoteContentId, user.UserId, note.Title, cloneContent, note.IsMarkdown, usn);
+            this.noteService.AddNote(repositoryId, targetParentNotebook.Id, cloneNoteId, cloneNoteContentId, user.Id, note.Title, cloneContent, note.IsMarkdown, usn);
 
             var cloneNote = this.noteService.GetNote(cloneNoteId);
 
@@ -1062,9 +1062,9 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 foreach (var item in notes1)
                 {
-                    if (!result.ContainsKey(item.NoteId))
+                    if (!result.ContainsKey(item.Id))
                     {
-                        result.Add(item.NoteId, item);
+                        result.Add(item.Id, item);
                     }
                 }
             }
@@ -1072,9 +1072,9 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 foreach (var item in notes2)
                 {
-                    if (!result.ContainsKey(item.NoteId))
+                    if (!result.ContainsKey(item.Id))
                     {
-                        result.Add(item.NoteId, item);
+                        result.Add(item.Id, item);
                     }
                 }
             }
