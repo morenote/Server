@@ -22,7 +22,7 @@
     </figure>
     <ul class="menu">
         <li ripple class="{{if $.curIsIndex}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-            <a href="@ViewBag.indexUrl"><i class="fa fa-home"></i>主页</a>
+            <a href="/Blog/@repository.Id.ToHex()/Index"><i class="fa fa-home"></i>主页</a>
         </li>
         <li class="divider"></li>
         <li ripple id="navbarcatsli"><a href="javascript:void(0);"><i class="fa fa-list-ul"></i>分类</a></li>
@@ -39,10 +39,10 @@
             <li class="divider"></li>
         </div>
         <li ripple class="{{if $.curIsTags}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-            <a href="@Url.Action("Tags")"><i class="fa fa-file-text-o"></i>标签</a>
+    <a href="/Blog/@repository.Id.ToHex()/Tags"><i class="fa fa-file-text-o"></i>标签</a>
         </li>
         <li ripple class="{{if $.curIsArchive}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-    <a href="~/Blog/Archive/@repository.Id.ToHex()/"><i class="fa fa-book"></i>归档</a>
+    <a href="~/Blog/@repository.Id.ToHex()/Archive/"><i class="fa fa-book"></i>归档</a>
         </li>
         <li class="divider"></li>
         @*{{range $.singles}}

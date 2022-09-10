@@ -22,6 +22,7 @@ using MoreNote.Logic.Property;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.CryptographyProvider;
 using Microsoft.Extensions.Caching.Distributed;
+using MoreNote.Models.Entity.Leanote;
 
 namespace MoreNote.Framework.Controllers
 {
@@ -320,7 +321,7 @@ namespace MoreNote.Framework.Controllers
             }
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        protected User GetUserAndBlogUrl()
+        protected User GetUserAndBlogUrl(NotesRepository repository)
         {
             var userid = GetUserIdBySession();
             if (userid == null)
@@ -329,7 +330,7 @@ namespace MoreNote.Framework.Controllers
             }
             else
             {
-                return userService.GetUserAndBlogUrl(userid);
+                return userService.GetUserAndBlogUrl(userid,repository);
             }
         }
         [ApiExplorerSettings(IgnoreApi = true)]

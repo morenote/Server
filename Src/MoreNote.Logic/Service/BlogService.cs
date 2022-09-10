@@ -5,6 +5,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service.Segmenter;
+using MoreNote.Models.Entity.Leanote;
 
 using System;
 using System.Collections.Generic;
@@ -61,11 +62,12 @@ namespace MoreNote.Logic.Service
         /// <summary>
         /// 统计网站上公开的Post的数量
         /// </summary>
-        public int CountTheNumberForBlogs(long? repositoryId)
+        public int CountTheNumberForBlogs(long? userId,long? repositoryId)
         {
             var count = dataContext.Note.Where(b => b.IsBlog == true
                                                 && b.IsDeleted == false
                                                 && b.IsTrash == false
+                                                && b.UserId == userId
                                                 && b.NotesRepositoryId == repositoryId).Count();
             return count;
         }
@@ -592,8 +594,7 @@ namespace MoreNote.Logic.Service
             return ConfigService.GetBlogUrl() + "/" + userName;
         }
 
-        public BlogUrls GetBlogUrls(UserBlog userBlog, User
-             userInfo)
+        public BlogUrls GetBlogUrls(UserBlog userBlog, User  userInfo,NotesRepository repository)
         {
             string indexUrl, postUrl, searchUrl, cateUrl, singleUrl, tagsUrl, archiveUrl, tagPostsUrl;
             string blogUrl = ConfigService.GetBlogUrl();
@@ -610,21 +611,21 @@ namespace MoreNote.Logic.Service
             {
                 userIdOrEmail = userInfo.Id.ToHex();
             }
-            indexUrl = blogUrl + "/" + userIdOrEmail;
+            indexUrl = blogUrl +"/"+ repository .Id.ToHex()+ "/Index" ;
 
-            cateUrl = blogUrl + "/cate/" + userIdOrEmail;        // /username/notebookId
+            cateUrl = blogUrl + $"/{repository.Id.ToHex()}/cate/";        // /username/notebookId
 
-            postUrl = blogUrl + "/post/" + userIdOrEmail;        // /username/xxxxx
+            postUrl = blogUrl + $"/{repository.Id.ToHex()}/post/" ;        // /username/xxxxx
 
-            searchUrl = blogUrl + "/search/" + userIdOrEmail;   // blog.leanote.com/search/username
+            searchUrl = blogUrl + $"/{repository.Id.ToHex()}/search/" ;   // blog.leanote.com/search/username
 
-            singleUrl = blogUrl + "/single/" + userIdOrEmail;   // blog.leanote.com/single/username/singleId
+            singleUrl = blogUrl + $"/{repository.Id.ToHex()}/single/" ;   // blog.leanote.com/single/username/singleId
 
-            archiveUrl = blogUrl + "/archives/" + userIdOrEmail; // blog.leanote.com/archive/username
+            archiveUrl = blogUrl + $"/{repository.Id.ToHex()}/archives/"; // blog.leanote.com/archive/username
 
-            tagsUrl = blogUrl + "/tags/" + userIdOrEmail;
+            tagsUrl = blogUrl + $"/{repository.Id.ToHex()}/tags/" ;
 
-            tagPostsUrl = blogUrl + "/tag/" + userIdOrEmail; // blog.leanote.com/archive/username
+            tagPostsUrl = blogUrl + $"/{repository.Id.ToHex()}/tag/" ; // blog.leanote.com/archive/username
             BlogUrls blogUrls = new BlogUrls()
             {
                 IndexUrl = indexUrl,

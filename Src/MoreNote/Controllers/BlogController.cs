@@ -130,7 +130,7 @@ namespace MoreNote.Controllers
         /// <param name="repositoryId">仓库id</param>
         /// <param name="archiveHex"></param>
         /// <returns></returns>
-        [Route("Blog/{repositoryId?}/Archive/{archiveHex?}")]
+        [Route("Blog/{repositoryId}/Archive/{archiveHex?}")]
         [HttpGet]
         public IActionResult Archive(string repositoryId, string archiveHex)
         {
@@ -232,7 +232,7 @@ namespace MoreNote.Controllers
             {
                 return Content("仓库拥有者用户未实名认证");
             }
-            ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.Id);
+            ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.Id,repository.Id);
             NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.Id, repository.Id);
             SetAccessPassword(noteAndContent);
 
@@ -244,7 +244,7 @@ namespace MoreNote.Controllers
             blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
 
-            BlogCommon(blogUser);
+            BlogCommon(blogUser,repository);
 
             return View();
         }
@@ -342,7 +342,7 @@ namespace MoreNote.Controllers
             noteService.AddReadNum(noteId);
 
             UserBlog userBlog = blogService.GetUserBlog(blogUser.Id);
-            BlogCommon(blogUser.Id, userBlog, blogUser);
+            BlogCommon(blogUser.Id, userBlog, blogUser,repository);
             ViewBag.noteAndContent = noteAndContent;
             blog.Add("Title", noteAndContent.note.Title);
             blog.Add("NoteTitle", noteAndContent.note.Title);
@@ -370,7 +370,7 @@ namespace MoreNote.Controllers
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
 
-            BlogCommon(blogUser);
+            BlogCommon(blogUser,repository);
             return View();
         }
 
@@ -402,7 +402,7 @@ namespace MoreNote.Controllers
             blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
 
-            BlogCommon(blogUser);
+            BlogCommon(blogUser, repository);
             return View();
         }
         private void SetAccessPassword(NoteAndContent[] noteAndContent)
@@ -437,7 +437,7 @@ namespace MoreNote.Controllers
             blog.Add("Title", "标题");
             blog.Add("keywords", "关键字");
             ViewBag.blog = blog;
-            BlogCommon(blogUser);
+            BlogCommon(blogUser, repository);
             return View();
         }
 
@@ -472,7 +472,7 @@ namespace MoreNote.Controllers
             blog.Add("Title", "标签检索");
             blog.Add("keywords", "搜索");
             ViewBag.blog = blog;
-            BlogCommon(blogUser);
+            BlogCommon(blogUser, repository);
             return View();
         }
 
@@ -495,53 +495,14 @@ namespace MoreNote.Controllers
 
             return Json(re, MyJsonConvert.GetLeanoteOptions());
         }
-         [Route("Blog/getLikesAndComments")]
-        [HttpGet]
-        public IActionResult GetLikesAndComments([ModelBinder(typeof(Hex2LongModelBinder))] long? noteId, string callback)
-        {
-            long? userId = GetUserIdBySession();
-            Dictionary<string, dynamic> result = new Dictionary<string, dynamic>();
+       
 
-            // 我也点过?
-            var isILikeIt = false;
-            if (userId != null)
-            {
-                isILikeIt = blogService.IsILikeIt(noteId, userId);
-                var userAndBlog = userService.GetUserAndBlog(userId);
-                result.Add("visitUserInfo", userAndBlog);
-            }
-
-            // 点赞用户列表
-            bool hasMoreLikedUser = false;
-            var likedUsers = blogService.ListLikedUsers(noteId, false, out hasMoreLikedUser);
-            // 评论
-            var page = this.GetPage();
-            blogService.ListComments(userId, noteId, page, 15, out Page pageInfo, out BlogCommentPublic[] comments, out Dictionary<string, UserAndBlog> commentUserInfo);
-
-            result.Add("isILikeIt", isILikeIt);
-            result.Add("likedUsers", likedUsers);
-            result.Add("hasMoreLikedUser", hasMoreLikedUser);
-            result.Add("pageInfo", pageInfo);
-            result.Add("comments", comments);
-            result.Add("commentUserInfo", commentUserInfo);
-
-            ResponseMessage re = new ResponseMessage()
-            {
-                Ok = true,
-                Item = result
-            };
-
-            string json = JsonSerializer.Serialize(re, MyJsonConvert.GetSimpleOptions());
-            string jsonpCallback = $"jsonpCallback({json});";
-            return new JavaScriptResult(jsonpCallback);
-        }
-
-        public UserBlog BlogCommon(User userInfo)
+        public UserBlog BlogCommon(User userInfo,NotesRepository repository)
         {
             UserBlog userBlog = blogService.GetUserBlog(userInfo.Id);
-            return BlogCommon(userInfo.Id, userBlog, userInfo);
+            return BlogCommon(userInfo.Id, userBlog, userInfo, repository);
         }
-        public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo)
+        public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo,NotesRepository repository)
         {
             if (userInfo.Id == 0)
             {
@@ -564,7 +525,7 @@ namespace MoreNote.Controllers
             // 分类导航
 
             // 单页导航
-            SetUrl(userBlog, userInfo);
+            SetUrl(userBlog, userInfo, repository);
             // 当前分类Id, 全设为""
             // 得到主题信息
             // var recentBlogs = BlogService.ListBlogs(userId, "", 1, 5, userBlog.SortField, userBlog.IsAsc);
@@ -578,7 +539,7 @@ namespace MoreNote.Controllers
         }
 
         // 各种地址设置
-        public void SetUrl(UserBlog userBlog, User user)
+        public void SetUrl(UserBlog userBlog, User user,NotesRepository repository)
         {
             // 主页 http://leanote.com/blog/life or http://blog.leanote.com/life or http:// xxxx.leanote.com or aa.com
             // host := c.Request.Request.Host
@@ -586,7 +547,7 @@ namespace MoreNote.Controllers
             // staticUrl == host, 为保证同源!!! 只有host, http://leanote.com, http://blog/leanote.com
             // life.leanote.com, lealife.com
             var siteUrl = configService.GetSiteUrl();
-            var blogUrls = blogService.GetBlogUrls(userBlog, user);
+            var blogUrls = blogService.GetBlogUrls(userBlog, user,  repository);
             // 分类
             // 搜索
             // 查看

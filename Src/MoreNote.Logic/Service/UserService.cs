@@ -389,12 +389,12 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息+博客主页
-        public User GetUserAndBlogUrl(long? userId)
+        public User GetUserAndBlogUrl(long? userId, NotesRepository repository)
         {
             User user = GetUserInfo(userId);
 
             UserBlog userBlog = BlogService.GetUserBlog(userId);
-            BlogUrls blogUrls = BlogService.GetBlogUrls(userBlog, user);
+            BlogUrls blogUrls = BlogService.GetBlogUrls(userBlog, user, repository);
             //UserAndBlogUrl userAndBlogUrl = new UserAndBlogUrl()
             //{
             //    User = user,
@@ -412,7 +412,7 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="userId">用户ID</param>
         /// <returns></returns>
-        public UserAndBlog GetUserAndBlog(long? userId)
+        public UserAndBlog GetUserAndBlog(long? userId, NotesRepository repository)
         {
             var user = this.GetUserInfo(userId);
             var userBlog = BlogService.GetUserBlog(userId);
@@ -426,7 +426,7 @@ namespace MoreNote.Logic.Service
                 BlogTitle = userBlog.Title,
                 BlogLogo = userBlog.Logo,
                 BlogUrl = BlogService.GetUserBlogUrl(userBlog, user.Username),
-                BlogUrls = BlogService.GetBlogUrls(userBlog, user)
+                BlogUrls = BlogService.GetBlogUrls(userBlog, user,repository)
             };
             return userAndBlog;
         }

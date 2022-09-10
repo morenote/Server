@@ -272,7 +272,7 @@ ul.dropdown-menu:before {
   position: absolute;
   top: -12px;
   right: 20px;
-  background-image: url("images/triangle_2x.png");
+  background-image: url("/images/triangle_2x.png");
   background-size: 20px 12px;
 }
 ul.dropdown-menu {
