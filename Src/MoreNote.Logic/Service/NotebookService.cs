@@ -30,6 +30,13 @@ namespace MoreNote.Logic.Service
                 Where(b => b.Id == notebookId).FirstOrDefault();
             return result;
         }
+        public Notebook GetNotebookById(long? notebookId,long? repositoryId)
+        {
+            var result = dataContext.Notebook.
+                Where(b => b.Id == notebookId&&b.NotesRepositoryId== repositoryId).FirstOrDefault();
+            return result;
+        }
+
         public List<Notebook> GetNotebookChildren(long? notebookId)
         {
             var result = dataContext.Notebook.

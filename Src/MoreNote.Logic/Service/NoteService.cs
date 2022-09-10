@@ -141,12 +141,26 @@ namespace MoreNote.Logic.Service
             return result;
         }
 
-        public NoteAndContent[] SearchNoteAndContentForBlog(int pageIndex, long? userId, string keywords)
+        public NoteAndContent[] GetNoteAndContentForBlog(int pageIndex, long? userId,long? repositoryId)
+        {
+            var result = (from _note in dataContext.Note
+                          join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
+                          where _note.NotesRepositoryId== repositoryId&& _note.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
+                          select new NoteAndContent
+                          {
+                              note = _note,
+                              noteContent = _content
+                          }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).ToArray();
+            return result;
+        }
+
+        public NoteAndContent[] SearchNoteAndContentForBlog(int pageIndex, long? userId,long? repositoryId, string keywords)
         {
             var query = jieba.GetSerachNpgsqlTsQuery(keywords);
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
                           where _note.UserId == userId
+                                && _note.NotesRepositoryId== repositoryId
                                 && _note.TitleVector.Matches(query)
                                 && _note.IsBlog == true
                                 && _content.IsHistory == false
@@ -172,12 +186,43 @@ namespace MoreNote.Logic.Service
                           }).OrderByDescending(b => b.note.Title).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
             return result;
         }
+        public NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long? userId,long? repositoryId, string tag)
+        {
+            var result = (from _note in dataContext.Note
+                          join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
+                          where _note.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId && _note.NotesRepositoryId == repositoryId && _note.Tags.Contains(tag)
+                          select new NoteAndContent
+                          {
+                              note = _note,
+                              noteContent = _content
+                          }).OrderByDescending(b => b.note.Title).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
+            return result;
+        }
 
         public NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex, long? notebookId, long? userId)
         {
             var result = (from _note in dataContext.Note
                           join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
                           where _note.IsBlog == true && _content.IsBlog == true && _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.NotebookId == notebookId && _note.UserId == userId
+                          select new NoteAndContent
+                          {
+                              note = _note,
+                              noteContent = _content
+                          }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).OrderByDescending(b => b.note.PublicTime).ToArray();
+            return result;
+        }
+        public NoteAndContent[] GetNoteAndContentForBlogOfNoteBookId(int pageIndex, long? notebookId, long? userId,long? repositoryId)
+        {
+            var result = (from _note in dataContext.Note
+                          join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
+                          where _note.IsBlog == true && 
+                                _content.IsBlog == true &&
+                                _content.IsHistory == false &&
+                                _note.IsTrash == false &&
+                                _note.IsDeleted == false &&
+                                _note.NotebookId == notebookId &&
+                                _note.NotesRepositoryId== repositoryId &&
+                                _note.UserId == userId
                           select new NoteAndContent
                           {
                               note = _note,
@@ -226,6 +271,8 @@ namespace MoreNote.Logic.Service
                           }).FirstOrDefault();
             return result;
         }
+
+ 
 
         public bool SetAccessPassword(long? userId, long? noteId, string password)
         {

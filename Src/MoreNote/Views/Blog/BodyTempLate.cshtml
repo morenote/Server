@@ -6,6 +6,7 @@
     BlogSingle[] blogSingles = ViewBag.ViewBag;
     Cate[] cates = ViewBag.CateArray;
     User blogUser = ViewBag.blogUser;
+    NotesRepository repository = ViewBag.repository;
 }
 <script>
     AOS.init();
@@ -32,7 +33,7 @@
                 @*<li class="{{if eq .CateId $.curCateId}}active{{end}}">*@
                 <li class="">
                     @*<a href="{{$.cateUrl}}/{{.UrlTitle}}"><i class="fa fa-link"></i>{{.Title}}</a>*@
-                    <a href="~/Blog/Cate/@(blogUser.Username)/@(item.Id.ToHex24())"><i class="fa fa-link"></i>@item.Title</a>
+                    <a href="~/Blog/Cate/@repository.Id.ToHex()/@(item.Id.ToHex())"><i class="fa fa-link"></i>@item.Title</a>
                 </li>
             }
             <li class="divider"></li>
@@ -41,7 +42,7 @@
             <a href="@Url.Action("Tags")"><i class="fa fa-file-text-o"></i>标签</a>
         </li>
         <li ripple class="{{if $.curIsArchive}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-            <a href="~/Blog/Archive/@(blogUser.Username)/"><i class="fa fa-book"></i>归档</a>
+    <a href="~/Blog/Archive/@repository.Id.ToHex()/"><i class="fa fa-book"></i>归档</a>
         </li>
         <li class="divider"></li>
         @*{{range $.singles}}

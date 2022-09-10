@@ -10,6 +10,7 @@ using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.Entity.Leanote;
 
 using System;
 using System.Collections.Generic;
@@ -109,40 +110,40 @@ namespace MoreNote.Controllers
             await accessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);
         }
 
-        private User ActionInitBlogUser(string blogUserName)
+
+        private User ActionInitBlogUser(NotesRepository repository)
         {
-            if (string.IsNullOrEmpty(blogUserName))
-            {
-                //默认账号
-                blogUserName = "hyfree";
-            }
-            User blogUser = userService.GetUserByUserName(blogUserName);
+            
+            User blogUser = userService.GetUserByUserId(repository.OwnerId);
             ViewBag.blogUser = blogUser;
             if (blogUser == null)
             {
                 return null;
             }
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id,repository.Id);
             return blogUser;
         }
 
         /// <summary>
         /// 博客归档
         /// </summary>
-        /// <param name="repository">仓库id</param>
+        /// <param name="repositoryId">仓库id</param>
         /// <param name="archiveHex"></param>
         /// <returns></returns>
-        [Route("Blog/{repository?}/Archive/{archiveHex?}")]
+        [Route("Blog/{repositoryId?}/Archive/{archiveHex?}")]
         [HttpGet]
-        public IActionResult Archive(string repository, string archiveHex)
+        public IActionResult Archive(string repositoryId, string archiveHex)
         {
+            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            ViewBag.repository = repository;
             User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            var list = blogService.GetNotes(blogUser.Id);
+            var list = blogService.GetNotes(blogUser.Id, repository.Id);
+
             IOrderedEnumerable<IGrouping<int, Note>> queryArchiveList =
                                 from note in list
                                 group note by note.PublicTime.Year into newGroup
@@ -163,15 +164,17 @@ namespace MoreNote.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
 
-        [Route("Blog/{repository}/Cate/{cateHex}/")]
+        [Route("Blog/{repositoryId}/Cate/{cateHex}/")]
         [HttpGet]
-        public IActionResult Cate(string blogUserName, string cateHex, int page)
+        public IActionResult Cate(string repositoryId, string cateHex, int page)
         {
             long? notebookId = cateHex.ToLongByHex();
-            User blogUser = ActionInitBlogUser(blogUserName);
+            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            ViewBag.repository = repository;
+            User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
-                return Content("查无此人");
+                return Content("无此仓库或此仓库已经失效");
             }
             if (page < 1)
             {
@@ -179,11 +182,11 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
-            Notebook notebook = notebookService.GetNotebookById(notebookId);
+            Notebook notebook = notebookService.GetNotebookById(notebookId,repository.Id);
             ViewBag.notebook = notebook;
 
-            ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.Id, notebookId);
-            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.Id);
+            ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.Id, notebookId,repository.Id);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlogOfNoteBookId(page, notebookId, blogUser.Id,repository.Id);
             SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
 
@@ -191,7 +194,7 @@ namespace MoreNote.Controllers
             {
                 return Content("查无此人");
             }
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id,repository.Id);
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", $"分类-{notebook.Title}");
             blog.Add("keywords", "关键字");
@@ -200,7 +203,7 @@ namespace MoreNote.Controllers
         }
 
      
-        [Route("Blog/{repositoryId}/{page?}")]
+        [Route("Blog/{repositoryId}/Index/{page?}")]
         [HttpGet]
         public IActionResult Index(string repositoryId, int page)
         {
@@ -211,9 +214,9 @@ namespace MoreNote.Controllers
             }
             ViewBag.page = page;
             var repository=this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
-
-            User blogUser = null;
-            if (string.IsNullOrEmpty(repositoryId)|| repository==null|| repository.IsDelete || repository.IsBlog)
+            ViewBag.repository = repository;
+            User blogUser =userService.GetUserByUserId(repository.OwnerId);
+            if (string.IsNullOrEmpty(repositoryId)|| repository==null|| repository.IsDelete || !repository.IsBlog)
             {
                 Response.StatusCode=404;
                 return Content("仓库无法访问");
@@ -224,16 +227,17 @@ namespace MoreNote.Controllers
             }
 
             ViewBag.blogUser = blogUser;
+            ViewBag.repository = repository;
             if (!blogUser.Verified)
             {
-                return Content("用户未实名认证");
+                return Content("仓库拥有者用户未实名认证");
             }
             ViewBag.postCount = blogService.CountTheNumberForBlogs(blogUser.Id);
-            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.Id);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentForBlog(page, blogUser.Id, repository.Id);
             SetAccessPassword(noteAndContent);
 
             ViewBag.noteAndContent = noteAndContent;
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id, repository.Id);
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
             blog.Add("Title", "moreote云笔记");
@@ -247,25 +251,27 @@ namespace MoreNote.Controllers
 
 
 
-        [Route("Blog/{repository}/Post/{noteIdHex}/1")]
-        [HttpGet]
-        public IActionResult Post1(string noteIdHex)
-        {
-            long? noteId = noteIdHex.ToLongByHex();
-            Note note = noteService.GetNoteById(noteId);
-            User user = userService.GetUserByUserId(note.UserId);
-            return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
-        }
+        //[Route("Blog/{repository}/Post/{noteIdHex}/1")]
+        //[HttpGet]
+        //public IActionResult Post1(string noteIdHex)
+        //{
+        //    long? noteId = noteIdHex.ToLongByHex();
+        //    Note note = noteService.GetNoteById(noteId);
+        //    User user = userService.GetUserByUserId(note.UserId);
+        //    return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
+        //}
 
       
-        [Route("Blog/{repository}/Post/{noteIdHex}/")]
+        [Route("Blog/{repositoryId}/Post/{noteIdHex}/")]
         [HttpGet]
-        public async Task<IActionResult> PostAsync(string blogUserName, string noteIdHex)
+        public async Task<IActionResult> Post(string repositoryId, string noteIdHex)
         {
+            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            ViewBag.repository = repository;
             //添加访问日志
-            await InsertLogAsync($"Blog/Post/{blogUserName}/{noteIdHex}/").ConfigureAwait(false);
+            await InsertLogAsync($"Blog/Post/{repository.Name}/{noteIdHex}/").ConfigureAwait(false);
 
-            User blogUser = ActionInitBlogUser(blogUserName);
+            User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -275,41 +281,14 @@ namespace MoreNote.Controllers
             if (noteId == 0)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return Content("未找到");
+                return Content("输入参数无效");
             }
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
 
             NoteAndContent noteAndContent = noteService.GetNoteAndContent(noteId);
 
-            if (!string.IsNullOrEmpty(noteAndContent.note.AccessPassword))
-            {
-                if (!Request.Headers.ContainsKey("Authorization"))
-                {
-                    Response.StatusCode = 401;
-                    Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{blogUserName}/{noteIdHex}'");
-                    return Content("Missing Authorization Header");
-                }
-                else
-                {
-                    var authorization = Request.Headers["Authorization"].ToString().Replace("Basic", "");
-                    var basic = Base64Util.UnBase64String(authorization);
-                    var sp = basic.Split(":");
-                    var user = sp[0];
-                    var password = sp[1];
-                    if (!noteService.VerifyAccessPassword(noteAndContent.note.UserId, noteId, password, noteAndContent.note.AccessPassword))
-                    {
-                        Response.StatusCode = 401;
-                        Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{blogUserName}/{noteIdHex}'");
-                        return Content("Missing Authorization Header");
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-
-            noteService.AddReadNum(noteId);
+            //访问校验
             if (noteAndContent == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -322,15 +301,46 @@ namespace MoreNote.Controllers
                 return Content("这篇文章已经被删除");
             }
 
-            if (!noteAndContent.note.IsBlog)
+            if (!noteAndContent.note.IsBlog || !repository.IsBlog)
             {
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Content("这篇文章已经被取消分享");
             }
+
             if (!blogUser.Verified)
             {
                 return Content("用户未实名认证");
             }
+
+            if (!string.IsNullOrEmpty(noteAndContent.note.AccessPassword))
+            {
+                if (!Request.Headers.ContainsKey("Authorization"))
+                {
+                    Response.StatusCode = 401;
+                    Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{repositoryId}/{noteIdHex}'");
+                    return Content("Missing Authorization Header");
+                }
+                else
+                {
+                    var authorization = Request.Headers["Authorization"].ToString().Replace("Basic", "");
+                    var basic = Base64Util.UnBase64String(authorization);
+                    var sp = basic.Split(":");
+                    var user = sp[0];
+                    var password = sp[1];
+                    if (!noteService.VerifyAccessPassword(noteAndContent.note.UserId, noteId, password, noteAndContent.note.AccessPassword))
+                    {
+                        Response.StatusCode = 401;
+                        Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{repositoryId}/{noteIdHex}'");
+                        return Content("Missing Authorization Header");
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+
+            noteService.AddReadNum(noteId);
+
             UserBlog userBlog = blogService.GetUserBlog(blogUser.Id);
             BlogCommon(blogUser.Id, userBlog, blogUser);
             ViewBag.noteAndContent = noteAndContent;
@@ -341,17 +351,19 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{repository}/Tags/")]
+        [Route("Blog/{repositoryId}/Tags/")]
         [HttpGet]
-        public IActionResult Tags(string blogUserName)
+        public IActionResult Tags(string repositoryId)
         {
-            User blogUser = ActionInitBlogUser(blogUserName);
+            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            ViewBag.repository = repository;
+            User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
             }
             Dictionary<string, string> blog = new Dictionary<string, string>();
-            string[] tags = tagService.GetBlogTags(blogUser.Id);
+            string[] tags = tagService.GetBlogTags(blogUser.Id,repository.Id);
             ViewBag.tags = tags;
             ViewBag.blogUser = blogUser;
             blog.Add("Title", "标签云");
@@ -362,10 +374,12 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{repository}/Search/{keywords?}/")]
+        [Route("Blog/{repositoryId}/Search/{keywords?}/")]
         [HttpGet]
-        public IActionResult Search(string blogUserIdHex, string keywords, int page)
+        public IActionResult Search(string repositoryId, string keywords, int page)
         {
+            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            ViewBag.repository = repository;
             if (page < 1)
             {
                 //页码
@@ -373,30 +387,14 @@ namespace MoreNote.Controllers
             }
             ViewBag.page = page;
             User blogUser = null;
-            if (string.IsNullOrEmpty(blogUserIdHex))
-            {
-                return Content("查无此人");
-            }
-            else
-            {
-                blogUser = userService.GetUserByUserId(blogUserIdHex.ToLongByHex());
-            }
-
-            if (blogUser == null)
-            {
-                blogUser = userService.GetUserByUserName(blogUserIdHex);
-                if (blogUser == null)
-                {
-                    return Content("查无此人");
-                }
-            }
+            blogUser = userService.GetUserByUserId(repository.OwnerId);
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.Id, keywords);
-            NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.Id, keywords);
+            ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.Id,repository.Id, keywords);
+            NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.Id,repository.Id, keywords);
             SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;
-            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id);
+            ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id,repository.Id);
             ViewBag.keywords = keywords;
 
             Dictionary<string, string> blog = new Dictionary<string, string>();
@@ -423,11 +421,14 @@ namespace MoreNote.Controllers
 
         }
 
-        [Route("Blog/{repository}/Single/{SingleIdHex}/")]
+        [Route("Blog/{repositoryId}/Single/{SingleIdHex}/")]
         [HttpGet]
-        public IActionResult Single(string blogUserName, string SingleIdHex)
+        public IActionResult Single(string repositoryId, string SingleIdHex)
         {
-            User blogUser = ActionInitBlogUser(blogUserName);
+
+            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            ViewBag.repository = repository;
+            User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
@@ -440,10 +441,12 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{repository}/Tags_Posts/{tag}/")]
+        [Route("Blog/{repositoryId}/Tags_Posts/{tag}/")]
         [HttpGet]
-        public IActionResult Tags_Posts(string blogUserName, string tag, int page)
+        public IActionResult Tags_Posts(string repositoryId, string tag, int page)
         {
+            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            ViewBag.repository = repository;
             if (page < 1)
             {
                 //页码
@@ -451,15 +454,15 @@ namespace MoreNote.Controllers
             }
             ViewBag.page = page;
 
-            User blogUser = ActionInitBlogUser(blogUserName);
+            User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
             }
             ViewBag.blogUser = blogUser;
 
-            ViewBag.postCount = blogService.CountTheNumberForBlogTags(blogUser.Id, tag);
-            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentByTag(page, blogUser.Id, tag);
+            ViewBag.postCount = blogService.CountTheNumberForBlogTags(blogUser.Id, repository.Id, tag);
+            NoteAndContent[] noteAndContent = noteService.GetNoteAndContentByTag(page, blogUser.Id, repository.Id, tag);
            
             SetAccessPassword(noteAndContent);
             ViewBag.noteAndContent = noteAndContent;

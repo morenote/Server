@@ -214,16 +214,17 @@ namespace MoreNote.Logic.Service
             return dataContext.SaveChanges() > 0;
         }
 
-        public string[] GetBlogTags(long? userid)
+        public string[] GetBlogTags(long? userid,long? repositoryId)
         {
             //todo:这里需要性能优化，获得blog标签
 
-            var result = dataContext.Note.Where(note => note.UserId == userid
-            && note.IsBlog == true
-            && note.IsDeleted == false
-            && note.IsTrash == false
-            && note.Tags != null
-            && note.Tags.Length > 0)
+            var result = dataContext.Note.Where(note => note.UserId == userid&&
+             note.IsBlog == true &&
+             note.NotesRepositoryId == repositoryId &&
+             note.IsDeleted == false &&
+             note.IsTrash == false &&
+             note.Tags != null &&
+             note.Tags.Length > 0)
                 .Distinct().ToArray();
             HashSet<string> hs = new HashSet<string>();
             foreach (var item in result)
@@ -240,5 +241,7 @@ namespace MoreNote.Logic.Service
             }
             return hs.ToArray<string>();
         }
+
+
     }
 }
