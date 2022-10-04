@@ -40,7 +40,9 @@ namespace MoreNote.Logic.Service
         public List<Notebook> GetNotebookChildren(long? notebookId)
         {
             var result = dataContext.Notebook.
-                Where(b => b.ParentNotebookId == notebookId ).OrderBy(b=>b.Title).ToList<Notebook>();
+                Where(b => b.ParentNotebookId == notebookId&&
+                           b.IsDeleted==false&&
+                           b.IsTrash==false ).OrderBy(b=>b.Title).ToList<Notebook>();
             return result;
         }
 

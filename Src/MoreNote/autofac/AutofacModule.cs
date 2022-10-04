@@ -224,7 +224,7 @@ namespace MoreNote.Common.autofac
             var controllerBaseType = typeof(ControllerBase);
 
             //注册VuePress生成器
-            builder.RegisterType<VuePressBuilder>().As<BlogBuilderInterface>().Named<BlogBuilderInterface>("VuePress");
+            builder.RegisterType<VuePressBuilder>().As<BlogBuilderInterface>().Keyed<BlogBuilderInterface>(BlogBuilderType.VuePress);
 
             //批量扫描
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)

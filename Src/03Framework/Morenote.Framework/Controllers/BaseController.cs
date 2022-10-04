@@ -23,6 +23,7 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.CryptographyProvider;
 using Microsoft.Extensions.Caching.Distributed;
 using MoreNote.Models.Entity.Leanote;
+using Autofac;
 
 namespace MoreNote.Framework.Controllers
 {
@@ -74,6 +75,8 @@ namespace MoreNote.Framework.Controllers
 
         [Autowired]
         protected ICryptographyProvider cryptographyProvider { get; set; }
+        [Autowired]
+        protected IComponentContext componentContext { get; set; }
 
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce

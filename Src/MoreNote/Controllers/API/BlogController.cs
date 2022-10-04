@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Autofac;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.ExtensionMethods;
@@ -24,8 +26,7 @@ namespace MoreNote.Controllers.API.APIV1
         [Autowired]
         private NoteRepositoryService noteRepositoryService { get;set;}
 
-        [Autowired]
-        private BlogBuilderInterface blogBuilder { get; set; }
+       
         public BlogController(AttachService attachService,
              TokenSerivce tokenSerivce,
              NoteFileService noteFileService,
@@ -37,7 +38,7 @@ namespace MoreNote.Controllers.API.APIV1
             ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
-           
+          
             this.tokenSerivce= tokenSerivce;
             this.tagService= tagService;
         }
@@ -47,9 +48,10 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="repositoryId"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> InitVuePress(string noteRepositoryId, string token)
+        public async Task<IActionResult> InitBlogBuilder(string repositoryId, string token, BlogBuilderType blogBuilderType)
         {
 
+            var  blogBuilder=this.componentContext.ResolveKeyed< BlogBuilderInterface >(blogBuilderType);
             var verify = false;
             var user = tokenSerivce.GetUserByToken(token);
             var re = new ApiRe()
@@ -61,16 +63,13 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Read);
+            verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Read);
             if (!verify)
             {
                 return LeanoteJson(re);
             }
-            var noteRepository = noteRepositoryService.GetNotesRepository(noteRepositoryId.ToLongByHex());
+            var noteRepository = noteRepositoryService.GetNotesRepository(repositoryId.ToLongByHex());
             await  blogBuilder.WriteNotesRepository(noteRepository);
-
-
-
 
             re.Ok=true;
             return LeanoteJson(re);

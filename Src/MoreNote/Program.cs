@@ -81,8 +81,6 @@ namespace MoreNote
         /// <summary>
         /// 初始化安全秘钥
         /// </summary>
-
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
 

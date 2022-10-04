@@ -15,6 +15,14 @@ namespace MoreNote.Common.HySystem
             }
             else
             {
+                str = str.Replace("\r", "");
+                str = str.Replace("\n", "");
+                str = str.Replace("\t", "");
+                str = str.Replace("?", "");
+                str = str.Replace("｛", "");
+                str = str.Replace("）", "");
+                str = str.Replace("（", "");
+                str = str.Replace("，", "");
                 str = str.Replace("'", "");
                 str = str.Replace("<", "");
                 str = str.Replace(">", "");
@@ -55,6 +63,9 @@ namespace MoreNote.Common.HySystem
             else
             {
               
+                str = str.Replace("\r", "");
+                str = str.Replace("\n", "");
+                str = str.Replace("\t", "");
                 str = str.Replace("'", "");
                 str = str.Replace("<", "");
                 str = str.Replace(">", "");

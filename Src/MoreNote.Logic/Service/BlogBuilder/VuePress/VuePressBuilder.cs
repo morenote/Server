@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.HySystem;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.OS.Node;
@@ -73,9 +74,11 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             return npm;
         }
 
-        public async Task<bool> WriteNoteBook(Notebook notebook, string path, StringBuilder stringBuilder11, string link)
+        public async Task<StringBuilder> WriteNoteBook(Notebook notebook, string path, string link,string sapce)
         {
-            StringBuilder sb = new StringBuilder();
+           
+            sapce= sapce+"    ";//空格
+             StringBuilder sb = new StringBuilder();
             sb.Append($"{{text: '{notebook.Title}'");
 
             var books = notebookService.GetNotebookChildren(notebook.Id);
@@ -85,73 +88,95 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             {
                 Directory.CreateDirectory(bookPath);
             }
+
             if (!books.Any() && !notes.Any())
             {
-                return false;
+                return null;
             }
-
+            StringBuilder stringBuilder = new StringBuilder();
             if (books.Any() || notes.Any())
             {
-                sb.Append(",children: [");
+                stringBuilder.Append(",children: [ \r\n");
             }
-
-            bool app = false;
+            bool flag=false;
+          
             foreach (var book in books)
             {
-                StringBuilder bookSB = new StringBuilder();
-                var result = await WriteNoteBook(book, bookPath, bookSB, link + notebook.Title);
-                if (result == true)
+               
+                var result = await WriteNoteBook(book, bookPath, link + notebook.Id.ToHex()+"/",sapce);
+                if (result != null)
                 {
-                    app = true;
+                    flag = true;
+                    stringBuilder.Append(sapce);
+                    stringBuilder.Append(result);
                 }
-                if (book != books.Last() && bookSB.Length != 0 && result)
+                if (book != books.Last() && result!=null)
                 {
-                    sb.Append(",\r\n");
+                    stringBuilder.Append(",\r\n");
                 }
             }
-            if (books.Any() && notes.Any() && app)
+            if (books.Any() && notes.Any() )
             {
-                sb.Append(",");
+                stringBuilder.Append(",");
             }
-            if (notes.Any())
-            {
-                app = true;
-            }
+         
             foreach (var note in notes)
             {
-                await WriteNote(note, bookPath, sb, link + notebook.Id.ToHex());
-                if (note != notes.Last())
+
+                var noteSB= await WriteNote(note, bookPath, link + notebook.Id.ToHex());
+                if (noteSB!=null)
                 {
-                    sb.Append(",");
+                    flag=true;
+
+                    stringBuilder.Append(sapce + "    ");
+                    stringBuilder.Append(noteSB);
+                    if (note != notes.Last())
+                    {
+                        stringBuilder.Append(",\r\n");
+                    }
                 }
+               
             }
             if (books.Any() || notes.Any())
             {
-                sb.Append("]");
+                stringBuilder.Append("\r\n");
+                stringBuilder.Append(sapce);
+                stringBuilder.Append("]");
+               
             }
 
-            sb.Append($"}}");
-            stringBuilder11.Append(sb);
-            return app;
+          
+            
+            if (flag==false)
+            {
+                return null;
+
+            }
+            sb.Append(stringBuilder);
+            sb.Append("}");
+            return sb;
         }
 
-        public async Task WriteNote(Note note, string path, StringBuilder stringBuilder, string link)
+        public async Task<StringBuilder> WriteNote(Note note, string path, string link)
         {
+            StringBuilder stringBuilder = new StringBuilder();
             var noteContent = this.noteContentService.GetNoteContent(note.Id);
             var mdFilePath = System.IO.Path.Join(path, $"{note.Id.ToHex()}.md");
             StringBuilder frontmatterBuilder = new StringBuilder();
             frontmatterBuilder.Append("---\r\n");
             frontmatterBuilder.Append("lang: zh-CN\r\n");
-            frontmatterBuilder.Append($"title:{note.Title}\r\n");
-            frontmatterBuilder.Append($"description:{note.Desc}\r\n");
+            frontmatterBuilder.Append($"title: {MyStringUtil.FilterSpecial(note.Title)}\r\n");
+            frontmatterBuilder.Append($"description: {MyStringUtil.FilterSpecial(note.Title)}\r\n");
             frontmatterBuilder.Append("---\r\n");
             frontmatterBuilder.Append(noteContent.Content);
             var fileStream = File.Open(mdFilePath, FileMode.Create);
             var streamWriter = new StreamWriter(fileStream);
-            streamWriter.Write(frontmatterBuilder.ToString());
+            await streamWriter.WriteAsync(frontmatterBuilder.ToString());
             streamWriter.Close();
             fileStream.Close();
-            stringBuilder.Append($"{{text: '{note.Title}', link: '{link}/{note.Id.ToHex()}.md'}}");
+            stringBuilder.Append($"{{text: '{MyStringUtil.FilterSpecial(note.Title)}', link: '{link}/{note.Id.ToHex()}.md'}}");
+
+            return stringBuilder;
         }
 
         public async Task WriteNotesRepository(NotesRepository notesRepository)
@@ -179,22 +204,27 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             sb.Append("[");
             foreach (var notebook in books)
             {
-                await WriteNoteBook(notebook, docsPath, sb, "/");
-                if (notebook != books.Last())
+                var temp= await WriteNoteBook(notebook, docsPath, "/","");
+                if (temp!=null)
                 {
-                    sb.Append(",\r\n");
+                    sb.Append(temp);
+                    if (notebook != books.Last())
+                    {
+                        sb.Append(",\r\n");
+                    }
                 }
+                
             }
             sb.Append("]");
-            var readMePath = System.IO.Path.Join(docsPath, "README.md");
+            var readMePath = Path.Join(docsPath, "README.md");
             File.WriteAllText(readMePath, notesRepository.Description);
             //生成配置文件
-            var vuePressPath = System.IO.Path.Join(docsPath, ".vuepress");
+            var vuePressPath = Path.Join(docsPath, ".vuepress");
             if (!Directory.Exists(vuePressPath))
             {
                 Directory.CreateDirectory(vuePressPath);
             }
-            var configPath = System.IO.Path.Join(vuePressPath, "config.js");
+            var configPath = Path.Join(vuePressPath, "config.js");
             var configValue = File.ReadAllText(this.configFile.BlogConfig.BlogBuilderVuePressTemplate + "config.ts");
             //替换配置文件
             configValue = configValue.Replace("@sidebar", sb.ToString());
