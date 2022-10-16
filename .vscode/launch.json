@@ -12,9 +12,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/MoreNote/bin/Debug/netcoreapp3.1/MoreNote.dll",
+            "program": "${workspaceFolder}/Src/MoreNote/bin/Debug/net6.0/MoreNote.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/MoreNote",
+            "cwd": "${workspaceFolder}/Src/MoreNote",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -37,7 +37,7 @@
 
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
+                "/Views": "${workspaceFolder}/Src/MoreNote/Views"
             }
         }
     ,]
