@@ -37,7 +37,7 @@ namespace MoreNote.Logic.Service
                 path = GetConfigPath();
                 if (!File.Exists(path))
                 {
-                    InitTemplateConfig();
+                   throw new IOException("Configuration file cannot be found!!");
                 }
                 string json = File.ReadAllText(path);
                 this._config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
@@ -72,7 +72,22 @@ namespace MoreNote.Logic.Service
             }
             else
             {
-                return "/morenote/config.json";
+                if(Directory.Exists("/morenote")){
+                    return "/morenote/config.json";
+                }else{
+
+                    var path= $"{System.Environment.SpecialFolder.Personal}/morenotes/config.json";
+                    if(File.Exists(path)){
+                        return path;
+                    }else{
+                        var env=System.Environment.GetEnvironmentVariable("CONFIG");
+                        if(File.Exists(env)){
+                            return env;
+                        }
+                        throw new IOException("Configuration file cannot be found!!");
+                    }
+                }
+                
             }
         }
 
@@ -81,20 +96,7 @@ namespace MoreNote.Logic.Service
         /// </summary>
         private void InitTemplateConfig()
         {
-            if (RuntimeEnvironment.IsWindows)
-            {
-                if (!Directory.Exists(@"C:\morenote"))
-                {
-                    Directory.CreateDirectory(@"C:\morenote");
-                }
-            }
-            else
-            {
-                if (!Directory.Exists(@"/morenote"))
-                {
-                    Directory.CreateDirectory(@"/morenote");
-                }
-            }
+            
             WebSiteConfig webSiteConfig = new WebSiteConfig();
             var options = new JsonSerializerOptions
             {

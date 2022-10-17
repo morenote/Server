@@ -25,7 +25,8 @@
                     "args": "/C start ${auto-detect-url}"
                 },
                 "osx": {
-                    "command": "open"
+                    "command": "open",
+                    
                 },
                 "linux": {
                     "command": "xdg-open",
@@ -33,7 +34,8 @@
                 }
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "CONFIG":"/Users/hyfree/morenote/config.json"
 
             },
             "sourceFileMap": {
