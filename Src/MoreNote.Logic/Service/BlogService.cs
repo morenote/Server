@@ -594,7 +594,7 @@ namespace MoreNote.Logic.Service
             return ConfigService.GetBlogUrl() + "/" + userName;
         }
 
-        public BlogUrls GetBlogUrls(UserBlog userBlog, User  userInfo,NotesRepository repository)
+        public BlogUrls GetBlogUrls(UserBlog userBlog, User  userInfo,Repository repository)
         {
             string indexUrl, postUrl, searchUrl, cateUrl, singleUrl, tagsUrl, archiveUrl, tagPostsUrl;
             string blogUrl = ConfigService.GetBlogUrl();

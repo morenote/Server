@@ -24,7 +24,7 @@ namespace MoreNote.Controllers.API.APIV1
         private TokenSerivce tokenSerivce;
         private TagService tagService;
         [Autowired]
-        private NoteRepositoryService noteRepositoryService { get;set;}
+        private RepositoryService noteRepositoryService { get;set;}
 
        
         public BlogController(AttachService attachService,
@@ -32,7 +32,7 @@ namespace MoreNote.Controllers.API.APIV1
              NoteFileService noteFileService,
              UserService userService,
              ConfigFileService configFileService,
-              NoteRepositoryService noteRepositoryService,
+              RepositoryService noteRepositoryService,
              IHttpContextAccessor accessor,
             TagService tagService
             ) :
@@ -68,7 +68,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var noteRepository = noteRepositoryService.GetNotesRepository(repositoryId.ToLongByHex());
+            var noteRepository = noteRepositoryService.GetRepository(repositoryId.ToLongByHex());
             await  blogBuilder.WriteNotesRepository(noteRepository);
 
             re.Ok=true;

@@ -27,7 +27,7 @@ namespace MoreNote.Controllers.API.APIV1
     public class NotebookAPIController : APIBaseController
     {
         private NotebookService notebookService;
-        private NoteRepositoryService noteRepositoryService;
+        private RepositoryService noteRepositoryService;
         private OrganizationMemberRoleService repositoryMemberRoleService;
         private EPassService ePassService;
         private DataSignService dataSignService;
@@ -43,7 +43,7 @@ namespace MoreNote.Controllers.API.APIV1
              EPassService ePassService,
              OrganizationMemberRoleService repositoryMemberRoleService,
              DataSignService dataSignService,
-             NoteRepositoryService noteRepositoryService
+             RepositoryService noteRepositoryService
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {

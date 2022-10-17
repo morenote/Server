@@ -27,7 +27,7 @@ namespace MoreNote.Controllers.API.APIV1
         private NotebookService notebookService;
         private TrashService trashService;
         private IHttpContextAccessor accessor;
-        private NoteRepositoryService noteRepositoryService;
+        private RepositoryService noteRepositoryService;
 
         public CommonController(AttachService attachService
             , TokenSerivce tokenSerivce
@@ -38,7 +38,7 @@ namespace MoreNote.Controllers.API.APIV1
             NoteService noteService,
             NoteContentService noteContentService,
             NotebookService notebookService,
-            NoteRepositoryService noteRepositoryService,
+            RepositoryService noteRepositoryService,
             TrashService trashService
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)

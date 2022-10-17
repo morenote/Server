@@ -18,6 +18,7 @@ using MoreNote.Logic.Service.BlogBuilder;
 using MoreNote.Logic.Service.BlogBuilder.VuePress;
 using MoreNote.Logic.Service.Captcha.IMPL;
 using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.Logging.IMPL;
 using MoreNote.Logic.Service.MyOrganization;
@@ -160,7 +161,7 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<OrganizationService>();
             builder.RegisterType<OrganizationTeamService>();
 
-            builder.RegisterType<NoteRepositoryService>();
+            builder.RegisterType<RepositoryService>();
             builder.RegisterType<RepositoryMemberRoleService>();
 
             builder.RegisterType<PasswordStoreFactory>();
@@ -220,6 +221,8 @@ namespace MoreNote.Common.autofac
             builder.RegisterType<RealNameService>();
             builder.RegisterType<DataSignService>();
             builder.RegisterType<GMService>();
+            builder.RegisterType<VirtualFileAccessService>();
+            builder.RegisterType<VirtualFolderAccessService>();
             //属性注入
             var controllerBaseType = typeof(ControllerBase);
 

@@ -13,14 +13,14 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Logic.Service.MyRepository
 {
-    public class NoteRepositoryService
+    public class RepositoryService
     {
         private DataContext dataContext;
         private OrganizationTeamService organizationTeamService;
         private RepositoryMemberRoleService memberRoleService;
         private ConfigFileService ConfigFileService;
         private IDistributedIdGenerator idGenerator;
-        public NoteRepositoryService(DataContext dataContext,
+        public RepositoryService(DataContext dataContext,
             OrganizationTeamService organizationTeamService,
             ConfigFileService configFileService,
             RepositoryMemberRoleService repositoryMemberRoleService,
@@ -33,14 +33,14 @@ namespace MoreNote.Logic.Service.MyRepository
             this.ConfigFileService = configFileService;
         }
 
-        public NotesRepository GetNotesRepository(long? Id)
+        public Repository GetRepository(long? Id)
         {
-            return dataContext.NotesRepository.Where(b => b.Id == Id&&b.IsDelete==false).FirstOrDefault();
+            return dataContext.Repository.Where(b => b.Id == Id&&b.IsDelete==false ).FirstOrDefault();
         }
 
-        public List<NotesRepository> GetNoteRepositoryList(long? userId)
+        public List<Repository> GetRepositoryList(long? userId, RepositoryType repositoryType)
         {
-            var list = dataContext.NotesRepository.Where(b => b.OwnerId == userId&& b.IsDelete==false).ToList<NotesRepository>();
+            var list = dataContext.Repository.Where(b => b.OwnerId == userId&& b.IsDelete==false && b.RepositoryType == repositoryType).ToList<Repository>();
             return list;
         }
         /// <summary>
@@ -92,7 +92,7 @@ namespace MoreNote.Logic.Service.MyRepository
         /// <param name="respositoryId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public HashSet<RepositoryAuthorityEnum> GetRepositoryAuthoritySet(long? respositoryId, long? userId)
+        public HashSet<RepositoryAuthorityEnum> GetRepositoryAccessPermissions(long? respositoryId, long? userId)
         {
             var memerRole = GetRepositoryMemberRole(respositoryId);
             if (memerRole==null)
@@ -104,40 +104,44 @@ namespace MoreNote.Logic.Service.MyRepository
             return set;
         }
 
-        private void AddNoteRepository(NotesRepository notesRepository)
+        private void AddRepository(Repository repository)
         {
-           dataContext.NotesRepository.Add(notesRepository);    
+           dataContext.Repository.Add(repository);    
            dataContext.SaveChanges();
         }
 
-        public NotesRepository CreateNoteRepository(NotesRepository notesRepository)
+        public Repository CreateRepository(Repository repository)
         {
         
-            var addNoteRepositoryService = new NotesRepository()
+
+            var addRepository = new Repository()
             {
                 Id = idGenerator.NextId(),
-                Name = notesRepository.Name,
-                Description = notesRepository.Description,
-                License = notesRepository.License,
-                RepositoryOwnerType = notesRepository.RepositoryOwnerType,
-                OwnerId = notesRepository.OwnerId,
-                Visible = notesRepository.Visible,
+                Name = repository.Name,
+                Description = repository.Description,
+                License = repository.License,
+                RepositoryOwnerType = repository.RepositoryOwnerType,
+                RepositoryType = repository.RepositoryType,
+                OwnerId = repository.OwnerId,
+                Visible = repository.Visible,
                 CreateTime = DateTime.Now,
-                Avatar=this.GetDefaultAvatar()
-                
+                Avatar= repository.Avatar,
+                VirtualFileBasePath= repository.VirtualFileBasePath,
+                VirtualFileAccessor = repository.VirtualFileAccessor
+
             };
-            this.AddNoteRepository(addNoteRepositoryService);
-            return addNoteRepositoryService;
+            this.AddRepository(addRepository);
+            return addRepository;
         }
-        public void DeleteNoteRepository(long? respositoryId)
+        public void DeleteRepository(long? respositoryId)
         {
-            dataContext.NotesRepository.Where(b=>b.Id==respositoryId).UpdateFromQuery(x=>new NotesRepository() { IsDelete=true}); 
+            dataContext.Repository.Where(b=>b.Id==respositoryId).UpdateFromQuery(x=>new Repository() { IsDelete=true}); 
             dataContext.SaveChanges();
         }
 
-        public bool ExistNoteRepositoryByName(long? ownerId, string name)
+        public bool ExistRepositoryByName(long? ownerId, string name)
         {
-            return dataContext.NotesRepository.Where(x => x.Name == name &&x.OwnerId==ownerId && x.IsDelete==false).Any();
+            return dataContext.Repository.Where(x => x.Name == name &&x.OwnerId==ownerId && x.IsDelete==false).Any();
         }
 
         private string GetDefaultAvatar()
@@ -155,7 +159,7 @@ namespace MoreNote.Logic.Service.MyRepository
         /// <returns></returns>
         public bool Verify(long? respositoryId, long? userId, RepositoryAuthorityEnum repositoryAuthorityEnum)
         {
-            var respository=GetNotesRepository(respositoryId);
+            var respository=GetRepository(respositoryId);
             if (respository == null)
             {
                 return false;
@@ -165,42 +169,42 @@ namespace MoreNote.Logic.Service.MyRepository
                 return true;//拥有者 拥有任意权限
             }
 
-            var set = GetRepositoryAuthoritySet(respositoryId, userId);
-            if (set == null)
+            var accessPermissions = GetRepositoryAccessPermissions(respositoryId, userId);
+            if (accessPermissions == null)
             {
                 return false;
             }
-            return set.Contains(repositoryAuthorityEnum);
+            return accessPermissions.Contains(repositoryAuthorityEnum);
         }
 
         public bool Verify(long? respositoryId, long? userId, HashSet<RepositoryAuthorityEnum> repositoryAuthorityEnumList)
         {
 
-            var respository = GetNotesRepository(respositoryId);
+            var respository = GetRepository(respositoryId);
             if (respository.OwnerId == userId)
             {
                 return true;//拥有者 拥有任意权限
             }
 
-
-            var set = GetRepositoryAuthoritySet(respositoryId, userId);
-            if (set == null)
+            //获取权限列表
+            var accessPermissions = GetRepositoryAccessPermissions(respositoryId, userId);
+            if (accessPermissions == null)
             {
                 return false;
             }
             foreach (var item in repositoryAuthorityEnumList)
             {
-                if (!set.Contains(item))
+                if (!accessPermissions.Contains(item))
                 {
                     return false;
                 }
             }
             return true;
         }
-
+        //增加仓库计数器
         public int IncrUsn(long? repositoryId)
         {
-            var repository = dataContext.NotesRepository
+            var repository = dataContext.Repository
                .Where(b => b.Id == repositoryId).FirstOrDefault();
             repository.Usn += 1;
             dataContext.SaveChanges();

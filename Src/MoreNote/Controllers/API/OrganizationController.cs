@@ -26,7 +26,7 @@ namespace MoreNote.Controllers.API
             , IHttpContextAccessor accessor,
             NotebookService notebookService,
             OrganizationService organizationService,
-            NoteRepositoryService noteRepositoryService
+            RepositoryService noteRepositoryService
            ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {

@@ -30,7 +30,7 @@ namespace MoreNote.Controllers
         private TagService tagService;
         private NotebookService notebookService;
         private NoteService noteService;
-        private NoteRepositoryService noteRepository;
+        private RepositoryService noteRepository;
         public BlogController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -43,7 +43,7 @@ namespace MoreNote.Controllers
             , NoteService noteService
             , NotebookService notebookService
             , BlogService blogService
-            , NoteRepositoryService noteRepository
+            , RepositoryService noteRepository
             ) : 
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
@@ -111,7 +111,7 @@ namespace MoreNote.Controllers
         }
 
 
-        private User ActionInitBlogUser(NotesRepository repository)
+        private User ActionInitBlogUser(Repository repository)
         {
             
             User blogUser = userService.GetUserByUserId(repository.OwnerId);
@@ -134,7 +134,7 @@ namespace MoreNote.Controllers
         [HttpGet]
         public IActionResult Archive(string repositoryId, string archiveHex)
         {
-            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
@@ -169,7 +169,7 @@ namespace MoreNote.Controllers
         public IActionResult Cate(string repositoryId, string cateHex, int page)
         {
             long? notebookId = cateHex.ToLongByHex();
-            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
@@ -213,7 +213,7 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
-            var repository=this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository=this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             User blogUser =userService.GetUserByUserId(repository.OwnerId);
             if (string.IsNullOrEmpty(repositoryId)|| repository==null|| repository.IsDelete || !repository.IsBlog)
@@ -266,7 +266,7 @@ namespace MoreNote.Controllers
         [HttpGet]
         public async Task<IActionResult> Post(string repositoryId, string noteIdHex)
         {
-            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             //添加访问日志
             await InsertLogAsync($"Blog/Post/{repository.Name}/{noteIdHex}/").ConfigureAwait(false);
@@ -355,7 +355,7 @@ namespace MoreNote.Controllers
         [HttpGet]
         public IActionResult Tags(string repositoryId)
         {
-            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
@@ -378,7 +378,7 @@ namespace MoreNote.Controllers
         [HttpGet]
         public IActionResult Search(string repositoryId, string keywords, int page)
         {
-            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             if (page < 1)
             {
@@ -426,7 +426,7 @@ namespace MoreNote.Controllers
         public IActionResult Single(string repositoryId, string SingleIdHex)
         {
 
-            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             User blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
@@ -445,7 +445,7 @@ namespace MoreNote.Controllers
         [HttpGet]
         public IActionResult Tags_Posts(string repositoryId, string tag, int page)
         {
-            var repository = this.noteRepository.GetNotesRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
             if (page < 1)
             {
@@ -497,12 +497,12 @@ namespace MoreNote.Controllers
         }
        
 
-        public UserBlog BlogCommon(User userInfo,NotesRepository repository)
+        public UserBlog BlogCommon(User userInfo,Repository repository)
         {
             UserBlog userBlog = blogService.GetUserBlog(userInfo.Id);
             return BlogCommon(userInfo.Id, userBlog, userInfo, repository);
         }
-        public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo,NotesRepository repository)
+        public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo,Repository repository)
         {
             if (userInfo.Id == 0)
             {
@@ -539,7 +539,7 @@ namespace MoreNote.Controllers
         }
 
         // 各种地址设置
-        public void SetUrl(UserBlog userBlog, User user,NotesRepository repository)
+        public void SetUrl(UserBlog userBlog, User user,Repository repository)
         {
             // 主页 http://leanote.com/blog/life or http://blog.leanote.com/life or http:// xxxx.leanote.com or aa.com
             // host := c.Request.Request.Host

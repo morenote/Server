@@ -389,7 +389,7 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息+博客主页
-        public User GetUserAndBlogUrl(long? userId, NotesRepository repository)
+        public User GetUserAndBlogUrl(long? userId, Repository repository)
         {
             User user = GetUserInfo(userId);
 
@@ -412,7 +412,7 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="userId">用户ID</param>
         /// <returns></returns>
-        public UserAndBlog GetUserAndBlog(long? userId, NotesRepository repository)
+        public UserAndBlog GetUserAndBlog(long? userId, Repository repository)
         {
             var user = this.GetUserInfo(userId);
             var userBlog = BlogService.GetUserBlog(userId);

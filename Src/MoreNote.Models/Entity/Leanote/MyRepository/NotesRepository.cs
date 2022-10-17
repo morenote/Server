@@ -15,8 +15,8 @@ namespace MoreNote.Models.Entity.Leanote
     /// <summary>
     /// 笔记仓库
     /// </summary>
-    [Table("notes_repository")]
-    public class NotesRepository:BaseEntity
+    [Table("repository")]
+    public class Repository:BaseEntity
     {
         
 
@@ -38,7 +38,9 @@ namespace MoreNote.Models.Entity.Leanote
         public string? License { get; set; }//开源协议
 
         [Column("owner_type")]
-        public RepositoryOwnerType RepositoryOwnerType { get; set; }//仓库类型
+        public RepositoryOwnerType RepositoryOwnerType { get; set; }//仓库拥有者类型
+        [Column("repository_type")]
+        public RepositoryType RepositoryType { get; set; }//仓库类型
 
         [Column("owner_id")]
         public long? OwnerId { get; set; }//拥有者
@@ -56,6 +58,10 @@ namespace MoreNote.Models.Entity.Leanote
 
         [Column("is_blog")]
         public bool IsBlog { get; set; }//仓库创建时间
+        [Column("virtual_file_base_path")]
+        public string? VirtualFileBasePath { get;set; }//虚拟文件基础路径 用于虚拟路径映射物理路径
+        [Column("virtual_file_accessor")]
+        public string? VirtualFileAccessor { get; set; }//虚拟文件访问器 用于虚拟路径映射物理路径
 
     }
 }

@@ -179,7 +179,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
             return stringBuilder;
         }
 
-        public async Task WriteNotesRepository(NotesRepository notesRepository)
+        public async Task WriteNotesRepository(Repository notesRepository)
         {
             //工作目录
             if (!Directory.Exists(this.workingDirectory))

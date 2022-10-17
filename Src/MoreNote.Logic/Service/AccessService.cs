@@ -8,7 +8,7 @@ namespace MoreNote.Logic.Service
 {
     public class AccessService
     {
-       private DataContext dataContext;
+        private DataContext dataContext;
 
         public AccessService(DataContext dataContext)
         {

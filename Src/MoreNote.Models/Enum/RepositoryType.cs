@@ -9,11 +9,11 @@ namespace MoreNote.Models.Enum
     /// <summary>
     /// 仓库拥有者类型
     /// </summary>
-    public enum RepositoryOwnerType
+    public enum RepositoryType
     {
-        //个人仓库
-        Personal = 0x01,
-        //组织仓库
-        Organization = 0x02
+        //笔记仓库
+        NoteRepository = 0x01,
+        //文件仓库
+        FileRepository = 0x02
     }
 }

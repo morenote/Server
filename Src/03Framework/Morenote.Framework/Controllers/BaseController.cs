@@ -324,7 +324,7 @@ namespace MoreNote.Framework.Controllers
             }
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        protected User GetUserAndBlogUrl(NotesRepository repository)
+        protected User GetUserAndBlogUrl(Repository repository)
         {
             var userid = GetUserIdBySession();
             if (userid == null)

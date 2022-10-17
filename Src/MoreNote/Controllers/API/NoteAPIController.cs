@@ -36,7 +36,7 @@ namespace MoreNote.Controllers.API.APIV1
         private NotebookService notebookService;
         private TrashService trashService;
         private IHttpContextAccessor accessor;
-        private NoteRepositoryService noteRepositoryService;
+        private RepositoryService noteRepositoryService;
         private EPassService ePassService;
         private GMService gMService;
         private DataSignService dataSignService;
@@ -50,7 +50,7 @@ namespace MoreNote.Controllers.API.APIV1
             NoteService noteService,
             NoteContentService noteContentService,
             NotebookService notebookService,
-            NoteRepositoryService noteRepositoryService,
+            RepositoryService noteRepositoryService,
             TrashService trashService,
             EPassService ePass,
             GMService gMService,
@@ -980,7 +980,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var repositor = this.noteRepositoryService.GetNotesRepository(noteRepositoryId.ToLongByHex());
+            var repositor = this.noteRepositoryService.GetRepository(noteRepositoryId.ToLongByHex());
 
             if (!repositor.Visible)
             {

@@ -20,7 +20,7 @@ namespace MoreNote.Logic.Service.BlogBuilder
 
         public Task<StringBuilder> WriteNoteBook(Notebook notebook, string path, string link, string sapce);
         public Task<StringBuilder> WriteNote(Note note, string path, string link);
-        public  Task WriteNotesRepository(NotesRepository notesRepository);
+        public  Task WriteNotesRepository(Repository notesRepository);
 
     }
 }

@@ -121,9 +121,9 @@ namespace MoreNote.Logic.Database
         /*******************NotesRepository***********************/
 
         //笔记仓库
-        public DbSet<NotesRepository> NotesRepository { get; set; }
+        public DbSet<Repository> Repository { get; set; }
 
-        public DbSet<FileRepository> FileRepository { get; set; }
+     
 
         //仓库成员角色
         public DbSet<RepositoryMemberRole> RepositoryMemberRole { get; set; }
@@ -177,5 +177,7 @@ namespace MoreNote.Logic.Database
 
         public DbSet<RealNameInformation> RealNameInformation { get; set; }
 
+        public DbSet<VirtualFileInfo> VirtualFileInfo { get; set; }
+        public DbSet<VirtualFolderInfo> VirtualFolderInfo { get; set; }
     }
 }
