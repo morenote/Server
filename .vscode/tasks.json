@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MoreNote/MoreNote.csproj"
+                "${workspaceFolder}/Src/MoreNote/MoreNote.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

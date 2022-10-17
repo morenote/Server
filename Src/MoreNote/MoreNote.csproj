@@ -14,7 +14,7 @@
 	  <DockerfileContext>..\..</DockerfileContext>
 	  <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 	  <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
-	  <Platforms>AnyCPU;x64;ARM64;x86</Platforms>
+	  <Platforms>AnyCPU;x86;x64;ARM64</Platforms>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
