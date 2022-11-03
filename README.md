@@ -163,6 +163,7 @@ dotnet run
 - MrDoc（在线文档库）[GPL开源许可](https://github.com/zmister2016/MrDoc/blob/master/LICENSE)
 - MxsDoc(Web文件管理系统) [GPL开源许可](https://gitee.com/RainyGao/DocSys/blob/master/LICENSE)
 - joplin（开源笔记软件） [MIT开源许可](https://github.com/laurent22/joplin/blob/dev/LICENSE)
+- AutumnBox [GPL开源协议](https://github.com/zsh2401/AutumnBox/blob/master/LICENSE)
 
 
 
