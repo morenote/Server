@@ -43,13 +43,9 @@ namespace MoreNote.Controllers
         private  WebSiteConfig webSiteConfig;
 
         private  Payjs pay ;
+        
         [HttpGet, HttpPost]
         public IActionResult Index()
-        {
-            return View();
-        }
-        [HttpGet, HttpPost]
-        public IActionResult NativePay()
         {
             long? id = idGenerator.NextId();
             var nativeRequestMessage = new NativeRequestMessage()
