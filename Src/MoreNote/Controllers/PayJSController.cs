@@ -19,7 +19,7 @@ using System.Net;
 
 namespace MoreNote.Controllers
 {
-    
+    [Route("api/PayJS/[action]")]
     public class PayJSController : BaseController
     {
         private DataContext dataContext;
