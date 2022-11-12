@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Masuit.Tools;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +15,16 @@ using MoreNote.Logic.Service.Logging;
 using PAYJS_CSharp_SDK;
 using PAYJS_CSharp_SDK.Model;
 
+using QRCoder;
+
+using SkiaSharp.QrCode.Image;
+using SkiaSharp;
+
 using System;
 using System.Linq;
 using System.Net;
+using Lucene.Net.Support.IO;
+using System.IO;
 
 namespace MoreNote.Controllers
 {
@@ -45,7 +54,7 @@ namespace MoreNote.Controllers
         private  Payjs pay ;
         
         [HttpGet, HttpPost]
-        public IActionResult Index()
+        public IActionResult Native()
         {
             long? id = idGenerator.NextId();
             var nativeRequestMessage = new NativeRequestMessage()
@@ -57,7 +66,7 @@ namespace MoreNote.Controllers
                 notify_url = webSiteConfig.Payjs.Notify_Url
             };
 
-            var responseMessage = pay.native(nativeRequestMessage);
+            var responseMessage = pay.Native(nativeRequestMessage);
             ViewBag.msg = responseMessage;
             CommodityOrder goodOrder = new CommodityOrder()
             {
@@ -81,6 +90,46 @@ namespace MoreNote.Controllers
             return View();
         }
 
+        [HttpGet, HttpPost]
+
+        public IActionResult Cashier()
+        {
+            long? id = idGenerator.NextId();
+            var cashierRequest = new CashierRequestMessage()
+            {
+                total_fee = 1,
+                out_trade_no = id.ToString(),
+                body = "test",
+                attch = "userid",
+                notify_url = webSiteConfig.Payjs.Notify_Url
+            };
+            var responseMessage = pay.Cashier(cashierRequest);
+            return Content(responseMessage);
+        }
+
+        [HttpGet, HttpPost]
+
+        public IActionResult CashierQR()
+        {
+            long? id = idGenerator.NextId();
+            var cashierRequest = new CashierRequestMessage()
+            {
+                total_fee = 1,
+                out_trade_no = id.ToString(),
+                body = "test",
+                attch = "userid",
+                notify_url = webSiteConfig.Payjs.Notify_Url
+            };
+            var responseMessage = pay.Cashier(cashierRequest);
+            var buffer = new byte[0];
+            using(MemoryStream ms = new MemoryStream())
+            {
+                var qrCode = new QrCode(responseMessage, new Vector2Slim(256, 256), SKEncodedImageFormat.Jpeg);
+                qrCode.GenerateImage(ms);
+                buffer = ms.ToArray();
+            }
+            return File(buffer, "image/png");
+        }
         /// <summary>
         /// 支付成功异步通知接口
         /// </summary>

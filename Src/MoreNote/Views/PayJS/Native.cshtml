@@ -1,0 +1,13 @@
+﻿@{ 
+    PAYJS_CSharp_SDK.Model.NativeResponseMessage responseMessage = ViewBag.msg;
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PayJS支付</title>
+</head>
+<body>
+    <img  src="@responseMessage.qrcode"/>
+</body>
+</html>
