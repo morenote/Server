@@ -1,30 +1,27 @@
-﻿using Masuit.Tools;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
-using MoreNote.Logic.Service.Logging;
 
 using PAYJS_CSharp_SDK;
 using PAYJS_CSharp_SDK.Model;
 
 using QRCoder;
 
-using SkiaSharp.QrCode.Image;
-using SkiaSharp;
+using SixLabors.ImageSharp;
 
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
-using Lucene.Net.Support.IO;
-using System.IO;
+
+using Image = SixLabors.ImageSharp.Image;
 
 namespace MoreNote.Controllers
 {
@@ -33,6 +30,7 @@ namespace MoreNote.Controllers
     {
         private DataContext dataContext;
         private ConfigFileService configFileService;
+
         public PayJSController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService
@@ -44,15 +42,15 @@ namespace MoreNote.Controllers
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.dataContext = dataContext;
-            this.configFileService= configFileService;
+            this.configFileService = configFileService;
             webSiteConfig = configFileService.WebConfig;
             pay = new Payjs(webSiteConfig.Payjs.PayJS_MCHID, webSiteConfig.Payjs.PayJS_Key);
-
         }
-        private  WebSiteConfig webSiteConfig;
 
-        private  Payjs pay ;
-        
+        private WebSiteConfig webSiteConfig;
+
+        private Payjs pay;
+
         [HttpGet, HttpPost]
         public IActionResult Native()
         {
@@ -82,16 +80,14 @@ namespace MoreNote.Controllers
                 NativeRequestMessage = nativeRequestMessage.ToJsonString(),
                 NativeResponseMessage = responseMessage.ToJsonString()
             };
-          
-                var orderObj = dataContext.GoodOrder.Add(goodOrder);
-                dataContext.SaveChanges();
-            
+
+            var orderObj = dataContext.GoodOrder.Add(goodOrder);
+            dataContext.SaveChanges();
 
             return View();
         }
 
         [HttpGet, HttpPost]
-
         public IActionResult Cashier()
         {
             long? id = idGenerator.NextId();
@@ -108,7 +104,6 @@ namespace MoreNote.Controllers
         }
 
         [HttpGet, HttpPost]
-
         public IActionResult CashierQR()
         {
             long? id = idGenerator.NextId();
@@ -122,14 +117,21 @@ namespace MoreNote.Controllers
             };
             var responseMessage = pay.Cashier(cashierRequest);
             var buffer = new byte[0];
-            using(MemoryStream ms = new MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
-                var qrCode = new QrCode(responseMessage, new Vector2Slim(256, 256), SKEncodedImageFormat.Jpeg);
-                qrCode.GenerateImage(ms);
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(responseMessage, QRCodeGenerator.ECCLevel.L);
+                //QRCode qrCode = new QRCode(qrCodeData);
+                //Bitmap qrCodeImage = qrCode.GetGraphic(20);
+                var qrBmp = new BitmapByteQRCode(qrCodeData);
+         
+                Image image= Image.Load(qrBmp.GetGraphic(20));
+                image.SaveAsJpeg(ms); 
                 buffer = ms.ToArray();
             }
-            return File(buffer, "image/png");
+            return File(buffer, "image/jpeg");
         }
+
         /// <summary>
         /// 支付成功异步通知接口
         /// </summary>
@@ -154,21 +156,19 @@ namespace MoreNote.Controllers
                 }
                 try
                 {
-                   
-                        var orderObj = dataContext.GoodOrder.Where(b => b.payjs_order_id.Equals(notifyResponseMessage.payjs_order_id)).FirstOrDefault();
-                        if (orderObj.total_fee != notifyResponseMessage.total_fee)
-                        {
-                            throw new Exception("金额不正确");
-                        }
-                        orderObj.PayStatus = true;
-                        orderObj.transaction_id = notifyResponseMessage.transaction_id;
-                        orderObj.openid = notifyResponseMessage.openid;
-                        orderObj.Notify = true;
-                        orderObj.NotifyResponseMessage = notifyResponseMessage.ToJsonString();
-                        dataContext.SaveChanges();
-                        Response.StatusCode = (int)HttpStatusCode.OK;
-                        return Content("OK");
-                    
+                    var orderObj = dataContext.GoodOrder.Where(b => b.payjs_order_id.Equals(notifyResponseMessage.payjs_order_id)).FirstOrDefault();
+                    if (orderObj.total_fee != notifyResponseMessage.total_fee)
+                    {
+                        throw new Exception("金额不正确");
+                    }
+                    orderObj.PayStatus = true;
+                    orderObj.transaction_id = notifyResponseMessage.transaction_id;
+                    orderObj.openid = notifyResponseMessage.openid;
+                    orderObj.Notify = true;
+                    orderObj.NotifyResponseMessage = notifyResponseMessage.ToJsonString();
+                    dataContext.SaveChanges();
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Content("OK");
                 }
                 catch (Exception)
                 {
