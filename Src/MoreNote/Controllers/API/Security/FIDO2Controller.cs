@@ -51,8 +51,8 @@ namespace MoreNote.Controllers.API
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
             var verify= tokenSerivce.VerifyToken(userId.ToLongByHex(),token);
-            if (!verify)
-            {
+            {            if (!verify)
+
                
                 return SimpleJson(new ApiRe() { Msg="TokenIsError"});
 

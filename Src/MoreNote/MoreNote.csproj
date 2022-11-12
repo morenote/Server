@@ -54,10 +54,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\API\Config\**" />
     <Compile Remove="Views\Pic\**" />
+    <Content Remove="Controllers\API\Config\**" />
     <Content Remove="Views\Pic\**" />
+    <EmbeddedResource Remove="Controllers\API\Config\**" />
     <EmbeddedResource Remove="Views\Pic\**" />
+    <None Remove="Controllers\API\Config\**" />
     <None Remove="Views\Pic\**" />
+    <TypeScriptCompile Remove="Controllers\API\Config\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -360,7 +365,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\API\Config\" />
     <Folder Include="logs\" />
     <Folder Include="runtimes\linux-arm64\" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using Fido2NetLib.Objects;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
@@ -40,11 +41,11 @@ namespace MoreNote.Controllers.API.APIV1
             this.authService = authService;
         }
         /// <summary>
-        /// 取号(用于客户端请求序列号)
+        /// 取号-用于维持会话状态
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult TakeNumber()
+        public IActionResult TakeSession()
         {
             var re=new ApiRe();
             //产生一个序号
@@ -52,14 +53,14 @@ namespace MoreNote.Controllers.API.APIV1
             var random = RandomTool.CreatSafeRandomBase64(16);
             var data = SHAEncryptHelper.Hash256Encrypt(id+random);
 
-            distributedCache.SetBool("TakeNumber", true);
+            distributedCache.SetBool("Session", true);
             re.Data= data;
             re.Ok=true;
             return LeanoteJson(re);
         }
 
         /// <summary>
-        /// 登陆
+        /// 使用口令挑战
         ///  成功返回 {Ok: true, Item: token }
         ///  失败返回 {Ok: false, Msg: ""}
         /// </summary>
@@ -67,7 +68,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="pwd"></param>
         /// <returns></returns>
        [HttpPost]
-        public async Task<IActionResult> Login(string email, string pwd, string requestNumber)
+        public async Task<IActionResult> PasswordChallenge(string email, string pwd, string sessionId)
         {
             string tokenValue = "";
 
@@ -88,9 +89,9 @@ namespace MoreNote.Controllers.API.APIV1
                 Ip = Request.Host.Host,
                 BrowserRequestHeader = stringBuilder.ToString(),
             };
-
             try
             {
+                //使用认证服务鉴别口令
                 var tokenStr = await authService.LoginByPWD(email, pwd);
                 if (!string.IsNullOrEmpty(tokenStr))
                 {
@@ -113,7 +114,7 @@ namespace MoreNote.Controllers.API.APIV1
                     };
                     re.Ok = true;
                     //re.Data = userToken;
-                    this.distributedCache.SetBool("Password" + requestNumber, true);
+                    this.distributedCache.SetBool("Password" + sessionId, true);
                     logg.UserId = user.Id;
                     logg.IsLoginSuccess = true;
                     return LeanoteJson(re);
@@ -121,8 +122,18 @@ namespace MoreNote.Controllers.API.APIV1
                 else
                 {
                     re.Msg = "用户名或密码有误";
-
                     logg.ErrorMessage = "用户名或密码有误";
+                    //口令重试计数器
+                    //todo:增加用户口令重试计数器
+                    var errorCount = distributedCache.GetInt("SessionErrorCount");
+                    if (errorCount==null)
+                    {
+                        distributedCache.SetInt("SessionErrorCount", 1);
+                    }
+                    else
+                    {
+                        distributedCache.SetInt("SessionErrorCount", errorCount.Value+1);
+                    }
                     return LeanoteJson(re);
                 }
             }
@@ -139,8 +150,14 @@ namespace MoreNote.Controllers.API.APIV1
                 this.logging.Save(logg);
             }
         }
+        /// <summary>
+        /// 提交登录信息
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="sessionId"></param>
+        /// <returns></returns>
         [HttpGet, HttpPost]
-        public IActionResult TakeToken(string email, string requestNumber)
+        public IActionResult SubmitLogin(string email, string sessionId)
         {
           
             var re=new ApiRe();
@@ -149,8 +166,8 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var Passwrod_Check = this.distributedCache.GetBool("Password" + requestNumber,false);
-            var USBKEY_CHECK = this.distributedCache.GetBool("USBKEY" + requestNumber,false);
+            var Passwrod_Check = this.distributedCache.GetBool("Password" + sessionId, false);
+            var USBKEY_CHECK = this.distributedCache.GetBool("USBKEY" + sessionId, false);
 
             var result=false;
 
@@ -188,17 +205,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         }
 
-        /// <summary>
-        /// 登录
-        /// </summary>
-        /// <param name="tickets"></param>
-        /// <returns></returns>
-        /// 
-        [HttpPost]
-        public IActionResult SubmitLogin(string requestNumber)
-        {
-            return null;
-        }
+        
 
         [HttpDelete]
         //todo:注销函数
@@ -298,7 +305,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         /// <summary>
-        /// 获得用户登录安全策略级别
+        /// 获得用户登录设置
         /// </summary>
         /// <returns></returns>
         [HttpGet,HttpPost]
@@ -320,7 +327,12 @@ namespace MoreNote.Controllers.API.APIV1
             return LeanoteJson(re);
 
         }
-
+        /// <summary>
+        /// 设置用户登录设置
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> SetUserLoginSecurityPolicyLevel(string token,LoginSecurityPolicyLevel level)
         {
