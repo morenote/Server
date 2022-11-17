@@ -45,7 +45,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult TakeSession()
+        public IActionResult TakeSessionCode()
         {
             var re=new ApiRe();
             //产生一个序号
@@ -66,9 +66,10 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <param name="email"></param>
         /// <param name="pwd"></param>
+        /// 
         /// <returns></returns>
        [HttpPost]
-        public async Task<IActionResult> PasswordChallenge(string email, string pwd, string sessionId)
+        public async Task<IActionResult> PasswordChallenge(string email, string pwd, string sessionCode)
         {
             string tokenValue = "";
 
@@ -114,7 +115,7 @@ namespace MoreNote.Controllers.API.APIV1
                     };
                     re.Ok = true;
                     //re.Data = userToken;
-                    this.distributedCache.SetBool("Password" + sessionId, true);
+                    this.distributedCache.SetBool("Password" + sessionCode, true);
                     logg.UserId = user.Id;
                     logg.IsLoginSuccess = true;
                     return LeanoteJson(re);
@@ -154,10 +155,10 @@ namespace MoreNote.Controllers.API.APIV1
         /// 提交登录信息
         /// </summary>
         /// <param name="email"></param>
-        /// <param name="sessionId"></param>
+        /// <param name="session"></param>
         /// <returns></returns>
         [HttpGet, HttpPost]
-        public IActionResult SubmitLogin(string email, string sessionId)
+        public IActionResult SubmitLogin(string email, string sessionCode)
         {
           
             var re=new ApiRe();
@@ -166,8 +167,8 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var Passwrod_Check = this.distributedCache.GetBool("Password" + sessionId, false);
-            var USBKEY_CHECK = this.distributedCache.GetBool("USBKEY" + sessionId, false);
+            var Passwrod_Check = this.distributedCache.GetBool("Password" + sessionCode, false);
+            var USBKEY_CHECK = this.distributedCache.GetBool("USBKEY" + sessionCode, false);
 
             var result=false;
 

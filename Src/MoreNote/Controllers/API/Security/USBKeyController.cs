@@ -43,7 +43,7 @@ namespace MoreNote.Controllers.API.Security
         /// <param name="email"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetLoginChallenge(string email,string  sessionId)
+        public IActionResult GetLoginChallenge(string email,string sessionCode)
         {
             ApiRe apiRe = new ApiRe();
             var user = userService.GetUserByEmail(email);
@@ -51,7 +51,7 @@ namespace MoreNote.Controllers.API.Security
             {
                 return LeanoteJson(apiRe);
             }
-            var challenge = ePass.GenServerChallenge("LoginChallenge", sessionId, user.Id);
+            var challenge = ePass.GenServerChallenge("LoginChallenge", sessionCode, user.Id);
             apiRe.Ok = true;
             apiRe.Data = challenge;
             return LeanoteJson(apiRe);
