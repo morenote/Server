@@ -51,25 +51,25 @@ namespace MoreNote.Common.ExtensionMethods
         /// </summary>
         /// <param name="obj">原始版本对象</param>
         /// <returns>深克隆后的对象</returns>
-        public static object DepthClone(this object obj)
-        {
-            object clone = new object();
-            using (Stream stream = new MemoryStream())
-            {
-                IFormatter formatter = new BinaryFormatter();
-                try
-                {
-                    formatter.Serialize(stream, obj);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    clone = formatter.Deserialize(stream);
-                }
-                catch (SerializationException e)
-                {
-                    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
-                    throw;
-                }
-            }
-            return clone;
-        }
+        //public static object DepthClone(this object obj)
+        //{
+        //    object clone = new object();
+        //    using (Stream stream = new MemoryStream())
+        //    {
+        //        IFormatter formatter = new BinaryFormatter();
+        //        try
+        //        {
+        //            formatter.Serialize(stream, obj);
+        //            stream.Seek(0, SeekOrigin.Begin);
+        //            clone = formatter.Deserialize(stream);
+        //        }
+        //        catch (SerializationException e)
+        //        {
+        //            Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+        //            throw;
+        //        }
+        //    }
+        //    return clone;
+        //}
     }
 }
