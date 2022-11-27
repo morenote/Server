@@ -149,6 +149,12 @@ namespace MoreNote.Controllers.API
                 return Json(new CredentialMakeResult(status: "error", errorMessage: FormatException(e), result: null));
             }
         }
+        
+        /// <summary>
+        /// 请求FIDO2断言
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateAssertionOptions(string email)
         {
@@ -169,6 +175,13 @@ namespace MoreNote.Controllers.API
                 return Json(new CredentialMakeResult(status: "error", errorMessage: FormatException(e), result: null));
             }
         }
+        
+        /// <summary>
+        /// 客户端挑战服务器断言
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="signData"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> VerifyTheAssertionResponse(string email, string signData)
         {

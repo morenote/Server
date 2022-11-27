@@ -42,6 +42,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
         /// <summary>
         /// 取号-用于维持会话状态
+        /// SessionCode在提交后失效，再次认证需要再次取号
         /// </summary>
         /// <returns></returns>
         [HttpGet]

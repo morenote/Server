@@ -168,12 +168,17 @@ namespace MoreNote.Logic.Service.MyRepository
             {
                 return true;//拥有者 拥有任意权限
             }
-
+            //如果是公开仓库，表示任意人都有读取权限
+            if (respository.Visible && repositoryAuthorityEnum == RepositoryAuthorityEnum.Read)
+            {
+                return true;
+            }
             var accessPermissions = GetRepositoryAccessPermissions(respositoryId, userId);
             if (accessPermissions == null)
             {
                 return false;
             }
+            
             return accessPermissions.Contains(repositoryAuthorityEnum);
         }
 

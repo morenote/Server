@@ -54,7 +54,7 @@ namespace MoreNote.Controllers.API
         }
 
         [HttpGet]
-        public IActionResult GetMyRepository(string userId, string token,RepositoryType repositoryType)
+        public IActionResult GetMyRepository(string userId, string token, RepositoryType repositoryType)
         {
             var apiRe = new ApiRe()
             {
@@ -75,6 +75,34 @@ namespace MoreNote.Controllers.API
             return LeanoteJson(apiRe);
         }
 
+        /// <summary>
+        /// 读取仓库信息
+        /// </summary>
+        /// <param name="repositoryId">仓库id</param>
+        /// <param name="token">访问者token</param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult RepositoryInfo(string repositoryId, string token)
+        {
+            var re = new ApiRe()
+            {
+                Ok = false,
+                Data = null
+            };
+            var user = tokenSerivce.GetUserByToken(token);
+
+            var verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Read);
+            if (!verify && user != null)
+            {
+                re.Msg = "Operate is not Equals ";
+                return LeanoteJson(re);
+            }
+            var rep = noteRepositoryService.GetRepository(repositoryId.ToLongByHex());
+            re.Ok = (rep != null);
+            re.Data = rep;
+            re.Msg = "";
+            return LeanoteJson(re);
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateRepository(string token, string data, string dataSignJson)
@@ -137,7 +165,7 @@ namespace MoreNote.Controllers.API
             }
 
             var result = noteRepositoryService.CreateRepository(repository);
-            if (repository.RepositoryType==RepositoryType.NoteRepository)
+            if (repository.RepositoryType == RepositoryType.NoteRepository)
             {
                 var list = new List<string>(4) { "life", "study", "work", "tutorial" };
                 foreach (var item in list)
@@ -157,7 +185,6 @@ namespace MoreNote.Controllers.API
                     notebookService.AddNotebook(notebook);
                 }
             }
-           
 
             if (result == null)
             {
@@ -176,7 +203,7 @@ namespace MoreNote.Controllers.API
         /// <param name="repositoryId">仓库ID</param>
         /// <param name="dataSignJson">签名文件</param>
         /// <returns></returns>
-        [HttpPost,HttpDelete]
+        [HttpPost, HttpDelete]
         public async Task<IActionResult> DeleteRepository(string token, string repositoryId, string dataSignJson)
         {
             var verify = false;

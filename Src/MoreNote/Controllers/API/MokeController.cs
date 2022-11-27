@@ -12,7 +12,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-    
+    /// <summary>
+    /// 返回虚假的数据，仅供开发调试用途
+    /// </summary>
     public class MokeController : APIBaseController
     {
         private AttachService attachService;
