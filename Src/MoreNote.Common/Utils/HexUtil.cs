@@ -6,14 +6,14 @@ namespace MoreNote.Common.Utils
 {
    public class HexUtil
     {
-        public static string ByteArrayToString(byte[] ba)
+        public static string ByteArrayToSHex(byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
             foreach (byte b in ba)
                 hex.AppendFormat("{0:x2}", b);
             return hex.ToString();
         }
-        public static byte[] StringToByteArray(String hex)
+        public static byte[] HexToByteArray(String hex)
         {
             int NumberChars = hex.Length;
             byte[] bytes = new byte[NumberChars / 2];

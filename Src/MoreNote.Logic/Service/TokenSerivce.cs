@@ -3,11 +3,11 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Logic.Service.DistributedIDGenerator;
+
 using System;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using MoreNote.Logic.Service.DistributedIDGenerator;
 
 namespace MoreNote.Logic.Service
 {
@@ -16,10 +16,11 @@ namespace MoreNote.Logic.Service
         private DataContext dataContext;
         private WebSiteConfig config;
         private IDistributedIdGenerator idGenerator;
+
         public TokenSerivce(DataContext dataContext, ConfigFileService configFileService, IDistributedIdGenerator idGenerator)
         {
-            this.idGenerator=  idGenerator;
-            
+            this.idGenerator = idGenerator;
+
             this.dataContext = dataContext;
             this.config = configFileService.WebConfig;
         }
@@ -32,6 +33,7 @@ namespace MoreNote.Logic.Service
             a = dataContext.SaveChanges();
             return dataContext.SaveChanges() > 0;
         }
+
         public Token GenerateToken(User user)
         {
             long? tokenid = idGenerator.NextId();
@@ -47,52 +49,53 @@ namespace MoreNote.Logic.Service
                 CreatedTime = DateTime.Now
             };
             return myToken;
-
         }
-
-
- 
 
         /// <summary>
         /// 产生不可预测的Token
         /// </summary>
         /// <param name="tokenId">tokenId</param>
-        /// <param name="tokenByteSize">不可预测部分的byte长度 字节 默认16</param>
+        /// <param name="tokenByteSize">不可预测部分的byte长度 字节 默认8</param>
         /// <returns></returns>
-        public string GenerateTokenContext(long? tokenId, int tokenByteSize = 16)
+        public string GenerateTokenContext(long? tokenId, int tokenByteSize = 8)
         {
             if (tokenByteSize < 1)
             {
                 tokenByteSize = 1;
             }
-            //byte数组A 8字节 long? tokenId
-            //byte数组B tokenByteSize字节 随机生成 默认长度16
-            //检验码 做一个SHA256
-            //AB拼接 输出hex字符串
-            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
-            {
-               
-                //随机盐
-                byte[] randomData = new byte[tokenByteSize];
-                rng.GetBytes(randomData);
+            /**
+             * 客户端不应该对token最任何形式的假设，应当作为一个随机字符串处理
+             * 系统可能在之后的版本做出新的更改
+             * 生成流程：
+             * byte数组A 8字节 long? tokenId
+             * byte数组B randomHex 随机生成 默认长度16
+             * C=SHA256HMAC(A+B)
+             * Token=A+B+C,是用@符合分割
+             * 
+             * token传输到系统之后，系统是用hmac验证token合法性
+             * token合法之后，系统会进行数据库查询，验证token的签发是否有效
+             * 因此,签名部分引用于验证token是数据否被篡改
+             * 
+             * todo:修改为JWT验证方式
+             * **/
 
-                //拼接token
-                var tokenBuider=new StringBuilder();
-                tokenBuider.Append(tokenId.ToHex());
-                tokenBuider.Append("@");
-                tokenBuider.Append(randomData.ByteArrayToHex());
 
-               
-                //获取配置文件密钥
-                var secret = this.config.SecurityConfig.Secret;
-                //使用配置文件密钥对token进行签名
-                var sign = SecurityUtil.SignHamc256(tokenBuider.ToString(), secret);
-                //拼接上sign
-                tokenBuider.Append("@");
-                tokenBuider.Append(sign);
-          
-                return tokenBuider.ToString();
-            }
+
+            // 产生8字节的随机盐
+            var randomHex = RandomTool.CreatSafeRandomHex(8);
+            //拼接token
+            var tokenBuider = new StringBuilder();
+            tokenBuider.Append(tokenId.ToHex());
+            tokenBuider.Append("@");
+            tokenBuider.Append(randomHex);
+            //获取配置文件密钥
+            var secret = this.config.SecurityConfig.Secret;
+            //使用配置文件密钥对token进行签名
+            var sign = SecurityUtil.SignHamc256Hex(tokenBuider.ToString(), secret);
+            //拼接上sign
+            tokenBuider.Append("@");
+            tokenBuider.Append(sign);
+            return tokenBuider.ToString();
         }
 
         public Token GetTokenByTokenStr(string tokenStr)
@@ -106,6 +109,7 @@ namespace MoreNote.Logic.Service
                        .Where(b => b.TokenStr.Equals(tokenStr)).FirstOrDefault();
             return result;
         }
+
         /// <summary>
         /// 判断Token合法性
         /// </summary>
@@ -122,17 +126,18 @@ namespace MoreNote.Logic.Service
             {
                 return false;
             }
-            var id=sp[0];
-            var randomData=sp[1];
-            var sign= sp[2];
-            var tokenBuider=new StringBuilder();
+            var id = sp[0];
+            var randomData = sp[1];
+            var sign = sp[2];
+            var tokenBuider = new StringBuilder();
             tokenBuider.Append(id);
             tokenBuider.Append("@");
             tokenBuider.Append(randomData);
-            var secret= config.SecurityConfig.Secret;
+            var secret = config.SecurityConfig.Secret;
             //计算hmac
-            return SecurityUtil.VerifyHamc256(tokenBuider.ToString(), secret,sign);
+            return SecurityUtil.VerifyHamc256Hex(tokenBuider.ToString(), secret, sign);
         }
+
         public bool VerifyToken(long? userId, string token)
         {
             if (string.IsNullOrEmpty(token))
@@ -157,7 +162,7 @@ namespace MoreNote.Logic.Service
                 return false;
             }
             //计算hmac
-            return SecurityUtil.VerifyHamc256(tokenBuider.ToString(), secret, sign);
+            return SecurityUtil.VerifyHamc256Hex(tokenBuider.ToString(), secret, sign);
         }
 
         /// <summary>
@@ -167,7 +172,6 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public User GetUserByToken(string token)
         {
-
             if (!VerifyToken(token))
             {
                 return null;
@@ -189,9 +193,6 @@ namespace MoreNote.Logic.Service
                 return null;
             }
         }
-        
-
-
 
         public bool DeleteTokenByToken(string token)
         {
@@ -204,15 +205,15 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Token GenerateToken(long? userId,string email)
+        public Token GenerateToken(long? userId, string email)
         {
             long? tokenid = idGenerator.NextId();
             var tokenContext = GenerateTokenContext(tokenid);
             Token myToken = new Token
             {
                 Id = idGenerator.NextId(),
-                UserId= userId,
-                Email= email,
+                UserId = userId,
+                Email = email,
                 TokenStr = tokenContext,
                 TokenType = 0,
                 CreatedTime = DateTime.Now

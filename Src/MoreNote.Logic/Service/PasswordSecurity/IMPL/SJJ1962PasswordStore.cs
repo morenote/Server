@@ -29,8 +29,8 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <returns></returns>
         public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
         {
-            var Hex = HexUtil.ByteArrayToString(pass);
-            var Hexsalt = HexUtil.ByteArrayToString(salt);
+            var Hex = HexUtil.ByteArrayToSHex(pass);
+            var Hexsalt = HexUtil.ByteArrayToSHex(salt);
 
             var result= cryptographyProvider.TransEncrypted(pass, salt);
             return  result;
@@ -46,8 +46,8 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         /// <exception cref="NotImplementedException"></exception>
         public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
         {
-            var Hex = HexUtil.ByteArrayToString(pass);
-            var Hexsalt = HexUtil.ByteArrayToString(salt);
+            var Hex = HexUtil.ByteArrayToSHex(pass);
+            var Hexsalt = HexUtil.ByteArrayToSHex(salt);
 
 
             var result =  cryptographyProvider.TransEncrypted(pass,salt);

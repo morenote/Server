@@ -38,6 +38,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Redis\**" />
+    <EmbeddedResource Remove="Redis\**" />
+    <None Remove="Redis\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="5.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
@@ -67,7 +73,6 @@
 
   <ItemGroup>
     <Folder Include="Network\新文件夹\" />
-    <Folder Include="Redis\" />
   </ItemGroup>
 
 </Project>

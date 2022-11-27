@@ -18,11 +18,11 @@ namespace MoreNote.Common.ExtensionMethods
 
         public static string ByteArrayToHex(this byte[] data)
         {
-            return HexUtil.ByteArrayToString(data);
+            return HexUtil.ByteArrayToSHex(data);
         }
         public static byte[] HexToByteArray(this string hex)
         {
-            return HexUtil.StringToByteArray(hex);
+            return HexUtil.HexToByteArray(hex);
         }
 
         public static string ByteArrayToBase64(this byte[] data)

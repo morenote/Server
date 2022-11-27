@@ -23,7 +23,7 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
         public void SetData(string data)  {
             var gm = new GMService();
             this.Data = data;
-            var hex = Common.Utils.HexUtil.ByteArrayToString(Encoding.UTF8.GetBytes(data));
+            var hex = Common.Utils.HexUtil.ByteArrayToSHex(Encoding.UTF8.GetBytes(data));
             this.Hash = gm.SM3(hex);
           }
 

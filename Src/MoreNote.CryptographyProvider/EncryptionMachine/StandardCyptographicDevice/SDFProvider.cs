@@ -47,20 +47,20 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
             sdfHelper = new SDFHelper(sdfConfig.SDFDLLFilePath);
             sdfHelper.SDF_OpenDevice();
             sdfHelper.SDF_OpenSession();
-            sdfHelper.SDF_ImportKey(HexUtil.StringToByteArray(sdfConfig.PucKey), 1);
+            sdfHelper.SDF_ImportKey(HexUtil.HexToByteArray(sdfConfig.PucKey), 1);
         }
         private void CheckReconnection()
         {
             try
             {
-                Hmac(HexUtil.StringToByteArray("0102030405060708"));
+                Hmac(HexUtil.HexToByteArray("0102030405060708"));
 
             }catch(Exception ex)
             {
                 sdfHelper = new SDFHelper(sdfConfig.SDFDLLFilePath);
                 sdfHelper.SDF_OpenDevice();
                 sdfHelper.SDF_OpenSession();
-                sdfHelper.SDF_ImportKey(HexUtil.StringToByteArray(sdfConfig.PucKey), 1);
+                sdfHelper.SDF_ImportKey(HexUtil.HexToByteArray(sdfConfig.PucKey), 1);
 
             }
             
@@ -68,7 +68,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 
         public byte[] Hmac(byte[] data)
         {
-            var hex = HexUtil.ByteArrayToString(data);
+            var hex = HexUtil.ByteArrayToSHex(data);
             var hamc = sdfHelper.SDF_HMAC(data);
 
             return hamc;
@@ -115,12 +115,12 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
             }
         
             var plain = SM2Decrypt(data);
-            var hex = HexUtil.ByteArrayToString(plain);
-            var hexIV = HexUtil.ByteArrayToString(iv);
+            var hex = HexUtil.ByteArrayToSHex(plain);
+            var hexIV = HexUtil.ByteArrayToSHex(iv);
 
             var enc= SM4Encrypt(plain, iv);
 
-            var encHex = HexUtil.ByteArrayToString(enc);
+            var encHex = HexUtil.ByteArrayToSHex(enc);
             return enc;
         }
 
@@ -133,7 +133,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 
         public byte[] SM2Decrypt(byte[] data)
         {
-            var hex = HexUtil.ByteArrayToString(data);
+            var hex = HexUtil.ByteArrayToSHex(data);
             SM2Cipher sm2 = SM2Cipher.InsanceC1C3C2(data,false);
 
             var pucCipher = sm2.ToECCCipher();
