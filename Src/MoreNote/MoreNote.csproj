@@ -82,9 +82,9 @@
     <None Include="nlog-windows.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\libs\md2html\md2html.js" />
-    <None Include="wwwroot\libs\md2html\md2html_for_export.js" />
-    <None Include="wwwroot\libs\md2html\uml.js" />
+    <None Include="wwwroot\blog\libs\md2html\md2html.js" />
+    <None Include="wwwroot\blog\libs\md2html\md2html_for_export.js" />
+    <None Include="wwwroot\blog\libs\md2html\uml.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -360,8 +360,8 @@
     <None Include="wwwroot\static\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\static\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\static\lib\jquery\dist\jquery.min.map" />
-    <None Include="wwwroot\upyun_logos\.DS_Store" />
-    <None Include="wwwroot\upyun_logos\upyun_logo8.svg" />
+    <None Include="wwwroot\blog\upyun_logos\.DS_Store" />
+    <None Include="wwwroot\blog\upyun_logos\upyun_logo8.svg" />
   </ItemGroup>
 
   <ItemGroup>

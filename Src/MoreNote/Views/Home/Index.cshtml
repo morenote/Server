@@ -6,113 +6,16 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    @await Html.PartialAsync("_Head");
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="morenote,更多笔记">
+    <meta name="description" content="morenote,更多笔记, {{msg $ " moto"}}">
+    <meta name="author" content="morenote,更多笔记">
+    <title>@ViewBag.title</title>
 </head>
-
-<body class="lang-@msg["locale"]">
-
-    @await Html.PartialAsync("_Nav")
-
-    <section>
-        <div class="header">
-            <h2>Leanote, @msg["moto"]</h2>
-            <p>@msg["moto3"]</p>
-            <p>@msg["moto2"]</p>
-            <div>
-                @if (ViewBag.openRegister)
-                {
-                    <a class="btn btn-default btn-primary" href="@Url.Action("Register", "Auth")">@msg["register"]</a>@Html.Raw(" &nbsp; &nbsp;");
-
-
-                }
-
-
-
-                @if (ViewBag.userInfo == null)
-                {
-                    <a class="btn btn-default" href="@Url.Action("Login", "Auth")">@msg["login"]</a>@Html.Raw(" &nbsp; &nbsp;");
-
-                }
-                @if (ViewBag.userInfo != null)
-                {
-                    <a class="btn btn-default" href="@Url.Action("Editor","Note")">@msg["note"]</a> @Html.Raw(" &nbsp; &nbsp;");
-                    <a class="btn btn-default" href="@Url.Action("index", "member")">@msg["admin"]</a> @Html.Raw(" &nbsp; &nbsp;");
-                }
-
-
-                @if (ViewBag.openDemo)
-                {
-                    <a class="btn btn-default" href="/demo">@msg["try"]</a>@Html.Raw(" &nbsp; &nbsp;");
-                }
-                @if (ViewBag.userInfo != null)
-                {
-                    <a class="btn btn-default btn-primary" href="/Blog/Index/@user.Username">@msg["blog"]</a>@Html.Raw(" &nbsp; &nbsp;");
-                }
-                else
-                {
-                    <a class="btn btn-default btn-primary" href="/Blog/hyfree">@msg["blog"]</a>@Html.Raw(" &nbsp; &nbsp;");
-
-                }
-
-
-
-            </div>
-        </div>
-
-        <div class="preview" style="position: relative;">
-            <div>
-                <div class="img-header">
-                    <img src="/images/home/mac-btns.png" />
-                </div>
-                <div id="webSliderContainer">
-                    <img class="web-slider" data-text="Default theme - markdown" src="/images/slider/v2/default_markdown.png" />
-                    <img class="web-slider hide-img" data-text="Default theme - rich editor" src="/images/slider/v2/simple_tinymce.png" />
-                    <img class="web-slider hide-img" data-text="Simple theme - markdown" src="/images/slider/v2/simple_markdown.png" />
-                    <img class="web-slider hide-img" data-text="Writting mode" src="/images/slider/v2/writting.png" />
-                </div>
-            </div>
-            <div class="slider-desc"><span id="webText">Default theme - markdown</span></div>
-            <div class="mobile">
-                <div class="mobile-header">
-                    <img src="/images/home/mac-dot.png" />
-                </div>
-                <div id="mobileSliderContainer">
-                    <img class="mobile-slider" data-text="Mobile" src="/images/slider/v2/mobile_simple_list.png" />
-                    <img class="mobile-slider hide-img" data-text="Mobile markdown" src="/images/slider/v2/mobile_markdown.png" />
-                </div>
-                <div class="slider-desc mobile-text"><span id="mobileText">Default theme - markdown</span></div>
-            </div>
-        </div>
-    </section>
-
-    <div class="container" id="aboutLeanote">
-        <h2>@msg["aboutLeanote"]</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <h3>@msg["knowledge"]</h3>
-                <p>@msg["knowledgeInfo"]</p>
-            </div>
-            <div class="col-md-3">
-                <h3>@msg["blog"]</h3>
-                <p>@msg["blog"]</p>
-            </div>
-            <div class="col-md-3">
-                <h3>@msg["share"]</h3>
-                <p>@msg["share"]</p>
-            </div>
-            <div class="col-md-3">
-                <h3>@msg["cooperation"]</h3>
-                <p>@msg["cooperationInfo"]</p>
-            </div>
-        </div>
-    </div>
-    @await Html.PartialAsync("_Footer")
-    <script src="/js/jquery-1.9.0.min.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <script>
-var lang = '@msg["locale"]';
-    </script>
-    <script src="/js/home/index.js"></script>
-
+<body>
+    <p>morenote是leanote的C#实现</p>
+    
 </body>
 </html>

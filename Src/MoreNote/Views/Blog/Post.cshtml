@@ -76,7 +76,7 @@
                                 <textarea>@Html.Raw(noteAndContent.noteContent.Content)</textarea>
                             </div>@Html.Raw(noteAndContent.noteContent.Content)
                             <div style="padding: 20px; text-align: center">
-                                <img src="/images/loading-32.gif" />
+                                <img src="~/blog/images/loading-32.gif" />
                             </div>
                         }
                         else
@@ -124,7 +124,7 @@
     <!-- markdown 调用markdown来解析得到html-->
     @if (note.IsMarkdown)
     {
-        <script src="/libs/md2html/md2html.js"></script>
+        <script src="~/blog/libs/md2html/md2html.js"></script>
         <script>
             var content = $.trim($("#markdownContent textarea").val());
             md2Html(content, $("#content"), function (html) {
