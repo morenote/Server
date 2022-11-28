@@ -69,17 +69,40 @@ namespace MoreNote.Controllers.API.APIV1
         //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
         [Route("CacheServer/File/Images/{fileId}")]
         [HttpGet]
-        public Task<IActionResult> GetImageForWeb(string fileId)
+        public async Task<IActionResult> GetImageForWeb(string fileId)
         {
-            return GetImage(fileId);
+
+            if (string.IsNullOrEmpty(fileId))
+            {
+                return Content("error");
+            }
+            var myFileId = fileId.ToLongByHex();
+            var noteFile = noteFileService.GetFile(myFileId);
+            if (noteFile == null)
+                //return Content("NoFoundImage");
+                return NoFoundImage();
+            //获取操作对象
+            string fileExt = Path.GetExtension(noteFile.Name);
+            var fileService = FileStoreServiceFactory.Instance(webSiteConfig);
+
+            var objectName = $"{noteFile.UserId.ToHex()}/images/{noteFile.CreatedTime.ToString("yyyy")}/{noteFile.CreatedTime.ToString("MM")}/{noteFile.Id.ToHex()}{Path.GetExtension(noteFile.Name)}";
+            var provider = new FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[fileExt];
+            var data = await fileService.GetObjecByteArraytAsync(webSiteConfig.MinIOConfig.NoteFileBucketName, objectName);
+
+            return File(data, memi);
         }
 
         //todo: 输出image 需要get参数
         //api/File/GetImage?fileId=xxxx
         [Route("api/File/GetImage")]
         [HttpGet]
-        public async Task<IActionResult> GetImage(string fileId)
+        public async Task<IActionResult> GetImage(string fileId,bool isRedirect=true)
         {
+            if (isRedirect)
+            {
+                return Redirect($"/CacheServer/File/Images/{fileId}");
+            }
 
             if (string.IsNullOrEmpty(fileId))
             {
