@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documents\01Home.md = Documents\01Home.md
 		Documents\02Start.md = Documents\02Start.md
 		Documents\03API.md = Documents\03API.md
+		Documents\HistoryTree.md = Documents\HistoryTree.md
 		Documents\Tasks.md = Documents\Tasks.md
 		Documents\V0.0.1.md = Documents\V0.0.1.md
 		Documents\开发进度.md = Documents\开发进度.md
@@ -395,7 +396,7 @@ Global
 		{E1974FC1-6506-426F-ADEE-D938749DE6B0} = {877A6817-97E2-48C8-9B4D-57EA2E5E8D08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9F22C218-D996-467B-93A1-1BEEE77AFD54}
 		RESX_PrefixTranslations = True
+		SolutionGuid = {9F22C218-D996-467B-93A1-1BEEE77AFD54}
 	EndGlobalSection
 EndGlobal
