@@ -234,6 +234,7 @@ namespace MoreNote.Logic.Service
                 //用户博客信息
                 var user_blog=new UserBlog()
                 {
+                    Id=user.Id,
                     UserId=user.Id,
                     CanComment=true,
                     CommentType="leanote",
