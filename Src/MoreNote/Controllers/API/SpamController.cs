@@ -34,6 +34,7 @@ namespace MoreNote.Controllers.API
         }
 
         [HttpGet,HttpPost]
+        [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "input" })]
         public IActionResult Predict(string input)
         {
          

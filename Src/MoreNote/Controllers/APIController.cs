@@ -207,6 +207,7 @@ namespace MoreNote.Controllers
         /// <returns></returns>
         // [HttpGet("VerifyCode")]
         [SkipInspectionInstallationFilter]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public  IActionResult VerifyCode()
         {
             Response.ContentType = "image/jpeg";

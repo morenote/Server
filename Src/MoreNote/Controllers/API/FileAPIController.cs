@@ -43,6 +43,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <returns></returns>
         [Route("api/File/Avatars/{userIdHex}/{filename}")]
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "userIdHex", "filename"})]
         public async Task<IActionResult> GetAvatar(string userIdHex, string filename)
         {
             var fileUrlPath = $"{userIdHex}/images/logo";
@@ -69,6 +70,7 @@ namespace MoreNote.Controllers.API.APIV1
         //api/File/GetImageForWeb/xxxxx   xxxx=xxx.jpg
         [Route("CacheServer/File/Images/{fileId}")]
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "fileId"})]
         public async Task<IActionResult> GetImageForWeb(string fileId)
         {
 
@@ -92,17 +94,21 @@ namespace MoreNote.Controllers.API.APIV1
 
             return File(data, memi);
         }
-
+        /// <summary>
+        /// 下载图片
+        /// </summary>
+        /// <param name="fileId">文件id</param>
+        /// <param name="key">访问密钥</param>
+        /// <returns></returns>
         //todo: 输出image 需要get参数
         //api/File/GetImage?fileId=xxxx
         [Route("api/File/GetImage")]
+        [Route("api/File/Images/{fileId}/{key}")]
+        [Route("api/File/Images/{fileId}")]
         [HttpGet]
-        public async Task<IActionResult> GetImage(string fileId,bool isRedirect=true)
+        [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "fileId" , "isRedirect","key" })]
+        public async Task<IActionResult> GetImage(string fileId, string key)
         {
-            if (isRedirect)
-            {
-                return Redirect($"/CacheServer/File/Images/{fileId}");
-            }
 
             if (string.IsNullOrEmpty(fileId))
             {
@@ -124,7 +130,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             return File(data, memi);
         }
-
+        [ResponseCache(Duration = 600)]
         public IActionResult NoFoundImage()
         {
             return Redirect($"/404.jpg");
@@ -132,7 +138,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         [Route("api/File/GetAttach")]
         [HttpGet]
-        //todo:下载附件
+        [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "fileId"})]
         public async Task<IActionResult> GetAttach(string fileId)
         {
             //todo:bug 要使用流式下载，减少下载时候的内存消耗
@@ -148,6 +154,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:下载所有附件
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "noteId" , "token" })]
         public IActionResult GetAllAttachs(string noteId, string token)
         {
             return null;

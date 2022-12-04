@@ -220,6 +220,7 @@ namespace MoreNote
                 var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
+            services.AddResponseCaching();
             //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
         }
@@ -268,10 +269,8 @@ namespace MoreNote
                                        .AllowAnyHeader()
                                        .AllowAnyOrigin();
             });
-
-          
-
-
+            //启用响应缓存
+            app.UseResponseCaching();
             app.UseSwagger();
             app.UseSwaggerUI();
 

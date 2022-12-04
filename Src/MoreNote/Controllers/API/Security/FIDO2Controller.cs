@@ -47,6 +47,7 @@ namespace MoreNote.Controllers.API
         /// <param name="token"></param>
         /// <returns></returns>
         [HttpGet, HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetFido2List(string userId, string token)
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
@@ -106,6 +107,7 @@ namespace MoreNote.Controllers.API
         /// </summary>
         /// <returns></returns>
         [HttpGet, HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> RegisterCredentials(string token, string keyName, string data)
         {
             try

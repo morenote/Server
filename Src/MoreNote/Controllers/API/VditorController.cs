@@ -39,6 +39,7 @@ namespace MoreNote.Controllers.API
         }
         [Route("api/vditor/upload/{token}")]
         [HttpGet,HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult upload(string token)
         {
             var user = tokenSerivce.GetUserByToken(token);
@@ -59,6 +60,7 @@ namespace MoreNote.Controllers.API
 
         [Route("api/vditor/fetch/{token}")]
         [HttpPost,HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> fetch([FromBody] FetchFileRequest fetchFileRequest,string token)
         {
             var user=tokenSerivce.GetUserByToken(token);

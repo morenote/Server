@@ -44,6 +44,7 @@ namespace MoreNote.Controllers.API
         /// <param name="token"></param>
         /// <returns>SecurityConfigDTO</returns>
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetSecurityConfig()
         {
             var securityConfig = config.SecurityConfig;

@@ -76,8 +76,8 @@ namespace MoreNote.Controllers
             return null;
         }
 
- 
 
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         private IActionResult E404()
         {
             ViewBag.title = "404";
@@ -130,8 +130,9 @@ namespace MoreNote.Controllers
         /// <param name="repositoryId">仓库id</param>
         /// <param name="archiveHex"></param>
         /// <returns></returns>
-        [Route("Blog/{repositoryId}/Archive/{archiveHex?}")]
         [HttpGet]
+        [Route("Blog/{repositoryId}/Archive/{archiveHex?}")]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         public IActionResult Archive(string repositoryId, string archiveHex)
         {
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
@@ -163,9 +164,10 @@ namespace MoreNote.Controllers
         /// <param name="cateHex"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-
-        [Route("Blog/{repositoryId}/Cate/{cateHex}/")]
         [HttpGet]
+        [Route("Blog/{repositoryId}/Cate/{cateHex}/")]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
+       
         public IActionResult Cate(string repositoryId, string cateHex, int page)
         {
             long? notebookId = cateHex.ToLongByHex();
@@ -202,9 +204,10 @@ namespace MoreNote.Controllers
             return View();
         }
 
-     
-        [Route("Blog/{repositoryId}/Index/{page?}")]
         [HttpGet]
+        [Route("Blog/{repositoryId}/Index/{page?}")]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
+        
         public IActionResult Index(string repositoryId, int page)
         {
             if (page < 1)
@@ -261,9 +264,9 @@ namespace MoreNote.Controllers
         //    return Redirect($"/Blog/Post/{user.Username}/{noteIdHex}");
         //}
 
-      
-        [Route("Blog/{repositoryId}/Post/{noteIdHex}/")]
         [HttpGet]
+        [Route("Blog/{repositoryId}/Post/{noteIdHex}/")]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         public async Task<IActionResult> Post(string repositoryId, string noteIdHex)
         {
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
@@ -353,6 +356,7 @@ namespace MoreNote.Controllers
 
         [Route("Blog/{repositoryId}/Tags/")]
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         public IActionResult Tags(string repositoryId)
         {
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
@@ -376,6 +380,7 @@ namespace MoreNote.Controllers
 
         [Route("Blog/{repositoryId}/Search/{keywords?}/")]
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         public IActionResult Search(string repositoryId, string keywords, int page)
         {
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
@@ -423,6 +428,7 @@ namespace MoreNote.Controllers
 
         [Route("Blog/{repositoryId}/Single/{SingleIdHex}/")]
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         public IActionResult Single(string repositoryId, string SingleIdHex)
         {
 
@@ -443,6 +449,7 @@ namespace MoreNote.Controllers
 
         [Route("Blog/{repositoryId}/Tags_Posts/{tag}/")]
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         public IActionResult Tags_Posts(string repositoryId, string tag, int page)
         {
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
@@ -478,6 +485,7 @@ namespace MoreNote.Controllers
 
         [Route("Blog/NoFound")]
         [HttpGet]
+        [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         public IActionResult NoFound()
         {
             Dictionary<string, string> blog = new Dictionary<string, string>();

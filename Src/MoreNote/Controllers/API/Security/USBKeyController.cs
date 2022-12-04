@@ -43,6 +43,7 @@ namespace MoreNote.Controllers.API.Security
         /// <param name="email"></param>
         /// <returns></returns>
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetLoginChallenge(string email,string sessionCode)
         {
             ApiRe apiRe = new ApiRe();

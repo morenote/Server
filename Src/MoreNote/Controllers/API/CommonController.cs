@@ -57,7 +57,8 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <returns></returns>
        [HttpGet]
-       public IActionResult GetHexId()
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult GetHexId()
         {
             var re = new ApiRe();
             re.Ok = true;

@@ -46,6 +46,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult TakeSessionCode()
         {
             var re=new ApiRe();
@@ -69,7 +70,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="pwd"></param>
         /// 
         /// <returns></returns>
-       [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> PasswordChallenge(string email, string pwd, string sessionCode)
         {
             string tokenValue = "";
@@ -265,6 +266,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> GetUserLoginLogging(string token)
         {
             var re = new ApiRe()
@@ -311,6 +313,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// </summary>
         /// <returns></returns>
         [HttpGet,HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> GetUserLoginSecurityPolicyLevel(string email)
         {
 

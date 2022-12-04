@@ -60,6 +60,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="token"></param>
         /// <returns></returns>
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetUserInfoByToken(string token)
         {
             var user=tokenSerivce.GetUserByToken(token);
@@ -78,6 +79,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="email"></param>
         /// <returns></returns>
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetUserInfoByEmail(string email)
         {
             var user = userService.GetUserByEmail(email);
@@ -91,6 +93,7 @@ namespace MoreNote.Controllers.API.APIV1
             return LeanoteJson(re);
         }
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetUserInfoByUserId(string userId)
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
@@ -149,6 +152,7 @@ namespace MoreNote.Controllers.API.APIV1
         //获取用户的登录策略
 
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public JsonResult GetUserLoginSecurityStrategy(string UserName)
         {
 
@@ -200,6 +204,7 @@ namespace MoreNote.Controllers.API.APIV1
         //[HttpPost]
 
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public JsonResult GetSyncState(string token)
         {
             
@@ -240,6 +245,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         [HttpPost,HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public  async Task<IActionResult> GetRealNameInformation(string token, string digitalEnvelopeJson, string dataSignJson)
         {
 

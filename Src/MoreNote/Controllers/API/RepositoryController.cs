@@ -54,6 +54,7 @@ namespace MoreNote.Controllers.API
         }
 
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetMyRepository(string userId, string token, RepositoryType repositoryType)
         {
             var apiRe = new ApiRe()
@@ -82,6 +83,7 @@ namespace MoreNote.Controllers.API
         /// <param name="token">访问者token</param>
         /// <returns></returns>
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult RepositoryInfo(string repositoryId, string token)
         {
             var re = new ApiRe()

@@ -32,6 +32,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:获取同步的标签
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public JsonResult GetSyncTags(string token, int afterUsn, int maxEntry)
         {
             User user = tokenSerivce.GetUserByToken(token);

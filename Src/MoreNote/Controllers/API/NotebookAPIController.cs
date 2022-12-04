@@ -57,6 +57,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //获取同步的笔记本
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public JsonResult GetSyncNotebooks(string token, int afterUsn, int maxEntry)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -78,7 +79,7 @@ namespace MoreNote.Controllers.API.APIV1
             return Json(notebook, MyJsonConvert.GetLeanoteOptions());
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        public ApiNotebook[] fixNotebooks(Notebook[] notebooks)
+        private ApiNotebook[] fixNotebooks(Notebook[] notebooks)
         {
             ApiNotebook[] apiNotebooks = null;
             if (notebooks != null)
@@ -92,7 +93,7 @@ namespace MoreNote.Controllers.API.APIV1
             return apiNotebooks;
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        public ApiNotebook fixNotebook(Notebook notebook)
+        private ApiNotebook fixNotebook(Notebook notebook)
         {
             return new ApiNotebook()
             {
@@ -112,6 +113,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //得到用户的所有笔记本
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotebooks(string token)
         {
             User user = tokenSerivce.GetUserByToken(token);
@@ -293,6 +295,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //获得笔记本的第一层文件夹
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetRootNotebooks(string token, string repositoryId)
         {
             var apiRe=new ApiRe();
@@ -317,6 +320,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotebookChildren(string token, string notebookId)
         {
             var apiRe = new ApiRe();

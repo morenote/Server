@@ -79,6 +79,7 @@ namespace MoreNote.Controllers.API.APIV1
         //    return Json(apiNotes,MyJsonConvert.GetOptions());
         //}
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public JsonResult GetSyncNotes(int afterUsn, int maxEntry, string token)
         {
             if (maxEntry == 0) maxEntry = 100;
@@ -88,6 +89,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:得到笔记本下的笔记
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotes(string notebookId, string token)
         {
             Note[] notes = noteService.ListNotes(GetUserIdByToken(token), notebookId.ToLongByHex(), false);
@@ -97,6 +99,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:得到trash
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetTrashNotes(string token)
         {
             Note[] notes = noteService.ListTrashNotes(GetUserIdByToken(token), false, true);
@@ -106,6 +109,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:获取笔记
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNote(string token, string noteId)
         {
             var userId = GetUserIdByToken(token);
@@ -116,6 +120,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:得到note和内容
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNoteAndContent(string token, string noteId)
         {
             User tokenUser = tokenSerivce.GetUserByToken(token);
@@ -151,6 +156,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:得到内容
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> GetNoteContent(string token, string noteId)
         {
             ApiRe re = new ApiRe()
@@ -200,6 +206,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:添加笔记
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> AddNote(ApiNote noteOrContent, string token)
         {
             var re = new ApiRe();
@@ -595,6 +602,7 @@ namespace MoreNote.Controllers.API.APIV1
 
         //todo:导出成PDF
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult ExportPdf()
         {
             return null;
@@ -642,6 +650,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
         }
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotChildrenByNotebookId(string token, string notebookId)
         {
             var apiRe = new ApiRe();
