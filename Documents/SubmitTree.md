@@ -6,7 +6,7 @@ morenote参考git提供Tree机制实现文件的同步，客户端提交数据�
 
 ### 提交树 SubmitTree
 
-服务端每个笔记仓库都会拥有一个SubmitTree，类似于区块链，SubmitTree由若干Submit链接形成。
+服务端每个笔记仓库都会拥有一个SubmitTree，类似于区块链，SubmitTree由若干SubmitBlock链接形成。
 
 ### 提交块 SubmitBlock
 
@@ -25,11 +25,11 @@ string BlockHash//区块哈希
 
 ### 操作（Operation）
 
- 每个Operation意味着一次有效操作，比创建一个资源、更新一个资源、删除一个资源。
+ 每个Operation意味着一次有效操作，比创建一个资源、更新一个资源、删除一个资源。MoreNote通过Operation记录实现对历史数据的记录
 
 ```
 string id  //OperationId
-string SubmitId//提交I
+string SubmitId//提交ID
 string Method//操作
 string Target//目标
 string Attributes//属性
@@ -37,6 +37,10 @@ string DataIndex//数据索引
 string DateHash//数据哈希
 string OperationHash//操作哈希
 ```
+
+### 压缩（Compression）
+
+将多个重复的操作压缩成一个，防止SubmitTree变得非常高，同时压缩空间提高数据库的效率。
 
 ### Method
 
