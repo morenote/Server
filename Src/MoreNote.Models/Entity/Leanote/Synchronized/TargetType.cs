@@ -12,6 +12,5 @@ namespace MoreNote.Models.Entity.Leanote.Synchronized
     public enum TargetType
     {
         Note,Notebook,Repository
-
     }
 }
