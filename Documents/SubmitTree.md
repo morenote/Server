@@ -33,6 +33,7 @@ string SubmitId//提交ID
 string Method//操作
 string Target//目标
 string Attributes//属性
+string Date//数据
 string DataIndex//数据索引
 string DateHash//数据哈希
 string OperationHash//操作哈希
