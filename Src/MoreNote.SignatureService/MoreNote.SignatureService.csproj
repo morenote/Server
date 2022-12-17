@@ -33,8 +33,8 @@
 
   <ItemGroup>
     <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
-    <PackageReference Include="WebApiClientCore" Version="2.0.2" />
-    <PackageReference Include="WebApiClientCore.Extensions.JsonRpc" Version="2.0.2" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.3" />
+    <PackageReference Include="WebApiClientCore.Extensions.JsonRpc" Version="2.0.3" />
   </ItemGroup>
 
 </Project>

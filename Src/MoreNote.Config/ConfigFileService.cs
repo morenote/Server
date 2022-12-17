@@ -123,7 +123,7 @@ namespace MoreNote.Logic.Service
                                 InitTemplateConfig();
                             }
                             string json = File.ReadAllText(path);
-                            _config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
+                            _config = JsonSerializer.Deserialize<WebSiteConfig>(json);
                         }
                     }
                 }

@@ -13,6 +13,7 @@ namespace MoreNote.Models.Entity.Leanote.Synchronized
     /// </summary>
     public class SubmitTree:BaseEntity
     {
+
         public long Owner { get; set; }//拥有者
         public int Height { get; set; }//当前高度
         public long Root { get; set; }//树根Id

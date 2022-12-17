@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using static Fido2NetLib.Fido2;
+using System.Threading;
 
 namespace MoreNote.Logic.Security.FIDO2.Service
 {
@@ -112,7 +113,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             var options = CredentialCreateOptions.FromJson(jsonOptions);
 
             // 2. Create callback so that lib can verify credential id is unique to this user
-            IsCredentialIdUniqueToUserAsyncDelegate callback = async (IsCredentialIdUniqueToUserParams args) =>
+            IsCredentialIdUniqueToUserAsyncDelegate callback = async ( args,cancellationToken) =>
             {
                 //var users = await DemoStorage.GetUsersByCredentialIdAsync(args.CredentialId);
                 //if (users.Count > 0)
@@ -219,7 +220,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             var storedCounter = creds.SignatureCounter;
             // 4. Create callback to check if userhandle owns the credentialId
 
-            IsUserHandleOwnerOfCredentialIdAsync callback = async (args) =>
+            IsUserHandleOwnerOfCredentialIdAsync callback = async (args, cancellationToken) =>
               {
                   return storedCredential.Exists(c => c.CredentialId.SequenceEqual(args.CredentialId));
               };
