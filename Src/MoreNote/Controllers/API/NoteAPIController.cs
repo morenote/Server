@@ -14,6 +14,7 @@ using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote.ApiRequest;
 using MoreNote.Models.DTO.Leanote.USBKey;
+using MoreNote.Models.Entity.Leanote.Synchronized;
 using MoreNote.Models.Enum;
 
 using System;
@@ -682,6 +683,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> CreateNote(string token, string noteTitle, string notebookId, bool isMarkdown, string dataSignJson)
         {
+
             if (string.IsNullOrEmpty(noteTitle))
             {
                 noteTitle = "未命名";
@@ -760,6 +762,16 @@ namespace MoreNote.Controllers.API.APIV1
             noteService.AddNote(note);
             re.Ok = true;
             re.Data = note;
+            //更新提交树
+            this.SubmitTreeService.AddSubmitOperation(repositoryId,new SubmitOperation()
+            {
+                Method= OperationMethod.Post,
+                TargetType=TargetType.Note,
+                Target = noteId,
+                Data=""
+           
+            },user.Id);
+
             return LeanoteJson(re);
         }
 

@@ -77,7 +77,8 @@ namespace MoreNote.Framework.Controllers
         protected ICryptographyProvider cryptographyProvider { get; set; }
         [Autowired]
         protected IComponentContext componentContext { get; set; }
-
+        [Autowired]
+        protected SubmitTreeService SubmitTreeService { get;set;}
         public BaseController(AttachService attachService
             , TokenSerivce tokenSerivce
             , NoteFileService noteFileService

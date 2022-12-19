@@ -13,7 +13,7 @@ namespace MoreNote.Models.Entity.Leanote.Synchronized
     public class SubmitOperation : BaseEntity
     {
         [Column("submit_block_id")]
-        public long SubmitBlockId { get; set; }
+        public long? SubmitBlockId { get; set; }
         [Column("method")]
         public OperationMethod Method { get; set; }
         [Column("target_type")]

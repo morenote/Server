@@ -20,17 +20,21 @@ namespace MoreNote.Logic.Service.MyRepository
         private RepositoryMemberRoleService memberRoleService;
         private ConfigFileService ConfigFileService;
         private IDistributedIdGenerator idGenerator;
+        private SubmitTreeService SubmitTreeService;
+
         public RepositoryService(DataContext dataContext,
             OrganizationTeamService organizationTeamService,
             ConfigFileService configFileService,
             RepositoryMemberRoleService repositoryMemberRoleService,
-            IDistributedIdGenerator idGenerator)
+            IDistributedIdGenerator idGenerator,
+            SubmitTreeService submitTreeService)
         {
-            this.idGenerator=idGenerator;
+            this.idGenerator = idGenerator;
             this.dataContext = dataContext;
             this.organizationTeamService = organizationTeamService;
             this.memberRoleService = repositoryMemberRoleService;
             this.ConfigFileService = configFileService;
+            SubmitTreeService = submitTreeService;
         }
 
         public Repository GetRepository(long? Id)
@@ -112,8 +116,6 @@ namespace MoreNote.Logic.Service.MyRepository
 
         public Repository CreateRepository(Repository repository)
         {
-        
-
             var addRepository = new Repository()
             {
                 Id = idGenerator.NextId(),
@@ -131,6 +133,7 @@ namespace MoreNote.Logic.Service.MyRepository
 
             };
             this.AddRepository(addRepository);
+            this.SubmitTreeService.InitTree(addRepository.Id);//初始化这个仓库的提交树
             return addRepository;
         }
         public void DeleteRepository(long? respositoryId)

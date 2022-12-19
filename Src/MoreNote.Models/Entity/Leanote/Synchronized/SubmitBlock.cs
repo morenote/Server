@@ -18,15 +18,15 @@ namespace MoreNote.Models.Entity.Leanote.Synchronized
         [Column("version")]
         public int Version { get; set; } = 1;
         [Column("user_id")]
-        public long UserId { get; set; }//发起用户
+        public long? UserId { get; set; }//发起用户
         [Column("tree_id")]
-        public long TreeId { get; set; }//submitTreeId
+        public long? TreeId { get; set; }//submitTreeId
         [Column("date")]
         public DateTime Date { get; set; }
         [Column("height")]
         public int Height { get; set; }//高度
         [Column("pre_block_id")]
-        public long? PreBlockId { get; set; }//上一个提交快的哈希
+        public long? PreBlockId { get; set; }//上一个提交快的Id
         [Column("pre_block_hash")]
         public string? PreBlockHash { get; set; }//前块哈希(可选)
         [Column("submit_hash")]
