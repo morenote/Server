@@ -20,7 +20,7 @@ namespace Morenote.Models.Models.Entity
         [Key]
         [Column("id")]
         [JsonConverter(typeof(LeanoteLongNullableJsonConverter))]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
 
       

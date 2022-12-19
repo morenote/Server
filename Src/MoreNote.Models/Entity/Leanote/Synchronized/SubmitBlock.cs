@@ -1,4 +1,4 @@
-﻿using Masuit.MyBlogs.Core.Models.Entity;
+﻿using Morenote.Models.Models.Entity;
 
 using System;
 using System.Collections.Generic;
@@ -19,10 +19,12 @@ namespace MoreNote.Models.Entity.Leanote.Synchronized
         public int Version { get; set; } = 1;
         [Column("user_id")]
         public long UserId { get; set; }//发起用户
+        [Column("tree_id")]
+        public long TreeId { get; set; }//submitTreeId
         [Column("date")]
         public DateTime Date { get; set; }
         [Column("height")]
-        public long Height { get; set; }//高度
+        public int Height { get; set; }//高度
         [Column("pre_block_id")]
         public long? PreBlockId { get; set; }//上一个提交快的哈希
         [Column("pre_block_hash")]

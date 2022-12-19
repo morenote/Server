@@ -13,6 +13,7 @@ using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Loggin;
 using MoreNote.Models.Entity.Leanote.MyOrganization;
 using MoreNote.Models.Entity.Leanote.MyRepository;
+using MoreNote.Models.Entity.Leanote.Synchronized;
 using MoreNote.Models.Entity.Security.FIDO2;
 
 using System;
@@ -59,8 +60,7 @@ namespace MoreNote.Logic.Database
                     modelBuilder.UseEncryption(aesProvider);
                 }
             }
-           
-
+          
             modelBuilder
                 .Entity<NoteFile>()
                 .Property(e => e.StorageType)
@@ -175,5 +175,12 @@ namespace MoreNote.Logic.Database
 
         public DbSet<VirtualFileInfo> VirtualFileInfo { get; set; }
         public DbSet<VirtualFolderInfo> VirtualFolderInfo { get; set; }
+
+
+        public DbSet<SubmitTree> SubmitTrees { get; set; }
+        public DbSet<SubmitBlock> SubmitBlocks { get; set; }
+        public DbSet<SubmitOperation> SubmitOperations { get; set; }
+
+
     }
 }

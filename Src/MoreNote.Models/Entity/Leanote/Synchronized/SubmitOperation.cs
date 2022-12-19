@@ -1,4 +1,4 @@
-﻿using Masuit.MyBlogs.Core.Models.Entity;
+﻿using Morenote.Models.Models.Entity;
 
 using System;
 using System.Collections.Generic;
@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Models.Entity.Leanote.Synchronized
 {
-    [Table("operation")]
-    public class Operation : BaseEntity
+    [Table("submit_operation")]
+    public class SubmitOperation : BaseEntity
     {
         [Column("submit_block_id")]
         public long SubmitBlockId { get; set; }
