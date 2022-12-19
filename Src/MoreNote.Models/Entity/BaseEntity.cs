@@ -20,10 +20,7 @@ namespace Morenote.Models.Models.Entity
         [Key]
         [Column("id")]
         [JsonConverter(typeof(LeanoteLongNullableJsonConverter))]
-        public long Id { get; set; }
-
-
-      
+        public long? Id { get; set; }
 
         /// <summary>确定指定对象是否等于当前对象。</summary>
         /// <param name="obj">要与当前对象进行比较的对象。</param>
