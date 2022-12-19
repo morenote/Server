@@ -102,8 +102,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Service\BlogBuilder\Hugo\" />
-    <Folder Include="Service\BlogBuilder\Jekyll\" />
     <Folder Include="Service\Security\Face\" />
     <Folder Include="Service\Security\CSP\" />
     <Folder Include="新文件夹\" />
