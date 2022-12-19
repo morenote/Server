@@ -762,15 +762,15 @@ namespace MoreNote.Controllers.API.APIV1
             noteService.AddNote(note);
             re.Ok = true;
             re.Data = note;
-            //更新提交树
-            this.SubmitTreeService.AddSubmitOperation(repositoryId,new SubmitOperation()
-            {
-                Method= OperationMethod.Post,
-                TargetType=TargetType.Note,
-                Target = noteId,
-                Data=""
+            ////更新提交树
+            //this.SubmitTreeService.AddSubmitOperation(repositoryId,new SubmitOperation()
+            //{
+            //    Method= OperationMethod.Post,
+            //    TargetType=TargetType.Note,
+            //    Target = noteId,
+            //    Data=""
            
-            },user.Id);
+            //},user.Id);
 
             return LeanoteJson(re);
         }
