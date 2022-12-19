@@ -228,7 +228,8 @@ namespace MoreNote.Common.autofac
 
             //注册VuePress生成器
             builder.RegisterType<VuePressBuilder>().As<BlogBuilderInterface>().Keyed<BlogBuilderInterface>(BlogBuilderType.VuePress);
-
+            //提交树
+            builder.RegisterType<SubmitTreeService>().As<SubmitTreeService>();
             //批量扫描
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
