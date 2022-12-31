@@ -76,13 +76,19 @@ namespace MoreNote.Logic.Service
                     return "/morenote/config.json";
                 }else{
 
-                    var path= $"{System.Environment.SpecialFolder.Personal}/morenotes/config.json";
+                    var path= $"{System.Environment.SpecialFolder.Personal}/morenote/config.json";
                     if(File.Exists(path)){
                         return path;
                     }else{
                         var env=System.Environment.GetEnvironmentVariable("CONFIG");
                         if(File.Exists(env)){
                             return env;
+                        }
+                        else
+                        {
+                             path = $"/etc/morenote/config.json";
+                            File.Exists(path);
+                            return path;
                         }
                         throw new IOException("Configuration file cannot be found!!");
                     }
