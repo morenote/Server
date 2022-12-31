@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Models.Entity.ConfigFile.Security
 {
+    /// <summary>
+    /// 人脸识别配置
+    /// </summary>
     public class FaceConfig
     {
         /// <summary>

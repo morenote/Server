@@ -147,18 +147,34 @@ namespace MoreNote.Logic.Entity.ConfigFile
         public bool LogNeedHmac { get;set;}=false;
         /// <summary>
         /// 是否启用数据库加密
+        /// 当开启时，性能下降
         /// </summary>
-       
-
         public bool DataBaseEncryption { get; set; } = false;
-
+        /// <summary>
+        /// 数据库加密密钥Key
+        /// </summary>
         public string? DataBaseEncrypthonKey { get; set; }
-
+        /// <summary>
+        /// 数据库加密向量，如果为null，则每次加密生成IV
+        /// </summary>
         public string? DataBaseEncrypthonIV { get; set; }
-
+        /// <summary>
+        /// 要求服务端在执行加密时，优先使用加密机
+        /// </summary>
         public bool NeedEncryptionMachine { get; set; }=false;
+        /// <summary>
+        /// 签名验签服务器的地址
+        /// </summary>
         public string NetSignApi { get;set;}= "http://NetSign:8081/";
+        /// <summary>
+        /// 服务器加密服务平台地址 TSSC接口【废弃】
+        /// 由于MoreNote已经支持SDF接口，所以该接口即将废弃！！！
+        /// </summary>
         public string HisuTSSC { get;set;}= "http://HisuTSSC:8080/";
+        /// <summary>
+        /// 服务器加密服务平台地址 CCBC接口【废弃】
+        /// 由于MoreNote已经支持SDF接口，所以该接口即将废弃!!!
+        /// </summary>
         public string HisuCCBC { get;set;}= "http://HisuCCBC:8082/";
         /// <summary>
         /// 是否启用浏览器水印，默认值false
