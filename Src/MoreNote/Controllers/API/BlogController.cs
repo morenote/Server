@@ -63,7 +63,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Read);
+            verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.ManagementMember);
             if (!verify)
             {
                 return LeanoteJson(re);

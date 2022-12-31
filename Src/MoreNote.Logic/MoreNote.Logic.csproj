@@ -38,6 +38,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="新文件夹\**" />
+    <EmbeddedResource Remove="新文件夹\**" />
+    <None Remove="新文件夹\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="Database\Class1.cs" />
     <Compile Remove="Service\ArticleManager.cs" />
@@ -104,7 +110,6 @@
     <Folder Include="Migrations\" />
     <Folder Include="Service\Security\Face\" />
     <Folder Include="Service\Security\CSP\" />
-    <Folder Include="新文件夹\" />
   </ItemGroup>
 
 </Project>
