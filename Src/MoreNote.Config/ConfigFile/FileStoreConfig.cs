@@ -16,6 +16,12 @@ namespace MoreNote.Logic.Entity.ConfigFile
         /// </summary>
         public string MainFolder { get;set;}="/morenote";
         /// <summary>
+        /// 静态文件单独一个请求域名
+        /// </summary>
+        public string StaticDomain { get;set;}=null;
+
+
+        /// <summary>
         /// 使用什么作为存储服务
         /// 目前支持 minio upyun disk
         /// 默认使用minio
