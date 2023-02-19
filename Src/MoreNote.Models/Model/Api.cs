@@ -102,7 +102,7 @@ namespace MoreNote.Logic.Entity
         /// <summary>
         /// 消息创建时间（可选）
         /// </summary>
-        public DateTime? Timestamp { get; set; } = DateTime.Now;
+        public long Timestamp { get; set; } = DateTime.Now.Ticks/1000;
         /// <summary>
         /// 消息状态  成功或失败
         /// </summary>
@@ -112,9 +112,9 @@ namespace MoreNote.Logic.Entity
         /// </summary>
         public string Msg { get; set; }
         /// <summary>
-        /// 错误代码
+        /// 消息代码
         /// </summary>
-        public int ErrorCode { get; set; }
+        public int Code { get; set; }=200;
         /// <summary>
         /// 返回的数据
         /// </summary>
