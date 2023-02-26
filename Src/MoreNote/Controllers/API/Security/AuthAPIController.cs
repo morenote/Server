@@ -314,7 +314,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <returns></returns>
         [HttpGet,HttpPost]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> GetUserLoginSecurityPolicyLevel(string email)
+        public async Task<IActionResult> GetUserLoginSettings(string email)
         {
 
             var re = new ApiRe()
@@ -339,7 +339,7 @@ namespace MoreNote.Controllers.API.APIV1
         /// <param name="level"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> SetUserLoginSecurityPolicyLevel(string token,LoginSecurityPolicyLevel level)
+        public async Task<IActionResult> SetUserLoginSettings(string token,LoginSecurityPolicyLevel level)
         {
 
             var re = new ApiRe()

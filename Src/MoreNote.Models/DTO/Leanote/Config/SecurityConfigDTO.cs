@@ -16,10 +16,10 @@ namespace MoreNote.Models.DTO.Leanote.Config
         /// 服务器公钥（Hex格式）
         /// </summary>
         public string PublicKey { get; set; }
-
+        /// <summary>
+        /// 是否传输报文加密
+        /// </summary>
         public string TransEncryptedPublicKey { get; set; }
-
-
 
         /// <summary>
         /// 是否允许第三方注册
