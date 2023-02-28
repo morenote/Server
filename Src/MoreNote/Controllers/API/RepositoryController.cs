@@ -32,9 +32,15 @@ namespace MoreNote.Controllers.API
         private OrganizationService organizationService;
         private EPassService ePassService;
         private DataSignService dataSignService;
+        private NoteService noteService;
+        private TokenSerivce tokenSerivce;
+        private NoteContentService noteContentService;
 
-        public RepositoryController(AttachService attachService
-            , TokenSerivce tokenSerivce
+        public RepositoryController(AttachService attachService,
+             TokenSerivce tokenSerivce,
+                  NoteService noteService,
+     
+         NoteContentService noteContentService
             , NoteFileService noteFileService
             , UserService userService
             , ConfigFileService configFileService
@@ -51,8 +57,17 @@ namespace MoreNote.Controllers.API
             this.noteRepositoryService = noteRepositoryService;
             this.ePassService = ePassService;
             this.dataSignService = dataSignService;
-        }
+            this.noteService = noteService;
+            this.noteContentService= noteContentService;
 
+        }
+        /// <summary>
+        /// 检索我的仓库
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        /// <param name="repositoryType"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetMyRepository(string userId, string token, RepositoryType repositoryType)
@@ -248,6 +263,42 @@ namespace MoreNote.Controllers.API
             this.noteRepositoryService.DeleteRepository(repositoryId.ToLongByHex());
             re.Ok = true;
             return LeanoteJson(re);
+        }
+        /// <summary>
+        ///重建笔记索引
+        /// </summary>
+        /// <param name="repositoryId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> RebuildNotesIndex(string repositoryId)
+        {
+
+            var books = notebookService.GetRootNotebooks(repositoryId.ToLongByHex());
+            foreach (var book in books)
+            {
+                await RebuildNotesIndex2(book.Id);
+            }
+
+            return LeanoteJson(new ApiRe() { Ok = true });
+
+        }
+        private async Task RebuildNotesIndex2(long? bookId)
+        {
+
+            var books=notebookService.GetNotebookChildren(bookId);
+            foreach (var book in books)
+            {
+             await   RebuildNotesIndex2(book.Id);
+            }
+            var notes=noteService.GetNoteChildrenByNotebookId(bookId);
+            foreach (var note in notes)
+            {
+                var context=  noteContentService.GetNoteContentByNoteId(note.Id);
+                this.noteService.SetNoteContextId(note.Id,context.Id);
+
+            }
+            
+
         }
     }
 }

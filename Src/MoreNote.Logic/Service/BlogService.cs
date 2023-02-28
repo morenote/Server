@@ -177,7 +177,7 @@ namespace MoreNote.Logic.Service
             }
 
             //内容
-            var noteContent = NoteContentService.GetNoteContent(note.Id, note.UserId);
+            var noteContent = NoteContentService.GetValidNoteContentByNoteId(note.Id, note.UserId);
             // 组装成blogItem
             User user = UserService.GetUserByUserId(note.UserId);
             var blog = new BlogItem()

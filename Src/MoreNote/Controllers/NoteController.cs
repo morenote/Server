@@ -61,7 +61,7 @@ namespace MoreNote.Controllers
         {
             long? noteNumber = noteId.ToLongByHex();
             long? userNumber = GetUserIdBySession();
-            NoteContent noteContent = noteContentService.GetValidNoteContent(noteId.ToLongByHex(), GetUserIdBySession());
+            NoteContent noteContent = noteContentService.GetValidNoteContentByNoteId(noteId.ToLongByHex(), GetUserIdBySession());
             ApiRe falseRe = new ApiRe()
             {
                 Ok = false,

@@ -394,7 +394,7 @@ namespace MoreNote.Logic.Service
         public NoteAndContent GetNoteAndContent(long? noteId, long? userId, bool isTrach, bool isDelete, bool IsHistory)
         {
             Note note = GetNote(noteId, userId, isTrach, isDelete);
-            NoteContent noteContent = NoteContentService.GetNoteContent(noteId, userId, IsHistory);
+            NoteContent noteContent = NoteContentService.GetNoteContentByNoteId(noteId, userId, IsHistory);
             return new NoteAndContent()
             {
                 note = note,
@@ -718,7 +718,7 @@ namespace MoreNote.Logic.Service
             return result.ToList<Note>();
         }
 
-        public List<Note> GetNotChildrenByNotebookId(long? notebookId)
+        public List<Note> GetNoteChildrenByNotebookId(long? notebookId)
         {
             var result = dataContext.Note.Where(b => b.NotebookId == notebookId).OrderBy(x => x.Title).ToList<Note>();
             return result;
@@ -953,7 +953,13 @@ namespace MoreNote.Logic.Service
 
             return note;
         }
+        public void SetNoteContextId(long? noteId, long? noteContextId)
+        {
+            this.dataContext.Note.Where(a=>a.Id==noteId)
+                .UpdateFromQuery(u=>new Note() { ContentId=noteContextId});
+            this.dataContext.SaveChanges();
 
+        }
         private static bool UpdateNote(Note note)
         {
             {

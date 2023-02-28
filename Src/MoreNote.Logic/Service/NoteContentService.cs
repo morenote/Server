@@ -75,7 +75,7 @@ namespace MoreNote.Logic.Service
 
             return dataContext.SaveChanges() > 0;
         }
-        public NoteContent GetNoteContent(long? noteId)
+        public NoteContent GetNoteContentByNoteId(long? noteId)
         {
             var result = dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false);
             if (result == null || result.FirstOrDefault() == null)
@@ -94,7 +94,7 @@ namespace MoreNote.Logic.Service
             return result == null ? null : result.FirstOrDefault();
         }
 
-        public NoteContent GetNoteContent(long? noteId, long? userId, bool IsHistory)
+        public NoteContent GetNoteContentByNoteId(long? noteId, long? userId, bool IsHistory)
         {
             var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == IsHistory);
             if (result==null|| result.FirstOrDefault()==null)
@@ -113,6 +113,12 @@ namespace MoreNote.Logic.Service
             return result == null ? null : result.FirstOrDefault();
         }
 
+        public void SetHistory(long? noteContextId,bool isHistory)
+        {
+            this.dataContext.NoteContent.Where(b=>b.Id==noteContextId).UpdateFromQuery(u=>new NoteContent { IsHistory= isHistory });
+            this.dataContext.SaveChanges();
+        }
+
         [Obsolete("不推荐使用,使用GetValidNoteContent替代")]
         public NoteContent GetNoteContent(long? noteId, long? userId)
         {
@@ -125,7 +131,7 @@ namespace MoreNote.Logic.Service
         /// <param name="noteId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public NoteContent GetValidNoteContent(long? noteId, long? userId)
+        public NoteContent GetValidNoteContentByNoteId(long? noteId, long? userId)
         {
             var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == false);
             return result == null ? null : result.FirstOrDefault();
@@ -135,7 +141,7 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="noteId"></param>
         /// <returns></returns>
-        public NoteContent GetValidNoteContent(long? noteId)
+        public NoteContent GetValidNoteContentByNoteId(long? noteId)
         {
             var result = dataContext.NoteContent.Where(b =>  b.NoteId == noteId && b.IsHistory == false);
             return result == null ? null : result.FirstOrDefault();

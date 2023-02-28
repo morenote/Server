@@ -160,7 +160,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
         public async Task<StringBuilder> WriteNote(Note note, string path, string link)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            var noteContent = this.noteContentService.GetNoteContent(note.Id);
+            var noteContent = this.noteContentService.GetNoteContentByNoteId(note.Id);
             var mdFilePath = System.IO.Path.Join(path, $"{note.Id.ToHex()}.md");
             StringBuilder frontmatterBuilder = new StringBuilder();
             frontmatterBuilder.Append("---\r\n");

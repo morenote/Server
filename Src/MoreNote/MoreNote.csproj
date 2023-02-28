@@ -55,14 +55,19 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\API\Config\**" />
+    <Compile Remove="runtimes\**" />
     <Compile Remove="Views\Pic\**" />
     <Content Remove="Controllers\API\Config\**" />
+    <Content Remove="runtimes\**" />
     <Content Remove="Views\Pic\**" />
     <EmbeddedResource Remove="Controllers\API\Config\**" />
+    <EmbeddedResource Remove="runtimes\**" />
     <EmbeddedResource Remove="Views\Pic\**" />
     <None Remove="Controllers\API\Config\**" />
+    <None Remove="runtimes\**" />
     <None Remove="Views\Pic\**" />
     <TypeScriptCompile Remove="Controllers\API\Config\**" />
+    <TypeScriptCompile Remove="runtimes\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -366,7 +371,6 @@
 
   <ItemGroup>
     <Folder Include="logs\" />
-    <Folder Include="runtimes\linux-arm64\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

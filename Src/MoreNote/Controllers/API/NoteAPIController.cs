@@ -174,7 +174,7 @@ namespace MoreNote.Controllers.API.APIV1
                     return LeanoteJson(re);
                 }
                 Note note = noteService.GetNote(noteId.ToLongByHex(), GetUserIdByToken(token));
-                NoteContent noteContent = noteContentService.GetNoteContent(noteId.ToLongByHex(), GetUserIdByToken(token), false);
+                NoteContent noteContent = noteContentService.GetNoteContentByNoteId(noteId.ToLongByHex(), GetUserIdByToken(token), false);
                 if (noteContent == null || note == null)
                 {
                     return Json(re, MyJsonConvert.GetLeanoteOptions());
@@ -228,6 +228,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return Json(new ApiRe() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
             long? noteId = idGenerator.NextId();
+            long? noteContextId = idGenerator.NextId();
 
             if (noteOrContent.Title == null)
             {
@@ -311,13 +312,13 @@ namespace MoreNote.Controllers.API.APIV1
                 AttachNum = attachNum,
                 CreatedTime = noteOrContent.CreatedTime,
                 UpdatedTime = noteOrContent.UpdatedTime,
-                ContentId = idGenerator.NextId()
+                ContentId = noteContextId
             };
 
             //-------------新增笔记内容对象
             NoteContent noteContent = new NoteContent()
             {
-                Id = note.ContentId,
+                Id = noteContextId,
                 NoteId = noteId,
                 UserId = tokenUserId,
                 IsBlog = note.IsBlog,
@@ -428,7 +429,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             // 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
             var note = noteService.GetNote(noteId, tokenUserId);
-            var noteContent = noteContentService.GetNoteContent(note.Id, tokenUserId, false);
+            var noteContent = noteContentService.GetNoteContentByNoteId(note.Id, tokenUserId, false);
             if (note == null || note.Id == 0)
             {
                 re.Msg = "notExists";
@@ -672,7 +673,7 @@ namespace MoreNote.Controllers.API.APIV1
                 //检查用户是否对仓库具有读权限
                 if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Read))
                 {
-                    var notes = noteService.GetNotChildrenByNotebookId(notebookId.ToLongByHex());
+                    var notes = noteService.GetNoteChildrenByNotebookId(notebookId.ToLongByHex());
                     apiRe.Ok = true;
                     apiRe.Data = notes;
                 }
@@ -898,9 +899,9 @@ namespace MoreNote.Controllers.API.APIV1
             }
 
             noteContentService.UpdateNoteContent(note.Id, noteContent);
-
-            noteService.UpdateNoteTitle(note.Id, noteTitle);
-
+            //-------------------更新笔记元数据---------------------------
+            this.noteService.UpdateNoteTitle(note.Id, noteTitle);
+            this.noteService.SetNoteContextId(note.Id, noteContentId);
             var usn = noteRepositoryService.IncrUsn(note.NotesRepositoryId);
             noteService.UpdateUsn(note.Id, usn);
             re.Ok = true;
@@ -1059,7 +1060,7 @@ namespace MoreNote.Controllers.API.APIV1
             //usn
             var usn = noteRepositoryService.IncrUsn(repositoryId);
 
-            var noteContext = noteContentService.GetValidNoteContent(note.Id);
+            var noteContext = noteContentService.GetValidNoteContentByNoteId(note.Id);
 
             var cloneNoteId = idGenerator.NextId();
             var cloneNoteContentId = idGenerator.NextId();
@@ -1102,5 +1103,8 @@ namespace MoreNote.Controllers.API.APIV1
 
             return result.Values.ToArray();
         }
+
+
+      
     }
 }
