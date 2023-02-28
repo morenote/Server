@@ -59,6 +59,7 @@ namespace MoreNote.Controllers.API
             this.dataSignService = dataSignService;
             this.noteService = noteService;
             this.noteContentService= noteContentService;
+            this.tokenSerivce= tokenSerivce;
 
         }
         /// <summary>
