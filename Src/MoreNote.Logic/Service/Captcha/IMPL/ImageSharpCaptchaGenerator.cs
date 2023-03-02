@@ -49,13 +49,12 @@ namespace MoreNote.Logic.Service.Captcha.IMPL
                 Color.Yellow,
                 Color.Cyan};
             //验证码字体集合
-            string[] fonts = {"fonts/Apalu-2.ttf",
-                              
-                              "fonts/Arvo-Italic.ttf",
-                              "fonts/brelaregular.ttf",
-                              "fonts/ColorTube-2.ttf",
-                              "fonts/LeagueGothic-Italic.ttf",
-                              "fonts/Quantum-2.ttf"
+            string[] fonts = {"wwwroot/fonts/Apalu-2.ttf",
+                              "wwwroot/fonts/Arvo-Italic.ttf",
+                              "wwwroot/fonts/brelaregular.ttf",
+                              "wwwroot/fonts/ColorTube-2.ttf",
+                              "wwwroot/fonts/LeagueGothic-Italic.ttf",
+                              "wwwroot/fonts/Quantum-2.ttf"
                               };
             var width = code.Length * 40;
             var height = 64;

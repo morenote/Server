@@ -75,6 +75,13 @@
     <Content Remove="nlog-linux.config" />
     <Content Remove="nlog-windows.config" />
     <Content Remove="wwwroot\blog\themes\MaterialDesign\js\file.ts" />
+    <Content Remove="wwwroot\fonts\Apalu-2.ttf" />
+    <Content Remove="wwwroot\fonts\Apalu-3.ttf" />
+    <Content Remove="wwwroot\fonts\Arvo-Italic.ttf" />
+    <Content Remove="wwwroot\fonts\brelaregular.ttf" />
+    <Content Remove="wwwroot\fonts\ColorTube-2.ttf" />
+    <Content Remove="wwwroot\fonts\LeagueGothic-Italic.ttf" />
+    <Content Remove="wwwroot\fonts\Quantum-2.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -90,6 +97,27 @@
     <None Include="wwwroot\blog\libs\md2html\md2html.js" />
     <None Include="wwwroot\blog\libs\md2html\md2html_for_export.js" />
     <None Include="wwwroot\blog\libs\md2html\uml.js" />
+    <None Include="wwwroot\fonts\Apalu-2.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\Apalu-3.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\Arvo-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\brelaregular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\ColorTube-2.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\LeagueGothic-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\Quantum-2.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
