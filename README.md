@@ -27,6 +27,8 @@ morenote支持托管你的笔记、文档、文件、图片或者视频资料。
 
 <a href="https://www.morenote.top/" target="_blank">dev版本：morenote云笔记</a>
 
+> 警告：请勿在演示网站上存储你的笔记！！！MoreNote仍处于有限的内部开发中，您的笔记很有可能再某次崩溃或更新中全部丢失。
+
 稳定版本：暂无
 ## 项目目标
 
