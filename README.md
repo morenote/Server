@@ -2,6 +2,8 @@
 
 [English](./README_English.md)
 
+> 最近工作繁忙，项目更新将进入休眠模式
+
 # 赞助
 
 ![image-20220102113326000](README.assets/image-20220102113326000.png)
