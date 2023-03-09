@@ -2,11 +2,10 @@
 
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.HySystem;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.OS.Node;
 using MoreNote.Models.Entity.Leanote;
-
+using MoreNote.Models.Entity.Leanote.Notes;
 using System;
 using System.Collections.Generic;
 using System.IO;

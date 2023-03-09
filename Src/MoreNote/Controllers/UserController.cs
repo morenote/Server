@@ -5,7 +5,7 @@ using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
-
+using MoreNote.Models.Entity.Leanote.User;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -42,7 +42,7 @@ namespace MoreNote.Controllers
                 return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
 
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             if (user == null)
             {
                 re.Msg = "Unable to obtain user information through Session ";

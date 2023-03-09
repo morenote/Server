@@ -13,6 +13,9 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.PasswordSecurity;
+using MoreNote.Models.Entity.Leanote.Blog;
+using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Logic.Service
 {
@@ -39,7 +42,7 @@ namespace MoreNote.Logic.Service
 
         public  async Task<string> LoginByPWD(String email, string pwd)
         {
-            User user;
+            UserInfo user;
             string tokenStr;
             if (email.Contains("@"))
             {
@@ -127,7 +130,7 @@ namespace MoreNote.Logic.Service
 
         // 使用bcrypt认证或者Md5认证
         // Use bcrypt (Md5 depreciated)
-        public  User Login(string emailOrUserName ,string pwd)
+        public  UserInfo Login(string emailOrUserName ,string pwd)
         {
             throw new Exception();
         }
@@ -171,7 +174,7 @@ namespace MoreNote.Logic.Service
             }
             var userId=idGenerator.NextId();
             //生成一个新用户
-            User user = new User()
+            UserInfo user = new UserInfo()
             {
                 Id = userId,
                 Email = email,
@@ -210,7 +213,7 @@ namespace MoreNote.Logic.Service
         }
 
 
-        public bool  Register(User user)
+        public bool  Register(UserInfo user)
         {
           
             if ( UserService.AddUserAsync(user))
@@ -260,7 +263,7 @@ namespace MoreNote.Logic.Service
 
             throw new Exception();
         }
-        public User ThirdRegister(string thirdType,string thirdUserId,string thirdUserName)
+        public UserInfo ThirdRegister(string thirdType,string thirdUserId,string thirdUserName)
         {
             throw new Exception();
         }

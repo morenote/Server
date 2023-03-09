@@ -5,7 +5,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
-
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +46,7 @@ namespace MoreNote.Controllers.Admin
             }
             var sql=GetSorterSQL(sorter);
             Page pageInfo=null;
-            User[] users=null;
+            UserInfo[] users=null;
             if (!string.IsNullOrEmpty(keywords))
             {
                 users=  userService.ListUsers(pageNumber, pageSize, sorterField, isAsc, keywords,out pageInfo);

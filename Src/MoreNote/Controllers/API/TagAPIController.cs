@@ -4,6 +4,9 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.DTO.Leanote;
+using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -35,10 +38,10 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public JsonResult GetSyncTags(string token, int afterUsn, int maxEntry)
         {
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -55,7 +58,7 @@ namespace MoreNote.Controllers.API.APIV1
             NoteTag noteTag = tagService.AddOrUpdateTag(GetUserIdByToken(token), tag);
             if (noteTag == null)
             {
-                return Json(new ApiRe() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetLeanoteOptions());
+                return Json(new ApiReDTO() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -79,7 +82,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             else
             {
-                ApiRe apiRe=new ApiRe()
+                ApiReDTO apiRe=new ApiReDTO()
                 {
                     Ok=false,
                     Msg=msg

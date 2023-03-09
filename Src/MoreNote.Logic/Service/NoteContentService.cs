@@ -12,6 +12,7 @@ using MoreNote.Logic.Entity.ConfigFile;
 using System.Threading.Tasks;
 using MoreNote.CryptographyProvider;
 using System.Text;
+using MoreNote.Models.Entity.Leanote.Notes;
 
 namespace MoreNote.Logic.Service
 {

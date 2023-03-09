@@ -1,7 +1,6 @@
 ﻿using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
-
+using MoreNote.Models.Entity.Leanote.Security;
 using SpamClassificationML.Model;
 
 using System;

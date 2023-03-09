@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity.ConfigFile;
-using MoreNote.Models.Entity.Leanote.Loggin;
+using MoreNote.Models.Entity.Leanote.Management.Loggin;
 using System;
 using System.Collections.Generic;
 using System.IO;

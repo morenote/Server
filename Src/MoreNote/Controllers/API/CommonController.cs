@@ -7,6 +7,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enum;
 
 using System;
@@ -60,7 +61,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetHexId()
         {
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             re.Ok = true;
             re.Data = this.idGenerator.NextHexId();
             return LeanoteJson(re);

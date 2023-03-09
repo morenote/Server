@@ -52,7 +52,7 @@ namespace MoreNote.Common.autofac
             //依赖注入的对象
             builder.RegisterType<AccessService>();
             builder.RegisterType<AlbumService>();
-            builder.RegisterType<APPStoreInfoService>();
+      
             builder.RegisterType<AttachService>()
                 .OnActivated(e => e.Instance.NoteService = e.Context.Resolve<NoteService>())
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);

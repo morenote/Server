@@ -2591,7 +2591,7 @@ namespace MoreNote.Logic.Migrations
                     b.ToTable("repository_member_role_mapping");
                 });
 
-            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.NotesRepository", b =>
+            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.NotessRepository", b =>
                 {
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()

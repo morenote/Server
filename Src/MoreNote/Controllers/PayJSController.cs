@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
-
+using MoreNote.Models.Entity.Leanote.Pay;
 using PAYJS_CSharp_SDK;
 using PAYJS_CSharp_SDK.Model;
 

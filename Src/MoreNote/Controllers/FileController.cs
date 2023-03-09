@@ -8,6 +8,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.Entity.Leanote.Notes;
 
 using System;
 using System.Collections.Generic;

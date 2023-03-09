@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
-
+using MoreNote.Models.Entity.Leanote.Notes;
 using System.Text.Json;
 
 namespace MoreNote.Controllers

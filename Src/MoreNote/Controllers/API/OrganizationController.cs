@@ -7,6 +7,7 @@ using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enum;
 
 namespace MoreNote.Controllers.API
@@ -43,7 +44,7 @@ namespace MoreNote.Controllers.API
         public IActionResult GetOrganizationListByAuthorityEnum(string token, OrganizationAuthorityEnum AuthorityEnum)
         {
             
-            var apiRe = new ApiRe()
+            var apiRe = new ApiReDTO()
             {
                 Ok = false,
                 Data = null
@@ -53,7 +54,7 @@ namespace MoreNote.Controllers.API
             {
                 var list = organizationService.GetOrganizationList(user.Id, AuthorityEnum);
               
-                apiRe = new ApiRe()
+                apiRe = new ApiReDTO()
                 {
                     Ok = true,
                     Data = list

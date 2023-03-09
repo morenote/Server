@@ -1,5 +1,5 @@
 ﻿using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity;
+using MoreNote.Models.Entity.Leanote.Blog;
 using System.Linq;
 
 namespace MoreNote.Logic.Service

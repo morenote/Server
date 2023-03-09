@@ -3,6 +3,7 @@
  *  date：2022-09-03
  *  git : cb4d15273ce2fd914b2317d267d8e366e208cd41
  *  license:https://github.com/ldqk/Masuit.MyBlogs/blob/master/LICENSE 
+ *  基于代码版本：b78c483a0dea0d00350bdf44bf788ceb51190e46
  */
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -10,6 +11,8 @@ using EFCoreSecondLevelCacheInterceptor;
 using Masuit.LuceneEFCore.SearchEngine;
 using Masuit.Tools.Models;
 using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
 
 using System;
 using System.Linq;
@@ -27,7 +30,7 @@ public static class QueryableExt
     /// <param name="page">当前页</param>
     /// <param name="size">页大小</param>
     /// <returns></returns>
-    public static PagedList<T> ToCachedPagedList<T>(this IOrderedQueryable<T> query, int page, int size) where T : LuceneIndexableBaseEntity
+    public static PagedList<T> ToCachedPagedList<T>(this IOrderedQueryable<T> query, int page, int size) where T : BaseEntity
     {
         page = Math.Max(1, page);
         var totalCount = query.Count();
@@ -53,7 +56,7 @@ public static class QueryableExt
     /// <param name="page">当前页</param>
     /// <param name="size">页大小</param>
     /// <returns></returns>
-    public static async Task<PagedList<T>> ToCachedPagedListAsync<T>(this IOrderedQueryable<T> query, int page, int size) where T : LuceneIndexableBaseEntity
+    public static async Task<PagedList<T>> ToCachedPagedListAsync<T>(this IOrderedQueryable<T> query, int page, int size) where T : BaseEntity
     {
         page = Math.Max(1, page);
         var totalCount = query.Count();
@@ -137,7 +140,7 @@ public static class QueryableExt
     /// <param name="size">页大小</param>
     /// <param name="mapper"></param>
     /// <returns></returns>
-    public static PagedList<TDto> ToCachedPagedList<T, TDto>(this IOrderedQueryable<T> query, int page, int size, MapperConfiguration mapper) where TDto : class where T : LuceneIndexableBaseEntity
+    public static PagedList<TDto> ToCachedPagedList<T, TDto>(this IOrderedQueryable<T> query, int page, int size, MapperConfiguration mapper) where TDto : class where T : BaseEntity
     {
         page = Math.Max(1, page);
         var totalCount = query.Count();
@@ -165,7 +168,7 @@ public static class QueryableExt
     /// <param name="size">页大小</param>
     /// <param name="mapper"></param>
     /// <returns></returns>
-    public static async Task<PagedList<TDto>> ToCachedPagedListAsync<T, TDto>(this IOrderedQueryable<T> query, int page, int size, MapperConfiguration mapper) where TDto : class where T : LuceneIndexableBaseEntity
+    public static async Task<PagedList<TDto>> ToCachedPagedListAsync<T, TDto>(this IOrderedQueryable<T> query, int page, int size, MapperConfiguration mapper) where TDto : class where T : BaseEntity
     {
         page = Math.Max(1, page);
         var totalCount = query.Count();

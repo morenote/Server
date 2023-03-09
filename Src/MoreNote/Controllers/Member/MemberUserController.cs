@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
 using MoreNote.Value;
 
@@ -41,7 +41,7 @@ namespace MoreNote.Controllers.Member
         [HttpGet]
         public IActionResult Username()
         {
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
             SetUserInfo();
             SetLocale();
@@ -53,7 +53,7 @@ namespace MoreNote.Controllers.Member
         [HttpGet]
         public IActionResult Email()
         {
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
             SetUserInfo();
@@ -65,7 +65,7 @@ namespace MoreNote.Controllers.Member
         [HttpGet]
         public IActionResult Password()
         {
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
             SetUserInfo();
@@ -76,7 +76,7 @@ namespace MoreNote.Controllers.Member
         [HttpGet]
         public IActionResult Editor()
         {
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
             SetUserInfo();
@@ -97,7 +97,7 @@ namespace MoreNote.Controllers.Member
         [HttpGet]
         public IActionResult Avatar()
         {
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
             SetLocale();
             SetUserInfo();
@@ -110,7 +110,7 @@ namespace MoreNote.Controllers.Member
         [HttpGet]
         public IActionResult FIDO2()
         {
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
 
             SetLocale();

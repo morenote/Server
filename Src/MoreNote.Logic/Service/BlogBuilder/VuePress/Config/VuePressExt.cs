@@ -1,6 +1,5 @@
 ﻿using MoreNote.Common.ExtensionMethods;
-using MoreNote.Logic.Entity;
-
+using MoreNote.Models.Entity.Leanote.Notes;
 using System;
 using System.Collections.Generic;
 using System.IO;

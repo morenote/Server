@@ -11,6 +11,7 @@ using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.Entity.Leanote.Security;
 
 namespace MoreNote.Controllers.API
 {

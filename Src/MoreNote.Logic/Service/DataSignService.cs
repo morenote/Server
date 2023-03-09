@@ -5,12 +5,7 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.DTO.Leanote.USBKey;
-using MoreNote.Models.Entity.Leanote.Loggin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MoreNote.Models.Entity.Leanote.Management.Loggin;
 
 namespace MoreNote.Logic.Service
 {

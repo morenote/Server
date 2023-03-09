@@ -6,7 +6,9 @@ using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service.Segmenter;
 using MoreNote.Models.Entity.Leanote;
-
+using MoreNote.Models.Entity.Leanote.Blog;
+using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,7 +181,7 @@ namespace MoreNote.Logic.Service
             //内容
             var noteContent = NoteContentService.GetValidNoteContentByNoteId(note.Id, note.UserId);
             // 组装成blogItem
-            User user = UserService.GetUserByUserId(note.UserId);
+            UserInfo user = UserService.GetUserByUserId(note.UserId);
             var blog = new BlogItem()
             {
                 Note = note,
@@ -221,7 +223,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public BlogInfo GetBlogInfo(UserBlog userBlog, User userinfo)
+        public BlogInfo GetBlogInfo(UserBlog userBlog, UserInfo userinfo)
         {
             BlogInfo blogInfo = new BlogInfo()
             {
@@ -263,7 +265,7 @@ namespace MoreNote.Logic.Service
             return true;
         }
 
-        public Archive[] ListBlogsArchive(long? userId, long? noteBookId, int year, int month, string sortField, bool isAec)
+        public BlogArchive[] ListBlogsArchive(long? userId, long? noteBookId, int year, int month, string sortField, bool isAec)
         {
             throw new Exception();
         }
@@ -316,7 +318,7 @@ namespace MoreNote.Logic.Service
             return null;
         }
 
-        public Post PreNextBlog(long? userid, string sortField, bool isAsc, long? noteId, string baseTime)
+        public BlogPost PreNextBlog(long? userid, string sortField, bool isAsc, long? noteId, string baseTime)
         {
             //what is baseTime???
             throw new Exception();
@@ -594,7 +596,7 @@ namespace MoreNote.Logic.Service
             return ConfigService.GetBlogUrl() + "/" + userName;
         }
 
-        public BlogUrls GetBlogUrls(UserBlog userBlog, User  userInfo,Repository repository)
+        public BlogUrls GetBlogUrls(UserBlog userBlog, UserInfo  userInfo,Repository repository)
         {
             string indexUrl, postUrl, searchUrl, cateUrl, singleUrl, tagsUrl, archiveUrl, tagPostsUrl;
             string blogUrl = ConfigService.GetBlogUrl();
@@ -640,9 +642,9 @@ namespace MoreNote.Logic.Service
             return blogUrls;
         }
 
-        public Post[] FixBlogs(BlogItem[] blogs)
+        public BlogPost[] FixBlogs(BlogItem[] blogs)
         {
-            var posts = new Post[blogs.Length];
+            var posts = new BlogPost[blogs.Length];
             for (int i = 0; i < blogs.Length; i++)
             {
                 posts[i] = FixBlog(blogs[i]);
@@ -650,24 +652,24 @@ namespace MoreNote.Logic.Service
             return posts;
         }
 
-        public Post FixBlog(BlogItem blogItem)
+        public BlogPost FixBlog(BlogItem blogItem)
         {
             throw new Exception();
         }
 
-        public Post FixNote(Note note)
+        public BlogPost FixNote(Note note)
         {
             throw new Exception();
         }
 
-        public Cate[] GetCateArrayForBlog(long? userId)
+        public BlogCate[] GetCateArrayForBlog(long? userId)
         {
             var cate = (from _note in dataContext.Set<Note>()
                         join _noteBook in dataContext.Set<Notebook>()
                             on _note.NotebookId equals _noteBook.Id
                         where _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
 
-                        select new Cate
+                        select new BlogCate
                         {
                             Id = _note.NotebookId.Value,
                             Title = _noteBook.Title
@@ -685,14 +687,14 @@ namespace MoreNote.Logic.Service
         /// <param name="userId">用户名称</param>
         /// <param name="repositoryId">仓库名称</param>
         /// <returns></returns>
-        public Cate[] GetCateArrayForBlog(long? userId, long? repositoryId)
+        public BlogCate[] GetCateArrayForBlog(long? userId, long? repositoryId)
         {
             var cate = (from _note in dataContext.Set<Note>()
                         join _noteBook in dataContext.Set<Notebook>()
                             on _note.NotebookId equals _noteBook.Id
                         where _note.NotesRepositoryId == repositoryId && _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
 
-                        select new Cate
+                        select new BlogCate
                         {
                             Id = _note.NotebookId.Value,
                             Title = _noteBook.Title

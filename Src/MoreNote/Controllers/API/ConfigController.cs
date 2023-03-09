@@ -13,6 +13,7 @@ using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.Config;
 
 namespace MoreNote.Controllers.API
@@ -49,7 +50,7 @@ namespace MoreNote.Controllers.API
         {
             var securityConfig = config.SecurityConfig;
             var dto = SecurityConfigDTO.Instance(securityConfig);
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             re.Ok = true;
             re.Data = dto;
             return LeanoteJson(re);

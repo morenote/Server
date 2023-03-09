@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
 using System.Threading.Tasks;
+using MoreNote.Models.Entity.Leanote.Notes;
 
 namespace MoreNote.Logic.Service
 {

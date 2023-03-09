@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using MoreNote.Common.Utils;
-using MoreNote.Logic.Entity;
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Text;

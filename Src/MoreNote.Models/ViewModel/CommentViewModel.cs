@@ -1,5 +1,7 @@
-﻿using Masuit.MyBlogs.Core.Models.Entity;
-using Masuit.Tools.Models;
+﻿using Masuit.Tools.Models;
+
+using Morenote.Models.Models.Entity;
+
 using System.Collections.Generic;
 
 namespace Masuit.MyBlogs.Core.Models.ViewModel

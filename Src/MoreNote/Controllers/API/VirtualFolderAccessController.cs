@@ -10,6 +10,7 @@ using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enum;
 
 using System;
@@ -62,7 +63,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetRootVirtualFolderInfos(string token, string repositoryHexId)
         {
-            var apiRe = new ApiRe()
+            var apiRe = new ApiReDTO()
             {
                 Ok = false,
                 Data = null

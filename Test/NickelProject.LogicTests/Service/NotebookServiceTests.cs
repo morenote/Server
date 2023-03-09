@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoreNote.Common.Utils;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Models.Entity.Leanote.Notes;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -9,7 +9,6 @@ using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
-using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileService.IMPL;
 using MoreNote.Logic.Service.Logging;
@@ -113,25 +112,6 @@ namespace MoreNote.Controllers
       
 
        
-        public IActionResult ResolutionStrategy(String StrategyID)
-        {
-            if (string.IsNullOrEmpty(StrategyID))
-            {
-                Response.StatusCode = 404;
-                return Content("StrategyID does not exist");
-            }
-
-            try
-            {
-                var rl = dataContext.ResolutionLocation.Where(b => b.StrategyID.Equals(StrategyID.ToLongByNumber())).OrderBy(e => e.Score).FirstOrDefault();
-                return Redirect(rl.URL);
-            }
-            catch (Exception)
-            {
-                Response.StatusCode = 404;
-                return Content("StrategyID does not exist");
-            }
-        }
 
       
 

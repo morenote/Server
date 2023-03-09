@@ -7,13 +7,19 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
-using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.Leanote;
-using MoreNote.Models.Entity.Leanote.Loggin;
+using MoreNote.Models.Entity.Leanote.Blog;
+using MoreNote.Models.Entity.Leanote.Management;
+using MoreNote.Models.Entity.Leanote.Management.Email;
+using MoreNote.Models.Entity.Leanote.Management.Loggin;
 using MoreNote.Models.Entity.Leanote.MyOrganization;
 using MoreNote.Models.Entity.Leanote.MyRepository;
+using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entity.Leanote.Pay;
+using MoreNote.Models.Entity.Leanote.Security;
 using MoreNote.Models.Entity.Leanote.Synchronized;
+using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
 
 using System;
@@ -70,7 +76,7 @@ namespace MoreNote.Logic.Database
                   .Property(e => e.StorageType)
                   .HasConversion<int>();
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<UserInfo>()
                .HasMany(b => b.FIDO2Items)
                .WithOne();
             //============================种子数据 数据库迁移的时候自动生成================================
@@ -79,11 +85,11 @@ namespace MoreNote.Logic.Database
         public DbSet<Album> Album { get; set; }
         public DbSet<AttachInfo> AttachInfo { get; set; }
         public DbSet<BlogInfoCustom> BlogInfoCustom { get; set; }
-        public DbSet<Post> Post { get; set; }
+        public DbSet<BlogPost> Post { get; set; }
 
         //public DbSet<ArchiveMonth> ArchiveMonth { get; set;}
         //public DbSet<Archive> Archive { get; set;}
-        public DbSet<Cate> Cate { get; set; }
+        public DbSet<BlogCate> Cate { get; set; }
 
         /// <summary>
         /// Blog
@@ -145,20 +151,19 @@ namespace MoreNote.Logic.Database
         public DbSet<Theme> Theme { get; set; }
         public DbSet<FriendLinks> FriendLinks { get; set; }
         public DbSet<Token> Token { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<UserInfo> User { get; set; }
         public DbSet<FIDO2Item> FIDO2Repository { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
 
         //应用更新服务
-        public DbSet<AppInfo> AppInfo { get; set; }
+   
 
         public DbSet<AccessRecords> AccessRecords { get; set; }
 
         //随机图片服务
         public DbSet<RandomImage> RandomImage { get; set; }
 
-        public DbSet<ResolutionStrategy> ResolutionStrategy { get; set; }
-        public DbSet<ResolutionLocation> ResolutionLocation { get; set; }
+ 
 
         //public DbSet<RandomImage> WebReportInfo { get; set; }
 

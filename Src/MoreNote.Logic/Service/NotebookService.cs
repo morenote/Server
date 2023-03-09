@@ -1,12 +1,12 @@
 ﻿using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
+using MoreNote.Models.Entity.Leanote.Notes;
 
 namespace MoreNote.Logic.Service
 {

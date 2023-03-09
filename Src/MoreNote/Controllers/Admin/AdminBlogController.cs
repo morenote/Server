@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.Admin
 {
@@ -31,7 +31,7 @@ namespace MoreNote.Controllers.Admin
         }
         public IActionResult Index()
         {
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
 
             SetLocale();

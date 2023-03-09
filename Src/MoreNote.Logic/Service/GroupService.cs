@@ -1,4 +1,5 @@
 ﻿using MoreNote.Logic.Entity;
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,7 +53,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 得到某分组下的用户
-        public  User[] GetUsers(long? groupId)
+        public  UserInfo[] GetUsers(long? groupId)
         {
             throw new Exception();
         }

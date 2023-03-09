@@ -17,6 +17,8 @@ using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Leanote.Blog;
+using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
 using MoreNote.Models.Model;
 
@@ -69,7 +71,7 @@ namespace MoreNote.Logic.Service
 
 
         }
-        public User GetUserByToken(string token)
+        public UserInfo GetUserByToken(string token)
         {
             if (token == null)
             {
@@ -88,21 +90,21 @@ namespace MoreNote.Logic.Service
                 return null;
             }
         }
-        public User GetUserByEmail(string email)
+        public UserInfo GetUserByEmail(string email)
         {
             var result = dataContext.User
                        .Where(b => b.Email.Equals(email)).FirstOrDefault();
             return result;
         }
 
-        public User GetUserByUserId(long? userid)
+        public UserInfo GetUserByUserId(long? userid)
         {
             if (userid == null)
             {
                 return null;
             }
             var result = dataContext.User
-                          .Include(user => user.FIDO2Items)
+                         
                           .Where(b => b.Id==(userid)).FirstOrDefault();
             return result;
         }
@@ -128,7 +130,7 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
 
-        public bool AddUserAsync(User user)
+        public bool AddUserAsync(UserInfo user)
         {
             if (user.Id == 0) user.Id = idGenerator.NextId();
             user.CreatedTime = DateTime.Now;
@@ -235,7 +237,7 @@ namespace MoreNote.Logic.Service
             var user = dataContext.User.Where(b=>b.Id==userId).First();
             user.LoginSecurityPolicyLevel = level;
             user.AddMac(this.cryptographyProvider);
-            dataContext.User.Where(b => b.Id == userId).UpdateFromQuery(x => new User()
+            dataContext.User.Where(b => b.Id == userId).UpdateFromQuery(x => new UserInfo()
             {
                 LoginSecurityPolicyLevel = level,
                 Hmac=user.Hmac
@@ -313,25 +315,25 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息, userId, username, email
-        public User GetUserInfoByAny(string idEmailUsername)
+        public UserInfo GetUserInfoByAny(string idEmailUsername)
         {
             throw new Exception();
         }
 
-        public void setUserLogo(User
+        public void setUserLogo(UserInfo
              user)
         {
             throw new Exception();
         }
 
         // 仅得到用户
-        public User GetUser(long? userId)
+        public UserInfo GetUser(long? userId)
         {
             throw new Exception();
         }
 
         // 得到用户信息 userId
-        public User GetUserInfo(long? userId)
+        public UserInfo GetUserInfo(long? userId)
         {
             if (userId == null)
             {
@@ -343,40 +345,40 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息 email
-        public User GetUserInfoByEmail(string email)
+        public UserInfo GetUserInfoByEmail(string email)
         {
             throw new Exception();
         }
 
         // 得到用户信息 username
-        public User GetUserInfoByUsername(string username)
+        public UserInfo GetUserInfoByUsername(string username)
         {
             throw new Exception();
         }
 
-        public User GetUserInfoByThirdUserId(string thirdUserId)
+        public UserInfo GetUserInfoByThirdUserId(string thirdUserId)
         {
             throw new Exception();
         }
 
-        public User[] ListUserInfosByUserIds(long[] userIds)
+        public UserInfo[] ListUserInfosByUserIds(long[] userIds)
         {
             throw new Exception();
         }
 
-        public User ListUserInfosByEmails(string[] email)
+        public UserInfo ListUserInfosByEmails(string[] email)
         {
             throw new Exception();
         }
 
         // 用户信息即可
-        public Dictionary<long, User> MapUserInfoByUserIds(long[] userIds)
+        public Dictionary<long, UserInfo> MapUserInfoByUserIds(long[] userIds)
         {
             throw new Exception();
         }
 
         // 用户信息和博客设置信息
-        public Dictionary<long, User> MapUserInfoAndBlogInfosByUserIds(long[] userIds)
+        public Dictionary<long, UserInfo> MapUserInfoAndBlogInfosByUserIds(long[] userIds)
         {
             throw new Exception();
         }
@@ -389,9 +391,9 @@ namespace MoreNote.Logic.Service
         }
 
         // 得到用户信息+博客主页
-        public User GetUserAndBlogUrl(long? userId, Repository repository)
+        public UserInfo GetUserAndBlogUrl(long? userId, Repository repository)
         {
-            User user = GetUserInfo(userId);
+            UserInfo user = GetUserInfo(userId);
 
             UserBlog userBlog = BlogService.GetUserBlog(userId);
             BlogUrls blogUrls = BlogService.GetBlogUrls(userBlog, user, repository);
@@ -432,18 +434,18 @@ namespace MoreNote.Logic.Service
         }
 
         // 通过ids得到users, 按id的顺序组织users
-        public User[] GetUserInfosOrderBySeq(long[] userIds)
+        public UserInfo[] GetUserInfosOrderBySeq(long[] userIds)
         {
             throw new Exception();
         }
 
         // 使用email(username), 得到用户信息
-        public User GetUserInfoByName(string emailOrUsername)
+        public UserInfo GetUserInfoByName(string emailOrUsername)
         {
             throw new Exception();
         }
 
-        public User GetUserByUserName(string Username)
+        public UserInfo GetUserByUserName(string Username)
         {
             var result = dataContext.User.Where(b => b.Username.Equals(Username.ToLower()));
             return result == null ? null : result.FirstOrDefault();
@@ -550,7 +552,7 @@ namespace MoreNote.Logic.Service
         // 宽度
         public bool UpdateColumnWidth(long? userId, int notebookWidth, int noteListWidth, int mdEditorWidth)
         {
-            dataContext.User.Where(x => x.Id == userId).UpdateFromQuery(p => new User()
+            dataContext.User.Where(x => x.Id == userId).UpdateFromQuery(p => new UserInfo()
             {
                 NotebookWidth = notebookWidth,
                 NoteListWidth = noteListWidth,
@@ -564,7 +566,7 @@ namespace MoreNote.Logic.Service
         public bool UpdateLeftIsMin(long? userId, bool leftIsMin)
         {
             dataContext.User.Where(x => x.Id == userId)
-                .UpdateFromQuery(p => new User()
+                .UpdateFromQuery(p => new UserInfo()
                                 {
                                     LeftIsMin = leftIsMin
                                 });
@@ -574,7 +576,7 @@ namespace MoreNote.Logic.Service
 
         //-------------
         // user admin
-        public User[] ListUsers(int pageNumber, int pageSize, string sortField, bool isAsc, string email, out Page page)
+        public UserInfo[] ListUsers(int pageNumber, int pageSize, string sortField, bool isAsc, string email, out Page page)
         {
             var users = dataContext.User.Where(b => b.Username.Equals(email) || b.UsernameRaw.Equals(email) || b.Email.Equals(email)).OrderBy(b => b.Id).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
 
@@ -585,7 +587,7 @@ namespace MoreNote.Logic.Service
             return users;
         }
 
-        public User[] ListUsers(int pageNumber, int pageSize, string sortField, bool isAsc, out Page page)
+        public UserInfo[] ListUsers(int pageNumber, int pageSize, string sortField, bool isAsc, out Page page)
         {
             var users = dataContext.User.OrderBy(b => b.Id).OrderBy(b => b.Id).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
 
@@ -596,7 +598,7 @@ namespace MoreNote.Logic.Service
             return users;
         }
 
-        public User[] GetAllUserByFilter(string userFilterEmail, string userFilterWhiteList, string userFilterBlackList, bool verified)
+        public UserInfo[] GetAllUserByFilter(string userFilterEmail, string userFilterWhiteList, string userFilterBlackList, bool verified)
         {
             throw new Exception();
         }

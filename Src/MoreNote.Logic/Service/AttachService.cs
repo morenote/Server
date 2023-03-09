@@ -5,6 +5,7 @@ using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.FileStoreService;
+using MoreNote.Models.Entity.Leanote.Notes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

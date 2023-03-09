@@ -9,8 +9,7 @@ using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.USBKey;
-using MoreNote.Models.Entity.Leanote.Loggin;
-
+using MoreNote.Models.Entity.Leanote.Management.Loggin;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,7 +45,7 @@ namespace MoreNote.Controllers.API.Security
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetLoginChallenge(string email,string sessionCode)
         {
-            ApiRe apiRe = new ApiRe();
+           var apiRe = new ApiReDTO();
             var user = userService.GetUserByEmail(email);
             if (user == null)
             {
@@ -89,7 +88,7 @@ namespace MoreNote.Controllers.API.Security
                 BrowserRequestHeader = stringBuilder.ToString(),
             };
 
-            ApiRe apiRe = new ApiRe();
+            ApiReDTO apiRe = new ApiReDTO();
 
             try
             {

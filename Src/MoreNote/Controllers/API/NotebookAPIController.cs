@@ -18,6 +18,9 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Models.DTO.Leanote.USBKey;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using System.Threading.Tasks;
+using MoreNote.Models.DTO.Leanote;
+using MoreNote.Models.Entity.Leanote.User;
+using MoreNote.Models.Entity.Leanote.Notes;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -60,10 +63,10 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public JsonResult GetSyncNotebooks(string token, int afterUsn, int maxEntry)
         {
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -116,10 +119,10 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotebooks(string token)
         {
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -141,10 +144,10 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public IActionResult AddNotebook(string token, string title, string parentNotebookId, int seq)
         {
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -170,7 +173,7 @@ namespace MoreNote.Controllers.API.APIV1
                 }
                 else
                 {
-                    ApiRe apiRe = new ApiRe()
+                    ApiReDTO apiRe = new ApiReDTO()
                     {
                         Ok = false,
                         Msg = "AddNotebook is error",
@@ -185,10 +188,10 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public IActionResult UpdateNotebook(string token, string notebookId, string title, string parentNotebookId, int seq, int usn)
         {
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -207,7 +210,7 @@ namespace MoreNote.Controllers.API.APIV1
                 }
                 else
                 {
-                    ApiRe apiRe = new ApiRe()
+                    ApiReDTO apiRe = new ApiReDTO()
                     {
                         Ok = false,
                         Msg = "UpdateNotebook is error",
@@ -231,9 +234,9 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost,HttpDelete]
         public async Task<IActionResult> DeleteNotebook(string token, string noteRepositoryId, string notebookId, bool recursively, bool force, string dataSignJson)
         {
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             var verify=false;
-            ApiRe re = new ApiRe()
+            ApiReDTO re = new ApiReDTO()
             {
                 Ok = false,
                 Msg = "NOTLOGIN",
@@ -298,7 +301,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetRootNotebooks(string token, string repositoryId)
         {
-            var apiRe=new ApiRe();
+            var apiRe=new ApiReDTO();
 
             var user = tokenSerivce.GetUserByToken(token);
             if (user != null)
@@ -323,7 +326,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotebookChildren(string token, string notebookId)
         {
-            var apiRe = new ApiRe();
+            var apiRe = new ApiReDTO();
 
             var user = tokenSerivce.GetUserByToken(token);
 
@@ -355,7 +358,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> CreateNoteBook(string token,string noteRepositoryId, string notebookTitle, string parentNotebookId,string dataSignJson)
         {
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             var user = tokenSerivce.GetUserByToken(token);
             long? parentId=null;
             bool  verify=false;
@@ -438,7 +441,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> UpdateNoteBookTitle(string token, string notebookId,string notebookTitle, string dataSignJson)
         {
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             var user = tokenSerivce.GetUserByToken(token);
             var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
 

@@ -11,6 +11,7 @@ using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.BlogBuilder;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enum;
 
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace MoreNote.Controllers.API.APIV1
             var  blogBuilder=this.componentContext.ResolveKeyed< BlogBuilderInterface >(blogBuilderType);
             var verify = false;
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiRe()
+            var re = new ApiReDTO()
             {
                 Ok = false,
                 Data = null

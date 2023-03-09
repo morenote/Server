@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Models.DTO.Leanote;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +58,7 @@ namespace Morenote.Framework.Filter.Global
             {
                 context.HttpContext.Session.Remove("token");
                 //context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",

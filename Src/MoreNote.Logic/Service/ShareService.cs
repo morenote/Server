@@ -1,4 +1,5 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,12 +33,12 @@ namespace MoreNote.Logic.Service
             throw new Exception();
         }
         // 得到共享给我的笔记本和用户(谁共享给了我)
-        public  User[] GetShareNotebooks(long? userId,out Dictionary<string,ShareNotebooks> ShareNotebooksByUser)
+        public  UserInfo[] GetShareNotebooks(long? userId,out Dictionary<string,ShareNotebooks> ShareNotebooksByUser)
         {
             throw new Exception();
         }
         // 排序
-        public  void GetShareNotebooks(long? userId,out object ShareNotebooksByUser,out User user)
+        public  void GetShareNotebooks(long? userId,out object ShareNotebooksByUser,out UserInfo user)
         {
             throw new Exception();
         }

@@ -92,62 +92,6 @@ namespace MoreNote.Logic.Entity
     // api 返回
     //--------
 
-    // 一般返回
-    public class ApiRe
-    {
-        /// <summary>
-        /// 唯一标识（可选）
-        /// </summary>
-        public long? Id { get; set; }
-        /// <summary>
-        /// 消息创建时间（可选）
-        /// </summary>
-        public long Timestamp { get; set; } = DateTime.Now.Ticks/1000;
-        /// <summary>
-        /// 消息状态  成功或失败
-        /// </summary>
-        public bool Ok { get; set; }
-        /// <summary>
-        /// 提示信息或者错误信息，或者其他描述性辅助信息（可选）
-        /// </summary>
-        public string Msg { get; set; }
-        /// <summary>
-        /// 消息代码
-        /// </summary>
-        public int Code { get; set; }=200;
-        /// <summary>
-        /// 返回的数据
-        /// </summary>
-        public dynamic Data { get; set; }
-        /// <summary>
-        /// 指示Data是否被加密；如果Data被加密，那么Data就是一个字符串
-        /// </summary>
-        public bool Encryption { get; set; }
-        /// <summary>
-        /// 分页信息
-        /// </summary>
-        public PageInfo  PageInfo { get; set; }
-
-    }
-    /// <summary>
-    /// 分页信息
-    /// </summary>
-    public struct PageInfo
-    {
-        /// <summary>
-        /// 分页位置 从0开始 
-        /// </summary>
-        public int PageNumber { get; set; }
-        /// <summary>
-        /// 分页的大小,每页包含多少数据 
-        /// </summary>
-        public int PageSize { get; set; }
-        /// <summary>
-        /// 一共有多少页
-        /// </summary>
-        public int PageSum { get; set; }
-
-    }
 
     public struct Sign
     {

@@ -55,12 +55,12 @@ namespace MoreNote.Controllers.API
             {            if (!verify)
 
                
-                return SimpleJson(new ApiRe() { Msg="TokenIsError"});
+                return SimpleJson(new  ApiReDTO() { Msg="TokenIsError"});
 
             }
             var list = fido2Service.GetFido2List(user.Id);
 
-            var re = new ApiRe()
+            var re = new ApiReDTO()
             {
                 Ok = true,
                 Data = list != null
@@ -79,7 +79,7 @@ namespace MoreNote.Controllers.API
             var tokenVerify = tokenSerivce.VerifyToken(token);
             if (!tokenVerify)
             {
-                var apiRe = new ApiRe()
+                var apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "注册失败,token无效"
@@ -115,7 +115,7 @@ namespace MoreNote.Controllers.API
                 var tokenVerify = tokenSerivce.VerifyToken(token);
                 if (!tokenVerify)
                 {
-                    var apiRe = new ApiRe()
+                    var apiRe = new ApiReDTO()
                     {
                         Ok = false,
                         Msg = "注册失败,token无效"
@@ -194,7 +194,7 @@ namespace MoreNote.Controllers.API
 
                 var success = await fido2Service.MakeAssertionAsync(user, clientRespons);
 
-                var re = new ApiRe();
+                var re = new ApiReDTO();
                 if (success.Status.Equals("success"))
                 {
                     //颁发token

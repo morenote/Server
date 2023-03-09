@@ -1,4 +1,4 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Models.Entity.Leanote.Management;
 using System;
 using System.Collections.Generic;
 using System.Text;

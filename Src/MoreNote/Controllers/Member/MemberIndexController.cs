@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Morenote.Framework.Filter.Global;
 using MoreNote.Framework.Controllers;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Value;
 
 namespace MoreNote.Controllers.Member
@@ -39,7 +39,7 @@ namespace MoreNote.Controllers.Member
         public IActionResult Index()
         {
 
-            User user = GetUserBySession();
+            UserInfo user = GetUserBySession();
             ViewBag.user = user;
             
 

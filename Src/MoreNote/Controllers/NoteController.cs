@@ -6,10 +6,10 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.ModelBinder;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
-
+using MoreNote.Models.DTO.Leanote;
+using MoreNote.Models.Entity.Leanote.Notes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +62,7 @@ namespace MoreNote.Controllers
             long? noteNumber = noteId.ToLongByHex();
             long? userNumber = GetUserIdBySession();
             NoteContent noteContent = noteContentService.GetValidNoteContentByNoteId(noteId.ToLongByHex(), GetUserIdBySession());
-            ApiRe falseRe = new ApiRe()
+            ApiReDTO falseRe = new ApiReDTO()
             {
                 Ok = false,
                 Msg = "GetNoteContent_is_error"

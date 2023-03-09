@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.DTO.Joplin;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
-
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +39,7 @@ namespace MoreNote.Controllers.Joplin
         public async Task<IActionResult> sessions([FromBody] SessionRequestDto sessionRequest)
         {
             string token = string.Empty;
-            User user = null;
+            UserInfo user = null;
             var tokenStr =await AuthService.LoginByPWD(sessionRequest.email, sessionRequest.password);
 
             if (!string.IsNullOrEmpty(tokenStr))

@@ -3,10 +3,10 @@
  *  date：2022-09-03
  *  git : cb4d15273ce2fd914b2317d267d8e366e208cd41
  *  license:https://github.com/ldqk/Masuit.MyBlogs/blob/master/LICENSE 
+ *  基于代码版本：b78c483a0dea0d00350bdf44bf788ceb51190e46
  */
 
-using Masuit.LuceneEFCore.SearchEngine;
-using Masuit.MyBlogs.Core.Models.Entity;
+
 using Masuit.Tools.Models;
 using System.Linq.Expressions;
 using Collections.Pooled;
@@ -14,11 +14,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MoreNote.Logic.Entity;
+using Morenote.Models.Models.Entity;
+using MoreNote.Models.Entity.Leanote.Notes;
 
 namespace Morenote.Logic.Infrastructure.Repository.Interface
 {
-    public interface IBaseRepository<T> : IDisposable where T : LuceneIndexableBaseEntity
+    public interface IBaseRepository<T> : IDisposable where T : BaseEntity
     {
         /// <summary>
         /// 获取所有实体
@@ -658,6 +659,10 @@ namespace Morenote.Logic.Infrastructure.Repository.Interface
         T this[int id] => GetById(id);
 
         PooledList<T> this[Expression<Func<T, bool>> where] => GetQuery(where).ToPooledList();
+
+
+        public partial interface INotebookRepository : IBaseRepository<Notebook>  { }
+
     }
 
 

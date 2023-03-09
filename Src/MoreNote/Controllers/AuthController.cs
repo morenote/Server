@@ -13,6 +13,8 @@ using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Models.DTO.Leanote;
+
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -243,7 +245,7 @@ namespace MoreNote.Controllers
         {
             if (!configFileService.WebConfig.SecurityConfig.OpenRegister)
             {
-                return Json(new ApiRe()
+                return Json(new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "管理员已经将注册功能关闭"
@@ -253,7 +255,7 @@ namespace MoreNote.Controllers
             bool result = await authService.Register(email, pwd, iu.ToLongByHex());
             if (result)
             {
-                return Json(new ApiRe()
+                return Json(new ApiReDTO()
                 {
                     Ok = true,
                     Msg = "Success"
@@ -261,7 +263,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                return Json(new ApiRe()
+                return Json(new ApiReDTO()
                 {
                     Ok = false,
                     Msg = $"注册失败:{errorMessage}"

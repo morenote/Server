@@ -1,4 +1,4 @@
-﻿using Masuit.MyBlogs.Core.Models.Entity;
+﻿using Morenote.Models.Models.Entity;
 using System;
 
 namespace Masuit.MyBlogs.Core.Models.ViewModel

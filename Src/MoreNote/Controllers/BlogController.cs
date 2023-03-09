@@ -6,12 +6,14 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Model;
-using MoreNote.Logic.Models.Entity.Leanote;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.Entity.Leanote;
-
+using MoreNote.Models.Entity.Leanote.Blog;
+using MoreNote.Models.Entity.Leanote.Management.Loggin;
+using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,10 +113,10 @@ namespace MoreNote.Controllers
         }
 
 
-        private User ActionInitBlogUser(Repository repository)
+        private UserInfo ActionInitBlogUser(Repository repository)
         {
             
-            User blogUser = userService.GetUserByUserId(repository.OwnerId);
+            UserInfo blogUser = userService.GetUserByUserId(repository.OwnerId);
             ViewBag.blogUser = blogUser;
             if (blogUser == null)
             {
@@ -137,7 +139,7 @@ namespace MoreNote.Controllers
         {
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
-            User blogUser = ActionInitBlogUser(repository);
+            UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
@@ -173,7 +175,7 @@ namespace MoreNote.Controllers
             long? notebookId = cateHex.ToLongByHex();
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
-            User blogUser = ActionInitBlogUser(repository);
+            UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("无此仓库或此仓库已经失效");
@@ -218,7 +220,7 @@ namespace MoreNote.Controllers
             ViewBag.page = page;
             var repository=this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
-            User blogUser =userService.GetUserByUserId(repository.OwnerId);
+            UserInfo blogUser =userService.GetUserByUserId(repository.OwnerId);
             if (string.IsNullOrEmpty(repositoryId)|| repository==null|| repository.IsDelete || !repository.IsBlog)
             {
                 Response.StatusCode=404;
@@ -274,7 +276,7 @@ namespace MoreNote.Controllers
             //添加访问日志
             await InsertLogAsync($"Blog/Post/{repository.Name}/{noteIdHex}/").ConfigureAwait(false);
 
-            User blogUser = ActionInitBlogUser(repository);
+            UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -361,7 +363,7 @@ namespace MoreNote.Controllers
         {
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
-            User blogUser = ActionInitBlogUser(repository);
+            UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
@@ -391,7 +393,7 @@ namespace MoreNote.Controllers
                 page = 1;
             }
             ViewBag.page = page;
-            User blogUser = null;
+            UserInfo blogUser = null;
             blogUser = userService.GetUserByUserId(repository.OwnerId);
             ViewBag.blogUser = blogUser;
 
@@ -434,7 +436,7 @@ namespace MoreNote.Controllers
 
             var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
             ViewBag.repository = repository;
-            User blogUser = ActionInitBlogUser(repository);
+            UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
@@ -461,7 +463,7 @@ namespace MoreNote.Controllers
             }
             ViewBag.page = page;
 
-            User blogUser = ActionInitBlogUser(repository);
+            UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
             {
                 return Content("查无此人");
@@ -505,12 +507,12 @@ namespace MoreNote.Controllers
         }
        
 
-        public UserBlog BlogCommon(User userInfo,Repository repository)
+        public UserBlog BlogCommon(UserInfo userInfo,Repository repository)
         {
             UserBlog userBlog = blogService.GetUserBlog(userInfo.Id);
             return BlogCommon(userInfo.Id, userBlog, userInfo, repository);
         }
-        public UserBlog BlogCommon(long? userId, UserBlog userBlog, User userInfo,Repository repository)
+        public UserBlog BlogCommon(long? userId, UserBlog userBlog, UserInfo userInfo,Repository repository)
         {
             if (userInfo.Id == 0)
             {
@@ -540,14 +542,14 @@ namespace MoreNote.Controllers
 
             return null;
         }
-        public void SetBlog(UserBlog userBlog, User userInfo)
+        public void SetBlog(UserBlog userBlog, UserInfo userInfo)
         {
             BlogInfo blogInfo = blogService.GetBlogInfo(userBlog, userInfo);
             ViewBag.blogInfo = blogInfo;
         }
 
         // 各种地址设置
-        public void SetUrl(UserBlog userBlog, User user,Repository repository)
+        public void SetUrl(UserBlog userBlog, UserInfo user,Repository repository)
         {
             // 主页 http://leanote.com/blog/life or http://blog.leanote.com/life or http:// xxxx.leanote.com or aa.com
             // host := c.Request.Request.Host

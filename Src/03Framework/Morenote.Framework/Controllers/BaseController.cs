@@ -24,6 +24,8 @@ using MoreNote.CryptographyProvider;
 using Microsoft.Extensions.Caching.Distributed;
 using MoreNote.Models.Entity.Leanote;
 using Autofac;
+using MoreNote.Models.Entity.Leanote.User;
+using MoreNote.Models.Entity.Leanote.Notes;
 
 namespace MoreNote.Framework.Controllers
 {
@@ -34,7 +36,7 @@ namespace MoreNote.Framework.Controllers
      *
      * 2020年01月27日
      * */
-    
+
     public abstract class BaseController : Controller
     {
         public AttachService attachService;
@@ -224,7 +226,7 @@ namespace MoreNote.Framework.Controllers
             }
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        protected User SetUserInfo()
+        protected UserInfo SetUserInfo()
         {
             var userInfo = this.GetUserBySession();
             ViewBag.userInfo = userInfo;
@@ -245,16 +247,16 @@ namespace MoreNote.Framework.Controllers
             return userInfo;
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        protected User GetUserBySession()
+        protected UserInfo GetUserBySession()
         {
             string userid_hex = _accessor.HttpContext.Session.GetString("UserId");
             long? userid_number = userid_hex.ToLongByHex();
 
-            User user = userService.GetUserByUserId(userid_number);
+            UserInfo user = userService.GetUserByUserId(userid_number);
             return user;
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        protected User GetUserByToken(string token)
+        protected UserInfo GetUserByToken(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -262,12 +264,12 @@ namespace MoreNote.Framework.Controllers
             }
             else
             {
-                User user = tokenSerivce.GetUserByToken(token);
+                UserInfo user = tokenSerivce.GetUserByToken(token);
                 return user;
             }
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        public User GetUserByToken()
+        public UserInfo GetUserByToken()
         {
             string token = GetTokenByHttpContext();
             if (string.IsNullOrEmpty(token))
@@ -276,7 +278,7 @@ namespace MoreNote.Framework.Controllers
             }
             else
             {
-                User user = tokenSerivce.GetUserByToken(token);
+                UserInfo user = tokenSerivce.GetUserByToken(token);
                 return user;
             }
         }
@@ -302,7 +304,7 @@ namespace MoreNote.Framework.Controllers
             }
             else
             {
-                User user = tokenSerivce.GetUserByToken(token);
+                UserInfo user = tokenSerivce.GetUserByToken(token);
                 long? userid = (user == null ? 0 : user.Id);
                 return userid;
             }
@@ -319,18 +321,18 @@ namespace MoreNote.Framework.Controllers
             }
             else
             {
-                User user = tokenSerivce.GetUserByToken(token);
+                UserInfo user = tokenSerivce.GetUserByToken(token);
                 long? userid = (user == null ? 0 : user.Id);
                 return userid;
             }
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        protected User GetUserAndBlogUrl(Repository repository)
+        protected UserInfo GetUserAndBlogUrl(Repository repository)
         {
             var userid = GetUserIdBySession();
             if (userid == null)
             {
-                return new User();
+                return new UserInfo();
             }
             else
             {

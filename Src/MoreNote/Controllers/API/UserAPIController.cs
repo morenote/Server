@@ -16,8 +16,10 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.ApiRequest;
 using MoreNote.Models.DTO.Leanote.USBKey;
+using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.API.APIV1
 {
@@ -64,7 +66,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetUserInfoByToken(string token)
         {
             var user=tokenSerivce.GetUserByToken(token);
-            var re=new ApiRe();
+            var re=new ApiReDTO();
             if (user==null)
             {
                 re.Msg= "NOTLOGIN";
@@ -83,7 +85,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetUserInfoByEmail(string email)
         {
             var user = userService.GetUserByEmail(email);
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             if (user == null)
             {
                 re.Msg = "NOTLOGIN";
@@ -97,7 +99,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetUserInfoByUserId(string userId)
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             if (user == null)
             {
                 re.Msg = "NOTLOGIN";
@@ -110,7 +112,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public IActionResult UpdateUsername(string token,string username)
         {
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             var message = string.Empty;
 
             if (string.IsNullOrEmpty(username) || username.Length < 4)
@@ -124,7 +126,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return Json(re, MyJsonConvert.GetLeanoteOptions());
             }
            
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
 
             if (user == null)
             {
@@ -157,7 +159,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
 
             var ss=  userService.GetGetUserLoginSecurityStrategy(UserName);
-            ApiRe apiRe = new ApiRe()
+            ApiReDTO apiRe = new ApiReDTO()
             {
                 Ok = (ss!=null),
                 Msg = "",
@@ -173,8 +175,8 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> UpdatePwd(string token,string oldPwd,string pwd)
         {
-            ApiRe re = new ApiRe();
-            User user = tokenSerivce.GetUserByToken(token);
+            ApiReDTO re = new ApiReDTO();
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
                 re.Msg = "NOTLOGIN";
@@ -208,10 +210,10 @@ namespace MoreNote.Controllers.API.APIV1
         public JsonResult GetSyncState(string token)
         {
             
-                User user = tokenSerivce.GetUserByToken(token);
+                UserInfo user = tokenSerivce.GetUserByToken(token);
                 if (user==null)
                 {
-                    ApiRe apiRe = new ApiRe()
+                    ApiReDTO apiRe = new ApiReDTO()
                     {
                         Ok = false,
                         Msg = "NOTLOGIN",
@@ -249,7 +251,7 @@ namespace MoreNote.Controllers.API.APIV1
         public  async Task<IActionResult> GetRealNameInformation(string token, string digitalEnvelopeJson, string dataSignJson)
         {
 
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             DigitalEnvelope digitalEnvelope = null;
             var verify=false;
             //数字信封
@@ -280,10 +282,10 @@ namespace MoreNote.Controllers.API.APIV1
             }
           
 
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -298,7 +300,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> SetRealNameInformation(string token,string sfz,string digitalEnvelopeJson,string dataSignJson)
         {
-            var re = new ApiRe();
+            var re = new ApiReDTO();
             DigitalEnvelope digitalEnvelope = null;
 
             var verify=false;
@@ -347,10 +349,10 @@ namespace MoreNote.Controllers.API.APIV1
                 //签名存证
                 this.dataSignService.AddDataSign(dataSign, "SetRealNameInformation");
             }
-            User user = tokenSerivce.GetUserByToken(token);
+            UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiRe apiRe = new ApiRe()
+                ApiReDTO apiRe = new ApiReDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",

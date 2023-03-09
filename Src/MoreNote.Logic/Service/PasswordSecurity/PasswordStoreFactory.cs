@@ -1,10 +1,9 @@
 ﻿using Autofac;
 
 using MoreNote.CryptographyProvider;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.PasswordSecurity.IMPL;
-
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 
 namespace MoreNote.Logic.Service.PasswordSecurity
@@ -43,7 +42,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
         {
             return Instance(securityConfig.PasswordHashAlgorithm,securityConfig.PasswordStoreDegreeOfParallelism,securityConfig.PasswordStoreMemorySize);
         }
-        public  IPasswordStore Instance(User user)
+        public  IPasswordStore Instance(UserInfo user)
         {
             return Instance(user.PasswordHashAlgorithm , user.PasswordDegreeOfParallelism, user.PasswordMemorySize);
         }

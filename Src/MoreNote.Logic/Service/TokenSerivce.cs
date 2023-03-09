@@ -1,10 +1,9 @@
 ﻿using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
-
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Linq;
 using System.Text;
@@ -34,7 +33,7 @@ namespace MoreNote.Logic.Service
             return dataContext.SaveChanges() > 0;
         }
 
-        public Token GenerateToken(User user)
+        public Token GenerateToken(UserInfo user)
         {
             long? tokenid = idGenerator.NextId();
             //生成token的数据
@@ -170,7 +169,7 @@ namespace MoreNote.Logic.Service
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public User GetUserByToken(string token)
+        public UserInfo GetUserByToken(string token)
         {
             if (!VerifyToken(token))
             {

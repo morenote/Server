@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity;
 using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.ConfigFile;
@@ -19,6 +18,7 @@ using System.Threading.Tasks;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using static Fido2NetLib.Fido2;
 using System.Threading;
+using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Logic.Security.FIDO2.Service
 {
@@ -60,7 +60,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <param name="opts"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public CredentialCreateOptions MakeCredentialOptions(User user, MakeCredentialParams opts)
+        public CredentialCreateOptions MakeCredentialOptions(UserInfo user, MakeCredentialParams opts)
         {
             var fidoUser = opts.GetFido2UserByUser();
             // Create options
@@ -102,7 +102,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// <para>当客户端返回响应时，我们验证并注册凭据。</para>
         /// </summary>
         /// <param name="attestationResponse"></param>
-        public async Task<CredentialMakeResult> RegisterCredentials(User user, string fido2Name, AuthenticatorAttestationRawResponse attestationResponse)
+        public async Task<CredentialMakeResult> RegisterCredentials(UserInfo user, string fido2Name, AuthenticatorAttestationRawResponse attestationResponse)
         {
             // 1. get the options we sent the client
             var jsonOptions = distributedCache.GetString(user.Id.ToString() + "attestationOptions");
@@ -158,7 +158,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// 断言：创建断言选项
         /// <para> 当用户想要登录时，我们会根据注册的凭据进行断言。</para>
         /// </summary>
-        public async Task<AssertionOptions> AssertionOptionsPost(User user, AssertionClientParams assertionClientParams)
+        public async Task<AssertionOptions> AssertionOptionsPost(UserInfo user, AssertionClientParams assertionClientParams)
         {
             string error = "";
            
@@ -191,7 +191,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// 断言：验证断言响应
         /// <para>当客户端返回响应时，我们对其进行验证并接受登录。</para>
         /// </summary>
-        public async Task<AssertionVerificationResult> MakeAssertionAsync(User user, AuthenticatorAssertionRawResponse clientRespons)
+        public async Task<AssertionVerificationResult> MakeAssertionAsync(UserInfo user, AuthenticatorAssertionRawResponse clientRespons)
         {
             if (user == null)
             {

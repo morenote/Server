@@ -1,4 +1,6 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Models.Entity.Leanote.Blog;
+using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -93,12 +95,12 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public  bool RegisterSendActiveEmail(User userInfo,string email)
+        public  bool RegisterSendActiveEmail(UserInfo userInfo,string email)
         {
           //todo:
           return true;
         }
-        public  bool UpdateEmailSendActiveEmail(User
+        public  bool UpdateEmailSendActiveEmail(UserInfo
              userInfo,string email)
         {
             throw 
@@ -108,7 +110,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public  bool SendInviteEmail(User
+        public  bool SendInviteEmail(UserInfo
              userInfo,string email,string content)
         {
             throw 
@@ -131,7 +133,7 @@ namespace MoreNote.Logic.Service
         {
             throw new Exception();
         }
-        public  bool SendEmailToUsers(User user,string subject,string body)
+        public  bool SendEmailToUsers(UserInfo user,string subject,string body)
         {
             throw new Exception();
         }

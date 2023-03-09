@@ -1,4 +1,4 @@
-﻿using MoreNote.Models.Entity.Leanote.Loggin;
+﻿using MoreNote.Models.Entity.Leanote.Management.Loggin;
 using System;
 using System.Collections.Generic;
 using System.Linq;

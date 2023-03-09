@@ -1,4 +1,5 @@
-﻿using Masuit.MyBlogs.Core.Models.Entity;
+﻿using Morenote.Models.Models.Entity;
+
 using MoreNote.Logic.Models.Enum;
 using System;
 

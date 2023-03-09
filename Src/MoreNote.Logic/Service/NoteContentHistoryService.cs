@@ -1,11 +1,11 @@
-﻿using MoreNote.Logic.Entity;
+﻿using MoreNote.Models.Entity.Leanote.Notes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MoreNote.Logic.Service
 {
-   public  class NoteContentHistoryService
+    public  class NoteContentHistoryService
     {
         // 每个历史记录最大值
         int maxSize =10;

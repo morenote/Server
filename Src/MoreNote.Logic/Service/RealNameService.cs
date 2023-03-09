@@ -5,8 +5,7 @@ using MoreNote.Logic.Entity.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
-using MoreNote.Models.Entity.Leanote;
-
+using MoreNote.Models.Entity.Leanote.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
