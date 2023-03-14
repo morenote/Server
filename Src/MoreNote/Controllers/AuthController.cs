@@ -78,10 +78,6 @@ namespace MoreNote.Controllers
             return Redirect("/member");
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
         /// <summary>
         /// 登录 页面
         /// </summary>

@@ -20,11 +20,7 @@ namespace MoreNote.Logic.Infrastructure.Repository.IMPL
 
     public class NoteBookRepository : BaseRepository<Notebook>, IBaseRepository<Notebook>
     {
-        public override Notebook AddEntity(Notebook t)
-        {
-            DataContext.Add(t);
-            return t;
-        }
+       
 
 
     }
