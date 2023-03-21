@@ -28,6 +28,7 @@ namespace MoreNote.Controllers
         // leanote展示页, 没有登录的, 或已登录明确要进该页的
 
         [HttpGet, HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
             //return Content("An API listing authors of docs.asp.net.");
@@ -36,9 +37,7 @@ namespace MoreNote.Controllers
             if (hostingBundle!=null)
             {
                 return Redirect("/Blog/Index");
-               
             }
-            
             SetUserInfo();
             ViewBag.title = "leanote";
             ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;

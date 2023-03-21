@@ -708,7 +708,7 @@ namespace MoreNote.Logic.Service
         }
         public BlogHostingBundle? FindBlogHostingBundle(string host)
         {
-            var blogBundle=dataContext.BlogHostingBundle.Where(b=>b.Host==host).First();
+            var blogBundle=dataContext.BlogHostingBundle.Where(b=>b.Host==host).FirstOrDefault();
             return blogBundle;
         }
     }
