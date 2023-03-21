@@ -22,7 +22,7 @@
     </figure>
     <ul class="menu">
         <li ripple class="{{if $.curIsIndex}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-            <a href="/Blog/@repository.Id.ToHex()/Index"><i class="fa fa-home"></i>主页</a>
+            <a href="/Blog/Index"><i class="fa fa-home"></i>主页</a>
         </li>
         <li class="divider"></li>
         <li ripple id="navbarcatsli"><a href="javascript:void(0);"><i class="fa fa-list-ul"></i>分类</a></li>
@@ -33,16 +33,16 @@
                 @*<li class="{{if eq .CateId $.curCateId}}active{{end}}">*@
                 <li class="">
                     @*<a href="{{$.cateUrl}}/{{.UrlTitle}}"><i class="fa fa-link"></i>{{.Title}}</a>*@
-                    <a href="~/Blog/Cate/@repository.Id.ToHex()/@(item.Id.ToHex())"><i class="fa fa-link"></i>@item.Title</a>
+                    <a href="~/Blog/Cate/@(item.Id.ToHex())"><i class="fa fa-link"></i>@item.Title</a>
                 </li>
             }
             <li class="divider"></li>
         </div>
         <li ripple class="{{if $.curIsTags}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-    <a href="/Blog/@repository.Id.ToHex()/Tags"><i class="fa fa-file-text-o"></i>标签</a>
+    <a href="/Blog/Tags"><i class="fa fa-file-text-o"></i>标签</a>
         </li>
         <li ripple class="{{if $.curIsArchive}}selected color-{{$.themeInfo.Color}}-{{$.themeInfo.ColorStrength}}{{end}}">
-    <a href="~/Blog/@repository.Id.ToHex()/Archive/"><i class="fa fa-book"></i>归档</a>
+    <a href="~/Blog/Archive/"><i class="fa fa-book"></i>归档</a>
         </li>
         <li class="divider"></li>
         @*{{range $.singles}}

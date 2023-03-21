@@ -706,5 +706,10 @@ namespace MoreNote.Logic.Service
             }
             return null;
         }
+        public BlogHostingBundle? FindBlogHostingBundle(string host)
+        {
+            var blogBundle=dataContext.BlogHostingBundle.Where(b=>b.Host==host).First();
+            return blogBundle;
+        }
     }
 }

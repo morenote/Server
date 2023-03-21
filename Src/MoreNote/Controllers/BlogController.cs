@@ -133,13 +133,23 @@ namespace MoreNote.Controllers
         /// <param name="archiveHex"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("Blog/{repositoryId}/Archive/{archiveHex?}")]
+        [Route("Blog/Archive/{archiveHex?}")]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
-        public IActionResult Archive(string repositoryId, string archiveHex)
+        public IActionResult Archive( string archiveHex)
         {
-            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
+
+            }
+            var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             UserInfo blogUser = ActionInitBlogUser(repository);
+           
+          
+          
             if (blogUser == null)
             {
                 return Content("查无此人");
@@ -167,13 +177,20 @@ namespace MoreNote.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("Blog/{repositoryId}/Cate/{cateHex}/")]
+        [Route("Blog/Cate/{cateHex}/")]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
        
-        public IActionResult Cate(string repositoryId, string cateHex, int page)
+        public IActionResult Cate( string cateHex, int page)
         {
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
+
+            }
             long? notebookId = cateHex.ToLongByHex();
-            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
@@ -207,21 +224,28 @@ namespace MoreNote.Controllers
         }
 
         [HttpGet]
-        [Route("Blog/{repositoryId}/Index/{page?}")]
+        [Route("Blog/Index/{page?}")]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
         
-        public IActionResult Index(string repositoryId, int page)
+        public IActionResult Index( int page)
         {
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
+
+            }
             if (page < 1)
             {
                 //页码
                 page = 1;
             }
             ViewBag.page = page;
-            var repository=this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            var repository=this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             UserInfo blogUser =userService.GetUserByUserId(repository.OwnerId);
-            if (string.IsNullOrEmpty(repositoryId)|| repository==null|| repository.IsDelete || !repository.IsBlog)
+            if ( repository==null|| repository.IsDelete || !repository.IsBlog)
             {
                 Response.StatusCode=404;
                 return Content("仓库无法访问");
@@ -267,11 +291,18 @@ namespace MoreNote.Controllers
         //}
 
         [HttpGet]
-        [Route("Blog/{repositoryId}/Post/{noteIdHex}/")]
+        [Route("Blog/Post/{noteIdHex}/")]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
-        public async Task<IActionResult> Post(string repositoryId, string noteIdHex)
+        public async Task<IActionResult> Post( string noteIdHex)
         {
-            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
+
+            }
+            var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             //添加访问日志
             await InsertLogAsync($"Blog/Post/{repository.Name}/{noteIdHex}/").ConfigureAwait(false);
@@ -322,7 +353,7 @@ namespace MoreNote.Controllers
                 if (!Request.Headers.ContainsKey("Authorization"))
                 {
                     Response.StatusCode = 401;
-                    Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{repositoryId}/{noteIdHex}'");
+                    Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{blogHostingBundle.BlogId.ToHex()}/{noteIdHex}'");
                     return Content("Missing Authorization Header");
                 }
                 else
@@ -335,7 +366,7 @@ namespace MoreNote.Controllers
                     if (!noteService.VerifyAccessPassword(noteAndContent.note.UserId, noteId, password, noteAndContent.note.AccessPassword))
                     {
                         Response.StatusCode = 401;
-                        Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{repositoryId}/{noteIdHex}'");
+                        Response.Headers.Add("WWW-Authenticate", $"Basic realm='{config.APPConfig.SiteUrl}/Blog/Post/{blogHostingBundle.BlogId.ToHex()}/{noteIdHex}'");
                         return Content("Missing Authorization Header");
                     }
                     else
@@ -356,12 +387,19 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{repositoryId}/Tags/")]
+        [Route("Blog/Tags/")]
         [HttpGet]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
-        public IActionResult Tags(string repositoryId)
+        public IActionResult Tags()
         {
-            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
+
+            }
+            var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
@@ -380,12 +418,19 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{repositoryId}/Search/{keywords?}/")]
+        [Route("Blog/Search/{keywords?}/")]
         [HttpGet]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
-        public IActionResult Search(string repositoryId, string keywords, int page)
+        public IActionResult Search( string keywords, int page)
         {
-            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
+
+            }
+            var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             if (page < 1)
             {
@@ -428,13 +473,19 @@ namespace MoreNote.Controllers
 
         }
 
-        [Route("Blog/{repositoryId}/Single/{SingleIdHex}/")]
+        [Route("Blog/Single/{SingleIdHex}/")]
         [HttpGet]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
-        public IActionResult Single(string repositoryId, string SingleIdHex)
+        public IActionResult Single( string SingleIdHex)
         {
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
 
-            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            }
+            var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             UserInfo blogUser = ActionInitBlogUser(repository);
             if (blogUser == null)
@@ -449,12 +500,19 @@ namespace MoreNote.Controllers
             return View();
         }
 
-        [Route("Blog/{repositoryId}/Tags_Posts/{tag}/")]
+        [Route("Blog/Tags_Posts/{tag}/")]
         [HttpGet]
         [ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
-        public IActionResult Tags_Posts(string repositoryId, string tag, int page)
+        public IActionResult Tags_Posts( string tag, int page)
         {
-            var repository = this.noteRepository.GetRepository(repositoryId.ToLongByHex());
+            var host = Request.Host.Host;
+            var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+            if (blogHostingBundle == null)
+            {
+                return Content("查无此人");
+
+            }
+            var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
             ViewBag.repository = repository;
             if (page < 1)
             {

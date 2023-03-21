@@ -104,6 +104,7 @@ namespace MoreNote.Logic.Database
         public DbSet<BlogLike> BlogLike { get; set; }
         public DbSet<BlogComment> BlogComment { get; set; }
         public DbSet<BlogCommentPublic> BlogCommentPublic { get; set; }
+        public DbSet<BlogHostingBundle> BlogHostingBundle { get; set; }
 
 
         public DbSet<EmailLog> EmailLog { get; set; }

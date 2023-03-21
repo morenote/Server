@@ -35,14 +35,14 @@
 
                                     <div class="item-article">
                                         <div class="article-datetime">
-                                            <a href="/Blog/Post/@blogUser.Username/@note.Id.ToHex()" class="archive-article-date">
+                                            <a href="/Blog/Post/@note.Id.ToHex()" class="archive-article-date">
                                                 <time datetime="" itemprop="datePublished">
                                                     @(note.PublicTime.ToString("yyyy年MM月dd日 HH:mm:ss"))
                                                 </time>
                                             </a>
                                         </div>
                                         <div class="article-title">
-                                            <a class="article-link" href="/Blog/Post/@blogUser.Username/@note.Id.ToHex()">@(note.Title)</a>
+                                            <a class="article-link" href="/Blog/Post/@note.Id.ToHex()">@(note.Title)</a>
                                         </div>
                                     </div>
                                 }

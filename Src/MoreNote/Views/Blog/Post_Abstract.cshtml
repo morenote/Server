@@ -10,7 +10,7 @@
         <div class="each-post">
             <div class="title">
 
-                <a href="/Blog/@repository.Id.ToHex()/Post/@item.note.Id.ToHex()" title="@(item.note.Title)">
+                <a href="/Blog/Post/@item.note.Id.ToHex()" title="@(item.note.Title)">
                     @(item.note.Title)
                 </a>
             </div>
@@ -24,7 +24,7 @@
                     {
                         <i class="fa fa-bookmark-o" style="color:#DA3E3E"></i>
                         @*@(tag)@Html.Raw("&nbsp;&nbsp;");*@
-                        <a href="/Blog/@repository.Id.ToHex()/Tags_Posts/@tag">@tag</a>
+                        <a href="/Blog/Tags_Posts/@tag">@tag</a>
 
                         @Html.Raw("&nbsp;&nbsp;")
                     }

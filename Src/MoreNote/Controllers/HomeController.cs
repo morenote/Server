@@ -11,16 +11,18 @@ namespace MoreNote.Controllers
 {
     public class HomeController : BaseController
     {
-      
-        public HomeController(AttachService attachService
-            , TokenSerivce tokenSerivce
-            , NoteFileService noteFileService
-            , UserService userService
-            , ConfigFileService configFileService
-            , IHttpContextAccessor accessor
+        BlogService blogService;
+        public HomeController(AttachService attachService,
+            BlogService blogService,
+             TokenSerivce tokenSerivce,
+            NoteFileService noteFileService,
+            UserService userService,
+            ConfigFileService configFileService,
+            IHttpContextAccessor accessor
              ) :
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
+            this.blogService = blogService;
         }
 
         // leanote展示页, 没有登录的, 或已登录明确要进该页的
@@ -29,6 +31,13 @@ namespace MoreNote.Controllers
         public IActionResult Index()
         {
             //return Content("An API listing authors of docs.asp.net.");
+            var host=Request.Host.Host;
+            var hostingBundle=this.blogService.FindBlogHostingBundle(host);
+            if (hostingBundle!=null)
+            {
+                return Redirect("/Blog/Index");
+               
+            }
             
             SetUserInfo();
             ViewBag.title = "leanote";
