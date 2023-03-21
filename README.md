@@ -23,13 +23,21 @@ MoreNote是使用C#开发的跨平台笔记托管服务，可以运行在云服�
 
 morenote支持托管你的笔记、文档、文件、图片或者视频资料。
 
-在树莓派4B上的演示网站：
+### 演示网站：
 
-<a href="https://www.morenote.top/" target="_blank">dev版本：morenote云笔记</a>
+<a href="https://blog.morenote.top/" target="_blank">Dev通道：前台博客界面</a>
+
+
+<a href="https://www.morenote.top/" target="_blank">Dev版本：后台管理界面</a>
+
 
 > 警告：请勿在演示网站上存储你的笔记！！！MoreNote仍处于有限的内部开发中，您的笔记很有可能再某次崩溃或更新中全部丢失。
 
-稳定版本：暂无
+### 为什么我无法再演示网站上注册
+
+因为MoreNote仍处于有限的内部开发中，暂不开放游客注册功能。
+
+
 ## 项目目标
 
 构建一个开源的可以值得信赖的开源笔记托管服务
