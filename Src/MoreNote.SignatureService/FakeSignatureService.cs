@@ -11,14 +11,17 @@ namespace MoreNote.SignatureService
     /// </summary>
     public class FakeSignatureService : ISignatureService
     {
-        public Task<string> rawSignature(string data)
+        public async Task<string> rawSignature(string data)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1);
+            return "MTIzNDU2Nzg5";
+            
         }
 
-        public Task<bool> rawVerify(string data, string sign, string cer, bool usbKey, string pubKeyModulusInHex, string pubKeyExpInHex)
+        public async Task<bool> rawVerify(string data, string sign, string cer, bool usbKey, string pubKeyModulusInHex, string pubKeyExpInHex)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1);
+            return true;
         }
     }
 }

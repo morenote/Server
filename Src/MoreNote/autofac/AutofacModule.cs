@@ -183,12 +183,12 @@ namespace MoreNote.Common.autofac
             if (config.SecurityConfig.NeedEncryptionMachine)
             {
                 //签名验签服务器
-                builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
-                {
-                    api.HttpHost = new Uri(config.SecurityConfig.NetSignApi);
-                });
+                //builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
+                //{
+                //    api.HttpHost = new Uri(config.SecurityConfig.NetSignApi);
+                //});
                 //服务器端签名和验签服务
-                builder.RegisterType<NetSignService>()
+                builder.RegisterType<FakeSignatureService>()
                     .As<ISignatureService>()
                     .SingleInstance();
                 //加密提供服务
