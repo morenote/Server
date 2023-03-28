@@ -11,8 +11,14 @@ namespace MoreNote.Models.Enum
     /// </summary>
     public enum RepositoryAuthorityEnum
     {
+        /**
+         * 拥有者默认具有超级管理员权限
+         * 对于属于组织的仓库，由组织的权限策略决定
+         */
+        SuperAdmin = 10,//超级管理员权限，
 
-        Read=101,//读取
+
+        Read =101,//读取
         Write= 102,//写入
         CreatIssue= 103,//创建议题
         ManagementIssue = 104,//管理议题
@@ -40,11 +46,5 @@ namespace MoreNote.Models.Enum
 
         ManagementRepositoryProperties=801,//管理仓库属性
         DeleteRepository=802//删除仓库
-
-
-
-
-
-
     }
 }

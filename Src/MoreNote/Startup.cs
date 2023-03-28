@@ -272,7 +272,10 @@ namespace MoreNote
             //启用响应缓存
             app.UseResponseCaching();
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Demo v1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
