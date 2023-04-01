@@ -35,6 +35,7 @@ namespace MoreNote.Logic.Service
             lock (locker)
             {
                 path = GetConfigPath();
+                Console.WriteLine($"重新加载配置文件:{path}");
                 if (!File.Exists(path))
                 {
                    throw new IOException("Configuration file cannot be found!!");
@@ -68,28 +69,30 @@ namespace MoreNote.Logic.Service
         {
             if (RuntimeEnvironment.IsWindows)
             {
+                var env = System.Environment.GetEnvironmentVariable("MORENOTE_CONFIG");
+                if (File.Exists(env))
+                {
+                    return env;
+
+                }
                 return @"C:\morenote\config.json";
             }
             else
             {
-                if(Directory.Exists("/morenote")){
+                var list = System.Environment.GetEnvironmentVariables();
+                var env = System.Environment.GetEnvironmentVariable("MORENOTE_CONFIG");
+                if (File.Exists(env))
+                {
+                    return env;
+                }
+                if (File.Exists("/morenote/config.json")){
                     return "/morenote/config.json";
                 }else{
-
-                    var path= $"{System.Environment.SpecialFolder.Personal}/morenote/config.json";
+                   var path= $"{System.Environment.SpecialFolder.Personal}/morenote/config.json";
                     if(File.Exists(path)){
                         return path;
                     }else{
-                        var env=System.Environment.GetEnvironmentVariable("CONFIG");
-                        if(File.Exists(env)){
-                            return env;
-                        }
-                        else
-                        {
-                             path = $"/etc/morenote/config.json";
-                            File.Exists(path);
-                            return path;
-                        }
+                       
                         throw new IOException("Configuration file cannot be found!!");
                     }
                 }
@@ -124,6 +127,7 @@ namespace MoreNote.Logic.Service
                         if (_config == null)
                         {
                             path = GetConfigPath();
+                            Console.WriteLine($"已经加载配置文件:{path}");
                             if (!File.Exists(path))
                             {
                                 InitTemplateConfig();

@@ -114,6 +114,9 @@ namespace MoreNote.Controllers.API.Security
                     return LeanoteJson(apiRe);
                 }
 
+            }catch(Exception ex)
+            {
+                throw ex;
             }
             finally
             {

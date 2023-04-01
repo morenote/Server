@@ -336,7 +336,7 @@ namespace MoreNote.Controllers.API.APIV1
                 //签字签名和数字信封数据
                 if (dataSign != null)
                 {
-                    var dataSM3 = gMService.SM3(sfz);
+                    var dataSM3 = gMService.SM3String(sfz);
                     var signSM3 = dataSign.SignData.Hash;
                     if (!dataSM3.ToUpper().Equals(signSM3.ToUpper()))
                     {

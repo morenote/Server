@@ -31,7 +31,9 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
         {
             var Hex = HexUtil.ByteArrayToSHex(pass);
             var Hexsalt = HexUtil.ByteArrayToSHex(salt);
-
+            var HexPass = HexUtil.ByteArrayToSHex(pass);
+           
+      
             var result= cryptographyProvider.TransEncrypted(pass, salt);
             return  result;
         }

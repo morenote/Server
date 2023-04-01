@@ -1,4 +1,5 @@
 ﻿using github.hyfree.GM;
+using github.hyfree.GM.Common;
 
 using MoreNote.Common.Utils;
 
@@ -30,7 +31,9 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
         public PayLoadDTO GetPayLoadDTO(GMService gMService, string priKey)
         {
             var rawKey = gMService.SM2Decrypt("04" + this.Key, priKey, false);
-            var rawPayLod = gMService.SM4_Decrypt_CBC(this.PayLoad, rawKey, this.IV, false);
+
+            var rawPayLodBuffer = gMService.SM4_Decrypt_CBC(Encoding.UTF8.GetBytes(this.PayLoad), rawKey.HexToByteArray(), this.IV.HexToByteArray());
+            var rawPayLod=Convert.ToBase64String(rawPayLodBuffer);
             var rawPayLodObj = PayLoadDTO.FromJSON(rawPayLod);
 
             return rawPayLodObj;
@@ -48,7 +51,9 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
         public string GetPayLoadValue(GMService gMService,string priKey)
         {
             var rawKey = gMService.SM2Decrypt("04"+this.Key, priKey,false);
-            var rawPayLod=gMService.SM4_Decrypt_CBC(this.PayLoad, rawKey, this.IV,false);
+
+            var rawPayLodBuffer = gMService.SM4_Decrypt_CBC(this.PayLoad.HexToByteArray(), rawKey.HexToByteArray(), this.IV.HexToByteArray());
+            var rawPayLod=Encoding.UTF8.GetString(rawPayLodBuffer);
             var rawPayLodObj= PayLoadDTO.FromJSON(rawPayLod);
             var dataHex= Common.Utils.HexUtil.ByteArrayToSHex(Encoding.UTF8.GetBytes(rawPayLodObj.Data));
             var myHash = gMService.SM3(dataHex);

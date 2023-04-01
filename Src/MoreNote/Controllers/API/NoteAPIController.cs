@@ -844,7 +844,7 @@ namespace MoreNote.Controllers.API.APIV1
                 //签字签名和数字信封数据
                 if (dataSign != null)
                 {
-                    var dataSM3 = gMService.SM3(noteId + noteTitle + content);
+                    var dataSM3 = gMService.SM3String(noteId + noteTitle + content);
                     var signSM3 = dataSign.SignData.Hash;
                     if (!dataSM3.ToUpper().Equals(signSM3.ToUpper()))
                     {
@@ -921,7 +921,8 @@ namespace MoreNote.Controllers.API.APIV1
 
                 var jsonHex = Common.Utils.HexUtil.ByteArrayToSHex(Encoding.UTF8.GetBytes(payLoadJson));
 
-                var enc = gMService.SM4_Encrypt_CBC(jsonHex, key, digitalEnvelope.IV, true);
+                var encBuffer = gMService.SM4_Encrypt_CBC(Encoding.UTF8.GetBytes(payLoadJson), key.HexToByteArray(), digitalEnvelope.IV.HexToByteArray());
+                var enc=HexUtil.ByteArrayToSHex(encBuffer);
                 re.Data = enc;
                 re.Encryption = true;
             }
