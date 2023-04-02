@@ -24,11 +24,13 @@ using MoreNote.Logic.Service.Logging.IMPL;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.PasswordSecurity;
+using MoreNote.Logic.Service.Security.USBKey;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Logic.Service.Segmenter;
 using MoreNote.Logic.Service.VerificationCode;
 using MoreNote.SignatureService;
 using MoreNote.SignatureService.NetSign;
+using MoreNote.SignatureService.RSASign;
 
 using System;
 using System.Collections.Generic;
@@ -191,7 +193,7 @@ namespace MoreNote.Common.autofac
                 //    api.HttpHost = new Uri(config.SecurityConfig.NetSignApi);
                 //});
                 //服务器端签名和验签服务
-                builder.RegisterType<FakeSignatureService>()
+                builder.RegisterType<RSASignService>()
                     .As<ISignatureService>()
                     .SingleInstance();
                 //加密提供服务
@@ -203,16 +205,17 @@ namespace MoreNote.Common.autofac
             else
             {
                 //服务器端签名和验签服务
-                builder.RegisterType<FakeSignatureService>()
+                builder.RegisterType<RSASignService>()
                     .As<ISignatureService>()
                     .SingleInstance();
                 //加密提供服务
-                builder.RegisterType<FakeCryptographyProvider>()
+                builder.RegisterType<SoftCryptographyProvider>()
                    .As<ICryptographyProvider>()
                    .SingleInstance();
 
             }
 
+            builder.RegisterType<UsbKeyManagerService>();
             builder.RegisterType<EPassService>();
 
             builder.RegisterType<ImageSharpCaptchaGenerator>()

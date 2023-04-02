@@ -153,6 +153,7 @@ namespace MoreNote.Logic.Database
         public DbSet<FriendLinks> FriendLinks { get; set; }
         public DbSet<Token> Token { get; set; }
         public DbSet<UserInfo> User { get; set; }
+        public DbSet<USBKeyBinding> USBKeyBindings { get; set; }
         public DbSet<FIDO2Item> FIDO2Repository { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
 

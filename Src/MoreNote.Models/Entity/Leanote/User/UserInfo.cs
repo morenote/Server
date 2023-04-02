@@ -18,7 +18,6 @@ using System.Text.Json.Serialization;
 namespace MoreNote.Models.Entity.Leanote.User
 {
 
- 
     [Table("user_info"), Index(nameof(Email), nameof(Verified), nameof(Username), nameof(UsernameRaw), nameof(Role)
         , nameof(ThirdUserId), nameof(FromUserId))]
     public class UserInfo : BaseEntity
@@ -57,7 +56,6 @@ namespace MoreNote.Models.Entity.Leanote.User
         /// </summary>
         [Column("password_hash_algorithm")]
         public string PasswordHashAlgorithm { get; set; }
-
         /// <summary>
         /// 软模块哈希加密迭代次数，
         /// 当启用加密机时，用户口令由加密机保护，此参数无效

@@ -11,6 +11,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.Security.USBKey;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
@@ -26,12 +27,13 @@ namespace MoreNote.Controllers.API.APIV1
     public class AuthAPIController : APIBaseController
     {
         private AuthService authService;
-       
+        private UsbKeyManagerService usbKeyManagerService;
         public AuthAPIController(AttachService attachService,
              TokenSerivce tokenSerivce,
              NoteFileService noteFileService,
              UserService userService,
              ConfigFileService configFileService,
+             UsbKeyManagerService usbKeyManagerService,
              IHttpContextAccessor accessor,
             
              AuthService authService
@@ -39,6 +41,7 @@ namespace MoreNote.Controllers.API.APIV1
             base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
         {
             this.authService = authService;
+            this.usbKeyManagerService = usbKeyManagerService;
         }
         /// <summary>
         /// 取号-用于维持会话状态
@@ -351,6 +354,13 @@ namespace MoreNote.Controllers.API.APIV1
             if (user==null)
             {
                 return LeanoteJson(re);
+            }
+            var existUsbKey =this.usbKeyManagerService.IsExist(user.Id);
+            if (!existUsbKey)
+            {
+                re.Msg= "No USBKEY registration";
+                return LeanoteJson(re);
+
             }
             userService.SetUserLoginSecurityPolicyLevel(user.Id, level);
 
