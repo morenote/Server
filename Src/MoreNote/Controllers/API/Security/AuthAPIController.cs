@@ -355,13 +355,18 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            var existUsbKey =this.usbKeyManagerService.IsExist(user.Id);
-            if (!existUsbKey)
+            if (level==LoginSecurityPolicyLevel.compliant)
             {
-                re.Msg= "No USBKEY registration";
-                return LeanoteJson(re);
+                var existUsbKey = this.usbKeyManagerService.IsExist(user.Id);
+                if (!existUsbKey)
+                {
+                    re.Msg = "No USBKEY registration";
+                    return LeanoteJson(re);
+
+                }
 
             }
+          
             userService.SetUserLoginSecurityPolicyLevel(user.Id, level);
 
             re.Ok = true;

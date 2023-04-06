@@ -12,8 +12,7 @@
     "MoreNote": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "MORENOTE_CONFIG": "E:\\github\\hyfree\\Morenote\\deploy\\morenote\\api\\config\\config_windows_vs.json"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000;https://0.0.0.0:5001"
     },
