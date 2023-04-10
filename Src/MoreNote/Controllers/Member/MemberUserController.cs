@@ -80,8 +80,8 @@ namespace MoreNote.Controllers.Member
             ViewBag.user = user;
             SetLocale();
             SetUserInfo();
-            ViewBag.md = user.MarkdownEditorOption;
-            ViewBag.rt = user.RichTextEditorOption;
+            ViewBag.md = user.PreferredMarkdownEditor;
+            ViewBag.rt = user.PreferredRichTextEditor;
             ViewBag.title = "Select Editor Preferences";
             return View("Views/Member/user/editor.cshtml");
         }

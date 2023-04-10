@@ -20,6 +20,7 @@ using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Blog;
 using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
+using MoreNote.Models.Enum.Common.Editor;
 using MoreNote.Models.Model;
 
 namespace MoreNote.Logic.Service
@@ -252,7 +253,7 @@ namespace MoreNote.Logic.Service
             {
                 return false;
             }
-            user.MarkdownEditorOption = mdOption;
+            user.PreferredMarkdownEditor = (MarkdownEditorOption)Enum.Parse(typeof(MarkdownEditorOption),mdOption) ;
          
             dataContext.SaveChanges();
             return true;
@@ -265,7 +266,7 @@ namespace MoreNote.Logic.Service
                 return false;
             }
            
-            user.RichTextEditorOption = rtOption;
+            user.PreferredRichTextEditor = (RichTextEditorOption)Enum.Parse(typeof(RichTextEditorOption),rtOption);
             dataContext.SaveChanges();
             return true;
         }

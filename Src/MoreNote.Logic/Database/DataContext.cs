@@ -76,9 +76,19 @@ namespace MoreNote.Logic.Database
                   .Property(e => e.StorageType)
                   .HasConversion<int>();
 
+
             modelBuilder.Entity<UserInfo>()
                .HasMany(b => b.FIDO2Items)
                .WithOne();
+            modelBuilder
+                .Entity<UserInfo>()
+                .Property(e => e.PreferredMarkdownEditor)
+                .HasConversion<string>();
+            modelBuilder
+               .Entity<UserInfo>()
+               .Property(e => e.PreferredRichTextEditor)
+               .HasConversion<string>();
+
             //============================种子数据 数据库迁移的时候自动生成================================
         }
 

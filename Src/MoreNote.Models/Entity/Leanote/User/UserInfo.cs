@@ -7,6 +7,7 @@ using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Entity;
 using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Security.FIDO2;
+using MoreNote.Models.Enum.Common.Editor;
 
 using System;
 using System.Collections.Generic;
@@ -213,10 +214,10 @@ namespace MoreNote.Models.Entity.Leanote.User
 
         //==================================编辑器偏好======================================================
         [Column("markdown_option")]
-        public string? MarkdownEditorOption { get; set; } = "ace";//富文本编辑器选项
+        public MarkdownEditorOption? PreferredMarkdownEditor { get; set; }=MarkdownEditorOption.vditor;//富文本编辑器选项
 
         [Column("rich_text_option")]
-        public string? RichTextEditorOption { get; set; } = "tinymce";//markdown编辑器选项
+        public RichTextEditorOption? PreferredRichTextEditor { get; set; }=RichTextEditorOption.textbus ;//markdown编辑器选项
 
         //==================================安全密钥  FIDO2 yubikey=========================================
         [Column("fido2_items")]
