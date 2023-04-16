@@ -278,9 +278,9 @@ namespace MoreNote.Controllers.API.APIV1
                 Data = null
             };
             var user = tokenSerivce.GetUserByToken(token);
-            if (!user.IsAdmin())
+            if (!(user.IsAdmin()||user.IsSuperAdmin()))
             {
-                re.Msg = "只有Admin账户才可以访问";
+                re.Msg = "只有Admin或SuperAdmin账户才可以访问";
                 return LeanoteJson(re);
             }
             var data= logging.GetAllUserLoggingLogin();
