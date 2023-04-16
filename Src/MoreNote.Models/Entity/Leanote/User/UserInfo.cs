@@ -50,13 +50,14 @@ namespace MoreNote.Models.Entity.Leanote.User
         ///         HMAC算法
         ///             hmac-sha256 hmac-sha512
         ///   慢哈希算法
-        ///         Argon2（支持） bcrypt（支持） scrypt   pbkdf2（支持）
+        ///         Argon2（支持） bcrypt（支持） scrypt   pbkdf2（支持） pbkdf2SM3
         /// 由安全芯片或加密设备实现
         ///   sjj1962（支持）
         /// </para>
         /// </summary>
         [Column("password_hash_algorithm")]
         public string PasswordHashAlgorithm { get; set; }
+     
         /// <summary>
         /// 软模块哈希加密迭代次数，
         /// 当启用加密机时，用户口令由加密机保护，此参数无效
@@ -84,6 +85,44 @@ namespace MoreNote.Models.Entity.Leanote.User
         [Column("salt")]
         [JsonIgnore]
         public string? Salt { get; set; }//盐 盐的长度默认是32字节,当启用加密机时此参数无效
+
+        /// <summary>
+        /// 客户端哈希算法（口令派生密钥算法）
+        /// </summary>
+
+        [Column("client_password_hash_algorithm")]
+        public string ClientPasswordHashAlgorithm { get; set; }
+        /// <summary>
+        /// 客户端软模块哈希加密迭代次数，
+        /// </summary>
+        [Column("client_password_hash_iterations")]
+      
+        public int ClinetPasswordHashIterations { get; set; }
+
+        /// <summary>
+        /// 客户端软模块哈希加密时CPU线程限制，
+        /// 当启用加密机时，用户口令由加密机保护，此参数无效
+        /// </summary>
+        [Column("client_password_degree_of_parallelism")]
+       
+        public int ClientPasswordDegreeOfParallelism { get; set; }
+
+        /// <summary>
+        /// 客户端软模块哈希加密时内存限制，
+        /// 当启用加密机时，用户口令由加密机保护，此参数无效
+        /// </summary>
+        [Column("client_password_memory_size")]
+        
+        public int ClientPasswordMemorySize { get; set; }
+        /// <summary>
+        /// 客户端盐
+        /// </summary>
+
+        [Column("client_salt")]
+
+        public string? ClientSalt { get; set; }//盐 盐的长度默认是32字节,当启用加密机时此参数无效
+
+
 
         [Column("google_authenticator_secret_key")]
         [JsonIgnore]

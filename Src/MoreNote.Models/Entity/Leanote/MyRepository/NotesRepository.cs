@@ -63,5 +63,13 @@ namespace MoreNote.Models.Entity.Leanote
         [Column("virtual_file_accessor")]
         public string? VirtualFileAccessor { get; set; }//虚拟文件访问器 用于虚拟路径映射物理路径
 
+        [Column("enc_key")]
+        public string EncryptionKey { get; set; }//加密密钥
+
+        [Column("enc_algorithms")]
+        public string EncryptionAlgorithms { get; set; } = "GM";//加密算法
+
+
+
     }
 }
