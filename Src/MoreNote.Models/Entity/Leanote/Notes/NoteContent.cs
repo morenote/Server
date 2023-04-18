@@ -55,6 +55,9 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 
         [Column("enc_algorithms")]
         public string EncryptionAlgorithms { get;set;}="GM";//加密算法
+
+        [Column("pbkdf2_salt")]
+        public string PBKDF2Salt { get; set; } //PBKDF2盐值
         [Column("hmac")]
         public string? Hmac { get; set; }
         [NotMapped]
