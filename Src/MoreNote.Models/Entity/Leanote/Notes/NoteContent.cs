@@ -51,13 +51,13 @@ namespace MoreNote.Models.Entity.Leanote.Notes
         [Column("is_encryption")]
         public bool IsEncryption { get; set; }//指示当前笔记内容是否被加密
         [Column("enc_key")]
-        public string EncryptionKey { get; set; }//加密密钥
+        public string? EncryptionKey { get; set; }//加密密钥
 
         [Column("enc_algorithms")]
-        public string EncryptionAlgorithms { get;set;}="GM";//加密算法
+        public string? EncryptionAlgorithms { get;set;}="GM";//加密算法
 
         [Column("pbkdf2_salt")]
-        public string PBKDF2Salt { get; set; } //PBKDF2盐值
+        public string? PBKDF2Salt { get; set; } //PBKDF2盐值
         [Column("hmac")]
         public string? Hmac { get; set; }
         [NotMapped]

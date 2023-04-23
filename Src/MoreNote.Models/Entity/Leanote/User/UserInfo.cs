@@ -91,13 +91,13 @@ namespace MoreNote.Models.Entity.Leanote.User
         /// </summary>
 
         [Column("client_password_hash_algorithm")]
-        public string ClientPasswordHashAlgorithm { get; set; }
+        public string? ClientPasswordHashAlgorithm { get; set; }
         /// <summary>
         /// 客户端软模块哈希加密迭代次数，
         /// </summary>
         [Column("client_password_hash_iterations")]
       
-        public int ClinetPasswordHashIterations { get; set; }
+        public int? ClinetPasswordHashIterations { get; set; }
 
         /// <summary>
         /// 客户端软模块哈希加密时CPU线程限制，
@@ -105,7 +105,7 @@ namespace MoreNote.Models.Entity.Leanote.User
         /// </summary>
         [Column("client_password_degree_of_parallelism")]
        
-        public int ClientPasswordDegreeOfParallelism { get; set; }
+        public int? ClientPasswordDegreeOfParallelism { get; set; }
 
         /// <summary>
         /// 客户端软模块哈希加密时内存限制，
@@ -113,7 +113,7 @@ namespace MoreNote.Models.Entity.Leanote.User
         /// </summary>
         [Column("client_password_memory_size")]
         
-        public int ClientPasswordMemorySize { get; set; }
+        public int? ClientPasswordMemorySize { get; set; }
         /// <summary>
         /// 客户端盐
         /// </summary>
