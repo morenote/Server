@@ -3,4 +3,4 @@ docker buildx use lilqbuilder
 docker buildx ls
 docker buildx inspect lilqbuilder --bootstrap
 docker buildx ls
-docker buildx build --platform linux/amd64,linux/arm64  -t registry.cn-hangzhou.aliyuncs.com/hyfree/morenote:0.0.57  --push .
+docker buildx build --platform linux/amd64,linux/arm64  -t registry.cn-hangzhou.aliyuncs.com/hyfree/morenote:0.0.58  --push .
