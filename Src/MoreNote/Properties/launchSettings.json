@@ -2,11 +2,10 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "aa",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "MORENOTE_CONFIGFILE": "/root/deploy/api/config/config.json"
+        "MORENOTE_CONFIG": "/mnt/c/morenote/config.json"
       }
     },
     "MoreNote": {

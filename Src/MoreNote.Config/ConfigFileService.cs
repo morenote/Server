@@ -1,5 +1,6 @@
 ﻿
 using MoreNote.Common.Utils;
+using MoreNote.Config.ConfigFilePath.IMPL;
 using MoreNote.Logic.Entity.ConfigFile;
 
 using System.IO;
@@ -67,37 +68,8 @@ namespace MoreNote.Logic.Service
         /// <returns></returns>
         public static string GetConfigPath()
         {
-            if (RuntimeEnvironment.IsWindows)
-            {
-                var env = System.Environment.GetEnvironmentVariable("MORENOTE_CONFIG");
-                if (File.Exists(env))
-                {
-                    return env;
-
-                }
-                return @"C:\morenote\config.json";
-            }
-            else
-            {
-                var list = System.Environment.GetEnvironmentVariables();
-                var env = System.Environment.GetEnvironmentVariable("MORENOTE_CONFIG");
-                if (File.Exists(env))
-                {
-                    return env;
-                }
-                if (File.Exists("/morenote/config.json")){
-                    return "/morenote/config.json";
-                }else{
-                   var path= $"{System.Environment.SpecialFolder.Personal}/morenote/config.json";
-                    if(File.Exists(path)){
-                        return path;
-                    }else{
-                       
-                        throw new IOException("Configuration file cannot be found!!");
-                    }
-                }
-                
-            }
+            
+            return ConfigFilePahFinder.GetConfigFilePah();
         }
 
         /// <summary>
