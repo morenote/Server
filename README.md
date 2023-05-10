@@ -24,6 +24,8 @@ MoreNote是使用C#开发的跨平台笔记托管服务，可以运行在云服�
 morenote支持托管你的笔记、文档、文件、图片或者视频资料。
 
 ### 演示网站：
+> 嘿，你知道吗？morenote的演示网站由1个Raspberry Pi 4B和4个Rock pi 4A驱动的。
+> 它们通过k3s连接到一起，作为一个集群共同合作。
 
 <a href="https://blog.morenote.top/" target="_blank">Dev通道：前台博客界面</a>
 
@@ -130,7 +132,7 @@ MoreNote与leanote的主要区别如下：
 
 前端框架： ng-alain
 
-后端框架：asp .net  core
+后端框架：asp.net 
 
 服务器端： ubuntu Server 或其他linux操作系统
 
