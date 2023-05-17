@@ -24,11 +24,16 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
             {
                 lock (Locker)
                 {
-                    if (isInitDo)
+                    if (!isInitDo)
                     {
                         //写入配置文件
                         var configText = File.ReadAllText(sdfConfig.ConfigFilePath);
                         var fileName = Path.GetFileName(sdfConfig.ConfigFilePath);
+                        if (File.Exists(fileName))
+                        {
+                            File.Delete(fileName);
+
+                        }
                         File.WriteAllText(fileName, configText);
                         isInitDo = true;
                     }

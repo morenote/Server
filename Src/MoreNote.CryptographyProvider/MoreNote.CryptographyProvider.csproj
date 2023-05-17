@@ -30,6 +30,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Optimize>True</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="新文件夹\**" />
+    <EmbeddedResource Remove="新文件夹\**" />
+    <None Remove="新文件夹\**" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="github.hyfree.GM" Version="0.0.8" />
     <PackageReference Include="github.hyfree.SDFWrapper" Version="0.0.13" />
@@ -39,8 +45,5 @@
   <ItemGroup>
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.Config\MoreNote.Config.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="新文件夹\" />
   </ItemGroup>
 </Project>

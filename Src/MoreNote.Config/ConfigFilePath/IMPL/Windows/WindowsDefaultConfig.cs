@@ -10,7 +10,7 @@ namespace MoreNote.Config.ConfigFilePath.IMPL.Windows
     {
         public string? GetConfigFilePah()
         {
-           return "C:/morente/config.json";
+           return "C:\\morenote\\config.json";
         }
     }
 }

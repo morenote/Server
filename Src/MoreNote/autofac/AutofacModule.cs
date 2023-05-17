@@ -197,7 +197,7 @@ namespace MoreNote.Common.autofac
                     .As<ISignatureService>()
                     .SingleInstance();
                 //加密提供服务
-                builder.RegisterType<SoftCryptographyProvider>()
+                builder.RegisterType<SDFProvider>()
                    .As<ICryptographyProvider>()
                    .SingleInstance();
 
