@@ -49,7 +49,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
         {
             sdfConfig = configFileService.WebConfig.SDFConfig;
             CheckInitSDF();
-            sdfHelper = new SDFHelper(sdfConfig.SDFDLLFilePath);
+            sdfHelper = new SDFHelper();
             sdfHelper.SDF_OpenDevice();
             sdfHelper.SDF_OpenSession();
             sdfHelper.SDF_ImportKey(HexUtil.HexToByteArray(sdfConfig.PucKey), 1);
@@ -62,7 +62,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 
             }catch(Exception ex)
             {
-                sdfHelper = new SDFHelper(sdfConfig.SDFDLLFilePath);
+                sdfHelper = new SDFHelper();
                 sdfHelper.SDF_OpenDevice();
                 sdfHelper.SDF_OpenSession();
                 sdfHelper.SDF_ImportKey(HexUtil.HexToByteArray(sdfConfig.PucKey), 1);
