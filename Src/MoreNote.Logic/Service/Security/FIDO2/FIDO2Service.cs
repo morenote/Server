@@ -51,7 +51,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
 
         public List<FIDO2Item> GetFido2List(long? userId)
         {
-            var list= this.dataContext.FIDO2Repository.Where(b => b.UserId == userId).ToList<FIDO2Item>();
+            var list= this.dataContext.Fido2Items.Where(b => b.UserId == userId).ToList<FIDO2Item>();
             return list;
         }
 
@@ -84,7 +84,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
 
         public List<PublicKeyCredentialDescriptor> GetPublicKeyCredentialDescriptors(long? userId)
         {
-            var existingCredentials = this.dataContext.FIDO2Repository
+            var existingCredentials = this.dataContext.Fido2Items
                 .Where(b => b.UserId == userId)
                 .Select(p => p.GetDescriptor()).ToList<PublicKeyCredentialDescriptor>();
             return existingCredentials;
@@ -92,7 +92,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
 
         public List<FIDO2Item> GetFIDO2ItemByUserId(long? userId)
         {
-            var existingFIDO2Items = this.dataContext.FIDO2Repository
+            var existingFIDO2Items = this.dataContext.Fido2Items
                .Where(b => b.UserId == userId).ToList<FIDO2Item>();
             return existingFIDO2Items;
         }
@@ -119,7 +119,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 //if (users.Count > 0)
                 //    return false;
                 var argUserId = args.CredentialId;
-                if (this.dataContext.FIDO2Repository.Where(b => b.CredentialId.Equals(argUserId)).Any())
+                if (this.dataContext.Fido2Items.Where(b => b.CredentialId.Equals(argUserId)).Any())
                 {
                     return false;
                 }
@@ -147,7 +147,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
                 AaGuid = success.Result.Aaguid
             };
 
-            dataContext.FIDO2Repository.Add(fido2);
+            dataContext.Fido2Items.Add(fido2);
 
             dataContext.SaveChanges();
 

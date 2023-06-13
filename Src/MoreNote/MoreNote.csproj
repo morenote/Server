@@ -201,6 +201,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
 
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />

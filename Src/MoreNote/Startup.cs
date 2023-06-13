@@ -40,6 +40,7 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 using NuGet.Protocol.Plugins;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using System.Linq;
 
 namespace MoreNote
 {
@@ -132,7 +133,14 @@ namespace MoreNote
             }
             else
             {
-                services.AddDistributedMemoryCache();
+                services.AddDistributedMemoryCache(option =>
+                {
+                    option.SizeLimit=null;
+                });
+                //services.AddMemoryCache(option =>
+                //{
+                //    option.SizeLimit=null;
+                //} );
             }
 
             ////使用Redis分布式缓存
@@ -197,7 +205,7 @@ namespace MoreNote
                 {
                     option.ServerDomain = fido2Config.ServerDomain;
                     option.ServerName = fido2Config.ServerName;
-                    option.Origins = new HashSet<string> { fido2Config.Origin };
+                    option.Origins = fido2Config.Origin.ToHashSet<string>();
                 })
                  .AddCachedMetadataService(
 

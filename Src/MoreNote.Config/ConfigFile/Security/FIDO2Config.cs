@@ -28,7 +28,7 @@ namespace MoreNote.Models.Entity.ConfigFile
         /// 服务器域名地址
         /// 例如https://localhost:5001
         /// </summary>
-        public string Origin{get;set;}
+        public string[] Origin{get;set;}
         /// <summary>
         /// 允许时间戳漂移（毫秒）
         /// </summary>

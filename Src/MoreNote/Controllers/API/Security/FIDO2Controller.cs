@@ -48,16 +48,10 @@ namespace MoreNote.Controllers.API
         /// <returns></returns>
         [HttpGet, HttpPost]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult GetFido2List(string userId, string token)
+        public IActionResult List(string userId)
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
-            var verify= tokenSerivce.VerifyToken(userId.ToLongByHex(),token);
-            {            if (!verify)
-
-               
-                return SimpleJson(new  ApiReDTO() { Msg="TokenIsError"});
-
-            }
+           
             var list = fido2Service.GetFido2List(user.Id);
 
             var re = new ApiReDTO()

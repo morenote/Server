@@ -227,7 +227,7 @@ namespace MoreNote.Logic.Service
         {
             var user = dataContext.User.Include(p => p.FIDO2Items).Where(b => b.Id == userId).FirstOrDefault();
             //user.FIDO2Items.Add(fido);
-            dataContext.FIDO2Repository.Add(fido);
+            dataContext.Fido2Items.Add(fido);
             dataContext.SaveChanges();
         }
 
