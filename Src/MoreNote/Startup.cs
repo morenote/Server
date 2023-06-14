@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-using Masuit.Tools.Core.AspNetCore;
+
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -93,6 +93,20 @@ namespace MoreNote
 
             //增加数据库
             var connection = config.PostgreSql.Connection;
+            //是否使用分布式内存
+            if (config.RedisConfig.IsEnable)
+            {
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = config.RedisConfig.Configuration;
+                    options.InstanceName = config.RedisConfig.InstanceName;
+                 
+                });
+               
+            }
+            
+            services.AddMemoryCache();
+
             services.AddEntityFrameworkNpgsql();
             services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
             {
@@ -122,32 +136,7 @@ namespace MoreNote
                 }
             });
             // services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
-            //是否使用分布式内存
-            if (config.RedisConfig.IsEnable)
-            {
-                services.AddDistributedRedisCache(options =>
-               {
-                   options.Configuration = config.RedisConfig.Configuration;
-                   options.InstanceName = config.RedisConfig.InstanceName;
-               });
-            }
-            else
-            {
-                services.AddDistributedMemoryCache(option =>
-                {
-                    option.SizeLimit=null;
-                });
-                //services.AddMemoryCache(option =>
-                //{
-                //    option.SizeLimit=null;
-                //} );
-            }
 
-            ////使用Redis分布式缓存
-            //services.AddDistributedRedisCache(options =>
-            //{
-            //    options.Configuration = "localhost";
-            //});
             //增加Session
             services.AddSession(options =>
             {
@@ -196,8 +185,8 @@ namespace MoreNote
                     .EnableChangeDetection()
                     .EnableCacheHeader(TimeSpan.FromHours(1));
 
-            services.AddSevenZipCompressor();
-            services.AddResumeFileResult();
+            //services.AddSevenZipCompressor();
+            //services.AddResumeFileResult();
             if (config.SecurityConfig.FIDO2Config.IsEnable)
             {
                 var fido2Config = config.SecurityConfig.FIDO2Config;

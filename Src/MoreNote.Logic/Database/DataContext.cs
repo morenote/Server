@@ -60,11 +60,11 @@ namespace MoreNote.Logic.Database
             if (this.config.SecurityConfig.DataBaseEncryption)
             {
                 var aesKey = this.config.SecurityConfig.DataBaseEncrypthonKey;
-                if (!string.IsNullOrEmpty(aesKey))
-                {
-                    var aesProvider = new Microsoft.EntityFrameworkCore.DataEncryption.Providers.AesProvider(aesKey.HexToByteArray());
-                    modelBuilder.UseEncryption(aesProvider);
-                }
+                //if (!string.IsNullOrEmpty(aesKey))
+                //{
+                //    var aesProvider = new Microsoft.EntityFrameworkCore.DataEncryption.Providers.AesProvider(aesKey.HexToByteArray());
+                //    modelBuilder.UseEncryption(aesProvider);
+                //}
             }
           
             modelBuilder

@@ -1,5 +1,11 @@
-﻿using Minio;
+﻿using CommunityToolkit.HighPerformance;
+
+using Minio;
+using Minio.DataModel;
+
 using MoreNote.Logic.Entity.ConfigFile;
+using SharpCompress.Common;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,24 +60,49 @@ namespace MoreNote.Logic.Service.FileService.IMPL
 
         public async Task PutObjectAsync(string bucketName, string objectName, Stream data, long size, string contentType, Dictionary<string, string> metaData = null)
         {
-            await minioClient.PutObjectAsync(bucketName, objectName, data, size, contentType, metaData);
+            PutObjectArgs putObjectArgs = new PutObjectArgs()
+                                     .WithBucket(bucketName)
+                                     .WithObject(objectName)
+                                     .WithStreamData(data)
+                                        .WithContentType(contentType)
+                                        .WithObjectSize(size);
+                                    
+
+            await minioClient.PutObjectAsync(putObjectArgs);
         }
 
         public async Task PutObjectAsync(string bucketName, string objectName, string fileName, string contentType = "application/octet-stream", Dictionary<string, string> metaData = null)
         {
-            await minioClient.PutObjectAsync(bucketName, objectName, fileName, contentType, metaData);
+            var putObjectArgs = new PutObjectArgs()
+                .WithBucket(bucketName)
+            .WithObject(objectName)
+                    .WithFileName(fileName)
+                    .WithContentType(contentType);;
+            await minioClient.PutObjectAsync(putObjectArgs).ConfigureAwait(false); ;
         }
 
         public async Task<string> PresignedGetObjectAsync(string bucketName, string objectName, Dictionary<string, string> reqParams = null)
         {
-            String url = await minioClient.PresignedGetObjectAsync(bucketName, objectName, presignedGetObjectAsyncExpiresInt);
+            var args = new PresignedGetObjectArgs()
+                .WithBucket(bucketName)
+            .WithObject(objectName)
+                   .WithExpiry(presignedGetObjectAsyncExpiresInt);
+                   
+            String url = await minioClient.PresignedGetObjectAsync(args);
             return url;
         }
 
         public async Task GetObjectAsync(string bucketName, string objectName, Action<Stream> callback)
         {
+            GetObjectArgs getObjectArgs = new GetObjectArgs()
+                                      .WithBucket(bucketName)
+                                      .WithObject(objectName)
+                                      .WithCallbackStream((stream) =>
+                                      {
+                                          callback(stream);
+                                      });
             // Get input stream to have content of 'my-objectname' from 'my-bucketname'
-            await minioClient.GetObjectAsync(bucketName, objectName, callback);
+            await minioClient.GetObjectAsync(getObjectArgs);
         }
 
         public async Task<Stream> GetObjectAsync(string bucketName, string objectName)
@@ -79,14 +110,15 @@ namespace MoreNote.Logic.Service.FileService.IMPL
             // Get input stream to have content of 'my-objectname' from 'my-bucketname'
            MemoryStream memory = new MemoryStream();
             Semaphore sem = new Semaphore(0, 1);
-           
-            await minioClient.GetObjectAsync(bucketName,objectName,  (callStream) =>
-                {
-                    
-
-                      callStream.CopyTo(memory);
-                    sem.Release();
-                });
+            GetObjectArgs getObjectArgs = new GetObjectArgs()
+                                      .WithBucket(bucketName)
+                                      .WithObject(objectName)
+                                      .WithCallbackStream((stream) =>
+                                      {
+                                          stream.CopyTo(memory);
+                                          sem.Release();
+                                      });
+            await minioClient.GetObjectAsync(getObjectArgs);
             sem.WaitOne();
             return memory;
         }
@@ -99,7 +131,10 @@ namespace MoreNote.Logic.Service.FileService.IMPL
         /// <returns></returns>
         public async Task GetObjectAsync(String bucketName, String objectName, String fileName)
         {
-            await minioClient.GetObjectAsync(bucketName,objectName,fileName);
+            GetObjectArgs getObjectArgs = new GetObjectArgs()
+                                     .WithBucket(bucketName)
+                                     .WithObject(objectName) ;
+            await minioClient.GetObjectAsync(getObjectArgs);
 
         }
         public async Task<byte[]> GetObjecByteArraytAsync(string bucketName, string objectName)
@@ -108,22 +143,28 @@ namespace MoreNote.Logic.Service.FileService.IMPL
             byte[] data = null;
             Semaphore sem = new Semaphore(1, 1);
             sem.WaitOne(5000);
-            await minioClient.GetObjectAsync(bucketName,
 
-                objectName,  (callStream) =>
-                {
-                    MemoryStream stmMemory = new MemoryStream();
-                      callStream.CopyTo(stmMemory);
-                    data= stmMemory.GetBuffer();
-                    sem.Release();
-                });
+            GetObjectArgs getObjectArgs = new GetObjectArgs()
+                                     .WithBucket(bucketName)
+                                     .WithObject(objectName)
+                                     .WithCallbackStream((stream) =>
+                                     {
+                                         MemoryStream stmMemory = new MemoryStream();
+                                         stream.CopyTo(stmMemory);
+                                         data = stmMemory.GetBuffer();
+                                         sem.Release();
+                                     });
+            await minioClient.GetObjectAsync(getObjectArgs);
             sem.WaitOne(5000);
            
             return data;
         }
         public async Task RemoveObjectAsync(string bucketName,string objectName)
         {
-           await minioClient.RemoveObjectAsync(bucketName,objectName);
+            RemoveObjectArgs rmArgs = new RemoveObjectArgs()
+                                 .WithBucket(bucketName)
+                                 .WithObject(objectName);
+            await minioClient.RemoveObjectAsync(rmArgs);
         }
     }
 }

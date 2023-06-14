@@ -11,7 +11,6 @@ using AutoMapper.QueryableExtensions;
 using Collections.Pooled;
 using EFCoreSecondLevelCacheInterceptor;
 using Masuit.LuceneEFCore.SearchEngine;
-using Masuit.Tools.Core.AspNetCore;
 using Masuit.Tools.Models;
 using Masuit.Tools.Systems;
 using Microsoft.EntityFrameworkCore;
@@ -810,17 +809,28 @@ namespace MoreNote.Logic.Infrastructure.Repository.IMPL
             return t;
         }
 
-        /// <summary>
-        /// 添加或更新实体
-        /// </summary>
-        /// <param name="key">更新键规则</param>
-        /// <param name="t">需要保存的实体</param>
-        /// <returns>保存成功</returns>
-        public T AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, T t)
-        {
-            DataContext.Set<T>().AddOrUpdate(key, t);
-            return t;
-        }
+        ///// <summary>
+        ///// 添加或更新实体
+        ///// </summary>
+        ///// <param name="key">更新键规则</param>
+        ///// <param name="t">需要保存的实体</param>
+        ///// <returns>保存成功</returns>
+        //public T AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, T t)
+        //{
+        //    DataContext.Set<T>().AddOrUpdate(key, t);
+        //    return t;
+        //}
+
+        ///// <summary>
+        ///// 添加或更新实体
+        ///// </summary>
+        ///// <param name="key">更新键规则</param>
+        ///// <param name="entities">需要保存的实体</param>
+        ///// <returns>保存成功</returns>
+        //public void AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, params T[] entities)
+        //{
+        //    DataContext.Set<T>().AddOrUpdate(key, entities);
+        //}
 
         /// <summary>
         /// 添加或更新实体
@@ -828,21 +838,10 @@ namespace MoreNote.Logic.Infrastructure.Repository.IMPL
         /// <param name="key">更新键规则</param>
         /// <param name="entities">需要保存的实体</param>
         /// <returns>保存成功</returns>
-        public void AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, params T[] entities)
-        {
-            DataContext.Set<T>().AddOrUpdate(key, entities);
-        }
-
-        /// <summary>
-        /// 添加或更新实体
-        /// </summary>
-        /// <param name="key">更新键规则</param>
-        /// <param name="entities">需要保存的实体</param>
-        /// <returns>保存成功</returns>
-        public void AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, IEnumerable<T> entities)
-        {
-            DataContext.Set<T>().AddOrUpdate(key, entities);
-        }
+        //public void AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, IEnumerable<T> entities)
+        //{
+        //    DataContext.Set<T>().AddOrUpdate(key, entities);
+        //}
 
         /// <summary>
         /// 统一保存数据
@@ -908,6 +907,21 @@ namespace MoreNote.Logic.Infrastructure.Repository.IMPL
         {
             //DataContext?.Dispose();
             //DataContext = null;
+        }
+
+        public T AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, T t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, params T[] entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddOrUpdate<TKey>(Expression<Func<T, TKey>> key, IEnumerable<T> entities)
+        {
+            throw new NotImplementedException();
         }
 
         public T this[int id] => GetById(id);
