@@ -24,6 +24,7 @@ using MoreNote.Logic.Service.Logging.IMPL;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.PasswordSecurity;
+using MoreNote.Logic.Service.Security.FIDO2;
 using MoreNote.Logic.Service.Security.USBKey;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Logic.Service.Segmenter;
@@ -170,6 +171,7 @@ namespace MoreNote.Common.autofac
 
             //fido2认证服务
             builder.RegisterType<FIDO2Service>();
+            builder.RegisterType<Fido2ManagerService>();
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();

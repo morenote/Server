@@ -25,6 +25,7 @@ namespace MoreNote.Models.Model.FIDO2
         /// 用户名称，这个是数据库中的完整名称
         /// </summary>
         public string Username { get; set; }
+        public string Email { get; set; }
 
         public long? UserId { get;set;}
         /// <summary>
@@ -61,9 +62,10 @@ namespace MoreNote.Models.Model.FIDO2
         };
 
 
-        public MakeCredentialParams(string UserName,long? UserId)
+        public MakeCredentialParams(string UserName,string email,long? UserId)
         {
             this.Username = UserName;
+            this.Email = email;
             this.UserId = UserId;
         }   
 
@@ -72,8 +74,8 @@ namespace MoreNote.Models.Model.FIDO2
             var user = new Fido2User()
             {
                 DisplayName = this.Username,
-                Name = this.Username,
-                Id=Encoding.UTF8.GetBytes(this.Username)
+                Name = this.Email,
+                Id=Encoding.UTF8.GetBytes(UserId.ToString())
             };
             return user;
         }

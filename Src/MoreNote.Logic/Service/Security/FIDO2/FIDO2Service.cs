@@ -49,11 +49,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             this._fido2 = fido2;
         }
 
-        public List<FIDO2Item> GetFido2List(long? userId)
-        {
-            var list= this.dataContext.Fido2Items.Where(b => b.UserId == userId).ToList<FIDO2Item>();
-            return list;
-        }
+
 
         /// <summary>
         /// <para>注册：创建证明选项</para>
@@ -215,14 +211,14 @@ namespace MoreNote.Logic.Security.FIDO2.Service
             var storedCredential = this.GetFIDO2ItemByUserId(user.Id);
             // 3. Get credential counter from database
 
-            var creds = user.FIDO2Items.Where(b => b.CredentialId.SequenceEqual(clientRespons.Id)).FirstOrDefault();
+            var creds = dataContext.Fido2Items.Where(b => b.CredentialId.Equals(clientRespons.Id)).FirstOrDefault();
 
             var storedCounter = creds.SignatureCounter;
             // 4. Create callback to check if userhandle owns the credentialId
 
             IsUserHandleOwnerOfCredentialIdAsync callback = async (args, cancellationToken) =>
               {
-                  return storedCredential.Exists(c => c.CredentialId.SequenceEqual(args.CredentialId));
+                  return storedCredential.Exists(c => c.CredentialId.Equals(args.CredentialId));
               };
             // 5. Make the assertion
             var res = await _fido2.MakeAssertionAsync(clientRespons, options, creds.PublicKey, storedCounter, callback);

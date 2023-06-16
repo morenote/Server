@@ -6,7 +6,7 @@ namespace MoreNote.Models.Model.FIDO2
     public class AssertionClientParams
     {
         //是否需要用户确认
-        public UserVerificationRequirement? UserVerification { get; set; } = UserVerificationRequirement.Preferred;
+        public UserVerificationRequirement? UserVerification { get; set; } = UserVerificationRequirement.Discouraged;
 
         public AuthenticatorSelection authenticatorSelection { get; set; } = new AuthenticatorSelection()
         {
