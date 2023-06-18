@@ -139,6 +139,7 @@ namespace MoreNote.Controllers.API.APIV1
                     else
                     {
                         distributedCache.SetInt("SessionErrorCount", errorCount.Value+1);
+                       
                     }
                     return LeanoteJson(re);
                 }
