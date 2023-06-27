@@ -231,6 +231,31 @@ namespace MoreNote.Controllers.API
             apiReDTO.Ok = true;
             return LeanoteJson(apiReDTO);
         }
+        /// <summary>
+        /// 设置fido2名称
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="keyId"></param>
+        /// <param name="keyName"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> FIDO2Name(string token,string keyId,string fido2Name)
+        {
+            ApiReDTO apiReDTO = new ApiReDTO();
+            var verify = this.tokenSerivce.VerifyToken(token);
+            if (!verify)
+            {
+                apiReDTO.Ok = false;
+                apiReDTO.Msg = "this.tokenSerivce.VerifyToken(token) == false";
+                return LeanoteJson(apiReDTO);
+            }
+            var user = this.userService.GetUserByToken(token);
+            await this.fido2Manager.SetFIDO2Name(keyId.ToLongByHex(), user.Id, fido2Name);
+        
+            apiReDTO.Ok = true;
+            return LeanoteJson(apiReDTO);
+        }
         [HttpDelete]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Delete(string keyId, string token)

@@ -29,6 +29,8 @@ namespace MoreNote.Models.Entity.Security.FIDO2
     public class FIDO2Item: BaseEntity
     {
 
+
+
          [Column("user_id")]
         public long? UserId { get; set; }
 

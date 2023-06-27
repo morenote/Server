@@ -39,7 +39,11 @@ namespace MoreNote.Logic.Security.FIDO2.Service
         /// </summary>
         /// <param name="dataContext"></param>
         /// <param name="configFileService"></param>
-        public FIDO2Service(DataContext dataContext, IDistributedCache distributedCache, ConfigFileService configFileService, IFido2 fido2,IDistributedIdGenerator IdGenerator)
+        public FIDO2Service(DataContext dataContext,
+            IDistributedCache distributedCache,
+            ConfigFileService configFileService, 
+            IFido2 fido2,
+            IDistributedIdGenerator IdGenerator)
         {
             this.IdGenerator=IdGenerator;
             this.dataContext = dataContext;

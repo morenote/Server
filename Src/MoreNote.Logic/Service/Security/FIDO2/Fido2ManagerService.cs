@@ -25,7 +25,7 @@ namespace MoreNote.Logic.Service.Security.FIDO2
             IDistributedIdGenerator distributedIdGenerator,
              ICryptographyProvider cryptographyProvider,
         ConfigFileService configFileService) {
-            this.dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
+            this.dataContext = dataContext;
             this.idGenerator = distributedIdGenerator;
             this.WebSiteConfig = configFileService.WebConfig;
             this.cryptographyProvider = cryptographyProvider;
@@ -34,6 +34,11 @@ namespace MoreNote.Logic.Service.Security.FIDO2
         public List<FIDO2Item> ListAllFido2(long? userId)
         {
             return this.dataContext.Fido2Items.Where(b => b.UserId == userId).ToList();
+        }
+        public async Task SetFIDO2Name(long? id,long? userId,string keyName)
+        {
+           await  this.dataContext.Fido2Items.Where(b => b.Id == id && b.UserId==userId).UpdateFromQueryAsync(b=>new FIDO2Item() { FIDO2Name = keyName });
+           await  this.dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteFido2(long? id)

@@ -172,6 +172,7 @@ namespace MoreNote.Common.autofac
             //fido2认证服务
             builder.RegisterType<FIDO2Service>();
             builder.RegisterType<Fido2ManagerService>();
+
             //过滤器
             builder.RegisterType<CheckLoginFilter>();
             builder.RegisterType<CheckTokenFilter>();
@@ -189,12 +190,7 @@ namespace MoreNote.Common.autofac
             var config = configFileService.WebConfig;
             if (config.SecurityConfig.NeedEncryptionMachine)
             {
-                ////签名验签服务器
-                //builder.RegisterHttpApi<INetSignApi>().ConfigureHttpApiConfig(api =>
-                //{
-                //    api.HttpHost = new Uri(config.SecurityConfig.NetSignApi);
-                //});
-                //服务器端签名和验签服务
+
                 builder.RegisterType<RSASignService>()
                     .As<ISignatureService>()
                     .SingleInstance();
