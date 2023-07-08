@@ -1,7 +1,10 @@
-﻿using System;
+﻿using MoreNote.Models.Enum;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MoreNote.Models.DTO.Leanote
@@ -34,11 +37,25 @@ namespace MoreNote.Models.DTO.Leanote
         /// 请求数据(Base64编码)
         /// </summary>
         public string Data { get; set; }
+
+        /// <summary>
+        /// 非对称加密算法
+        /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public AsymmetricEncryptionAlgorithm AsymmetricEncryptionAlgorithm { get; set; }= AsymmetricEncryptionAlgorithm.SM2;
+
+        /// <summary>
+        /// 请教数据加密密钥
+        /// 根据算法不同，DataKey被加密
+        /// </summary>
+        public string DataKey { get;set; }
+
         /// <summary>
         /// 签名方式 条件可选，条件可选
-        /// 可选签名参数：HMAC-SHA256、HMAC-SM3、SM2
+        /// 可选签名参数：HMAC-SHA256、HMAC-SM3、SM2、None
         /// </summary>
-        public string SignType { get; set; } = "SM2";
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public SignType SignType { get; set; } = SignType.SM2;
 
         /// <summary>
         /// 需要使用AccessKey进行签名，条件可选

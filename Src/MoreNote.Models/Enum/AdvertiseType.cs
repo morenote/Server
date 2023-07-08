@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Masuit.MyBlogs.Core.Models.Enum
+namespace MoreNote.Models.Enum
 {
     /// <summary>
     /// 广告类型

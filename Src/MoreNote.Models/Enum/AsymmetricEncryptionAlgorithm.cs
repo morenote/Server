@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoreNote.Models.Entity.ConfigFile.Security
+namespace MoreNote.Models.Enum
 {
     /// <summary>
-    /// 数字信封协议
+    /// 非对称加密算法
     /// </summary>
-    public enum DigitalEnvelopeProtocol
+    public enum AsymmetricEncryptionAlgorithm
     {
-        SM2SM3SM4=0x01,
+        RSA,SM2,None
     }
 }
