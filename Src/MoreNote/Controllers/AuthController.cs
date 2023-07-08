@@ -241,7 +241,7 @@ namespace MoreNote.Controllers
         {
             if (!configFileService.WebConfig.SecurityConfig.OpenRegister)
             {
-                return Json(new ApiReDTO()
+                return Json(new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "管理员已经将注册功能关闭"
@@ -251,7 +251,7 @@ namespace MoreNote.Controllers
             bool result = await authService.Register(email, pwd, iu.ToLongByHex());
             if (result)
             {
-                return Json(new ApiReDTO()
+                return Json(new ApiResponseDTO()
                 {
                     Ok = true,
                     Msg = "Success"
@@ -259,7 +259,7 @@ namespace MoreNote.Controllers
             }
             else
             {
-                return Json(new ApiReDTO()
+                return Json(new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = $"注册失败:{errorMessage}"

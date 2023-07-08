@@ -64,7 +64,7 @@ namespace MoreNote.Controllers.API
             var tokenVerify = tokenSerivce.VerifyToken(token);
             if (!tokenVerify)
             {
-                var apiRe = new ApiReDTO()
+                var apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "注册失败,token无效"
@@ -100,7 +100,7 @@ namespace MoreNote.Controllers.API
                 var tokenVerify = tokenSerivce.VerifyToken(token);
                 if (!tokenVerify)
                 {
-                    var apiRe = new ApiReDTO()
+                    var apiRe = new ApiResponseDTO()
                     {
                         Ok = false,
                         Msg = "注册失败,token无效"
@@ -172,7 +172,7 @@ namespace MoreNote.Controllers.API
         [HttpPost]
         public async Task<IActionResult> VerifyTheAssertionResponse(string email, string data)
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             try
             {
                 data= System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(data));
@@ -225,7 +225,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> List(string userId)
         {
-            ApiReDTO apiReDTO = new ApiReDTO();
+            ApiResponseDTO apiReDTO = new ApiResponseDTO();
             var list = this.fido2Manager.ListAllFido2(userId.ToLongByHex());
             apiReDTO.Data = list;
             apiReDTO.Ok = true;
@@ -242,7 +242,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> FIDO2Name(string token,string keyId,string fido2Name)
         {
-            ApiReDTO apiReDTO = new ApiReDTO();
+            ApiResponseDTO apiReDTO = new ApiResponseDTO();
             var verify = this.tokenSerivce.VerifyToken(token);
             if (!verify)
             {
@@ -260,7 +260,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Delete(string keyId, string token)
         {
-            ApiReDTO apiReDTO = new ApiReDTO();
+            ApiResponseDTO apiReDTO = new ApiResponseDTO();
             var verify = this.tokenSerivce.VerifyToken(token);
             if (!verify)
             {
@@ -284,7 +284,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Find(string keyId)
         {
-            ApiReDTO apiReDTO = new ApiReDTO();
+            ApiResponseDTO apiReDTO = new ApiResponseDTO();
             var key = this.fido2Manager.ListAllFido2(keyId.ToLongByHex());
             apiReDTO.Data = key;
             apiReDTO.Ok = true;

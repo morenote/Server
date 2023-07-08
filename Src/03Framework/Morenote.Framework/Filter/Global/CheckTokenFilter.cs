@@ -58,7 +58,7 @@ namespace Morenote.Framework.Filter.Global
             {
                 context.HttpContext.Session.Remove("token");
                 //context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",

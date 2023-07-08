@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MoreNote.Models.DTO.Leanote
 {
     // 一般返回
-    public class ApiReDTO
+    public class ApiResponseDTO
     {
         /// <summary>
         /// 唯一标识（可选）

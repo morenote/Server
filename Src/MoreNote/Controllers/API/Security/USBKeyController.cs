@@ -59,7 +59,7 @@ namespace MoreNote.Controllers.API.Security
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult LoginChallengeRequest(string email, string sessionCode)
         {
-            var apiRe = new ApiReDTO();
+            var apiRe = new ApiResponseDTO();
             var user = userService.GetUserByEmail(email);
             if (user == null)
             {
@@ -99,7 +99,7 @@ namespace MoreNote.Controllers.API.Security
                 BrowserRequestHeader = stringBuilder.ToString(),
             };
 
-            ApiReDTO apiRe = new ApiReDTO();
+            ApiResponseDTO apiRe = new ApiResponseDTO();
 
             try
             {
@@ -147,7 +147,7 @@ namespace MoreNote.Controllers.API.Security
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> List(string userId)
         {
-            ApiReDTO apiReDTO = new ApiReDTO();
+            ApiResponseDTO apiReDTO = new ApiResponseDTO();
             var list = this.usbKeyManager.ListAllUsbKey(userId.ToLongByHex());
             apiReDTO.Data = list;
             apiReDTO.Ok = true;
@@ -157,7 +157,7 @@ namespace MoreNote.Controllers.API.Security
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Delete(string keyId, string token)
         {
-            ApiReDTO apiReDTO = new ApiReDTO();
+            ApiResponseDTO apiReDTO = new ApiResponseDTO();
             var verify = this.tokenSerivce.VerifyToken(token);
             if (!verify)
             {
@@ -181,7 +181,7 @@ namespace MoreNote.Controllers.API.Security
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Find(string keyId)
         {
-            ApiReDTO apiReDTO = new ApiReDTO();
+            ApiResponseDTO apiReDTO = new ApiResponseDTO();
            var key= this.usbKeyManager.Find(keyId.ToLongByHex());
             apiReDTO.Data= key;
             apiReDTO.Ok = true;
@@ -197,7 +197,7 @@ namespace MoreNote.Controllers.API.Security
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult RegistrationChallengeRequest(string email)
         {
-            var apiRe = new ApiReDTO();
+            var apiRe = new ApiResponseDTO();
             var user = userService.GetUserByEmail(email);
             if (user == null)
             {
@@ -221,7 +221,7 @@ namespace MoreNote.Controllers.API.Security
         public async Task<IActionResult> RegisterChallengeResponse(string data,string token,string  sms)
         {
 
-            ApiReDTO apiRe = new ApiReDTO();
+            ApiResponseDTO apiRe = new ApiResponseDTO();
             var clinetResponse = ClientResponse.FromJSON(data);
             var challenge = ePass.GetServerChallenge(clinetResponse.Id);
             var verify = this.tokenSerivce.VerifyToken(token);

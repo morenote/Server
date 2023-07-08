@@ -50,7 +50,7 @@ namespace MoreNote.Controllers.API
         {
             var securityConfig = config.SecurityConfig;
             var dto = SecurityConfigDTO.Instance(securityConfig);
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             re.Ok = true;
             re.Data = dto;
             return LeanoteJson(re);

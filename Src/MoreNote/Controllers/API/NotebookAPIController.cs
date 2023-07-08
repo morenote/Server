@@ -66,7 +66,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -122,7 +122,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -147,7 +147,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -173,7 +173,7 @@ namespace MoreNote.Controllers.API.APIV1
                 }
                 else
                 {
-                    ApiReDTO apiRe = new ApiReDTO()
+                    ApiResponseDTO apiRe = new ApiResponseDTO()
                     {
                         Ok = false,
                         Msg = "AddNotebook is error",
@@ -191,7 +191,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -210,7 +210,7 @@ namespace MoreNote.Controllers.API.APIV1
                 }
                 else
                 {
-                    ApiReDTO apiRe = new ApiReDTO()
+                    ApiResponseDTO apiRe = new ApiResponseDTO()
                     {
                         Ok = false,
                         Msg = "UpdateNotebook is error",
@@ -236,7 +236,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             UserInfo user = tokenSerivce.GetUserByToken(token);
             var verify=false;
-            ApiReDTO re = new ApiReDTO()
+            ApiResponseDTO re = new ApiResponseDTO()
             {
                 Ok = false,
                 Msg = "NOTLOGIN",
@@ -301,7 +301,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetRootNotebooks(string token, string repositoryId)
         {
-            var apiRe=new ApiReDTO();
+            var apiRe=new ApiResponseDTO();
 
             var user = tokenSerivce.GetUserByToken(token);
             if (user != null)
@@ -326,7 +326,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotebookChildren(string token, string notebookId)
         {
-            var apiRe = new ApiReDTO();
+            var apiRe = new ApiResponseDTO();
 
             var user = tokenSerivce.GetUserByToken(token);
 
@@ -358,7 +358,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> CreateNoteBook(string token,string noteRepositoryId, string notebookTitle, string parentNotebookId,string dataSignJson)
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             var user = tokenSerivce.GetUserByToken(token);
             long? parentId=null;
             bool  verify=false;
@@ -441,7 +441,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> UpdateNoteBookTitle(string token, string notebookId,string notebookTitle, string dataSignJson)
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             var user = tokenSerivce.GetUserByToken(token);
             var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
 

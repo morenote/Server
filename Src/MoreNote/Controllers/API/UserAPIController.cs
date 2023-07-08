@@ -66,7 +66,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetUserInfoByToken(string token)
         {
             var user=tokenSerivce.GetUserByToken(token);
-            var re=new ApiReDTO();
+            var re=new ApiResponseDTO();
             if (user==null)
             {
                 re.Msg= "NOTLOGIN";
@@ -85,7 +85,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetUserInfoByEmail(string email)
         {
             var user = userService.GetUserByEmail(email);
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             if (user == null)
             {
                 re.Msg = "NOTLOGIN";
@@ -99,7 +99,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult GetUserInfoByUserId(string userId)
         {
             var user = userService.GetUserByUserId(userId.ToLongByHex());
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             if (user == null)
             {
                 re.Msg = "NOTLOGIN";
@@ -112,7 +112,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public IActionResult UpdateUsername(string token,string username)
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             var message = string.Empty;
 
             if (string.IsNullOrEmpty(username) || username.Length < 4)
@@ -159,7 +159,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
 
             var ss=  userService.GetGetUserLoginSecurityStrategy(UserName);
-            ApiReDTO apiRe = new ApiReDTO()
+            ApiResponseDTO apiRe = new ApiResponseDTO()
             {
                 Ok = (ss!=null),
                 Msg = "",
@@ -175,7 +175,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> UpdatePwd(string token,string oldPwd,string pwd)
         {
-            ApiReDTO re = new ApiReDTO();
+            ApiResponseDTO re = new ApiResponseDTO();
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
@@ -213,7 +213,7 @@ namespace MoreNote.Controllers.API.APIV1
                 UserInfo user = tokenSerivce.GetUserByToken(token);
                 if (user==null)
                 {
-                    ApiReDTO apiRe = new ApiReDTO()
+                    ApiResponseDTO apiRe = new ApiResponseDTO()
                     {
                         Ok = false,
                         Msg = "NOTLOGIN",
@@ -251,7 +251,7 @@ namespace MoreNote.Controllers.API.APIV1
         public  async Task<IActionResult> GetRealNameInformation(string token, string digitalEnvelopeJson, string dataSignJson)
         {
 
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             DigitalEnvelope digitalEnvelope = null;
             var verify=false;
             //数字信封
@@ -285,7 +285,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -300,7 +300,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpPost]
         public async Task<IActionResult> SetRealNameInformation(string token,string sfz,string digitalEnvelopeJson,string dataSignJson)
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             DigitalEnvelope digitalEnvelope = null;
 
             var verify=false;
@@ -352,7 +352,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",

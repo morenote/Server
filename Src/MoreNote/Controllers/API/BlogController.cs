@@ -55,7 +55,7 @@ namespace MoreNote.Controllers.API.APIV1
             var  blogBuilder=this.componentContext.ResolveKeyed< BlogBuilderInterface >(blogBuilderType);
             var verify = false;
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiReDTO()
+            var re = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null

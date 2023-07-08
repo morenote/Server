@@ -41,7 +41,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo user = tokenSerivce.GetUserByToken(token);
             if (user == null)
             {
-                ApiReDTO apiRe = new ApiReDTO()
+                ApiResponseDTO apiRe = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "NOTLOGIN",
@@ -58,7 +58,7 @@ namespace MoreNote.Controllers.API.APIV1
             NoteTag noteTag = tagService.AddOrUpdateTag(GetUserIdByToken(token), tag);
             if (noteTag == null)
             {
-                return Json(new ApiReDTO() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetLeanoteOptions());
+                return Json(new ApiResponseDTO() { Ok = false, Msg = "添加标签失败" }, MyJsonConvert.GetLeanoteOptions());
             }
             else
             {
@@ -82,7 +82,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             else
             {
-                ApiReDTO apiRe=new ApiReDTO()
+                ApiResponseDTO apiRe=new ApiResponseDTO()
                 {
                     Ok=false,
                     Msg=msg

@@ -61,7 +61,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetRootVirtualFileInfos(string token, string repositoryHexId)
         {
-            var apiRe = new ApiReDTO()
+            var apiRe = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null

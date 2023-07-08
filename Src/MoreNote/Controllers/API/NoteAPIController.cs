@@ -130,7 +130,7 @@ namespace MoreNote.Controllers.API.APIV1
             UserInfo tokenUser = tokenSerivce.GetUserByToken(token);
             if (tokenUser == null)
             {
-                return Json(new ApiReDTO() { Ok = false, Msg = "" }, MyJsonConvert.GetLeanoteOptions());
+                return Json(new ApiResponseDTO() { Ok = false, Msg = "" }, MyJsonConvert.GetLeanoteOptions());
             }
             try
             {
@@ -143,7 +143,7 @@ namespace MoreNote.Controllers.API.APIV1
                 apiNote.Abstract = noteAndContent.noteContent.Abstract;
                 if (noteAndContent == null)
                 {
-                    return Json(new ApiReDTO() { Ok = false, Msg = "" }, MyJsonConvert.GetLeanoteOptions());
+                    return Json(new ApiResponseDTO() { Ok = false, Msg = "" }, MyJsonConvert.GetLeanoteOptions());
                 }
                 else
                 {
@@ -152,7 +152,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             catch (Exception ex)
             {
-                return Json(new ApiReDTO() { Ok = false, Msg = ex.Message }, MyJsonConvert.GetLeanoteOptions());
+                return Json(new ApiResponseDTO() { Ok = false, Msg = ex.Message }, MyJsonConvert.GetLeanoteOptions());
             }
         }
 
@@ -163,7 +163,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> GetNoteContent(string token, string noteId)
         {
-            ApiReDTO re = new ApiReDTO()
+            ApiResponseDTO re = new ApiResponseDTO()
             {
                 Ok = false,
                 Msg = "GetNoteContent_is_error"
@@ -213,7 +213,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> AddNote(ApiNote noteOrContent, string token)
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
 
             var user = tokenSerivce.GetUserByToken(token);
 
@@ -228,7 +228,7 @@ namespace MoreNote.Controllers.API.APIV1
             long? myUserId = tokenUserId;
             if (noteOrContent == null || string.IsNullOrEmpty(noteOrContent.NotebookId))
             {
-                return Json(new ApiReDTO() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
+                return Json(new ApiResponseDTO() { Ok = false, Msg = "notebookIdNotExists" }, MyJsonConvert.GetSimpleOptions());
             }
             long? noteId = idGenerator.NextId();
             long? noteContextId = idGenerator.NextId();
@@ -369,7 +369,7 @@ namespace MoreNote.Controllers.API.APIV1
             //-------------将笔记与笔记内容保存到数据库
             if (note == null || note.Id == 0)
             {
-                return Json(new ApiReDTO()
+                return Json(new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "AddNoteAndContent_is_error"
@@ -658,7 +658,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetNotChildrenByNotebookId(string token, string notebookId)
         {
-            var apiRe = new ApiReDTO();
+            var apiRe = new ApiResponseDTO();
 
             var user = tokenSerivce.GetUserByToken(token);
 
@@ -692,7 +692,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 noteTitle = "未命名";
             }
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             var verify=false;
             var user = tokenSerivce.GetUserByToken(token);
             var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
@@ -783,7 +783,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult UpdateNoteTitle(string token, string noteId, string noteTitle)
         {
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             if (user == null)
             {
                 return LeanoteJson(re);
@@ -803,7 +803,7 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task<IActionResult> UpdateNoteTitleAndContent(string token, string noteId, string noteTitle, string content, string dataSignJson, string digitalEnvelopeJson)
         {
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             if (user == null)
             {
                 return LeanoteJson(re);
@@ -933,7 +933,7 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task<IActionResult> DeleteNote(string token, string noteRepositoryId, string noteId, string dataSignJson)
         {
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             if (user == null)
             {
                 return LeanoteJson(re);
@@ -987,7 +987,7 @@ namespace MoreNote.Controllers.API.APIV1
         [HttpGet]
         public IActionResult SearchRepositoryNote(string token, string noteRepositoryId, string key, int index)
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             /**
              * 默认：title搜索
              * 关键词&关键词：title搜索
@@ -1039,7 +1039,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult Copy(string token, string noteId, string targetParentNotebookId)
         {
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             if (user == null)
             {
                 return LeanoteJson(re);

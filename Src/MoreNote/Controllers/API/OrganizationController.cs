@@ -44,7 +44,7 @@ namespace MoreNote.Controllers.API
         public IActionResult GetOrganizationListByAuthorityEnum(string token, OrganizationAuthorityEnum AuthorityEnum)
         {
             
-            var apiRe = new ApiReDTO()
+            var apiRe = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
@@ -54,7 +54,7 @@ namespace MoreNote.Controllers.API
             {
                 var list = organizationService.GetOrganizationList(user.Id, AuthorityEnum);
               
-                apiRe = new ApiReDTO()
+                apiRe = new ApiResponseDTO()
                 {
                     Ok = true,
                     Data = list

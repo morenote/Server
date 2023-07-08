@@ -61,7 +61,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetHexId()
         {
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
             re.Ok = true;
             re.Data = this.idGenerator.NextHexId();
             return LeanoteJson(re);

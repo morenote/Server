@@ -75,7 +75,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetMyRepository(string userId, string token, RepositoryType repositoryType)
         {
-            var apiRe = new ApiReDTO()
+            var apiRe = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
@@ -84,7 +84,7 @@ namespace MoreNote.Controllers.API
             if (user != null)
             {
                 var rep = noteRepositoryService.GetRepositoryList(user.Id, repositoryType);
-                apiRe = new ApiReDTO()
+                apiRe = new ApiResponseDTO()
                 {
                     Ok = true,
                     Data = rep
@@ -104,7 +104,7 @@ namespace MoreNote.Controllers.API
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult RepositoryInfo(string repositoryId, string token)
         {
-            var re = new ApiReDTO()
+            var re = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
@@ -127,7 +127,7 @@ namespace MoreNote.Controllers.API
         [HttpPost]
         public async Task<IActionResult> CreateRepository(string token, string data, string dataSignJson)
         {
-            var re = new ApiReDTO()
+            var re = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
@@ -228,7 +228,7 @@ namespace MoreNote.Controllers.API
         {
             var verify = false;
             var user = tokenSerivce.GetUserByToken(token);
-            var re = new ApiReDTO()
+            var re = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
@@ -282,7 +282,7 @@ namespace MoreNote.Controllers.API
                 await RebuildNotesIndex2(book.Id);
             }
 
-            return LeanoteJson(new ApiReDTO() { Ok = true });
+            return LeanoteJson(new ApiResponseDTO() { Ok = true });
 
         }
         private async Task RebuildNotesIndex2(long? bookId)

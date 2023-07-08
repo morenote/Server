@@ -62,7 +62,7 @@ namespace MoreNote.Controllers
             long? noteNumber = noteId.ToLongByHex();
             long? userNumber = GetUserIdBySession();
             NoteContent noteContent = noteContentService.GetValidNoteContentByNoteId(noteId.ToLongByHex(), GetUserIdBySession());
-            ApiReDTO falseRe = new ApiReDTO()
+            ApiResponseDTO falseRe = new ApiResponseDTO()
             {
                 Ok = false,
                 Msg = "GetNoteContent_is_error"

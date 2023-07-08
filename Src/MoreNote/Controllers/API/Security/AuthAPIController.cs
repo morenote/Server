@@ -52,7 +52,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult TakeSessionCode()
         {
-            var re=new  ApiReDTO();
+            var re=new  ApiResponseDTO();
             //产生一个序号
             var id= idGenerator.NextId();//序号
             var random = RandomTool.CreatSafeRandomBase64(16);
@@ -78,7 +78,7 @@ namespace MoreNote.Controllers.API.APIV1
         {
             string tokenValue = "";
 
-            var re = new ApiReDTO();
+            var re = new ApiResponseDTO();
 
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var item in Request.Headers)
@@ -167,7 +167,7 @@ namespace MoreNote.Controllers.API.APIV1
         public IActionResult SubmitLogin(string email, string sessionCode)
         {
           
-            var re=new ApiReDTO();
+            var re=new ApiResponseDTO();
             var user=userService.GetUserByEmail(email);
             if (user==null)
             {
@@ -221,7 +221,7 @@ namespace MoreNote.Controllers.API.APIV1
             //ex:API当前不使用cookie和session判断用户身份，
             //API调用必须显式的提供token字段，以证明身份
 
-            var apiRe = new ApiReDTO()
+            var apiRe = new ApiResponseDTO()
             {
                 Ok = true,
                 Msg = "未提供注销功能"
@@ -237,7 +237,7 @@ namespace MoreNote.Controllers.API.APIV1
             //API调用必须显式的提供token字段，以证明身份
             //API调用者必须是管理员身份或者超级管理员身份，否则调用无效
             //如果用户设置二次验证必须显示提供二次验证码
-            var re=new ApiReDTO();
+            var re=new ApiResponseDTO();
             if (!this.config.SecurityConfig.OpenRegister)
             {
                 re.Msg = "服务器管理员已经禁止用户注册功能";
@@ -246,7 +246,7 @@ namespace MoreNote.Controllers.API.APIV1
 
             if (await authService.Register(email, pwd, 0))
             {
-                re = new ApiReDTO()
+                re = new ApiResponseDTO()
                 {
                     Ok = true,
                     Msg = "注册成功"
@@ -254,7 +254,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             else
             {
-                re = new ApiReDTO()
+                re = new ApiResponseDTO()
                 {
                     Ok = false,
                     Msg = "注册失败"
@@ -273,7 +273,7 @@ namespace MoreNote.Controllers.API.APIV1
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> GetUserLoginLogging(string token)
         {
-            var re = new ApiReDTO()
+            var re = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
@@ -321,7 +321,7 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task<IActionResult> GetUserLoginSettings(string email)
         {
 
-            var re = new ApiReDTO()
+            var re = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
@@ -346,7 +346,7 @@ namespace MoreNote.Controllers.API.APIV1
         public async Task<IActionResult> SetUserLoginSettings(string token,LoginSecurityPolicyLevel level)
         {
 
-            var re = new ApiReDTO()
+            var re = new ApiResponseDTO()
             {
                 Ok = false,
                 Data = null
