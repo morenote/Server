@@ -3,7 +3,7 @@
 using Minio;
 using Minio.DataModel;
 
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using SharpCompress.Common;
 
 using System;

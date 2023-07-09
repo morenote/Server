@@ -8,7 +8,7 @@ using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.DTO.Leanote;
-using MoreNote.Models.Enum;
+using MoreNote.Models.Enums;
 
 namespace MoreNote.Controllers.API
 {

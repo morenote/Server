@@ -9,7 +9,7 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
@@ -23,6 +23,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using MoreNote.Models.Enums;
 
 namespace MoreNote.Controllers
 {

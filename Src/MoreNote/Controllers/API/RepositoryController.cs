@@ -13,7 +13,7 @@ using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.USBKey;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Notes;
-using MoreNote.Models.Enum;
+using MoreNote.Models.Enums;
 
 using System;
 using System.Collections.Generic;

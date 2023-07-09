@@ -11,7 +11,7 @@ using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
@@ -20,8 +20,9 @@ using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Blog;
 using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
-using MoreNote.Models.Enum.Common.Editor;
+using MoreNote.Models.Enums.Common.Editor;
 using MoreNote.Models.Model;
+using MoreNote.Models.Enums;
 
 namespace MoreNote.Logic.Service
 {
@@ -137,11 +138,7 @@ namespace MoreNote.Logic.Service
             user.CreatedTime = DateTime.Now;
             user.Email = user.Email.ToLower();
             EmailService.RegisterSendActiveEmail(user, user.Email);
-            if (this.Config.SecurityConfig.LogNeedHmac)
-            {
-                //计算hmac
-                 user.AddMac(this.cryptographyProvider);
-            }
+        
             dataContext.User.Add(user);
             return dataContext.SaveChanges() > 0;
         }
@@ -237,7 +234,7 @@ namespace MoreNote.Logic.Service
 
             var user = dataContext.User.Where(b=>b.Id==userId).First();
             user.LoginSecurityPolicyLevel = level;
-            user.AddMac(this.cryptographyProvider);
+            
             dataContext.User.Where(b => b.Id == userId).UpdateFromQuery(x => new UserInfo()
             {
                 LoginSecurityPolicyLevel = level,
@@ -462,10 +459,6 @@ namespace MoreNote.Logic.Service
             }
             user.UsernameRaw = username;
             user.Username = username;
-            if (this.Config.SecurityConfig.LogNeedHmac)
-            {
-                user.AddMac(this.cryptographyProvider);
-            }
             return dataContext.SaveChanges() > 0;
         }
 
@@ -504,11 +497,7 @@ namespace MoreNote.Logic.Service
             user.Salt = salt.ByteArrayToBase64();
             //生成新的密码哈希
             user.Pwd =( passwordStore.Encryption(pwd.Base64ToByteArray(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
-            if (this.Config.SecurityConfig.LogNeedHmac)
-            {
-                //计算hmac
-                 user.AddMac(this.cryptographyProvider);
-            }
+        
             return dataContext.SaveChanges() > 0;
         }
    

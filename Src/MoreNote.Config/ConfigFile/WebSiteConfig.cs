@@ -1,7 +1,7 @@
 ﻿using MoreNote.Config.ConfigFile;
 using MoreNote.Models.Entity.ConfigFile;
 
-namespace MoreNote.Logic.Entity.ConfigFile
+namespace MoreNote.Config.ConfigFile
 {
     public class WebSiteConfig
     {

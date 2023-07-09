@@ -16,6 +16,7 @@ using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.Security.FIDO2;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.Auth;
+using MoreNote.Models.Enums;
 using MoreNote.Models.Model.FIDO2;
 using System;
 using System.Net;

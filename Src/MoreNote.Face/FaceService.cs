@@ -1,6 +1,6 @@
 ﻿using FaceRecognitionDotNet;
 
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 
 using System;
 using System.Collections.Generic;

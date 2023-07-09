@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.ConfigFile;
 using MoreNote.Models.Entity.Security.FIDO2;

@@ -1,11 +1,12 @@
 ﻿using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
-using MoreNote.Models.DTO.Leanote.USBKey;
+
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
+using MoreNote.Models.DTO.Leanote.USBKey;
 
 namespace MoreNote.Logic.Service
 {

@@ -11,7 +11,7 @@ using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
-using MoreNote.Models.Enum;
+using MoreNote.Models.Enums;
 
 using System;
 using System.Collections.Generic;

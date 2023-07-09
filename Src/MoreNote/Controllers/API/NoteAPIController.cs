@@ -18,7 +18,7 @@ using MoreNote.Models.DTO.Leanote.USBKey;
 using MoreNote.Models.Entity.Leanote.Notes;
 using MoreNote.Models.Entity.Leanote.Synchronized;
 using MoreNote.Models.Entity.Leanote.User;
-using MoreNote.Models.Enum;
+using MoreNote.Models.Enums;
 
 using System;
 using System.Collections.Generic;

@@ -16,6 +16,7 @@ using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.DTO.Leanote.USBKey;
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
 using MoreNote.Models.Entity.Leanote.User;
+using MoreNote.Models.Enums;
 
 using Org.BouncyCastle.Asn1.Cmp;
 
@@ -139,7 +140,7 @@ namespace MoreNote.Controllers.API.Security
             }
             finally
             {
-                await logg.AddMac(this.cryptographyProvider);
+              
                 this.logging.Save(logg);
             }
         }

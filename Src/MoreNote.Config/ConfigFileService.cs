@@ -1,7 +1,8 @@
 ﻿
 using MoreNote.Common.Utils;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Config.ConfigFilePath.IMPL;
-using MoreNote.Logic.Entity.ConfigFile;
+
 
 using System.IO;
 using System.Text.Json;

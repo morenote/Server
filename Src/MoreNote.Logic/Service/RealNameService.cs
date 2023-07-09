@@ -1,7 +1,7 @@
 ﻿using MoreNote.Common.ExtensionMethods;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
@@ -52,7 +52,7 @@ namespace MoreNote.Logic.Service
                     realName.IsEncryption = true;
                 }
 
-                realName.AddMac(this.cryptographyProvider);
+              
                 this.dataContext.SaveChanges();
             }
             else
@@ -68,8 +68,7 @@ namespace MoreNote.Logic.Service
                     rni.IdCardNo = this.cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(cardNo)).ByteArrayToBase64();
                     rni.IsEncryption = true;
                 }
-                rni.AddMac(this.cryptographyProvider);
-
+               
                 this.dataContext.RealNameInformation.Add(rni);
                 this.dataContext.SaveChanges();
             }
@@ -82,11 +81,7 @@ namespace MoreNote.Logic.Service
             {
                 return null;
             }
-            if (this.Config.SecurityConfig.LogNeedHmac)
-            {
-                realName.VerifyHmac(this.cryptographyProvider);
 
-            }
             if (realName.IsEncryption)
             {
                 var dec = this.cryptographyProvider.SM4Decrypt(realName.IdCardNo.Base64ToByteArray());

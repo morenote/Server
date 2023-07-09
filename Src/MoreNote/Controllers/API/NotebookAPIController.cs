@@ -10,7 +10,7 @@ using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
-using MoreNote.Models.Enum;
+using MoreNote.Models.Enums;
 
 using System;
 using System.Collections.Generic;

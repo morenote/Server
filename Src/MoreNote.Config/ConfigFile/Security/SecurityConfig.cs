@@ -5,10 +5,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
+using MoreNote.Models.Enums;
 using MoreNote.Models.Entity.ConfigFile;
 using MoreNote.Models.Entity.ConfigFile.Security;
 
-namespace MoreNote.Logic.Entity.ConfigFile
+namespace MoreNote.Config.ConfigFile
 {
     public class SecurityConfig
     {

@@ -12,7 +12,7 @@ using MoreNote.Logic.Service.BlogBuilder;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.DTO.Leanote;
-using MoreNote.Models.Enum;
+using MoreNote.Models.Enums;
 
 using System.Threading.Tasks;
 

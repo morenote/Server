@@ -1,7 +1,7 @@
 ﻿using Autofac;
 
 using MoreNote.CryptographyProvider;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.PasswordSecurity.IMPL;
 using MoreNote.Models.Entity.Leanote.User;
 using System;

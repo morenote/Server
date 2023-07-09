@@ -8,7 +8,7 @@ using MoreNote.Value;
 using Microsoft.AspNetCore.Http;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using System.Text.Json;
 using System.IO;
 using MoreNote.Logic.Service;

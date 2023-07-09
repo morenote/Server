@@ -1,11 +1,13 @@
 ﻿using MoreNote.Logic.Model;
+using MoreNote.Models.Enums;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoreNote.Logic.Entity.ConfigFile
+namespace MoreNote.Config.ConfigFile
 {
    /// <summary>
    /// 全局设置

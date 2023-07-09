@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using System.Threading.Tasks;
 using MoreNote.CryptographyProvider;
 using System.Text;
@@ -68,10 +68,7 @@ namespace MoreNote.Logic.Service
                 noteContent.Content = enc.ByteArrayToBase64();
                 noteContent.IsEncryption = true;
             }
-            if (this.config.SecurityConfig.LogNeedHmac)
-            {
-                noteContent.AddMac(this.cryptographyProvider);
-            }
+       
             var result = dataContext.NoteContent.Add(noteContent);
 
             return dataContext.SaveChanges() > 0;
@@ -84,14 +81,6 @@ namespace MoreNote.Logic.Service
                 throw new Exception("GetNoteContent result is null");
             }
             var noteContent = result.FirstOrDefault();
-            if (this.config.SecurityConfig.LogNeedHmac)
-            {
-                noteContent.VerifyHmac(this.cryptographyProvider);
-                if (!noteContent.HmacVerify)
-                {
-                    throw new Exception("noteContent VerifyHmac is Error");
-                }
-            }
             return result == null ? null : result.FirstOrDefault();
         }
 
@@ -103,14 +92,7 @@ namespace MoreNote.Logic.Service
                 throw new Exception("GetNoteContent result is null");
             }
             var noteContent = result.FirstOrDefault();
-            if (this.config.SecurityConfig.LogNeedHmac)
-            {
-                noteContent.VerifyHmac(this.cryptographyProvider);
-                if (!noteContent.HmacVerify)
-                {
-                    throw new Exception("noteContent VerifyHmac is Error");
-                }
-            }
+
             return result == null ? null : result.FirstOrDefault();
         }
 

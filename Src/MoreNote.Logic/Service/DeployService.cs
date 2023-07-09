@@ -7,7 +7,7 @@ using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.PasswordSecurity;
 
 using System;

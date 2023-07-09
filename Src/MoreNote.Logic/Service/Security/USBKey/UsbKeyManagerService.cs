@@ -1,6 +1,6 @@
 ﻿using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Models.Entity.Leanote.User;
 
@@ -64,10 +64,7 @@ namespace MoreNote.Logic.Service.Security.USBKey
             {
                 usbkey.Id = idGenerator.NextId();
             }
-            if (WebSiteConfig.SecurityConfig.LogNeedHmac)
-            {
-                usbkey.AddMac(this.cryptographyProvider);
-            }
+ 
             this.dataContext.USBKeyBindings.Add(usbkey);
             
             this.dataContext.SaveChanges();

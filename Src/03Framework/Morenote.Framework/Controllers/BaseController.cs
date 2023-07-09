@@ -6,7 +6,7 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Language;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Models.DTO.Vditor.Upload;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;

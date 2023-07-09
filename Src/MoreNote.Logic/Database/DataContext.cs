@@ -6,7 +6,7 @@ using MoreNote.AutoFac;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Blog;

@@ -1,7 +1,7 @@
 ﻿using MoreNote.Logic.Database;
 using MoreNote.Models.Entity.Leanote.MyOrganization;
 using MoreNote.Models.Entity.Leanote.MyRepository;
-using MoreNote.Models.Enum;
+using MoreNote.Models.Enums;
 
 using System;
 using System.Collections.Generic;

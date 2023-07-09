@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using MoreNote.Common.ExtensionMethods;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Logic.Service.Logging;

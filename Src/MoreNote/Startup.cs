@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Morenote.Framework.Filter.Global;
 
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.Logging;

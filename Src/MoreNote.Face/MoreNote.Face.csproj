@@ -43,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MoreNote.Config\MoreNote.Config.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
   </ItemGroup>
 

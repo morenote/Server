@@ -1,6 +1,6 @@
 ﻿using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
@@ -70,10 +70,7 @@ namespace MoreNote.Logic.Service.Security.FIDO2
             {
                 fido2.Id = idGenerator.NextId();
             }
-            if (WebSiteConfig.SecurityConfig.LogNeedHmac)
-            {
-                fido2.AddMac(this.cryptographyProvider);
-            }
+     
             this.dataContext.Fido2Items.Add(fido2);
 
             this.dataContext.SaveChanges();

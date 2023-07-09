@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Models.Entity.Leanote.Notes;
 using System;

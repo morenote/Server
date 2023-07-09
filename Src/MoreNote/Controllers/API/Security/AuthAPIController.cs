@@ -15,6 +15,7 @@ using MoreNote.Logic.Service.Security.USBKey;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.Auth;
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
+using MoreNote.Models.Enums;
 using MoreNote.Models.Model.FIDO2;
 using System;
 using System.Text;
@@ -102,15 +103,7 @@ namespace MoreNote.Controllers.API.APIV1
                 if (!string.IsNullOrEmpty(tokenStr))
                 {
                     var user = userService.GetUserByEmail(email);
-                    if (this.config.SecurityConfig.LogNeedHmac)
-                    {
-                        user.VerifyHmac(this.cryptographyProvider);
-                        if (!user.Verify)
-                        {
-                            re.Msg = "VerifyHmac is Error";
-                            return LeanoteJson(re);
-                        }
-                    }
+                 
                     var userToken = new UserToken()
                     {
                         Token = tokenStr,
@@ -153,7 +146,7 @@ namespace MoreNote.Controllers.API.APIV1
             finally
             {
 
-                await logg.AddMac(this.cryptographyProvider);
+               
                 this.logging.Save(logg);
             }
         }
@@ -285,25 +278,7 @@ namespace MoreNote.Controllers.API.APIV1
                 return LeanoteJson(re);
             }
             var data= logging.GetAllUserLoggingLogin();
-            if (config.SecurityConfig.LogNeedHmac)
-            {
-                try
-                {
-                    foreach (var item in data)
-                    {
-                        var verify =  item.VerifyHmac(cryptographyProvider);
-                        item.Verify = verify;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    foreach (var item in data)
-                    {
-                        item.Verify = false;
-                    }
-
-                }
-            }
+      
            
             re.Data = data;
             re.Ok = true;

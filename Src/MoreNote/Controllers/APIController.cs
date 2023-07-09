@@ -8,7 +8,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Entity.ConfigFile;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileService.IMPL;
 using MoreNote.Logic.Service.Logging;

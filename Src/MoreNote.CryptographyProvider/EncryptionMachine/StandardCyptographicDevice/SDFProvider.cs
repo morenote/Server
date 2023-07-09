@@ -1,8 +1,9 @@
 ﻿using github.hyfree.SDFWrapper;
 using github.hyfree.SDFWrapper.Model;
 
+using IP2Region.Models;
+
 using MoreNote.Common.Utils;
-using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.ConfigFile;
 
 using System;
@@ -45,9 +46,9 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 
         private SDFHelper sdfHelper;
 
-        public SDFProvider(ConfigFileService configFileService)
+        public SDFProvider(SDFConfig sDFConfig)
         {
-            sdfConfig = configFileService.WebConfig.SDFConfig;
+            this.sdfConfig = sDFConfig;
             CheckInitSDF();
             sdfHelper = new SDFHelper();
             sdfHelper.SDF_OpenDevice();

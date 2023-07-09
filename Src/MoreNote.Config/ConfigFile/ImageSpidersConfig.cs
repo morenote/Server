@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoreNote.Logic.Entity.ConfigFile
+namespace MoreNote.Config.ConfigFile
 {
     /// <summary>
     /// 图片爬虫配置

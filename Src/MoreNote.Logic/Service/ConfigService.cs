@@ -1,4 +1,4 @@
-﻿using MoreNote.Logic.Entity.ConfigFile;
+﻿using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Entity.File;
 using System;
 using System.Collections.Generic;
