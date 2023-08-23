@@ -284,6 +284,7 @@
     <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
+    <ProjectReference Include="..\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
     <ProjectReference Include="..\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
   </ItemGroup>

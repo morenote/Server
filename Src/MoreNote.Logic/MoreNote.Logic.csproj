@@ -101,6 +101,7 @@
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
     <ProjectReference Include="..\MoreNote.Models.DTO\MoreNote.Models.DTO.csproj" />
+    <ProjectReference Include="..\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
     <ProjectReference Include="..\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
   </ItemGroup>

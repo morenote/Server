@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\MoreNote.Language\MoreNote.Language.csproj" />
     <ProjectReference Include="..\..\MoreNote.Logic\MoreNote.Logic.csproj" />
+    <ProjectReference Include="..\..\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
   </ItemGroup>
 
 </Project>
