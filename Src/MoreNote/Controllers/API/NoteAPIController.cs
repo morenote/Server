@@ -138,7 +138,7 @@ namespace MoreNote.Controllers.API.APIV1
 
                 ApiNote[] apiNotes = noteService.ToApiNotes(new Note[] { noteAndContent.note });
                 ApiNote apiNote = apiNotes[0];
-                apiNote.Content = noteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.IsMarkdown);
+                apiNote.Content = noteService.FixContent(noteAndContent.noteContent.Content, noteAndContent.note.ExtendedName==ExtendedNameEnum.md);
                 apiNote.Desc = noteAndContent.note.Desc;
                 apiNote.Abstract = noteAndContent.noteContent.Abstract;
                 if (noteAndContent == null)
@@ -184,7 +184,7 @@ namespace MoreNote.Controllers.API.APIV1
                 }
                 if (noteContent != null && !string.IsNullOrEmpty(noteContent.Content))
                 {
-                    noteContent.Content = noteService.FixContent(noteContent.Content, note.IsMarkdown);
+                    noteContent.Content = noteService.FixContent(noteContent.Content, note.ExtendedName==ExtendedNameEnum.md);
                 }
                 else
                 {
@@ -311,7 +311,7 @@ namespace MoreNote.Controllers.API.APIV1
                 Tags = noteOrContent.Tags,
                 Desc = noteOrContent.Desc,
                 IsBlog = noteOrContent.IsBlog.GetValueOrDefault(),
-                IsMarkdown = noteOrContent.IsMarkdown.GetValueOrDefault(),
+                ExtendedName = noteOrContent.ExtendedName.GetValueOrDefault(),
                 AttachNum = attachNum,
                 CreatedTime = noteOrContent.CreatedTime,
                 UpdatedTime = noteOrContent.UpdatedTime,
@@ -334,7 +334,7 @@ namespace MoreNote.Controllers.API.APIV1
             //-------------得到Desc, abstract
             if (string.IsNullOrEmpty(noteOrContent.Abstract))
             {
-                if (noteOrContent.IsMarkdown.GetValueOrDefault())
+                if (noteOrContent.ExtendedName.GetValueOrDefault()==ExtendedNameEnum.md)
                 {
                     // note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
                     noteContent.Abstract = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
@@ -351,7 +351,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             if (noteOrContent.Desc == null)
             {
-                if (noteOrContent.IsMarkdown.GetValueOrDefault())
+                if (noteOrContent.ExtendedName==ExtendedNameEnum.md)
                 {
                     note.Desc = MyHtmlHelper.SubMarkDownToRaw(noteOrContent.Content, 200);
                 }
@@ -380,7 +380,7 @@ namespace MoreNote.Controllers.API.APIV1
             noteOrContent.UserId = tokenUserId.ToHex();
             noteOrContent.Title = note.Title;
             noteOrContent.Tags = note.Tags;
-            noteOrContent.IsMarkdown = note.IsMarkdown;
+            noteOrContent.ExtendedName = note.ExtendedName;
             noteOrContent.IsBlog = note.IsBlog;
             noteOrContent.IsTrash = note.IsTrash;
             noteOrContent.IsDeleted = note.IsDeleted;
@@ -685,7 +685,7 @@ namespace MoreNote.Controllers.API.APIV1
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNote(string token, string noteTitle, string notebookId, bool isMarkdown, string dataSignJson)
+        public async Task<IActionResult> CreateNote(string token, string noteTitle, string notebookId, ExtendedNameEnum extendedName, string dataSignJson)
         {
 
             if (string.IsNullOrEmpty(noteTitle))
@@ -701,25 +701,7 @@ namespace MoreNote.Controllers.API.APIV1
             {
                 return LeanoteJson(re);
             }
-            if (this.config.SecurityConfig.ForceDigitalSignature)
-            {
-                //验证签名
-                var dataSign = DataSignDTO.FromJSON(dataSignJson);
-                verify = await this.ePassService.VerifyDataSign(dataSign);
-                if (!verify)
-                {
-                    return LeanoteJson(re);
-                }
-                verify = dataSign.SignData.Operate.Equals("/api/Note/CreateNote");
-                if (!verify)
-                {
-                    re.Msg = "Operate is not Equals ";
-                    return LeanoteJson(re);
-                }
-                //签名存证
-                this.dataSignService.AddDataSign(dataSign, "CreateNote");
-            }
-           
+         
           
 
             var repositoryId = notebook.NotesRepositoryId;
@@ -730,7 +712,7 @@ namespace MoreNote.Controllers.API.APIV1
             }
             var noteId = idGenerator.NextId();
             var noteContentId = idGenerator.NextId();
-            var content = isMarkdown ? "欢迎使用markdown文档 power by vditor" : "欢迎使用富文本文档 power by textbus";
+            var content = "";
             var usn = noteRepositoryService.IncrUsn(repositoryId);
 
             NoteContent noteContent = new NoteContent()
@@ -755,7 +737,7 @@ namespace MoreNote.Controllers.API.APIV1
                 Title = noteTitle,
                 UrlTitle = noteTitle,
                 NotesRepositoryId = repositoryId,
-                IsMarkdown = isMarkdown,
+                ExtendedName = extendedName,
                 CreatedTime = DateTime.Now,
                 UserId = user.Id,
                 CreatedUserId = user.Id,
@@ -1071,7 +1053,7 @@ namespace MoreNote.Controllers.API.APIV1
             var cloneContent = noteContext.Content;
 
             //添加新文件
-            this.noteService.AddNote(repositoryId, targetParentNotebook.Id, cloneNoteId, cloneNoteContentId, user.Id, note.Title, cloneContent, note.IsMarkdown, usn);
+            this.noteService.AddNote(repositoryId, targetParentNotebook.Id, cloneNoteId, cloneNoteContentId, user.Id, note.Title, cloneContent, note.ExtendedName, usn);
 
             var cloneNote = this.noteService.GetNote(cloneNoteId);
 

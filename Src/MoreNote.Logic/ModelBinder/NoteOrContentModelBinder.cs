@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using AngleSharp.Text;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Enums;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +36,7 @@ namespace MoreNote.Common.ModelBinder
                 Content = bindingContext.ValueProvider.GetValue("Content").FirstOrDefault(),
                 Abstract = bindingContext.ValueProvider.GetValue("Abstract").FirstOrDefault(),
                 IsNew = bindingContext.ValueProvider.GetValue("IsNew").FirstOrDefault().ToBool(),
-                IsMarkdown = bindingContext.ValueProvider.GetValue("IsMarkdown").FirstOrDefault().ToBool(),
+                ExtendedName = bindingContext.ValueProvider.GetValue("ExtendedName").FirstOrDefault().ToEnum<ExtendedNameEnum>(ExtendedNameEnum.md),
                 FromUserId = bindingContext.ValueProvider.GetValue("FromUserId").FirstOrDefault().ToLongByHex(),
                 IsBlog = bindingContext.ValueProvider.GetValue("IsBlog").FirstOrDefault().ToBool()
             };

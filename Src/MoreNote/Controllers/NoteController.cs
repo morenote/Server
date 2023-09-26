@@ -141,7 +141,7 @@ namespace MoreNote.Controllers
                     Desc = noteOrContent.Desc,
                     ImgSrc = noteOrContent.ImgSrc,
                     IsBlog = noteOrContent.IsBlog.GetValueOrDefault(),
-                    IsMarkdown = noteOrContent.IsMarkdown.GetValueOrDefault()
+                    ExtendedName = noteOrContent.ExtendedName.GetValueOrDefault()
                 };
                 var noteContent = new NoteContent()
                 {

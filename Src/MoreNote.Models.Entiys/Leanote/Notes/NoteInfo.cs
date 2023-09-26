@@ -11,6 +11,7 @@ using MoreNote.Common.Utils;
 
 using MoreNote.Common.ExtensionMethods;
 using Morenote.Models.Models.Entity;
+using MoreNote.Models.Enums;
 
 namespace MoreNote.Models.Entity.Leanote.Notes
 {
@@ -33,7 +34,8 @@ namespace MoreNote.Models.Entity.Leanote.Notes
         [Column("title")]
         public string? Title { get; set; }//标题 //【保护】
         [Column("extended_name")]
-        public string? ExtendedName { get; set; }//扩展名 ，用于取代IsMarkdown属性,应该使用小写格式 ，比如 md、html
+ 
+        public ExtendedNameEnum? ExtendedName { get; set; }//扩展名 ，用于取代IsMarkdown属性,应该使用小写格式 ，比如 md、html
         [Column("title_vector"), JsonIgnore]
         public NpgsqlTsVector? TitleVector { get; set; }
         [Column("desc")]
@@ -65,8 +67,7 @@ namespace MoreNote.Models.Entity.Leanote.Notes
         [Column("comment_num")]
         public int CommentNum { get; set; } // 评论次数 
 
-        [Column("is_markdown")]
-        public bool IsMarkdown { get; set; }// 是否是markdown笔记, 默认是false
+       
         [Column("attach_num")]
         public int AttachNum { get; set; }//// 2014/9/21, attachments num
         [Column("created_time")]
@@ -147,7 +148,7 @@ namespace MoreNote.Models.Entity.Leanote.Notes
         public string Content { get; set; }
         public string Abstract { get; set; }
         public bool? IsNew { get; set; }
-        public bool? IsMarkdown { get; set; }
+        public ExtendedNameEnum? ExtendedName { get; set; }//扩展名 ，用于取代IsMarkdown属性,应该使用小写格式 ，比如 md、html
 
         public long? FromUserId { get; set; }//// 为共享而新建
         public bool? IsBlog { get; set; }//是否是blog, 更新note不需要修改, 添加note时才有可能用到, 此时需要判断notebook是否设为Blog

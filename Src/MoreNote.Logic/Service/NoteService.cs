@@ -14,6 +14,7 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 using Z.EntityFramework.Plus;
 using System.Threading.Tasks;
 using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Enums;
 
 namespace MoreNote.Logic.Service
 {
@@ -56,7 +57,7 @@ namespace MoreNote.Logic.Service
         /// <param name="content">笔记内容</param>
         /// <param name="isMarkdown">笔记内容格式</param>
         /// <returns></returns>
-        public bool AddNote(long? repositoryId, long? notebookId, long? noteId, long? noteContentId, long? userId, string noteTitle, string content, bool isMarkdown,int usn)
+        public bool AddNote(long? repositoryId, long? notebookId, long? noteId, long? noteContentId, long? userId, string noteTitle, string content,ExtendedNameEnum? extendedName,int usn)
         {
             NoteContent noteContent = new NoteContent()
             {
@@ -81,7 +82,7 @@ namespace MoreNote.Logic.Service
                 Title = noteTitle,
                 UrlTitle = noteTitle,
                 NotesRepositoryId = repositoryId,
-                IsMarkdown = isMarkdown,
+                ExtendedName = extendedName,
                 CreatedTime = DateTime.Now,
                 UserId = userId,
                 CreatedUserId = userId,
@@ -467,7 +468,7 @@ namespace MoreNote.Logic.Service
                 Desc = note.Desc,
                 Tags = note.Tags,
 
-                IsMarkdown = note.IsMarkdown,
+                ExtendedName = note.ExtendedName,
                 IsBlog = note.IsBlog,
                 IsTrash = note.IsTrash,
                 IsDeleted = note.IsDeleted,
@@ -1071,14 +1072,16 @@ namespace MoreNote.Logic.Service
                 note.ContentId = contentId;
                 if (apiNote.Abstract == null)
                 {
-                    if (apiNote.IsMarkdown.GetValueOrDefault(note.IsMarkdown))
-                    {
-                        note.Desc = MyHtmlHelper.SubMarkDownToRaw(apiNote.Content, 200);
-                    }
-                    else
-                    {
-                        note.Desc = MyHtmlHelper.SubHTMLToRaw(apiNote.Content, 200);
-                    }
+
+                    note.Desc="未设置";
+                    //if (apiNote.ExtendedName.GetValueOrDefault(note.ExtendedName))
+                    //{
+                    //    note.Desc = MyHtmlHelper.SubMarkDownToRaw(apiNote.Content, 200);
+                    //}
+                    //else
+                    //{
+                    //    note.Desc = MyHtmlHelper.SubHTMLToRaw(apiNote.Content, 200);
+                    //}
 
                     //  note.Desc = MyHtmlHelper.SubStringHTMLToRaw(apiNote.Content, 200);
                 }
@@ -1107,9 +1110,9 @@ namespace MoreNote.Logic.Service
                 note.IsTrash = apiNote.IsTrash.GetValueOrDefault(false);
                 NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
             }
-            if (apiNote.IsMarkdown != null)
+            if (apiNote.ExtendedName != null)
             {
-                note.IsMarkdown = apiNote.IsMarkdown.GetValueOrDefault();
+                note.ExtendedName = apiNote.ExtendedName;
             }
             note.UpdatedUserId = updateUser;
 

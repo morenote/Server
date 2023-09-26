@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MoreNote.Models.Enums;
+
+using System;
 
 namespace MoreNote.Logic.Entity
 {
@@ -33,7 +35,7 @@ namespace MoreNote.Logic.Entity
 
         public string Abstract { get; set; }
         public string Content { get; set; }
-        public bool? IsMarkdown { get; set; }
+        public ExtendedNameEnum? ExtendedName { get; set; }
 
         //	FromUserId string // 为共享而新建
         public bool? IsBlog { get; set; }

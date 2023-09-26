@@ -88,7 +88,10 @@ namespace MoreNote.Logic.Database
                .Entity<UserInfo>()
                .Property(e => e.PreferredRichTextEditor)
                .HasConversion<string>();
-
+            modelBuilder
+              .Entity<Note>()
+              .Property(e => e.ExtendedName)
+              .HasConversion<string>();
             //============================种子数据 数据库迁移的时候自动生成================================
         }
 

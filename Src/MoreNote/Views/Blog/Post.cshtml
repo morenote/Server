@@ -70,7 +70,7 @@
                             {{else}}
                             {{$.post.Content | raw}}
                             {{end}}*@
-                        @if (note.IsMarkdown)
+                        @if (note.ExtendedName==MoreNote.Models.Enums.ExtendedNameEnum.md)
                         {
                             <div id="markdownContent" style="display: none">
                                 <textarea>@Html.Raw(noteAndContent.noteContent.Content)</textarea>
@@ -122,7 +122,7 @@
     <script src="~/blog/themes/MaterialDesign/js/common.js"></script>
     <script src="~/blog/themes/MaterialDesign/js/share_comments.js"></script>
     <!-- markdown 调用markdown来解析得到html-->
-    @if (note.IsMarkdown)
+    @if (note.ExtendedName==MoreNote.Models.Enums.ExtendedNameEnum.md)
     {
         <script src="~/blog/libs/md2html/md2html.js"></script>
         <script>
