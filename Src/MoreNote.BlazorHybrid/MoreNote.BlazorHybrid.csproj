@@ -65,6 +65,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Remove="package.json" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="AntDesign" Version="0.17.3.1" />
       <PackageReference Include="AntDesign.Charts" Version="0.4.0" />
       <PackageReference Include="AntDesign.ProLayout" Version="0.16.2" />
