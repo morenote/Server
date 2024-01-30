@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "morenote-sync-cli": {
+      "commandName": "Project",
+      "commandLineArgs": "clone -remote https://localhost:5001 -email test@qq.com -password  testtest",
+      "workingDirectory": "E:\\sync"
+    }
+  }
+}

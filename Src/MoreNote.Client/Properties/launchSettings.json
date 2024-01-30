@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MoreNote.Client (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MoreNote.Client (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
