@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MoreNote.Common.Cryptography
+﻿namespace MoreNote.Common.Cryptography
 {
-    public class AES256
-    {
+	public class AES256
+	{
 
-    }
+	}
 }

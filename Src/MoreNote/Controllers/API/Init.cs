@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MoreNote.Controllers.API.APIV1
+﻿namespace MoreNote.Controllers.API.APIV1
 {
-    public class Init
-    {
-      
-    }
+	public class Init
+	{
+
+	}
 }

@@ -1,47 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MoreNote.Logic.Database;
+
 using MoreNote.Logic.Service;
-using MoreNote.Logic.Service.Logging;
 using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.Admin
 {
-    public class AdminBlogController : AdminBaseController
-    {
+	public class AdminBlogController : AdminBaseController
+	{
 
 
-          public AdminBlogController(AttachService attachService
-              , TokenSerivce tokenSerivce
-              , NoteFileService noteFileService
-              , UserService userService
-              , ConfigFileService configFileService
-              , IHttpContextAccessor accessor,
-              AccessService accessService
+		public AdminBlogController(AttachService attachService
+			, TokenSerivce tokenSerivce
+			, NoteFileService noteFileService
+			, UserService userService
+			, ConfigFileService configFileService
+			, IHttpContextAccessor accessor,
+			AccessService accessService
 
 
-             ) :
-            base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
-        {
+		   ) :
+		  base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+		{
 
-        }
-        public IActionResult Index()
-        {
-            UserInfo user = GetUserBySession();
-            ViewBag.user = user;
+		}
+		public IActionResult Index()
+		{
+			UserInfo user = GetUserBySession();
+			ViewBag.user = user;
 
-            SetLocale();
+			SetLocale();
 
 
-          
-            ViewBag.title = "ControlPanel ";
-            //return View("Views/Home/About.cshtml");
 
-            return View("Views/admin/blog/list.cshtml");
-        }
-    }
+			ViewBag.title = "ControlPanel ";
+			//return View("Views/Home/About.cshtml");
+
+			return View("Views/admin/blog/list.cshtml");
+		}
+	}
 }

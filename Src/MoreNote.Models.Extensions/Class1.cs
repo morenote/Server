@@ -1,7 +1,7 @@
 ﻿namespace MoreNote.Models.Extensions
 {
-    public class Class1
-    {
+	public class Class1
+	{
 
-    }
+	}
 }

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace MoreNote.Language
+﻿namespace MoreNote.Language
 {
-    public class Class1
-    {
-    }
+	public class Class1
+	{
+	}
 }

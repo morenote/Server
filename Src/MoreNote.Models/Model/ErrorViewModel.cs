@@ -1,9 +1,9 @@
 namespace MoreNote.Logic.Model
 {
-    public class ErrorViewModel
-    {
-        public string RequestId { get; set; }
+	public class ErrorViewModel
+	{
+		public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+		public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+	}
 }

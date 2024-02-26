@@ -1,100 +1,100 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MoreNote.Logic.Database;
+
 using System;
 
 namespace MoreNote.Logic.Service
 {
-    /// <summary>
-    /// 依赖注入服务
-    /// </summary>
-    public  class DependencyInjectionService
-    {
-        public IServiceProvider ServiceProvider { get; set; }
+	/// <summary>
+	/// 依赖注入服务
+	/// </summary>
+	public class DependencyInjectionService
+	{
+		public IServiceProvider ServiceProvider { get; set; }
 
-        public DependencyInjectionService(IServiceProvider serviceProvider)
-        {
-            this.ServiceProvider = serviceProvider;
-        }
+		public DependencyInjectionService(IServiceProvider serviceProvider)
+		{
+			this.ServiceProvider = serviceProvider;
+		}
 
-    
-        public IServiceScope GetServiceScope()
-        {
-            var scope = ServiceProvider.CreateScope();
-            return scope;
-        }
 
-        public UserService GetUserService()
-        {
-            return ServiceProvider.GetRequiredService<UserService>();
-        }
+		public IServiceScope GetServiceScope()
+		{
+			var scope = ServiceProvider.CreateScope();
+			return scope;
+		}
 
-        public NoteImageService GetNoteImageService()
-        {
-            return ServiceProvider.GetRequiredService<NoteImageService>();
-        }
+		public UserService GetUserService()
+		{
+			return ServiceProvider.GetRequiredService<UserService>();
+		}
 
-        public NoteContentService GetNoteContentService()
-        {
-            return ServiceProvider.GetRequiredService<NoteContentService>();
-        }
+		public NoteImageService GetNoteImageService()
+		{
+			return ServiceProvider.GetRequiredService<NoteImageService>();
+		}
 
-        public AttachService GetAttachService()
-        {
-            return ServiceProvider.GetRequiredService<AttachService>();
-        }
+		public NoteContentService GetNoteContentService()
+		{
+			return ServiceProvider.GetRequiredService<NoteContentService>();
+		}
 
-        public CommonService GetCommonService()
-        {
-            return ServiceProvider.GetRequiredService<CommonService>();
-        }
+		public AttachService GetAttachService()
+		{
+			return ServiceProvider.GetRequiredService<AttachService>();
+		}
 
-        public InitServices GetInitServices()
-        {
-            return ServiceProvider.GetRequiredService<InitServices>();
-        }
+		public CommonService GetCommonService()
+		{
+			return ServiceProvider.GetRequiredService<CommonService>();
+		}
 
-        public NotebookService GetNotebookService()
-        {
-            return ServiceProvider.GetRequiredService<NotebookService>();
-        }
+		public InitServices GetInitServices()
+		{
+			return ServiceProvider.GetRequiredService<InitServices>();
+		}
 
-        public TagService GetTagService()
-        {
-            return ServiceProvider.GetRequiredService<TagService>();
-        }
+		public NotebookService GetNotebookService()
+		{
+			return ServiceProvider.GetRequiredService<NotebookService>();
+		}
 
-        public TokenSerivce GetTokenSerivce()
-        {
-            return ServiceProvider.GetRequiredService<TokenSerivce>();
-        }
+		public TagService GetTagService()
+		{
+			return ServiceProvider.GetRequiredService<TagService>();
+		}
 
-        public NoteService GetNoteService()
-        {
-            return ServiceProvider.GetRequiredService<NoteService>();
-        }
+		public TokenSerivce GetTokenSerivce()
+		{
+			return ServiceProvider.GetRequiredService<TokenSerivce>();
+		}
 
-        public BlogService GetBlogService()
-        {
-            return ServiceProvider.GetRequiredService<BlogService>();
-        }
+		public NoteService GetNoteService()
+		{
+			return ServiceProvider.GetRequiredService<NoteService>();
+		}
 
-        public ConfigService GetConfigService()
-        {
-            return ServiceProvider.GetRequiredService<ConfigService>();
-        }
+		public BlogService GetBlogService()
+		{
+			return ServiceProvider.GetRequiredService<BlogService>();
+		}
 
-        public ConfigFileService GetConfigFileService()
-        {
-            return ServiceProvider.GetRequiredService<ConfigFileService>();
-        }
+		public ConfigService GetConfigService()
+		{
+			return ServiceProvider.GetRequiredService<ConfigService>();
+		}
 
-        public EmailService GetEmailService()
-        {
-            return ServiceProvider.GetRequiredService<EmailService>();
-        }
-        public AccessService GetAccessService()
-        {
-            return ServiceProvider.GetRequiredService<AccessService>();;
-        }
-    }
+		public ConfigFileService GetConfigFileService()
+		{
+			return ServiceProvider.GetRequiredService<ConfigFileService>();
+		}
+
+		public EmailService GetEmailService()
+		{
+			return ServiceProvider.GetRequiredService<EmailService>();
+		}
+		public AccessService GetAccessService()
+		{
+			return ServiceProvider.GetRequiredService<AccessService>(); ;
+		}
+	}
 }

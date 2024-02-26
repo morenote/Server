@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MoreNote.Logic.IService
+﻿namespace MoreNote.Logic.IService
 {
-    interface ISessionService
-    {
+	interface ISessionService
+	{
 
-    }
+	}
 }

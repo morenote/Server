@@ -1,37 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MoreNote.Models.DTO.Leanote.ApiRequest
+﻿namespace MoreNote.Models.DTO.Leanote.ApiRequest
 {
-    public enum SignatureAlgorithm
-    {
-        /// <summary>
-        /// 匿名
-        /// </summary>
-        Anonymous,
-        /// <summary>
-        /// 使用token验证身份
-        /// </summary>
-        Token,
-        /// <summary>
-        /// HMAC using SHA-256 
-        /// </summary>
-        HS256,
-        /// <summary>
-        /// RSA-4096 SHA256
-        /// </summary>
-        RS256, 
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        ES256,
-        /// <summary>
-        /// 国密sm2 sm3
-        /// </summary>
-        SM2
-    }
+	public enum SignatureAlgorithm
+	{
+		/// <summary>
+		/// 匿名
+		/// </summary>
+		Anonymous,
+		/// <summary>
+		/// 使用token验证身份
+		/// </summary>
+		Token,
+		/// <summary>
+		/// HMAC using SHA-256 
+		/// </summary>
+		HS256,
+		/// <summary>
+		/// RSA-4096 SHA256
+		/// </summary>
+		RS256,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ES256,
+		/// <summary>
+		/// 国密sm2 sm3
+		/// </summary>
+		SM2
+	}
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
@@ -10,15 +10,15 @@
 
   <ItemGroup>
     <PackageReference Include="jieba.NET" Version="0.42.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
-    <PackageReference Include="coverlet.collector" Version="6.0.0">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.2.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.2.2" />
+    <PackageReference Include="coverlet.collector" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-	  <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.3" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.7" />
+	  <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.102.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MoreNote.Logic.Models.Enum
+﻿namespace MoreNote.Logic.Models.Enum
 {
-    public enum ShareTypeEnum
-    {
-        Note
-    }
+	public enum ShareTypeEnum
+	{
+		Note
+	}
 }

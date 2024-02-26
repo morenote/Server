@@ -1,218 +1,218 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+
 using Morenote.Framework.Filter.Global;
+
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
-
+using MoreNote.Config.ConfigFile;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
-using MoreNote.Config.ConfigFile;
+using MoreNote.Logic.Property;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.FileService.IMPL;
-using MoreNote.Logic.Service.Logging;
+using MoreNote.Logic.Service.VerificationCode;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MoreNote.Logic.Service.DistributedIDGenerator;
+
 using UpYunLibrary.ContentRecognition;
-using MoreNote.Logic.Service.VerificationCode;
-using MoreNote.Logic.Property;
 
 namespace MoreNote.Controllers
 {
-    public class APIController : BaseController
-    {
-        private AccessService AccessService { get; set; }
-      
-        private DataContext dataContext;
-        private ConfigFileService configFileService;
+	public class APIController : BaseController
+	{
+		private AccessService AccessService { get; set; }
 
-        /// <summary>
-        /// 保险丝
-        /// </summary>
-        private readonly int _randomImageFuseSize;
+		private DataContext dataContext;
+		private ConfigFileService configFileService;
 
-        /// <summary>
-        /// 保险丝计数器
-        /// 当访问量查过保险丝的能力时，直接熔断接口。
-        /// </summary>
-        private static int _fuseCount = 0;
+		/// <summary>
+		/// 保险丝
+		/// </summary>
+		private readonly int _randomImageFuseSize;
 
-        private static readonly object _fuseObj = new object();
+		/// <summary>
+		/// 保险丝计数器
+		/// 当访问量查过保险丝的能力时，直接熔断接口。
+		/// </summary>
+		private static int _fuseCount = 0;
 
-       
+		private static readonly object _fuseObj = new object();
 
-        //目录分隔符
-        private static readonly char dsc = Path.DirectorySeparatorChar;
 
-        //private static Dictionary<string, string> typeName = new Dictionary<string, string>();
-        private static WebSiteConfig webcConfig;
 
-        private static Random random = new Random();
+		//目录分隔符
+		private static readonly char dsc = Path.DirectorySeparatorChar;
 
-        private AccessService accessService;
+		//private static Dictionary<string, string> typeName = new Dictionary<string, string>();
+		private static WebSiteConfig webcConfig;
 
-        private IDistributedIdGenerator idGenerator;
+		private static Random random = new Random();
 
-        [Autowired]
-        private ICaptchaGenerator captchaGenerator { get; set; }
+		private AccessService accessService;
 
-        public APIController(AttachService attachService
-            , TokenSerivce tokenSerivce
-            , NoteFileService noteFileService
-            , UserService userService
-            , ConfigFileService configFileService
-            , IHttpContextAccessor accessor,
-            AccessService accessService,
-            DataContext dataContext
-         
+		private IDistributedIdGenerator idGenerator;
 
-            ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
-        {
-            this.AccessService = accessService;
-            this.dataContext = dataContext;
-          
-            this.configFileService = configFileService;
-            webcConfig = configFileService.WebConfig;
+		[Autowired]
+		private ICaptchaGenerator captchaGenerator { get; set; }
 
-            _randomImageFuseSize = webcConfig.PublicAPI.RandomImageFuseSize;
-           
-        }
+		public APIController(AttachService attachService
+			, TokenSerivce tokenSerivce
+			, NoteFileService noteFileService
+			, UserService userService
+			, ConfigFileService configFileService
+			, IHttpContextAccessor accessor,
+			AccessService accessService,
+			DataContext dataContext
 
-        private class RandomImageResult
-        {
-            public int Error { get; set; }
-            public int Result { get; set; }
-            public int Count { get; set; }
-            public List<string> Images { get; set; }
-        }
 
-        [Route("CacheServer/RandomImages/{typeMd5}/{fileName}")]
-        [HttpGet]
-        public async Task<IActionResult> MinIOImagesAsync(string typeMd5, string fileName)
-        {
-            MinIOFileStoreService minio = new MinIOFileStoreService(webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);
-            string fileExt = Path.GetExtension(fileName);
-            var objectName = $"{typeMd5}/{fileName}";
-            var data = await minio.GetObjecByteArraytAsync(webcConfig.MinIOConfig.RandomImagesBucketName, objectName);
-            var provider = new FileExtensionContentTypeProvider();
-            var memi = provider.Mappings[fileExt];
+			) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
+		{
+			this.AccessService = accessService;
+			this.dataContext = dataContext;
 
-            return File(data, memi);
-        }
+			this.configFileService = configFileService;
+			webcConfig = configFileService.WebConfig;
 
-      
+			_randomImageFuseSize = webcConfig.PublicAPI.RandomImageFuseSize;
 
-       
+		}
 
-      
+		private class RandomImageResult
+		{
+			public int Error { get; set; }
+			public int Result { get; set; }
+			public int Count { get; set; }
+			public List<string> Images { get; set; }
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> UpYunImageServiceHook()
-        {
-            using (StreamReader reader = new StreamReader(Request.Body))
-            {
-                try
-                {
-                    string body = await reader.ReadToEndAsync().ConfigureAwait(true);
-                    ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, Common.Utils.MyJsonConvert.GetLeanoteOptions());
-                    if (string.IsNullOrEmpty(message.uri) || message.type == UpyunType.test)
-                    {
-                        Response.StatusCode = 200;
-                        return Content("未找到");
-                    }
-                    string fileSHA1 = Path.GetFileNameWithoutExtension(message.uri);
+		[Route("CacheServer/RandomImages/{typeMd5}/{fileName}")]
+		[HttpGet]
+		public async Task<IActionResult> MinIOImagesAsync(string typeMd5, string fileName)
+		{
+			MinIOFileStoreService minio = new MinIOFileStoreService(webcConfig.MinIOConfig.Endpoint, webcConfig.MinIOConfig.MINIO_ACCESS_KEY, webcConfig.MinIOConfig.MINIO_SECRET_KEY, webcConfig.MinIOConfig.WithSSL, webcConfig.MinIOConfig.BrowserDownloadExpiresInt);
+			string fileExt = Path.GetExtension(fileName);
+			var objectName = $"{typeMd5}/{fileName}";
+			var data = await minio.GetObjecByteArraytAsync(webcConfig.MinIOConfig.RandomImagesBucketName, objectName);
+			var provider = new FileExtensionContentTypeProvider();
+			var memi = provider.Mappings[fileExt];
 
-                    RandomImage imagedb = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
-                    if (imagedb == null)
-                    {
-                        Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        return Content("未找到");
-                    }
-                    switch (message.type)
-                    {
-                        case UpyunType.delete:
-                            imagedb.IsDelete = true;
-                            break;
+			return File(data, memi);
+		}
 
-                        case UpyunType.shield:
-                            imagedb.Block = true;
-                            break;
 
-                        case UpyunType.cancel_shield:
-                            imagedb.Block = false;
-                            break;
 
-                        case UpyunType.forbidden:
-                            imagedb.Block = true;
-                            break;
 
-                        case UpyunType.cancel_forbidden:
-                            imagedb.Block = false;
-                            break;
 
-                        default:
-                            break;
-                    }
-                    dataContext.SaveChanges();
-                    // Do something
-                }
-                catch (Exception ex)
-                {
-                    Response.StatusCode = 404;
-                    return Content("false" + ex.Message);
-                }
-            }
-            Response.StatusCode = 200;
-            return Content("ok");
-        }
 
-        //浏览器检测
-        public IActionResult BrowserDetection()
-        {
-            return Redirect($"https://www.morenote.top/BrowserDetection.js");
-        }
 
-        /// <summary>
-        /// 获取图形验证码
-        /// </summary>
-        /// <returns></returns>
-        // [HttpGet("VerifyCode")]
-        [SkipInspectionInstallationFilter]
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public  IActionResult VerifyCode()
-        {
-            Response.ContentType = "image/jpeg";
+		[HttpPost]
+		public async Task<IActionResult> UpYunImageServiceHook()
+		{
+			using (StreamReader reader = new StreamReader(Request.Body))
+			{
+				try
+				{
+					string body = await reader.ReadToEndAsync().ConfigureAwait(true);
+					ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, Common.Utils.MyJsonConvert.GetLeanoteOptions());
+					if (string.IsNullOrEmpty(message.uri) || message.type == UpyunType.test)
+					{
+						Response.StatusCode = 200;
+						return Content("未找到");
+					}
+					string fileSHA1 = Path.GetFileNameWithoutExtension(message.uri);
 
-            var buffer = captchaGenerator.GenerateImage(out var code);
+					RandomImage imagedb = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
+					if (imagedb == null)
+					{
+						Response.StatusCode = (int)HttpStatusCode.NotFound;
+						return Content("未找到");
+					}
+					switch (message.type)
+					{
+						case UpyunType.delete:
+							imagedb.IsDelete = true;
+							break;
 
-            //存session
-            HttpContext.Session.SetString("VerifyCode", code.ToLower());
+						case UpyunType.shield:
+							imagedb.Block = true;
+							break;
 
-            //使用标志，不允许重复使用一个验证码。
-            //这个验证码被消费一次后，要置0。
-            HttpContext.Session.SetInt32("VerifyCodeValid", 1);
+						case UpyunType.cancel_shield:
+							imagedb.Block = false;
+							break;
 
-            //验证码生成时间。
-            HttpContext.Session.SetInt32("VerifyCodeTime", UnixTimeUtil.GetTimeStampInInt32());
+						case UpyunType.forbidden:
+							imagedb.Block = true;
+							break;
 
-            //string sessionID = Request.Cookies["SessionID"];
-            //RedisManager.SetString(sessionID, code);
+						case UpyunType.cancel_forbidden:
+							imagedb.Block = false;
+							break;
 
-            // Response.Cookies.Append("code",code);
+						default:
+							break;
+					}
+					dataContext.SaveChanges();
+					// Do something
+				}
+				catch (Exception ex)
+				{
+					Response.StatusCode = 404;
+					return Content("false" + ex.Message);
+				}
+			}
+			Response.StatusCode = 200;
+			return Content("ok");
+		}
 
-            // 将验证码的token放入cookie
-            // Response.Cookies.Append(VERFIY_CODE_TOKEN_COOKIE_NAME, await SecurityServices.GetVerifyCodeToken(code));
+		//浏览器检测
+		public IActionResult BrowserDetection()
+		{
+			return Redirect($"https://www.morenote.top/BrowserDetection.js");
+		}
 
-            return File(buffer, "image/png");
-        }
-    }
+		/// <summary>
+		/// 获取图形验证码
+		/// </summary>
+		/// <returns></returns>
+		// [HttpGet("VerifyCode")]
+		[SkipInspectionInstallationFilter]
+		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult VerifyCode()
+		{
+			Response.ContentType = "image/jpeg";
+
+			var buffer = captchaGenerator.GenerateImage(out var code);
+
+			//存session
+			HttpContext.Session.SetString("VerifyCode", code.ToLower());
+
+			//使用标志，不允许重复使用一个验证码。
+			//这个验证码被消费一次后，要置0。
+			HttpContext.Session.SetInt32("VerifyCodeValid", 1);
+
+			//验证码生成时间。
+			HttpContext.Session.SetInt32("VerifyCodeTime", UnixTimeUtil.GetTimeStampInInt32());
+
+			//string sessionID = Request.Cookies["SessionID"];
+			//RedisManager.SetString(sessionID, code);
+
+			// Response.Cookies.Append("code",code);
+
+			// 将验证码的token放入cookie
+			// Response.Cookies.Append(VERFIY_CODE_TOKEN_COOKIE_NAME, await SecurityServices.GetVerifyCodeToken(code));
+
+			return File(buffer, "image/png");
+		}
+	}
 }

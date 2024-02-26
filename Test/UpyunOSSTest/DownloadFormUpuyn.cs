@@ -1,88 +1,87 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreNote.Logic.Database;
+
 using System.IO;
-using System.Linq;
 using System.Net;
 
 namespace UpyunTest
 {
-    [TestClass]
-    public class DownloadFormUpuyn
-    {
-        [TestMethod]
-        public void DownFile()
-        {
-            //using (var db = new DataContext())
-            //{
-            //    var files = db.NoteFile.ToArray();
-            //    int count=0;
-            //    foreach (var file in files)
-            //    {
-            //        count++;
-            //        System.Console.WriteLine($"正在下载：{count}");
+	[TestClass]
+	public class DownloadFormUpuyn
+	{
+		[TestMethod]
+		public void DownFile()
+		{
+			//using (var db = new DataContext())
+			//{
+			//    var files = db.NoteFile.ToArray();
+			//    int count=0;
+			//    foreach (var file in files)
+			//    {
+			//        count++;
+			//        System.Console.WriteLine($"正在下载：{count}");
 
-            //        var url = $"https://upyun.morenote.top//{file.Path}";
-            //        url = url.Replace("\\", "/");
-            //        string temp = file.Path;
-            //        temp = temp.Replace("/", "\\");
+			//        var url = $"https://upyun.morenote.top//{file.Path}";
+			//        url = url.Replace("\\", "/");
+			//        string temp = file.Path;
+			//        temp = temp.Replace("/", "\\");
 
-            //        var path = $@"C:\下载\file\{temp}";
-            //        var dir = Path.GetDirectoryName(path);
-            //        if (!Directory.Exists(dir))
-            //        {
-            //            Directory.CreateDirectory(dir);
-            //        }
-            //        if (!File.Exists(path))
-            //        {
-            //            HttpDownloadFile(url, path);
-            //        }
-                   
-            //    }
-            //}
-        }
-         
+			//        var path = $@"C:\下载\file\{temp}";
+			//        var dir = Path.GetDirectoryName(path);
+			//        if (!Directory.Exists(dir))
+			//        {
+			//            Directory.CreateDirectory(dir);
+			//        }
+			//        if (!File.Exists(path))
+			//        {
+			//            HttpDownloadFile(url, path);
+			//        }
 
-        public static string HttpDownloadFile(string url, string path)
+			//    }
+			//}
+		}
 
-        {
-            try
-            {
-                // 设置参数
 
-                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-                //发送请求并获取相应回应数据
+		public static string HttpDownloadFile(string url, string path)
 
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+		{
+			try
+			{
+				// 设置参数
 
-                //直到request.GetResponse()程序才开始向目标网页发送Post请求
+				HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+				//发送请求并获取相应回应数据
 
-                Stream responseStream = response.GetResponseStream();
-                //创建本地文件写入流
+				HttpWebResponse response = request.GetResponse() as HttpWebResponse;
 
-                Stream stream = new FileStream(path, FileMode.Create);
-                byte[] bArr = new byte[1024];
+				//直到request.GetResponse()程序才开始向目标网页发送Post请求
 
-                int size = responseStream.Read(bArr, 0, (int)bArr.Length);
+				Stream responseStream = response.GetResponseStream();
+				//创建本地文件写入流
 
-                while (size > 0)
-                {
-                    stream.Write(bArr, 0, size);
+				Stream stream = new FileStream(path, FileMode.Create);
+				byte[] bArr = new byte[1024];
 
-                    size = responseStream.Read(bArr, 0, (int)bArr.Length);
-                }
+				int size = responseStream.Read(bArr, 0, (int)bArr.Length);
 
-                stream.Close();
+				while (size > 0)
+				{
+					stream.Write(bArr, 0, size);
 
-                responseStream.Close();
+					size = responseStream.Read(bArr, 0, (int)bArr.Length);
+				}
 
-                return path;
-            }
-            catch (System.Exception ex)
-            {
+				stream.Close();
 
-                return null;
-            }
-            
-        }
-    }
+				responseStream.Close();
+
+				return path;
+			}
+			catch (System.Exception ex)
+			{
+
+				return null;
+			}
+
+		}
+	}
 }

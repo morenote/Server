@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace NickelProject.Logic.Entity
+﻿namespace NickelProject.Logic.Entity
 {
-    public class EditorImageUploadResult
-    {
-        /* "errno": 0,
+	public class EditorImageUploadResult
+	{
+		/* "errno": 0,
 
     // data 是一个数组，返回若干图片的线上地址
     "data": [
@@ -12,12 +10,12 @@ namespace NickelProject.Logic.Entity
         "图片2地址",
         "……"
     ]*/
-        public int errno { get; set; }
-        public List<string> data { get; set; }
+		public int errno { get; set; }
+		public List<string> data { get; set; }
 
-        public EditorImageUploadResult()
-        {
-            data = new List<string>();
-        }
-    }
+		public EditorImageUploadResult()
+		{
+			data = new List<string>();
+		}
+	}
 }

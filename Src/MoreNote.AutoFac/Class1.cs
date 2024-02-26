@@ -2,9 +2,9 @@
 
 namespace MoreNote.AutoFac
 {
-    public class AutoFacHelper
-    {
-        public static IContainer Container { get; set; }
+	public class AutoFacHelper
+	{
+		public static IContainer Container { get; set; }
 
-    }
+	}
 }

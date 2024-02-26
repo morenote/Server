@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MoreNote.Common.Cryptography
+﻿namespace MoreNote.Common.Cryptography
 {
-    class Class1
-    {
-    }
+	class Class1
+	{
+	}
 }

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MoreNote.Logic.Service.BlogBuilder.Hexo
+﻿namespace MoreNote.Logic.Service.BlogBuilder.Hexo
 {
-    internal class HexoBuilder
-    {
+	internal class HexoBuilder
+	{
 
 
-    }
+	}
 }

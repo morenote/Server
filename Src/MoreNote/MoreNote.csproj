@@ -3,7 +3,7 @@
   <PropertyGroup>
 	  <ServerGarbageCollection>false</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
-	  <TargetFramework>net7.0</TargetFramework>
+	  <TargetFramework>net8.0</TargetFramework>
 	  <OutputType>Exe</OutputType>
 	  <UserSecretsId>d3b6d0b2-55da-4dd0-a053-3271a7026623</UserSecretsId>
 	  <AssemblyName>MoreNote</AssemblyName>
@@ -122,19 +122,17 @@
 
   <ItemGroup>
     
-    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="Autofac" Version="8.0.0" />
     
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
     
     <PackageReference Include="Autofac.Extras.NLog" Version="4.0.1" />
     
     <PackageReference Include="Autofac.log4net" Version="6.0.2" />
     
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     
-    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="6.0.4" />
-    
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.0" />
     
     <PackageReference Include="CacheManager.Serialization.Json" Version="1.2.0" />
     
@@ -142,7 +140,7 @@
     
     <PackageReference Include="CLRStats" Version="1.0.0" />
     
-    <PackageReference Include="CSRedisCore" Version="3.8.670" />
+    <PackageReference Include="CSRedisCore" Version="3.8.802" />
     
     <PackageReference Include="Fido2" Version="3.0.1" />
     
@@ -156,74 +154,75 @@
     
     <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.2.0" />
     
-    <PackageReference Include="Hangfire" Version="1.8.2" />
+    <PackageReference Include="Hangfire" Version="1.8.11" />
     
-    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.8.0" />
     
-    <PackageReference Include="htmldiff.net" Version="1.4.1" />
+    <PackageReference Include="htmldiff.net" Version="1.4.2" />
     
     <PackageReference Include="IP2Region" Version="1.2.0" />
     
     <PackageReference Include="jieba.NET" Version="0.42.2" />
     
-    <PackageReference Include="Karambolo.AspNetCore.Bundling.NUglify" Version="3.6.1" />
+    <PackageReference Include="Karambolo.AspNetCore.Bundling.NUglify" Version="3.7.0" />
     
     <PackageReference Include="log4net" Version="2.0.15" />
     
     <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
     
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
     
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.2" />
     
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
     
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
 
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.2" />
 
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 
-    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.0.0" />
 
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.1.3">
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
 
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
 
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
 
-    <PackageReference Include="QRCoder-ImageSharp" Version="0.9.0" />
+    <PackageReference Include="QRCoder-ImageSharp" Version="0.10.0" />
 
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
 
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
-    <PackageReference Include="StackExchange.Redis" Version="2.6.116" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.23" />
     <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
     <PackageReference Include="WebApiClient.Extensions.DependencyInjection" Version="2.0.3" />
     <PackageReference Include="WebApiClientCore" Version="2.0.4" />
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.3" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.102.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
