@@ -58,4 +58,4 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: hyfree/morenote:${{ github.sha }}
+        tags: hyfree/morenote:latest
