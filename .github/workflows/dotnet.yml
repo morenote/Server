@@ -43,9 +43,8 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build and push
       uses: docker/build-push-action@v5
-      working-directory: Src/MoreNote
       with:
-        context: .
+        context:  ./Src/MoreNote
         file: ./Dockerfile
         platforms: |
             linux/amd64
