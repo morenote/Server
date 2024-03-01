@@ -27,7 +27,9 @@ jobs:
     - name: cd project
       run:  cd Src/MoreNote 
     - name: Restore dependencies
+      working-directory: Src/MoreNote
       run: pwd && ls && dotnet restore
     - name: Publish
+      working-directory: Src/MoreNote
       run:  dotnet publish -f net8.0 -c Release --self-contained false
 
