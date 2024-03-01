@@ -22,8 +22,12 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
+    - name: env info
+      run: ls & pwd
+    - name: cd project
+      run:  cd Src/MoreNote 
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish
-      run: cd Src/MoreNote && dotnet publish -f net8.0 -c Release --self-contained false
+      run:  dotnet publish -f net8.0 -c Release --self-contained false
 
