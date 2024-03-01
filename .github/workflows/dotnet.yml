@@ -25,5 +25,5 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish
-      run: dotnet build -f net8.0 -c Release --self-contained false
+      run: cd Src/MoreNote && dotnet publish -f net8.0 -c Release --self-contained false
 
