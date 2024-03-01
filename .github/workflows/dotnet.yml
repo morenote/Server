@@ -6,9 +6,9 @@ name: .NET
 on:
   push:
     branches: 
-      - 'master'
+      - master
     tags:
-      - 'v0.0.*'
+      - v*
   workflow_dispatch:
   
 jobs:
@@ -28,7 +28,7 @@ jobs:
       run:  cd Src/MoreNote 
     - name: Get version
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      run: echo APP_VERSION=`git describe --tags --always` >> $GITHUB_ENV
     - name: Restore dependencies
       working-directory: Src/MoreNote
       run: pwd && ls && dotnet restore
@@ -58,4 +58,5 @@ jobs:
         file: ./Src/MoreNote/Dockerfile
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: hyfree/morenote:latest
+        tags: |
+         hyfree/morenote:${{env.APP_VERSION}}
