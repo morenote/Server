@@ -54,8 +54,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context:  Src/MoreNote
-        file: ./Dockerfile
+        context:  ./Src/MoreNote
+        file: ./Src/MoreNote/Dockerfile
         platforms: linux/amd64,linux/arm64
         push: true
         tags: hyfree/morenote:latest
