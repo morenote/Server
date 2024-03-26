@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="Collections.Pooled" Version="1.0.82" />
-    <PackageReference Include="EFCoreSecondLevelCacheInterceptor" Version="4.2.2" />
-    <PackageReference Include="Masuit.Tools.Core" Version="2.6.9.2" />
+    <PackageReference Include="EFCoreSecondLevelCacheInterceptor" Version="4.2.3" />
+    <PackageReference Include="Masuit.Tools.Core" Version="2.6.9.8" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
