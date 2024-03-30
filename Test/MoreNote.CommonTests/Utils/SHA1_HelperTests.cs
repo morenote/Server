@@ -24,7 +24,7 @@ namespace MoreNote.Common.Utils.Tests
 			Console.WriteLine(c);
 			c = SHAEncryptHelper.Hash1Encrypt("sssss");
 			Console.WriteLine(c);
-			c = SHAEncryptHelper.MD5Encrypt("sssss");
+			
 			Console.WriteLine(c);
 		}
 	}
