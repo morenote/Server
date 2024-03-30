@@ -6,6 +6,9 @@ using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.Admin
 {
+	/// <summary>
+	/// 管理者博客控制器
+	/// </summary>
 	public class AdminBlogController : AdminBaseController
 	{
 
@@ -24,6 +27,10 @@ namespace MoreNote.Controllers.Admin
 		{
 
 		}
+		/// <summary>
+		/// 主页
+		/// </summary>
+		/// <returns></returns>
 		public IActionResult Index()
 		{
 			UserInfo user = GetUserBySession();

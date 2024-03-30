@@ -51,7 +51,7 @@ namespace MoreNote.Controllers.API.APIV1
 		[HttpGet]
 		public async Task<IActionResult> chart()
 		{
-			var json = System.IO.File.ReadAllText("MockData/chart.json");
+			var json = await System.IO.File.ReadAllTextAsync("MockData/chart.json");
 			Response.ContentType = "application/json; charset=utf-8";
 
 			return Content(json);
@@ -60,7 +60,7 @@ namespace MoreNote.Controllers.API.APIV1
 		[HttpGet]
 		public async Task<IActionResult> notice()
 		{
-			var json = System.IO.File.ReadAllText("MockData/notice.json");
+			var json = await System.IO.File.ReadAllTextAsync("MockData/notice.json");
 			Response.ContentType = "application/json; charset=utf-8";
 
 			return Content(json);
@@ -70,7 +70,7 @@ namespace MoreNote.Controllers.API.APIV1
 		[HttpGet]
 		public async Task<IActionResult> activities()
 		{
-			var json = System.IO.File.ReadAllText("MockData/activities.json");
+			var json = await System.IO.File.ReadAllTextAsync("MockData/activities.json");
 			Response.ContentType = "application/json; charset=utf-8";
 
 			return Content(json);
@@ -80,7 +80,7 @@ namespace MoreNote.Controllers.API.APIV1
 		[HttpGet]
 		public async Task<IActionResult> list()
 		{
-			var json = System.IO.File.ReadAllText("MockData/list.json");
+			var json =await System.IO.File.ReadAllTextAsync("MockData/list.json");
 			Response.ContentType = "application/json; charset=utf-8";
 
 			return Content(json);
@@ -90,7 +90,7 @@ namespace MoreNote.Controllers.API.APIV1
 		[HttpGet]
 		public async Task<IActionResult> current()
 		{
-			var json = System.IO.File.ReadAllText("MockData/current.json");
+			var json =await System.IO.File.ReadAllTextAsync("MockData/current.json");
 			Response.ContentType = "application/json; charset=utf-8";
 
 			return Content(json);
@@ -102,7 +102,7 @@ namespace MoreNote.Controllers.API.APIV1
 		[HttpGet]
 		public async Task<IActionResult> province()
 		{
-			var json = System.IO.File.ReadAllText("MockData/current.json");
+			var json = await System.IO.File.ReadAllTextAsync("MockData/current.json");
 			Response.ContentType = "application/json; charset=utf-8";
 
 			return Content(json);
