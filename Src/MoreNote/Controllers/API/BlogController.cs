@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.ExtensionMethods;
-using MoreNote.Logic.Property;
+using MoreNote.AutoFac.Property;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.BlogBuilder;
 using MoreNote.Logic.Service.MyRepository;

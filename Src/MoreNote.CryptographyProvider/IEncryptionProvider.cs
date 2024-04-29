@@ -19,5 +19,7 @@
 		public byte[] SM4Encrypt(byte[] data);
 		public byte[] SM4Decrypt(byte[] data);
 
+		public byte[] SM3(byte[] data);
+
 	}
 }

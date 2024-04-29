@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Morenote.Framework.Filter.Global;
 
 using MoreNote.AutoFac;
+using MoreNote.AutoFac.Property;
 using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
 using MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDevice;
-using MoreNote.Logic.Property;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.BlogBuilder;

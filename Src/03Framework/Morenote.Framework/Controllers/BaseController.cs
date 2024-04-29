@@ -13,7 +13,7 @@ using MoreNote.CryptographyProvider;
 using MoreNote.Language;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Models.DTO.Vditor.Upload;
-using MoreNote.Logic.Property;
+using MoreNote.AutoFac.Property;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Logging;
@@ -82,6 +82,8 @@ namespace MoreNote.Framework.Controllers
 		protected IComponentContext componentContext { get; set; }
 		[Autowired]
 		protected SubmitTreeService SubmitTreeService { get; set; }
+
+		
 		public BaseController(AttachService attachService
 			, TokenSerivce tokenSerivce
 			, NoteFileService noteFileService

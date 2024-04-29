@@ -29,7 +29,12 @@ namespace MoreNote.CryptographyProvider
 			throw new NotImplementedException();
 		}
 
-		public byte[] SM4Decrypt(byte[] data, byte[] iv)
+        public byte[] SM3(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] SM4Decrypt(byte[] data, byte[] iv)
 		{
 			throw new NotImplementedException();
 		}

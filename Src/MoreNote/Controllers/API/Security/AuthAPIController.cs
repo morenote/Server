@@ -42,15 +42,13 @@ namespace MoreNote.Controllers.API.APIV1
 		/// <returns></returns>
 		[HttpGet]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult TakeSessionCode()
+		public IActionResult Session()
 		{
 			var re = new ApiResponseDTO();
 			//产生一个序号
-			var id = idGenerator.NextId();//序号
-			var random = RandomTool.CreatSafeRandomBase64(16);
-			var data = SHAEncryptHelper.Hash256Encrypt(id + random);
-
-			distributedCache.SetBool("Session", true);
+			var id = idGenerator.NextHexId();//序号
+			var random = RandomTool.CreatSafeRandomHex(16);
+			var data = cryptographyProvider.SM3(HexUtil.HexToByteArray(id+random));
 			re.Data = data;
 			re.Ok = true;
 			return LeanoteJson(re);
@@ -68,25 +66,9 @@ namespace MoreNote.Controllers.API.APIV1
 		[HttpPost]
 		public async Task<IActionResult> PasswordChallenge(string email, string pwd, string sessionCode)
 		{
-			string tokenValue = "";
+		
 
 			var re = new ApiResponseDTO();
-
-			StringBuilder stringBuilder = new StringBuilder();
-			foreach (var item in Request.Headers)
-			{
-				stringBuilder.Append(item.Key + "=" + item.Value.ToString() + "\r\n");
-
-			}
-
-			LoggingLogin logg = new LoggingLogin()
-			{
-				Id = this.idGenerator.NextId(),
-				LoginDateTime = DateTime.Now,
-				LoginMethod = "PassWord",
-				Ip = Request.Host.Host,
-				BrowserRequestHeader = stringBuilder.ToString(),
-			};
 			try
 			{
 				//使用认证服务鉴别口令
@@ -105,14 +87,13 @@ namespace MoreNote.Controllers.API.APIV1
 					re.Ok = true;
 					//re.Data = userToken;
 					this.distributedCache.SetBool("Password" + sessionCode, true);
-					logg.UserId = user.Id;
-					logg.IsLoginSuccess = true;
+				
 					return LeanoteJson(re);
 				}
 				else
 				{
 					re.Msg = "用户名或密码有误";
-					logg.ErrorMessage = "用户名或密码有误";
+					
 					//口令重试计数器
 					//todo:增加用户口令重试计数器
 					var errorCount = distributedCache.GetInt("SessionErrorCount");
@@ -133,12 +114,6 @@ namespace MoreNote.Controllers.API.APIV1
 				re.Msg = ex.Message;
 				re.Ok = false;
 				return LeanoteJson(re);
-			}
-			finally
-			{
-
-
-				this.logging.Save(logg);
 			}
 		}
 		/// <summary>
@@ -284,7 +259,7 @@ namespace MoreNote.Controllers.API.APIV1
 		/// <returns></returns>
 		[HttpGet, HttpPost]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-		public async Task<IActionResult> GetUserLoginSettings(string email)
+		public async Task<IActionResult> UserLoginSettings(string email)
 		{
 
 			var re = new ApiResponseDTO()

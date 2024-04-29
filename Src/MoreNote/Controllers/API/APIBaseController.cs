@@ -16,6 +16,7 @@ namespace MoreNote.Controllers.API.APIV1
 	public class APIBaseController : BaseController
 	{
 
+		
 		public APIBaseController(AttachService attachService
 			, TokenSerivce tokenSerivce
 			, NoteFileService noteFileService
@@ -27,6 +28,8 @@ namespace MoreNote.Controllers.API.APIV1
 			) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{
+		
+
 		}
 	}
 }

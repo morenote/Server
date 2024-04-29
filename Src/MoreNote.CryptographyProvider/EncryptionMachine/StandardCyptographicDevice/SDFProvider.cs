@@ -140,5 +140,10 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 			var dec = sdfHelper.SM2_Decrypt(sm2, 11);
 			return dec;
 		}
-	}
+
+        public byte[] SM3(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

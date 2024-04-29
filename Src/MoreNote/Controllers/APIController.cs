@@ -10,7 +10,7 @@ using MoreNote.Config.ConfigFile;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
-using MoreNote.Logic.Property;
+using MoreNote.AutoFac.Property;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.FileService.IMPL;

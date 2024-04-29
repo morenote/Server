@@ -110,6 +110,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Property\" />
     <Folder Include="Service\Security\Face\" />
     <Folder Include="Service\Security\CSP\" />
   </ItemGroup>
