@@ -41,7 +41,10 @@ namespace MoreNote.Common.autofac
 	/// </summary>
 	public class AutofacModule : Autofac.Module
 	{
-		public static ContainerBuilder builder { get; set; }
+        /// <summary>
+        /// 容器注册 ContainerBuilder
+        /// </summary>
+        public static ContainerBuilder builder { get; set; }
 
 		protected override void Load(ContainerBuilder builder)
 		{

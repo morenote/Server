@@ -181,15 +181,15 @@ namespace MoreNote.Controllers
 			{
 				return Content("");
 			}
-			var sb = new StringBuilder();
+			var downloadLink = new StringBuilder();
 			var fileStore = FileStoreServiceFactory.Instance(config);
 			//下载拼接
 			foreach (var attach in attachs)
 			{
-				sb.Append(attach.Id);
+				downloadLink.Append(attach.Id);
 			}
 			//计算AttachId合并字符串的哈希
-			string md5 = SHAEncryptHelper.MD5Encrypt(sb.ToString());
+			string md5 = SHAEncryptHelper.Hash256Encrypt(downloadLink.ToString());
 			var dir = config.FileStoreConfig.TempFolder + Path.DirectorySeparatorChar + note.Id.ToHex();
 			var zipFileName = config.FileStoreConfig.TempFolder + Path.DirectorySeparatorChar + md5 + ".zip";
 			if (!System.IO.File.Exists(zipFileName))

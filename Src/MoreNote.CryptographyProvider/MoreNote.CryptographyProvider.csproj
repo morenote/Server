@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="github.hyfree.GM" Version="0.0.9" />
-    <PackageReference Include="github.hyfree.SDFWrapper" Version="0.0.44" />
+    <PackageReference Include="github.hyfree.SDFWrapper" Version="0.0.45" />
     <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
   
   </ItemGroup>

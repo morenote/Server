@@ -7,8 +7,12 @@ using System.Collections.Generic;
 
 namespace MoreNote.Controllers.Admin
 {
+	/// <summary>
+	/// 管理员页面基类
+	/// </summary>
 	public class AdminBaseController : BaseController
 	{
+
 		public AdminBaseController(AttachService attachService
 			  , TokenSerivce tokenSerivce
 			  , NoteFileService noteFileService
@@ -20,7 +24,7 @@ namespace MoreNote.Controllers.Admin
 			  ) : base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{
 		}
-
+		
 		public string GetSorterSQL(string sorterField)
 		{
 			HashSet<string> hashSet = new HashSet<string> { "email", "username", "verified", "createdTime", "accountType" };

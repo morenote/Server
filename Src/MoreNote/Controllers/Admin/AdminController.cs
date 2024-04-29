@@ -7,6 +7,7 @@ using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.Admin
 {
+
 	[Authorize(Roles = "Admin,SuperAdmin")]
 	public class AdminController : AdminBaseController
 	{
