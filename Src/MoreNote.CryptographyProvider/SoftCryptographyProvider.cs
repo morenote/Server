@@ -49,7 +49,14 @@ namespace MoreNote.CryptographyProvider
 			return gm.SM2Encrypt(data, sm2PriKey);
 		}
 
-		public byte[] SM4Decrypt(byte[] data, byte[] iv)
+        public byte[] SM3(byte[] data)
+        {
+            GMService gm = new GMService();
+			return gm.SM3(data);
+
+        }
+
+        public byte[] SM4Decrypt(byte[] data, byte[] iv)
 		{
 			GMService gm = new GMService();
 			return gm.SM4_Decrypt_CBC(data, enckey, iv);

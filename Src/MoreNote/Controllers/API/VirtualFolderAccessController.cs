@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Controllers.API.APIV1;
-using MoreNote.Logic.Property;
+using MoreNote.AutoFac.Property;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Logic.Service.MyOrganization;

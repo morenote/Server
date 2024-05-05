@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoreNote.Logic.Property
+namespace MoreNote.AutoFac.Property
 {
 	[AttributeUsage(AttributeTargets.Property)]
 	public class AutowiredAttribute : Attribute

@@ -5,7 +5,7 @@ using Autofac.Core;
 using System.Linq;
 using System.Reflection;
 
-namespace MoreNote.Logic.Property
+namespace MoreNote.AutoFac.Property
 {
 	/// <summary>
 	/// 属性注入选择器
