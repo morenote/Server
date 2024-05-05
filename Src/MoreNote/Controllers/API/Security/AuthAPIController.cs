@@ -138,7 +138,7 @@ namespace MoreNote.Controllers.API.APIV1
 			{
 
 
-				this.logging.Save(logg);
+				this.log.Save(logg);
 			}
 		}
 		/// <summary>
@@ -268,7 +268,7 @@ namespace MoreNote.Controllers.API.APIV1
 				re.Msg = "只有Admin或SuperAdmin账户才可以访问";
 				return LeanoteJson(re);
 			}
-			var data = logging.GetAllUserLoggingLogin();
+			var data = log.GetAllUserLoggingLogin();
 
 
 			re.Data = data;
