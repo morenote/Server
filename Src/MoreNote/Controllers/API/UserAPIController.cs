@@ -26,7 +26,7 @@ namespace MoreNote.Controllers.API.APIV1
 		private AuthService authService;
 		private UserService userService;
 		private TokenSerivce tokenSerivce;
-		private RealNameService realNameService;
+		
 		private EPassService ePassService;
 		private GMService gMService;
 		private DataSignService dataSignService;
@@ -37,7 +37,7 @@ namespace MoreNote.Controllers.API.APIV1
 			, UserService userService
 			, ConfigFileService configFileService
 			, GMService gMService
-			, RealNameService realNameService
+			
 			, IHttpContextAccessor accessor, AuthService authService
 			, EPassService ePass
 			, DataSignService dataSignService
@@ -47,7 +47,7 @@ namespace MoreNote.Controllers.API.APIV1
 			this.authService = authService;
 			this.userService = userService;
 			this.tokenSerivce = tokenSerivce;
-			this.realNameService = realNameService;
+		
 			this.ePassService = ePass;
 			this.gMService = gMService;
 			this.dataSignService = dataSignService;
@@ -289,9 +289,9 @@ namespace MoreNote.Controllers.API.APIV1
 				};
 				return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
 			}
-			var realName = this.realNameService.GetRealNameInformationByUserId(user.Id);
+		
 			re.Ok = true;
-			re.Data = realName;
+			
 			return LeanoteJson(re);
 		}
 		[HttpPost]
@@ -357,7 +357,7 @@ namespace MoreNote.Controllers.API.APIV1
 				return Json(apiRe, MyJsonConvert.GetLeanoteOptions());
 			}
 
-			this.realNameService.SetRealName(user.Id, sfz);
+		
 			re.Ok = true;
 			return LeanoteJson(re);
 		}

@@ -20,17 +20,10 @@ namespace MoreNote.Logic.Service.Logging.IMPL
 	{
 		private string path = "logs/log.log";
 
-		public WebSiteConfig webSiteConfig { get; set; }
-		private ICryptographyProvider cryptographyProvider { get; set; }
 
-		private DataContext dataContext { get; set; }
-		public LoggingService(ConfigFileService configFileService, ICryptographyProvider cryptographyProvider, DataContext dataContext)
-		{
-			this.webSiteConfig = configFileService.WebConfig;
-			this.cryptographyProvider = cryptographyProvider;
-			this.dataContext = dataContext;
 
-		}
+		
+		
 		private string getLogFileName()
 		{
 
@@ -47,40 +40,27 @@ namespace MoreNote.Logic.Service.Logging.IMPL
 		public void Debug(string message)
 		{
 			var log = new Log(message);
-			if (webSiteConfig.SecurityConfig.LogNeedHmac)
-			{
-				log = log.AddMac(cryptographyProvider);
-			}
+		
 			WirteFile(log.ToJson());
 		}
 
 		public void Error(string message, Exception exception)
 		{
 			var log = new Log(message + "\r\n" + exception.StackTrace);
-			if (webSiteConfig.SecurityConfig.LogNeedHmac)
-			{
-				log = log.AddMac(cryptographyProvider);
-			}
+		
 			WirteFile(log.ToJson());
 		}
 
 		public void Info(string message)
 		{
 			var log = new Log(message);
-			if (webSiteConfig.SecurityConfig.LogNeedHmac)
-			{
-				log = log.AddMac(cryptographyProvider);
-			}
 			WirteFile(log.ToJson());
 		}
 
 		public void Warn(string message)
 		{
 			var log = new Log(message);
-			if (webSiteConfig.SecurityConfig.LogNeedHmac)
-			{
-				log = log.AddMac(cryptographyProvider);
-			}
+			
 			WirteFile(log.ToJson());
 		}
 
@@ -115,16 +95,6 @@ namespace MoreNote.Logic.Service.Logging.IMPL
 			throw new NotImplementedException();
 		}
 
-		public void Save(LoggingLogin loggingLogin)
-		{
-			this.dataContext.LoggingLogin.Add(loggingLogin);
-			this.dataContext.SaveChanges();
-		}
-
-		public List<LoggingLogin> GetAllUserLoggingLogin()
-		{
-			return dataContext.LoggingLogin.ToList<LoggingLogin>();
-		}
 
 
 

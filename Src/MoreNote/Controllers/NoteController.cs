@@ -228,31 +228,31 @@ namespace MoreNote.Controllers
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		[Route("Note/SearchNote")]
-		[HttpGet]
-		public IActionResult SearchNote(string key)
-		{
-			/**
-             * 默认：title搜索
-             * 关键词&关键词：title搜索
-             * 关键词|关键词：title搜索
-             * title:仅搜索标题中的关键词的笔记
-             * body：仅搜索文章中的关键词的笔记
-             * tag:仅搜索tag列表的关键词的笔记
-             * time>YYYMMDD 2021/10/24 搜索指定日期后的笔记
-             * time<YYYMMDD 2021/10/24 搜索指定日期前的笔记
-             * time<YYYMMDD 2021/10/24 搜索指定日期的笔记
-             * file：搜索包含制定附件名称的笔记
-             * */
-			var userId = this.GetUserIdBySession();
+		//[Route("Note/SearchNote")]
+		//[HttpGet]
+		//public IActionResult SearchNote(string key)
+		//{
+		//	/**
+  //           * 默认：title搜索
+  //           * 关键词&关键词：title搜索
+  //           * 关键词|关键词：title搜索
+  //           * title:仅搜索标题中的关键词的笔记
+  //           * body：仅搜索文章中的关键词的笔记
+  //           * tag:仅搜索tag列表的关键词的笔记
+  //           * time>YYYMMDD 2021/10/24 搜索指定日期后的笔记
+  //           * time<YYYMMDD 2021/10/24 搜索指定日期前的笔记
+  //           * time<YYYMMDD 2021/10/24 搜索指定日期的笔记
+  //           * file：搜索包含制定附件名称的笔记
+  //           * */
+		//	var userId = this.GetUserIdBySession();
 
-			var notes1 = noteService.SearchNoteByTitleVector(key, userId, GetPage(), pageSize);
+		//	var notes1 = noteService.SearchNoteByTitleVector(key, userId, GetPage(), pageSize);
 
-			var notes2 = noteService.SearchNoteByContentVector(key, userId, GetPage(), pageSize);
+		//	var notes2 = noteService.SearchNoteByContentVector(key, userId, GetPage(), pageSize);
 
-			var result = merge(notes1, notes2);
-			return Json(result, MyJsonConvert.GetLeanoteOptions());
-		}
+		//	var result = merge(notes1, notes2);
+		//	return Json(result, MyJsonConvert.GetLeanoteOptions());
+		//}
 
 
 		private Note[] merge(Note[] notes1, Note[] notes2)

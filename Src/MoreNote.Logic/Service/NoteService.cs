@@ -156,25 +156,25 @@ namespace MoreNote.Logic.Service
 			return result;
 		}
 
-		public NoteAndContent[] SearchNoteAndContentForBlog(int pageIndex, long? userId, long? repositoryId, string keywords)
-		{
-			var query = jieba.GetSerachNpgsqlTsQuery(keywords);
-			var result = (from _note in dataContext.Note
-						  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
-						  where _note.UserId == userId
-								&& _note.NotesRepositoryId == repositoryId
-								&& _note.TitleVector.Matches(query)
-								&& _note.IsBlog == true
-								&& _content.IsHistory == false
-								&& _note.IsTrash == false
-								&& _note.IsDeleted == false
-						  select new NoteAndContent
-						  {
-							  note = _note,
-							  noteContent = _content
-						  }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).ToArray();
-			return result;
-		}
+		//public NoteAndContent[] SearchNoteAndContentForBlog(int pageIndex, long? userId, long? repositoryId, string keywords)
+		//{
+		//	var query = jieba.GetSerachNpgsqlTsQuery(keywords);
+		//	var result = (from _note in dataContext.Note
+		//				  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
+		//				  where _note.UserId == userId
+		//						&& _note.NotesRepositoryId == repositoryId
+		//						&& _note.TitleVector.Matches(query)
+		//						&& _note.IsBlog == true
+		//						&& _content.IsHistory == false
+		//						&& _note.IsTrash == false
+		//						&& _note.IsDeleted == false
+		//				  select new NoteAndContent
+		//				  {
+		//					  note = _note,
+		//					  noteContent = _content
+		//				  }).OrderByDescending(b => b.note.PublicTime).Skip((pageIndex - 1) * 10).Take(10).ToArray();
+		//	return result;
+		//}
 
 		public NoteAndContent[] GetNoteAndContentByTag(int pageIndex, long? userId, string tag)
 		{
@@ -785,7 +785,7 @@ namespace MoreNote.Logic.Service
 
 			//	if note.IsBlog {
 			note.PublicTime = note.UpdatedTime;
-			UpdateVector(ref note);
+			//UpdateVector(ref note);
 
 			AddNote(note);
 			// tag1
@@ -930,7 +930,7 @@ namespace MoreNote.Logic.Service
 			{
 				newNote.ImgSrc = needUpdate.ImgSrc;
 			}
-			UpdateVector(ref newNote);
+			//UpdateVector(ref newNote);
 			dataContext.SaveChanges();
 			// 重新获取之
 			oldNote = GetNoteById(noteId);
@@ -1116,7 +1116,7 @@ namespace MoreNote.Logic.Service
 			}
 			note.UpdatedUserId = updateUser;
 
-			UpdateVector(ref note);
+			//UpdateVector(ref note);
 			//更新用户元数据乐观锁
 			afterUsn = UserService.IncrUsn(note.UserId);
 
@@ -1127,10 +1127,7 @@ namespace MoreNote.Logic.Service
 			return true;
 		}
 
-		private void UpdateVector(ref Note note)
-		{
-			note.TitleVector = jieba.GetNpgsqlTsVector(note.Title);
-		}
+		
 
 		// 附件修改, 增加noteIncr
 		public int IncrNoteUsn(long? noteId, long? userId)
@@ -1299,17 +1296,17 @@ namespace MoreNote.Logic.Service
 
 		//------------------
 		// 搜索Note, 博客使用了
-		public Note[] SearchNote(string key, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
-		{
-			JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
-			var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
-			var list = dataContext.Note.Where(b => b.UserId == userId
-									 && b.IsTrash == false
-									 && b.IsDeleted == false
-									 && b.IsBlog == isBlog
-									 && b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
-			return list.ToArray();
-		}
+		//public Note[] SearchNote(string key, long? userId, int pageNumber, int pageSize, string sortField, bool isAsc, bool isBlog)
+		//{
+		//	JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+		//	var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+		//	var list = dataContext.Note.Where(b => b.UserId == userId
+		//							 && b.IsTrash == false
+		//							 && b.IsDeleted == false
+		//							 && b.IsBlog == isBlog
+		//							 && b.TitleVector.Matches(query)).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().OrderBy(b => b.Title);
+		//	return list.ToArray();
+		//}
 
 		/// <summary>
 		/// 通过标题向量向量搜索笔记
@@ -1319,27 +1316,27 @@ namespace MoreNote.Logic.Service
 		/// <param name="pageNumber"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public Note[] SearchNoteByTitleVector(string key, long? userId, int pageNumber, int pageSize)
-		{
-			JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
-			var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
-			var list = dataContext.Note.Where(b => b.UserId == userId
-									 && b.IsTrash == false
-									 && b.IsDeleted == false
-									 && b.TitleVector.Matches(query)).Skip(pageNumber * pageSize).Take(pageSize).ToList().OrderBy(b => b.CreatedTime);
-			return list.ToArray();
-		}
+		//public Note[] SearchNoteByTitleVector(string key, long? userId, int pageNumber, int pageSize)
+		//{
+		//	JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+		//	var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+		//	var list = dataContext.Note.Where(b => b.UserId == userId
+		//							 && b.IsTrash == false
+		//							 && b.IsDeleted == false
+		//							 && b.TitleVector.Matches(query)).Skip(pageNumber * pageSize).Take(pageSize).ToList().OrderBy(b => b.CreatedTime);
+		//	return list.ToArray();
+		//}
 
-		public Note[] SearchRepositoryIdNoteByTitleVector(string key, long? noteRepositoryId, int pageNumber, int pageSize)
-		{
-			JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
-			var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
-			var list = dataContext.Note.Where(b => b.NotesRepositoryId == noteRepositoryId
-									 && b.IsTrash == false
-									 && b.IsDeleted == false
-									 && b.TitleVector.Matches(query)).Skip(pageNumber * pageSize).Take(pageSize).ToList().OrderBy(b => b.CreatedTime);
-			return list.ToArray();
-		}
+		//public Note[] SearchRepositoryIdNoteByTitleVector(string key, long? noteRepositoryId, int pageNumber, int pageSize)
+		//{
+		//	JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+		//	var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+		//	var list = dataContext.Note.Where(b => b.NotesRepositoryId == noteRepositoryId
+		//							 && b.IsTrash == false
+		//							 && b.IsDeleted == false
+		//							 && b.TitleVector.Matches(query)).Skip(pageNumber * pageSize).Take(pageSize).ToList().OrderBy(b => b.CreatedTime);
+		//	return list.ToArray();
+		//}
 
 		/// <summary>
 		/// 通过标题向量和内容向量搜索笔记
@@ -1349,18 +1346,18 @@ namespace MoreNote.Logic.Service
 		/// <param name="pageNumber"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public Note[] SearchNoteByTitleVectorAndContentVector(string key, long? userId, int pageNumber, int pageSize)
-		{
-			JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
-			var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+		//public Note[] SearchNoteByTitleVectorAndContentVector(string key, long? userId, int pageNumber, int pageSize)
+		//{
+		//	JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+		//	var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
 
-			var result = (from _note in dataContext.Note
-						  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
-						  where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
-						  && (_note.TitleVector.Matches(query) || _content.ContentVector.Matches(query))
-						  select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
-			return result;
-		}
+		//	var result = (from _note in dataContext.Note
+		//				  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
+		//				  where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
+		//				  && (_note.TitleVector.Matches(query) || _content.ContentVector.Matches(query))
+		//				  select _note).OrderByDescending(b => b.PublicTime).Skip((pageNumber - 1) * 10).Take(pageSize).ToArray();
+		//	return result;
+		//}
 
 		/// <summary>
 		/// 通过内容全文检索向量搜索笔记
@@ -1370,31 +1367,31 @@ namespace MoreNote.Logic.Service
 		/// <param name="pageNumber"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public Note[] SearchNoteByContentVector(string key, long? userId, int pageNumber, int pageSize)
-		{
-			JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
-			var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+		//public Note[] SearchNoteByContentVector(string key, long? userId, int pageNumber, int pageSize)
+		//{
+		//	JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+		//	var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
 
-			var result = (from _note in dataContext.Note
-						  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
-						  where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
-						  && (_content.ContentVector.Matches(query))
-						  select _note).OrderByDescending(b => b.CreatedTime).Skip((pageNumber) * 10).Take(pageSize).ToArray();
-			return result;
-		}
+		//	var result = (from _note in dataContext.Note
+		//				  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
+		//				  where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.UserId == userId
+		//				  && (_content.ContentVector.Matches(query))
+		//				  select _note).OrderByDescending(b => b.CreatedTime).Skip((pageNumber) * 10).Take(pageSize).ToArray();
+		//	return result;
+		//}
 
-		public Note[] SearchRepositoryNoteByContentVector(string key, long? noteRepositoryId, int pageNumber, int pageSize)
-		{
-			JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
-			var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
+		//public Note[] SearchRepositoryNoteByContentVector(string key, long? noteRepositoryId, int pageNumber, int pageSize)
+		//{
+		//	JiebaSegmenterService jiebaSegmenterService = new JiebaSegmenterService();
+		//	var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(key);
 
-			var result = (from _note in dataContext.Note
-						  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
-						  where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.NotesRepositoryId == noteRepositoryId
-						  && (_content.ContentVector.Matches(query))
-						  select _note).OrderByDescending(b => b.CreatedTime).Skip((pageNumber) * 10).Take(pageSize).ToArray();
-			return result;
-		}
+		//	var result = (from _note in dataContext.Note
+		//				  join _content in dataContext.NoteContent on _note.Id equals _content.NoteId
+		//				  where _content.IsHistory == false && _note.IsTrash == false && _note.IsDeleted == false && _note.NotesRepositoryId == noteRepositoryId
+		//				  && (_content.ContentVector.Matches(query))
+		//				  select _note).OrderByDescending(b => b.CreatedTime).Skip((pageNumber) * 10).Take(pageSize).ToArray();
+		//	return result;
+		//}
 
 		// 搜索noteContents, 补集pageSize个
 		public Note[] searchNoteFromContent(Note[] notes, long? userId, string key, int pagSize, string sortField, bool isBlog)

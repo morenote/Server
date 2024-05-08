@@ -27,7 +27,7 @@ namespace MoreNote.Logic.Service
 				throw new ArgumentNullException("host is null,class DeployService  is error");
 			}
 			//执行数据库迁移命令
-			System.Console.WriteLine(" ==================== PostgreSQL Migrate  Start====================");
+			System.Console.WriteLine(" ==================== SQL Migrate  Start====================");
 			using (var scope = host.Services.CreateScope())
 			{
 				var db = scope.ServiceProvider.GetRequiredService<DataContext>();
@@ -140,10 +140,10 @@ namespace MoreNote.Logic.Service
 				//}
 
 				db.SaveChanges();
-				Console.WriteLine("迁移数据库成功");
+			
 			}
 
-			System.Console.WriteLine(" ==================== PostgreSQL Migrate  Successfully====================");
+			System.Console.WriteLine(" ==================== SQL Migrate  Successfully====================");
 		}
 
 		public void InitSecret()

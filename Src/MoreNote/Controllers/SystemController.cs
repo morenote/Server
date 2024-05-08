@@ -78,9 +78,9 @@ namespace MoreNote.Controllers
 				ResponseMessage re = new ResponseMessage() { Ok = true };
 				WebSiteConfig webSiteConfig = JsonSerializer.Deserialize<WebSiteConfig>(config);
 				//检查配置文件
-				if (webSiteConfig.PostgreSql == null)
+				if (webSiteConfig.DataBaseConfig == null)
 				{
-					re = new ResponseMessage() { Ok = false, Msg = "PostgreSql错误参数" };
+					re = new ResponseMessage() { Ok = false, Msg = "webSiteConfig.DataBaseConfig == null" };
 					return Json(re, MyJsonConvert.GetSimpleOptions());
 				}
 				configFileService.Save(webSiteConfig, ConfigFileService.GetConfigPath());

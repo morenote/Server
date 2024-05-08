@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoreNote.Models.Entity.Leanote.MyOrganization
 {
-
-	[Table("organization_member_role")]
+    /// <summary>
+    /// 组织成员角色
+    /// </summary>
+    [Table("organization_member_role")]
 	public class OrganizationMemberRole : BaseEntity
 	{
 

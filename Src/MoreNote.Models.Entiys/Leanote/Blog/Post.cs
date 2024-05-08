@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoreNote.Models.Entity.Leanote.Blog
 {
+	/// <summary>
+	/// 博客
+	/// </summary>
 	[Table("post")]
 	public class BlogPost : BaseEntity
 	{

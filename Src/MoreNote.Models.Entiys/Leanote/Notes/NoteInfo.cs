@@ -34,8 +34,7 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 		[Column("extended_name")]
 
 		public ExtendedNameEnum? ExtendedName { get; set; }//扩展名 ，用于取代IsMarkdown属性,应该使用小写格式 ，比如 md、html
-		[Column("title_vector"), JsonIgnore]
-		public NpgsqlTsVector? TitleVector { get; set; }
+		
 		[Column("desc")]
 		public string? Desc { get; set; }//描述, 非html //【保护】
 		[Column("src")]
@@ -100,9 +99,18 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 		}
 
 	}
+    [Table("note_vector"), Index(nameof(NoteId))]
+    public class NoteNpgsqlTsVector : BaseEntity
+	{
+        [Column("note_id")]
+        public long NoteId { get; set; }
 
-	// 基本信息和内容在一起
-	public class NoteAndContent
+        [Column("title_vector"), JsonIgnore]
+        public NpgsqlTsVector? TitleVector { get; set; }
+    }
+
+    // 基本信息和内容在一起
+    public class NoteAndContent
 	{
 
 		public Note note { get; set; }

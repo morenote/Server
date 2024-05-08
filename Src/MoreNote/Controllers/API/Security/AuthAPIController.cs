@@ -228,30 +228,30 @@ namespace MoreNote.Controllers.API.APIV1
 		}
 
 
-		[HttpGet]
-		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-		public async Task<IActionResult> GetUserLoginLogging(string token)
-		{
-			var re = new ApiResponseDTO()
-			{
-				Ok = false,
-				Data = null
-			};
-			var user = tokenSerivce.GetUserByToken(token);
-			if (!(user.IsAdmin() || user.IsSuperAdmin()))
-			{
-				re.Msg = "只有Admin或SuperAdmin账户才可以访问";
-				return LeanoteJson(re);
-			}
-			var data = log.GetAllUserLoggingLogin();
+		//[HttpGet]
+		//[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+		//public async Task<IActionResult> GetUserLoginLogging(string token)
+		//{
+		//	var re = new ApiResponseDTO()
+		//	{
+		//		Ok = false,
+		//		Data = null
+		//	};
+		//	var user = tokenSerivce.GetUserByToken(token);
+		//	if (!(user.IsAdmin() || user.IsSuperAdmin()))
+		//	{
+		//		re.Msg = "只有Admin或SuperAdmin账户才可以访问";
+		//		return LeanoteJson(re);
+		//	}
+		//	var data = log.GetAllUserLoggingLogin();
 
 
-			re.Data = data;
-			re.Ok = true;
-			return LeanoteJson(re);
+		//	re.Data = data;
+		//	re.Ok = true;
+		//	return LeanoteJson(re);
 
 
-		}
+		//}
 
 		/// <summary>
 		/// 获得用户登录设置

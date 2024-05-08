@@ -139,11 +139,7 @@ namespace MoreNote.Logic.Service
 			noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
 			noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
 			noteContent.UpdatedUserId = noteContent.UserId;
-			//todo:在数据库加密的情况下，不进行索引
-			if (!this.config.SecurityConfig.DataBaseEncryption)
-			{
-				UpdataVector(ref noteContent);
-			}
+		
 
 			InsertNoteContent(noteContent);
 			// 更新笔记图片
@@ -154,10 +150,10 @@ namespace MoreNote.Logic.Service
 		/// 更新全文检索向量
 		/// </summary>
 		/// <param name="noteContent"></param>
-		private void UpdataVector(ref NoteContent noteContent)
-		{
-			noteContent.ContentVector = jieba.GetNpgsqlTsVector(noteContent.Content);
-		}
+		//private void UpdataVector(ref NoteContent noteContent)
+		//{
+		//	noteContent.ContentVector = jieba.GetNpgsqlTsVector(noteContent.Content);
+		//}
 
 		// 修改笔记本内容
 		// [ok] TODO perm未测
@@ -201,7 +197,7 @@ namespace MoreNote.Logic.Service
 				UpdatedUserId = userId,
 				IsHistory = false
 			};
-			UpdataVector(ref insertNoteConext);
+			//UpdataVector(ref insertNoteConext);
 			InsertNoteContent(insertNoteConext);
 			//todo: 需要完成函数UpdateNoteContent
 			return true;
@@ -250,7 +246,7 @@ namespace MoreNote.Logic.Service
 				{
 					contentNew.UpdatedTime = apiNote.UpdatedTime;
 				}
-				UpdataVector(ref contentNew);
+				//UpdataVector(ref contentNew);
 				dataContext.NoteContent.Add(contentNew);
 				msg = "";
 				return dataContext.SaveChanges() > 0;

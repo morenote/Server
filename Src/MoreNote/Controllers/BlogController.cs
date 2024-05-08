@@ -416,45 +416,45 @@ namespace MoreNote.Controllers
 			return View();
 		}
 
-		[Route("Blog/Search/{keywords?}/")]
-		[HttpGet]
-		[ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
-		public IActionResult Search(string keywords, int page)
-		{
-			var host = Request.Host.Host;
-			var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
-			if (blogHostingBundle == null)
-			{
-				return Content("查无此人");
+		//[Route("Blog/Search/{keywords?}/")]
+		//[HttpGet]
+		//[ResponseCache(Duration = 600, VaryByHeader = "Cookie")]
+		//public IActionResult Search(string keywords, int page)
+		//{
+		//	var host = Request.Host.Host;
+		//	var blogHostingBundle = this.blogService.FindBlogHostingBundle(host);
+		//	if (blogHostingBundle == null)
+		//	{
+		//		return Content("查无此人");
 
-			}
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
-			ViewBag.repository = repository;
-			if (page < 1)
-			{
-				//页码
-				page = 1;
-			}
-			ViewBag.page = page;
-			UserInfo blogUser = null;
-			blogUser = userService.GetUserByUserId(repository.OwnerId);
-			ViewBag.blogUser = blogUser;
+		//	}
+		//	var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
+		//	ViewBag.repository = repository;
+		//	if (page < 1)
+		//	{
+		//		//页码
+		//		page = 1;
+		//	}
+		//	ViewBag.page = page;
+		//	UserInfo blogUser = null;
+		//	blogUser = userService.GetUserByUserId(repository.OwnerId);
+		//	ViewBag.blogUser = blogUser;
 
-			ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.Id, repository.Id, keywords);
-			NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.Id, repository.Id, keywords);
-			SetAccessPassword(noteAndContent);
-			ViewBag.noteAndContent = noteAndContent;
-			ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id, repository.Id);
-			ViewBag.keywords = keywords;
+		//	ViewBag.postCount = blogService.CountTheNumberForSearch(blogUser.Id, repository.Id, keywords);
+		//	NoteAndContent[] noteAndContent = noteService.SearchNoteAndContentForBlog(page, blogUser.Id, repository.Id, keywords);
+		//	SetAccessPassword(noteAndContent);
+		//	ViewBag.noteAndContent = noteAndContent;
+		//	ViewBag.CateArray = blogService.GetCateArrayForBlog(blogUser.Id, repository.Id);
+		//	ViewBag.keywords = keywords;
 
-			Dictionary<string, string> blog = new Dictionary<string, string>();
-			blog.Add("Title", "moreote云笔记");
-			blog.Add("keywords", "搜索");
-			ViewBag.blog = blog;
+		//	Dictionary<string, string> blog = new Dictionary<string, string>();
+		//	blog.Add("Title", "moreote云笔记");
+		//	blog.Add("keywords", "搜索");
+		//	ViewBag.blog = blog;
 
-			BlogCommon(blogUser, repository);
-			return View();
-		}
+		//	BlogCommon(blogUser, repository);
+		//	return View();
+		//}
 		private void SetAccessPassword(NoteAndContent[] noteAndContent)
 		{
 			var languageResource = this.GetLanguageResource();

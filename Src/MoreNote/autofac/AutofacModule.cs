@@ -214,8 +214,8 @@ namespace MoreNote.Common.autofac
 
 			builder.RegisterType<ImageSharpCaptchaGenerator>()
 				.As<ICaptchaGenerator>();
-			//实名认证服务
-			builder.RegisterType<RealNameService>();
+			
+		
 			builder.RegisterType<DataSignService>();
 			builder.RegisterType<GMService>();
 			builder.RegisterType<VirtualFileAccessService>();

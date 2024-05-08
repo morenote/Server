@@ -21,22 +21,8 @@ namespace MoreNote.Logic.Database
 {
 	public class DataContext : DbContext
 	{
-		//public DataContext()
-		//{
-		//}
-		//protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		//{
-		//    base.OnConfiguring(optionsBuilder);
-		//    //测试服务器
-		//    ConfigFileService configFileService = new ConfigFileService();
-		//    var postgres = configFileService.WebConfig;
-		//    optionsBuilder.UseNpgsql(postgres.PostgreSql.Connection);
 
-		//}
 		private WebSiteConfig config;
-
-
-
 
 		public DataContext(DbContextOptions<DataContext> options)
 		  : base(options)
@@ -107,83 +93,146 @@ namespace MoreNote.Logic.Database
 		public DbSet<BlogStat> BlogStat { get; set; }
 		public DbSet<BlogSingle> BlogSingle { get; set; }
 		public DbSet<BlogLike> BlogLike { get; set; }
+		/// <summary>
+		/// 博客评论
+		/// </summary>
 		public DbSet<BlogComment> BlogComment { get; set; }
 		public DbSet<BlogCommentPublic> BlogCommentPublic { get; set; }
+		/// <summary>
+		/// 博客域名绑定
+		/// </summary>
 		public DbSet<BlogHostingBundle> BlogHostingBundle { get; set; }
 
-
+		/// <summary>
+		/// 邮件发送日志
+		/// </summary>
 		public DbSet<EmailLog> EmailLog { get; set; }
+		/// <summary>
+		/// 笔记文件
+		/// </summary>
 		public DbSet<NoteFile> NoteFile { get; set; }
 		public DbSet<GroupTeam> Group { get; set; }
 		public DbSet<GroupTeamUser> GroupUser { get; set; }
+		/// <summary>
+		/// 笔记本
+		/// </summary>
 		public DbSet<Notebook> Notebook { get; set; }
+		/// <summary>
+		/// 笔记图片
+		/// </summary>
 		public DbSet<NoteImage> NoteImage { get; set; }
 
 		/**************Note DB****************/
+		/// <summary>
+		/// 笔记信息
+		/// </summary>
 		public DbSet<Note> Note { get; set; }
+		/// <summary>
+		/// 笔记内容
+		/// </summary>
 		public DbSet<NoteContent> NoteContent { get; set; }
-
+		/// <summary>
+		/// 举报信息
+		/// </summary>
 		public DbSet<ReportInfo> ReportInfo { get; set; }
-		public DbSet<Session> Session { get; set; }
+        /// <summary>
+        /// Session
+        /// </summary>
+        public DbSet<Session> Session { get; set; }
+		/// <summary>
+		/// 建议
+		/// </summary>
 		public DbSet<Suggestion> Suggestion { get; set; }
 		/*******************NotesRepository***********************/
 
 		//笔记仓库
 		public DbSet<Repository> Repository { get; set; }
-
-
-
 		//仓库成员角色
 		public DbSet<RepositoryMemberRole> RepositoryMemberRole { get; set; }
-		public DbSet<RepositoryMemberRoleMapping> RepositoryMemberRoleMapping { get; set; }
-
-		//仓库成员
-		public DbSet<RepositoryMember> RepositoryMember { get; set; }
+        /// <summary>
+        /// 仓库成员角色映射
+        /// </summary>
+        public DbSet<RepositoryMemberRoleMapping> RepositoryMemberRoleMapping { get; set; }
+        /// <summary>
+        /// 仓库成员
+        /// </summary>
+        public DbSet<RepositoryMember> RepositoryMember { get; set; }
 
 		/****************************************************************/
+
+		/// <summary>
+		/// 组织
+		/// </summary>
 		public DbSet<Organization> Organization { get; set; }
+		/// <summary>
+		/// 组织成员
+		/// </summary>
 		public DbSet<OrganizationMember> OrganizationMember { get; set; }
+		/// <summary>
+		/// 组织成员角色
+		/// </summary>
 		public DbSet<OrganizationMemberRole> OrganizationMemberRole { get; set; }
-		public DbSet<OrganizationMemberRoleMapping> OrganizationMemberRoleMapping { get; set; }
+        /// <summary>
+        /// 组织成员和角色映射关系
+        /// </summary>
+        public DbSet<OrganizationMemberRoleMapping> OrganizationMemberRoleMapping { get; set; }
+		/// <summary>
+		/// 组织小队
+		/// </summary>
 		public DbSet<OrganizationTeam> OrganizationTeam { get; set; }
-		public DbSet<OrganizationTeamMember> OrganizationTeamMember { get; set; }
+        /// <summary>
+        /// 组织小队成员
+        /// </summary>
+
+        public DbSet<OrganizationTeamMember> OrganizationTeamMember { get; set; }
 
 		/**************Tag DB****************/
 		public DbSet<Tag> Tag { get; set; }
 		public DbSet<NoteTag> NoteTag { get; set; }
 		public DbSet<TagCount> TagCount { get; set; }
 		public DbSet<NoteTagMap> NoteTagMap { get; set; }
-
+		/// <summary>
+		/// 主题
+		/// </summary>
 		public DbSet<Theme> Theme { get; set; }
+		/// <summary>
+		/// 友链
+		/// </summary>
 		public DbSet<FriendLinks> FriendLinks { get; set; }
+		/// <summary>
+		/// token
+		/// </summary>
 		public DbSet<Token> Token { get; set; }
+		/// <summary>
+		/// 用户
+		/// </summary>
 		public DbSet<UserInfo> User { get; set; }
+		/// <summary>
+		/// UKEY绑定
+		/// </summary>
 		public DbSet<USBKeyBinding> USBKeyBindings { get; set; }
+		/// <summary>
+		/// FIDO2密钥
+		/// </summary>
 		public DbSet<FIDO2Item> Fido2Items { get; set; }
+		/// <summary>
+		/// 用户账号
+		/// </summary>
 		public DbSet<UserAccount> UserAccount { get; set; }
-
-		//应用更新服务
-
-
-		public DbSet<AccessRecords> AccessRecords { get; set; }
-
-		//随机图片服务
-		public DbSet<RandomImage> RandomImage { get; set; }
-
-
-
-		//public DbSet<RandomImage> WebReportInfo { get; set; }
-
+        /// <summary>
+        /// 访问日志
+        /// </summary>
+        public DbSet<AccessRecords> AccessRecords { get; set; }
 		//支付功能
 		public DbSet<CommodityOrder> GoodOrder { get; set; }
-
+		/// <summary>
+		/// 机器学习识别垃圾信息
+		/// </summary>
 		public DbSet<SpamInfo> SpamInfo { get; set; }
-
-		//日志
+		/// <summary>
+		/// 登录日志
+		/// </summary>
 		public DbSet<LoggingLogin> LoggingLogin { get; set; }
-		public DbSet<DataSignLogging> DataSignLogging { get; set; }
-
-		public DbSet<RealNameInformation> RealNameInformation { get; set; }
 
 		public DbSet<VirtualFileInfo> VirtualFileInfo { get; set; }
 		public DbSet<VirtualFolderInfo> VirtualFolderInfo { get; set; }

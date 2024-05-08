@@ -26,34 +26,34 @@ namespace MoreNote.Controllers
 			var noteContents = dataContext.NoteContent.ToList();
 			foreach (var noteContent in noteContents)
 			{
-				noteContent.ContentVector = jiebaSegmenterService.GetNpgsqlTsVector(noteContent.Content);
+				//noteContent.ContentVector = jiebaSegmenterService.GetNpgsqlTsVector(noteContent.Content);
 			}
 			var notes = dataContext.Note.ToList();
 			foreach (var note in notes)
 			{
 
-				note.TitleVector = jiebaSegmenterService.GetNpgsqlTsVector(note.Title); ;
+				//note.TitleVector = jiebaSegmenterService.GetNpgsqlTsVector(note.Title); ;
 			}
 
 			dataContext.SaveChanges();
 			return Ok();
 		}
-		[HttpGet, HttpPost]
-		public IActionResult Index(string s)
-		{
-			var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(s);
+		//[HttpGet, HttpPost]
+		//public IActionResult Index(string s)
+		//{
+		//	var query = jiebaSegmenterService.GetSerachNpgsqlTsQuery(s);
 
 
-			var noteContextAray = dataContext.NoteContent.Where(b => b.ContentVector.Matches(query)).ToArray();
-			var noteAray = dataContext.Note.Where(c => c.TitleVector.Matches(query)).ToArray();
-			MyResult myResult = new MyResult()
-			{
-				Contents = noteContextAray,
-				Notes = noteAray
-			};
+		//	var noteContextAray = dataContext.NoteContent.Where(b => b.ContentVector.Matches(query)).ToArray();
+		//	var noteAray = dataContext.Note.Where(c => c.TitleVector.Matches(query)).ToArray();
+		//	MyResult myResult = new MyResult()
+		//	{
+		//		Contents = noteContextAray,
+		//		Notes = noteAray
+		//	};
 
-			return Ok(myResult);
-		}
+		//	return Ok(myResult);
+		//}
 		class MyResult
 		{
 			public NoteContent[] Contents { get; set; }
