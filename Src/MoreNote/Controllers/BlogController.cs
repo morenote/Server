@@ -104,7 +104,7 @@ namespace MoreNote.Controllers
 				RequestHeader = stringBuilder.ToString(),
 				AccessTime = DateTime.Now,
 				UnixTime = UnixTimeUtil.GetTimeStampInLong(),
-				TimeInterval = -1,
+				TimeLastAccess = -1,
 				URL = url
 			};
 			await accessService.InsertAccessAsync(accessRecords).ConfigureAwait(false);

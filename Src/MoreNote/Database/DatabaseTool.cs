@@ -18,7 +18,7 @@ namespace MoreNote.Database
     public static class DatabaseTool
     {
 
-        public static void ConfigDatabase(this IServiceCollection services, DataBaseConfig config, IWebHostEnvironment env)
+        public static void ConfigDatabase(this IServiceCollection services, DataBaseConfig config)
         {
             if (config.SqlEngine == Models.Enums.SqlEngine.PostgreSQL)
             {
@@ -29,7 +29,7 @@ namespace MoreNote.Database
 
                     optionsBuilder.UseInternalServiceProvider(serviceProvider);
                     //调试环境下面打开慢SQL控制台输出，如果执行时间大于10ms
-                    if (env.IsDevelopment())
+                    if (1==2)
                     {
                         optionsBuilder.LogTo(eflog =>
                         {
@@ -60,8 +60,9 @@ namespace MoreNote.Database
             {
                 // 配置MySQL数据库及连接池
                 services.AddDbContextPool<DataContext>(option =>
-                        option.UseMySql(config.MySQL, ServerVersion.Parse("8.0.12-mysql")), poolSize: 8);
-
+                        option.UseMySql(config.MySQL, MySqlServerVersion.Parse("8.0.12")), poolSize: 8);
+               
+             
 
             }
 

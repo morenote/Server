@@ -70,6 +70,10 @@ namespace MoreNote.Logic.Database
 			  .Entity<Note>()
 			  .Property(e => e.ExtendedName)
 			  .HasConversion<string>();
+
+			modelBuilder.Entity<AccessRecords>()
+				.Property(e=>e.AccessTime)
+				.HasConversion<string>();
 			//============================种子数据 数据库迁移的时候自动生成================================
 		}
 

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -31,13 +32,13 @@ namespace MoreNote
 	public class Startup
 	{
 		private WebSiteConfig config;
-		private readonly IWebHostEnvironment env;
-		public IConfiguration Configuration { get; }
+	
+		
 
-		public Startup(IConfiguration configuration, IWebHostEnvironment env)
+		public Startup( )
 		{
-			Configuration = configuration;
-			this.env = env;
+			
+			
 			ConfigFileService configFileService = new ConfigFileService();
 			config = configFileService.WebConfig;
 		}
@@ -82,8 +83,11 @@ namespace MoreNote
 			services.AddEntityFrameworkNpgsql();
 			Console.WriteLine($"================== SqlEngine { Enum.GetName(config.DataBaseConfig.SqlEngine)} ==================");
 
+          
 
-			services.ConfigDatabase(config.DataBaseConfig, env);
+
+
+            services.ConfigDatabase(config.DataBaseConfig);
 			// services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
 
 			//增加Session
@@ -128,7 +132,7 @@ namespace MoreNote
 				option.Filters.Add<InspectionInstallationFilter>();
 			});
 			services.AddBundling()
-					.UseDefaults(env)
+				
 					.UseNUglify()
 					.EnableMinification()
 					.EnableChangeDetection()
@@ -177,10 +181,10 @@ namespace MoreNote
 
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(WebApplication app)
 		{
 			//app.UseDeveloperExceptionPage();
-			if (env.IsDevelopment())
+			if (app.Environment.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
@@ -223,7 +227,11 @@ namespace MoreNote
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Demo v1");
 			});
 
-			app.UseEndpoints(endpoints =>
+			
+
+
+
+            app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
