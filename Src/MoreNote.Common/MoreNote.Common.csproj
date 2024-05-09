@@ -46,7 +46,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.0" />
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
-    <PackageReference Include="FarNet" Version="8.1.7" />
+    <PackageReference Include="FarNet" Version="8.1.8" />
     <PackageReference Include="Fido2" Version="3.0.1" />
     <PackageReference Include="Fido2.AspNet" Version="3.0.1" />
     <PackageReference Include="Fido2.Models" Version="3.0.1" />
