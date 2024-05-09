@@ -17,6 +17,7 @@ using Morenote.Framework.Filter.Global;
 
 using MoreNote.Common.autofac;
 using MoreNote.Config.ConfigFile;
+using MoreNote.Database;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service;
 
@@ -30,13 +31,13 @@ namespace MoreNote
 	public class Startup
 	{
 		private WebSiteConfig config;
-		private readonly IWebHostEnvironment _env;
+		private readonly IWebHostEnvironment env;
 		public IConfiguration Configuration { get; }
 
 		public Startup(IConfiguration configuration, IWebHostEnvironment env)
 		{
 			Configuration = configuration;
-			this._env = env;
+			this.env = env;
 			ConfigFileService configFileService = new ConfigFileService();
 			config = configFileService.WebConfig;
 		}
@@ -76,70 +77,13 @@ namespace MoreNote
 
 			//增加数据库
 			var connection = config.DataBaseConfig.PostgreSQL;
-			switch (config.DataBaseConfig.SqlEngine)
-			{
-				case Models.Enums.SqlEngine.SQLite3:
-					break;
-				case Models.Enums.SqlEngine.MySQL:
-					break;
-				case Models.Enums.SqlEngine.PostgreSQL:
-
-					break;
-				default:
-					break;
-			}
-			
-
 			services.AddMemoryCache();
 
 			services.AddEntityFrameworkNpgsql();
 			Console.WriteLine($"================== SqlEngine { Enum.GetName(config.DataBaseConfig.SqlEngine)} ==================");
 
-            if (config.DataBaseConfig.SqlEngine == Models.Enums.SqlEngine.PostgreSQL)
-            {
-                services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
-                {
-                    optionsBuilder.UseNpgsql(connection, b => b.MigrationsAssembly("MoreNote.Logic"));
 
-
-                    optionsBuilder.UseInternalServiceProvider(serviceProvider);
-                    //调试环境下面打开慢SQL控制台输出，如果执行时间大于10ms
-                    if (_env.IsDevelopment())
-                    {
-                        optionsBuilder.LogTo(eflog =>
-                        {
-                            //正则表达式 匹配执行时间
-                            var match = Regex.Match(eflog, @"Executed DbCommand \((\d+)ms\)");
-                            if (match.Success)
-                            {
-                                var regexGroups = match.Groups;
-                                var itemValue = regexGroups[1].ToString();
-                                int ms = 0;
-                                Int32.TryParse(itemValue, out ms);
-                                if (ms > 100)
-                                {
-                                    Console.WriteLine($"==================Slow database operations,{regexGroups[0]}==================");
-
-                                    Console.WriteLine(eflog);
-                                }
-                            }
-                        }, Microsoft.Extensions.Logging.LogLevel.Warning);
-                    }
-                });
-			}
-			else if (config.DataBaseConfig.SqlEngine==Models.Enums.SqlEngine.SQLite3)
-			{
-                services.AddDbContext<DataContext>(options => options.UseSqlite(config.DataBaseConfig.SQLite3));
-            }
-            else
-            {
-                // 配置MySQL数据库及连接池
-                services.AddDbContextPool<DataContext>(option =>
-                        option.UseMySql(config.DataBaseConfig.MySQL, ServerVersion.Parse("8.0.12-mysql")), poolSize: 8);
-
-
-            }
-       
+			services.ConfigDatabase(config.DataBaseConfig, env);
 			// services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
 
 			//增加Session
@@ -184,7 +128,7 @@ namespace MoreNote
 				option.Filters.Add<InspectionInstallationFilter>();
 			});
 			services.AddBundling()
-					.UseDefaults(_env)
+					.UseDefaults(env)
 					.UseNUglify()
 					.EnableMinification()
 					.EnableChangeDetection()
