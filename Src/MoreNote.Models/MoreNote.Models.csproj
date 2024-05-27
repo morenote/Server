@@ -76,4 +76,8 @@
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\VCS\" />
+  </ItemGroup>
+
 </Project>
