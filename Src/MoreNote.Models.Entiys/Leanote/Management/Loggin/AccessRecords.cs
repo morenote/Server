@@ -26,11 +26,11 @@ namespace MoreNote.Models.Entity.Leanote.Management.Loggin
 		[Column("request_header")]
 		public string? RequestHeader { get; set; }//http header
 		[Column("access_time")]
-		public DateTime AccessTime { get; set; }
+        public DateTime AccessTime { get; set; }
 		[Column("unix_time")]
 		public long? UnixTime { get; set; }
-		[Column("time_interval")]
-		public long? TimeInterval { get; set; }//距离上一次访问的时间间隔 如果没有上次 -1
+		[Column("time_last_access")]
+		public long? TimeLastAccess { get; set; }//距离上一次访问的时间间隔 如果没有上次 -1
 		[Column("url")]
 		public string? URL { get; set; }
 		[Column("remote_ip_address")]

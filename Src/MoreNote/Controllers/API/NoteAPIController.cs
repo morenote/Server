@@ -965,48 +965,48 @@ namespace MoreNote.Controllers.API.APIV1
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		[HttpGet]
-		public IActionResult SearchRepositoryNote(string token, string noteRepositoryId, string key, int index)
-		{
-			var re = new ApiResponseDTO();
-			/**
-             * 默认：title搜索
-             * 关键词&关键词：title搜索
-             * 关键词|关键词：title搜索
-             * title:仅搜索标题中的关键词的笔记
-             * body：仅搜索文章中的关键词的笔记
-             * tag:仅搜索tag列表的关键词的笔记
-             * time>YYYMMDD 2021/10/24 搜索指定日期后的笔记
-             * time<YYYMMDD 2021/10/24 搜索指定日期前的笔记
-             * time<YYYMMDD 2021/10/24 搜索指定日期的笔记
-             * file：搜索包含制定附件名称的笔记
-             * */
-			var user = tokenSerivce.GetUserByToken(token);
+		//[HttpGet]
+		//public IActionResult SearchRepositoryNote(string token, string noteRepositoryId, string key, int index)
+		//{
+		//	var re = new ApiResponseDTO();
+		//	/**
+  //           * 默认：title搜索
+  //           * 关键词&关键词：title搜索
+  //           * 关键词|关键词：title搜索
+  //           * title:仅搜索标题中的关键词的笔记
+  //           * body：仅搜索文章中的关键词的笔记
+  //           * tag:仅搜索tag列表的关键词的笔记
+  //           * time>YYYMMDD 2021/10/24 搜索指定日期后的笔记
+  //           * time<YYYMMDD 2021/10/24 搜索指定日期前的笔记
+  //           * time<YYYMMDD 2021/10/24 搜索指定日期的笔记
+  //           * file：搜索包含制定附件名称的笔记
+  //           * */
+		//	var user = tokenSerivce.GetUserByToken(token);
 
-			if (user == null)
-			{
-				return LeanoteJson(re);
-			}
-			var repositor = this.noteRepositoryService.GetRepository(noteRepositoryId.ToLongByHex());
+		//	if (user == null)
+		//	{
+		//		return LeanoteJson(re);
+		//	}
+		//	var repositor = this.noteRepositoryService.GetRepository(noteRepositoryId.ToLongByHex());
 
-			if (!repositor.Visible)
-			{
-				var verify = noteRepositoryService.Verify(repositor.Id, user.Id, RepositoryAuthorityEnum.Read);
-				if (!verify)
-				{
-					return LeanoteJson(re);
-				}
-			}
+		//	if (!repositor.Visible)
+		//	{
+		//		var verify = noteRepositoryService.Verify(repositor.Id, user.Id, RepositoryAuthorityEnum.Read);
+		//		if (!verify)
+		//		{
+		//			return LeanoteJson(re);
+		//		}
+		//	}
 
-			var notes1 = noteService.SearchRepositoryIdNoteByTitleVector(key, repositor.Id, GetPage(), pageSize);
+		//	var notes1 = noteService.SearchRepositoryIdNoteByTitleVector(key, repositor.Id, GetPage(), pageSize);
 
-			var notes2 = noteService.SearchRepositoryNoteByContentVector(key, repositor.Id, GetPage(), pageSize);
+		//	var notes2 = noteService.SearchRepositoryNoteByContentVector(key, repositor.Id, GetPage(), pageSize);
 
-			var result = merge(notes1, notes2);
-			re.Ok = true;
-			re.Data = result;
-			return LeanoteJson(re);
-		}
+		//	var result = merge(notes1, notes2);
+		//	re.Ok = true;
+		//	re.Data = result;
+		//	return LeanoteJson(re);
+		//}
 
 		/// <summary>
 		/// 拷贝笔记(不推荐使用)

@@ -7,22 +7,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoreNote.Logic.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using NpgsqlTypes;
 
 #nullable disable
 
 namespace MoreNote.Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230402095941_usbkey")]
-    partial class usbkey
+    [Migration("20240527122559_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -175,77 +174,6 @@ namespace MoreNote.Logic.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("group_team_user");
-                });
-
-            modelBuilder.Entity("MoreNote.Logic.Entity.RandomImage", b =>
-                {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
-
-                    b.Property<bool>("Block")
-                        .HasColumnType("boolean")
-                        .HasColumnName("block");
-
-                    b.Property<string>("ExternalLink")
-                        .HasColumnType("text")
-                        .HasColumnName("external_link");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("file_name");
-
-                    b.Property<string>("FileNameMD5")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("file_name_md5");
-
-                    b.Property<string>("FileNameSHA1")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("file_name_sha1");
-
-                    b.Property<string>("FileSHA1")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("file_sha1");
-
-                    b.Property<bool>("Is302")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_302");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_delete");
-
-                    b.Property<bool>("Sex")
-                        .HasColumnType("boolean")
-                        .HasColumnName("sex");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("type_name");
-
-                    b.Property<string>("TypeNameMD5")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("type_name_md5");
-
-                    b.Property<string>("TypeNameSHA1")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("type_name_sha1");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id", "TypeName", "Sex", "IsDelete", "Block", "FileSHA1");
-
-                    b.ToTable("random_image");
                 });
 
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.Blog.BlogCate", b =>
@@ -936,8 +864,9 @@ namespace MoreNote.Logic.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
-                    b.Property<DateTime>("AccessTime")
-                        .HasColumnType("timestamp without time zone")
+                    b.Property<string>("AccessTime")
+                        .IsRequired()
+                        .HasColumnType("character varying(48)")
                         .HasColumnName("access_time");
 
                     b.Property<string>("IP")
@@ -960,9 +889,9 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("request_header");
 
-                    b.Property<long?>("TimeInterval")
+                    b.Property<long?>("TimeLastAccess")
                         .HasColumnType("bigint")
-                        .HasColumnName("time_interval");
+                        .HasColumnName("time_last_access");
 
                     b.Property<string>("URL")
                         .HasColumnType("text")
@@ -985,36 +914,6 @@ namespace MoreNote.Logic.Migrations
                     b.HasIndex("IP", "X_Real_IP", "X_Forwarded_For", "AccessTime", "URL");
 
                     b.ToTable("access_records");
-                });
-
-            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.Management.Loggin.DataSignLogging", b =>
-                {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
-
-                    b.Property<long?>("DataId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("data_id");
-
-                    b.Property<string>("DataSignJson")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("data_sign_json");
-
-                    b.Property<string>("Tag")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("tag");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id", "DataId");
-
-                    b.ToTable("data_sign");
                 });
 
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.Management.Loggin.LoggingLogin", b =>
@@ -1322,6 +1221,10 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("desc");
 
+                    b.Property<string>("ExtendedName")
+                        .HasColumnType("text")
+                        .HasColumnName("extended_name");
+
                     b.Property<bool>("HasSelfDefined")
                         .HasColumnType("boolean")
                         .HasColumnName("has_self_defined");
@@ -1337,10 +1240,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
-
-                    b.Property<bool>("IsMarkdown")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_markdown");
 
                     b.Property<bool>("IsPublicShare")
                         .HasColumnType("boolean")
@@ -1394,10 +1293,6 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.Property<NpgsqlTsVector>("TitleVector")
-                        .HasColumnType("tsvector")
-                        .HasColumnName("title_vector");
-
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated_time");
@@ -1443,13 +1338,17 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("content");
 
-                    b.Property<NpgsqlTsVector>("ContentVector")
-                        .HasColumnType("tsvector")
-                        .HasColumnName("content_vector");
-
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_time");
+
+                    b.Property<string>("EncryptionAlgorithms")
+                        .HasColumnType("text")
+                        .HasColumnName("enc_algorithms");
+
+                    b.Property<string>("EncryptionKey")
+                        .HasColumnType("text")
+                        .HasColumnName("enc_key");
 
                     b.Property<string>("Hmac")
                         .HasColumnType("text")
@@ -1470,6 +1369,10 @@ namespace MoreNote.Logic.Migrations
                     b.Property<long?>("NoteId")
                         .HasColumnType("bigint")
                         .HasColumnName("note_id");
+
+                    b.Property<string>("PBKDF2Salt")
+                        .HasColumnType("text")
+                        .HasColumnName("pbkdf2_salt");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp without time zone")
@@ -1893,6 +1796,14 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<string>("EncryptionAlgorithms")
+                        .HasColumnType("text")
+                        .HasColumnName("enc_algorithms");
+
+                    b.Property<string>("EncryptionKey")
+                        .HasColumnType("text")
+                        .HasColumnName("enc_key");
+
                     b.Property<int>("ForkCounter")
                         .HasColumnType("integer")
                         .HasColumnName("fork_counter");
@@ -1916,6 +1827,10 @@ namespace MoreNote.Logic.Migrations
                     b.Property<long?>("OwnerId")
                         .HasColumnType("bigint")
                         .HasColumnName("owner_id");
+
+                    b.Property<string>("PBKDF2Salt")
+                        .HasColumnType("text")
+                        .HasColumnName("pbkdf2_salt");
 
                     b.Property<int>("RepositoryOwnerType")
                         .HasColumnType("integer")
@@ -2200,36 +2115,6 @@ namespace MoreNote.Logic.Migrations
                     b.ToTable("authorization");
                 });
 
-            modelBuilder.Entity("MoreNote.Models.Entity.Leanote.User.RealNameInformation", b =>
-                {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
-
-                    b.Property<string>("Hmac")
-                        .HasColumnType("text")
-                        .HasColumnName("hmac");
-
-                    b.Property<string>("IdCardNo")
-                        .HasColumnType("text")
-                        .HasColumnName("id_card_no");
-
-                    b.Property<bool>("IsEncryption")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_encryption");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("real_name_information");
-                });
-
             modelBuilder.Entity("MoreNote.Models.Entity.Leanote.User.Session", b =>
                 {
                     b.Property<long?>("Id")
@@ -2440,6 +2325,26 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("change_password_reminder");
 
+                    b.Property<int?>("ClientPasswordDegreeOfParallelism")
+                        .HasColumnType("integer")
+                        .HasColumnName("client_password_degree_of_parallelism");
+
+                    b.Property<string>("ClientPasswordHashAlgorithm")
+                        .HasColumnType("text")
+                        .HasColumnName("client_password_hash_algorithm");
+
+                    b.Property<int?>("ClientPasswordMemorySize")
+                        .HasColumnType("integer")
+                        .HasColumnName("client_password_memory_size");
+
+                    b.Property<string>("ClientSalt")
+                        .HasColumnType("text")
+                        .HasColumnName("client_salt");
+
+                    b.Property<int?>("ClinetPasswordHashIterations")
+                        .HasColumnType("integer")
+                        .HasColumnName("client_password_hash_iterations");
+
                     b.Property<string>("Country")
                         .HasColumnType("text")
                         .HasColumnName("country");
@@ -2499,10 +2404,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Logo")
                         .HasColumnType("text")
                         .HasColumnName("logo");
-
-                    b.Property<string>("MarkdownEditorOption")
-                        .HasColumnType("text")
-                        .HasColumnName("markdown_option");
 
                     b.Property<int>("MaxAttachNum")
                         .HasColumnType("integer")
@@ -2565,6 +2466,14 @@ namespace MoreNote.Logic.Migrations
                         .HasColumnType("text")
                         .HasColumnName("post_url");
 
+                    b.Property<string>("PreferredMarkdownEditor")
+                        .HasColumnType("text")
+                        .HasColumnName("markdown_option");
+
+                    b.Property<string>("PreferredRichTextEditor")
+                        .HasColumnType("text")
+                        .HasColumnName("rich_text_option");
+
                     b.Property<string>("Profile")
                         .HasColumnType("text")
                         .HasColumnName("profile");
@@ -2572,10 +2481,6 @@ namespace MoreNote.Logic.Migrations
                     b.Property<string>("Pwd")
                         .HasColumnType("text")
                         .HasColumnName("pwd");
-
-                    b.Property<string>("RichTextEditorOption")
-                        .HasColumnType("text")
-                        .HasColumnName("rich_text_option");
 
                     b.Property<string>("Role")
                         .IsRequired()

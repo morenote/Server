@@ -13,22 +13,22 @@ namespace MoreNote.Logic.Service
 {
 	public class DeployService
 	{
-		private IHost host;
+		private IServiceProvider serviceProvider;
 
-		public DeployService(IHost host)
+		public DeployService(IServiceProvider serviceProvider)
 		{
-			this.host = host;
+			this.serviceProvider = serviceProvider;
 		}
 
 		public void MigrateDatabase()
 		{
-			if (host == null)
+			if (serviceProvider == null)
 			{
-				throw new ArgumentNullException("host is null,class DeployService  is error");
+				throw new ArgumentNullException("serviceProvider is null,class DeployService  is error");
 			}
 			//执行数据库迁移命令
-			System.Console.WriteLine(" ==================== PostgreSQL Migrate  Start====================");
-			using (var scope = host.Services.CreateScope())
+			System.Console.WriteLine(" ==================== SQL Migrate  Start====================");
+			using (var scope = serviceProvider.CreateScope())
 			{
 				var db = scope.ServiceProvider.GetRequiredService<DataContext>();
 				var cry = scope.ServiceProvider.GetRequiredService<ICryptographyProvider>();
@@ -140,10 +140,10 @@ namespace MoreNote.Logic.Service
 				//}
 
 				db.SaveChanges();
-				Console.WriteLine("迁移数据库成功");
+			
 			}
 
-			System.Console.WriteLine(" ==================== PostgreSQL Migrate  Successfully====================");
+			System.Console.WriteLine(" ==================== SQL Migrate  Successfully====================");
 		}
 
 		public void InitSecret()

@@ -1,8 +1,11 @@
-﻿using Autofac.Extensions.DependencyInjection;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
+using MoreNote.Common.autofac;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
 
@@ -18,8 +21,24 @@ namespace MoreNote
 		public static void Main(string[] args)
 		{
 
-			//设置读取指定位置的nlog.config文件
-			if (RuntimeEnvironment.IsWindows)
+
+            var builder = WebApplication.CreateBuilder(args);
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.RegisterModule<AutofacModule>();
+            });
+			builder.Host.UseNLog();
+
+            Startup startup = new Startup();
+
+			startup.ConfigureServices(builder.Services);
+
+         
+
+            //设置读取指定位置的nlog.config文件
+            if (RuntimeEnvironment.IsWindows)
 			{
 				NLogBuilder.ConfigureNLog("nlog-windows.config");
 			}
@@ -27,11 +46,14 @@ namespace MoreNote
 			{
 				NLogBuilder.ConfigureNLog("nlog-linux.config");
 			}
+            var app = builder.Build();
 
-			var host = CreateHostBuilder(args).Build();
-			var map = GetArgsMap(args);
+            startup.Configure(app);
 
-			DeployService deployService = new DeployService(host);
+
+            var map = GetArgsMap(args);
+
+			DeployService deployService = new DeployService(app.Services);
 			if (map.Keys.Contains("m"))
 			{
 				var cmd = map["m"];
@@ -51,7 +73,7 @@ namespace MoreNote
 				}
 			}
 
-			host.Run();
+			app.Run();
 		}
 
 		private static Dictionary<string, string> GetArgsMap(string[] args)
@@ -76,20 +98,8 @@ namespace MoreNote
 			return map;
 		}
 
-		/// <summary>
-		/// 初始化安全秘钥
-		/// </summary>
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
 
-			.UseServiceProviderFactory(new AutofacServiceProviderFactory())
-			.ConfigureWebHostDefaults(webBuilder =>
-			{
-				webBuilder.UseUrls("http://*:5000").UseStartup<Startup>();
-			})
-
-			.UseNLog();
-
+		
 
 
 	}

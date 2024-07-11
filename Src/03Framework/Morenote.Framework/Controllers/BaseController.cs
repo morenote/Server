@@ -74,7 +74,7 @@ namespace MoreNote.Framework.Controllers
 		protected IDistributedCache distributedCache { get; set; }//分布式缓存
 
 		[Autowired]
-		protected ILoggingService logging { get; set; }
+		protected ILoggingService log { get; set; }
 
 		[Autowired]
 		protected ICryptographyProvider cryptographyProvider { get; set; }

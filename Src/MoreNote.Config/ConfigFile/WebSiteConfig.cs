@@ -7,7 +7,7 @@ namespace MoreNote.Config.ConfigFile
 		public bool IsAlreadyInstalled { get; set; }
 		public MachineLearningConfig MachineLearning { get; set; }
 		public PayJSConfig Payjs { get; set; }
-		public PostgreSqlConfig PostgreSql { get; set; }
+		public DataBaseConfig DataBaseConfig { get; set; }
 		public RandomImangeServiceConfig PublicAPI { get; set; }
 		public ImageSpidersConfig Spiders { get; set; }
 		public UpyunConfig UpyunConfig { get; set; }

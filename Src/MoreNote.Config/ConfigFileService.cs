@@ -96,7 +96,7 @@ namespace MoreNote.Logic.Service
 						if (_config == null)
 						{
 							path = GetConfigPath();
-							Console.WriteLine($"已经加载配置文件:{path}");
+							Console.WriteLine($"Configuration file already loaded:{path}");
 							if (!File.Exists(path))
 							{
 								InitTemplateConfig();

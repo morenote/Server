@@ -115,65 +115,7 @@ namespace MoreNote.Controllers
 
 
 
-		[HttpPost]
-		public async Task<IActionResult> UpYunImageServiceHook()
-		{
-			using (StreamReader reader = new StreamReader(Request.Body))
-			{
-				try
-				{
-					string body = await reader.ReadToEndAsync().ConfigureAwait(true);
-					ContentIdentifiesHookMessages message = JsonSerializer.Deserialize<ContentIdentifiesHookMessages>(body, Common.Utils.MyJsonConvert.GetLeanoteOptions());
-					if (string.IsNullOrEmpty(message.uri) || message.type == UpyunType.test)
-					{
-						Response.StatusCode = 200;
-						return Content("未找到");
-					}
-					string fileSHA1 = Path.GetFileNameWithoutExtension(message.uri);
-
-					RandomImage imagedb = dataContext.RandomImage.Where(b => b.FileSHA1.Equals(fileSHA1)).FirstOrDefault();
-					if (imagedb == null)
-					{
-						Response.StatusCode = (int)HttpStatusCode.NotFound;
-						return Content("未找到");
-					}
-					switch (message.type)
-					{
-						case UpyunType.delete:
-							imagedb.IsDelete = true;
-							break;
-
-						case UpyunType.shield:
-							imagedb.Block = true;
-							break;
-
-						case UpyunType.cancel_shield:
-							imagedb.Block = false;
-							break;
-
-						case UpyunType.forbidden:
-							imagedb.Block = true;
-							break;
-
-						case UpyunType.cancel_forbidden:
-							imagedb.Block = false;
-							break;
-
-						default:
-							break;
-					}
-					dataContext.SaveChanges();
-					// Do something
-				}
-				catch (Exception ex)
-				{
-					Response.StatusCode = 404;
-					return Content("false" + ex.Message);
-				}
-			}
-			Response.StatusCode = 200;
-			return Content("ok");
-		}
+		
 
 		//浏览器检测
 		public IActionResult BrowserDetection()

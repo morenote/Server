@@ -134,7 +134,7 @@ namespace MoreNote.Controllers.API.Security
 			finally
 			{
 
-				this.logging.Save(logg);
+			
 			}
 		}
 		[HttpGet]

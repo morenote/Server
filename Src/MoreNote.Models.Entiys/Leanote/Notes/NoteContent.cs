@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AngleSharp.Browser.Dom;
+
+using Microsoft.EntityFrameworkCore;
 
 using Morenote.Models.Models.Entity;
 
@@ -30,8 +32,7 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 		public bool IsBlog { get; set; } // 为了搜索博客 
 		[Column("content")]
 		public string? Content { get; set; }//内容
-		[Column("content_vector"), JsonIgnore]
-		public NpgsqlTsVector? ContentVector { get; set; }
+		
 
 
 		//public string WebContent{ get;set;}//为web页面优化的内容
@@ -66,9 +67,23 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 			stringBuilder.Append("NoteId=" + NoteId);
 			stringBuilder.Append("Content=" + Content);
 			return stringBuilder.ToString();
-		}
+        }
 
 
 
 	}
+    [Table("note_content_vector"), Index(nameof(NoteContentId))]
+    public class NoteContentNpgsqlTsVector : BaseEntity
+    {
+        [Column("note_content_id"), JsonIgnore]
+        public long NoteContentId { get; set; }
+
+        [Column("content_vector"), JsonIgnore]
+        public NpgsqlTsVector? ContentVector { get; set; }
+
+
+    }
+
+
+
 }

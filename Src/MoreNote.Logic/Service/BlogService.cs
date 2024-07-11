@@ -74,28 +74,28 @@ namespace MoreNote.Logic.Service
 												&& b.NotesRepositoryId == repositoryId).Count();
 			return count;
 		}
-		public int CountTheNumberForSearch(long? userId, string keyword)
-		{
-			var query = jieba.GetSerachNpgsqlTsQuery(keyword);
-			var count = dataContext.Note.Where(b => b.UserId == userId
+		//public int CountTheNumberForSearch(long? userId, string keyword)
+		//{
+		//	var query = jieba.GetSerachNpgsqlTsQuery(keyword);
+		//	var count = dataContext.Note.Where(b => b.UserId == userId
 
-														 && b.IsBlog == true
-														 && b.IsDeleted == false
-														 && b.IsTrash == false
-														 && b.TitleVector.Matches(query)).Count();
-			return count;
-		}
-		public int CountTheNumberForSearch(long? userId, long? repositoryId, string keyword)
-		{
-			var query = jieba.GetSerachNpgsqlTsQuery(keyword);
-			var count = dataContext.Note.Where(b => b.UserId == userId
-														 && b.NotesRepositoryId == repositoryId
-														 && b.IsBlog == true
-														 && b.IsDeleted == false
-														 && b.IsTrash == false
-														 && b.TitleVector.Matches(query)).Count();
-			return count;
-		}
+		//												 && b.IsBlog == true
+		//												 && b.IsDeleted == false
+		//												 && b.IsTrash == false
+		//												 && b.TitleVector.Matches(query)).Count();
+		//	return count;
+		//}
+		//public int CountTheNumberForSearch(long? userId, long? repositoryId, string keyword)
+		//{
+		//	var query = jieba.GetSerachNpgsqlTsQuery(keyword);
+		//	var count = dataContext.Note.Where(b => b.UserId == userId
+		//												 && b.NotesRepositoryId == repositoryId
+		//												 && b.IsBlog == true
+		//												 && b.IsDeleted == false
+		//												 && b.IsTrash == false
+		//												 && b.TitleVector.Matches(query)).Count();
+		//	return count;
+		//}
 
 		public int CountTheNumberForBlogTags(long? userId, string tag)
 		{
@@ -309,15 +309,15 @@ namespace MoreNote.Logic.Service
 		/// <param name="isAsc"></param>
 		/// <param name="pageObj"></param>
 		/// <param name="blogItems"></param>
-		public BlogItem[] SearchBlog(string key, long? userid, int page, int pageSize, string sortField, bool isAsc)
-		{
-			var notes = NoteService.SearchNote(key, userid, page, pageSize, sortField, isAsc, true);
-			if (notes == null || !notes.Any())
-			{
-				return null;
-			}
-			return null;
-		}
+		//public BlogItem[] SearchBlog(string key, long? userid, int page, int pageSize, string sortField, bool isAsc)
+		//{
+		//	var notes = NoteService.SearchNote(key, userid, page, pageSize, sortField, isAsc, true);
+		//	if (notes == null || !notes.Any())
+		//	{
+		//		return null;
+		//	}
+		//	return null;
+		//}
 
 		public BlogPost PreNextBlog(long? userid, string sortField, bool isAsc, long? noteId, string baseTime)
 		{

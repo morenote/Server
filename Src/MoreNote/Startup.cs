@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -11,11 +12,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 using Morenote.Framework.Filter.Global;
 
 using MoreNote.Common.autofac;
 using MoreNote.Config.ConfigFile;
+using MoreNote.Database;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service;
 
@@ -29,13 +32,13 @@ namespace MoreNote
 	public class Startup
 	{
 		private WebSiteConfig config;
-		private readonly IWebHostEnvironment _env;
-		public IConfiguration Configuration { get; }
+	
+		
 
-		public Startup(IConfiguration configuration, IWebHostEnvironment env)
+		public Startup( )
 		{
-			Configuration = configuration;
-			this._env = env;
+			
+			
 			ConfigFileService configFileService = new ConfigFileService();
 			config = configFileService.WebConfig;
 		}
@@ -74,49 +77,17 @@ namespace MoreNote
 			});
 
 			//增加数据库
-			var connection = config.PostgreSql.Connection;
-			//是否使用分布式内存
-			if (config.RedisConfig.IsEnable)
-			{
-				services.AddStackExchangeRedisCache(options =>
-				{
-					options.Configuration = config.RedisConfig.Configuration;
-					options.InstanceName = config.RedisConfig.InstanceName;
-
-				});
-
-			}
-
+			var connection = config.DataBaseConfig.PostgreSQL;
 			services.AddMemoryCache();
 
 			services.AddEntityFrameworkNpgsql();
-			services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
-			{
-				optionsBuilder.UseNpgsql(connection, b => b.MigrationsAssembly("MoreNote.Logic"));
-				optionsBuilder.UseInternalServiceProvider(serviceProvider);
-				//调试环境下面打开慢SQL控制台输出，如果执行时间大于10ms
-				if (_env.IsDevelopment())
-				{
-					optionsBuilder.LogTo(eflog =>
-					{
-						//正则表达式 匹配执行时间
-						var match = Regex.Match(eflog, @"Executed DbCommand \((\d+)ms\)");
-						if (match.Success)
-						{
-							var regexGroups = match.Groups;
-							var itemValue = regexGroups[1].ToString();
-							int ms = 0;
-							Int32.TryParse(itemValue, out ms);
-							if (ms > 100)
-							{
-								Console.WriteLine($"==================Slow database operations,{regexGroups[0]}==================");
+			Console.WriteLine($"================== SqlEngine { Enum.GetName(config.DataBaseConfig.SqlEngine)} ==================");
 
-								Console.WriteLine(eflog);
-							}
-						}
-					}, Microsoft.Extensions.Logging.LogLevel.Warning);
-				}
-			});
+          
+
+
+
+            services.ConfigDatabase(config.DataBaseConfig);
 			// services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
 
 			//增加Session
@@ -161,7 +132,7 @@ namespace MoreNote
 				option.Filters.Add<InspectionInstallationFilter>();
 			});
 			services.AddBundling()
-					.UseDefaults(_env)
+				
 					.UseNUglify()
 					.EnableMinification()
 					.EnableChangeDetection()
@@ -210,10 +181,10 @@ namespace MoreNote
 
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(WebApplication app)
 		{
 			//app.UseDeveloperExceptionPage();
-			if (env.IsDevelopment())
+			if (app.Environment.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
@@ -256,7 +227,11 @@ namespace MoreNote
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Demo v1");
 			});
 
-			app.UseEndpoints(endpoints =>
+			
+
+
+
+            app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
