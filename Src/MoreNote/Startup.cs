@@ -197,7 +197,8 @@ namespace MoreNote
 			// app.UseHttpsRedirection();
 			// app.UseHttpsRedirection();
 			app.UseStaticFiles();
-			app.UseCookiePolicy();
+            app.UseFileServer();
+            app.UseCookiePolicy();
 			//使用session 注册
 			app.UseSession();
 			//app.UseHttpsRedirection();
