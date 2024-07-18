@@ -3,6 +3,6 @@ WORKDIR /app
 
 #APP 应用
 COPY ["bin/Release/net8.0/publish", "/app"]
-COPY ["/root/workspace/Frontend/dist/notion-like-theme", "/app/wwwroot"]
+
 EXPOSE 5000
 ENTRYPOINT ["dotnet", "MoreNote.dll"]
