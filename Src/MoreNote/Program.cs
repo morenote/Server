@@ -23,14 +23,15 @@ namespace MoreNote
 
 
             var builder = WebApplication.CreateBuilder(args);
-
+			
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
             {
                 builder.RegisterModule<AutofacModule>();
+				
             });
 			builder.Host.UseNLog();
-
+		
             Startup startup = new Startup();
 
 			startup.ConfigureServices(builder.Services);
@@ -46,8 +47,9 @@ namespace MoreNote
 			{
 				NLogBuilder.ConfigureNLog("nlog-linux.config");
 			}
+			
             var app = builder.Build();
-
+			
             startup.Configure(app);
 
 
