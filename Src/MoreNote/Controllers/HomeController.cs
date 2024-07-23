@@ -33,11 +33,15 @@ namespace MoreNote.Controllers
 		{
 			//return Content("An API listing authors of docs.asp.net.");
 			var host = Request.Host.Host;
-			var hostingBundle = this.blogService.FindBlogHostingBundle(host);
-			if (hostingBundle != null)
+			if (!string.IsNullOrEmpty(host) && !host.ToLower().Equals("null") && !host.Equals("localhost"))
 			{
-				return Redirect("/Blog/Index");
-			}
+                var hostingBundle = this.blogService.FindBlogHostingBundle(host);
+                if (hostingBundle != null)
+                {
+                    return Redirect("/Blog/Index");
+                }
+            }
+			
 			SetUserInfo();
 			ViewBag.title = "leanote";
 			ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;
