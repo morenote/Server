@@ -32,18 +32,18 @@ namespace MoreNote.Controllers
 		public IActionResult Index()
 		{
 			//return Content("An API listing authors of docs.asp.net.");
-			var host = Request.Host.Host;
-			var hostingBundle = this.blogService.FindBlogHostingBundle(host);
-			if (hostingBundle != null)
-			{
-				return Redirect("/Blog/Index");
-			}
-			SetUserInfo();
+			//var host = Request.Host.Host;
+			//var hostingBundle = this.blogService.FindBlogHostingBundle(host);
+			//if (hostingBundle != null)
+			//{
+			//	return Redirect("/Blog/Index");
+			//}
+			//SetUserInfo();
 			ViewBag.title = "leanote";
-			ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;
-			ViewBag.openDemo = configFileService.WebConfig.SecurityConfig.OpenDemo;
+			//ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;
+			//ViewBag.openDemo = configFileService.WebConfig.SecurityConfig.OpenDemo;
 
-			SetLocale();
+			//SetLocale();
 
 			return View();
 		}
