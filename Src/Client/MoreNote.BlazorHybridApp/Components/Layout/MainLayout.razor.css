@@ -8,9 +8,9 @@
 .content {
     /*background: lightpink;*/
     height: calc(100% - 72px);
-    ;
     min-width: 800px;
     min-height: 200px;
+    /*background-color: #0c6694;*/
 }
 
 .footer {
@@ -30,7 +30,6 @@
 .main {
     height: 100%;
     width: calc(100% - 240px);
-    ;
     /*background: aqua;*/
     margin-left: 240px;
 }
