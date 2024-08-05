@@ -2,24 +2,41 @@
 
 <div class="button-area">
     @foreach(string item in icons){
-    <Button Type="@ButtonType.Dashed"  Shape="@ButtonShape.Circle" >
-         <Icon Type=@item Theme="outline"/> 
+        <Button style="margin-bottom:0.5rem" Type="@ButtonType.Dashed" Size="Large" Shape="@ButtonShape.Circle">
+         <Icon Type=@item Theme="outline" /> 
       </Button>
+     
     }
      
 
 </div>
 <div class="tree-area">
-   <Tree TItem="Data"
+
+    <Tree TItem="Data"
           DataSource="_datas" @ref="_tree"
+          OnContextMenu="OpenContextMenu"
           ShowLine="true"
           TitleExpression="x => x.DataItem.Title"
           ChildrenExpression="x => x.DataItem.Childs"
           IsLeafExpression="x => x.TreeLevel > 2"
           OnNodeLoadDelayAsync="OnNodeLoadDelayAsync">
-      
-      
-      </Tree>
+        <TitleTemplate Context="node">
+            <Dropdown Trigger="new Trigger[] { Trigger.ContextMenu }">
+                <Overlay>
+                    <Menu>
+                        <MenuItem>1st menu item</MenuItem>
+                        <MenuItem>2nd menu item</MenuItem>
+                        <MenuItem>3rd menu item</MenuItem>
+                    </Menu>
+                </Overlay>
+                <ChildContent>
+                    <span>@node.Title </span>
+                </ChildContent>
+            </Dropdown>
+        </TitleTemplate>
+
+
+    </Tree>
 </div>
 
 
@@ -33,7 +50,7 @@
           "function", // 函数
           "delete" // 删除
       };
-   public record Data(string Title)
+    public record Data(string Title)
     {
         public List<Data> Childs { get; set; } = new List<Data>();
     }
@@ -51,7 +68,10 @@
     {
         _tree.ExpandAll(n => n.Title == "C");
     }
-
+    public void OpenContextMenu(TreeEventArgs<Data> treeEventArgs)
+    {
+        
+    }
     public async Task OnNodeLoadDelayAsync(TreeEventArgs<Data> args)
     {
         if (args.Node.TreeLevel < 3)

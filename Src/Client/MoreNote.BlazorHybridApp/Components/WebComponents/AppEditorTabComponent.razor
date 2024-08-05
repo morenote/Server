@@ -14,6 +14,7 @@
         @bind-Html="html" 
         Mode="wysiwyg" 
         Height="500" 
+        Width="1200"
         MinHeight="500" 
          OnToolbarButtonClick="OnToolbarButtonClick"  />
 
@@ -54,17 +55,9 @@
     string html;
 
     Editor editor;
-   // Toolbar Toolbar = new Toolbar();
-    // Upload upload = new Upload()
-    // {
-    //     url = "api/upload",
-    //     Max = 2 * 1024 * 1024,
-    //     Accept = "image/*,*.doc,*.docx",
-    //     Multiple = false,
-    // };
 
-   
 
+ 
     async Task Click()
     {
         var value = await editor.GetValueAsync();
