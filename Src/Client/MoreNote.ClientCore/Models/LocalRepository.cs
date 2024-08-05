@@ -22,9 +22,11 @@ namespace MoreNote.MSync.Models
         {
             return BasePath + RepositoryConfigFile;
         }
-        public static LocalRepository Open(string path)
+        public static LocalRepository Open(string basePath)
         {
-            return null;
+            LocalRepository localRepository = new LocalRepository();
+            localRepository.BasePath = basePath;
+            return localRepository;
         }
         /// <summary>
         /// 初始化仓库
@@ -50,12 +52,8 @@ namespace MoreNote.MSync.Models
 
             //如果不存在HugeFiles文件夹，创建HugeFiles文件夹
             fileSystemServices.Directory_CreateDirectory(BasePath + "HugeFiles");
-
-
-
-
-
         }
+
 
     }
 }

@@ -16,7 +16,8 @@ namespace MoreNote.BlazorHybridApp
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddAntDesign();
-
+        
+          
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

@@ -1,6 +1,6 @@
 ﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents
 
-<Tabs @bind-ActiveKey="@activeKey" OnChange="OnTabChange" Animated>
+<Tabs  @bind-ActiveKey="@activeKey" OnChange="OnTabChange" Animated class="app-tab-container">
     <TabPane Tab="tab1" Key="1">
         Content of Tab Pane 1
     </TabPane>
@@ -8,16 +8,79 @@
         Content of Tab Pane 2
     </TabPane>
     <TabPane Tab="Tab 3" Key="3">
-        Content of Tab Pane 3
+       
+        <Vditor.Editor @ref="editor" 
+        @bind-Value="value" 
+        @bind-Html="html" 
+        Mode="wysiwyg" 
+        Height="500" 
+        MinHeight="500" 
+         OnToolbarButtonClick="OnToolbarButtonClick"  />
+
     </TabPane>
 </Tabs>
 
+<style>
+    .app-tab-container {
+        height: 100%;
+        width: 100%;
+      
+    }
 
+    .app-editor-container {
+        display: block;
+        min-height: 600px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .am-tab-content {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+
+</style>
 @code {
+    string? Content { get; set; } = "Hello World!!!";
     string activeKey { get; set; } = "1";
 
     void OnTabChange(string key)
     {
         Console.WriteLine($"tab change:{key}");
     }
+
+    string value = "Hello Blazor!";
+    string html;
+
+    Editor editor;
+   // Toolbar Toolbar = new Toolbar();
+    // Upload upload = new Upload()
+    // {
+    //     url = "api/upload",
+    //     Max = 2 * 1024 * 1024,
+    //     Accept = "image/*,*.doc,*.docx",
+    //     Multiple = false,
+    // };
+
+   
+
+    async Task Click()
+    {
+        var value = await editor.GetValueAsync();
+        Console.WriteLine(value);
+    }
+
+    void Rendererd()
+    {
+        Console.WriteLine("rendererd!");
+    }
+
+    void OnToolbarButtonClick(string name)
+    {
+        value += $"\r\ncustom button {name} was clicked.";
+    }
+
+
+
 }
