@@ -38,6 +38,7 @@
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <Platforms>AnyCPU;x64</Platforms>
+        <DefaultLanguage>zh-cn</DefaultLanguage>
     </PropertyGroup>
 
     <ItemGroup>
@@ -59,7 +60,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="Components\WebComponents\AppAsideComponent.razor" />
+      <None Remove="Components\WebComponents\AppAsideBarComponent.razor" />
     </ItemGroup>
 
     <ItemGroup>
@@ -71,15 +72,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <UpToDateCheckInput Remove="Components\WebComponents\AppAsideComponent.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Components\WebComponents\AppAsideComponent.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="Components\WebComponents\AppAsideComponent.razor" />
+      <None Include="Components\WebComponents\AppAsideBarComponent.razor" />
     </ItemGroup>
 
 </Project>
