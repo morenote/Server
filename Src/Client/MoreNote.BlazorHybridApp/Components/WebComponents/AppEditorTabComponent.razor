@@ -1,24 +1,27 @@
 ﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents
 
-<Tabs  @bind-ActiveKey="@activeKey" OnChange="OnTabChange" Animated class="app-tab-container">
-    <TabPane Tab="tab1" Key="1">
-        Content of Tab Pane 1
-    </TabPane>
-    <TabPane Tab="Tab 2" Key="2">
-        Content of Tab Pane 2
-    </TabPane>
-    <TabPane Tab="Tab 3" Key="3">
-       
-        <Vditor.Editor @ref="editor" 
-        @bind-Value="value" 
-        @bind-Html="html" 
-        Mode="wysiwyg" 
-        Height="500" 
-        Width="1200"
-        MinHeight="500" 
-         OnToolbarButtonClick="OnToolbarButtonClick"  />
 
-    </TabPane>
+<Tabs DefaultActiveKey="1" Type="@TabType.EditableCard" OnAddClick="OnAddClick" OnClose="OnTabClose" @bind-ActiveKey="activeKey">
+    @foreach (var pane in panes)
+    {
+        <TabPane Key="@pane.Key" Tab="@pane.Title" Closable="@pane.Closable">
+         <TabTemplate>
+            <span><Icon Type=@pane.icon />@pane.Title</span>
+        </TabTemplate>
+        <ChildContent>
+             <Vditor.Editor @ref="editor" 
+                Value=@pane.Content
+                @bind-Html="html" 
+                Mode="wysiwyg" 
+                Height="600" 
+                Width="1200"
+                MinHeight="500" 
+                 OnToolbarButtonClick="OnToolbarButtonClick"  />
+
+        </ChildContent>
+       
+        </TabPane>
+    }
 </Tabs>
 
 <style>
@@ -43,6 +46,22 @@
 
 </style>
 @code {
+    
+    private int newTabIndex;
+
+    public record Pane(string Title, string Content, string Key, bool Closable ,string icon);
+        List<Pane> panes = new List<Pane>()
+    {
+        new("Tab 1", "Content of Tab Pane 1","1",true,"android"),
+        new("Tab 2", "Content of Tab Pane 2","2",true,"apple"),
+        new("Tab 3", "Content of Tab Pane 3","3",false,"apple"),
+    };
+       private void OnAddClick()
+    {
+        var key = panes.Count + 1;
+        activeKey = $"newTab{newTabIndex++}";
+        panes.Add(new Pane($"Tab {key}", $"Content of Tab Pane {key}", activeKey,true,"apple"));
+    }
     string? Content { get; set; } = "Hello World!!!";
     string activeKey { get; set; } = "1";
 
@@ -72,6 +91,10 @@
     void OnToolbarButtonClick(string name)
     {
         value += $"\r\ncustom button {name} was clicked.";
+    }
+    void OnTabClose(string key)
+    {
+        Console.WriteLine($"tab close:{key}");
     }
 
 

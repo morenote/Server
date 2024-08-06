@@ -22,14 +22,14 @@
 
 .aside {
     height: 100%;
-    width: 240px;
+    width: 256px;
     float: left;
     /*background: yellow;*/
 }
 
 .main {
     height: 100%;
-    width: calc(100% - 240px);
+    width: calc(100% - 256px);
     /*background: aqua;*/
-    margin-left: 240px;
+    margin-left: 256px;
 }

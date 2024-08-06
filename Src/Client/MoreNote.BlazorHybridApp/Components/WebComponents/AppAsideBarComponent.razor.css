@@ -17,6 +17,7 @@
     height: 100%;
     /*background: #681faa;*/
     margin-left: 56px;
+    overflow:scroll;
 }
 
 .aside {
