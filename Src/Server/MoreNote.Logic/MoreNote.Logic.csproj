@@ -38,8 +38,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Property\**" />
     <Compile Remove="新文件夹\**" />
+    <EmbeddedResource Remove="Property\**" />
     <EmbeddedResource Remove="新文件夹\**" />
+    <None Remove="Property\**" />
     <None Remove="新文件夹\**" />
   </ItemGroup>
 
@@ -109,7 +112,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Property\" />
     <Folder Include="Service\Security\Face\" />
     <Folder Include="Service\Security\CSP\" />
   </ItemGroup>
