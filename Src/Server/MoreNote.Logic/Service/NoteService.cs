@@ -30,7 +30,7 @@ namespace MoreNote.Logic.Service
 		public UserService UserService { get; set; }
 		public InitServices InitServices { get; set; }
 
-		public NotebookService NotebookService { get; set; }
+		public NoteCollectionService NotebookService { get; set; }
 
 		public TagService TagService { get; set; }
 		public NoteContentService NoteContentService { get; set; }

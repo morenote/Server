@@ -15,7 +15,7 @@ namespace MoreNote.Controllers
 	[Authorize(Roles = "Admin,SuperAdmin,User")]
 	public class NoteBookController : BaseController
 	{
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 
 		public NoteBookController(AttachService attachService
 			, TokenSerivce tokenSerivce
@@ -23,7 +23,7 @@ namespace MoreNote.Controllers
 			, UserService userService
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
-			NotebookService notebookService
+			NoteCollectionService notebookService
 			 ) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{

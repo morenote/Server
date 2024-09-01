@@ -36,7 +36,7 @@ namespace MoreNote.Controllers.API.APIV1
 		private NoteService noteService;
 		private TokenSerivce tokenSerivce;
 		private NoteContentService noteContentService;
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 		private TrashService trashService;
 		private IHttpContextAccessor accessor;
 		private RepositoryService noteRepositoryService;
@@ -52,7 +52,7 @@ namespace MoreNote.Controllers.API.APIV1
 			, IHttpContextAccessor accessor,
 			NoteService noteService,
 			NoteContentService noteContentService,
-			NotebookService notebookService,
+			NoteCollectionService notebookService,
 			RepositoryService noteRepositoryService,
 			TrashService trashService,
 			EPassService ePass,

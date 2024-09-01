@@ -34,7 +34,7 @@ using MoreNote.SignatureService.RSASign;
 
 using System.Linq;
 
-namespace MoreNote.Common.autofac
+namespace MoreNote.AutofacManager.autofac
 {
 	/// <summary>
 	/// 容器注册类
@@ -79,7 +79,7 @@ namespace MoreNote.Common.autofac
 			builder.RegisterType<GoogleAuthenticatorService>();
 			builder.RegisterType<GroupService>();
 			builder.RegisterType<InitServices>();
-			builder.RegisterType<NotebookService>().OnActivated(e =>
+			builder.RegisterType<NoteCollectionService>().OnActivated(e =>
 			{
 				var instance = e.Instance;
 				instance.UserService = e.Context.Resolve<UserService>();
@@ -107,7 +107,7 @@ namespace MoreNote.Common.autofac
 					instance.CommonService = e.Context.Resolve<CommonService>();
 					instance.UserService = e.Context.Resolve<UserService>();
 					instance.InitServices = e.Context.Resolve<InitServices>();
-					instance.NotebookService = e.Context.Resolve<NotebookService>();
+					instance.NotebookService = e.Context.Resolve<NoteCollectionService>();
 					instance.TagService = e.Context.Resolve<TagService>();
 					instance.NoteContentService = e.Context.Resolve<NoteContentService>();
 					instance.ShareService = e.Context.Resolve<ShareService>();
@@ -138,7 +138,7 @@ namespace MoreNote.Common.autofac
 				instance.noteService = e.Context.Resolve<NoteService>();
 				instance.AttachService = e.Context.Resolve<AttachService>();
 				instance.NoteContentService = e.Context.Resolve<NoteContentService>();
-				instance.NotebookService = e.Context.Resolve<NotebookService>();
+				instance.NotebookService = e.Context.Resolve<NoteCollectionService>();
 			});
 			builder.RegisterType<UpgradeService>();
 

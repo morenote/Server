@@ -18,13 +18,13 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 	{
 		private WebSiteConfig configFile;
 		private string workingDirectory;
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 		private NoteContentService noteContentService;
 
 		private ILogger logger;
 
 		public VuePressBuilder(ConfigFileService configFileService,
-			NotebookService notebookService,
+			NoteCollectionService notebookService,
 			NoteContentService noteContentService,
 			ILogger<VuePressBuilder> logger)
 		{

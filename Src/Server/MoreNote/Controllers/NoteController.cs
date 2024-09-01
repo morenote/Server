@@ -21,7 +21,7 @@ namespace MoreNote.Controllers
 	[Authorize(Roles = "Admin,SuperAdmin,User")]
 	public class NoteController : BaseController
 	{
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 		private NoteContentService noteContentService;
 		private NoteService noteService;
 		private ShareService shareService;
@@ -39,7 +39,7 @@ namespace MoreNote.Controllers
 			, TagService tagService
 			, TrashService trashService
 			, IHttpContextAccessor accessor
-			, NotebookService notebookService
+			, NoteCollectionService notebookService
 			, NoteService noteService
 			, NoteContentService noteContentService
 			) :

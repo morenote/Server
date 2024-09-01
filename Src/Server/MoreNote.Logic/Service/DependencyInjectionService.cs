@@ -53,9 +53,9 @@ namespace MoreNote.Logic.Service
 			return ServiceProvider.GetRequiredService<InitServices>();
 		}
 
-		public NotebookService GetNotebookService()
+		public NoteCollectionService GetNotebookService()
 		{
-			return ServiceProvider.GetRequiredService<NotebookService>();
+			return ServiceProvider.GetRequiredService<NoteCollectionService>();
 		}
 
 		public TagService GetTagService()

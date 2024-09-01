@@ -28,7 +28,7 @@ namespace MoreNote.Controllers.API
 	[Route("api/Repository/[action]")]
 	public class RepositoryController : APIBaseController
 	{
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 		private RepositoryService noteRepositoryService;
 		private OrganizationService organizationService;
 		private EPassService ePassService;
@@ -46,7 +46,7 @@ namespace MoreNote.Controllers.API
 			, UserService userService
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
-			NotebookService notebookService,
+			NoteCollectionService notebookService,
 			RepositoryService noteRepositoryService,
 			 OrganizationService organizationService,
 			   EPassService ePassService,

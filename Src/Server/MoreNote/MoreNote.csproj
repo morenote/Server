@@ -281,6 +281,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Share\MoreNote.AutofacManager\MoreNote.AutofacManager.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Models.DTO\MoreNote.Models.DTO.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />

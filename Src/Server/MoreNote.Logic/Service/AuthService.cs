@@ -21,11 +21,11 @@ namespace MoreNote.Logic.Service
 		public UserService UserService { get; set; }
 		public TokenSerivce TokenSerivce { get; set; }
 		private IPasswordStore passwordStore { get; set; }
-		public NotebookService NotebookService { get; set; }
+		public NoteCollectionService NotebookService { get; set; }
 		private WebSiteConfig config;
 		private IDistributedIdGenerator idGenerator;
 		private PasswordStoreFactory passwordStoreFactory;
-		public AuthService(DataContext dataContext, IPasswordStore passwordStore, NotebookService notebookService, ConfigFileService configFileService, IDistributedIdGenerator idGenerator, PasswordStoreFactory passwordStoreFactory)
+		public AuthService(DataContext dataContext, IPasswordStore passwordStore, NoteCollectionService notebookService, ConfigFileService configFileService, IDistributedIdGenerator idGenerator, PasswordStoreFactory passwordStoreFactory)
 		{
 			this.idGenerator = idGenerator;
 			this.dataContext = dataContext;

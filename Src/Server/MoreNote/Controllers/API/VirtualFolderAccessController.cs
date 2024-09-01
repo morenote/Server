@@ -21,7 +21,7 @@ namespace MoreNote.Controllers.API
 	[Route("api/VirtualFolderAccess/[action]")]
 	public class VirtualFolderAccessController : APIBaseController
 	{
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 		private RepositoryService repositoryService;
 
 		private OrganizationService organizationService;
@@ -39,7 +39,7 @@ namespace MoreNote.Controllers.API
 			, UserService userService
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
-			NotebookService notebookService,
+			NoteCollectionService notebookService,
 			RepositoryService noteRepositoryService,
 			 OrganizationService organizationService,
 			   EPassService ePassService,

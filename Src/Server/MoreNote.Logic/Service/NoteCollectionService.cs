@@ -11,14 +11,14 @@ using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
 {
-	public class NotebookService
+	public class NoteCollectionService
 	{
 		private DataContext dataContext;
 		public UserService UserService { get; set; }
 
 		public NoteService NoteService { get; set; }
 		private IDistributedIdGenerator IdGenerator;
-		public NotebookService(DataContext dataContext, NoteService noteService, IDistributedIdGenerator IdGenerator)
+		public NoteCollectionService(DataContext dataContext, NoteService noteService, IDistributedIdGenerator IdGenerator)
 		{
 			this.IdGenerator = IdGenerator;
 			this.dataContext = dataContext;

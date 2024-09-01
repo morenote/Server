@@ -23,7 +23,7 @@ namespace MoreNote.Controllers.API
 			, UserService userService
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
-			NotebookService notebookService,
+			NoteCollectionService notebookService,
 			OrganizationService organizationService,
 			RepositoryService noteRepositoryService
 		   ) :

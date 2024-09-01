@@ -26,7 +26,7 @@ namespace MoreNote.Controllers.API.APIV1
 	[ServiceFilter(typeof(CheckTokenFilter))]
 	public class NotebookAPIController : APIBaseController
 	{
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 		private RepositoryService noteRepositoryService;
 		private OrganizationMemberRoleService repositoryMemberRoleService;
 		private EPassService ePassService;
@@ -38,7 +38,7 @@ namespace MoreNote.Controllers.API.APIV1
 			, UserService userService
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
-			NotebookService notebookService,
+			NoteCollectionService notebookService,
 			NoteService noteService,
 			 EPassService ePassService,
 			 OrganizationMemberRoleService repositoryMemberRoleService,

@@ -28,7 +28,7 @@ namespace MoreNote.Controllers
 		private BlogService blogService;
 		private ConfigService configService;
 		private TagService tagService;
-		private NotebookService notebookService;
+		private NoteCollectionService notebookService;
 		private NoteService noteService;
 		private RepositoryService noteRepository;
 		public BlogController(AttachService attachService
@@ -41,7 +41,7 @@ namespace MoreNote.Controllers
 			, ConfigService configService
 			, TagService tagService
 			, NoteService noteService
-			, NotebookService notebookService
+			, NoteCollectionService notebookService
 			, BlogService blogService
 			, RepositoryService noteRepository
 			) :

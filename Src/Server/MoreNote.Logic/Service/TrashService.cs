@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Service
 
 		public AttachService AttachService { get; set; }
 		public NoteContentService NoteContentService { get; set; }
-		public NotebookService NotebookService { get; set; }
+		public NoteCollectionService NotebookService { get; set; }
 		public TrashService(DataContext dataContext, NoteService noteService)
 		{
 			this.dataContext = dataContext;
