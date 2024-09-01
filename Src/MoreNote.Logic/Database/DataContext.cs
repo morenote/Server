@@ -120,7 +120,7 @@ namespace MoreNote.Logic.Database
 		/// <summary>
 		/// 笔记本
 		/// </summary>
-		public DbSet<Notebook> Notebook { get; set; }
+		public DbSet<NoteCollection> Notebook { get; set; }
 		/// <summary>
 		/// 笔记图片
 		/// </summary>

@@ -219,14 +219,14 @@ namespace MoreNote.Logic.Service
 				{
 					// 添加笔记本, 生活, 学习, 工作
 					var userId = user.Id;
-					var notebook = new Notebook()
+					var notebook = new NoteCollection()
 					{
 						Id = idGenerator.NextId(),
 						Seq = 0,
 						UserId = userId,
 						CreatedTime = DateTime.Now,
 						Title = item,
-						ParentNotebookId = null,
+						ParentCollectionId = null,
 					};
 					NotebookService.AddNotebook(notebook);
 				}

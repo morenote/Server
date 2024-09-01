@@ -191,7 +191,7 @@ namespace MoreNote.Controllers.API
 				{
 					// 添加笔记本, 生活, 学习, 工作
 					var userId = user.Id;
-					var notebook = new Notebook()
+					var notebook = new NoteCollection()
 					{
 						Id = idGenerator.NextId(),
 						NotesRepositoryId = result.Id,
@@ -199,7 +199,7 @@ namespace MoreNote.Controllers.API
 						UserId = userId,
 						CreatedTime = DateTime.Now,
 						Title = item,
-						ParentNotebookId = null,
+						ParentCollectionId = null,
 					};
 					notebookService.AddNotebook(notebook);
 				}

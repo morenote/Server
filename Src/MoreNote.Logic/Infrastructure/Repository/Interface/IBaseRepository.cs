@@ -665,7 +665,7 @@ namespace Morenote.Logic.Infrastructure.Repository.Interface
 		PooledList<T> this[Expression<Func<T, bool>> where] => GetQuery(where).ToPooledList();
 
 
-		public partial interface INotebookRepository : IBaseRepository<Notebook> { }
+		public partial interface INotebookRepository : IBaseRepository<NoteCollection> { }
 
 	}
 

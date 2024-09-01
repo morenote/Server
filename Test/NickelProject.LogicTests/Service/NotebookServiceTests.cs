@@ -45,7 +45,7 @@ namespace MoreNote.Logic.Service.Tests
 			//}
 			// Assert.Fail();
 		}
-		private void InsertALL(Notebook notebook)
+		private void InsertALL(NoteCollection notebook)
 		{
 			//NotebookService.AddNotebook(notebook);
 			//foreach (Notebook n in notebook.Subs)

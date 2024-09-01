@@ -43,7 +43,7 @@ namespace MoreNote.Controllers
 		public JsonResult GetNotebooks()
 		{
 			long? userid = GetUserIdBySession();
-			Notebook[] noteBoooks = notebookService.GetNoteBookTree(userid);
+			NoteCollection[] noteBoooks = notebookService.GetNoteBookTree(userid);
 			return Json(noteBoooks, MyJsonConvert.GetLeanoteOptions());
 		}
 
@@ -57,7 +57,7 @@ namespace MoreNote.Controllers
 		[HttpGet, HttpPost]
 		public JsonResult AddNotebook(string notebookId, string title, string parentNotebookId)
 		{
-			Notebook notebook;
+			NoteCollection notebook;
 			var result = notebookService.AddNotebook(notebookId.ToLongByHex(), GetUserIdBySession(), parentNotebookId.ToLongByHex(), title, out notebook);
 			if (result)
 			{

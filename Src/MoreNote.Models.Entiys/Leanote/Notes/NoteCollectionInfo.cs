@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoreNote.Models.Entity.Leanote.Notes
 {
-	[Table("notebook")]
-	public class Notebook : BaseEntity
+	[Table("note_collection")]
+	public class NoteCollection : BaseEntity
 	{
 
 		[Column("user_id")]
@@ -14,8 +14,8 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 		[Column("notes_repository_id")]
 		public long? NotesRepositoryId { get; set; }//仓库id
 
-		[Column("parent_notebook_Id")]
-		public long? ParentNotebookId { get; set; } // 上级
+		[Column("parent_collection_Id")]
+		public long? ParentCollectionId { get; set; } // 上级
 
 		[Column("seq")]
 		public int Seq { get; set; } // 排序
@@ -53,7 +53,7 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 
 		//[Column("Subs", TypeName = "Notebook[]")]
 		[NotMapped]
-		public List<Notebook> Subs { get; set; }
+		public List<NoteCollection> Subs { get; set; }
 
 
 		[NotMapped]
@@ -63,7 +63,7 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 
 	}
 
-	public class NoteBookTree : Notebook
+	public class NoteBookTree : NoteCollection
 	{
 		public new List<NoteBookTree> Subs { get; set; }
 
@@ -78,12 +78,12 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 	// 仅仅是为了返回前台
 	public class SubNotebooks
 	{
-		public Notebook[] Notebooks { get; set; }
+		public NoteCollection[] Notebooks { get; set; }
 	}
 
 	public struct Notebooks
 	{
-		public Notebook notebook { get; set; }
+		public NoteCollection notebook { get; set; }
 		SubNotebooks SubNotebooks { get; set; }
 	}
 

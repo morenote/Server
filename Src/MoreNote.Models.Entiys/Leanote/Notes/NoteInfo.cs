@@ -16,9 +16,6 @@ namespace MoreNote.Models.Entity.Leanote.Notes
 	[Table("note"), Index(nameof(UserId), nameof(IsBlog), nameof(IsDeleted))]
 	public class Note : BaseEntity
 	{
-
-
-
 		[Column("user_id")]
 		public long? UserId { get; set; }//  // 谁的 【保护】
 

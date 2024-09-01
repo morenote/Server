@@ -194,7 +194,7 @@ namespace MoreNote.Logic.Service
 			return blog;
 		}
 
-		public Notebook[] ListBlogNotebooks(long? userId)
+		public NoteCollection[] ListBlogNotebooks(long? userId)
 		{
 			var noteBooks = dataContext.Notebook.Where(b => b.UserId == userId && b.IsBlog == true).ToArray();
 			return noteBooks;
@@ -666,7 +666,7 @@ namespace MoreNote.Logic.Service
 		public BlogCate[] GetCateArrayForBlog(long? userId)
 		{
 			var cate = (from _note in dataContext.Set<Note>()
-						join _noteBook in dataContext.Set<Notebook>()
+						join _noteBook in dataContext.Set<NoteCollection>()
 							on _note.NotebookId equals _noteBook.Id
 						where _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
 
@@ -691,7 +691,7 @@ namespace MoreNote.Logic.Service
 		public BlogCate[] GetCateArrayForBlog(long? userId, long? repositoryId)
 		{
 			var cate = (from _note in dataContext.Set<Note>()
-						join _noteBook in dataContext.Set<Notebook>()
+						join _noteBook in dataContext.Set<NoteCollection>()
 							on _note.NotebookId equals _noteBook.Id
 						where _note.NotesRepositoryId == repositoryId && _note.IsBlog == true && _note.IsTrash == false && _note.IsDeleted == false
 

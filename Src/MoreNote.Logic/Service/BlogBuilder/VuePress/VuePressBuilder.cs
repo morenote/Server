@@ -72,7 +72,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 			return npm;
 		}
 
-		public async Task<StringBuilder> WriteNoteBook(Notebook notebook, string path, string link, string sapce)
+		public async Task<StringBuilder> WriteNoteBook(NoteCollection notebook, string path, string link, string sapce)
 		{
 
 			sapce = sapce + "    ";//空格

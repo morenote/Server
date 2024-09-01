@@ -75,11 +75,11 @@ namespace MoreNote.Controllers.API.APIV1
 			{
 				maxEntry = 100;
 			}
-			Notebook[] notebook = notebookService.GeSyncNotebooks(user.Id, afterUsn, maxEntry);
+			NoteCollection[] notebook = notebookService.GeSyncNotebooks(user.Id, afterUsn, maxEntry);
 			return Json(notebook, MyJsonConvert.GetLeanoteOptions());
 		}
 		[ApiExplorerSettings(IgnoreApi = true)]
-		private ApiNotebook[] fixNotebooks(Notebook[] notebooks)
+		private ApiNotebook[] fixNotebooks(NoteCollection[] notebooks)
 		{
 			ApiNotebook[] apiNotebooks = null;
 			if (notebooks != null)
@@ -93,13 +93,13 @@ namespace MoreNote.Controllers.API.APIV1
 			return apiNotebooks;
 		}
 		[ApiExplorerSettings(IgnoreApi = true)]
-		private ApiNotebook fixNotebook(Notebook notebook)
+		private ApiNotebook fixNotebook(NoteCollection notebook)
 		{
 			return new ApiNotebook()
 			{
 				NotebookId = notebook.Id,
 				UserId = notebook.UserId,
-				ParentNotebookId = notebook.ParentNotebookId,
+				ParentNotebookId = notebook.ParentCollectionId,
 				Seq = notebook.Seq,
 				Title = notebook.Title,
 				UrlTitle = notebook.UrlTitle,
@@ -129,7 +129,7 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 			else
 			{
-				Notebook[] notebooks = notebookService.GetAll(user.Id);
+				NoteCollection[] notebooks = notebookService.GetAll(user.Id);
 				ApiNotebook[] apiNotebooks = fixNotebooks(notebooks);
 				return Json(apiNotebooks, MyJsonConvert.GetLeanoteOptions());
 			}
@@ -154,13 +154,13 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 			else
 			{
-				Notebook notebook = new Notebook()
+				NoteCollection notebook = new NoteCollection()
 				{
 					Id = idGenerator.NextId(),
 					Title = title,
 					Seq = seq,
 					UserId = user.Id,
-					ParentNotebookId = parentNotebookId.ToLongByHex()
+					ParentCollectionId = parentNotebookId.ToLongByHex()
 				};
 				if (notebookService.AddNotebook(ref notebook))
 				{
@@ -198,7 +198,7 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 			else
 			{
-				Notebook notebook;
+				NoteCollection notebook;
 				if (notebookService.UpdateNotebookApi(user.Id, notebookId.ToLongByHex(), title, parentNotebookId.ToLongByHex(), seq, usn, out notebook))
 				{
 					ApiNotebook apiNotebook = fixNotebook(notebook);
@@ -415,7 +415,7 @@ namespace MoreNote.Controllers.API.APIV1
 			{
 				return LeanoteJson(re);
 			}
-			var notebook = new Notebook()
+			var notebook = new NoteCollection()
 			{
 				Id = idGenerator.NextId(),
 				NotesRepositoryId = repositoryId,
@@ -424,7 +424,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 				CreatedTime = DateTime.Now,
 				Title = notebookTitle,
-				ParentNotebookId = parentId,
+				ParentCollectionId = parentId,
 			};
 
 			notebookService.AddNotebook(notebook);

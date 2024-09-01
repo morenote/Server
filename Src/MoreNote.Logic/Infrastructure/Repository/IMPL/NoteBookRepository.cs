@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Infrastructure.Repository.IMPL
 {
 
 
-	public class NoteBookRepository : BaseRepository<Notebook>, IBaseRepository<Notebook>
+	public class NoteBookRepository : BaseRepository<NoteCollection>, IBaseRepository<NoteCollection>
 	{
 
 

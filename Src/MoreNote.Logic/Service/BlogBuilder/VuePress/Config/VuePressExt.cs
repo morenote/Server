@@ -12,7 +12,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress.Config
 	public static class VuePressExt
 	{
 
-		public static string toJsObjectForSiderBar(this Notebook notebook)
+		public static string toJsObjectForSiderBar(this NoteCollection notebook)
 		{
 			return null;
 		}
