@@ -1,0 +1,91 @@
+﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents.MyModal
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
+@inject ModalService ModelService;
+
+<Modal Title="系统信息"
+       OnOk="@HandleOk"
+       Draggable="true"
+       OnCancel="@HandleCancel"
+       @bind-Visible="@_visible">
+       @foreach (var item in infos)
+    {
+        <p>@item;</p>
+    }
+   
+</Modal>
+
+@code {
+    bool _visible = false;
+
+    List<string> infos=new List<string>();
+    bool _submitting = false;
+
+
+
+
+    public void ShowModal(bool value)
+    {
+
+        infos.Clear();
+        infos.Add($"Model: {DeviceInfo.Current.Model}");
+        infos.Add($"Manufacturer: {DeviceInfo.Current.Manufacturer}");
+        infos.Add($"Name: {DeviceInfo.Current.Name}");
+        infos.Add($"OS Version: {DeviceInfo.Current.VersionString}");
+        infos.Add($"Idiom: {DeviceInfo.Current.Idiom}");
+        infos.Add($"Platform: {DeviceInfo.Current.Platform}");
+
+        bool isVirtual = DeviceInfo.Current.DeviceType switch
+        {
+            DeviceType.Physical => false,
+            DeviceType.Virtual => true,
+            _ => false
+        };
+
+        infos.Add($"Virtual device? {isVirtual}");
+
+        _visible = value;
+       
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// on modal OK button is click, submit form manually
+    /// </summary>
+    /// <param name="e"></param>
+    private async Task HandleOk(MouseEventArgs e)
+    {
+        _submitting = true;
+        await Task.Delay(1000);
+       
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        Console.WriteLine(e);
+    }
+
+    /// <summary>
+    /// when form is submited, close the modal
+    /// </summary>
+    /// <param name="args"></param>
+    private void OnFinish(EditContext editContext)
+    {
+        _submitting = false;
+        _visible = false;
+    }
+
+    private void OnFinishFailed(EditContext editContext)
+    {
+        //Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
+    }
+
+
+
+
+    public void Set(bool value)
+    {
+        _visible = value;
+        StateHasChanged();
+    }
+}

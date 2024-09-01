@@ -1,0 +1,86 @@
+﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents.MyModal
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
+
+<Modal Title="新建笔记本"
+       Draggable="true"
+       @bind-Visible="@_visible"
+       OnOk="@HandleOk"
+       OnCancel="@HandleCancel">
+         @FormTemplate()
+</Modal>
+
+@inject ModalService ModelService;
+
+@code {
+      RenderFragment FormTemplate()
+    {
+        return 
+        @<Form Model="@model"
+              LabelColSpan="8"
+              
+              WrapperColSpan="16"
+              OnFinish="OnFinish"
+              OnFinishFailed="OnFinishFailed"
+              @ref="@_form">
+            <FormItem Label="笔记本名称：">
+                <Input @bind-Value="@context.NotebookName" />
+            </FormItem>
+           
+        </Form>
+    ;
+    }
+
+    bool _visible = false;
+    bool _submitting = false;
+    private Form<Model> _form;
+
+    private Model model = new Model();
+
+    public class Model
+    {
+        [Required]
+        public string NotebookName { get; set; }
+       
+       
+    }
+
+    public void ShowModal()
+    {
+        _visible = true;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// on modal OK button is click, submit form manually
+    /// </summary>
+    /// <param name="e"></param>
+    private async Task HandleOk(MouseEventArgs e)
+    {
+        _submitting = true;
+        await Task.Delay(1000);
+        _form.Submit();
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        Console.WriteLine(e);
+    }
+
+    /// <summary>
+    /// when form is submited, close the modal
+    /// </summary>
+    /// <param name="args"></param>
+    private void OnFinish(EditContext editContext)
+    {
+        _submitting = false;
+        _visible = false;
+    }
+
+    private void OnFinishFailed(EditContext editContext)
+    {
+        Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
+    }
+
+   
+}

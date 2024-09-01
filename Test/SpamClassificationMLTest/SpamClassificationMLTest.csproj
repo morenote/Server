@@ -18,10 +18,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Src\MoreNote.Common\MoreNote.Common.csproj" />
-    <ProjectReference Include="..\..\Src\MoreNote.Logic\MoreNote.Logic.csproj" />
-    <ProjectReference Include="..\..\Src\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
-  </ItemGroup>
-
 </Project>

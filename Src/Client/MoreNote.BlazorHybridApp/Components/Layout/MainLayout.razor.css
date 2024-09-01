@@ -1,0 +1,35 @@
+
+.header {
+    height: 48px;
+    /*background: lightblue;*/
+    width: 100%;
+}
+
+.content {
+    /*background: lightpink;*/
+    height: calc(100% - 72px);
+    min-width: 800px;
+    min-height: 200px;
+    /*background-color: #0c6694;*/
+}
+
+.footer {
+    height: 24px;
+    /*background: lightgreen;*/
+    bottom: 0;
+    width: 100%;
+}
+
+.aside {
+    height: 100%;
+    width: 240px;
+    float: left;
+    /*background: yellow;*/
+}
+
+.main {
+    height: 100%;
+    width: calc(100% - 240px);
+    /*background: aqua;*/
+    margin-left: 240px;
+}

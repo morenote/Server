@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\huany\.nuget\packages\facerecognitiondotnet\1.3.0.7\build\..\runtimes\win-AnyCPU\native\DlibDotNetNativeDnnAgeClassification.dll" />
+    <Content Remove="C:\Users\huany\.nuget\packages\facerecognitiondotnet\1.3.0.7\build\..\runtimes\win-AnyCPU\native\DlibDotNetNativeDnnGenderClassification.dll" />
+    <Content Remove="C:\Users\WangXianQiang\.nuget\packages\dlibdotnet\19.21.0.20210302\build\..\runtimes\win-AnyCPU\native\DlibDotNetNative.dll" />
+    <Content Remove="C:\Users\WangXianQiang\.nuget\packages\dlibdotnet\19.21.0.20210302\build\..\runtimes\win-AnyCPU\native\DlibDotNetNativeDnn.dll" />
+    <Content Remove="C:\Users\WangXianQiang\.nuget\packages\facerecognitiondotnet\1.3.0.6\build\..\runtimes\win-AnyCPU\native\DlibDotNetNativeDnnAgeClassification.dll" />
+    <Content Remove="C:\Users\WangXianQiang\.nuget\packages\facerecognitiondotnet\1.3.0.6\build\..\runtimes\win-AnyCPU\native\DlibDotNetNativeDnnGenderClassification.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FaceRecognitionDotNet" Version="1.3.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Server\MoreNote.Config\MoreNote.Config.csproj" />
+  </ItemGroup>
+
+</Project>

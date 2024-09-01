@@ -1,0 +1,79 @@
+﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents
+
+<Tabs @bind-ActiveKey="@activeKey" OnChange="OnTabChange" Type="@TabType.EditableCard" Animated class="app-tab-container">
+    <TabPane Closable="true" Tab="tab1" Key="1">
+        Content of Tab Pane 1
+    </TabPane>
+    <TabPane Closable="true" Tab="Tab 2" Key="2">
+        Content of Tab Pane 2
+    </TabPane>
+    <TabPane Closable="true" Tab="Tab 3" Key="3">
+       
+        <Vditor.Editor @ref="editor" 
+        @bind-Value="value" 
+        @bind-Html="html" 
+        Mode="wysiwyg" 
+        Height="500" 
+        Width="1200"
+        MinHeight="500" 
+         OnToolbarButtonClick="OnToolbarButtonClick"  />
+
+    </TabPane>
+</Tabs>
+
+<style>
+    .app-tab-container {
+        height: 100%;
+        width: 100%;
+      
+    }
+
+    .app-editor-container {
+        display: block;
+        min-height: 600px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .am-tab-content {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+
+</style>
+@code {
+    string? Content { get; set; } = "Hello World!!!";
+    string activeKey { get; set; } = "1";
+
+    void OnTabChange(string key)
+    {
+        Console.WriteLine($"tab change:{key}");
+    }
+
+    string value = "Hello Blazor!";
+    string html;
+
+    Editor editor;
+
+
+ 
+    async Task Click()
+    {
+        var value = await editor.GetValueAsync();
+        Console.WriteLine(value);
+    }
+
+    void Rendererd()
+    {
+        Console.WriteLine("rendererd!");
+    }
+
+    void OnToolbarButtonClick(string name)
+    {
+        value += $"\r\ncustom button {name} was clicked.";
+    }
+
+
+
+}

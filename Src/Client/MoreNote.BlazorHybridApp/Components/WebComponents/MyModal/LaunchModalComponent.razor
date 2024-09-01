@@ -1,0 +1,108 @@
+﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents.MyModal
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
+@inject ModalService ModelService;
+@inject IMessageService _message;
+@using MoreNote.MauiLib.Models;
+
+<Modal Title="My NoteBook"
+       OnOk="@HandleOk"
+       MaxBodyHeight="400"
+       Width="600"
+       Draggable="true"
+       OnCancel="@HandleCancel"
+    @bind-Visible="@_visible">
+    <AntList DataSource="@data" TItem="BasicItem">
+        <ListItem OnClick="()=>ItemClick(context.Title)">
+            <ListItemMeta AvatarTemplate="avatar" Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
+                <TitleTemplate>
+                    <a  >@context.Title</a>
+                </TitleTemplate>
+            </ListItemMeta>
+        </ListItem>
+    </AntList>
+</Modal>
+
+@code {
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            data.Add(new BasicItem()
+                {
+                    Title = "Ant Design Title " + i
+                });
+        }
+    }
+    RenderFragment avatar = @<Avatar Src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></Avatar>;
+    public class BasicItem
+    {
+        public string Title { get; set; }
+    }
+    public List<BasicItem> data = new List<BasicItem>();
+
+    public void ItemClick(string title)
+    {
+        
+        _message.Info($"item was clicked: {title}");
+    }
+
+    bool _visible=false;
+  
+
+
+    bool _submitting = false;
+   
+
+  
+
+    public void ShowModal()
+    {
+        _visible = true;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// on modal OK button is click, submit form manually
+    /// </summary>
+    /// <param name="e"></param>
+    private async Task HandleOk(MouseEventArgs e)
+    {
+        _submitting = true;
+        await Task.Delay(1000);
+        LocalRepository localRepository = LocalRepository.Open(FileSystem.Current.AppDataDirectory);
+        try
+        {
+            localRepository.Init();
+        }
+        catch (Exception ex)
+        {
+            
+            throw;
+        }
+        
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        Console.WriteLine(e);
+    }
+
+    /// <summary>
+    /// when form is submited, close the modal
+    /// </summary>
+    /// <param name="args"></param>
+    private void OnFinish(EditContext editContext)
+    {
+        _submitting = false;
+        _visible = false;
+    }
+
+    private void OnFinishFailed(EditContext editContext)
+    {
+       
+    }
+
+   
+
+}

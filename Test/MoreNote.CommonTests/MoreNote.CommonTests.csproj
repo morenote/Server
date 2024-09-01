@@ -19,8 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\MoreNote.Common\MoreNote.Common.csproj" />
-
+    <ProjectReference Include="..\..\Src\Share\MoreNote.Common\MoreNote.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

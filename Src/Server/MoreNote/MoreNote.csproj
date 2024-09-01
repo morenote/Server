@@ -1,0 +1,438 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+
+  <PropertyGroup>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <PublishAot>false</PublishAot>
+    <UserSecretsId>d3b6d0b2-55da-4dd0-a053-3271a7026623</UserSecretsId>
+    <AssemblyName>MoreNote</AssemblyName>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <StartupObject>MoreNote.Program</StartupObject>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <Platforms>AnyCPU;x86;x64;ARM64</Platforms>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <NoWarn />
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NoWarn />
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <NoWarn />
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <NoWarn />
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NoWarn />
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <NoWarn />
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\API\Config\**" />
+    <Compile Remove="runtimes\**" />
+    <Compile Remove="Views\Pic\**" />
+    <Content Remove="Controllers\API\Config\**" />
+    <Content Remove="runtimes\**" />
+    <Content Remove="Views\Pic\**" />
+    <EmbeddedResource Remove="Controllers\API\Config\**" />
+    <EmbeddedResource Remove="runtimes\**" />
+    <EmbeddedResource Remove="Views\Pic\**" />
+    <None Remove="Controllers\API\Config\**" />
+    <None Remove="runtimes\**" />
+    <None Remove="Views\Pic\**" />
+    <TypeScriptCompile Remove="Controllers\API\Config\**" />
+    <TypeScriptCompile Remove="runtimes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="MockData\notice.json" />
+    <Content Remove="nlog-linux.config" />
+    <Content Remove="nlog-windows.config" />
+    <Content Remove="wwwroot\blog\themes\MaterialDesign\js\file.ts" />
+    <Content Remove="wwwroot\fonts\Apalu-2.ttf" />
+    <Content Remove="wwwroot\fonts\Apalu-3.ttf" />
+    <Content Remove="wwwroot\fonts\Arvo-Italic.ttf" />
+    <Content Remove="wwwroot\fonts\brelaregular.ttf" />
+    <Content Remove="wwwroot\fonts\ColorTube-2.ttf" />
+    <Content Remove="wwwroot\fonts\LeagueGothic-Italic.ttf" />
+    <Content Remove="wwwroot\fonts\Quantum-2.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="MockData\notice.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="nlog-linux.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="nlog-windows.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\blog\libs\md2html\md2html.js" />
+    <None Include="wwwroot\blog\libs\md2html\md2html_for_export.js" />
+    <None Include="wwwroot\blog\libs\md2html\uml.js" />
+    <None Include="wwwroot\fonts\Apalu-2.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\Apalu-3.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\Arvo-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\brelaregular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\ColorTube-2.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\LeagueGothic-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\fonts\Quantum-2.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    
+    <PackageReference Include="Autofac" Version="8.0.0" />
+    
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+    
+    <PackageReference Include="Autofac.Extras.NLog" Version="4.0.1" />
+    
+    <PackageReference Include="Autofac.log4net" Version="6.0.2" />
+    
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    
+    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.0" />
+    
+    <PackageReference Include="CacheManager.Serialization.Json" Version="1.2.0" />
+    
+    <PackageReference Include="CacheManager.StackExchange.Redis" Version="1.2.0" />
+    
+    <PackageReference Include="CLRStats" Version="1.0.0" />
+    
+    <PackageReference Include="CSRedisCore" Version="3.8.803" />
+    
+    <PackageReference Include="Fido2" Version="3.0.1" />
+    
+    <PackageReference Include="Fido2.AspNet" Version="3.0.1" />
+    
+    <PackageReference Include="Fido2.Models" Version="3.0.1" />
+    
+    <PackageReference Include="github.hyfree.GM" Version="0.0.9" />
+    
+    <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.2.2" />
+    
+    <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.2.0" />
+    
+    <PackageReference Include="Hangfire" Version="1.8.12" />
+    
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.8.1.1" />
+    
+    <PackageReference Include="htmldiff.net" Version="1.4.2" />
+    
+    <PackageReference Include="IP2Region" Version="1.2.0" />
+    
+    <PackageReference Include="jieba.NET" Version="0.42.2" />
+    
+    <PackageReference Include="Karambolo.AspNetCore.Bundling.NUglify" Version="3.8.1" />
+    
+    <PackageReference Include="log4net" Version="2.0.17" />
+    
+    <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.4" />
+    
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+    
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
+
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.4" />
+
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.0.0" />
+
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.4.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
+
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+
+    <PackageReference Include="QRCoder-ImageSharp" Version="0.10.0" />
+
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
+    <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
+    <PackageReference Include="WebApiClient.Extensions.DependencyInjection" Version="2.0.3" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.4" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.102.2.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="MockData\activities.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="MockData\chart.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="MockData\province.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="MockData\current.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="MockData\list.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Pages\About.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Contact.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Error.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\HelloWorld.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Privacy.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Shared\_CookieConsentPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Shared\_ValidationScriptsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Share\MoreNote.Common\MoreNote.Common.csproj" />
+    <ProjectReference Include="..\..\Share\MoreNote.Models.DTO\MoreNote.Models.DTO.csproj" />
+    <ProjectReference Include="..\..\Share\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
+    <ProjectReference Include="..\03Framework\Morenote.Framework\Morenote.Framework.csproj" />
+    <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
+    <ProjectReference Include="..\MoreNote.Config\MoreNote.Config.csproj" />
+    <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
+    <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
+    <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
+    <ProjectReference Include="..\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="fonts\Apalu-2.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\Apalu-3.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\Arvo-Italic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\brelaregular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\ColorTube-2.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\GenSenRounded\GenSenRounded-B.ttc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\GenSenRounded\GenSenRounded-EL.ttc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\GenSenRounded\GenSenRounded-H.ttc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\GenSenRounded\GenSenRounded-L.ttc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\GenSenRounded\GenSenRounded-M.ttc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\GenSenRounded\GenSenRounded-R.ttc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\GNUUnifont9FullHintInstrUCSUR.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\I.PenCrane-B.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\jf-openhuninn-1.1.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\laihu.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\LeagueGothic-Italic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fonts\Quantum-2.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="htjncipher.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="sources.list">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\activate-power-mode.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\aos.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\APlayer.min.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\common.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\jquery-1.11.0.min.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\material.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\share_comments.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\SocialistCoreValues.js" />
+    <None Include="wwwroot\blog\themes\MaterialDesign\js\sweetalert.min.js" />
+    <None Include="wwwroot\static\js\site.js" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\static\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\static\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\static\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\static\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\static\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\static\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\static\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\static\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\static\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\static\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\static\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\static\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\blog\upyun_logos\.DS_Store" />
+    <None Include="wwwroot\blog\upyun_logos\upyun_logo8.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir></TypeScriptOutDir>
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+
+</Project>

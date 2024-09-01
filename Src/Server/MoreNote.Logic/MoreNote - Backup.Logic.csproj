@@ -1,0 +1,116 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <Platforms>AnyCPU;x64;ARM64;x86</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="新文件夹\**" />
+    <EmbeddedResource Remove="新文件夹\**" />
+    <None Remove="新文件夹\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Class1.cs" />
+    <Compile Remove="Database\Class1.cs" />
+    <Compile Remove="Service\ArticleManager.cs" />
+    <Compile Remove="Service\AuthorManager.cs" />
+    <Compile Remove="Service\ChapterManager.cs" />
+    <Compile Remove="Service\PayManager.cs" />
+    <Compile Remove="Service\UserManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <!--谷歌两步验证-->
+    <PackageReference Include="Autofac" Version="8.0.0" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="CliWrap" Version="3.6.6" />
+    <PackageReference Include="Collections.Pooled" Version="1.0.82" />
+    <PackageReference Include="EFCoreSecondLevelCacheInterceptor" Version="4.4.3" />
+    <PackageReference Include="EntityFrameworkCore.DataEncryption" Version="5.0.0" />
+    <PackageReference Include="Fido2" Version="3.0.1" />
+    <PackageReference Include="Fido2.AspNet" Version="3.0.1" />
+    <PackageReference Include="Fido2.Models" Version="3.0.1" />
+    <PackageReference Include="github.hyfree.Bcrypt.NetCore" Version="1.0.1" />
+    <PackageReference Include="github.hyfree.GoogleAuthenticator" Version="2.0.4" />
+    <PackageReference Include="github.hyfree.Masuit.LuceneEFCore.SearchEngine_Long" Version="1.1.4.2" />
+    <PackageReference Include="github.hyfree.SDFWrapper" Version="0.0.45" />
+    <PackageReference Include="github.hyfree.SpamClassificationML.Model" Version="1.1.0" />
+    <PackageReference Include="github.hyfree.UpYunLibrary" Version="1.2.0" />
+    <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.0" />
+    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+    
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Minio" Version="6.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.3" />
+    <PackageReference Include="SixLabors.ImageSharp.Web" Version="3.1.2" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.102.2.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Share\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
+    <ProjectReference Include="..\..\Share\MoreNote.Models\MoreNote.Models.csproj" />
+    <ProjectReference Include="..\MoreNote.Config\MoreNote.Config.csproj" />
+    <ProjectReference Include="..\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Property\" />
+    <Folder Include="Service\Security\Face\" />
+    <Folder Include="Service\Security\CSP\" />
+  </ItemGroup>
+
+</Project>
