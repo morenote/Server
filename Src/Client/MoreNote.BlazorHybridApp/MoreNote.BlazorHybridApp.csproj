@@ -60,16 +60,19 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AntDesign" Version="0.19.7" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
+        <PackageReference Include="github.hyfree.GM" Version="0.0.9" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.82" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="StardustDL.RazorComponents.Vditors" Version="3.8.7" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="autofac\" />
       <Folder Include="wwwroot\lib\vditor\" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\MoreNote.MauiLib\MoreNote.MauiLib.csproj" />
+      <ProjectReference Include="..\MoreNote.SampleLibrary\MoreNote.SampleLibrary.csproj" />
     </ItemGroup>
 </Project>
