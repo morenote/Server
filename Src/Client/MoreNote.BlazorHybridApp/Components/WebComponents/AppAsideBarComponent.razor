@@ -19,17 +19,20 @@
           OnContextMenu="OpenContextMenu"
           ShowLine="true"
           ShowLeafIcon="true"
+          ShowExpand="true"
           CheckOnClickNode="true"
           Checkable="false"
+          Draggable="true"
           BlockNode="true"
           SwitcherIcon="down"
           TitleExpression="x => x.DataItem.Title"
           ChildrenExpression="x => x.DataItem.Childs"
-          IsLeafExpression="x => x.TreeLevel > 2"
+          IsLeafExpression="x => x.Title.Equals('x')" 
           OnNodeLoadDelayAsync="OnNodeLoadDelayAsync">
         <SwitcherIconTemplate>
             <Icon Type="down" />
         </SwitcherIconTemplate>
+   
         <TitleTemplate Context="node">
             <Dropdown Trigger="new Trigger[] { Trigger.ContextMenu }">
                 <Overlay>
@@ -84,13 +87,13 @@
     }
     public async Task OnNodeLoadDelayAsync(TreeEventArgs<Data> args)
     {
-        if (args.Node.TreeLevel < 3)
-        {
+        // if (args.Node. < 3)
+        // {
             await Task.Delay(200);//模拟异步执行
 
             var dataItem = ((Data)args.Node.DataItem);
             dataItem.Childs.Clear();
             dataItem.Childs.AddRange(new List<Data>() { new Data($"{dataItem.Title}-1"), new Data($"{dataItem.Title}-2") });
-        }
+        // }
     }
 }
