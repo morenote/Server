@@ -73,6 +73,5 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\MoreNote.MauiLib\MoreNote.MauiLib.csproj" />
-      <ProjectReference Include="..\MoreNote.SampleLibrary\MoreNote.SampleLibrary.csproj" />
     </ItemGroup>
 </Project>

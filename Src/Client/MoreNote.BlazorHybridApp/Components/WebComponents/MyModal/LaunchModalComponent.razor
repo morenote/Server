@@ -70,7 +70,7 @@
     {
         _submitting = true;
         await Task.Delay(1000);
-        LocalRepository localRepository = LocalRepository.Open(FileSystem.Current.AppDataDirectory);
+        LocalRepository localRepository = LocalRepository.Open();
         try
         {
             localRepository.Init();

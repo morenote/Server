@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoreNote.SampleLibrary.Data
+namespace MoreNote.MauiLib.Data
 {
     public class Post
     {
@@ -25,14 +25,14 @@ namespace MoreNote.SampleLibrary.Data
 
      
 
-        public SQLiteContext(string databaseName, string password)
+        public SQLiteContext(string databaseName)
         {
            
              connectionString = new SqliteConnectionStringBuilder()
             {
                 Mode = SqliteOpenMode.ReadWriteCreate,
                 DataSource = databaseName,
-                Password = password
+                Password = ""
             }.ToString();
         }
 

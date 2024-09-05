@@ -11,7 +11,14 @@
             <MenuItem>关闭</MenuItem>
             <MenuItem>设置</MenuItem>
         </MenuItemGroup>
-        
+       
+    </SubMenu>
+    <SubMenu Title="数据库">
+        <MenuItemGroup Title="管理">
+            <MenuItem OnClick="EnsureDeletedAsync">销毁</MenuItem>
+            <MenuItem OnClick="EnsureCreatedAsync">初始化</MenuItem>
+          
+        </MenuItemGroup>
     </SubMenu>
     <SubMenu Title="安全">
         <MenuItem>锁定</MenuItem>
@@ -108,6 +115,8 @@
 
         loginModalComponent.ShowModal();
     }
+
+
 
 
 
