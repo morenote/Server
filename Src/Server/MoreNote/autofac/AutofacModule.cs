@@ -34,7 +34,7 @@ using MoreNote.SignatureService.RSASign;
 
 using System.Linq;
 
-namespace MoreNote.AutofacManager.autofac
+namespace MoreNote.autofac
 {
 	/// <summary>
 	/// 容器注册类

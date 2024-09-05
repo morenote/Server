@@ -60,6 +60,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AntDesign" Version="0.20.3" />
+        <PackageReference Include="Autofac" Version="8.1.0" />
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
         <PackageReference Include="github.hyfree.GM" Version="0.0.9" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
@@ -68,10 +70,10 @@
         <PackageReference Include="StardustDL.RazorComponents.Vditors" Version="3.8.7" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="autofac\" />
       <Folder Include="wwwroot\lib\vditor\" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\..\Server\MoreNote.Logic\MoreNote.Logic.csproj" />
       <ProjectReference Include="..\MoreNote.MauiLib\MoreNote.MauiLib.csproj" />
     </ItemGroup>
 </Project>

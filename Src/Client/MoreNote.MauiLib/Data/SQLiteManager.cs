@@ -15,16 +15,20 @@ namespace MoreNote.MauiLib.Data
         {
             return new SQLiteContext(MyPathUtil.SQLiteFile);
         }
+        public static bool Exists()
+        {
+            return File.Exists(MyPathUtil.SQLiteFile);
+        }
 
         /// <summary>
         /// 将创建数据库（如果不存在）并初始化数据库架构。 
         /// 如果存在任何表（包括其他 DbContext 类的表），则不会初始化该架构。
         /// </summary>
-        public  static async Task EnsureCreatedAsync()
+        public  static async Task<bool> EnsureCreatedAsync()
         {
             using (var sqlite=new SQLiteContext(MyPathUtil.SQLiteFile))
             {
-               await sqlite.Database.EnsureCreatedAsync();
+              return await sqlite.Database.EnsureCreatedAsync();
             }
         }
 
@@ -32,11 +36,12 @@ namespace MoreNote.MauiLib.Data
         /// EnsureDeleted 方法将删除数据库（如果存在）。
         /// 如果没有适当的权限，则会引发异常。
         /// </summary>
-        public static async Task EnsureDeletedAsync()
+        public static async Task<bool> EnsureDeletedAsync()
         {
             using (var sqlite = new SQLiteContext(MyPathUtil.SQLiteFile))
             {
-                await sqlite.Database.EnsureDeletedAsync();
+                
+               return await sqlite.Database.EnsureDeletedAsync();
             }
         }
     }

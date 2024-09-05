@@ -1,4 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+
+using Microsoft.Extensions.Logging;
+
+using MoreNote.BlazorHybridApp.autofac;
 
 namespace MoreNote.BlazorHybridApp
 {
@@ -9,6 +14,7 @@ namespace MoreNote.BlazorHybridApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -16,8 +22,14 @@ namespace MoreNote.BlazorHybridApp
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddAntDesign();
-        
-          
+
+
+            builder.ConfigureContainer<ContainerBuilder>(new AutofacServiceProviderFactory(), builder =>
+            {
+                builder.RegisterModule<BlazorAutofacModule>();
+            });
+
+
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

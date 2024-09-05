@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-using MoreNote.Common.autofac;
+using MoreNote.autofac;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
 
