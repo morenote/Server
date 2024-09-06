@@ -40,7 +40,7 @@ namespace MoreNote
 			
 			
 			ConfigFileService configFileService = new ConfigFileService();
-			config = configFileService.WebConfig;
+			config = configFileService.ReadConfig();
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.

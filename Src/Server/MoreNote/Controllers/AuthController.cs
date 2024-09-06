@@ -247,7 +247,7 @@ namespace MoreNote.Controllers
 		/// <returns></returns>
 		public async Task<JsonResult> DoRegister(string email, string pwd, string iu, string captcha)
 		{
-			if (!configFileService.WebConfig.SecurityConfig.OpenRegister)
+			if (!configFileService.ReadConfig().SecurityConfig.OpenRegister)
 			{
 				return Json(new ApiResponseDTO()
 				{

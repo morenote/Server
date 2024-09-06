@@ -146,7 +146,7 @@ namespace MoreNote.Logic.Service.MyRepository
 
 		private string GetDefaultAvatar()
 		{
-			var url = this.ConfigFileService.WebConfig.APPConfig.SiteUrl;
+			var url = this.ConfigFileService.ReadConfig().APPConfig.SiteUrl;
 			var avatar = url + @"/images/avatar/antd.png";
 			return avatar;
 		}

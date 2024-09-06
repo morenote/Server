@@ -14,7 +14,7 @@ namespace MoreNote.Logic.Service.FileService.IMPL.Tests
 		public void PresignedGetObjectAsyncTest()
 		{
 			ConfigFileService configFileService = new ConfigFileService();
-			WebSiteConfig webSiteConfig = configFileService.WebConfig;
+			WebSiteConfig webSiteConfig = configFileService.ReadConfig();
 
 			Console.WriteLine(webSiteConfig.MinIOConfig.Endpoint);
 
@@ -27,7 +27,7 @@ namespace MoreNote.Logic.Service.FileService.IMPL.Tests
 		public void PutObjectAsyncTest()
 		{
 			ConfigFileService configFileService = new ConfigFileService();
-			WebSiteConfig webSiteConfig = configFileService.WebConfig;
+			WebSiteConfig webSiteConfig = configFileService.ReadConfig();
 
 			Console.WriteLine(webSiteConfig.MinIOConfig.Endpoint);
 

@@ -50,7 +50,7 @@ namespace MoreNote.Logic.Security.FIDO2.Service
 			this.IdGenerator = IdGenerator;
 			this.dataContext = dataContext;
 			this.distributedCache = distributedCache;
-			this.config = configFileService.WebConfig;
+			this.config = configFileService.ReadConfig();
 			this.fido2Config = config.SecurityConfig.FIDO2Config;
 			this._fido2 = fido2;
 		}

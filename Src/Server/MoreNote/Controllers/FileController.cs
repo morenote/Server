@@ -47,7 +47,7 @@ namespace MoreNote.Controllers
 		[HttpGet]
 		public IActionResult UploadUPyun()
 		{
-			var webConfig = configFileService.WebConfig;
+			var webConfig = configFileService.ReadConfig();
 			var options = new UPYunOSSOptions();
 			options.bucket = webConfig.UpyunConfig.UpyunBucket;
 			options.save_key = "/{year}/{mon}/{day}/{filemd5}{.suffix}";

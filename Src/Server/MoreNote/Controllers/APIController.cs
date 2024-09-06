@@ -81,7 +81,7 @@ namespace MoreNote.Controllers
 			this.dataContext = dataContext;
 
 			this.configFileService = configFileService;
-			webcConfig = configFileService.WebConfig;
+			webcConfig = configFileService.ReadConfig();
 
 			_randomImageFuseSize = webcConfig.PublicAPI.RandomImageFuseSize;
 

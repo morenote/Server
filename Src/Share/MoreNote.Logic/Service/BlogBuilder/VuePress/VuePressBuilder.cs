@@ -28,7 +28,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 			NoteContentService noteContentService,
 			ILogger<VuePressBuilder> logger)
 		{
-			this.configFile = configFileService.WebConfig;
+			this.configFile = configFileService.ReadConfig();
 			this.workingDirectory = this.configFile.BlogConfig.BlogBuilderWorkingDirectory;
 			this.notebookService = notebookService;
 			this.noteContentService = noteContentService;

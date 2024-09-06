@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service
 
 		public ConfigService(ConfigFileService configFileService)
 		{
-			config = configFileService.WebConfig;
+			config = configFileService.ReadConfig();
 		}
 
 		// appStart时 将全局的配置从数据库中得到作为全局

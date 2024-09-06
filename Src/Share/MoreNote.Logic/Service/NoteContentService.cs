@@ -36,7 +36,7 @@ namespace MoreNote.Logic.Service
 			this.cryptographyProvider = cryptographyProvider;
 			this.idGenerator = idGenerator;
 			this.dataContext = dataContext;
-			this.config = configFileService.WebConfig;
+			this.config = configFileService.ReadConfig();
 			this.jieba = jiebaSegmenter;
 		}
 

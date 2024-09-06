@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using MoreNote.Config.ConfigFile;
+using MoreNote.Config.ConfigFilePath.IMPL;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Models.Entity.Leanote;
@@ -27,7 +28,7 @@ namespace MoreNote.Logic.Database
 		public DataContext(DbContextOptions<DataContext> options)
 		  : base(options)
 		{
-			this.config = new ConfigFileService().WebConfig;
+			this.config = new ConfigFileService(new ServerConfigFilePahFinder()).ReadConfig();
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

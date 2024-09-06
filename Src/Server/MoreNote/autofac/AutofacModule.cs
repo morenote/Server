@@ -10,6 +10,7 @@ using Morenote.Framework.Filter.Global;
 using MoreNote.AutoFac;
 using MoreNote.AutoFac.Property;
 using MoreNote.Common.Utils;
+using MoreNote.Config.ConfigFilePath.IMPL;
 using MoreNote.CryptographyProvider;
 using MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDevice;
 using MoreNote.Logic.Security.FIDO2.Service;
@@ -74,6 +75,7 @@ namespace MoreNote.autofac
 				.PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
 			builder.RegisterType<CommonService>();
 			builder.RegisterType<ConfigFileService>().SingleInstance();//单例模式 配置文件服务
+			builder.RegisterType<ServerConfigFilePahFinder>().As<IConfigFilePahFinder>();//配置文件路径
 			builder.RegisterType<ConfigService>();
 			builder.RegisterType<EmailService>();
 			builder.RegisterType<GoogleAuthenticatorService>();
@@ -182,8 +184,8 @@ namespace MoreNote.autofac
 			builder.RegisterType<SnowFlakeNetService>()
 				.As<IDistributedIdGenerator>()
 				.SingleInstance();
-			ConfigFileService configFileService = new ConfigFileService();
-			var config = configFileService.WebConfig;
+			ConfigFileService configFileService = new ConfigFileService(new ServerConfigFilePahFinder());
+			var config = configFileService.ReadConfig();
 			if (config.SecurityConfig.NeedEncryptionMachine)
 			{
 

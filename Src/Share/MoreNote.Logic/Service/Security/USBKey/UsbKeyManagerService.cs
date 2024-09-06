@@ -24,7 +24,7 @@ namespace MoreNote.Logic.Service.Security.USBKey
 		{
 			this.dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
 			this.idGenerator = distributedIdGenerator;
-			this.WebSiteConfig = configFileService.WebConfig;
+			this.WebSiteConfig = configFileService.ReadConfig();
 			this.cryptographyProvider = cryptographyProvider;
 		}
 

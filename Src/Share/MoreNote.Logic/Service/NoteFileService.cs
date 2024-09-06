@@ -32,8 +32,8 @@ namespace MoreNote.Logic.Service
 		{
 			this.dataContext = dataContext;
 			this.ConfigFileService = ConfigFileService;
-			this.storeConfig = ConfigFileService.WebConfig.FileStoreConfig;
-			this.webSiteConfig = ConfigFileService.WebConfig;
+			this.storeConfig = ConfigFileService.ReadConfig().FileStoreConfig;
+			this.webSiteConfig = ConfigFileService.ReadConfig();
 		}
 
 		public async Task<bool> SaveFile(string objectName, byte[] dataBytes, string contentType)

@@ -31,7 +31,7 @@ namespace MoreNote.Controllers.API.APIV1
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{
 			this.noteService = noteService;
-			this.webSiteConfig = configFileService.WebConfig;
+			this.webSiteConfig = configFileService.ReadConfig();
 		}
 
 

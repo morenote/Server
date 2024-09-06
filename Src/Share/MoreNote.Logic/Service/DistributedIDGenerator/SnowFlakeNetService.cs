@@ -13,7 +13,7 @@ namespace MoreNote.Common.Utils
 		// 定义私有构造函数，使外界不能创建该类实例
 		public SnowFlakeNetService(ConfigFileService configFileService)
 		{
-			var config = configFileService.WebConfig.IdGeneratorConfig;
+			var config = configFileService.ReadConfig().IdGeneratorConfig;
 			if (worker == null)
 			{
 				worker = new IdWorker(config.WorkerId, config.DatacenterId);

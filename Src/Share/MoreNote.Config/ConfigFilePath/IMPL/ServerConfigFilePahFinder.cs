@@ -7,10 +7,10 @@ namespace MoreNote.Config.ConfigFilePath.IMPL
 	/// <summary>
 	/// 寻找配置文件
 	/// </summary>
-	public class ConfigFilePahFinder
-	{
+	public class ServerConfigFilePahFinder: IConfigFilePahFinder
+    {
 
-		public static string GetConfigFilePah()
+		public  string GetConfigFilePah()
 		{
 			List<IConfigFilePahProvider> lists = new List<IConfigFilePahProvider>();
 

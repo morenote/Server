@@ -22,7 +22,7 @@ namespace MoreNote.Logic.Service
 			this.idGenerator = idGenerator;
 
 			this.dataContext = dataContext;
-			this.config = configFileService.WebConfig;
+			this.config = configFileService.ReadConfig();
 		}
 
 		public bool SaveToken(Token token)

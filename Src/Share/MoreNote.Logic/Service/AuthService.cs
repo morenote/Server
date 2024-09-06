@@ -31,7 +31,7 @@ namespace MoreNote.Logic.Service
 			this.dataContext = dataContext;
 			this.passwordStore = passwordStore;
 			this.NotebookService = notebookService;
-			this.config = configFileService.WebConfig;
+			this.config = configFileService.ReadConfig();
 			this.passwordStoreFactory = passwordStoreFactory;
 		}
 

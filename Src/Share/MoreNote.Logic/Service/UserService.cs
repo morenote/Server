@@ -45,7 +45,7 @@ namespace MoreNote.Logic.Service
 		{
 			this.idGenerator = idGenerator;
 			this.dataContext = dataContext;
-			this.Config = configFileService.WebConfig;
+			this.Config = configFileService.ReadConfig();
 			this.passwordStoreFactory = passwordStoreFactory;
 			this.cryptographyProvider = cryptographyProvider;
 			this.logging = logging;

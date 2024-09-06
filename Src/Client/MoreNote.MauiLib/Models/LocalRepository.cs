@@ -53,7 +53,7 @@ namespace MoreNote.MauiLib.Models
             fileSystemServices.Directory_CreateDirectory(MyPathUtil.HistoryDir);
 
             //如果不存在config文件夹，创建config文件夹
-            fileSystemServices.Directory_CreateDirectory(MyPathUtil.ConfigDir);
+            fileSystemServices.Directory_CreateDirectory(MyPathUtil.ConfigFile);
            
         }
     }

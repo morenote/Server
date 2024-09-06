@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using MoreNote.Common.Utils;
+using MoreNote.Config.ConfigFilePath.IMPL;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service.PasswordSecurity;
@@ -38,7 +39,7 @@ namespace MoreNote.Logic.Service
 
 				//======================创建种子数据========================
 				//ConfigFileService configFileService = new ConfigFileService();
-				//var config = configFileService.WebConfig;
+				//var config = configFileService.ReadConfig();
 				////初始化随机口令
 				//var pwd = "admin123";
 				//var passwordStore = passwordStoreFactory.Instance("sha256");
@@ -149,8 +150,8 @@ namespace MoreNote.Logic.Service
 		public void InitSecret()
 		{
 			Console.WriteLine(" ==================== Initializing Secret Start==================== ");
-			ConfigFileService configFileService = new ConfigFileService();
-			configFileService.WebConfig.SecurityConfig.Secret = RandomTool.CreatSafeRandomBase64(32);
+			ConfigFileService configFileService = new ConfigFileService(new ServerConfigFilePahFinder());
+			configFileService.ReadConfig().SecurityConfig.Secret = RandomTool.CreatSafeRandomBase64(32);
 			configFileService.Save();
 			Console.WriteLine(" ==================== Initialized Secret Successfully ==================== ");
 		}

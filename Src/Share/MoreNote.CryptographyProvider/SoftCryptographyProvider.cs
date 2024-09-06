@@ -20,7 +20,7 @@ namespace MoreNote.CryptographyProvider
 		public SoftCryptographyProvider(ConfigFileService configFileService)
 		{
 			GMService gm = new GMService();
-			this.webSiteConfig = configFileService.WebConfig;
+			this.webSiteConfig = configFileService.ReadConfig();
 			//todo:实际上，我们必须理解由于Secret无法被保护，所以如果宿主机本身被攻击，一切加密手段都是毫无意义的，只能充当安慰剂。
 			//这样做的唯一价值就是通过派生子密钥，减少Secret暴露的机会。
 			masterKey = gm.PBKDF2_SM3(Convert.FromBase64String(webSiteConfig.SecurityConfig.Secret), Encoding.UTF8.GetBytes("masterKey"), 10000, 16);

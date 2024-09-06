@@ -20,8 +20,8 @@ namespace MoreNote.MauiLib.Utils
         
         public static string HistoryDir
         { get { string path = Path.Combine(BasePath, "History"); return path; } }
-        public static string ConfigDir
-        { get { string path = Path.Combine(BasePath, "Config"); return path; } }
+        public static string ConfigFile
+        { get { string path = Path.Combine(BasePath, "Config.json"); return path; } }
         public static string SQLiteFile
         { get { string path = Path.Combine(DataDir, "sqlite3.db"); return path; } }
     }

@@ -40,8 +40,8 @@ namespace MoreNote.Controllers
 			//}
 			//SetUserInfo();
 			ViewBag.title = "leanote";
-			//ViewBag.openRegister = configFileService.WebConfig.SecurityConfig.OpenRegister;
-			//ViewBag.openDemo = configFileService.WebConfig.SecurityConfig.OpenDemo;
+			//ViewBag.openRegister = configFileService.ReadConfig().SecurityConfig.OpenRegister;
+			//ViewBag.openDemo = configFileService.ReadConfig().SecurityConfig.OpenDemo;
 
 			//SetLocale();
 

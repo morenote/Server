@@ -16,7 +16,7 @@ namespace MoreNote.Logic.Service
 
 			if (db == null)
 			{
-				configContentStr = configFileService.WebConfig.RedisConfig.Configuration;
+				configContentStr = configFileService.ReadConfig().RedisConfig.Configuration;
 				ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(configContentStr);
 				db = redis.GetDatabase();
 			}

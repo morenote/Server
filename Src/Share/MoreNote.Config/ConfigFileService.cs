@@ -1,4 +1,5 @@
-﻿using MoreNote.Config.ConfigFile;
+﻿using MoreNote.Config;
+using MoreNote.Config.ConfigFile;
 using MoreNote.Config.ConfigFilePath.IMPL;
 
 using System.Text.Json;
@@ -8,21 +9,19 @@ namespace MoreNote.Logic.Service
 	/// <summary>
 	/// 读取配置文件的类
 	/// </summary>
-	public class ConfigFileService
-	{
+	public class ConfigFileService: IConfigFileService
+    {
 		private string path = null;
 
 		private WebSiteConfig _config { get; set; }
+		IConfigFilePahFinder confinder;
 
 		// 定义一个标识确保线程同步
 		private static readonly object locker = new object();
 
-		public ConfigFileService()
+		public ConfigFileService(IConfigFilePahFinder configFilePahFinder)
 		{
-			if (_config == null)
-			{
-				this._config = WebConfig;
-			}
+			this.confinder = configFilePahFinder;
 		}
 
 		/// <summary>
@@ -39,7 +38,7 @@ namespace MoreNote.Logic.Service
 					throw new IOException("Configuration file cannot be found!!");
 				}
 				string json = File.ReadAllText(path);
-				this._config = System.Text.Json.JsonSerializer.Deserialize<WebSiteConfig>(json);
+				this._config = JsonSerializer.Deserialize<WebSiteConfig>(json);
 			}
 		}
 
@@ -63,16 +62,16 @@ namespace MoreNote.Logic.Service
 		/// window=C:\morenote\config.json
 		/// </summary>
 		/// <returns></returns>
-		public static string GetConfigPath()
+		public  string GetConfigPath()
 		{
 
-			return ConfigFilePahFinder.GetConfigFilePah();
+			return this.confinder.GetConfigFilePah();
 		}
 
 		/// <summary>
 		/// 初始化模板
 		/// </summary>
-		private void InitTemplateConfig()
+		public void InitTemplateConfig()
 		{
 
 			WebSiteConfig webSiteConfig = new WebSiteConfig();
@@ -85,10 +84,9 @@ namespace MoreNote.Logic.Service
 			File.WriteAllText(path, json);
 		}
 
-		public WebSiteConfig WebConfig
+		public WebSiteConfig ReadConfig()
 		{
-			get
-			{
+			
 				if (_config == null)
 				{
 					lock (locker)
@@ -108,7 +106,7 @@ namespace MoreNote.Logic.Service
 				}
 
 				return _config;
-			}
+			
 		}
 
 		public void Save(WebSiteConfig tempConfig, string onePath)
@@ -119,7 +117,7 @@ namespace MoreNote.Logic.Service
 				{
 					return;
 				}
-				string json = System.Text.Json.JsonSerializer.Serialize(tempConfig);
+				string json =JsonSerializer.Serialize(tempConfig);
 				File.WriteAllText(onePath, json);
 				_config = tempConfig;
 			}

@@ -26,7 +26,7 @@ namespace MoreNote.Logic.Service
 		public AttachService(DataContext dataContext, ConfigFileService configFileService)
 		{
 			this.dataContext = dataContext;
-			this.config = configFileService.WebConfig;
+			this.config = configFileService.ReadConfig();
 
 
 		}

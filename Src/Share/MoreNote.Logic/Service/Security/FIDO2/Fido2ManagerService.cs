@@ -24,7 +24,7 @@ namespace MoreNote.Logic.Service.Security.FIDO2
 		{
 			this.dataContext = dataContext;
 			this.idGenerator = distributedIdGenerator;
-			this.WebSiteConfig = configFileService.WebConfig;
+			this.WebSiteConfig = configFileService.ReadConfig();
 			this.cryptographyProvider = cryptographyProvider;
 
 		}

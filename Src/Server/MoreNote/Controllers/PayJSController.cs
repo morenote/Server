@@ -41,7 +41,7 @@ namespace MoreNote.Controllers
 		{
 			this.dataContext = dataContext;
 			this.configFileService = configFileService;
-			webSiteConfig = configFileService.WebConfig;
+			webSiteConfig = configFileService.ReadConfig();
 			pay = new Payjs(webSiteConfig.Payjs.PayJS_MCHID, webSiteConfig.Payjs.PayJS_Key);
 		}
 

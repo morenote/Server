@@ -101,7 +101,7 @@ namespace MoreNote.Framework.Controllers
 			this.userService = userService;
 			this._accessor = accessor;
 
-			config = configFileService.WebConfig;
+			config = configFileService.ReadConfig();
 
 		}
 		[ApiExplorerSettings(IgnoreApi = true)]
@@ -403,7 +403,7 @@ namespace MoreNote.Framework.Controllers
 			ViewBag.blog = languageResource.GetBlog();
 			ViewBag.noteconf = languageResource.GetNote();
 			ViewBag.tinymce_editor = languageResource.GetTinymce_editor();
-			ViewBag.demonstrationOnly = configFileService.WebConfig.GlobalConfig.DemonstrationOnly;
+			ViewBag.demonstrationOnly = configFileService.ReadConfig().GlobalConfig.DemonstrationOnly;
 
 			ViewBag.locale = locale;
 			ViewBag.siteUrl = config.APPConfig.SiteUrl;
@@ -430,7 +430,7 @@ namespace MoreNote.Framework.Controllers
 		{
 			msg = "";
 			serverFileId = 0;
-			FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
+			FileStoreConfig config = configFileService.ReadConfig().FileStoreConfig;
 
 			var diskFileId = idGenerator.NextId();
 			serverFileId = diskFileId;
@@ -554,7 +554,7 @@ namespace MoreNote.Framework.Controllers
 			}
 			msg = "";
 			serverFileId = 0;
-			FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
+			FileStoreConfig config = configFileService.ReadConfig().FileStoreConfig;
 			string uploadDirPath = null;
 
 			var diskFileId = idGenerator.NextId();
@@ -638,7 +638,7 @@ namespace MoreNote.Framework.Controllers
 				return null;
 			}
 
-			FileStoreConfig config = configFileService.WebConfig.FileStoreConfig;
+			FileStoreConfig config = configFileService.ReadConfig().FileStoreConfig;
 			string uploadDirPath = null;
 
 			var diskFileId = idGenerator.NextId();
@@ -753,8 +753,8 @@ namespace MoreNote.Framework.Controllers
 				return null;
 
 			}
-			WebSiteConfig webSiteConfig = configFileService.WebConfig;
-			FileStoreConfig fileStoreConfig = configFileService.WebConfig.FileStoreConfig;
+			WebSiteConfig webSiteConfig = configFileService.ReadConfig();
+			FileStoreConfig fileStoreConfig = configFileService.ReadConfig().FileStoreConfig;
 			string uploadDirPath = null;
 
 			var diskFileId = idGenerator.NextId();
