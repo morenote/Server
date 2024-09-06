@@ -73,7 +73,8 @@
       <Folder Include="wwwroot\lib\vditor\" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\Server\MoreNote.Logic\MoreNote.Logic.csproj" />
+      <ProjectReference Include="..\..\Share\MoreNote.Config\MoreNote.Config.csproj" />
+      <ProjectReference Include="..\..\Share\MoreNote.Logic\MoreNote.Logic.csproj" />
       <ProjectReference Include="..\MoreNote.MauiLib\MoreNote.MauiLib.csproj" />
     </ItemGroup>
 </Project>

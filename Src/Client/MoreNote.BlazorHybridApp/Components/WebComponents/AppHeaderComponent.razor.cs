@@ -29,13 +29,14 @@ namespace MoreNote.BlazorHybridApp.Components.WebComponents
         }
         public async void CheckStatus()
         {
+            var id= idGenerator.NextHexId();
             if (SQLiteManager.Exists())
             {
-                await _message.Success("SQLite：已经初始化完成。");
+                await _message.Success($"SQLite：已经初始化完成。{id}");
             }
             else
             {
-                await _message.Error("SQLite：处于销毁状态。");
+                await _message.Error($"SQLite：处于销毁状态。{id}");
 
             }
         }

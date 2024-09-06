@@ -283,15 +283,16 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Share\MoreNote.AutofacManager\MoreNote.AutofacManager.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Common\MoreNote.Common.csproj" />
+    <ProjectReference Include="..\..\Share\MoreNote.Config\MoreNote.Config.csproj" />
+    <ProjectReference Include="..\..\Share\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
+    <ProjectReference Include="..\..\Share\MoreNote.Logic\MoreNote.Logic.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Models.DTO\MoreNote.Models.DTO.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
+    <ProjectReference Include="..\..\Share\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
     <ProjectReference Include="..\03Framework\Morenote.Framework\Morenote.Framework.csproj" />
     <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
     <ProjectReference Include="..\MoreNote.Config\MoreNote.Config.csproj" />
-    <ProjectReference Include="..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
-    <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
-    <ProjectReference Include="..\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

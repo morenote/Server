@@ -1,6 +1,7 @@
 ﻿using Autofac;
 
 using MoreNote.Common.Utils;
+using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 
 using System.Linq;
@@ -24,6 +25,7 @@ namespace MoreNote.BlazorHybridApp.autofac
 			builder.RegisterType<SnowFlakeNetService>()
 				.As<IDistributedIdGenerator>()
 				.SingleInstance();
-		}
+            builder.RegisterType<ConfigFileService>().SingleInstance();//单例模式 配置文件服务
+        }
 	}
 }

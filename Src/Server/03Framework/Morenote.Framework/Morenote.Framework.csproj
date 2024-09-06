@@ -14,12 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Share\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
+    <ProjectReference Include="..\..\..\Share\MoreNote.Logic\MoreNote.Logic.csproj" />
     <ProjectReference Include="..\..\..\Share\MoreNote.Models.DTO\MoreNote.Models.DTO.csproj" />
     <ProjectReference Include="..\..\..\Share\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
     <ProjectReference Include="..\..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
-    <ProjectReference Include="..\..\MoreNote.CryptographyProvider\MoreNote.CryptographyProvider.csproj" />
     <ProjectReference Include="..\..\MoreNote.Language\MoreNote.Language.csproj" />
-    <ProjectReference Include="..\..\MoreNote.Logic\MoreNote.Logic.csproj" />
   </ItemGroup>
 
 </Project>

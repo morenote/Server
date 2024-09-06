@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\Server\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
     <ProjectReference Include="..\..\Src\Share\MoreNote.Common\MoreNote.Common.csproj" />
+    <ProjectReference Include="..\..\Src\Share\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
   </ItemGroup>
 
 </Project>

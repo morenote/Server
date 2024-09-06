@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 
 using Morenote.Framework.Filter.Global;
 
-using MoreNote.Common.autofac;
+using MoreNote.autofac;
 using MoreNote.Config.ConfigFile;
 using MoreNote.Database;
 using MoreNote.Logic.Database;

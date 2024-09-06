@@ -1,6 +1,12 @@
 ﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents
-@inject IMessageService _message
+
 @using MoreNote.BlazorHybridApp.Components.WebComponents.MyModal
+@using MoreNote.Logic.Service.DistributedIDGenerator
+
+
+@inject IMessageService _message
+@inject IDistributedIdGenerator idGenerator
+
 
 <Menu Mode=MenuMode.Horizontal>
 
