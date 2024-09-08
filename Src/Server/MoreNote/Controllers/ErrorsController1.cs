@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 
 namespace MoreNote.Controllers
 {
-	public class ErrorsController1 : BaseController
+    public class ErrorsController1 : BaseController
 	{
 		public ErrorsController1(AttachService attachService
 			, TokenSerivce tokenSerivce

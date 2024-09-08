@@ -6,13 +6,14 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.Notes;
 
 using System.Text.Json;
 
 namespace MoreNote.Controllers
 {
-	[Authorize(Roles = "Admin,SuperAdmin,User")]
+    [Authorize(Roles = "Admin,SuperAdmin,User")]
 	public class NoteBookController : BaseController
 	{
 		private NoteCollectionService notebookService;

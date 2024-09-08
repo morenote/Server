@@ -1,6 +1,7 @@
 ﻿using MoreNote.Logic.Database;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ namespace MoreNote.Logic.Service.FileStoreService
 			this.idGenerator = idGenerator;
 		}
 
-		public List<VirtualFolderInfo> GetRootVFolder(Repository repository)
+		public List<VirtualFolderInfo> GetRootVFolder(Notebook repository)
 		{
 			//先来个扫描程序 仅用于测试用途
 			var fi = new DirectoryInfo(repository.VirtualFileBasePath);

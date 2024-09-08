@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
-
+using MoreNote.Logic.Service.Notes;
 using System.Diagnostics;
 
 namespace MoreNote.Controllers
 {
-	public class HomeController : BaseController
+    public class HomeController : BaseController
 	{
 		BlogService blogService;
 		public HomeController(AttachService attachService,

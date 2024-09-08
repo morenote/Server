@@ -5,15 +5,15 @@ using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Models.DTO.Vditor.Upload;
 using MoreNote.Logic.Service;
-
+using MoreNote.Logic.Service.Notes;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API
 {
 
-	// [Route("api/vditor/[action]")]
-	public class VditorController : APIBaseController
+    // [Route("api/vditor/[action]")]
+    public class VditorController : APIBaseController
 	{
 		private AuthService authService;
 		private UserService userService;

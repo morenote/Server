@@ -5,6 +5,7 @@ using MoreNote.Config.ConfigFile;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.Pay;
 
 using PAYJS_CSharp_SDK;
@@ -23,7 +24,7 @@ using Image = SixLabors.ImageSharp.Image;
 
 namespace MoreNote.Controllers
 {
-	[Route("api/PayJS/[action]")]
+    [Route("api/PayJS/[action]")]
 	public class PayJSController : BaseController
 	{
 		private DataContext dataContext;

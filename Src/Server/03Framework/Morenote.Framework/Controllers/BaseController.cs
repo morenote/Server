@@ -27,10 +27,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using MoreNote.Logic.Service.Notes;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 namespace MoreNote.Framework.Controllers
 {
-	/**
+    /**
      * 源代码基本是从GO代码直接复制过来的
      *
      * 只是简单的实现了API的功能
@@ -38,7 +40,7 @@ namespace MoreNote.Framework.Controllers
      * 2020年01月27日
      * */
 
-	public abstract class BaseController : Controller
+    public abstract class BaseController : Controller
 	{
 		public AttachService attachService;
 
@@ -330,7 +332,7 @@ namespace MoreNote.Framework.Controllers
 			}
 		}
 		[ApiExplorerSettings(IgnoreApi = true)]
-		protected UserInfo GetUserAndBlogUrl(Repository repository)
+		protected UserInfo GetUserAndBlogUrl(Notebook repository)
 		{
 			var userid = GetUserIdBySession();
 			if (userid == null)

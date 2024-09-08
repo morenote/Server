@@ -7,6 +7,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.Notes;
 
 using System;
@@ -19,7 +20,7 @@ using UpYunLibrary.OSS;
 namespace MoreNote.Controllers
 {
 
-	public class FileController : BaseController
+    public class FileController : BaseController
 	{
 		private ConfigFileService configFileService;
 		private NoteService noteService;

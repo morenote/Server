@@ -36,7 +36,7 @@ namespace MoreNote.BlazorHybridApp.Components.WebComponents
             }
             else
             {
-                await _message.Error($"SQLite：处于销毁状态。");
+                await _message.Error($"SQLite：当前处于销毁状态。");
 
             }
         }

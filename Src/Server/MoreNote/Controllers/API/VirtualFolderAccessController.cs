@@ -7,22 +7,23 @@ using MoreNote.AutoFac.Property;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Logic.Service.MyOrganization;
-using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enums;
+using MoreNote.Logic.Service.Notes;
+
 
 namespace MoreNote.Controllers.API
 {
-	/// <summary>
-	/// 笔记仓库
-	/// </summary>
+    /// <summary>
+    /// 笔记仓库
+    /// </summary>
 
-	[Route("api/VirtualFolderAccess/[action]")]
+    [Route("api/VirtualFolderAccess/[action]")]
 	public class VirtualFolderAccessController : APIBaseController
 	{
-		private NoteCollectionService notebookService;
-		private RepositoryService repositoryService;
+		private NoteCollectionService noteCollectionService;
+		private NotebookService notebookService;
 
 		private OrganizationService organizationService;
 		private EPassService ePassService;
@@ -40,15 +41,15 @@ namespace MoreNote.Controllers.API
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
 			NoteCollectionService notebookService,
-			RepositoryService noteRepositoryService,
+			NotebookService noteRepositoryService,
 			 OrganizationService organizationService,
 			   EPassService ePassService,
 			   DataSignService dataSignService
 		   ) :
 		 base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{
-			this.notebookService = notebookService;
-			this.repositoryService = noteRepositoryService;
+			this.noteCollectionService = notebookService;
+			this.notebookService = noteRepositoryService;
 			this.ePassService = ePassService;
 			this.dataSignService = dataSignService;
 		}
@@ -68,12 +69,12 @@ namespace MoreNote.Controllers.API
 				apiRe.Msg = "";
 				return LeanoteJson(apiRe);
 			}
-			var verify = repositoryService.Verify(repositoryHexId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.DeleteRepository);
+			var verify = notebookService.Verify(repositoryHexId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.DeleteRepository);
 			if (verify == false)
 			{
 				return LeanoteJson(apiRe);
 			}
-			var repository = repositoryService.GetRepository(repositoryHexId.ToLongByHex());
+			var repository = notebookService.GetNotebook(repositoryHexId.ToLongByHex());
 			var list = this.VirtualFolderAccessService.GetRootVFolder(repository);
 			apiRe.Ok = true;
 			apiRe.Data = list;

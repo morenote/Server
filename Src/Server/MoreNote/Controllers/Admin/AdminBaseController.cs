@@ -2,15 +2,15 @@
 
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
-
+using MoreNote.Logic.Service.Notes;
 using System.Collections.Generic;
 
 namespace MoreNote.Controllers.Admin
 {
-	/// <summary>
-	/// 管理员页面基类
-	/// </summary>
-	public class AdminBaseController : BaseController
+    /// <summary>
+    /// 管理员页面基类
+    /// </summary>
+    public class AdminBaseController : BaseController
 	{
 
 		public AdminBaseController(AttachService attachService

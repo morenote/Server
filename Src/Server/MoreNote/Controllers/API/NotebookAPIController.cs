@@ -7,8 +7,9 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.MyOrganization;
-using MoreNote.Logic.Service.MyRepository;
+
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.USBKey;
@@ -21,13 +22,13 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	[Route("api/Notebook/[action]")]
+    [Route("api/Notebook/[action]")]
 	// [ApiController]
 	[ServiceFilter(typeof(CheckTokenFilter))]
 	public class NotebookAPIController : APIBaseController
 	{
 		private NoteCollectionService notebookService;
-		private RepositoryService noteRepositoryService;
+		private NotebookService noteRepositoryService;
 		private OrganizationMemberRoleService repositoryMemberRoleService;
 		private EPassService ePassService;
 		private DataSignService dataSignService;
@@ -43,7 +44,7 @@ namespace MoreNote.Controllers.API.APIV1
 			 EPassService ePassService,
 			 OrganizationMemberRoleService repositoryMemberRoleService,
 			 DataSignService dataSignService,
-			 RepositoryService noteRepositoryService
+			 NotebookService noteRepositoryService
 		   ) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{

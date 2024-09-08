@@ -4,11 +4,13 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.Segmenter;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Blog;
 using MoreNote.Models.Entity.Leanote.Notes;
 using MoreNote.Models.Entity.Leanote.User;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 using System;
 using System.Collections.Generic;
@@ -16,8 +18,8 @@ using System.Linq;
 
 namespace MoreNote.Logic.Service
 {
-	// blog
-	/*
+    // blog
+    /*
     note, notebook都可设为blog
     关键是, 怎么得到blog列表? 还要分页
 
@@ -33,7 +35,7 @@ namespace MoreNote.Logic.Service
 
     */
 
-	public class BlogService
+    public class BlogService
 	{
 		private DataContext dataContext;
 		public NoteService NoteService { get; set; }
@@ -196,7 +198,7 @@ namespace MoreNote.Logic.Service
 
 		public NoteCollection[] ListBlogNotebooks(long? userId)
 		{
-			var noteBooks = dataContext.Notebook.Where(b => b.UserId == userId && b.IsBlog == true).ToArray();
+			var noteBooks = dataContext.NoteCollection.Where(b => b.UserId == userId && b.IsBlog == true).ToArray();
 			return noteBooks;
 		}
 
@@ -597,7 +599,7 @@ namespace MoreNote.Logic.Service
 			return ConfigService.GetBlogUrl() + "/" + userName;
 		}
 
-		public BlogUrls GetBlogUrls(UserBlog userBlog, UserInfo userInfo, Repository repository)
+		public BlogUrls GetBlogUrls(UserBlog userBlog, UserInfo userInfo, Notebook repository)
 		{
 			string indexUrl, postUrl, searchUrl, cateUrl, singleUrl, tagsUrl, archiveUrl, tagPostsUrl;
 			string blogUrl = ConfigService.GetBlogUrl();

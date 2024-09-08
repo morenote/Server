@@ -10,6 +10,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Security.FIDO2.Service;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.Security.FIDO2;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enums;
@@ -24,7 +25,7 @@ using static Fido2NetLib.Fido2;
 
 namespace MoreNote.Controllers.API
 {
-	[Route("api/fido2/[action]")]
+    [Route("api/fido2/[action]")]
 	public class FIDO2Controller : APIBaseController
 
 	{

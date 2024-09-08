@@ -5,6 +5,7 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.Security.USBKey;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
@@ -19,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.Security
 {
-	[Route("api/USBKey/[action]")]
+    [Route("api/USBKey/[action]")]
 	public class USBKeyController : APIBaseController
 	{
 		private AuthService authService;

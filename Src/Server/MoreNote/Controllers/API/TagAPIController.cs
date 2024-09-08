@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Entity.Leanote.Notes;
 using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	[Route("api/Tag/[action]")]
+    [Route("api/Tag/[action]")]
 	// [ApiController]
 	public class TagAPIController : APIBaseController
 	{

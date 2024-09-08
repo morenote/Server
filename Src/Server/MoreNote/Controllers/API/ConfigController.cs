@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.Config;
 
 namespace MoreNote.Controllers.API
 {
-	[Route("api/Config/[action]")]
+    [Route("api/Config/[action]")]
 	public class ConfigController : APIBaseController
 	{
 		private AuthService authService;

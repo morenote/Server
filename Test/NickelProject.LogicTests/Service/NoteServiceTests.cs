@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using MoreNote.Logic.Service.Notes;
 using System;
 
 namespace MoreNote.Logic.Service.Tests
 {
-	[TestClass()]
+    [TestClass()]
 	public class NoteServiceTests
 	{
 		[TestMethod()]

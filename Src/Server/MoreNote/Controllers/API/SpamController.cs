@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.Security;
 
 using System;
@@ -11,7 +12,7 @@ using System.Net;
 
 namespace MoreNote.Controllers.API
 {
-	[Route("api/Spam/[action]")]
+    [Route("api/Spam/[action]")]
 	public class SpamController : APIBaseController
 	{
 		private SpamService spamService;

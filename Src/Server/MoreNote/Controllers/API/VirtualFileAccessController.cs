@@ -7,22 +7,23 @@ using MoreNote.AutoFac.Property;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
 using MoreNote.Logic.Service.MyOrganization;
-using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enums;
+using MoreNote.Logic.Service.Notes;
+
 
 namespace MoreNote.Controllers.API
 {
-	/// <summary>
-	/// 笔记仓库
-	/// </summary>
+    /// <summary>
+    /// 笔记仓库
+    /// </summary>
 
-	[Route("api/VirtualFileAccess/[action]")]
+    [Route("api/VirtualFileAccess/[action]")]
 	public class VirtualFileAccessController : APIBaseController
 	{
 		private NoteCollectionService notebookService;
-		private RepositoryService repositoryService;
+		private NotebookService repositoryService;
 
 		private OrganizationService organizationService;
 		private EPassService ePassService;
@@ -38,7 +39,7 @@ namespace MoreNote.Controllers.API
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
 			NoteCollectionService notebookService,
-			RepositoryService noteRepositoryService,
+			NotebookService noteRepositoryService,
 			 OrganizationService organizationService,
 			   EPassService ePassService,
 			   DataSignService dataSignService
@@ -71,7 +72,7 @@ namespace MoreNote.Controllers.API
 			{
 				return LeanoteJson(apiRe);
 			}
-			var repository = repositoryService.GetRepository(repositoryHexId.ToLongByHex());
+			var repository = repositoryService.GetNotebook(repositoryHexId.ToLongByHex());
 			var list = this.VirtualFileAccessService.GetRootVFiles(repository);
 			apiRe.Ok = true;
 			apiRe.Data = list;

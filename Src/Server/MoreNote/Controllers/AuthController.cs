@@ -14,6 +14,7 @@ using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Model;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enums;
 
@@ -28,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-	public class AuthController : BaseController
+    public class AuthController : BaseController
 	{
 		private AuthService authService;
 		private ConfigService configService;

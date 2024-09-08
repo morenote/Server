@@ -20,10 +20,12 @@ using MoreNote.Logic.Service.BlogBuilder.VuePress;
 using MoreNote.Logic.Service.Captcha.IMPL;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.FileStoreService;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.Logging.IMPL;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
+
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Logic.Service.Security.FIDO2;
 using MoreNote.Logic.Service.Security.USBKey;
@@ -37,10 +39,10 @@ using System.Linq;
 
 namespace MoreNote.autofac
 {
-	/// <summary>
-	/// 容器注册类
-	/// </summary>
-	public class AutofacModule : Autofac.Module
+    /// <summary>
+    /// 容器注册类
+    /// </summary>
+    public class AutofacModule : Autofac.Module
 	{
         /// <summary>
         /// 容器注册 ContainerBuilder
@@ -162,7 +164,7 @@ namespace MoreNote.autofac
 			builder.RegisterType<OrganizationService>();
 			builder.RegisterType<OrganizationTeamService>();
 
-			builder.RegisterType<RepositoryService>();
+			builder.RegisterType<NotebookService>();
 			builder.RegisterType<RepositoryMemberRoleService>();
 
 			builder.RegisterType<PasswordStoreFactory>();

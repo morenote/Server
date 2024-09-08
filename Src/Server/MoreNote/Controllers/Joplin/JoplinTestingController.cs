@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Models.DTO.Joplin;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 
 namespace MoreNote.Controllers.Joplin
 {
-	/// <summary>
-	/// 登录测试服务器 login Testing
-	/// </summary>
-	public class JoplinTestingController : JoplinBaseController
+    /// <summary>
+    /// 登录测试服务器 login Testing
+    /// </summary>
+    public class JoplinTestingController : JoplinBaseController
 	{
 		private AuthService AuthService { get; set; }
 

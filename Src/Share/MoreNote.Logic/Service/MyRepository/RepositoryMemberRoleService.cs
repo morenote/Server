@@ -7,32 +7,32 @@ using System.Linq;
 
 namespace MoreNote.Logic.Service.MyRepository
 {
-	public class RepositoryMemberRoleService
-	{
-		private DataContext dataContext;
+    public class RepositoryMemberRoleService
+    {
+        private DataContext dataContext;
 
-		public RepositoryMemberRoleService(DataContext dataContext)
-		{
-			this.dataContext = dataContext;
-		}
+        public RepositoryMemberRoleService(DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
 
 
-		public HashSet<RepositoryAuthorityEnum> GetRepositoryAuthoritySet(long? roleId)
-		{
-			var set = new HashSet<RepositoryAuthorityEnum>();
+        public HashSet<RepositoryAuthorityEnum> GetRepositoryAuthoritySet(long? roleId)
+        {
+            var set = new HashSet<RepositoryAuthorityEnum>();
 
-			var list = dataContext.RepositoryMemberRoleMapping.Where(x => x.RoleId == roleId).ToList<RepositoryMemberRoleMapping>();
+            var list = dataContext.RepositoryMemberRoleMapping.Where(x => x.RoleId == roleId).ToList();
 
-			foreach (var item in list)
-			{
-				if (!set.Contains(item.RepositoryAuthorityEnum))
-				{
-					set.Add(item.RepositoryAuthorityEnum);
-				}
+            foreach (var item in list)
+            {
+                if (!set.Contains(item.RepositoryAuthorityEnum))
+                {
+                    set.Add(item.RepositoryAuthorityEnum);
+                }
 
-			}
-			return set;
+            }
+            return set;
 
-		}
-	}
+        }
+    }
 }

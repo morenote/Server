@@ -1,5 +1,6 @@
 ﻿using MoreNote.Logic.Database;
 using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.Notes;
 
 using System;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace MoreNote.Logic.Service
 {
-	public class TagService
+    public class TagService
 	{
 		private DataContext dataContext;
 		public NoteService NoteService { get; set; }

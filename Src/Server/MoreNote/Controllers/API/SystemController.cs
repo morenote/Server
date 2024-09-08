@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Logic.Service;
-using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Logic.Service.Notes;
+
 using MoreNote.Models.DTO.Leanote;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	[Route("api/System/[action]")]
+    [Route("api/System/[action]")]
 
 	// [ApiController]
 	public class SystemController : APIBaseController
@@ -19,7 +20,7 @@ namespace MoreNote.Controllers.API.APIV1
 		private NoteCollectionService notebookService;
 		private TrashService trashService;
 		private IHttpContextAccessor accessor;
-		private RepositoryService noteRepositoryService;
+		private NotebookService noteRepositoryService;
 
 		public SystemController(AttachService attachService
 			, TokenSerivce tokenSerivce
@@ -30,7 +31,7 @@ namespace MoreNote.Controllers.API.APIV1
 			NoteService noteService,
 			NoteContentService noteContentService,
 			NoteCollectionService notebookService,
-			RepositoryService noteRepositoryService,
+			NotebookService noteRepositoryService,
 			TrashService trashService
 		   ) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)

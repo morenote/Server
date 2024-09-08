@@ -10,7 +10,8 @@ using MoreNote.Common.Utils;
 
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
-using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Logic.Service.Notes;
+
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.ApiRequest;
@@ -28,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	[Route("api/Note/[action]")]
+    [Route("api/Note/[action]")]
 	[ServiceFilter(typeof(CheckTokenFilter))]
 	public class NoteAPIController : APIBaseController
 	{
@@ -39,7 +40,7 @@ namespace MoreNote.Controllers.API.APIV1
 		private NoteCollectionService notebookService;
 		private TrashService trashService;
 		private IHttpContextAccessor accessor;
-		private RepositoryService noteRepositoryService;
+		private NotebookService noteRepositoryService;
 		private EPassService ePassService;
 		private GMService gMService;
 		private DataSignService dataSignService;
@@ -53,7 +54,7 @@ namespace MoreNote.Controllers.API.APIV1
 			NoteService noteService,
 			NoteContentService noteContentService,
 			NoteCollectionService notebookService,
-			RepositoryService noteRepositoryService,
+			NotebookService noteRepositoryService,
 			TrashService trashService,
 			EPassService ePass,
 			GMService gMService,

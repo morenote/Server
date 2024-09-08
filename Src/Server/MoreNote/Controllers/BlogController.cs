@@ -6,12 +6,14 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
-using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Logic.Service.Notes;
+
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Blog;
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
 using MoreNote.Models.Entity.Leanote.Notes;
 using MoreNote.Models.Entity.Leanote.User;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 using System;
 using System.Collections.Generic;
@@ -22,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-	public class BlogController : BaseController
+    public class BlogController : BaseController
 	{
 		private AccessService accessService;
 		private BlogService blogService;
@@ -30,7 +32,7 @@ namespace MoreNote.Controllers
 		private TagService tagService;
 		private NoteCollectionService notebookService;
 		private NoteService noteService;
-		private RepositoryService noteRepository;
+		private NotebookService notebookSevice;
 		public BlogController(AttachService attachService
 			, TokenSerivce tokenSerivce
 			, NoteFileService noteFileService
@@ -43,7 +45,7 @@ namespace MoreNote.Controllers
 			, NoteService noteService
 			, NoteCollectionService notebookService
 			, BlogService blogService
-			, RepositoryService noteRepository
+			, NotebookService noteRepository
 			) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{
@@ -53,7 +55,7 @@ namespace MoreNote.Controllers
 			this.tagService = tagService;
 			this.notebookService = notebookService;
 			this.noteService = noteService;
-			this.noteRepository = noteRepository;
+			this.notebookSevice = noteRepository;
 		}
 
 		private IActionResult render(string templateName, string themePath)
@@ -111,7 +113,7 @@ namespace MoreNote.Controllers
 		}
 
 
-		private UserInfo ActionInitBlogUser(Repository repository)
+		private UserInfo ActionInitBlogUser(Notebook repository)
 		{
 
 			UserInfo blogUser = userService.GetUserByUserId(repository.OwnerId);
@@ -142,7 +144,7 @@ namespace MoreNote.Controllers
 				return Content("查无此人");
 
 			}
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
+			var repository = this.notebookSevice.GetNotebook(blogHostingBundle.BlogId);
 			ViewBag.repository = repository;
 			UserInfo blogUser = ActionInitBlogUser(repository);
 
@@ -188,7 +190,7 @@ namespace MoreNote.Controllers
 
 			}
 			long? notebookId = cateHex.ToLongByHex();
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
+			var repository = this.notebookSevice.GetNotebook(blogHostingBundle.BlogId);
 			ViewBag.repository = repository;
 			UserInfo blogUser = ActionInitBlogUser(repository);
 			if (blogUser == null)
@@ -240,7 +242,7 @@ namespace MoreNote.Controllers
 				page = 1;
 			}
 			ViewBag.page = page;
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
+			var repository = this.notebookSevice.GetNotebook(blogHostingBundle.BlogId);
 			ViewBag.repository = repository;
 			UserInfo blogUser = userService.GetUserByUserId(repository.OwnerId);
 			if (repository == null || repository.IsDelete || !repository.IsBlog)
@@ -300,12 +302,12 @@ namespace MoreNote.Controllers
 				return Content("查无此人");
 
 			}
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
-			ViewBag.repository = repository;
+			var tempBook = this.notebookSevice.GetNotebook(blogHostingBundle.BlogId);
+			ViewBag.repository = tempBook;
 			//添加访问日志
-			await InsertLogAsync($"Blog/Post/{repository.Name}/{noteIdHex}/").ConfigureAwait(false);
+			await InsertLogAsync($"Blog/Post/{tempBook.Name}/{noteIdHex}/").ConfigureAwait(false);
 
-			UserInfo blogUser = ActionInitBlogUser(repository);
+			UserInfo blogUser = ActionInitBlogUser(tempBook);
 			if (blogUser == null)
 			{
 				Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -335,7 +337,7 @@ namespace MoreNote.Controllers
 				return Content("这篇文章已经被删除");
 			}
 
-			if (!noteAndContent.note.IsBlog || !repository.IsBlog)
+			if (!noteAndContent.note.IsBlog || !tempBook.IsBlog)
 			{
 				Response.StatusCode = (int)HttpStatusCode.Unauthorized;
 				return Content("这篇文章已经被取消分享");
@@ -376,7 +378,7 @@ namespace MoreNote.Controllers
 			noteService.AddReadNum(noteId);
 
 			UserBlog userBlog = blogService.GetUserBlog(blogUser.Id);
-			BlogCommon(blogUser.Id, userBlog, blogUser, repository);
+			BlogCommon(blogUser.Id, userBlog, blogUser, tempBook);
 			ViewBag.noteAndContent = noteAndContent;
 			blog.Add("Title", noteAndContent.note.Title);
 			blog.Add("NoteTitle", noteAndContent.note.Title);
@@ -397,7 +399,7 @@ namespace MoreNote.Controllers
 				return Content("查无此人");
 
 			}
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
+			var repository = this.notebookSevice.GetNotebook(blogHostingBundle.BlogId);
 			ViewBag.repository = repository;
 			UserInfo blogUser = ActionInitBlogUser(repository);
 			if (blogUser == null)
@@ -483,7 +485,7 @@ namespace MoreNote.Controllers
 				return Content("查无此人");
 
 			}
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
+			var repository = this.notebookSevice.GetNotebook(blogHostingBundle.BlogId);
 			ViewBag.repository = repository;
 			UserInfo blogUser = ActionInitBlogUser(repository);
 			if (blogUser == null)
@@ -510,7 +512,7 @@ namespace MoreNote.Controllers
 				return Content("查无此人");
 
 			}
-			var repository = this.noteRepository.GetRepository(blogHostingBundle.BlogId);
+			var repository = this.notebookSevice.GetNotebook(blogHostingBundle.BlogId);
 			ViewBag.repository = repository;
 			if (page < 1)
 			{
@@ -563,12 +565,12 @@ namespace MoreNote.Controllers
 		}
 
 
-		public UserBlog BlogCommon(UserInfo userInfo, Repository repository)
+		public UserBlog BlogCommon(UserInfo userInfo, Notebook repository)
 		{
 			UserBlog userBlog = blogService.GetUserBlog(userInfo.Id);
 			return BlogCommon(userInfo.Id, userBlog, userInfo, repository);
 		}
-		public UserBlog BlogCommon(long? userId, UserBlog userBlog, UserInfo userInfo, Repository repository)
+		public UserBlog BlogCommon(long? userId, UserBlog userBlog, UserInfo userInfo, Notebook repository)
 		{
 			if (userInfo.Id == 0)
 			{
@@ -605,7 +607,7 @@ namespace MoreNote.Controllers
 		}
 
 		// 各种地址设置
-		public void SetUrl(UserBlog userBlog, UserInfo user, Repository repository)
+		public void SetUrl(UserBlog userBlog, UserInfo user, Notebook repository)
 		{
 			// 主页 http://leanote.com/blog/life or http://blog.leanote.com/life or http:// xxxx.leanote.com or aa.com
 			// host := c.Request.Request.Host

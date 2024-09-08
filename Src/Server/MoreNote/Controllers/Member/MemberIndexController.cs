@@ -6,11 +6,12 @@ using Morenote.Framework.Filter.Global;
 
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.User;
 
 namespace MoreNote.Controllers.Member
 {
-	[Authorize(Roles = "Admin,SuperAdmin,User")]
+    [Authorize(Roles = "Admin,SuperAdmin,User")]
 	[Route("Member/{action=Index}")]
 	public class MemberIndexController : BaseController
 	{

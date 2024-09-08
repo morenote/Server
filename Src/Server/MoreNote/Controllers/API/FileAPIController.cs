@@ -6,7 +6,7 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
-
+using MoreNote.Logic.Service.Notes;
 using System;
 using System.IO;
 using System.Net;
@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	//[ApiController]
-	public class FileAPIController : APIBaseController
+    //[ApiController]
+    public class FileAPIController : APIBaseController
 	{
 		public NoteService noteService;
 		public WebSiteConfig webSiteConfig;

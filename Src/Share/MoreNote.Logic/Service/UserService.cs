@@ -14,6 +14,7 @@ using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Blog;
 using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
+using MoreNote.Models.Entiys.Leanote.Notes;
 using MoreNote.Models.Enums;
 using MoreNote.Models.Enums.Common.Editor;
 using MoreNote.Models.Model;
@@ -388,7 +389,7 @@ namespace MoreNote.Logic.Service
 		}
 
 		// 得到用户信息+博客主页
-		public UserInfo GetUserAndBlogUrl(long? userId, Repository repository)
+		public UserInfo GetUserAndBlogUrl(long? userId, Notebook repository)
 		{
 			UserInfo user = GetUserInfo(userId);
 
@@ -411,7 +412,7 @@ namespace MoreNote.Logic.Service
 		/// </summary>
 		/// <param name="userId">用户ID</param>
 		/// <returns></returns>
-		public UserAndBlog GetUserAndBlog(long? userId, Repository repository)
+		public UserAndBlog GetUserAndBlog(long? userId, Notebook repository)
 		{
 			var user = this.GetUserInfo(userId);
 			var userBlog = BlogService.GetUserBlog(userId);

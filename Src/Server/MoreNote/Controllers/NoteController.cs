@@ -8,6 +8,7 @@ using MoreNote.Common.ModelBinder;
 using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Entity.Leanote.Notes;
 
@@ -18,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-	[Authorize(Roles = "Admin,SuperAdmin,User")]
+    [Authorize(Roles = "Admin,SuperAdmin,User")]
 	public class NoteController : BaseController
 	{
 		private NoteCollectionService notebookService;

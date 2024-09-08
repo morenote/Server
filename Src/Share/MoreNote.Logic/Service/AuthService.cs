@@ -3,6 +3,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service.DistributedIDGenerator;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.Entity.Leanote.Blog;
 using MoreNote.Models.Entity.Leanote.Notes;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service
 {
-	public class AuthService
+    public class AuthService
 	{
 
 		private DataContext dataContext;

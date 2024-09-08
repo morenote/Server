@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.Security.USBKey;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	[Route("api/Auth/[action]")]
+    [Route("api/Auth/[action]")]
 	public class AuthAPIController : APIBaseController
 	{
 		private AuthService authService;

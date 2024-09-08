@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.User;
 
 using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.Admin
 {
-	[Authorize(Roles = "Admin,SuperAdmin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
 	public class AdminUserController : AdminBaseController
 	{
 		private NoteService noteService;

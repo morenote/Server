@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Logic.Service;
-using MoreNote.Logic.Service.MyRepository;
+using MoreNote.Logic.Service.Notes;
 
 using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	/// <summary>
-	/// 返回虚假的数据，仅供开发调试用途
-	/// </summary>
-	public class MokeController : APIBaseController
+    /// <summary>
+    /// 返回虚假的数据，仅供开发调试用途
+    /// </summary>
+    public class MokeController : APIBaseController
 	{
 		private AttachService attachService;
 		private NoteService noteService;
@@ -20,7 +20,7 @@ namespace MoreNote.Controllers.API.APIV1
 		private NoteCollectionService notebookService;
 		private TrashService trashService;
 		private IHttpContextAccessor accessor;
-		private RepositoryService noteRepositoryService;
+		private NotebookService noteRepositoryService;
 
 		public MokeController(AttachService attachService
 			, TokenSerivce tokenSerivce
@@ -31,7 +31,7 @@ namespace MoreNote.Controllers.API.APIV1
 			NoteService noteService,
 			NoteContentService noteContentService,
 			NoteCollectionService notebookService,
-			RepositoryService noteRepositoryService,
+			NotebookService noteRepositoryService,
 			TrashService trashService
 		   ) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)

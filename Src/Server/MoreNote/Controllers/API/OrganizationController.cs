@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.MyOrganization;
-using MoreNote.Logic.Service.MyRepository;
+
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enums;
 
 namespace MoreNote.Controllers.API
 {
-	/// <summary>
-	/// 组织
-	/// </summary>
-	[Route("api/Organization/[action]")]
+    /// <summary>
+    /// 组织
+    /// </summary>
+    [Route("api/Organization/[action]")]
 	public class OrganizationController : APIBaseController
 	{
 		OrganizationService organizationService;
@@ -25,7 +26,7 @@ namespace MoreNote.Controllers.API
 			, IHttpContextAccessor accessor,
 			NoteCollectionService notebookService,
 			OrganizationService organizationService,
-			RepositoryService noteRepositoryService
+			NotebookService noteRepositoryService
 		   ) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{

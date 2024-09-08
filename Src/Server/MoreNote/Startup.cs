@@ -18,6 +18,7 @@ using Morenote.Framework.Filter.Global;
 
 using MoreNote.autofac;
 using MoreNote.Config.ConfigFile;
+using MoreNote.Config.ConfigFilePath.IMPL;
 using MoreNote.Database;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service;
@@ -39,7 +40,7 @@ namespace MoreNote
 		{
 			
 			
-			ConfigFileService configFileService = new ConfigFileService();
+			ConfigFileService configFileService = new ConfigFileService(new ServerConfigFilePahFinder());
 			config = configFileService.ReadConfig();
 		}
 

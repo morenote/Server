@@ -1,6 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
+using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entiys.Leanote.Notes;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +12,19 @@ using System.Threading.Tasks;
 
 namespace MoreNote.MauiLib.Data
 {
-    public class Post
-    {
-        public int PostId { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-
-        
-    }
+  
     public class SQLiteContext: DbContext
     {
         string connectionString;
 
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<Notebook> Notebook { get; set; }
 
-     
+        public DbSet<NoteCollection> NoteCollection { get; set; }
+
+        public DbSet<Note> Notes { get; set; }
+
+        public DbSet<NoteContent> NoteContents { get; set; }
+
 
         public SQLiteContext(string databaseName)
         {

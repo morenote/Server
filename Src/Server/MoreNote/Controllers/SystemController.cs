@@ -8,12 +8,12 @@ using MoreNote.Config.ConfigFile;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
-
+using MoreNote.Logic.Service.Notes;
 using System.Text.Json;
 
 namespace MoreNote.Controllers
 {
-	public class SystemController : BaseController
+    public class SystemController : BaseController
 	{
 		private ConfigFileService configFileService;
 		public SystemController(AttachService attachService
@@ -83,7 +83,7 @@ namespace MoreNote.Controllers
 					re = new ResponseMessage() { Ok = false, Msg = "webSiteConfig.DataBaseConfig == null" };
 					return Json(re, MyJsonConvert.GetSimpleOptions());
 				}
-				configFileService.Save(webSiteConfig, ConfigFileService.GetConfigPath());
+				configFileService.Save(webSiteConfig, configFileService.GetConfigPath());
 				//登录成功
 				re = new ResponseMessage() { Ok = true };
 				return Json(re, MyJsonConvert.GetSimpleOptions());

@@ -1,5 +1,6 @@
 ﻿using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace MoreNote.Logic.Service.BlogBuilder
 
 		public Task<StringBuilder> WriteNoteBook(NoteCollection notebook, string path, string link, string sapce);
 		public Task<StringBuilder> WriteNote(Note note, string path, string link);
-		public Task WriteNotesRepository(Repository notesRepository);
+		public Task WriteNotesRepository(Notebook notebook);
 
 	}
 }

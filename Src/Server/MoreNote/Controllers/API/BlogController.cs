@@ -7,22 +7,23 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.AutoFac.Property;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.BlogBuilder;
-using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.Enums;
 
 using System.Threading.Tasks;
+using MoreNote.Logic.Service.Notes;
+
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	[Route("api/Blog/[action]")]
+    [Route("api/Blog/[action]")]
 	// [ApiController]
 	public class BlogController : APIBaseController
 	{
 		private TokenSerivce tokenSerivce;
 		private TagService tagService;
 		[Autowired]
-		private RepositoryService noteRepositoryService { get; set; }
+		private NotebookService notebookService { get; set; }
 
 
 		public BlogController(AttachService attachService,
@@ -30,7 +31,7 @@ namespace MoreNote.Controllers.API.APIV1
 			 NoteFileService noteFileService,
 			 UserService userService,
 			 ConfigFileService configFileService,
-			  RepositoryService noteRepositoryService,
+			  NotebookService noteRepositoryService,
 			 IHttpContextAccessor accessor,
 			TagService tagService
 			) :
@@ -61,13 +62,13 @@ namespace MoreNote.Controllers.API.APIV1
 			{
 				return LeanoteJson(re);
 			}
-			verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.ManagementMember);
+			verify = notebookService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.ManagementMember);
 			if (!verify)
 			{
 				return LeanoteJson(re);
 			}
-			var noteRepository = noteRepositoryService.GetRepository(repositoryId.ToLongByHex());
-			await blogBuilder.WriteNotesRepository(noteRepository);
+			var tempNotebook = notebookService.GetNotebook(repositoryId.ToLongByHex());
+			await blogBuilder.WriteNotesRepository(tempNotebook);
 
 			re.Ok = true;
 			return LeanoteJson(re);

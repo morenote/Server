@@ -2,13 +2,14 @@
 
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 
 namespace MoreNote.Controllers.Joplin
 {
-	/// <summary>
-	/// 基础类
-	/// </summary>
-	public class JoplinBaseController : BaseController
+    /// <summary>
+    /// 基础类
+    /// </summary>
+    public class JoplinBaseController : BaseController
 	{
 		public JoplinBaseController(AttachService attachService
 			 , TokenSerivce tokenSerivce

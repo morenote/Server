@@ -4,8 +4,10 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.HySystem;
 using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.OS.Node;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote;
 using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 using System.IO;
 using System.Linq;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 {
-	public class VuePressBuilder : BlogBuilderInterface
+    public class VuePressBuilder : BlogBuilderInterface
 	{
 		private WebSiteConfig configFile;
 		private string workingDirectory;
@@ -177,14 +179,14 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 			return stringBuilder;
 		}
 
-		public async Task WriteNotesRepository(Repository notesRepository)
+		public async Task WriteNotesRepository(Notebook parmNotebook)
 		{
 			//工作目录
 			if (!Directory.Exists(this.workingDirectory))
 			{
 				Directory.CreateDirectory(this.workingDirectory);
 			}
-			var notesRepositoryIdHex = notesRepository.Id.ToHex();
+			var notesRepositoryIdHex = parmNotebook.Id.ToHex();
 			var notesRepositoryPath = this.workingDirectory + notesRepositoryIdHex;
 			if (!Directory.Exists(notesRepositoryPath))
 			{
@@ -197,7 +199,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 				Directory.CreateDirectory(notesRepositoryPath);
 			}
 			//递归生成md
-			var books = notebookService.GetRootNotebooks(notesRepository.Id);
+			var books = notebookService.GetRootNotebooks(parmNotebook.Id);
 			StringBuilder sb = new StringBuilder();
 			sb.Append("[");
 			foreach (var notebook in books)
@@ -215,7 +217,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 			}
 			sb.Append("]");
 			var readMePath = Path.Join(docsPath, "README.md");
-			File.WriteAllText(readMePath, notesRepository.Description);
+			File.WriteAllText(readMePath, parmNotebook.Description);
 			//生成配置文件
 			var vuePressPath = Path.Join(docsPath, ".vuepress");
 			if (!Directory.Exists(vuePressPath))
@@ -226,7 +228,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 			var configValue = File.ReadAllText(this.configFile.BlogConfig.BlogBuilderVuePressTemplate + "config.ts");
 			//替换配置文件
 			configValue = configValue.Replace("@sidebar", sb.ToString());
-			configValue = configValue.Replace("@title", notesRepository.Name);
+			configValue = configValue.Replace("@title", parmNotebook.Name);
 			File.WriteAllText(configPath, configValue);
 			//生成侧边栏
 			await Build(notesRepositoryPath);

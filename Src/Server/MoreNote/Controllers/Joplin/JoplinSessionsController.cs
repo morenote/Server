@@ -5,6 +5,7 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Models.DTO.Joplin;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.User;
 
 using System.Net;
@@ -12,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.Joplin
 {
-	/// <summary>
-	/// Sesssion API
-	/// </summary>
-	public class JoplinSessionsController : JoplinBaseController
+    /// <summary>
+    /// Sesssion API
+    /// </summary>
+    public class JoplinSessionsController : JoplinBaseController
 	{
 		private AuthService AuthService { get; set; }
 

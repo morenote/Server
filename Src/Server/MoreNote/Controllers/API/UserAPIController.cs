@@ -8,6 +8,7 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.ApiRequest;
@@ -20,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-	[Route("api/User/[action]")]
+    [Route("api/User/[action]")]
 	public class UserAPIController : APIBaseController
 	{
 		private AuthService authService;

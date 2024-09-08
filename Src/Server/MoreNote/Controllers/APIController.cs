@@ -25,10 +25,11 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using UpYunLibrary.ContentRecognition;
+using MoreNote.Logic.Service.Notes;
 
 namespace MoreNote.Controllers
 {
-	public class APIController : BaseController
+    public class APIController : BaseController
 	{
 		private AccessService AccessService { get; set; }
 

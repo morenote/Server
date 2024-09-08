@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Models.DTO.Joplin;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 
 namespace MoreNote.Controllers.Joplin
 {
-	public class JoplinApiController : JoplinBaseController
+    public class JoplinApiController : JoplinBaseController
 	{
 		private AuthService AuthService { get; set; }
 

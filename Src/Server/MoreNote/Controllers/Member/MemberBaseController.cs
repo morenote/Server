@@ -2,10 +2,11 @@
 
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 // ReSharper disable All
 namespace MoreNote.Controllers.Member
 {
-	public class MemberBaseController : BaseController
+    public class MemberBaseController : BaseController
 	{
 		public MemberBaseController(AttachService attachService
 		  , TokenSerivce tokenSerivce

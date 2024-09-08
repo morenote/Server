@@ -5,6 +5,7 @@ using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service.FileStoreService;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.Notes;
 
 using System;
@@ -17,7 +18,7 @@ using Z.EntityFramework.Plus;
 
 namespace MoreNote.Logic.Service
 {
-	public class AttachService
+    public class AttachService
 	{
 		private DataContext dataContext;
 		public NoteService NoteService { get; set; }

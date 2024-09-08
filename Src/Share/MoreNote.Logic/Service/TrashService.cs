@@ -1,11 +1,12 @@
 ﻿using MoreNote.Logic.Database;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.Notes;
 
 using System;
 
 namespace MoreNote.Logic.Service
 {
-	public class TrashService
+    public class TrashService
 	{
 
 		DataContext dataContext;

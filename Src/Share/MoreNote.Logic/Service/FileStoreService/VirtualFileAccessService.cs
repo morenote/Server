@@ -1,5 +1,6 @@
 ﻿using MoreNote.Logic.Database;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace MoreNote.Logic.Service.FileStoreService
 			this.dataContext = dataContext;
 		}
 
-		public List<VirtualFileInfo> GetRootVFiles(Repository repository)
+		public List<VirtualFileInfo> GetRootVFiles(Notebook repository)
 		{
 			var list = this.dataContext.VirtualFileInfo.Where(b => b.Id == repository.Id && b.ParentId == null && b.IsDelete == false).ToList();
 			return list;

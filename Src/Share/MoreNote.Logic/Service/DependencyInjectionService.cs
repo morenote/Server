@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-
+using MoreNote.Logic.Service.Notes;
 using System;
 
 namespace MoreNote.Logic.Service
 {
-	/// <summary>
-	/// 依赖注入服务
-	/// </summary>
-	public class DependencyInjectionService
+    /// <summary>
+    /// 依赖注入服务
+    /// </summary>
+    public class DependencyInjectionService
 	{
 		public IServiceProvider ServiceProvider { get; set; }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
 
@@ -11,7 +12,7 @@ using System;
 
 namespace MoreNote.Controllers.Member
 {
-	[Route("member/user/[action]")]
+    [Route("member/user/[action]")]
 	[Authorize(Roles = "Admin,SuperAdmin,User")]
 	public class MemberUserController : BaseController
 	{

@@ -34,6 +34,8 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Share\MoreNote.Config\MoreNote.Config.csproj" />
+	  <ProjectReference Include="..\..\Share\MoreNote.Logic\MoreNote.Logic.csproj" />
+	  <ProjectReference Include="..\..\Share\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
 	  <ProjectReference Include="..\MoreNote.SampleLibrary\MoreNote.SampleLibrary.csproj" />
 	</ItemGroup>
 

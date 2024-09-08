@@ -5,8 +5,9 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Controllers.API.APIV1;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Logic.Service.MyOrganization;
-using MoreNote.Logic.Service.MyRepository;
+
 using MoreNote.Logic.Service.Security.USBKey.CSP;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.USBKey;
@@ -21,15 +22,15 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API
 {
-	/// <summary>
-	/// 笔记仓库
-	/// </summary>
+    /// <summary>
+    /// 笔记仓库
+    /// </summary>
 
-	[Route("api/Repository/[action]")]
+    [Route("api/Repository/[action]")]
 	public class RepositoryController : APIBaseController
 	{
 		private NoteCollectionService notebookService;
-		private RepositoryService noteRepositoryService;
+		private NotebookService noteRepositoryService;
 		private OrganizationService organizationService;
 		private EPassService ePassService;
 		private DataSignService dataSignService;
@@ -47,7 +48,7 @@ namespace MoreNote.Controllers.API
 			, ConfigFileService configFileService
 			, IHttpContextAccessor accessor,
 			NoteCollectionService notebookService,
-			RepositoryService noteRepositoryService,
+			NotebookService noteRepositoryService,
 			 OrganizationService organizationService,
 			   EPassService ePassService,
 			   DataSignService dataSignService
@@ -116,7 +117,7 @@ namespace MoreNote.Controllers.API
 				re.Msg = "Operate is not Equals ";
 				return LeanoteJson(re);
 			}
-			var rep = noteRepositoryService.GetRepository(repositoryId.ToLongByHex());
+			var rep = noteRepositoryService.GetNotebook(repositoryId.ToLongByHex());
 			re.Ok = (rep != null);
 			re.Data = rep;
 			re.Msg = "";

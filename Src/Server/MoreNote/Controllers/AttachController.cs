@@ -9,7 +9,7 @@ using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
 using MoreNote.Logic.Service.FileStoreService;
-
+using MoreNote.Logic.Service.Notes;
 using System;
 using System.IO;
 using System.Text;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-	public class AttachController : BaseController
+    public class AttachController : BaseController
 	{
 		private ConfigFileService configFileService;
 		private NoteService noteService;

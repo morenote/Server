@@ -17,6 +17,7 @@ using MoreNote.Models.Entity.Leanote.Security;
 using MoreNote.Models.Entity.Leanote.Synchronized;
 using MoreNote.Models.Entity.Leanote.User;
 using MoreNote.Models.Entity.Security.FIDO2;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 namespace MoreNote.Logic.Database
 {
@@ -121,7 +122,8 @@ namespace MoreNote.Logic.Database
 		/// <summary>
 		/// 笔记本
 		/// </summary>
-		public DbSet<NoteCollection> Notebook { get; set; }
+		public DbSet<Notebook> Notebook { get; set; }
+		public DbSet<NoteCollection> NoteCollection { get; set; }
 		/// <summary>
 		/// 笔记图片
 		/// </summary>

@@ -5,13 +5,14 @@ using MoreNote.Common.Utils;
 using MoreNote.Framework.Controllers;
 using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service;
+using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entity.Leanote.User;
 
 using System.Threading.Tasks;
 
 namespace MoreNote.Controllers
 {
-	public class UserController : BaseController
+    public class UserController : BaseController
 	{
 		public UserController(AttachService attachService
 			, TokenSerivce tokenSerivce
