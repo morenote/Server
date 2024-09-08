@@ -1,15 +1,18 @@
 ﻿@inherits LayoutComponentBase
 
+<Spin Delay=500 Tip="Loading..." Spinning="loading" Size="large" class="container">
+    <div class="header">
+        <AppHeaderComponent></AppHeaderComponent>
+    </div>
+    <div class="content">
+        <div class="aside">
+            <AppAsideBarComponent></AppAsideBarComponent>
+        </div>
+        <div class="main">
+            <AppEditorTabComponent></AppEditorTabComponent>
+        </div>
+    </div>
+    <div class="footer">footer</div>
+   
+</Spin>
 
-<div class="header">
-    <AppHeaderComponent></AppHeaderComponent>
-</div>
-<div class="content">
-    <div class="aside">
-        <AppAsideBarComponent></AppAsideBarComponent>
-    </div>
-    <div class="main"  >
-        <AppEditorTabComponent></AppEditorTabComponent>
-    </div>
-</div>
-<div class="footer">footer</div>
