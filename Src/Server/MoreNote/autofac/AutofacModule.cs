@@ -111,7 +111,7 @@ namespace MoreNote.autofac
 					instance.CommonService = e.Context.Resolve<CommonService>();
 					instance.UserService = e.Context.Resolve<UserService>();
 					instance.InitServices = e.Context.Resolve<InitServices>();
-					instance.NotebookService = e.Context.Resolve<NoteCollectionService>();
+					instance.NoteCollectionService = e.Context.Resolve<NoteCollectionService>();
 					instance.TagService = e.Context.Resolve<TagService>();
 					instance.NoteContentService = e.Context.Resolve<NoteContentService>();
 					instance.ShareService = e.Context.Resolve<ShareService>();
@@ -165,7 +165,7 @@ namespace MoreNote.autofac
 			builder.RegisterType<OrganizationTeamService>();
 
 			builder.RegisterType<NotebookService>();
-			builder.RegisterType<RepositoryMemberRoleService>();
+			builder.RegisterType<NotebookMemberRoleService>();
 
 			builder.RegisterType<PasswordStoreFactory>();
 

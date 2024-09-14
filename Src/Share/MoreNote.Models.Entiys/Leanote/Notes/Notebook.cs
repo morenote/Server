@@ -36,9 +36,9 @@ namespace MoreNote.Models.Entiys.Leanote.Notes
         public string? License { get; set; }//开源协议
 
         [Column("owner_type")]
-        public RepositoryOwnerType RepositoryOwnerType { get; set; }//仓库拥有者类型
+        public NotebookOwnerType NotebookOwnerType { get; set; }//仓库拥有者类型
         [Column("repository_type")]
-        public RepositoryType RepositoryType { get; set; }//仓库类型
+        public NotebookType NotebookType { get; set; }//仓库类型
 
         [Column("owner_id")]
         public long? OwnerId { get; set; }//拥有者

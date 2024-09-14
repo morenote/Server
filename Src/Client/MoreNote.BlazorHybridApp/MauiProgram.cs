@@ -28,6 +28,7 @@ namespace MoreNote.BlazorHybridApp
             {
                 builder.RegisterModule<BlazorAutofacModule>();
             });
+
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

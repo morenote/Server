@@ -69,7 +69,7 @@ namespace MoreNote.Controllers.API
 				apiRe.Msg = "";
 				return LeanoteJson(apiRe);
 			}
-			var verify = notebookService.Verify(repositoryHexId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.DeleteRepository);
+			var verify = notebookService.Verify(repositoryHexId.ToLongByHex(), user.Id, NotebookAuthorityEnum.DeleteRepository);
 			if (verify == false)
 			{
 				return LeanoteJson(apiRe);

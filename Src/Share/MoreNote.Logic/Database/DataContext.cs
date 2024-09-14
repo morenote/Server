@@ -10,7 +10,7 @@ using MoreNote.Models.Entity.Leanote.Management;
 using MoreNote.Models.Entity.Leanote.Management.Email;
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
 using MoreNote.Models.Entity.Leanote.MyOrganization;
-using MoreNote.Models.Entity.Leanote.MyRepository;
+using MoreNote.Models.Entity.Leanote.AccessControl;
 using MoreNote.Models.Entity.Leanote.Notes;
 using MoreNote.Models.Entity.Leanote.Pay;
 using MoreNote.Models.Entity.Leanote.Security;
@@ -153,17 +153,17 @@ namespace MoreNote.Logic.Database
 		/*******************NotesRepository***********************/
 
 		//笔记仓库
-		public DbSet<Repository> Repository { get; set; }
+		//public DbSet<Repository> Repository { get; set; }
 		//仓库成员角色
-		public DbSet<RepositoryMemberRole> RepositoryMemberRole { get; set; }
+		public DbSet<NotebookMemberRole> RepositoryMemberRole { get; set; }
         /// <summary>
         /// 仓库成员角色映射
         /// </summary>
-        public DbSet<RepositoryMemberRoleMapping> RepositoryMemberRoleMapping { get; set; }
+        public DbSet<NotebookMemberRoleMapping> RepositoryMemberRoleMapping { get; set; }
         /// <summary>
         /// 仓库成员
         /// </summary>
-        public DbSet<RepositoryMember> RepositoryMember { get; set; }
+        public DbSet<NotebookMember> RepositoryMember { get; set; }
 
 		/****************************************************************/
 

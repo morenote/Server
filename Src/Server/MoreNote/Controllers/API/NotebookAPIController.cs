@@ -273,7 +273,7 @@ namespace MoreNote.Controllers.API.APIV1
 				return LeanoteJson(re);
 			}
 			//鉴别用户是否有权限
-			verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
+			verify = noteRepositoryService.Verify(repositoryId, user.Id, NotebookAuthorityEnum.Write);
 			if (verify == false)
 			{
 				return LeanoteJson(re);
@@ -309,7 +309,7 @@ namespace MoreNote.Controllers.API.APIV1
 				//var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
 
 				//检查用户是否对仓库具有读权限
-				if (noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Read))
+				if (noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, NotebookAuthorityEnum.Read))
 				{
 					var books = notebookService.GetRootNotebooks(repositoryId.ToLongByHex());
 					apiRe.Ok = true;
@@ -343,7 +343,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 				}
 				//检查用户是否对仓库具有读权限
-				if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Read))
+				if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, NotebookAuthorityEnum.Read))
 				{
 					var note = notebookService.GetNotebookChildren(notebookId.ToLongByHex());
 					apiRe.Ok = true;
@@ -392,7 +392,7 @@ namespace MoreNote.Controllers.API.APIV1
 			if (string.IsNullOrEmpty(parentNotebookId))
 			{
 
-				verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Write);
+				verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.Id, NotebookAuthorityEnum.Write);
 				repositoryId = noteRepositoryId.ToLongByHex();
 			}
 			else
@@ -407,7 +407,7 @@ namespace MoreNote.Controllers.API.APIV1
 				{
 					return LeanoteJson(re);
 				}
-				verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
+				verify = noteRepositoryService.Verify(repositoryId, user.Id, NotebookAuthorityEnum.Write);
 				parentId = parentNotebook.Id;
 			}
 
@@ -470,7 +470,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 
 			var repositoryId = notebook.NotesRepositoryId;
-			verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
+			verify = noteRepositoryService.Verify(repositoryId, user.Id, NotebookAuthorityEnum.Write);
 			if (!verify)
 			{
 				return LeanoteJson(re);

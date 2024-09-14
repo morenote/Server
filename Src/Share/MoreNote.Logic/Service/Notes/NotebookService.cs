@@ -3,6 +3,7 @@ using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.MyOrganization;
 using MoreNote.Logic.Service.MyRepository;
 using MoreNote.Models.Entity.Leanote;
+using MoreNote.Models.Entity.Leanote.AccessControl;
 using MoreNote.Models.Entiys.Leanote.Notes;
 using MoreNote.Models.Enums;
 
@@ -14,9 +15,10 @@ namespace MoreNote.Logic.Service.Notes
 {
     public class NotebookService
     {
+
         private DataContext dataContext;
         private OrganizationTeamService organizationTeamService;
-        private RepositoryMemberRoleService memberRoleService;
+        private NotebookMemberRoleService memberRoleService;
         private ConfigFileService ConfigFileService;
         private IDistributedIdGenerator idGenerator;
         private SubmitTreeService SubmitTreeService;
@@ -24,7 +26,7 @@ namespace MoreNote.Logic.Service.Notes
         public NotebookService(DataContext dataContext,
             OrganizationTeamService organizationTeamService,
             ConfigFileService configFileService,
-            RepositoryMemberRoleService repositoryMemberRoleService,
+            NotebookMemberRoleService repositoryMemberRoleService,
             IDistributedIdGenerator idGenerator,
             SubmitTreeService submitTreeService)
         {
@@ -41,9 +43,9 @@ namespace MoreNote.Logic.Service.Notes
             return dataContext.Notebook.Where(b => b.Id == Id && b.IsDelete == false).FirstOrDefault();
         }
 
-        public List<Repository> GetRepositoryList(long? userId, RepositoryType repositoryType)
+        public List<Notebook> GetNotebookList(long? userId, NotebookType repositoryType)
         {
-            var list = dataContext.Repository.Where(b => b.OwnerId == userId && b.IsDelete == false && b.RepositoryType == repositoryType).ToList();
+            var list = dataContext.Notebook.Where(b => b.OwnerId == userId && b.IsDelete == false && b.NotebookType == repositoryType).ToList();
             return list;
         }
         /// <summary>
@@ -52,21 +54,21 @@ namespace MoreNote.Logic.Service.Notes
         /// <param name="userId"></param>
         /// <param name="respositoryId"></param>
         /// <returns></returns>
-        public RepositoryMemberRole GetRepositoryMemberRole(long? userId, long? respositoryId)
+        public NotebookMemberRole GetNotebookMemberRole(long? userId, long? respositoryId)
         {
-            var members = GetRepositoryMember(respositoryId);
+            var members = GetNotebookMember(respositoryId);
 
             foreach (var member in members)
             {
                 if (member.RepositoryAccessorType == RepositoryMemberType.Personal && member.AccessorId == userId)
                 {
-                    return GetRepositoryMemberRole(member.RoleId);
+                    return GetNotebookMemberRole(member.RoleId);
                 }
                 else
                 {
                     if (organizationTeamService.ExistUser(member.AccessorId, userId))
                     {
-                        return GetRepositoryMemberRole(member.RoleId);
+                        return GetNotebookMemberRole(member.RoleId);
                     }
                 }
             }
@@ -74,19 +76,19 @@ namespace MoreNote.Logic.Service.Notes
             return null;
         }
 
-        public RepositoryMemberRole GetRepositoryMemberRole(long? roleId)
+        public NotebookMemberRole GetNotebookMemberRole(long? roleId)
         {
             var role = dataContext.RepositoryMemberRole.Where(b => b.Id == roleId).FirstOrDefault();
             return role;
         }
         /// <summary>
-        /// 获取仓库的全部成员
+        /// 获取的全部成员
         /// </summary>
         /// <param name="respositoryId"></param>
         /// <returns></returns>
-        public List<RepositoryMember> GetRepositoryMember(long? respositoryId)
+        public List<NotebookMember> GetNotebookMember(long? respositoryId)
         {
-            var members = dataContext.RepositoryMember.Where(b => b.RespositoryId == respositoryId).ToList();
+            var members = dataContext.RepositoryMember.Where(b => b.NotebookId == respositoryId).ToList();
             return members;
         }
         /// <summary>
@@ -95,55 +97,55 @@ namespace MoreNote.Logic.Service.Notes
         /// <param name="respositoryId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public HashSet<RepositoryAuthorityEnum> GetRepositoryAccessPermissions(long? respositoryId, long? userId)
+        public HashSet<NotebookAuthorityEnum> GetRepositoryAccessPermissions(long? respositoryId, long? userId)
         {
-            var memerRole = GetRepositoryMemberRole(respositoryId);
+            var memerRole = GetNotebookMemberRole(respositoryId);
             if (memerRole == null)
             {
-                return new HashSet<RepositoryAuthorityEnum>();
+                return new HashSet<NotebookAuthorityEnum>();
 
             }
             var set = memberRoleService.GetRepositoryAuthoritySet(memerRole.Id);
             return set;
         }
 
-        private void AddRepository(Repository repository)
+        private void AddNotebook(Notebook notebook)
         {
-            dataContext.Repository.Add(repository);
+            dataContext.Notebook.Add(notebook);
             dataContext.SaveChanges();
         }
 
-        public Repository CreateRepository(Repository repository)
+        public Notebook CreateNotebook(Notebook notebook)
         {
-            var addRepository = new Repository()
+            var tempBook = new Notebook()
             {
                 Id = idGenerator.NextId(),
-                Name = repository.Name,
-                Description = repository.Description,
-                License = repository.License,
-                RepositoryOwnerType = repository.RepositoryOwnerType,
-                RepositoryType = repository.RepositoryType,
-                OwnerId = repository.OwnerId,
-                Visible = repository.Visible,
+                Name = notebook.Name,
+                Description = notebook.Description,
+                License = notebook.License,
+                NotebookOwnerType = notebook.NotebookOwnerType,
+                NotebookType = notebook.NotebookType,
+                OwnerId = notebook.OwnerId,
+                Visible = notebook.Visible,
                 CreateTime = DateTime.Now,
-                Avatar = repository.Avatar,
-                VirtualFileBasePath = repository.VirtualFileBasePath,
-                VirtualFileAccessor = repository.VirtualFileAccessor
+                Avatar = notebook.Avatar,
+                VirtualFileBasePath = notebook.VirtualFileBasePath,
+                VirtualFileAccessor = notebook.VirtualFileAccessor
 
             };
-            AddRepository(addRepository);
-            SubmitTreeService.InitTree(addRepository.Id);//初始化这个仓库的提交树
-            return addRepository;
+            AddNotebook(tempBook);
+            SubmitTreeService.InitTree(tempBook.Id);//初始化这个仓库的提交树
+            return tempBook;
         }
-        public void DeleteRepository(long? respositoryId)
+        public void DeleteNotebook(long? id)
         {
-            dataContext.Repository.Where(b => b.Id == respositoryId).UpdateFromQuery(x => new Repository() { IsDelete = true });
+            dataContext.Notebook.Where(b => b.Id == id).UpdateFromQuery(x => new Notebook() { IsDelete = true });
             dataContext.SaveChanges();
         }
 
-        public bool ExistRepositoryByName(long? ownerId, string name)
+        public bool ExistNotebookByName(long? ownerId, string name)
         {
-            return dataContext.Repository.Where(x => x.Name == name && x.OwnerId == ownerId && x.IsDelete == false).Any();
+            return dataContext.Notebook.Where(x => x.Name == name && x.OwnerId == ownerId && x.IsDelete == false).Any();
         }
 
         private string GetDefaultAvatar()
@@ -159,7 +161,7 @@ namespace MoreNote.Logic.Service.Notes
         /// <param name="userId"></param>
         /// <param name="repositoryAuthorityEnum"></param>
         /// <returns></returns>
-        public bool Verify(long? respositoryId, long? userId, RepositoryAuthorityEnum repositoryAuthorityEnum)
+        public bool Verify(long? respositoryId, long? userId, NotebookAuthorityEnum repositoryAuthorityEnum)
         {
             var respository = GetNotebook(respositoryId);
             if (respository == null)
@@ -171,7 +173,7 @@ namespace MoreNote.Logic.Service.Notes
                 return true;//拥有者 拥有任意权限
             }
             //如果是公开仓库，表示任意人都有读取权限
-            if (respository.Visible && repositoryAuthorityEnum == RepositoryAuthorityEnum.Read)
+            if (respository.Visible && repositoryAuthorityEnum == NotebookAuthorityEnum.Read)
             {
                 return true;
             }
@@ -184,7 +186,7 @@ namespace MoreNote.Logic.Service.Notes
             return accessPermissions.Contains(repositoryAuthorityEnum);
         }
 
-        public bool Verify(long? respositoryId, long? userId, HashSet<RepositoryAuthorityEnum> repositoryAuthorityEnumList)
+        public bool Verify(long? respositoryId, long? userId, HashSet<NotebookAuthorityEnum> repositoryAuthorityEnumList)
         {
 
             var respository = GetNotebook(respositoryId);
@@ -209,10 +211,10 @@ namespace MoreNote.Logic.Service.Notes
             return true;
         }
         //增加仓库计数器
-        public int IncrUsn(long? repositoryId)
+        public int IncrUsn(long? id)
         {
-            var repository = dataContext.Repository
-               .Where(b => b.Id == repositoryId).FirstOrDefault();
+            var repository = dataContext.Notebook
+               .Where(b => b.Id == id).FirstOrDefault();
             repository.Usn += 1;
             dataContext.SaveChanges();
 

@@ -1,9 +1,9 @@
 ﻿namespace MoreNote.Models.Enums
 {
 	/// <summary>
-	/// 仓库访问权限枚举
+	/// 访问权限枚举
 	/// </summary>
-	public enum RepositoryAuthorityEnum
+	public enum NotebookAuthorityEnum
 	{
 		/**
          * 拥有者默认具有超级管理员权限

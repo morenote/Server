@@ -29,7 +29,7 @@ namespace MoreNote.Logic.Service.Notes
         public UserService UserService { get; set; }
         public InitServices InitServices { get; set; }
 
-        public NoteCollectionService NotebookService { get; set; }
+        public NoteCollectionService NoteCollectionService { get; set; }
 
         public TagService TagService { get; set; }
         public NoteContentService NoteContentService { get; set; }
@@ -779,7 +779,7 @@ namespace MoreNote.Logic.Service.Notes
             // api会传IsBlog, web不会传
             if (!fromAPI)
             {
-                note.IsBlog = NotebookService.IsBlog(notebookId);
+                note.IsBlog = NoteCollectionService.IsBlog(notebookId);
             }
 
             //	if note.IsBlog {
@@ -793,7 +793,7 @@ namespace MoreNote.Logic.Service.Notes
                 TagService.AddTags(note.UserId, note.Tags);
             }
             // recount notebooks' notes number
-            NotebookService.ReCountNotebookNumberNotes(notebookId);
+            NoteCollectionService.ReCountNotebookNumberNotes(notebookId);
             return note;
         }
 
@@ -936,8 +936,8 @@ namespace MoreNote.Logic.Service.Notes
             var notebookId = needUpdate.NotebookId;
             if (notebookId != null)
             {
-                NotebookService.ReCountNotebookNumberNotes(oldNote.NotebookId);
-                NotebookService.ReCountNotebookNumberNotes(notebookId);
+                NoteCollectionService.ReCountNotebookNumberNotes(oldNote.NotebookId);
+                NoteCollectionService.ReCountNotebookNumberNotes(notebookId);
             }
 
             msg = string.Empty;
@@ -1061,8 +1061,8 @@ namespace MoreNote.Logic.Service.Notes
                 {
                     // 如果修改了notebookId, 则更新notebookId'count
                     // 两方的notebook也要修改
-                    NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
-                    NotebookService.ReCountNotebookNumberNotes(noteBookId);
+                    NoteCollectionService.ReCountNotebookNumberNotes(note.NotebookId);
+                    NoteCollectionService.ReCountNotebookNumberNotes(noteBookId);
                     note.NotebookId = noteBookId;
                 }
             }
@@ -1107,7 +1107,7 @@ namespace MoreNote.Logic.Service.Notes
             if (apiNote.IsTrash != null)
             {
                 note.IsTrash = apiNote.IsTrash.GetValueOrDefault(false);
-                NotebookService.ReCountNotebookNumberNotes(note.NotebookId);
+                NoteCollectionService.ReCountNotebookNumberNotes(note.NotebookId);
             }
             if (apiNote.ExtendedName != null)
             {
@@ -1224,11 +1224,11 @@ namespace MoreNote.Logic.Service.Notes
             //更新blog状态
             updateToNotebookBlog(noteId, notebookId, userId);
             // recount notebooks' notes number
-            NotebookService.ReCountNotebookNumberNotes(notebookId);
+            NoteCollectionService.ReCountNotebookNumberNotes(notebookId);
             // 之前不是trash才统计, trash本不在统计中的
             if (!note.IsTrash && notebookId != preNotebookId)
             {
-                NotebookService.ReCountNotebookNumberNotes(preNotebookId);
+                NoteCollectionService.ReCountNotebookNumberNotes(preNotebookId);
             }
             return note;
         }
@@ -1243,7 +1243,7 @@ namespace MoreNote.Logic.Service.Notes
             {
                 return true;
             }
-            if (NotebookService.IsBlog(notebookId))
+            if (NoteCollectionService.IsBlog(notebookId))
             {
                 var note = dataContext.Note.Where(b => b.Id == noteId).FirstOrDefault();
                 if (note == null)

@@ -3,7 +3,7 @@
 	/// <summary>
 	/// 仓库拥有者类型
 	/// </summary>
-	public enum RepositoryOwnerType
+	public enum NotebookOwnerType
 	{
 		//个人仓库
 		Personal = 0x01,

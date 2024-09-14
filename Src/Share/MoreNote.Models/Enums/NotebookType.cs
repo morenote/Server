@@ -3,7 +3,7 @@
 	/// <summary>
 	/// 仓库拥有者类型
 	/// </summary>
-	public enum RepositoryType
+	public enum NotebookType
 	{
 		//笔记仓库
 		NoteRepository = 0x01,

@@ -4,13 +4,13 @@ using MoreNote.Models.Enums;
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MoreNote.Models.Entity.Leanote
+namespace MoreNote.Models.Entity.Leanote.AccessControl
 {
 	/// <summary>
 	/// 笔记仓库
 	/// </summary>
 	[Table("repository")]
-	public class Repository : BaseEntity
+	 class Repository : BaseEntity
 	{
 
 
@@ -32,9 +32,9 @@ namespace MoreNote.Models.Entity.Leanote
 		public string? License { get; set; }//开源协议
 
 		[Column("owner_type")]
-		public RepositoryOwnerType RepositoryOwnerType { get; set; }//仓库拥有者类型
+		public NotebookOwnerType RepositoryOwnerType { get; set; }//仓库拥有者类型
 		[Column("repository_type")]
-		public RepositoryType RepositoryType { get; set; }//仓库类型
+		public NotebookType RepositoryType { get; set; }//仓库类型
 
 		[Column("owner_id")]
 		public long? OwnerId { get; set; }//拥有者

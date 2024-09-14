@@ -1,6 +1,7 @@
 ﻿@namespace MoreNote.BlazorHybridApp.Components.WebComponents.MyModal
 @using System.ComponentModel.DataAnnotations
 @using System.Text.Json
+@using MoreNote.Logic.Service.Notes
 
 <Modal Title="新建笔记本"
        Draggable="true"
@@ -11,6 +12,7 @@
 </Modal>
 
 @inject ModalService ModelService;
+@inject NotebookService notebookService;
 
 @code {
       RenderFragment FormTemplate()
@@ -49,6 +51,9 @@
     {
         _visible = true;
         StateHasChanged();
+
+       
+
     }
 
     /// <summary>
@@ -57,9 +62,11 @@
     /// <param name="e"></param>
     private async Task HandleOk(MouseEventArgs e)
     {
+
         _submitting = true;
         await Task.Delay(1000);
         _form.Submit();
+
     }
 
     private void HandleCancel(MouseEventArgs e)

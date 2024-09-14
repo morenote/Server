@@ -2,13 +2,13 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MoreNote.Models.Entity.Leanote
+namespace MoreNote.Models.Entity.Leanote.AccessControl
 {
 	/// <summary>
-	/// 仓库访问权限角色
+	/// 访问权限角色
 	/// </summary>
-	[Table("repository_member_Role")]
-	public class RepositoryMemberRole : BaseEntity
+	[Table("notebook_member_Role")]
+	public class NotebookMemberRole : BaseEntity
 	{
 
 
@@ -20,8 +20,8 @@ namespace MoreNote.Models.Entity.Leanote
 		public string? RoleName { set; get; }
 
 
-		[Column("repository_id")]
-		public long? RepositoryId { get; set; } // 仓库id
+		[Column("notebook_id")]
+		public long? NotebookId { get; set; } // 仓库id
 
 	}
 }

@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MoreNote.Models.Entiys.Leanote.Notes;
 
 namespace MoreNote.Controllers.API
 {
@@ -73,7 +74,7 @@ namespace MoreNote.Controllers.API
 		/// <returns></returns>
 		[HttpGet]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult GetMyRepository(string userId, string token, RepositoryType repositoryType)
+		public IActionResult GetMyRepository(string userId, string token, NotebookType repositoryType)
 		{
 			var apiRe = new ApiResponseDTO()
 			{
@@ -83,7 +84,7 @@ namespace MoreNote.Controllers.API
 			var user = tokenSerivce.GetUserByToken(token);
 			if (user != null)
 			{
-				var rep = noteRepositoryService.GetRepositoryList(user.Id, repositoryType);
+				var rep = noteRepositoryService.GetNotebookList(user.Id, repositoryType);
 				apiRe = new ApiResponseDTO()
 				{
 					Ok = true,
@@ -111,7 +112,7 @@ namespace MoreNote.Controllers.API
 			};
 			var user = tokenSerivce.GetUserByToken(token);
 
-			var verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.Read);
+			var verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, NotebookAuthorityEnum.Read);
 			if (!verify && user != null)
 			{
 				re.Msg = "Operate is not Equals ";
@@ -142,21 +143,21 @@ namespace MoreNote.Controllers.API
 				{
 					return LeanoteJson(re);
 				}
-				verify = dataSign.SignData.Operate.Equals("/api/Repository/CreateRepository");
+				verify = dataSign.SignData.Operate.Equals("/api/Notebook/CreateNotebook");
 				if (!verify)
 				{
 					re.Msg = "Operate is not Equals ";
 					return LeanoteJson(re);
 				}
 				//签名存证
-				this.dataSignService.AddDataSign(dataSign, "CreateRepository");
+				this.dataSignService.AddDataSign(dataSign, "CreateNotebook");
 			}
 
 			var user = tokenSerivce.GetUserByToken(token);
-			var repository = JsonSerializer.Deserialize<Repository>(data, MyJsonConvert.GetLeanoteOptions());
-			if (repository.RepositoryOwnerType == RepositoryOwnerType.Organization)
+			var Notebook = JsonSerializer.Deserialize<Notebook>(data, MyJsonConvert.GetLeanoteOptions());
+			if (Notebook.NotebookOwnerType == NotebookOwnerType.Organization)
 			{
-				var orgId = repository.OwnerId;
+				var orgId = Notebook.OwnerId;
 				verify = organizationService.Verify(orgId, user.Id, OrganizationAuthorityEnum.AddRepository);
 				if (verify == false)
 				{
@@ -165,9 +166,9 @@ namespace MoreNote.Controllers.API
 					return LeanoteJson(re);
 				}
 			}
-			if (repository.RepositoryOwnerType == RepositoryOwnerType.Personal)
+			if (Notebook.NotebookOwnerType == NotebookOwnerType.Personal)
 			{
-				if (repository.OwnerId != user.Id)
+				if (Notebook.OwnerId != user.Id)
 				{
 					re.Msg = "您没有权限创建这个仓库";
 					return LeanoteJson(re);
@@ -178,14 +179,14 @@ namespace MoreNote.Controllers.API
 			//    apiRe.Msg = "仓库路径仅允许使用英文大小写、数字，不允许特殊符号";
 			//    return LeanoteJson(apiRe);
 			//}
-			if (noteRepositoryService.ExistRepositoryByName(repository.OwnerId, repository.Name))
+			if (noteRepositoryService.ExistNotebookByName(Notebook.OwnerId, Notebook.Name))
 			{
 				re.Msg = "仓库名称冲突";
 				return LeanoteJson(re);
 			}
 
-			var result = noteRepositoryService.CreateRepository(repository);
-			if (repository.RepositoryType == RepositoryType.NoteRepository)
+			var result = noteRepositoryService.CreateNotebook(Notebook);
+			if (Notebook.NotebookType == NotebookType.NoteRepository)
 			{
 				var list = new List<string>(4) { "life", "study", "work", "tutorial" };
 				foreach (var item in list)
@@ -257,13 +258,13 @@ namespace MoreNote.Controllers.API
 				this.dataSignService.AddDataSign(dataSign, "DeleteRepository");
 			}
 
-			verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, RepositoryAuthorityEnum.DeleteRepository);
+			verify = noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, NotebookAuthorityEnum.DeleteRepository);
 			if (!verify)
 			{
 				return LeanoteJson(re);
 			}
 
-			this.noteRepositoryService.DeleteRepository(repositoryId.ToLongByHex());
+			this.noteRepositoryService.DeleteNotebook(repositoryId.ToLongByHex());
 			re.Ok = true;
 			return LeanoteJson(re);
 		}

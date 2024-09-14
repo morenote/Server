@@ -674,7 +674,7 @@ namespace MoreNote.Controllers.API.APIV1
 					return LeanoteJson(apiRe);
 				}
 				//检查用户是否对仓库具有读权限
-				if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Read))
+				if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, NotebookAuthorityEnum.Read))
 				{
 					var notes = noteService.GetNoteChildrenByNotebookId(notebookId.ToLongByHex());
 					apiRe.Ok = true;
@@ -705,7 +705,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 
 			var repositoryId = notebook.NotesRepositoryId;
-			verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
+			verify = noteRepositoryService.Verify(repositoryId, user.Id, NotebookAuthorityEnum.Write);
 			if (!verify)
 			{
 				return LeanoteJson(re);
@@ -771,7 +771,7 @@ namespace MoreNote.Controllers.API.APIV1
 				return LeanoteJson(re);
 			}
 			var note = noteService.GetNote(noteId.ToLongByHex(), user.Id);
-			var verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Write);
+			var verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.Id, NotebookAuthorityEnum.Write);
 			if (!verify)
 			{
 				return LeanoteJson(re);
@@ -850,7 +850,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 			// 先判断USN的问题, 因为很可能添加完附件后, 会有USN冲突, 这时附件就添错了
 			var note = noteService.GetNote(noteId.ToLongByHex(), user.Id);
-			verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.Id, RepositoryAuthorityEnum.Write);
+			verify = noteRepositoryService.Verify(note.NotesRepositoryId, user.Id, NotebookAuthorityEnum.Write);
 			if (!verify)
 			{
 				return LeanoteJson(re);
@@ -948,7 +948,7 @@ namespace MoreNote.Controllers.API.APIV1
 			{
 				return LeanoteJson(re);
 			}
-			verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
+			verify = noteRepositoryService.Verify(repositoryId, user.Id, NotebookAuthorityEnum.Write);
 			if (!verify)
 			{
 				return LeanoteJson(re);
@@ -1038,7 +1038,7 @@ namespace MoreNote.Controllers.API.APIV1
 				return LeanoteJson(re);
 			}
 			//操作者必须拥有写权限
-			var verify = noteRepositoryService.Verify(repositoryId, user.Id, RepositoryAuthorityEnum.Write);
+			var verify = noteRepositoryService.Verify(repositoryId, user.Id, NotebookAuthorityEnum.Write);
 			if (!verify)
 			{
 				return LeanoteJson(re);
