@@ -291,7 +291,6 @@
     <ProjectReference Include="..\..\Share\MoreNote.SignatureService\MoreNote.SignatureService.csproj" />
     <ProjectReference Include="..\03Framework\Morenote.Framework\Morenote.Framework.csproj" />
     <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
-    <ProjectReference Include="..\MoreNote.Config\MoreNote.Config.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
   </ItemGroup>
 

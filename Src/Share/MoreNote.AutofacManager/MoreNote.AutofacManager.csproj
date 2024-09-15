@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Server\03Framework\Morenote.Framework\Morenote.Framework.csproj" />
-    <ProjectReference Include="..\..\Server\MoreNote.Logic\MoreNote.Logic.csproj" />
+    <ProjectReference Include="..\MoreNote.Logic\MoreNote.Logic.csproj" />
   </ItemGroup>
 
 </Project>

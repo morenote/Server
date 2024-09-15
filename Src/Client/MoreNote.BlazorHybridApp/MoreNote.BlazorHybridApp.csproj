@@ -58,6 +58,29 @@
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-lightunplated_targetsize-16.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-lightunplated_targetsize-24.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-lightunplated_targetsize-256.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-lightunplated_targetsize-32.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-lightunplated_targetsize-48.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-unplated_targetsize-16.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-unplated_targetsize-24.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-unplated_targetsize-256.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-unplated_targetsize-32.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.altform-unplated_targetsize-48.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.scale-100.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.scale-125.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.scale-150.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.scale-200.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.scale-400.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.targetsize-16.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.targetsize-24.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.targetsize-256.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.targetsize-32.png" />
+      <None Remove="Resources\AppResources\%24placeholder%24.targetsize-48.png" />
+    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AntDesign" Version="0.20.3" />
         <PackageReference Include="Autofac" Version="8.1.0" />
@@ -73,7 +96,30 @@
       <Folder Include="wwwroot\lib\vditor\" />
     </ItemGroup>
     <ItemGroup>
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-lightunplated_targetsize-16.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-lightunplated_targetsize-24.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-lightunplated_targetsize-256.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-lightunplated_targetsize-32.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-lightunplated_targetsize-48.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-unplated_targetsize-16.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-unplated_targetsize-24.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-unplated_targetsize-256.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-unplated_targetsize-32.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.altform-unplated_targetsize-48.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.scale-100.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.scale-125.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.scale-150.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.scale-200.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.scale-400.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.targetsize-16.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.targetsize-24.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.targetsize-256.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.targetsize-32.png" />
+      <MauiAsset Include="Resources\AppResources\$placeholder$.targetsize-48.png" />
+    </ItemGroup>
+    <ItemGroup>
       <ProjectReference Include="..\..\Server\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
+      <ProjectReference Include="..\..\Share\MoreNote.Config\MoreNote.Config.csproj" />
       <ProjectReference Include="..\..\Share\MoreNote.Logic\MoreNote.Logic.csproj" />
       <ProjectReference Include="..\MoreNote.MauiLib\MoreNote.MauiLib.csproj" />
     </ItemGroup>
