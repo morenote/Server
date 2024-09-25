@@ -18,6 +18,7 @@ using MoreNote.Models.Entiys.Leanote.Notes;
 using MoreNote.Models.Enums;
 using MoreNote.Models.Enums.Common.Editor;
 using MoreNote.Models.Model;
+using MoreNote.SecurityProvider.Core;
 
 using System;
 using System.Collections.Generic;

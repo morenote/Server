@@ -1,4 +1,6 @@
-﻿namespace MoreNote.SignatureService
+﻿using MoreNote.SecurityProvider.Core;
+
+namespace MoreNote.SignatureService
 {
 	/// <summary>
 	/// 虚假签名服务（仅供测试用途）

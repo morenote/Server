@@ -7,6 +7,7 @@ using MoreNote.Logic.Entity;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Logic.Service.Segmenter;
 using MoreNote.Models.Entity.Leanote.Notes;
+using MoreNote.SecurityProvider.Core;
 
 using System;
 using System.Collections.Generic;

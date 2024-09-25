@@ -2,6 +2,7 @@
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Service.PasswordSecurity.IMPL;
 using MoreNote.Models.Entity.Leanote.User;
+using MoreNote.SecurityProvider.Core;
 
 using System;
 

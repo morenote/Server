@@ -103,6 +103,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\MoreNote.SecurityProvider.Core\MoreNote.SecurityProvider.Core.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Models.DTO\MoreNote.Models.DTO.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Models.Entiys\MoreNote.Models.Entiys.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Models\MoreNote.Models.csproj" />

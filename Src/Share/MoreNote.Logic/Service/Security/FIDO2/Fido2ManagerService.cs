@@ -3,6 +3,7 @@ using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Models.Entity.Security.FIDO2;
+using MoreNote.SecurityProvider.Core;
 
 using System.Collections.Generic;
 using System.Linq;

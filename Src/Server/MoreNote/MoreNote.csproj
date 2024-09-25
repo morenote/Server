@@ -293,6 +293,7 @@
     <ProjectReference Include="..\MoreNote.AutoFac\MoreNote.AutoFac.csproj" />
     <ProjectReference Include="..\MoreNote.Config\MoreNote.Config.csproj" />
     <ProjectReference Include="..\MoreNote.Language\MoreNote.Language.csproj" />
+    <ProjectReference Include="..\MoreNote.SecurityProvider.Core\MoreNote.SecurityProvider.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

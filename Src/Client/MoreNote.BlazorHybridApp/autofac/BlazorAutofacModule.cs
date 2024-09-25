@@ -31,6 +31,7 @@ using MoreNote.SignatureService;
 
 using System.Linq;
 using MoreNote.AutoFac;
+using MoreNote.SecurityProvider.Core;
 
 namespace MoreNote.BlazorHybridApp.autofac
 {

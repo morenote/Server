@@ -29,6 +29,7 @@ using System.Net;
 using System.Threading.Tasks;
 using MoreNote.Logic.Service.Notes;
 using MoreNote.Models.Entiys.Leanote.Notes;
+using MoreNote.SecurityProvider.Core;
 
 namespace MoreNote.Framework.Controllers
 {

@@ -13,8 +13,7 @@ using System.Text.Json.Serialization;
 namespace MoreNote.Models.Entity.Leanote.User
 {
 
-	[Table("user_info"), Index(nameof(Email), nameof(Verified), nameof(Username), nameof(UsernameRaw), nameof(Role)
-		, nameof(ThirdUserId), nameof(FromUserId))]
+	[Table("user_info"), Index(nameof(Email))]
 	public class UserInfo : BaseEntity
 	{
 

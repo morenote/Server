@@ -1,4 +1,4 @@
-﻿namespace MoreNote.CryptographyProvider
+﻿namespace MoreNote.SecurityProvider.Core
 {
 	/// <summary>
 	/// 加密服务接口

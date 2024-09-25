@@ -668,7 +668,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 				//var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
 
-				var book = notebookService.GetNotebookById(notebookId.ToLongByHex());
+				var book = notebookService.GetNoteCollectionById(notebookId.ToLongByHex());
 				if (book == null)
 				{
 					return LeanoteJson(apiRe);
@@ -695,7 +695,7 @@ namespace MoreNote.Controllers.API.APIV1
 			var re = new ApiResponseDTO();
 			var verify = false;
 			var user = tokenSerivce.GetUserByToken(token);
-			var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
+			var notebook = notebookService.GetNoteCollectionById(notebookId.ToLongByHex());
 
 			if (user == null || notebook == null)
 			{
@@ -792,21 +792,21 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 			DigitalEnvelope digitalEnvelope = null;
 			var verify = false;
-			if (this.config.SecurityConfig.ForceDigitalEnvelope)
-			{
-				//数字信封
-				if (this.config.SecurityConfig.ForceDigitalEnvelope)
-				{
-					digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
-					var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
-					if (data == null)
-					{
-						throw new Exception("数字信封解密失败");
-					}
-					//赋予解密的数字信封
-					content = data;
-				}
-			}
+			//if (this.config.SecurityConfig.ForceDigitalEnvelope)
+			//{
+			//	//数字信封
+			//	if (this.config.SecurityConfig.ForceDigitalEnvelope)
+			//	{
+			//		digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
+			//		var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
+			//		if (data == null)
+			//		{
+			//			throw new Exception("数字信封解密失败");
+			//		}
+			//		//赋予解密的数字信封
+			//		content = data;
+			//	}
+			//}
 
 			if (this.config.SecurityConfig.ForceDigitalSignature)
 			{
@@ -1031,7 +1031,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 			var repositoryId = note.NotesRepositoryId;
 
-			var targetParentNotebook = notebookService.GetNotebookById(targetParentNotebookId.ToLongByHex());
+			var targetParentNotebook = notebookService.GetNoteCollectionById(targetParentNotebookId.ToLongByHex());
 			//目标文件夹必必须位于同一个仓库中
 			if (targetParentNotebook.NotesRepositoryId != repositoryId)
 			{

@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\MoreNote.SecurityProvider.Core\MoreNote.SecurityProvider.Core.csproj" />
     <ProjectReference Include="..\..\Share\MoreNote.Common\MoreNote.Common.csproj" />
   </ItemGroup>
 

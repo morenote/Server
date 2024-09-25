@@ -1,9 +1,7 @@
-﻿namespace MoreNote.SignatureService
+﻿namespace MoreNote.SecurityProvider.Core
 {
 	public interface ISignatureService
 	{
-
-
 		public Task<String> rawSignature(String data);
 
 
