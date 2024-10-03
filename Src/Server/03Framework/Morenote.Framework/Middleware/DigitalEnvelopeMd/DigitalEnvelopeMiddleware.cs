@@ -34,7 +34,7 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
             if (!string.IsNullOrWhiteSpace(enc_field) && context.Request.Method.Equals("POST"))
             {
 
-                var digitalEnvelopeJson = context.Request.Form[enc_field];
+                var digitalEnvelopeJson = context.Request.Form["digitalEnvelopeJson"];
 
                 DigitalEnvelope digitalEnvelope = null;
                 var verify = false;

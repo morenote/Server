@@ -128,6 +128,7 @@ namespace MoreNote.Controllers.API
 
 		[HttpPost]
 		[ServiceFilter(typeof(MessageSignFilter))]
+		//[MessageSignFilter()]
 		public async Task<IActionResult> CreateNotebook(string token, string data, string digitalEnvelopeJson)
 		{
 			var re = new ApiResponseDTO()
@@ -136,24 +137,7 @@ namespace MoreNote.Controllers.API
 				Data = null
 			};
 			var verify = false;
-			if (this.config.SecurityConfig.ForceDigitalSignature)
-			{
-				//验证签名
-				var dataSign = DataSignDTO.FromJSON(digitalEnvelopeJson);
-				verify = await this.ePassService.VerifyDataSign(dataSign);
-				if (!verify)
-				{
-					return LeanoteJson(re);
-				}
-				verify = dataSign.SignData.Operate.Equals("/api/Notebook/CreateNotebook");
-				if (!verify)
-				{
-					re.Msg = "Operate is not Equals ";
-					return LeanoteJson(re);
-				}
-				//签名存证
-				this.dataSignService.AddDataSign(dataSign, "CreateNotebook");
-			}
+			
 
 			var user = tokenSerivce.GetUserByToken(token);
 			var notebook = JsonSerializer.Deserialize<Notebook>(data, MyJsonConvert.GetLeanoteOptions());

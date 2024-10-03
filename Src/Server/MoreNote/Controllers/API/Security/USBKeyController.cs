@@ -102,7 +102,7 @@ namespace MoreNote.Controllers.API.Security
 				{
 					var userId = challenge.UserId;
 					var user = userService.GetUserByUserId(userId);
-					// var token = tokenSerivce.GenerateToken(user.UserId, user.Email);
+					 var token = tokenSerivce.GenerateToken(userId, user.Email);
 
 					//tokenSerivce.SaveToken(token);
 					//是否已经注册
@@ -120,7 +120,7 @@ namespace MoreNote.Controllers.API.Security
 					apiRe.Ok = true;
 					this.distributedCache.SetBool("USBKEY" + challenge.RequestNumber, true);
 
-					//apiRe.Data = userToken;
+					//apiRe.Data = token;
 					return LeanoteJson(apiRe);
 				}
 				else
@@ -260,7 +260,7 @@ namespace MoreNote.Controllers.API.Security
 
 					var usbkey = new UserSM2Binding();
 					usbkey.PublicKey = clinetResponse.Certificate;
-					//todo:这里应该动态设置，硬编码仅支持RSA1024
+				
 				
 					usbkey.UserId = user.Id;
 					if (this.usbKeyManager.IsExist(user.Id, clinetResponse.Certificate))

@@ -1,6 +1,7 @@
 ﻿using github.hyfree.GM;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -48,7 +49,13 @@ namespace Morenote.Framework.Filter.Global
 			var sign_field = context.HttpContext.Request.Headers["sign_field"];
 			var sign = context.HttpContext.Request.Headers["sign"];
             var data = context.HttpContext.Request.Form[sign_field];
-			if (string.IsNullOrEmpty(sign_field) || string.IsNullOrEmpty(sign))
+           
+
+            var url=context.HttpContext.Request.GetDisplayUrl();
+            var index=url.IndexOf("/api");
+            url=url.Substring(index);
+
+			if (string.IsNullOrEmpty(sign_field) || string.IsNullOrEmpty(data))
 			{
 				 SignError(context, "sign_field IsNullOrEmpty ");
 				return;
@@ -63,14 +70,14 @@ namespace Morenote.Framework.Filter.Global
                     SignError(context, "VerifyDataSign is Error ");
                     return;
                 }
-                verify = dataSign.SignData.Operate.Equals(this.Operate);
+                verify = dataSign.SignData.Operate.Equals(url);
                 if (!verify)
                 {
                     SignError(context, "Operate Is Error ");
                     return;
                 }
                 //验证格式是否正确
-                var hash = gm.SM3(data).ToUpper();
+                var hash = gm.SM3String(data).ToUpper();
                 if (!dataSign.SignData.Hash.Equals(hash))
                 {
                     SignError(context, "hash Is Error ");

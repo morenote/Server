@@ -10,7 +10,6 @@
     },
     "MoreNote": {
       "commandName": "Project",
-      "commandLineArgs": "-m ",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

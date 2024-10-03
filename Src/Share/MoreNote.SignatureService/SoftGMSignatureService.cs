@@ -1,5 +1,7 @@
 ﻿using github.hyfree.GM;
 
+using MoreNote.SecurityProvider.Core;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
