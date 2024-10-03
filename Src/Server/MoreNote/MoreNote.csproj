@@ -150,7 +150,7 @@
     
     <PackageReference Include="Fido2.Models" Version="3.0.1" />
     
-    <PackageReference Include="github.hyfree.GM" Version="0.0.9" />
+    <PackageReference Include="github.hyfree.GM" Version="0.0.12" />
     
     <PackageReference Include="github.hyfree.PAYJS_CSharp_SDK" Version="1.2.2" />
     

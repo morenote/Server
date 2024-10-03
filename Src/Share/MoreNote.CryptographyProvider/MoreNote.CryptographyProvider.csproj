@@ -37,7 +37,7 @@
     <None Remove="新文件夹\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="github.hyfree.GM" Version="0.0.9" />
+    <PackageReference Include="github.hyfree.GM" Version="0.0.12" />
     <PackageReference Include="github.hyfree.SDFWrapper" Version="0.0.45" />
     <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
   

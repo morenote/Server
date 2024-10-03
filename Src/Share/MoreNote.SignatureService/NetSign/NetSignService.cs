@@ -9,7 +9,12 @@
 			_netSignApi = netSignApi;
 		}
 
-		public Task<string> rawSignature(string data)
+        public bool GMT0009_VerifySign(byte[] m, byte[] signData, byte[] pubkey, byte[] userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> rawSignature(string data)
 		{
 			return _netSignApi.rawSignature(data);
 		}

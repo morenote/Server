@@ -16,5 +16,10 @@
 			await Task.Delay(1);
 			return true;
 		}
-	}
+
+        public bool GMT0009_VerifySign(byte[] m, byte[] signData, byte[] pubkey, byte[] userId)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -32,6 +32,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="github.hyfree.GM" Version="0.0.12" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="WebApiClient.Extensions.Autofac" Version="2.0.3" />
     <PackageReference Include="WebApiClientCore" Version="2.1.4" />

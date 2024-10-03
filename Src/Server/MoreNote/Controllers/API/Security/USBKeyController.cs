@@ -78,7 +78,7 @@ namespace MoreNote.Controllers.API.Security
 			var clinetResponse = ClientResponse.FromJSON(data);
 			var challenge = ePass.GetServerChallenge(clinetResponse.Id);
 
-			var result = await ePass.VerifyClientResponse(clinetResponse, false);
+			var result =await ePass.VerifyClientResponse(clinetResponse, false);
 
 			StringBuilder stringBuilder = new StringBuilder();
 			foreach (var item in Request.Headers)
@@ -245,7 +245,7 @@ namespace MoreNote.Controllers.API.Security
 				apiRe.Msg = "RegistrationChallenge";
 				return LeanoteJson(apiRe);
 			}
-			var result = await ePass.VerifyClientResponse(clinetResponse, false);
+			var result =await ePass.VerifyClientResponse(clinetResponse, false);
 
 			StringBuilder stringBuilder = new StringBuilder();
 			foreach (var item in Request.Headers)
@@ -258,10 +258,10 @@ namespace MoreNote.Controllers.API.Security
 				if (result)
 				{
 
-					var usbkey = new USBKeyBinding();
-					usbkey.Modulus = clinetResponse.Certificate;
+					var usbkey = new UserSM2Binding();
+					usbkey.PublicKey = clinetResponse.Certificate;
 					//todo:这里应该动态设置，硬编码仅支持RSA1024
-					usbkey.Exponent = "010001";
+				
 					usbkey.UserId = user.Id;
 					if (this.usbKeyManager.IsExist(user.Id, clinetResponse.Certificate))
 					{

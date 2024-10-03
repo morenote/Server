@@ -8,8 +8,12 @@ namespace MoreNote.SignatureService.RSASign
 		{
 			throw new NotImplementedException("Software modules do not support signatures");
 		}
+        public bool GMT0009_VerifySign(byte[] m, byte[] signData, byte[] pubkey, byte[] userId)
+        {
+            throw new NotImplementedException();
+        }
 
-		public async Task<bool> rawVerify(String data, String sign, String cer, bool usbKey, String pubKeyModulusInHex, String pubKeyExpInHex)
+        public async Task<bool> rawVerify(String data, String sign, String cer, bool usbKey, String pubKeyModulusInHex, String pubKeyExpInHex)
 		{
 			RSAHelper rsaHelper = new RSAHelper();
 			var signBuffer = Convert.FromBase64String(sign);

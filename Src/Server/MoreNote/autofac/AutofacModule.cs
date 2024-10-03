@@ -203,7 +203,7 @@ namespace MoreNote.autofac
 			else
 			{
 				//服务器端签名和验签服务
-				builder.RegisterType<RSASignService>()
+				builder.RegisterType<SoftGMSignatureService>()
 					.As<ISignatureService>()
 					.SingleInstance();
 				//加密提供服务

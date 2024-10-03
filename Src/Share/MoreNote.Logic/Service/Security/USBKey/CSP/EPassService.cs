@@ -80,34 +80,37 @@ namespace MoreNote.Logic.Service.Security.USBKey.CSP
 			distributedCache.Remove("challenge" + challengeId.ToString());
 		}
 
-		//验证客户端的响应
-		public async Task<bool> VerifyClientResponse(ClientResponse clientResponse, bool clearChallenge = false)
-		{
-			var challenge = GetServerChallenge(clientResponse.Id);
-			if (challenge == null)
-			{
-				return false;
-			}
-			var verfiy = challenge.VerifyTime(200);
-			if (verfiy == false)
-			{
-				return false;
-			}
-			var data = challenge.GetBytes().ByteArrayToBase64();
-			var cer = clientResponse.Certificate;
-			var sign = clientResponse.Sign;
-			//验证签名
-			var result = await this.signatureService.rawVerify(data, sign, "", true, cer, "010001");
-			return result;
-		}
+        //验证客户端的响应
+        public async Task<bool> VerifyClientResponse(ClientResponse clientResponse, bool clearChallenge = false)
+        {
+			await Task.Delay(1);
+            var challenge = GetServerChallenge(clientResponse.Id);
+            if (challenge == null)
+            {
+                return false;
+            }
+            var verfiy = challenge.VerifyTime(200);
+            if (verfiy == false)
+            {
+                return false;
+            }
+            var data = challenge.GetBytes();
+            var publicKey = HexUtil.HexToByteArray(clientResponse.Certificate);
+            var signData = HexUtil.HexToByteArray(clientResponse.Sign);
+            //验证签名
+            var result = this.signatureService.GMT0009_VerifySign(data, signData, publicKey, null);
+            return result;
+        }
 
-		public async Task<bool> VerifyDataSign(DataSignDTO dataSignDTO)
+        public async Task<bool> VerifyDataSign(DataSignDTO dataSignDTO)
 		{
-			var data = dataSignDTO.SignData.GetBytes().ByteArrayToBase64();
-			var cer = dataSignDTO.Certificate;
-			var sign = dataSignDTO.Sign;
-			var result = await this.signatureService.rawVerify(data, sign, "", true, cer, "010001");
-			return result;
+            await Task.Delay(1);
+            var data = dataSignDTO.SignData.GetBytes();
+            var publicKey = HexUtil.HexToByteArray(dataSignDTO.Certificate);
+            var signData = HexUtil.HexToByteArray(dataSignDTO.Sign);
+            //验证签名
+            var result = this.signatureService.GMT0009_VerifySign(data, signData, publicKey, null);
+            return result;
 		}
 	}
 }

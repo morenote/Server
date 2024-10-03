@@ -28,42 +28,42 @@ namespace MoreNote.Logic.Service.Security.USBKey
 			this.cryptographyProvider = cryptographyProvider;
 		}
 
-		public List<USBKeyBinding> ListAllUsbKey(long? userId)
+		public List<UserSM2Binding> ListAllUsbKey(long? userId)
 		{
-			return this.dataContext.USBKeyBindings.Where(b => b.UserId == userId).ToList();
+			return this.dataContext.UserSM2Binding.Where(b => b.UserId == userId).ToList();
 		}
 
 		public async void DeleteUsbkey(long? id)
 		{
-			this.dataContext.USBKeyBindings.Where(b => b.Id == id).DeleteFromQuery();
+			this.dataContext.UserSM2Binding.Where(b => b.Id == id).DeleteFromQuery();
 			await this.dataContext.SaveChangesAsync();
 		}
 
-		public USBKeyBinding Find(long? id)
+		public UserSM2Binding Find(long? id)
 		{
-			var usbkey = this.dataContext.USBKeyBindings.Where(b => b.Id == id).FirstOrDefault();
+			var usbkey = this.dataContext.UserSM2Binding.Where(b => b.Id == id).FirstOrDefault();
 			return usbkey;
 		}
-		public bool IsExist(long? userId, string Modulus)
+		public bool IsExist(long? userId, string publicKey)
 		{
-			var any = this.dataContext.USBKeyBindings.Where(b => b.UserId == userId && b.Modulus == Modulus).Any();
+			var any = this.dataContext.UserSM2Binding.Where(b => b.UserId == userId && b.PublicKey == publicKey).Any();
 			return any;
 		}
 		public bool IsExist(long? userId)
 		{
-			var any = this.dataContext.USBKeyBindings.Where(b => b.UserId == userId).Any();
+			var any = this.dataContext.UserSM2Binding.Where(b => b.UserId == userId).Any();
 			return any;
 		}
 
 
-		public USBKeyBinding Add(USBKeyBinding usbkey)
+		public UserSM2Binding Add(UserSM2Binding usbkey)
 		{
 			if (usbkey.Id == null)
 			{
 				usbkey.Id = idGenerator.NextId();
 			}
 
-			this.dataContext.USBKeyBindings.Add(usbkey);
+			this.dataContext.UserSM2Binding.Add(usbkey);
 
 			this.dataContext.SaveChanges();
 			return usbkey;

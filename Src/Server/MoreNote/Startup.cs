@@ -216,10 +216,10 @@ namespace MoreNote
 				builder.WithOrigins("http://localhost:3201",
 									"http://app.morenote.top",
 									"https://app.morenote.top")
-									   // .AllowAnyMethod()
+									 
 									   .AllowAnyMethod()
 									   .AllowAnyHeader()
-									   .AllowAnyOrigin();
+									  ;
 			});
 			//启用响应缓存
 			app.UseResponseCaching();

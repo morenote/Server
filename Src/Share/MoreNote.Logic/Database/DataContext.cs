@@ -217,7 +217,8 @@ namespace MoreNote.Logic.Database
 		/// <summary>
 		/// UKEY绑定
 		/// </summary>
-		public DbSet<USBKeyBinding> USBKeyBindings { get; set; }
+		public DbSet<UserSM2Binding> UserSM2Binding { get; set; }
+	
 		/// <summary>
 		/// FIDO2密钥
 		/// </summary>
