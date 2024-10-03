@@ -203,7 +203,7 @@ namespace MoreNote.Controllers
 				page = 1;
 			}
 			ViewBag.page = page;
-			NoteCollection notebook = notebookService.GetNotebookById(notebookId, repository.Id);
+			NoteCollection notebook = notebookService.GetNoteCollectionById(notebookId, repository.Id);
 			ViewBag.notebook = notebook;
 
 			ViewBag.postCount = blogService.CountTheNumberForBlogsOfNoteBookId(blogUser.Id, notebookId, repository.Id);

@@ -4,6 +4,7 @@ using MoreNote.Common.ExtensionMethods;
 using MoreNote.Common.Utils;
 using MoreNote.Logic.Service.DistributedIDGenerator;
 using MoreNote.Models.DTO.Leanote.USBKey;
+using MoreNote.SecurityProvider.Core;
 using MoreNote.SignatureService;
 
 using System.Text;

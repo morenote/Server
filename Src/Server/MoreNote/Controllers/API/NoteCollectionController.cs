@@ -22,18 +22,18 @@ using System.Threading.Tasks;
 
 namespace MoreNote.Controllers.API.APIV1
 {
-    [Route("api/Notebook/[action]")]
+    [Route("api/NoteCollection/[action]")]
 	// [ApiController]
 	[ServiceFilter(typeof(CheckTokenFilter))]
-	public class NotebookAPIController : APIBaseController
+	public class NoteCollectionController : APIBaseController
 	{
-		private NoteCollectionService notebookService;
+		private NoteCollectionService noteCollectionService;
 		private NotebookService noteRepositoryService;
 		private OrganizationMemberRoleService repositoryMemberRoleService;
 		private EPassService ePassService;
 		private DataSignService dataSignService;
 		private NoteService noteService;
-		public NotebookAPIController(AttachService attachService
+		public NoteCollectionController(AttachService attachService
 			, TokenSerivce tokenSerivce
 			, NoteFileService noteFileService
 			, UserService userService
@@ -48,7 +48,7 @@ namespace MoreNote.Controllers.API.APIV1
 		   ) :
 			base(attachService, tokenSerivce, noteFileService, userService, configFileService, accessor)
 		{
-			this.notebookService = notebookService;
+			this.noteCollectionService = notebookService;
 			this.noteRepositoryService = noteRepositoryService;
 			this.repositoryMemberRoleService = repositoryMemberRoleService;
 			this.noteService = noteService;
@@ -76,7 +76,7 @@ namespace MoreNote.Controllers.API.APIV1
 			{
 				maxEntry = 100;
 			}
-			NoteCollection[] notebook = notebookService.GeSyncNotebooks(user.Id, afterUsn, maxEntry);
+			NoteCollection[] notebook = noteCollectionService.GeSyncNotebooks(user.Id, afterUsn, maxEntry);
 			return Json(notebook, MyJsonConvert.GetLeanoteOptions());
 		}
 		[ApiExplorerSettings(IgnoreApi = true)]
@@ -130,7 +130,7 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 			else
 			{
-				NoteCollection[] notebooks = notebookService.GetAll(user.Id);
+				NoteCollection[] notebooks = noteCollectionService.GetAll(user.Id);
 				ApiNotebook[] apiNotebooks = fixNotebooks(notebooks);
 				return Json(apiNotebooks, MyJsonConvert.GetLeanoteOptions());
 			}
@@ -163,7 +163,7 @@ namespace MoreNote.Controllers.API.APIV1
 					UserId = user.Id,
 					ParentCollectionId = parentNotebookId.ToLongByHex()
 				};
-				if (notebookService.AddNotebook(ref notebook))
+				if (noteCollectionService.AddNoteCollection(ref notebook))
 				{
 					ApiNotebook apiNotebook = fixNotebook(notebook);
 
@@ -200,7 +200,7 @@ namespace MoreNote.Controllers.API.APIV1
 			else
 			{
 				NoteCollection notebook;
-				if (notebookService.UpdateNotebookApi(user.Id, notebookId.ToLongByHex(), title, parentNotebookId.ToLongByHex(), seq, usn, out notebook))
+				if (noteCollectionService.UpdateNoteCollectionApi(user.Id, notebookId.ToLongByHex(), title, parentNotebookId.ToLongByHex(), seq, usn, out notebook))
 				{
 					ApiNotebook apiNotebook = fixNotebook(notebook);
 
@@ -224,13 +224,13 @@ namespace MoreNote.Controllers.API.APIV1
 		/// 删除笔记本
 		/// </summary>
 		/// <param name="token"></param>
-		/// <param name="noteRepositoryId">仓库id</param>
-		/// <param name="notebookId">笔记本id</param>
+		/// <param name="notebookId">仓库id</param>
+		/// <param name="noteCollectionId">笔记本id</param>
 		/// <param name="recursion">是否递归删除，非空文件夹</param>
 		/// <param name="force">系统会忽略错误检查，强制删除笔记本和里面的笔记</param>
 		/// <returns></returns>
 		[HttpPost, HttpDelete]
-		public async Task<IActionResult> DeleteNotebook(string token, string noteRepositoryId, string notebookId, bool recursively, bool force, string dataSignJson)
+		public async Task<IActionResult> DeleteNoteCollection(string token, string notebookId, string noteCollectionId, bool recursively, bool force, string dataSignJson)
 		{
 			UserInfo user = tokenSerivce.GetUserByToken(token);
 			var verify = false;
@@ -254,21 +254,21 @@ namespace MoreNote.Controllers.API.APIV1
 				{
 					return LeanoteJson(re);
 				}
-				verify = dataSign.SignData.Operate.Equals("/api/Notebook/DeleteNotebook");
+				verify = dataSign.SignData.Operate.Equals("/api/Notebook/DeleteNoteCollection");
 				if (!verify)
 				{
 					re.Msg = "Operate is not Equals ";
 					return LeanoteJson(re);
 				}
 				//签名存证
-				this.dataSignService.AddDataSign(dataSign, "DeleteNotebook");
+				this.dataSignService.AddDataSign(dataSign, "DeleteNoteCollection");
 
 			}
 
 			var message = "";
-			var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
+			var notebook = noteCollectionService.GetNoteCollectionById(noteCollectionId.ToLongByHex());
 			var repositoryId = notebook.NotesRepositoryId;
-			if (repositoryId != noteRepositoryId.ToLongByHex())
+			if (repositoryId != notebookId.ToLongByHex())
 			{
 				return LeanoteJson(re);
 			}
@@ -284,11 +284,11 @@ namespace MoreNote.Controllers.API.APIV1
 			if (recursively)
 			{
 
-				re.Ok = notebookService.DeleteNotebookRecursively(notebookId.ToLongByHex(), usn);
+				re.Ok = noteCollectionService.DeleteNotebookRecursively(noteCollectionId.ToLongByHex(), usn);
 			}
 			else
 			{
-				re.Ok = notebookService.DeleteNotebook(notebookId.ToLongByHex(), usn);
+				re.Ok = noteCollectionService.DeleteNoteCollection(noteCollectionId.ToLongByHex(), usn);
 			}
 
 			return LeanoteJson(re);
@@ -297,7 +297,7 @@ namespace MoreNote.Controllers.API.APIV1
 		//获得笔记本的第一层文件夹
 		[HttpGet]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult GetRootNotebooks(string token, string repositoryId)
+		public IActionResult GetRootNoteCollection(string token, string notebookId)
 		{
 			var apiRe = new ApiResponseDTO();
 
@@ -309,9 +309,9 @@ namespace MoreNote.Controllers.API.APIV1
 				//var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
 
 				//检查用户是否对仓库具有读权限
-				if (noteRepositoryService.Verify(repositoryId.ToLongByHex(), user.Id, NotebookAuthorityEnum.Read))
+				if (noteRepositoryService.Verify(notebookId.ToLongByHex(), user.Id, NotebookAuthorityEnum.Read))
 				{
-					var books = notebookService.GetRootNotebooks(repositoryId.ToLongByHex());
+					var books = noteCollectionService.GetRootNoteCollections(notebookId.ToLongByHex());
 					apiRe.Ok = true;
 					apiRe.Data = books;
 				}
@@ -322,7 +322,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 		[HttpGet]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult GetNotebookChildren(string token, string notebookId)
+		public IActionResult GetNoteCollectionChildren(string token, string notebookId)
 		{
 			var apiRe = new ApiResponseDTO();
 
@@ -336,7 +336,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 				//var memerRole = noteRepositoryService.GetRepositoryMemberRole(repositoryId.ToLongByHex());
 
-				var book = notebookService.GetNotebookById(notebookId.ToLongByHex());
+				var book = noteCollectionService.GetNoteCollectionById(notebookId.ToLongByHex());
 				if (book == null)
 				{
 					return LeanoteJson(apiRe);
@@ -345,7 +345,7 @@ namespace MoreNote.Controllers.API.APIV1
 				//检查用户是否对仓库具有读权限
 				if (noteRepositoryService.Verify(book.NotesRepositoryId, user.Id, NotebookAuthorityEnum.Read))
 				{
-					var note = notebookService.GetNotebookChildren(notebookId.ToLongByHex());
+					var note = noteCollectionService.GetNotebookChildren(notebookId.ToLongByHex());
 					apiRe.Ok = true;
 					apiRe.Data = note;
 				}
@@ -354,7 +354,7 @@ namespace MoreNote.Controllers.API.APIV1
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateNoteBook(string token, string noteRepositoryId, string notebookTitle, string parentNotebookId, string dataSignJson)
+		public async Task<IActionResult> CreateNoteCollection(string token, string notebookId, string noteCollectionTitle, string parentNoteCollectionId, string dataSignJson)
 		{
 			var re = new ApiResponseDTO();
 			var user = tokenSerivce.GetUserByToken(token);
@@ -371,39 +371,39 @@ namespace MoreNote.Controllers.API.APIV1
 				{
 					return LeanoteJson(re);
 				}
-				verify = dataSign.SignData.Operate.Equals("/api/Notebook/CreateNoteBook");
+				verify = dataSign.SignData.Operate.Equals("/api/Notebook/CreateNoteCollection");
 				if (!verify)
 				{
 					re.Msg = "Operate is not Equals ";
 					return LeanoteJson(re);
 				}
 				//签名存证
-				this.dataSignService.AddDataSign(dataSign, "CreateNoteBook");
+				this.dataSignService.AddDataSign(dataSign, "CreateNoteCollection");
 
 			}
 
 
 
-			if (string.IsNullOrEmpty(noteRepositoryId))
+			if (string.IsNullOrEmpty(notebookId))
 			{
 				return LeanoteJson(re);
 			}
 
-			if (string.IsNullOrEmpty(parentNotebookId))
+			if (string.IsNullOrEmpty(parentNoteCollectionId))
 			{
 
-				verify = noteRepositoryService.Verify(noteRepositoryId.ToLongByHex(), user.Id, NotebookAuthorityEnum.Write);
-				repositoryId = noteRepositoryId.ToLongByHex();
+				verify = noteRepositoryService.Verify(notebookId.ToLongByHex(), user.Id, NotebookAuthorityEnum.Write);
+				repositoryId = notebookId.ToLongByHex();
 			}
 			else
 			{
-				var parentNotebook = notebookService.GetNotebookById(parentNotebookId.ToLongByHex());
+				var parentNotebook = noteCollectionService.GetNoteCollectionById(parentNoteCollectionId.ToLongByHex());
 				if (user == null || parentNotebook == null)
 				{
 					return LeanoteJson(re);
 				}
 				repositoryId = parentNotebook.NotesRepositoryId;
-				if (repositoryId != noteRepositoryId.ToLongByHex())
+				if (repositoryId != notebookId.ToLongByHex())
 				{
 					return LeanoteJson(re);
 				}
@@ -424,11 +424,11 @@ namespace MoreNote.Controllers.API.APIV1
 				UserId = user.Id,
 
 				CreatedTime = DateTime.Now,
-				Title = notebookTitle,
+				Title = noteCollectionTitle,
 				ParentCollectionId = parentId,
 			};
 
-			notebookService.AddNotebook(notebook);
+			noteCollectionService.AddNoteCollection(notebook);
 			re.Ok = true;
 			re.Data = notebook;
 
@@ -437,11 +437,11 @@ namespace MoreNote.Controllers.API.APIV1
 
 		}
 		[HttpPost]
-		public async Task<IActionResult> UpdateNoteBookTitle(string token, string notebookId, string notebookTitle, string dataSignJson)
+		public async Task<IActionResult> UpdateNoteCollectionTitle(string token, string noteCollectionId, string noteCollectionTitle, string dataSignJson)
 		{
 			var re = new ApiResponseDTO();
 			var user = tokenSerivce.GetUserByToken(token);
-			var notebook = notebookService.GetNotebookById(notebookId.ToLongByHex());
+			var notebook = noteCollectionService.GetNoteCollectionById(noteCollectionId.ToLongByHex());
 
 			if (user == null || notebook == null)
 			{
@@ -477,7 +477,7 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 
 
-			notebookService.UpdateNotebookTitle(notebook.Id, notebookTitle);
+			noteCollectionService.UpdateNoteCollectionTitle(notebook.Id, noteCollectionTitle);
 			re.Ok = true;
 			re.Data = notebook;
 

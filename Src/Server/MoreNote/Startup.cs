@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 using Morenote.Framework.Filter.Global;
+using Morenote.Framework.Middleware.DigitalEnvelopeMd;
 
 using MoreNote.autofac;
 using MoreNote.Config.ConfigFile;
@@ -228,10 +229,7 @@ namespace MoreNote
 			{
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Demo v1");
 			});
-
-			
-
-
+			app.UseDigitalEnvelope();
 
             app.UseEndpoints(endpoints =>
 			{

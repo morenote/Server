@@ -69,7 +69,14 @@ namespace MoreNote
 						deployService.MigrateDatabase();
 
 						return;
-					default:
+					case "EnsureCreated":
+						deployService.EnsureCreated();
+
+						return;
+					case "EnsureDeleted":
+						deployService.EnsureDeleted();
+						return;
+                    default:
 						Console.WriteLine("unkown cmd");
 						return;
 				}

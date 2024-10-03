@@ -199,7 +199,7 @@ namespace MoreNote.Logic.Service.BlogBuilder.VuePress
 				Directory.CreateDirectory(notesRepositoryPath);
 			}
 			//递归生成md
-			var books = notebookService.GetRootNotebooks(parmNotebook.Id);
+			var books = notebookService.GetRootNoteCollections(parmNotebook.Id);
 			StringBuilder sb = new StringBuilder();
 			sb.Append("[");
 			foreach (var notebook in books)

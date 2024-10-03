@@ -1,5 +1,6 @@
 ﻿using MoreNote.Common.Utils;
 using MoreNote.CryptographyProvider;
+using MoreNote.SecurityProvider.Core;
 
 using System;
 

@@ -1,4 +1,6 @@
-﻿namespace MoreNote.SignatureService.NetSign
+﻿using MoreNote.SecurityProvider.Core;
+
+namespace MoreNote.SignatureService.NetSign
 {
 	public class NetSignService : ISignatureService
 	{

@@ -7,6 +7,7 @@ using MoreNote.Config.ConfigFilePath.IMPL;
 using MoreNote.CryptographyProvider;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service.PasswordSecurity;
+using MoreNote.SecurityProvider.Core;
 
 using System;
 
@@ -146,8 +147,49 @@ namespace MoreNote.Logic.Service
 
 			System.Console.WriteLine(" ==================== SQL Migrate  Successfully====================");
 		}
+        public void EnsureCreated()
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException("serviceProvider is null,class DeployService  is error");
+            }
+            //执行数据库创建命令
+            System.Console.WriteLine(" ==================== SQL EnsureCreated  Start====================");
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+                var cry = scope.ServiceProvider.GetRequiredService<ICryptographyProvider>();
+                var passwordStoreFactory = scope.ServiceProvider.GetRequiredService<PasswordStoreFactory>();
 
-		public void InitSecret()
+                db.Database.EnsureCreated();
+                db.SaveChanges();
+
+            }
+
+            System.Console.WriteLine(" ==================== SQL EnsureCreated  Successfully====================");
+        }
+        public void EnsureDeleted()
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException("serviceProvider is null,class DeployService  is error");
+            }
+            //执行数据库创建命令
+            System.Console.WriteLine(" ==================== SQL EnsureDeleted  Start====================");
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+                var cry = scope.ServiceProvider.GetRequiredService<ICryptographyProvider>();
+                var passwordStoreFactory = scope.ServiceProvider.GetRequiredService<PasswordStoreFactory>();
+
+                db.Database.EnsureDeleted();
+                db.SaveChanges();
+
+            }
+
+            System.Console.WriteLine(" ==================== SQL EnsureDeleted  Successfully====================");
+        }
+        public void InitSecret()
 		{
 			Console.WriteLine(" ==================== Initializing Secret Start==================== ");
 			ConfigFileService configFileService = new ConfigFileService(new ServerConfigFilePahFinder());

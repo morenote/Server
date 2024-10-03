@@ -46,6 +46,7 @@ namespace MoreNote.Logic.Service.Notes
         public List<Notebook> GetNotebookList(long? userId, NotebookType repositoryType)
         {
             var list = dataContext.Notebook.Where(b => b.OwnerId == userId && b.IsDelete == false && b.NotebookType == repositoryType).ToList();
+            var list2 = dataContext.Notebook.ToArray();
             return list;
         }
         /// <summary>
@@ -97,7 +98,7 @@ namespace MoreNote.Logic.Service.Notes
         /// <param name="respositoryId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public HashSet<NotebookAuthorityEnum> GetRepositoryAccessPermissions(long? respositoryId, long? userId)
+        public HashSet<NotebookAuthorityEnum> GetNotebookAccessPermissions(long? respositoryId, long? userId)
         {
             var memerRole = GetNotebookMemberRole(respositoryId);
             if (memerRole == null)
@@ -105,7 +106,7 @@ namespace MoreNote.Logic.Service.Notes
                 return new HashSet<NotebookAuthorityEnum>();
 
             }
-            var set = memberRoleService.GetRepositoryAuthoritySet(memerRole.Id);
+            var set = memberRoleService.GetNotebookAuthoritySet(memerRole.Id);
             return set;
         }
 
@@ -157,13 +158,13 @@ namespace MoreNote.Logic.Service.Notes
         /// <summary>
         ///  检验某个用户是否对仓库具有某种权限
         /// </summary>
-        /// <param name="respositoryId"></param>
+        /// <param name="notebookid"></param>
         /// <param name="userId"></param>
         /// <param name="repositoryAuthorityEnum"></param>
         /// <returns></returns>
-        public bool Verify(long? respositoryId, long? userId, NotebookAuthorityEnum repositoryAuthorityEnum)
+        public bool Verify(long? notebookid, long? userId, NotebookAuthorityEnum repositoryAuthorityEnum)
         {
-            var respository = GetNotebook(respositoryId);
+            var respository = GetNotebook(notebookid);
             if (respository == null)
             {
                 return false;
@@ -177,7 +178,7 @@ namespace MoreNote.Logic.Service.Notes
             {
                 return true;
             }
-            var accessPermissions = GetRepositoryAccessPermissions(respositoryId, userId);
+            var accessPermissions = GetNotebookAccessPermissions(notebookid, userId);
             if (accessPermissions == null)
             {
                 return false;
@@ -186,17 +187,17 @@ namespace MoreNote.Logic.Service.Notes
             return accessPermissions.Contains(repositoryAuthorityEnum);
         }
 
-        public bool Verify(long? respositoryId, long? userId, HashSet<NotebookAuthorityEnum> repositoryAuthorityEnumList)
+        public bool Verify(long? notebookid, long? userId, HashSet<NotebookAuthorityEnum> repositoryAuthorityEnumList)
         {
 
-            var respository = GetNotebook(respositoryId);
+            var respository = GetNotebook(notebookid);
             if (respository.OwnerId == userId)
             {
                 return true;//拥有者 拥有任意权限
             }
 
             //获取权限列表
-            var accessPermissions = GetRepositoryAccessPermissions(respositoryId, userId);
+            var accessPermissions = GetNotebookAccessPermissions(notebookid, userId);
             if (accessPermissions == null)
             {
                 return false;

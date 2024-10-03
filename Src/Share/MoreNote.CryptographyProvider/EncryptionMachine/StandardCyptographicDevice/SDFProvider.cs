@@ -3,6 +3,7 @@ using github.hyfree.SDFWrapper.Model;
 
 using MoreNote.Common.Utils;
 using MoreNote.Models.Entity.ConfigFile;
+using MoreNote.SecurityProvider.Core;
 
 namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDevice
 {

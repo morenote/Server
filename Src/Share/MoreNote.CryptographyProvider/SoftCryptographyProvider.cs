@@ -3,6 +3,7 @@
 using MoreNote.Common.Utils;
 using MoreNote.Config.ConfigFile;
 using MoreNote.Logic.Service;
+using MoreNote.SecurityProvider.Core;
 
 using System.Text;
 

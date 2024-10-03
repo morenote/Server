@@ -1,4 +1,5 @@
 ﻿using MoreNote.Common.Utils;
+using MoreNote.SecurityProvider.Core;
 
 namespace MoreNote.SignatureService.RSASign
 {

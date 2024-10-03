@@ -25,13 +25,13 @@ namespace MoreNote.Logic.Service.Notes
             NoteService = noteService;
         }
 
-        public NoteCollection GetNotebookById(long? notebookId)
+        public NoteCollection GetNoteCollectionById(long? notebookId)
         {
             var result = dataContext.NoteCollection.
                 Where(b => b.Id == notebookId).FirstOrDefault();
             return result;
         }
-        public NoteCollection GetNotebookById(long? notebookId, long? repositoryId)
+        public NoteCollection GetNoteCollectionById(long? notebookId, long? repositoryId)
         {
             var result = dataContext.NoteCollection.
                 Where(b => b.Id == notebookId && b.NotesRepositoryId == repositoryId).FirstOrDefault();
@@ -51,7 +51,7 @@ namespace MoreNote.Logic.Service.Notes
             return result;
         }
 
-        public bool AddNotebook(NoteCollection noteCollection)
+        public bool AddNoteCollection(NoteCollection noteCollection)
         {
             if (noteCollection.Id == 0)
             {
@@ -69,7 +69,7 @@ namespace MoreNote.Logic.Service.Notes
             return dataContext.SaveChanges() > 0;
         }
 
-        public bool AddNotebook(ref NoteCollection notebook)
+        public bool AddNoteCollection(ref NoteCollection notebook)
         {
             if (notebook.Id == null)
             {
@@ -86,7 +86,7 @@ namespace MoreNote.Logic.Service.Notes
             var result = dataContext.NoteCollection.Add(notebook);
             return dataContext.SaveChanges() > 0;
         }
-        public bool AddNotebook(long? notebookId, long? userid, long? parentNotebookId, string title, out NoteCollection one)
+        public bool AddNoteCollection(long? notebookId, long? userid, long? parentNotebookId, string title, out NoteCollection one)
         {
             var notebook = dataContext.NoteCollection.Where(b => b.Id == notebookId && b.UserId == userid).FirstOrDefault();
             if (notebook == null)
@@ -99,14 +99,14 @@ namespace MoreNote.Logic.Service.Notes
                     ParentCollectionId = parentNotebookId
 
                 };
-                return AddNotebook(one);
+                return AddNoteCollection(one);
 
             }
             one = null;
             return false;
 
         }
-        public bool UpdateNotebookApi(long? userId, long? notebookId, string title, long? parentNotebookId, int seq, int usn, out NoteCollection notebook)
+        public bool UpdateNoteCollectionApi(long? userId, long? notebookId, string title, long? parentNotebookId, int seq, int usn, out NoteCollection notebook)
         {
             var result = dataContext.NoteCollection.
                  Where(b => b.Id == notebookId);
@@ -137,7 +137,7 @@ namespace MoreNote.Logic.Service.Notes
             return result;
         }
 
-        public NoteCollection[] GetNoteBookTreeByNotesRepositoryId(long? repositoryId)
+        public NoteCollection[] GetNoteBookCollectionByNotesRepositoryId(long? repositoryId)
         {
             NoteCollection[] notebooks = GetAllByNotesRepositoryId(repositoryId);
             NoteCollection[] noteBookTrees = (from NoteCollection n in notebooks
@@ -145,7 +145,7 @@ namespace MoreNote.Logic.Service.Notes
                                               select n).ToArray();
             foreach (NoteCollection notebook in noteBookTrees)
             {
-                notebook.Subs = GetNoteBookTree(notebook.Id, ref notebooks);
+                notebook.Subs = GetNoteCollectionTree(notebook.Id, ref notebooks);
             }
             return noteBookTrees;
         }
@@ -160,19 +160,19 @@ namespace MoreNote.Logic.Service.Notes
                                               select n).ToArray();
             foreach (NoteCollection notebook in noteBookTrees)
             {
-                notebook.Subs = GetNoteBookTree(notebook.Id, ref notebooks);
+                notebook.Subs = GetNoteCollectionTree(notebook.Id, ref notebooks);
             }
             return noteBookTrees;
         }
 
-        private static List<NoteCollection> GetNoteBookTree(long? noteid, ref NoteCollection[] notebooks)
+        private static List<NoteCollection> GetNoteCollectionTree(long? noteid, ref NoteCollection[] notebooks)
         {
             List<NoteCollection> noteBookTrees = (from NoteCollection n in notebooks
                                                   where n.ParentCollectionId == noteid
                                                   select n).ToList();
             foreach (NoteCollection notebook in noteBookTrees)
             {
-                notebook.Subs = GetNoteBookTree(notebook.Id, ref notebooks);
+                notebook.Subs = GetNoteCollectionTree(notebook.Id, ref notebooks);
             }
             return noteBookTrees;
         }
@@ -184,7 +184,7 @@ namespace MoreNote.Logic.Service.Notes
             return result.ToArray();
         }
 
-        public SubNotebooks sortSubNotebooks(SubNotebooks eachNotebooks)
+        public SubNotebooks SortSubNotebooks(SubNotebooks eachNotebooks)
         {
             throw new Exception();
         }
@@ -192,7 +192,7 @@ namespace MoreNote.Logic.Service.Notes
         // 整理(成有关系)并排序
         // GetNotebooks()调用
         // ShareService调用
-        public List<NoteCollection> ParseAndSortNotebooks(List<NoteCollection> userNotebooks, bool needSort)
+        public List<NoteCollection> ParseAndSortNoteCollection(List<NoteCollection> userNotebooks, bool needSort)
         {
             var result = RecursiveSpanningTrees(userNotebooks, null, needSort);
 
@@ -224,17 +224,17 @@ namespace MoreNote.Logic.Service.Notes
             return temp;
         }
 
-        public NoteCollection GetNotebook(long? noteBookId, long? userId)
+        public NoteCollection GetNoteCollection(long? noteBookId, long? userId)
         {
             throw new Exception();
         }
 
-        public NoteCollection GetNotebookByUserIdAndUrlTitle(long? userId, string notebookIdOrUrl)
+        public NoteCollection GetNoteCollectionByUserIdAndUrlTitle(long? userId, string notebookIdOrUrl)
         {
             throw new Exception();
         }
 
-        public List<NoteCollection> GetNotebooks(long? userId)
+        public List<NoteCollection> GetNoteCollections(long? userId)
         {
             List<NoteCollection> userNotebooks = new List<NoteCollection>();
             userNotebooks = dataContext.NoteCollection.Where(b => b.UserId == userId && b.IsDeleted == false).OrderBy(b => b.Title).ToList();
@@ -242,10 +242,10 @@ namespace MoreNote.Logic.Service.Notes
             {
                 return null;
             }
-            return ParseAndSortNotebooks(userNotebooks, true);
+            return ParseAndSortNoteCollection(userNotebooks, true);
         }
 
-        public SubNotebooks GetNotebooksByNotebookIds(long[] notebookIds)
+        public SubNotebooks GetNoteCollectionsByNoteCollectionIds(long[] notebookIds)
         {
             throw new Exception();
         }
@@ -257,12 +257,12 @@ namespace MoreNote.Logic.Service.Notes
         }
 
         // 判断是否是我的notebook
-        public bool IsMyNotebook(long? notebookId)
+        public bool IsMyNoteCollection(long? notebookId)
         {
             throw new Exception();
         }
 
-        public bool AnyNoteBook(long? parentNotebookId)
+        public bool AnyNoteCollection(long? parentNotebookId)
         {
             var bookAny = dataContext.NoteCollection.Where(b => b.ParentCollectionId == parentNotebookId &&
                                                       b.IsDeleted == false &&
@@ -289,7 +289,7 @@ namespace MoreNote.Logic.Service.Notes
 
         // 更新笔记本标题
         // [ok]
-        public bool UpdateNotebookTitle(long? notebookId, long? userId, string title)
+        public bool UpdateNoteCollectionTitle(long? notebookId, long? userId, string title)
         {
             var notebook = dataContext.NoteCollection.Where(b => b.Id == notebookId
                                                        && b.UserId == userId).FirstOrDefault();
@@ -303,7 +303,7 @@ namespace MoreNote.Logic.Service.Notes
             dataContext.SaveChanges();
             return true;
         }
-        public bool UpdateNotebookTitle(long? notebookId, string title)
+        public bool UpdateNoteCollectionTitle(long? notebookId, string title)
         {
             var notebook = dataContext.NoteCollection.Where(b => b.Id == notebookId).FirstOrDefault();
             if (notebook == null)
@@ -317,7 +317,7 @@ namespace MoreNote.Logic.Service.Notes
             return true;
         }
 
-        public List<NoteCollection> GetRootNotebooks(long? repositoryId)
+        public List<NoteCollection> GetRootNoteCollections(long? repositoryId)
         {
 
             var books = dataContext.NoteCollection
@@ -331,7 +331,7 @@ namespace MoreNote.Logic.Service.Notes
 
         }
 
-        public bool UpdateNotebook(long? userId, long? notebookId, object needUpdate)
+        public bool UpdateNoteCollection(long? userId, long? notebookId, object needUpdate)
         {
             throw new Exception();
         }
@@ -362,10 +362,10 @@ namespace MoreNote.Logic.Service.Notes
 
         // 查看是否有子notebook
         // 先查看该notebookId下是否有notes, 没有则删除
-        public bool DeleteNotebook(long? notebookId, int usn)
+        public bool DeleteNoteCollection(long? notebookId, int usn)
         {
 
-            if (AnyNote(notebookId) || AnyNoteBook(notebookId))
+            if (AnyNote(notebookId) || AnyNoteCollection(notebookId))
             {
 
             }

@@ -36,6 +36,7 @@ using MoreNote.SignatureService;
 using MoreNote.SignatureService.RSASign;
 
 using System.Linq;
+using MoreNote.SecurityProvider.Core;
 
 namespace MoreNote.autofac
 {
@@ -176,6 +177,7 @@ namespace MoreNote.autofac
 			//过滤器
 			builder.RegisterType<CheckLoginFilter>();
 			builder.RegisterType<CheckTokenFilter>();
+			builder.RegisterType<MessageSignFilter>();
 			//注入日志服务日志
 
 			builder.RegisterModule<NLogModule>();

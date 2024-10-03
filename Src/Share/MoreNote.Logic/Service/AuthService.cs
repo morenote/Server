@@ -229,7 +229,7 @@ namespace MoreNote.Logic.Service
 						Title = item,
 						ParentCollectionId = null,
 					};
-					NotebookService.AddNotebook(notebook);
+					NotebookService.AddNoteCollection(notebook);
 				}
 				//用户博客信息
 				var user_blog = new UserBlog()

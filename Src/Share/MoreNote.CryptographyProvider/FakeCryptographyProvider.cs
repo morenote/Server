@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using MoreNote.SecurityProvider.Core;
+
+using System.Security.Cryptography;
 
 namespace MoreNote.CryptographyProvider
 {

@@ -6,6 +6,7 @@ using MoreNote.Logic.Service.Logging;
 using MoreNote.Logic.Service.PasswordSecurity;
 using MoreNote.Models.DTO.Leanote.USBKey;
 using MoreNote.Models.Entity.Leanote.Management.Loggin;
+using MoreNote.SecurityProvider.Core;
 
 namespace MoreNote.Logic.Service
 {

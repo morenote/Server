@@ -17,7 +17,7 @@ namespace MoreNote.Logic.Service.MyRepository
         }
 
 
-        public HashSet<NotebookAuthorityEnum> GetRepositoryAuthoritySet(long? roleId)
+        public HashSet<NotebookAuthorityEnum> GetNotebookAuthoritySet(long? roleId)
         {
             var set = new HashSet<NotebookAuthorityEnum>();
 
