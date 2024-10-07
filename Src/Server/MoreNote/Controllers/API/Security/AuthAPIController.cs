@@ -78,6 +78,17 @@ namespace MoreNote.Controllers.API.APIV1
 				{
 					var user = userService.GetUserByEmail(email);
 
+					if (config.SecurityConfig.DataBaseEncryption)
+					{
+						var VerifyHmac = await	 cryptographyProvider.VerifyHmac(Encoding.UTF8.GetBytes(user.ToStringNoMac()),HexUtil.HexToByteArray(user.Hmac));
+
+						if (!VerifyHmac)
+						{
+                            re.Msg = "VerifyHmac is ERROR ";
+                            re.Ok = false;
+                            return LeanoteJson(re);
+                        }
+					}
 					var userToken = new UserToken()
 					{
 						Token = tokenStr,

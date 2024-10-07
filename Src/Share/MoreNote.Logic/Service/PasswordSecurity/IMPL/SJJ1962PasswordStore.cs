@@ -3,6 +3,7 @@ using MoreNote.CryptographyProvider;
 using MoreNote.SecurityProvider.Core;
 
 using System;
+using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
 {
@@ -23,14 +24,14 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
 		/// <param name="salt">盐（无效参数）</param>
 		/// <param name="iterations">轮数（无效参数）</param>
 		/// <returns></returns>
-		public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
+		public async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
 		{
-			var Hex = HexUtil.ByteArrayToSHex(pass);
-			var Hexsalt = HexUtil.ByteArrayToSHex(salt);
-			var HexPass = HexUtil.ByteArrayToSHex(pass);
+			var Hex = HexUtil.ByteArrayToHex(pass);
+			var Hexsalt = HexUtil.ByteArrayToHex(salt);
+			var HexPass = HexUtil.ByteArrayToHex(pass);
 
 
-			var result = cryptographyProvider.TransEncrypted(pass, salt);
+			var result =await cryptographyProvider.TransEncrypted(pass, salt);
 			return result;
 		}
 		/// <summary>
@@ -42,13 +43,13 @@ namespace MoreNote.Logic.Service.PasswordSecurity.IMPL
 		/// <param name="iterations">轮数（无效参数）</param>
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
-		public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+		public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
 		{
-			var Hex = HexUtil.ByteArrayToSHex(pass);
-			var Hexsalt = HexUtil.ByteArrayToSHex(salt);
+			var Hex = HexUtil.ByteArrayToHex(pass);
+			var Hexsalt = HexUtil.ByteArrayToHex(salt);
 
 
-			var result = cryptographyProvider.TransEncrypted(pass, salt);
+			var result =await cryptographyProvider.TransEncrypted(pass, salt);
 
 			//将数据库中存储的加密口令与 用户输入的口令的加密的加密结果比较
 			var verify = SecurityUtil.SafeCompareByteArray(encryData, result);

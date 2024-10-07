@@ -19,7 +19,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
 			var salt = HexUtil.HexToByteArray(hex);
 			IPasswordStore passwordStore = new BCryptPasswordStore();
 			var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 9);
-			var text = HexUtil.ByteArrayToSHex(enc);
+			var text = HexUtil.ByteArrayToHex(enc);
 			Console.WriteLine(text);
 		}
 
@@ -29,7 +29,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
 			var salt = HexUtil.HexToByteArray(hex);
 			IPasswordStore passwordStore = new Argon2PasswordStore();
 			var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 8);
-			var text = HexUtil.ByteArrayToSHex(enc);
+			var text = HexUtil.ByteArrayToHex(enc);
 			Console.WriteLine(text);
 		}
 
@@ -39,7 +39,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
 			var salt = HexUtil.HexToByteArray(hex);
 			IPasswordStore passwordStore = new PDKDF2PasswordStore();
 			var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000 * 80);
-			var text = HexUtil.ByteArrayToSHex(enc);
+			var text = HexUtil.ByteArrayToHex(enc);
 			Console.WriteLine(text);
 		}
 
@@ -49,7 +49,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity.Tests
 			var salt = HexUtil.HexToByteArray(hex);
 			IPasswordStore passwordStore = new SHA256PasswordStore();
 			var enc = passwordStore.Encryption(Encoding.UTF8.GetBytes(password), salt, 1000 * 160);
-			var text = HexUtil.ByteArrayToSHex(enc);
+			var text = HexUtil.ByteArrayToHex(enc);
 			Console.WriteLine(text);
 
 		}

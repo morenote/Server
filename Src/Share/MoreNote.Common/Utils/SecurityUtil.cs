@@ -56,7 +56,7 @@ namespace MoreNote.Common.Utils
 			byte[] keyByte = encoding.GetBytes(secret);
 			byte[] messageBytes = encoding.GetBytes(message);
 			var sign = SignHamc256(messageBytes, keyByte);
-			return HexUtil.ByteArrayToSHex(sign);
+			return HexUtil.ByteArrayToHex(sign);
 		}
 
 		public static string SignHamc256Base64(string message, string secret)

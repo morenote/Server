@@ -12,7 +12,7 @@ namespace MoreNote.CryptographyProvider
 		/// <param name="data"></param>
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
-		public byte[] Hmac(byte[] data)
+		public async Task<byte[]> Hmac(byte[] data)
 		{
 
 			var hash = SHA256.Create().ComputeHash(data);
@@ -21,47 +21,47 @@ namespace MoreNote.CryptographyProvider
 			return hash;
 		}
 
-		public byte[] SM2Decrypt(byte[] data)
+		public async Task<byte[]> SM2Decrypt(byte[] data)
 		{
 			throw new NotImplementedException();
 		}
 
-		public byte[] SM2Encrypt(byte[] data)
+		public async Task<byte[]> SM2Encrypt(byte[] data)
 		{
 			throw new NotImplementedException();
 		}
 
-        public byte[] SM3(byte[] data)
+        public async Task<byte[]> SM3(byte[] data)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] SM4Decrypt(byte[] data, byte[] iv)
+        public async Task<byte[]> SM4Decrypt(byte[] data, byte[] iv)
 		{
 			throw new NotImplementedException();
 		}
 
-		public byte[] SM4Decrypt(byte[] data)
+		public async Task<byte[]> SM4Decrypt(byte[] data)
 		{
 			throw new NotImplementedException();
 		}
 
-		public byte[] SM4Encrypt(byte[] data, byte[] iv)
+		public async Task<byte[]> SM4Encrypt(byte[] data, byte[] iv)
 		{
 			throw new NotImplementedException();
 		}
 
-		public byte[] SM4Encrypt(byte[] data)
+		public async Task<byte[]> SM4Encrypt(byte[] data)
 		{
 			throw new NotImplementedException();
 		}
 
-		public byte[] TransEncrypted(byte[] cipher, byte[] salt)
+		public async Task<byte[]> TransEncrypted(byte[] cipher, byte[] salt)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool VerifyHmac(byte[] data, byte[] mac)
+		public async Task<bool> VerifyHmac(byte[] data, byte[] mac)
 		{
 			throw new NotImplementedException();
 		}

@@ -5,6 +5,7 @@ using MoreNote.SecurityProvider.Core;
 using System;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.Logging.IMPL
 {
@@ -37,18 +38,18 @@ namespace MoreNote.Logic.Service.Logging.IMPL
 			return JsonSerializer.Deserialize<Log>(json);
 		}
 
-		public Log AddMac(ICryptographyProvider cryptographyProvider)
+		public async Task<Log> AddMac(ICryptographyProvider cryptographyProvider)
 		{
 			var bytes = Encoding.UTF8.GetBytes(this.logText);
 
-			this.mac = cryptographyProvider.Hmac(bytes).ByteArrayToBase64();
+			this.mac = (await cryptographyProvider.Hmac(bytes)).ByteArrayToBase64();
 			return this;
 		}
-		public bool VerifyHmac(ICryptographyProvider cryptographyProvider)
+		public async Task<bool> VerifyHmac(ICryptographyProvider cryptographyProvider)
 		{
 			var bytes = Encoding.UTF8.GetBytes(this.logText);
 
-			return cryptographyProvider.VerifyHmac(bytes, this.mac.Base64ToByteArray());
+			return await cryptographyProvider.VerifyHmac(bytes, this.mac.Base64ToByteArray());
 		}
 	}
 }

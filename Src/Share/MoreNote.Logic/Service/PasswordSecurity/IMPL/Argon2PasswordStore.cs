@@ -3,6 +3,7 @@
 using MoreNote.Common.Utils;
 
 using System;
+using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.PasswordSecurity
 {
@@ -21,7 +22,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
 		/// </summary>
 		public int MemorySize { get; set; } = 1024 * 2;//kByte
 
-		public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
+		public  async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
 		{
 			if (salt.Length != 16)
 			{
@@ -40,9 +41,9 @@ namespace MoreNote.Logic.Service.PasswordSecurity
 			return argon2.GetBytes(32);
 		}
 
-		public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+		public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
 		{
-			var newhash = Encryption(pass, salt, iterations);
+			var newhash =await Encryption(pass, salt, iterations);
 
 			return SecurityUtil.SafeCompareByteArray(encryData, newhash);
 		}

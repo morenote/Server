@@ -241,6 +241,7 @@ namespace MoreNote.Logic.Database
 		/// 登录日志
 		/// </summary>
 		public DbSet<LoggingLogin> LoggingLogin { get; set; }
+		public DbSet<DataSignLogging> DataSignLogging { get; set; }
 
 		public DbSet<VirtualFileInfo> VirtualFileInfo { get; set; }
 		public DbSet<VirtualFolderInfo> VirtualFolderInfo { get; set; }

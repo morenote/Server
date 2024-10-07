@@ -37,6 +37,10 @@ using MoreNote.SignatureService.RSASign;
 
 using System.Linq;
 using MoreNote.SecurityProvider.Core;
+using MoreNote.CryptographyProvider.EncryptionMachine.SJJ;
+using MoreNote.SignatureService.NetSign;
+using WebApiClient.Extensions.Autofac;
+using System;
 
 namespace MoreNote.autofac
 {
@@ -193,16 +197,27 @@ namespace MoreNote.autofac
 			if (config.SecurityConfig.NeedEncryptionMachine)
 			{
 
-				builder.RegisterType<RSASignService>()
-					.As<ISignatureService>()
-					.SingleInstance();
+				//builder.RegisterType<RSASignService>()
+				//	.As<ISignatureService>()
+				//	.SingleInstance();
 				//加密提供服务
-				builder.RegisterType<SDFProvider>()
+				builder.RegisterType<SJJProvider>()
 				   .As<ICryptographyProvider>()
 				   .SingleInstance();
 
+				//服务器端签名和验签服务
+				builder.RegisterType<SoftGMSignatureService>()
+                    .As<ISignatureService>()
+                    .SingleInstance();
+
+                builder.RegisterHttpApi<ISJJApi>().ConfigureHttpApiConfig(api =>
+				{
+					api.HttpHost = new Uri(config.SecurityConfig.HisuTSSC);
+				});
+
+
 			}
-			else
+            else
 			{
 				//服务器端签名和验签服务
 				builder.RegisterType<SoftGMSignatureService>()

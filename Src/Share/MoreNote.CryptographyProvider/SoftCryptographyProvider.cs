@@ -32,58 +32,62 @@ namespace MoreNote.CryptographyProvider
 			sm2PriKey = HexUtil.HexToByteArray(webSiteConfig.SecurityConfig.PrivateKey);
 		}
 
-		public byte[] Hmac(byte[] data)
+        public async Task<byte[]> Hmac(byte[] data)
 		{
 			GMService gm = new GMService();
 			return gm.Hmac(data, hmacKey);
 		}
 
-		public byte[] SM2Decrypt(byte[] data)
+		public async Task<byte[]> SM2Decrypt(byte[] data)
 		{
 			GMService gm = new GMService();
 			return gm.SM2Decrypt(data, sm2PriKey);
 		}
 
-		public byte[] SM2Encrypt(byte[] data)
+		public async Task<byte[]> SM2Encrypt(byte[] data)
 		{
 			GMService gm = new GMService();
 			return gm.SM2Encrypt(data, sm2PriKey);
 		}
 
-        public byte[] SM3(byte[] data)
+        public  async Task<byte[]> SM3(byte[] data)
         {
             GMService gm = new GMService();
 			return gm.SM3(data);
 
         }
 
-        public byte[] SM4Decrypt(byte[] data, byte[] iv)
+        public async Task<byte[]> SM4Decrypt(byte[] data, byte[] iv)
 		{
-			GMService gm = new GMService();
+            await Task.Delay(0);
+            GMService gm = new GMService();
 			return gm.SM4_Decrypt_CBC(data, enckey, iv);
 		}
 
-		public byte[] SM4Decrypt(byte[] data)
+        public async Task<byte[]> SM4Decrypt(byte[] data)
 		{
-			GMService gm = new GMService();
+            await Task.Delay(0);
+            GMService gm = new GMService();
 			byte[] iv = new byte[16];//固定值
 			return gm.SM4_Decrypt_CBC(data, enckey, iv);
 		}
 
-		public byte[] SM4Encrypt(byte[] data, byte[] iv)
+        public async Task<byte[]> SM4Encrypt(byte[] data, byte[] iv)
 		{
+			await Task.Delay(0);
 			GMService gm = new GMService();
 			return gm.SM4_Encrypt_CBC(data, enckey, iv);
 		}
 
-		public byte[] SM4Encrypt(byte[] data)
+        public async Task<byte[]> SM4Encrypt(byte[] data)
 		{
-			GMService gm = new GMService();
+            await Task.Delay(0);
+            GMService gm = new GMService();
 			byte[] iv = new byte[16];//固定值
 			return gm.SM4_Encrypt_CBC(data, enckey, iv);
 		}
 
-		public byte[] TransEncrypted(byte[] cipher, byte[] salt)
+		public async Task<byte[]> TransEncrypted(byte[] cipher, byte[] salt)
 		{
 
 			GMService gm = new GMService();
@@ -92,9 +96,9 @@ namespace MoreNote.CryptographyProvider
 			byte[] data = new byte[cipher.Length + 1];
 			Array.Copy(cipher, 0, data, 1, cipher.Length);
 			data[0] = 0x04;
-			var Hexkey = HexUtil.ByteArrayToSHex(sm2PriKey);
-			var Hexsalt = HexUtil.ByteArrayToSHex(salt);
-			var HexPass = HexUtil.ByteArrayToSHex(cipher);
+			var Hexkey = HexUtil.ByteArrayToHex(sm2PriKey);
+			var Hexsalt = HexUtil.ByteArrayToHex(salt);
+			var HexPass = HexUtil.ByteArrayToHex(cipher);
 			var plainText = gm.SM2Decrypt(data, sm2PriKey);
 			byte[] iv = new byte[16];//固定值
 			var enc = gm.SM4_Encrypt_CBC(plainText, enckey, iv);
@@ -102,7 +106,7 @@ namespace MoreNote.CryptographyProvider
 
 		}
 
-		public bool VerifyHmac(byte[] data, byte[] mac)
+        public async Task<bool> VerifyHmac(byte[] data, byte[] mac)
 		{
 			GMService gm = new GMService();
 			var temp = gm.Hmac(data, hmacKey);

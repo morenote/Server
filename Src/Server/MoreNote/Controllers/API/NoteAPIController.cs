@@ -178,7 +178,22 @@ namespace MoreNote.Controllers.API.APIV1
 				}
 				Note note = noteService.GetNote(noteId.ToLongByHex(), GetUserIdByToken(token));
 				NoteContent noteContent = noteContentService.GetNoteContentByNoteId(noteId.ToLongByHex(), GetUserIdByToken(token), false);
-				if (noteContent == null || note == null)
+                if (noteContent.IsEncryption)
+                {
+                    var dec = await this.cryptographyProvider.SM4Decrypt(noteContent.Content.Base64ToByteArray());
+                    noteContent.Content = Encoding.UTF8.GetString(dec);
+
+
+
+                    var verify = await this.cryptographyProvider.VerifyHmac(Encoding.UTF8.GetBytes(noteContent.ToStringNoMac()), HexUtil.HexToByteArray(noteContent.Hmac));
+                    if (!verify)
+                    {
+
+                        noteContent.Content = "数据被篡改";
+
+                    }
+                }
+                if (noteContent == null || note == null)
 				{
 					return Json(re, MyJsonConvert.GetLeanoteOptions());
 				}
@@ -190,11 +205,7 @@ namespace MoreNote.Controllers.API.APIV1
 				{
 					noteContent.Content = "<p>Content is IsNullOrEmpty<>";
 				}
-				if (noteContent.IsEncryption)
-				{
-					var dec = this.cryptographyProvider.SM4Decrypt(noteContent.Content.Base64ToByteArray());
-					noteContent.Content = Encoding.UTF8.GetString(dec);
-				}
+				
 
 				re.Ok = true;
 				re.Data = noteContent;
@@ -365,7 +376,7 @@ namespace MoreNote.Controllers.API.APIV1
 				note.Desc = noteOrContent.Desc;
 			}
 
-			note = noteService.AddNoteAndContent(note, noteContent, myUserId);
+			note =await noteService.AddNoteAndContent(note, noteContent, myUserId);
 			//-------------将笔记与笔记内容保存到数据库
 			if (note == null || note.Id == 0)
 			{
@@ -402,7 +413,7 @@ namespace MoreNote.Controllers.API.APIV1
 
 		//todo:更新笔记
 		[HttpPost]
-		public JsonResult UpdateNote(ApiNote noteOrContent, string token)
+		public async Task<JsonResult> UpdateNote(ApiNote noteOrContent, string token)
 		{
 			Note noteUpdate = new Note();
 			var needUpdateNote = false;
@@ -494,7 +505,7 @@ namespace MoreNote.Controllers.API.APIV1
 			// 附件问题, 根据Files, 有些要删除的, 只留下这些
 			if (noteOrContent.Files != null)
 			{
-				attachService.UpdateOrDeleteAttachApiAsync(noteId, tokenUserId, noteOrContent.Files);
+				await attachService.UpdateOrDeleteAttachApiAsync(noteId, tokenUserId, noteOrContent.Files);
 			}
 			//-------------更新笔记内容
 			var afterContentUsn = 0;
@@ -727,7 +738,7 @@ namespace MoreNote.Controllers.API.APIV1
 				UpdatedTime = DateTime.Now,
 				UpdatedUserId = user.Id
 			};
-			noteContentService.AddNoteContent(noteContent);
+			 await noteContentService.AddNoteContent(noteContent);
 
 			var note = new Note()
 			{
@@ -782,7 +793,9 @@ namespace MoreNote.Controllers.API.APIV1
 			return LeanoteJson(re);
 		}
 		[HttpPost]
-		public async Task<IActionResult> UpdateNoteTitleAndContent(string token, string noteId, string noteTitle, string content, string dataSignJson, string digitalEnvelopeJson)
+
+        [ServiceFilter(typeof(MessageSignFilter))]
+        public async Task<IActionResult> UpdateNoteTitleAndContent(string token, string noteId, string noteTitle, string content)
 		{
 			var user = tokenSerivce.GetUserByToken(token);
 			var re = new ApiResponseDTO();
@@ -792,53 +805,7 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 			DigitalEnvelope digitalEnvelope = null;
 			var verify = false;
-			//if (this.config.SecurityConfig.ForceDigitalEnvelope)
-			//{
-			//	//数字信封
-			//	if (this.config.SecurityConfig.ForceDigitalEnvelope)
-			//	{
-			//		digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
-			//		var data = digitalEnvelope.GetPayLoadValue(this.gMService, this.config.SecurityConfig.PrivateKey);
-			//		if (data == null)
-			//		{
-			//			throw new Exception("数字信封解密失败");
-			//		}
-			//		//赋予解密的数字信封
-			//		content = data;
-			//	}
-			//}
-
-			if (this.config.SecurityConfig.ForceDigitalSignature)
-			{
-				//验证签名
-				var dataSign = DataSignDTO.FromJSON(dataSignJson);
-				verify = await this.ePassService.VerifyDataSign(dataSign);
-				if (!verify)
-				{
-					return LeanoteJson(re);
-				}
-				verify = dataSign.SignData.Operate.Equals("/api/Note/UpdateNoteTitleAndContent");
-				if (!verify)
-				{
-					re.Msg = "Operate is not Equals ";
-					return LeanoteJson(re);
-				}
-				//签字签名和数字信封数据
-				if (dataSign != null)
-				{
-					var dataSM3 = gMService.SM3String(noteId + noteTitle + content);
-					var signSM3 = dataSign.SignData.Hash;
-					if (!dataSM3.ToUpper().Equals(signSM3.ToUpper()))
-					{
-						re.Msg = "SM3 is error";
-						re.Ok = false;
-						return LeanoteJson(re);
-					}
-				}
-
-				//签名存证
-				this.dataSignService.AddDataSign(dataSign, "UpdateNoteTitleAndContent");
-			}
+			await Task.Delay(0);
 
 			//-------------校验参数合法性
 			if (user == null)
@@ -883,7 +850,7 @@ namespace MoreNote.Controllers.API.APIV1
 				noteContent.Abstract = "DataBaseEncryption";
 			}
 
-			noteContentService.UpdateNoteContent(note.Id, noteContent);
+			await noteContentService.UpdateNoteContent(note.Id, noteContent);
 			//-------------------更新笔记元数据---------------------------
 			this.noteService.UpdateNoteTitle(note.Id, noteTitle);
 			this.noteService.SetNoteContextId(note.Id, noteContentId);
@@ -901,10 +868,10 @@ namespace MoreNote.Controllers.API.APIV1
 
 				var payLoadJson = payLoad.ToJson();
 
-				var jsonHex = Common.Utils.HexUtil.ByteArrayToSHex(Encoding.UTF8.GetBytes(payLoadJson));
+				var jsonHex = Common.Utils.HexUtil.ByteArrayToHex(Encoding.UTF8.GetBytes(payLoadJson));
 
 				var encBuffer = gMService.SM4_Encrypt_CBC(Encoding.UTF8.GetBytes(payLoadJson), key.HexToByteArray(), digitalEnvelope.IV.HexToByteArray());
-				var enc = HexUtil.ByteArrayToSHex(encBuffer);
+				var enc = HexUtil.ByteArrayToHex(encBuffer);
 				re.Data = enc;
 				re.Encryption = true;
 			}
@@ -912,7 +879,8 @@ namespace MoreNote.Controllers.API.APIV1
 			return LeanoteJson(re);
 		}
 		[HttpPost, HttpDelete]
-		public async Task<IActionResult> DeleteNote(string token, string noteRepositoryId, string noteId, string dataSignJson)
+		[ServiceFilter(typeof(MessageSignFilter))]
+		public async Task<IActionResult> DeleteNote(string token, string noteRepositoryId, string noteId)
 		{
 			var user = tokenSerivce.GetUserByToken(token);
 			var re = new ApiResponseDTO();
@@ -921,26 +889,7 @@ namespace MoreNote.Controllers.API.APIV1
 				return LeanoteJson(re);
 			}
 			var verify = false;
-			if (this.config.SecurityConfig.ForceDigitalSignature)
-			{
-				//验证签名
-				var dataSign = DataSignDTO.FromJSON(dataSignJson);
-				verify = await this.ePassService.VerifyDataSign(dataSign);
-				if (!verify)
-				{
-					return LeanoteJson(re);
-				}
-
-				verify = dataSign.SignData.Operate.Equals("/api/Note/DeleteNote");
-				if (!verify)
-				{
-					re.Msg = "Operate is not Equals ";
-					return LeanoteJson(re);
-				}
-				//签名存证
-				this.dataSignService.AddDataSign(dataSign, "DeleteNote");
-			}
-
+			await Task.Delay(0);
 			var note = noteService.GetNoteById(noteId.ToLongByHex());
 
 			var repositoryId = note.NotesRepositoryId;

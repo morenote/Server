@@ -42,6 +42,7 @@ namespace MoreNote.Logic.Service
 				Tag = tag,
 				DataSignJson = dataSignDTO.ToJson()
 			};
+			this.dataContext.DataSignLogging.Add(dataSignLogging);
 			
 			this.dataContext.SaveChanges();
 		}

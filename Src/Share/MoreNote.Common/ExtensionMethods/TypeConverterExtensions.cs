@@ -19,7 +19,7 @@ namespace MoreNote.Common.ExtensionMethods
 
 		public static string ByteArrayToHex(this byte[] data)
 		{
-			return HexUtil.ByteArrayToSHex(data);
+			return HexUtil.ByteArrayToHex(data);
 		}
 		public static byte[] HexToByteArray(this string hex)
 		{

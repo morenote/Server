@@ -66,74 +66,75 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 
 		}
 
-		public byte[] Hmac(byte[] data)
+		public async Task<byte[]> Hmac(byte[] data)
 		{
-			var hex = HexUtil.ByteArrayToSHex(data);
+			var hex = HexUtil.ByteArrayToHex(data);
 			var hamc = sdfHelper.SDF_HMAC(data);
 
 			return hamc;
 		}
 
-		public byte[] SM4Decrypt(byte[] data)
+        public async Task<byte[]> SM4Decrypt(byte[] data)
 		{
-			var dec = this.SM4Decrypt(data, new byte[16]);
+			await Task.Delay(0);
+			var dec =  await this.SM4Decrypt(data, new byte[16]);
 			return dec;
 		}
 
-		public byte[] SM4Encrypt(byte[] data)
+        public async Task<byte[]> SM4Encrypt(byte[] data)
 		{
-			var enc = this.SM4Encrypt(data, new byte[16]);
+			var enc =await this.SM4Encrypt(data, new byte[16]);
 			return enc;
 		}
 
 
-		public byte[] SM4Decrypt(byte[] data, byte[] iv)
+		public async Task<byte[]> SM4Decrypt(byte[] data, byte[] iv)
 		{
 			var dec = sdfHelper.SM4_Decrypt(iv, data, true);
 			return dec;
 		}
 
-		public byte[] SM4Encrypt(byte[] data, byte[] iv)
+		public async Task<byte[]> SM4Encrypt(byte[] data, byte[] iv)
 		{
 
 			var enc = sdfHelper.SM4_Encrypt(iv, data, true);
 			return enc;
 		}
 
-		public bool VerifyHmac(byte[] data, byte[] mac)
+		public async Task<bool> VerifyHmac(byte[] data, byte[] mac)
 		{
-			var temp = Hmac(data);
+			var temp =await Hmac(data);
 
 			return SecurityUtil.SafeCompareByteArray(temp, mac);
 		}
 
-		public byte[] TransEncrypted(byte[] data, byte[] iv)
+		public async Task<byte[]> TransEncrypted(byte[] data, byte[] iv)
 		{
 			if (iv.Length != 16)
 			{
 				throw new ArgumentException("iv len !=16");
 			}
 
-			var plain = SM2Decrypt(data);
-			var hex = HexUtil.ByteArrayToSHex(plain);
-			var hexIV = HexUtil.ByteArrayToSHex(iv);
+			var plain =await SM2Decrypt(data);
+			var hex = HexUtil.ByteArrayToHex(plain);
+			var hexIV = HexUtil.ByteArrayToHex(iv);
 
-			var enc = SM4Encrypt(plain, iv);
+			var enc =await SM4Encrypt(plain, iv);
 
-			var encHex = HexUtil.ByteArrayToSHex(enc);
+			var encHex = HexUtil.ByteArrayToHex(enc);
 			return enc;
 		}
 
-		public byte[] SM2Encrypt(byte[] data)
+		public async Task<byte[]> SM2Encrypt(byte[] data)
 		{
 			var sm2 = sdfHelper.SM2_Encrypt(data, 11);
 
 			return sm2.ToByteArrayC1C3C2();
 		}
 
-		public byte[] SM2Decrypt(byte[] data)
+		public async Task<byte[]> SM2Decrypt(byte[] data)
 		{
-			var hex = HexUtil.ByteArrayToSHex(data);
+			var hex = HexUtil.ByteArrayToHex(data);
 			SM2Cipher sm2 = SM2Cipher.InsanceC1C3C2(data, false);
 
 			var pucCipher = sm2.ToECCCipher();
@@ -142,7 +143,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.StandardCyptographicDe
 			return dec;
 		}
 
-        public byte[] SM3(byte[] data)
+        public async Task<byte[]> SM3(byte[] data)
         {
             throw new NotImplementedException();
         }

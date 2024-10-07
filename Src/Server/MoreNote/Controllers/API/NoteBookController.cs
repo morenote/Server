@@ -211,7 +211,8 @@ namespace MoreNote.Controllers.API
 		/// <param name="dataSignJson">签名文件</param>
 		/// <returns></returns>
 		[HttpPost, HttpDelete]
-		public async Task<IActionResult> DeleteNotebook(string token, string id, string dataSignJson)
+		[ServiceFilter(typeof(MessageSignFilter))]
+		public async Task<IActionResult> DeleteNotebook(string token, string id)
 		{
 			var verify = false;
 			var user = tokenSerivce.GetUserByToken(token);
@@ -225,24 +226,7 @@ namespace MoreNote.Controllers.API
 				return LeanoteJson(re);
 			}
 
-			if (this.config.SecurityConfig.ForceDigitalSignature)
-			{
-				//验证签名
-				var dataSign = DataSignDTO.FromJSON(dataSignJson);
-				verify = await this.ePassService.VerifyDataSign(dataSign);
-				if (!verify)
-				{
-					return LeanoteJson(re);
-				}
-				verify = dataSign.SignData.Operate.Equals("/api/repository/DeleteNotebook");
-				if (!verify)
-				{
-					re.Msg = "Operate is not Equals ";
-					return LeanoteJson(re);
-				}
-				//签名存证
-				this.dataSignService.AddDataSign(dataSign, "DeleteNotebook");
-			}
+			await Task.Delay(0);
 
 			verify = notebookRepositoryService.Verify(id.ToLongByHex(), user.Id, NotebookAuthorityEnum.DeleteRepository);
 			if (!verify)
@@ -283,7 +267,7 @@ namespace MoreNote.Controllers.API
 			var notes = noteService.GetNoteChildrenByNotebookId(bookId);
 			foreach (var note in notes)
 			{
-				var context = noteContentService.GetNoteContentByNoteId(note.Id);
+				var context =await noteContentService.GetNoteContentByNoteId(note.Id);
 				this.noteService.SetNoteContextId(note.Id, context.Id);
 
 			}

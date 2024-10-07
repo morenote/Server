@@ -86,7 +86,7 @@ namespace MoreNote.Controllers.API.APIV1
 			var re = new ApiResponseDTO();
 			if (user == null)
 			{
-				re.Msg = "NOTLOGIN";
+				re.Msg = "user == null";
 			}
 			re.Ok = true;
 			re.Data = user;
@@ -108,7 +108,7 @@ namespace MoreNote.Controllers.API.APIV1
 		}
 
 		[HttpPost]
-		public IActionResult UpdateUsername(string token, string username)
+		public async Task<IActionResult> UpdateUsername(string token, string username)
 		{
 			var re = new ApiResponseDTO();
 			var message = string.Empty;
@@ -138,7 +138,7 @@ namespace MoreNote.Controllers.API.APIV1
 			}
 			if (userService.VDUserName(username, out message))
 			{
-				re.Ok = userService.UpdateUsername(user.Id, username);
+				re.Ok = await userService.UpdateUsername(user.Id, username);
 				re.Msg = message;
 				return Json(re, MyJsonConvert.GetLeanoteOptions());
 			}

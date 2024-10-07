@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using Z.EntityFramework.Plus;
 
@@ -62,20 +63,32 @@ namespace MoreNote.Logic.Service.Notes
             return result;
         }
 
-        public bool InsertNoteContent(NoteContent noteContent)
+        public async Task<bool> InsertNoteContent(NoteContent noteContent)
         {
             if (config.SecurityConfig.DataBaseEncryption)
             {
-                var enc = cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(noteContent.Content));
+                if (string.IsNullOrEmpty(noteContent.Content))
+                {
+                    noteContent.Content="null";
+
+                }
+                var mac = await cryptographyProvider.Hmac(Encoding.UTF8.GetBytes(noteContent.ToStringNoMac()));
+
+                var verify=await cryptographyProvider.VerifyHmac(Encoding.UTF8.GetBytes(noteContent.ToStringNoMac()), mac);
+
+                noteContent.Hmac = HexUtil.ByteArrayToHex(mac);
+                var enc =await cryptographyProvider.SM4Encrypt(Encoding.UTF8.GetBytes(noteContent.Content));
                 noteContent.Content = enc.ByteArrayToBase64();
                 noteContent.IsEncryption = true;
+               
+
             }
 
             var result = dataContext.NoteContent.Add(noteContent);
 
             return dataContext.SaveChanges() > 0;
         }
-        public NoteContent GetNoteContentByNoteId(long? noteId)
+        public async Task<NoteContent> GetNoteContentByNoteId(long? noteId)
         {
             var result = dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false);
             if (result == null || result.FirstOrDefault() == null)
@@ -83,6 +96,20 @@ namespace MoreNote.Logic.Service.Notes
                 throw new Exception("GetNoteContent result is null");
             }
             var noteContent = result.FirstOrDefault();
+            //if (config.SecurityConfig.DataBaseEncryption)
+            //{
+            //    if (string.IsNullOrEmpty(noteContent.Content))
+            //    {
+            //        noteContent.Content = "null";
+
+            //    }
+            //    var dec = await cryptographyProvider.SM4Decrypt(Encoding.UTF8.GetBytes(noteContent.Content));
+            //    noteContent.Content = Encoding.UTF8.GetString(dec);
+            //    noteContent.IsEncryption = true;
+            //    //var mac = await cryptographyProvider.Hmac(Encoding.UTF8.GetBytes(noteContent.ToStringNoMac()));
+            //    //noteContent.Hmac = HexUtil.ByteArrayToHex(mac);
+
+            //}
             return result == null ? null : result.FirstOrDefault();
         }
 
@@ -119,6 +146,9 @@ namespace MoreNote.Logic.Service.Notes
         public NoteContent GetValidNoteContentByNoteId(long? noteId, long? userId)
         {
             var result = dataContext.NoteContent.Where(b => b.UserId == userId && b.NoteId == noteId && b.IsHistory == false);
+
+
+
             return result == null ? null : result.FirstOrDefault();
         }
         /// <summary>
@@ -135,14 +165,14 @@ namespace MoreNote.Logic.Service.Notes
 
         // 添加笔记本内容
         // [ok]
-        public NoteContent AddNoteContent(NoteContent noteContent)
+        public async Task<NoteContent> AddNoteContent(NoteContent noteContent)
         {
             noteContent.CreatedTime = Tools.FixUrlTime(noteContent.CreatedTime);
             noteContent.UpdatedTime = Tools.FixUrlTime(noteContent.UpdatedTime);
             noteContent.UpdatedUserId = noteContent.UserId;
 
 
-            InsertNoteContent(noteContent);
+           await  InsertNoteContent(noteContent);
             // 更新笔记图片
             NoteImageService.UpdateNoteImages(noteContent.UserId, noteContent.NoteId, "", noteContent.Content);
             return noteContent;
@@ -161,7 +191,7 @@ namespace MoreNote.Logic.Service.Notes
         // hasBeforeUpdateNote 之前是否更新过note其它信息, 如果有更新, usn不用更新
         // TODO abstract这里生成0
 
-        public bool UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime
+        public async Task<bool> UpdateNoteContent(long? updateUserId, long? noteId, string content, string abstractStr, bool hasBeforeUpdateNote, int usn, DateTime updateTime
        )
         {
             var note = NoteService.GetNoteById(noteId);
@@ -199,7 +229,7 @@ namespace MoreNote.Logic.Service.Notes
                 IsHistory = false
             };
             //UpdataVector(ref insertNoteConext);
-            InsertNoteContent(insertNoteConext);
+         await   InsertNoteContent(insertNoteConext);
             //todo: 需要完成函数UpdateNoteContent
             return true;
         }
@@ -273,11 +303,11 @@ namespace MoreNote.Logic.Service.Notes
             dataContext.SaveChanges();
             return true;
         }
-        public void UpdateNoteContent(long? noteId, NoteContent noteContent)
+        public async Task UpdateNoteContent(long? noteId, NoteContent noteContent)
         {
 
             dataContext.NoteContent.Where(b => b.NoteId == noteId && b.IsHistory == false).Update(x => new NoteContent() { IsHistory = true });
-            AddNoteContent(noteContent);
+           await  AddNoteContent(noteContent);
         }
 
 

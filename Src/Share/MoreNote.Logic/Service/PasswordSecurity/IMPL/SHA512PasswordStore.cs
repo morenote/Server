@@ -2,6 +2,7 @@
 
 using System;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.PasswordSecurity
 {
@@ -10,7 +11,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
 	/// </summary>
 	public class SHA512PasswordStore : IPasswordStore
 	{
-		public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
+		public  async Task<byte[]> Encryption(byte[] pass, byte[] salt, int iterations)
 		{
 			using (var sha512 = SHA512.Create())
 			{
@@ -31,9 +32,9 @@ namespace MoreNote.Logic.Service.PasswordSecurity
 			}
 		}
 
-		public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+		public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
 		{
-			var hash = Encryption(pass, salt, iterations);
+			var hash =await Encryption(pass, salt, iterations);
 			return SecurityUtil.SafeCompareByteArray(hash, encryData);
 		}
 

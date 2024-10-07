@@ -38,7 +38,7 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
 		public string GetPayLoadSM3(GMService gMService, string priKey)
 		{
 			var payload = GetPayLoadDTO(gMService, priKey);
-			var dataHex = Common.Utils.HexUtil.ByteArrayToSHex(Encoding.UTF8.GetBytes(payload.Data));
+			var dataHex = Common.Utils.HexUtil.ByteArrayToHex(Encoding.UTF8.GetBytes(payload.Data));
 			var myHash = gMService.SM3(dataHex);
 
 			return myHash;
@@ -50,7 +50,7 @@ namespace MoreNote.Models.DTO.Leanote.ApiRequest
 			var rawPayLodBuffer = gMService.SM4_Decrypt_CBC(this.PayLoad.HexToByteArray(), rawKey.HexToByteArray(), this.IV.HexToByteArray());
 			var rawPayLod = Encoding.UTF8.GetString(rawPayLodBuffer);
 			var rawPayLodObj = PayLoadDTO.FromJSON(rawPayLod);
-			var dataHex = Common.Utils.HexUtil.ByteArrayToSHex(Encoding.UTF8.GetBytes(rawPayLodObj.Data));
+			var dataHex = Common.Utils.HexUtil.ByteArrayToHex(Encoding.UTF8.GetBytes(rawPayLodObj.Data));
 			var myHash = gMService.SM3(dataHex);
 			if (!myHash.ToUpper().Equals(rawPayLodObj.Hash.ToUpper()))
 			{

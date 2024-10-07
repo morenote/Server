@@ -1,6 +1,7 @@
 ﻿using BCrypt.Net;
 
 using System;
+using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service.PasswordSecurity
 {
@@ -9,7 +10,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
 	/// </summary>
 	public class BCryptPasswordStore : IPasswordStore
 	{
-		public byte[] Encryption(byte[] pass, byte[] salt, int iterations)
+		public  async Task<byte[]>  Encryption(byte[] pass, byte[] salt, int iterations)
 		{
 			if (salt.Length != 16)
 			{
@@ -23,7 +24,7 @@ namespace MoreNote.Logic.Service.PasswordSecurity
 
 		}
 
-		public bool VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
+		public async Task<bool> VerifyPassword(byte[] encryData, byte[] pass, byte[] salt, int iterations)
 		{
 
 			return BCryptHlper.Verify(encryData, pass, salt, iterations);

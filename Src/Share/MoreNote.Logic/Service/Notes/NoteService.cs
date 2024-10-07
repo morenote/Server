@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using Z.EntityFramework.Plus;
 
@@ -805,13 +806,13 @@ namespace MoreNote.Logic.Service.Notes
 
         // 添加笔记和内容
         // 这里使用 info.NoteAndContent 接收?
-        public Note AddNoteAndContentForController(Note note, NoteContent noteContent, long? updatedUserId)
+        public async Task<Note> AddNoteAndContentForController(Note note, NoteContent noteContent, long? updatedUserId)
         {
             //todo:实现AddNoteAndContentForController
-            return AddNoteAndContent(note, noteContent, updatedUserId);
+            return await AddNoteAndContent(note, noteContent, updatedUserId);
         }
 
-        public Note AddNoteAndContent(Note note, NoteContent noteContent, long? myUserId)
+        public async Task<Note> AddNoteAndContent(Note note, NoteContent noteContent, long? myUserId)
         {
             if (note.Id == null)
             {
@@ -834,7 +835,7 @@ namespace MoreNote.Logic.Service.Notes
 
             if (note.Id != null)
             {
-                NoteContentService.AddNoteContent(noteContent);
+               await NoteContentService.AddNoteContent(noteContent);
             }
             return note;
         }

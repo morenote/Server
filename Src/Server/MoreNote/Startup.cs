@@ -23,6 +23,7 @@ using MoreNote.Config.ConfigFilePath.IMPL;
 using MoreNote.Database;
 using MoreNote.Logic.Database;
 using MoreNote.Logic.Service;
+using MoreNote.SignatureService.NetSign;
 
 using System;
 using System.IO;
@@ -173,9 +174,10 @@ namespace MoreNote
 				options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 			});
 			services.AddResponseCaching();
-			//services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
-			// DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
-		}
+            //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
+            // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
+            //services.AddHttpApi<ISJJApi>();
+        }
 
 		public void ConfigureContainer(ContainerBuilder builder)
 		{

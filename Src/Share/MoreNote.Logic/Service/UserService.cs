@@ -23,6 +23,7 @@ using MoreNote.SecurityProvider.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MoreNote.Logic.Service
@@ -133,12 +134,17 @@ namespace MoreNote.Logic.Service
 			throw new Exception();
 		}
 
-		public bool AddUserAsync(UserInfo user)
+		public async Task<bool> AddUserAsync(UserInfo user)
 		{
 			if (user.Id == 0) user.Id = idGenerator.NextId();
 			user.CreatedTime = DateTime.Now;
 			user.Email = user.Email.ToLower();
 			EmailService.RegisterSendActiveEmail(user, user.Email);
+			if (Config.SecurityConfig.DataBaseEncryption)
+			{
+				var mac=await	cryptographyProvider.Hmac(Encoding.UTF8.GetBytes(user.ToStringNoMac()));
+				user.Hmac=HexUtil.ByteArrayToHex(mac);
+			}
 
 			dataContext.User.Add(user);
 			return dataContext.SaveChanges() > 0;
@@ -451,7 +457,7 @@ namespace MoreNote.Logic.Service
 		}
 
 		// 更新username
-		public bool UpdateUsername(long? userId, string username)
+		public async Task<bool>  UpdateUsername(long? userId, string username)
 		{
 			var user = dataContext.User.Where(b => b.Id == userId).FirstOrDefault();
 			if (user == null)
@@ -460,7 +466,13 @@ namespace MoreNote.Logic.Service
 			}
 			user.UsernameRaw = username;
 			user.Username = username;
-			return dataContext.SaveChanges() > 0;
+            if (Config.SecurityConfig.DataBaseEncryption)
+            {
+                var mac = await cryptographyProvider.Hmac(Encoding.UTF8.GetBytes(user.ToStringNoMac()));
+
+            user.Hmac = HexUtil.ByteArrayToHex(mac);
+            }
+            return dataContext.SaveChanges() > 0;
 		}
 
 		// 修改头像
@@ -480,7 +492,7 @@ namespace MoreNote.Logic.Service
 
 			IPasswordStore passwordStore = passwordStoreFactory.Instance(user);
 			//验证旧密码
-			var vd = passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), oldPwd.Base64ToByteArray(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
+			var vd =await passwordStore.VerifyPassword(user.Pwd.Base64ToByteArray(), oldPwd.Base64ToByteArray(), user.Salt.Base64ToByteArray(), user.PasswordHashIterations);
 			if (!vd)
 			{
 				return vd;
@@ -497,8 +509,12 @@ namespace MoreNote.Logic.Service
 			//更新盐
 			user.Salt = salt.ByteArrayToBase64();
 			//生成新的密码哈希
-			user.Pwd = (passwordStore.Encryption(pwd.Base64ToByteArray(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
-
+			user.Pwd = (await passwordStore.Encryption(pwd.Base64ToByteArray(), salt, user.PasswordHashIterations)).ByteArrayToBase64();
+			if (Config.SecurityConfig.DataBaseEncryption)
+			{
+			 var mac=await	cryptographyProvider.Hmac(Encoding.UTF8.GetBytes(user.ToStringNoMac()));
+			user.Hmac=HexUtil.ByteArrayToHex(mac);
+			}
 			return dataContext.SaveChanges() > 0;
 		}
 
