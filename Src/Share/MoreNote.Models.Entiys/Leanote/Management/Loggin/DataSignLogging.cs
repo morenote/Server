@@ -15,9 +15,9 @@ namespace MoreNote.Models.Entity.Leanote.Management.Loggin
 		[Column("data_id")]
 		public long? DataId { get; set; }
 		[Column("tag")]
-		public string Tag { get; set; }
+		public string? Tag { get; set; }="";
 		[Column("data_sign_json")]
-		public string DataSignJson { get; set; }
+		public string? DataSignJson { get; set; }="";
 
 	}
 }

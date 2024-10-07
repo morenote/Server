@@ -134,9 +134,10 @@ namespace MoreNote.Controllers.API.Security
 			}
 			finally
 			{
+                await logg.SetHmac(this.cryptographyProvider);
+                this.log.Save(logg);
 
-			
-			}
+            }
 		}
 		[HttpGet]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]

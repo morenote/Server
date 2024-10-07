@@ -1,14 +1,22 @@
 ﻿using github.hyfree.GM;
 
+using Lucene.Net.Support.IO;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
+using MoreNote.Common.ExtensionMethods;
+using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
+using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.ApiRequest;
+
+using SharpCompress;
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,16 +35,20 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
             this.gMService = gMService;
             this.PrivateKey = configFileService.ReadConfig().SecurityConfig.PrivateKey;
         }
-
+       
         public async Task InvokeAsync(HttpContext context)
         {
+            DigitalEnvelope digitalEnvelope = null;
             var enc_field = context.Request.Headers["enc_field"];
+            Stream originalBody=null;
+            MemoryStream ms=null;
+
             if (!string.IsNullOrWhiteSpace(enc_field) && context.Request.Method.Equals("POST"))
             {
 
                 var digitalEnvelopeJson = context.Request.Form["digitalEnvelopeJson"];
 
-                DigitalEnvelope digitalEnvelope = null;
+                
                 var verify = false;
                 //数字信封
                 digitalEnvelope = DigitalEnvelope.FromJSON(digitalEnvelopeJson);
@@ -61,10 +73,59 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
                 // 替换原始的 Form 数据
                 context.Request.Form = newFormCollection;
 
+
+                // 保持原来的流
+                 originalBody = context.Response.Body;
+
+                // 用ms替换当前的流
+                ms = new MemoryStream();
+                context.Response.Body = ms;
             }
 
-            // Call the next delegate/middleware in the pipeline.
+
+
+           
+
+
             await _next(context);
+            if (!string.IsNullOrWhiteSpace(enc_field) && ms!=null && originalBody!=null)
+            {
+                ms.Seek(0,SeekOrigin.Begin);
+                var reader = new StreamReader(ms);
+                var json=await reader.ReadToEndAsync();
+
+                if (string.IsNullOrEmpty(json))
+                {
+                    return;
+
+                }
+
+                var apiRe=ApiResponseDTO.FormJson(json);
+
+
+                var key = digitalEnvelope.getSM4Key(this.gMService, this.PrivateKey);
+
+
+                var payLoad = new PayLoadDTO();
+                payLoad.SetData(apiRe.Data.ToString());
+
+
+                var payLoadJson = payLoad.ToJson();
+
+                var jsonHex = HexUtil.ByteArrayToHex(Encoding.UTF8.GetBytes(payLoadJson));
+
+                var encBuffer = gMService.SM4_Encrypt_CBC(Encoding.UTF8.GetBytes(payLoadJson), key.HexToByteArray(), digitalEnvelope.IV.HexToByteArray());
+                var enc = HexUtil.ByteArrayToHex(encBuffer);
+                apiRe.Data = enc;
+                apiRe.Encryption = true;
+
+                var apiReJson=apiRe.ToJson();
+                using (StreamWriter streamWriter=new StreamWriter(originalBody))
+                {
+                  await  streamWriter.WriteAsync(apiReJson);
+                }
+            }
+              
         }
     }
 }

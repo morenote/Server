@@ -41,6 +41,7 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\MoreNote.SecurityProvider.Core\MoreNote.SecurityProvider.Core.csproj" />
     <ProjectReference Include="..\MoreNote.Common\MoreNote.Common.csproj" />
     <ProjectReference Include="..\MoreNote.Models\MoreNote.Models.csproj" />
   </ItemGroup>

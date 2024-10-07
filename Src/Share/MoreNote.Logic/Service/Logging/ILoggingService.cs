@@ -14,8 +14,8 @@ namespace MoreNote.Logic.Service.Logging
 		public void Warn(string message);
 
 
-		//public void Save(LoggingLogin loggingLogin);
+		public void Save(LoggingLogin loggingLogin);
 
-		//public List<LoggingLogin> GetAllUserLoggingLogin();
+		public List<LoggingLogin> GetAllUserLoggingLogin();
 	}
 }

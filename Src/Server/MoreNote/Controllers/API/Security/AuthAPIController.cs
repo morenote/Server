@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DnsClient;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using MoreNote.Common.ExtensionMethods;
@@ -70,7 +72,16 @@ namespace MoreNote.Controllers.API.APIV1
 		
 
 			var re = new ApiResponseDTO();
-			try
+            StringBuilder stringBuilder = new StringBuilder();
+            LoggingLogin logg = new LoggingLogin()
+            {
+                Id = this.idGenerator.NextId(),
+                LoginDateTime = DateTime.Now,
+                LoginMethod = "PassWord",
+                Ip = Request.Host.Host,
+                BrowserRequestHeader = stringBuilder.ToString(),
+            };
+            try
 			{
 				//使用认证服务鉴别口令
 				var tokenStr = await authService.LoginByPWD(email, pwd);
@@ -99,16 +110,17 @@ namespace MoreNote.Controllers.API.APIV1
 					re.Ok = true;
 					//re.Data = userToken;
 					this.distributedCache.SetBool("Password" + sessionCode, true);
-				
-					return LeanoteJson(re);
+                    logg.UserId = user.Id;
+                    logg.IsLoginSuccess = true;
+                    return LeanoteJson(re);
 				}
 				else
 				{
 					re.Msg = "用户名或密码有误";
-					
-					//口令重试计数器
-					//todo:增加用户口令重试计数器
-					var errorCount = distributedCache.GetInt("SessionErrorCount");
+                    logg.ErrorMessage = "用户名或密码有误";
+                    //口令重试计数器
+                    //todo:增加用户口令重试计数器
+                    var errorCount = distributedCache.GetInt("SessionErrorCount");
 					if (errorCount == null)
 					{
 						distributedCache.SetInt("SessionErrorCount", 1);
@@ -126,7 +138,11 @@ namespace MoreNote.Controllers.API.APIV1
 				re.Msg = ex.Message;
 				re.Ok = false;
 				return LeanoteJson(re);
-			}
+			}finally 
+			{
+                await logg.SetHmac(this.cryptographyProvider);
+                this.log.Save(logg);
+            }
 		}
 		/// <summary>
 		/// 提交登录信息
@@ -240,36 +256,54 @@ namespace MoreNote.Controllers.API.APIV1
 		}
 
 
-		//[HttpGet]
-		//[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-		//public async Task<IActionResult> GetUserLoginLogging(string token)
-		//{
-		//	var re = new ApiResponseDTO()
-		//	{
-		//		Ok = false,
-		//		Data = null
-		//	};
-		//	var user = tokenSerivce.GetUserByToken(token);
-		//	if (!(user.IsAdmin() || user.IsSuperAdmin()))
-		//	{
-		//		re.Msg = "只有Admin或SuperAdmin账户才可以访问";
-		//		return LeanoteJson(re);
-		//	}
-		//	var data = log.GetAllUserLoggingLogin();
+        [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> GetUserLoginLogging(string token)
+        {
+            var re = new ApiResponseDTO()
+            {
+                Ok = false,
+                Data = null
+            };
+            var user = tokenSerivce.GetUserByToken(token);
+            if (!(user.IsAdmin() || user.IsSuperAdmin()))
+            {
+                re.Msg = "只有Admin或SuperAdmin账户才可以访问";
+                return LeanoteJson(re);
+            }
+            var data = log.GetAllUserLoggingLogin();
+            if (config.SecurityConfig.LogNeedHmac)
+            {
+                try
+                {
+                    foreach (var item in data)
+                    {
+                     await   item.VerifyHmac(cryptographyProvider);
+                       
+                    }
+                }
+                catch (Exception ex)
+                {
+                    foreach (var item in data)
+                    {
+                        item.Verify = false;
+                    }
+
+                }
+            }
+
+            re.Data = data;
+            re.Ok = true;
+            return LeanoteJson(re);
 
 
-		//	re.Data = data;
-		//	re.Ok = true;
-		//	return LeanoteJson(re);
+        }
 
-
-		//}
-
-		/// <summary>
-		/// 获得用户登录设置
-		/// </summary>
-		/// <returns></returns>
-		[HttpGet, HttpPost]
+        /// <summary>
+        /// 获得用户登录设置
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, HttpPost]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
 		public async Task<IActionResult> UserLoginSettings(string email)
 		{

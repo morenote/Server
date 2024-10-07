@@ -1,6 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using github.hyfree.GM.Common;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 using Morenote.Models.Models.Entity;
+
+using MoreNote.SecurityProvider.Core;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -47,7 +52,20 @@ namespace MoreNote.Models.Entity.Leanote.Management.Loggin
 			stringBuilder.Append("BrowserRequestHeader=" + BrowserRequestHeader);
 			return stringBuilder.ToString();
 		}
+		public async Task SetHmac(ICryptographyProvider cryptoProvider)
+		{
+			var inDataStr=ToStringNoMac();
+			var inData=Encoding.UTF8.GetBytes(inDataStr);
+			var mac=await cryptoProvider.Hmac(inData);
+			this.Hmac=HexUtil.ByteArrayToHex(mac);
+		}
+		public async Task VerifyHmac(ICryptographyProvider cryptoProvider)
+		{
+            var inDataStr = ToStringNoMac();
+            var inData = Encoding.UTF8.GetBytes(inDataStr);
+			var verify=await  cryptoProvider.VerifyHmac(inData,HexUtil.HexToByteArray(this.Hmac));
+			this.Verify=verify;
+        }
 
-
-	}
+    }
 }

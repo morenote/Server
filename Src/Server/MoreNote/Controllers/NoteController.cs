@@ -187,7 +187,7 @@ namespace MoreNote.Controllers
 
 			if (noteOrContent.Content.IsValid())
 			{
-				noteContentService.UpdateNoteContent(userid, noteOrContent.NoteId, noteOrContent.Content, noteOrContent.Abstract, needUpdateNote, -1, DateTime.Now);
+			await	noteContentService.UpdateNoteContent(userid, noteOrContent.NoteId, noteOrContent.Content, noteOrContent.Abstract, needUpdateNote, -1, DateTime.Now);
 			}
 			return Json(true);
 		}

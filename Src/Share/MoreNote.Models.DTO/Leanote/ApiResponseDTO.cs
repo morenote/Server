@@ -1,4 +1,8 @@
-﻿namespace MoreNote.Models.DTO.Leanote
+﻿using MoreNote.Common.Utils;
+
+using Newtonsoft.Json;
+
+namespace MoreNote.Models.DTO.Leanote
 {
 	// 一般返回
 	public class ApiResponseDTO
@@ -36,5 +40,15 @@
 		/// </summary>
 		public PageInfoDTO PageInfo { get; set; }
 
-	}
+
+		public static ApiResponseDTO FormJson(string json)
+		{
+			return System.Text.Json.JsonSerializer.Deserialize<ApiResponseDTO>(json, MyJsonConvert.GetLeanoteOptions());
+		}
+        public  string ToJson()
+        {
+            return System.Text.Json.JsonSerializer.Serialize(this);
+        }
+
+    }
 }

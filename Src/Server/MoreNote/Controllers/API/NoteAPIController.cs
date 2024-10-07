@@ -159,7 +159,7 @@ namespace MoreNote.Controllers.API.APIV1
 		//todo:格式化URL
 
 		//todo:得到内容
-		[HttpGet]
+		[HttpGet,HttpPost]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
 		public async Task<IActionResult> GetNoteContent(string token, string noteId)
 		{
@@ -209,7 +209,25 @@ namespace MoreNote.Controllers.API.APIV1
 
 				re.Ok = true;
 				re.Data = noteContent;
-				return LeanoteJson(re);
+     //           if (this.config.SecurityConfig.ForceDigitalEnvelope)
+     //           {
+					//DigitalEnvelope digitalEnvelope = new DigitalEnvelope();
+     //               var key = digitalEnvelope.getSM4Key(this.gMService, this.config.SecurityConfig.PrivateKey);
+     //               var json = note.ToJson();
+
+     //               var payLoad = new PayLoadDTO();
+     //               payLoad.SetData(json);
+
+     //               var payLoadJson = payLoad.ToJson();
+
+     //               var jsonHex =HexUtil.ByteArrayToHex(Encoding.UTF8.GetBytes(payLoadJson));
+
+     //               var encBuffer = gMService.SM4_Encrypt_CBC(Encoding.UTF8.GetBytes(payLoadJson), key.HexToByteArray(), digitalEnvelope.IV.HexToByteArray());
+     //               var enc = HexUtil.ByteArrayToHex(encBuffer);
+     //               re.Data = enc;
+     //               re.Encryption = true;
+     //           }
+                return LeanoteJson(re);
 			}
 			catch (Exception ex)
 			{
@@ -858,23 +876,7 @@ namespace MoreNote.Controllers.API.APIV1
 			noteService.UpdateUsn(note.Id, usn);
 			re.Ok = true;
 			re.Data = note;
-			if (this.config.SecurityConfig.ForceDigitalEnvelope)
-			{
-				var key = digitalEnvelope.getSM4Key(this.gMService, this.config.SecurityConfig.PrivateKey);
-				var json = note.ToJson();
-
-				var payLoad = new PayLoadDTO();
-				payLoad.SetData(json);
-
-				var payLoadJson = payLoad.ToJson();
-
-				var jsonHex = Common.Utils.HexUtil.ByteArrayToHex(Encoding.UTF8.GetBytes(payLoadJson));
-
-				var encBuffer = gMService.SM4_Encrypt_CBC(Encoding.UTF8.GetBytes(payLoadJson), key.HexToByteArray(), digitalEnvelope.IV.HexToByteArray());
-				var enc = HexUtil.ByteArrayToHex(encBuffer);
-				re.Data = enc;
-				re.Encryption = true;
-			}
+			
 
 			return LeanoteJson(re);
 		}

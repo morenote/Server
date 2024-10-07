@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -177,6 +178,11 @@ namespace MoreNote
             //services.AddControllers().AddNewtonsoftJson();//使用Newtonsoft作为序列化工具
             // DependencyInjectionService.IServiceProvider = services.BuildServiceProvider();
             //services.AddHttpApi<ISJJApi>();
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
 		public void ConfigureContainer(ContainerBuilder builder)
