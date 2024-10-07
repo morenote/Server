@@ -10,6 +10,7 @@ using MoreNote.Common.Utils;
 using MoreNote.Logic.Service;
 using MoreNote.Models.DTO.Leanote;
 using MoreNote.Models.DTO.Leanote.ApiRequest;
+using MoreNote.SecurityProvider.Core;
 
 using SharpCompress;
 
@@ -28,12 +29,16 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
         private readonly RequestDelegate _next;
         GMService gMService;
         string PrivateKey;
+        ICryptographyProvider cryptography;
 
-        public DigitalEnvelopeMiddleware(RequestDelegate next, GMService gMService, ConfigFileService configFileService)
+        public DigitalEnvelopeMiddleware(RequestDelegate next, GMService gMService, ConfigFileService configFileService, ICryptographyProvider cryptographyProvider)
         {
             _next = next;
             this.gMService = gMService;
             this.PrivateKey = configFileService.ReadConfig().SecurityConfig.PrivateKey;
+            this.cryptography=cryptographyProvider;
+           
+
         }
        
         public async Task InvokeAsync(HttpContext context)
@@ -42,6 +47,11 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
             var enc_field = context.Request.Headers["enc_field"];
             Stream originalBody=null;
             MemoryStream ms=null;
+            if (this.PrivateKey.Length>64)
+            {
+                var PrivateKeyBUff =await cryptography.SM4Decrypt(HexUtil.HexToByteArray(this.PrivateKey));
+                this.PrivateKey=HexUtil.ByteArrayToHex(PrivateKeyBUff);
+            }
 
             if (!string.IsNullOrWhiteSpace(enc_field) && context.Request.Method.Equals("POST"))
             {

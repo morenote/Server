@@ -23,6 +23,8 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.SJJ
         byte[] sm2Pubky;
         byte[] sm2PriKey;
         ISJJApi sjj;
+
+        bool sm2PriKeyBaohu=false;
         public SJJProvider(ConfigFileService configFileService,ISJJApi sjj)
         {
             GMService gm = new GMService();
@@ -43,6 +45,16 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.SJJ
 
         public async Task<byte[]> SM2Decrypt(byte[] data)
         {
+            if (sm2PriKeyBaohu == false)
+            {
+                var miwen = await SM4Encrypt(this.sm2PriKey);
+                var miwenHex = HexUtil.ByteArrayToHex(miwen);
+
+                var mignwen = SM4Decrypt(miwen);
+
+                Console.WriteLine(miwen);
+
+            }
             GMService gm = new GMService();
             return gm.SM2Decrypt(data, sm2PriKey);
         }
@@ -50,7 +62,7 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.SJJ
         public async Task<byte[]> SM2Encrypt(byte[] data)
         {
             GMService gm = new GMService();
-            return gm.SM2Encrypt(data, sm2PriKey);
+            return gm.SM2Encrypt(data,sm2PriKey);
         }
 
         public async Task<byte[]> SM3(byte[] data)
@@ -96,7 +108,11 @@ namespace MoreNote.CryptographyProvider.EncryptionMachine.SJJ
         {
 
             GMService gm = new GMService();
-
+            if (sm2PriKeyBaohu==false)
+            {
+               this.sm2PriKey= await SM4Decrypt(this.sm2PriKey);
+               sm2PriKeyBaohu = true;
+            }
 
             byte[] data = new byte[cipher.Length + 1];
             Array.Copy(cipher, 0, data, 1, cipher.Length);
