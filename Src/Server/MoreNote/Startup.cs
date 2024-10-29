@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -183,6 +184,11 @@ namespace MoreNote
             {
                 options.AllowSynchronousIO = true;
             });
+            //配置跨域处理，允许所有来源：
+            services.AddCors(options =>
+            options.AddPolicy("自定义的跨域策略名称",
+            p => p.AllowAnyOrigin())
+            );
         }
 
 		public void ConfigureContainer(ContainerBuilder builder)
@@ -217,21 +223,23 @@ namespace MoreNote
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			//监控接口耗时情况
-			//app.UseTimeMonitorMiddleware();
-			//调试的时候允许跨域
-			app.UseCors(builder =>
-			{
-				builder.WithOrigins("http://localhost:3201",
-									"http://app.morenote.top",
-									"https://app.morenote.top")
-									 
-									   .AllowAnyMethod()
-									   .AllowAnyHeader()
-									  ;
-			});
-			//启用响应缓存
-			app.UseResponseCaching();
+            //监控接口耗时情况
+            //app.UseTimeMonitorMiddleware();
+            //调试的时候允许跨域
+            //app.UseCors(builder =>
+            //{
+            //	builder.WithOrigins("http://localhost:3201",
+            //						"http://app.morenote.top",
+            //						"https://app.morenote.top")
+
+            //						   .AllowAnyMethod()
+            //						   .AllowAnyHeader()
+            //						  ;
+            //});
+
+            
+            //启用响应缓存
+            app.UseResponseCaching();
 			app.UseSwagger();
 			app.UseSwaggerUI(c =>
 			{
