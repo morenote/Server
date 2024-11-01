@@ -11,6 +11,8 @@ namespace MoreNote.MauiLib.Data
    public   class SQLiteManager
     {
 
+
+
         public SQLiteContext InstanceSQLiteContext()
         {
             return new SQLiteContext(MyPathUtil.SQLiteFile);
