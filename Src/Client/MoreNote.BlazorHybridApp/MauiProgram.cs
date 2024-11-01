@@ -1,9 +1,12 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using MoreNote.BlazorHybridApp.autofac;
+using MoreNote.Logic.Database;
+using MoreNote.MauiLib.Utils;
 
 namespace MoreNote.BlazorHybridApp
 {
@@ -22,7 +25,8 @@ namespace MoreNote.BlazorHybridApp
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddAntDesign();
-
+            // services.AddDbContext<DataContext>(options => options.UseSqlite(config.SQLite3));
+            builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(MyPathUtil.SQLiteFile));
 
             builder.ConfigureContainer<ContainerBuilder>(new AutofacServiceProviderFactory(), builder =>
             {

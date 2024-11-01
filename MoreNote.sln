@@ -92,7 +92,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.CryptographyProvid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.SignatureService", "Src\Share\MoreNote.SignatureService\MoreNote.SignatureService.csproj", "{801A8875-CB80-407B-9D30-5325326CEECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreNote.SecurityProvider.Core", "Src\Server\MoreNote.SecurityProvider.Core\MoreNote.SecurityProvider.Core.csproj", "{62243273-4172-4E35-8D1A-163A48EFAB0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreNote.SecurityProvider.Core", "Src\Server\MoreNote.SecurityProvider.Core\MoreNote.SecurityProvider.Core.csproj", "{62243273-4172-4E35-8D1A-163A48EFAB0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SecurityProvider", "SecurityProvider", "{1728049D-E6E8-45FA-AF64-944237E8EF6E}"
 EndProject

@@ -88,10 +88,6 @@ namespace MoreNote
 			services.AddEntityFrameworkNpgsql();
 			Console.WriteLine($"================== SqlEngine { Enum.GetName(config.DataBaseConfig.SqlEngine)} ==================");
 
-          
-
-
-
             services.ConfigDatabase(config.DataBaseConfig);
 			// services.AddDbContextPool<CarModelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQL")));
 

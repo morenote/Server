@@ -82,14 +82,14 @@
       <None Remove="Resources\AppResources\%24placeholder%24.targetsize-48.png" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AntDesign" Version="0.20.3" />
-        <PackageReference Include="Autofac" Version="8.1.0" />
+        <PackageReference Include="AntDesign" Version="0.20.4.2" />
+        <PackageReference Include="Autofac" Version="8.1.1" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
         <PackageReference Include="github.hyfree.GM" Version="0.0.12" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.82" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.92" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.92" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.92" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
         <PackageReference Include="StardustDL.RazorComponents.Vditors" Version="3.8.7" />
     </ItemGroup>
     <ItemGroup>

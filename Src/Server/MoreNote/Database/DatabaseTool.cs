@@ -62,8 +62,6 @@ namespace MoreNote.Database
                 services.AddDbContextPool<DataContext>(option =>
                         option.UseMySql(config.MySQL, MySqlServerVersion.Parse("8.0.12")), poolSize: 8);
                
-             
-
             }
 
         }
