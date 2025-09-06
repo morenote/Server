@@ -44,12 +44,12 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
         public async Task InvokeAsync(HttpContext context)
         {
             DigitalEnvelope digitalEnvelope = null;
-            var enc_field = context.Request.Headers["enc_field"];
+            var encfield = context.Request.Headers["enc-field"];
             Stream originalBody=null;
             MemoryStream ms=null;
          
 
-            if (!string.IsNullOrEmpty(enc_field) && context.Request.Method.Equals("POST"))
+            if (!string.IsNullOrEmpty(encfield) && context.Request.Method.Equals("POST"))
             {
                 if (this.PrivateKey.Length > 64)
                 {
@@ -74,9 +74,9 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
                 // 创建一个新的 Dictionary 来保存修改后的 Form 数据
                 var newForm = form.ToDictionary(x => x.Key, x => x.Value);
                 // 在这里修改你需要修改的字段
-                if (newForm.ContainsKey(enc_field))
+                if (newForm.ContainsKey(encfield))
                 {
-                    newForm[enc_field] = new StringValues(data);
+                    newForm[encfield] = new StringValues(data);
                 }
                 // 构建新的 Form 集合
                 var newFormCollection = new FormCollection(newForm);
@@ -99,7 +99,7 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
 
 
             await _next(context);
-            if (!string.IsNullOrEmpty(enc_field) && ms!=null && originalBody!=null)
+            if (!string.IsNullOrEmpty(encfield) && ms!=null && originalBody!=null)
             {
                 ms.Seek(0,SeekOrigin.Begin);
                 var reader = new StreamReader(ms);

@@ -46,23 +46,23 @@ namespace Morenote.Framework.Filter.Global
 		public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 		{
             //读取header中的签名字段
-			var sign_field = context.HttpContext.Request.Headers["sign_field"];
+			var signfield = context.HttpContext.Request.Headers["sign-field"];
 			var sign = context.HttpContext.Request.Headers["sign"];
-            if (string.IsNullOrEmpty(sign_field))
+            if (string.IsNullOrEmpty(signfield))
             {
-                SignError(context, "sign_field IsNullOrEmpty ,id=1");
+                SignError(context, "sign-field IsNullOrEmpty ,id=1");
                 return;
             }
-            var data = context.HttpContext.Request.Form[sign_field];
+            var data = context.HttpContext.Request.Form[signfield];
            
 
             var url=context.HttpContext.Request.GetDisplayUrl();
             var index=url.IndexOf("/api");
             url=url.Substring(index);
 
-			if (string.IsNullOrEmpty(sign_field) || string.IsNullOrEmpty(data))
+			if (string.IsNullOrEmpty(signfield) || string.IsNullOrEmpty(data))
 			{
-				 SignError(context, "sign_field IsNullOrEmpty ");
+				 SignError(context, "sign-field IsNullOrEmpty ");
 				return;
             }
             try
