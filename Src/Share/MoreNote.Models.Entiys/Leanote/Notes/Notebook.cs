@@ -1,5 +1,10 @@
-﻿using Morenote.Models.Models.Entity;
+﻿using AngleSharp.Browser.Dom;
 
+using Microsoft.EntityFrameworkCore;
+
+using Morenote.Models.Models.Entity;
+
+using MoreNote.Models.Entity.Leanote.Notes;
 using MoreNote.Models.Enums;
 
 using System;
@@ -14,6 +19,7 @@ namespace MoreNote.Models.Entiys.Leanote.Notes
     /// <summary>
     /// 笔记本
     /// </summary>
+    [Table("notebook"), Index(nameof(Id))]
     public class Notebook:BaseEntity
     {
 
