@@ -44,7 +44,7 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
         public async Task InvokeAsync(HttpContext context)
         {
             DigitalEnvelope digitalEnvelope = null;
-            var encfield = context.Request.Headers["enc-field"];
+            var encfield = context.Request.Headers["encfield"];
             Stream originalBody=null;
             MemoryStream ms=null;
          

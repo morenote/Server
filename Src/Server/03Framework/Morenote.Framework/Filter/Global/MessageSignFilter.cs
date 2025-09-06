@@ -46,11 +46,11 @@ namespace Morenote.Framework.Filter.Global
 		public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 		{
             //读取header中的签名字段
-			var signfield = context.HttpContext.Request.Headers["sign-field"];
+			var signfield = context.HttpContext.Request.Headers["signfield"];
 			var sign = context.HttpContext.Request.Headers["sign"];
             if (string.IsNullOrEmpty(signfield))
             {
-                SignError(context, "sign-field IsNullOrEmpty ,id=1");
+                SignError(context, "signfield IsNullOrEmpty ,id=1");
                 return;
             }
             var data = context.HttpContext.Request.Form[signfield];
@@ -62,7 +62,7 @@ namespace Morenote.Framework.Filter.Global
 
 			if (string.IsNullOrEmpty(signfield) || string.IsNullOrEmpty(data))
 			{
-				 SignError(context, "sign-field IsNullOrEmpty ");
+				 SignError(context, "signfield IsNullOrEmpty ");
 				return;
             }
             try
