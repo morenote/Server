@@ -44,17 +44,18 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
         public async Task InvokeAsync(HttpContext context)
         {
             DigitalEnvelope digitalEnvelope = null;
-            var enc_field = context.Request.Headers["encfield"];
+            var enc_field = context.Request.Headers["enc_field"];
             Stream originalBody=null;
             MemoryStream ms=null;
-            if (this.PrivateKey.Length>64)
-            {
-                var PrivateKeyBUff =await cryptography.SM4Decrypt(HexUtil.HexToByteArray(this.PrivateKey));
-                this.PrivateKey=HexUtil.ByteArrayToHex(PrivateKeyBUff);
-            }
+         
 
-            if (!string.IsNullOrWhiteSpace(enc_field) && context.Request.Method.Equals("POST"))
+            if (!string.IsNullOrEmpty(enc_field) && context.Request.Method.Equals("POST"))
             {
+                if (this.PrivateKey.Length > 64)
+                {
+                    var PrivateKeyBUff = await cryptography.SM4Decrypt(HexUtil.HexToByteArray(this.PrivateKey));
+                    this.PrivateKey = HexUtil.ByteArrayToHex(PrivateKeyBUff);
+                }
 
                 var digitalEnvelopeJson = context.Request.Form["digitalEnvelopeJson"];
 
@@ -98,7 +99,7 @@ namespace Morenote.Framework.Middleware.DigitalEnvelopeMd
 
 
             await _next(context);
-            if (!string.IsNullOrWhiteSpace(enc_field) && ms!=null && originalBody!=null)
+            if (!string.IsNullOrEmpty(enc_field) && ms!=null && originalBody!=null)
             {
                 ms.Seek(0,SeekOrigin.Begin);
                 var reader = new StreamReader(ms);

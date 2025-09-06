@@ -183,7 +183,7 @@ namespace MoreNote
             //配置跨域处理，允许所有来源：
             services.AddCors(options =>
             options.AddPolicy("自定义的跨域策略名称",
-            p => p.AllowAnyOrigin())
+            p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod())
             );
         }
 

@@ -46,7 +46,7 @@ namespace Morenote.Framework.Filter.Global
 		public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 		{
             //读取header中的签名字段
-			var sign_field = context.HttpContext.Request.Headers["signfield"];
+			var sign_field = context.HttpContext.Request.Headers["sign_field"];
 			var sign = context.HttpContext.Request.Headers["sign"];
             if (string.IsNullOrEmpty(sign_field))
             {

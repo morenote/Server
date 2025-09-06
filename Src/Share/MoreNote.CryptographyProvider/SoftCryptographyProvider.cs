@@ -28,7 +28,8 @@ namespace MoreNote.CryptographyProvider
 			hmacKey = gm.PBKDF2_SM3(masterKey, Encoding.UTF8.GetBytes("hmacKey"), 10000, 16);
 			enckey = gm.PBKDF2_SM3(masterKey, Encoding.UTF8.GetBytes("encKey"), 10000, 16);
 
-			sm2Pubky = HexUtil.HexToByteArray(webSiteConfig.SecurityConfig.PublicKey);
+			var str=HexUtil.ByteArrayToHex(enckey);
+            sm2Pubky = HexUtil.HexToByteArray(webSiteConfig.SecurityConfig.PublicKey);
 			sm2PriKey = HexUtil.HexToByteArray(webSiteConfig.SecurityConfig.PrivateKey);
 		}
 
